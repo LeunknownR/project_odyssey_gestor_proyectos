@@ -1,0 +1,8 @@
+# dependencies
+node_modules
+dist
+build
+.env
+backend/public
+errors.log
+notes.sql 
