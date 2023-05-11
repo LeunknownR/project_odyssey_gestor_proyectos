@@ -4,8 +4,8 @@ import { ResponseCodes } from "../../utils/responseCodes";
 import UserController from "../../controllers/userController/userController";
 import { GenerateResponseBody } from "../../utils/generateResponseBody";
 import { parseToCredentials } from "./parsers";
-import { ResponseBody } from "../../types/response";
 import { Credentials } from "../../entities/user/types";
+import { ResponseBody } from "../../utils/types";
 
 const router = express.Router();
 router.post(
