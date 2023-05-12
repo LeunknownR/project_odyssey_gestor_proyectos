@@ -10,6 +10,8 @@ export enum ApiPathEndpointsAuthentication {
     Login = "/login"
 };
 export enum ApiPathEndpointsGeneralAdmin {
+    GetProjectList = "/projects/:projectName",
+    CreateProject = "/projects/create"
 };
 export enum ApiPathEndpointsCollaborator {
 };
