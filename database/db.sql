@@ -114,7 +114,7 @@ VALUES
     (2, "Ralf Carsten", "Carrasco Stein", "ralfc", "$2a$10$YkcmXbwu9NIIw7ek4x/UUuPZtwzEpvAa7N3hnMcg0bC2pK3/pxoaS", "ralfcarrasco@gmail.com", 1, "CLB"),
     (3, "Manuel Alejandro", "Rivera Becerra", "manuelr", "$2a$10$qon6KKzLiPUaMDfuaYQ0aeO.2yils9vOxsVkAlOouHakcNgSu6gxe", "leunknownr@gmail.com", 1, "CLB");
 
-INSERT INTO colaborator(
+INSERT INTO collaborator(
     id_collaborator
 )
 VALUES
@@ -167,11 +167,17 @@ END //
 DELIMITER ;
 
 /*¨OJO CON EL ACTIVE"*/
--- sp_get_project_list_by_project_name(
--- 	p_project_name
--- );
+-- SP para 
+-- DELIMITER //
+-- CREATE PROCEDURE `sp_get_project_list_by_project_name`(
+--     IN p_project_name VARCHAR(50)
+-- )
+-- BEGIN
 
--- SP 
+-- END //
+-- DELIMITER ;
+
+-- SP para la busqueda de los colaboradores que existen segun el nombre
 DELIMITER //
 CREATE PROCEDURE `sp_search_collaborator_by_username`(
     IN p_collaborator_name VARCHAR(50)
@@ -188,7 +194,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- 
+-- SP para la creacion de un nuevo proyecto
 DELIMITER //
 CREATE PROCEDURE `sp_create_project`(
     IN p_id_admin_general INT,
@@ -241,9 +247,35 @@ BEGIN
 END //
 DELIMITER ;
 
--- 
+-- SP para la eliminación de un projecto
+DELIMITER //
+CREATE PROCEDURE `sp_delete_project_by_id_project`(
+    IN p_id_project INT
+)
+BEGIN
+    -- Validando si el proyecto que se quiere eliminar aun existe (esta activado)
+    IF EXISTS (
+        SELECT *
+        FROM project
+        WHERE id_project = p_id_project
+        AND active = 1
+    ) THEN
+        -- Actualizando "Eliminando" el registro del proyecto
+        UPDATE project
+        SET active = 0
+        WHERE id_project = p_id_project;
+    ELSE
+        SELECT 'PROJECT_NOT_EXISTS' AS 'MESSAGE';
+    END IF;
+    SELECT 'SUCCESS' AS 'MESSAGE';
+END //
+DELIMITER ;
+
+
+
+-- SP para actualizar un projecto identificandolo por su id_project
 -- DELIMITER //
--- CREATE PROCEDURE `sp_update_project`(
+-- CREATE PROCEDURE `sp_update_project_by_project_id`(
 --     IN p_id_project INT,
 --     IN p_project_name VARCHAR(50),
 --     IN p_project_description VARCHAR(200),
