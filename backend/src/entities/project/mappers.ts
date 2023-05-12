@@ -1,4 +1,5 @@
-import { Project, ProjectLeader, GroupedProjectList } from "./types";
+import { ProjectLeader } from "../collaborator/types";
+import { Project, GroupedProjectList } from "./types";
 
 const projectLeaderMapper = (record: any): ProjectLeader => ({
     name: record["name"],
