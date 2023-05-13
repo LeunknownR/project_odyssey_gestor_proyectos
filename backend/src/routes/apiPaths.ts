@@ -10,12 +10,14 @@ export enum ApiPathEndpointsAuthentication {
     Login = "/login"
 };
 export enum ApiPathEndpointsGeneralAdmin {
-    GetProjectList = "/projects/:projectName",
+    GetProjectListByGeneralAdmin = "/projects/:projectName",
     CreateProject = "/projects/create",
     UpdateProject = "/projects/update",
     SearchCollaborator = "/projects/search-collaborator/:collaboratorName"
 };
 export enum ApiPathEndpointsCollaborator {
-    GetProjectList = "/projects/:projectName",
+    GetProjectListForCollaborator = "/projects/:projectName",
     UpdateEndDateProject="/projects/update-end-date",
+    SearchCollaboratorMember = "/projects/search-collaborator-member/:projectId/:collaboratorName",
+    AddCollaboratorsInProject = "/collaborator/projects/add-members",
 };

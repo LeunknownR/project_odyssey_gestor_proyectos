@@ -1,10 +1,16 @@
+import { ProjectForm } from "../../../entities/project/types";
 import { isPositiveNumber } from "../../../utils/numbers";
-import { isString } from "../../../utils/string";
-import { CreateProjectRequestBody, UpdateProjectRequestBody } from "./types";
+import { isLimitMaximString, isString } from "../../../utils/string";
+import { CreateProjectRequestBody } from "./types";
 
-export const parseToName = (params: any): string => {
-    if (!isString(params.projectName))
+export const parseToProjectName = (params: any): string => {
+    if (!isLimitMaximString(params.projectName,255))
         throw new Error("Invalid project name");
+    return params.projectName;
+}
+export const parseToCollaboratorName = (params: any): string => {
+    if (!isLimitMaximString(params.collaboratorName,100))
+        throw new Error("Invalid collaborator name");
     return params.projectName;
 }
 export const parseToCreateProjectRequestBody = (body: any): CreateProjectRequestBody => {
@@ -13,7 +19,7 @@ export const parseToCreateProjectRequestBody = (body: any): CreateProjectRequest
         startDate, endDate, leaderId
     } = body;
     if (!isPositiveNumber(userId) ||
-        !isString(name) || !isString(description) ||
+        !isLimitMaximString(name,255) || !isString(description) ||
         !isPositiveNumber(startDate) || !isPositiveNumber(endDate) ||
         !isPositiveNumber(leaderId))
         throw new Error("Invalid form to create project");
@@ -28,24 +34,22 @@ export const parseToCreateProjectRequestBody = (body: any): CreateProjectRequest
         }
     };
 }
-export const parseToUpdateProjectRequestBody = (body: any): UpdateProjectRequestBody => {
+export const parseToUpdateProjectRequestBody = (body: any): ProjectForm => {
     const {
         id, name, description,
         startDate, endDate, leaderId
     } = body;
     if (!isPositiveNumber(id) ||
-        !isString(name) || !isString(description) ||
+        !isLimitMaximString(name,255) || !isString(description) ||
         !isPositiveNumber(startDate) || !isPositiveNumber(endDate) ||
         !isPositiveNumber(leaderId))
         throw new Error("Invalid form to update project");
     return {
-        projectForm: {
-            id,
-            name,
-            description,
-            startDate,
-            endDate,
-            leaderId
-        }
+        id,
+        name,
+        description,
+        startDate,
+        endDate,
+        leaderId
     };
 }
