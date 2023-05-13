@@ -5,5 +5,6 @@ export enum StoredProcedures {
     SearchCollaborators= "sp_search_collaborator_by_username(?);",
     CreateProject = "CALL sp_create_project(?, ?, ?, ?, ?, ?);",
     UpdateProject = "sp_update_project_by_project_id(?,?,?,?,?,?);",
-    GetProjectListByCollaborator ="sp_get_project_list_by_collaborator_name(?);"
+    GetProjectListByCollaborator ="sp_get_project_list_by_collaborator_name(?);",
+    UpdateEndDateProjectByLeader = "sp_update_end_date_leader(?,?);",
 }

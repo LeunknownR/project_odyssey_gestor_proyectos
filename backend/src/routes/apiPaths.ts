@@ -17,4 +17,5 @@ export enum ApiPathEndpointsGeneralAdmin {
 };
 export enum ApiPathEndpointsCollaborator {
     GetProjectList = "/projects/:projectName",
+    UpdateEndDateProject="/projects/update-end-date",
 };

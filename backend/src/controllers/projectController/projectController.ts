@@ -2,7 +2,7 @@ import { DBMessages } from "../../db/dbMessages";
 import { collaboratorMapper } from "../../entities/collaborator/mappers";
 import { Collaborator } from "../../entities/collaborator/types";
 import { projectListByCollaboratorMapper, projectListMapper } from "../../entities/project/mappers";
-import { GroupedProjectList, GroupedProjectListByCollaborator } from "../../entities/project/types";
+import { GroupedProjectList, GroupedProjectListByCollaborator, UpdateEndDateForm } from "../../entities/project/types";
 import ProjectModel from "../../models/projectModel/projectModel";
 import { CreateProjectRequestBody, UpdateProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 import { ResponseCodes } from "../../utils/responseCodes";
@@ -53,6 +53,16 @@ export default abstract class ProjectController {
             code: ResponseCodes.OK,
             message: DBMessages.Success,
             data: projectList
+        };
+    }
+
+    static async updateEndDateProjectByLeader(updateEndDateForm: UpdateEndDateForm): Promise<ResponseBody> {
+        const affectedRows = await ProjectModel.updateEndDateProjectByLeader(updateEndDateForm);
+        if (affectedRows === 0)
+            throw new Error("It couldn't be update end date the project");
+        return {
+            code: ResponseCodes.OK,
+            message: DBMessages.Success
         };
     }
 }

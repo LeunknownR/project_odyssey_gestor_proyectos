@@ -1,6 +1,10 @@
 import { ProjectLeader } from "../collaborator/types";
 import { ProjectState } from "./enums";
 
+export type UpdateEndDateForm = {
+    projectId : number,
+    endDate: number
+}
 export type ProjectBase = {
     name: string,
     description: string,

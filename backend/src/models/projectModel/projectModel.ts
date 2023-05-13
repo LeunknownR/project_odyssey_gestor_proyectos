@@ -1,6 +1,6 @@
 import db from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
-import { ProjectForm } from "../../entities/project/types";
+import { ProjectForm, UpdateEndDateForm } from "../../entities/project/types";
 import { CreateProjectRequestBody, UpdateProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 
 export default abstract class ProjectModel {
@@ -54,5 +54,17 @@ export default abstract class ProjectModel {
             StoredProcedures.GetProjectListByCollaborator, 
             [collaboratorName]);
         return resultset;
+    }
+    static async updateEndDateProjectByLeader({
+        projectId,
+        endDate
+    } : UpdateEndDateForm ): Promise<number> {
+        const [resultset] = await db.query(
+            StoredProcedures.UpdateEndDateProjectByLeader, 
+            [
+                projectId,
+                endDate
+            ]);
+        return resultset.affectedRows;
     }
 }
