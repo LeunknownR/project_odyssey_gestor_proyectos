@@ -1,7 +1,7 @@
 import { CustomButtonProps } from "src/components/CustomButton/types";
 import { ModalProps } from "src/components/Modal/types";
 
-export type AddMembersChangesModalProps = {
+export type ActualizationChangesModalProps = {
     modalProps: ModalProps;
 };
 
