@@ -1,11 +1,14 @@
 import styled from 'styled-components';
 
 export const Container = styled.header`
+    position: sticky;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     background-color: var(--darkblue-3);
     padding: 15px 50px 15px 30px;
     gap: 180px;
+    z-index: 1000;
 `;
 export const IconContainer = styled.span`
     cursor: pointer;

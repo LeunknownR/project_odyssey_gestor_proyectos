@@ -4,6 +4,7 @@ import {
     Container,
     Content,
     LabelContent,
+    LensContainer,
     PasswordRevealer,
     TextField,
 } from "./styles";
@@ -48,7 +49,9 @@ const CustomTextField = ({
     };
     return (
         <Container width={width} maxWidth={maxWidth} className={className}>
-            {label && <LabelContent className={className}>{label}</LabelContent>}
+            {label && (
+                <LabelContent className={className}>{label}</LabelContent>
+            )}
             <Content className={className}>
                 <TextField
                     disabled={disabled}
@@ -68,6 +71,11 @@ const CustomTextField = ({
                             }
                         />
                     </PasswordRevealer>
+                )}
+                {variant?.includes("search") && (
+                    <LensContainer>
+                        <Icon icon="simple-line-icons:magnifier" />
+                    </LensContainer>
                 )}
             </Content>
             {/* <ErrorMessage text={error} /> */}

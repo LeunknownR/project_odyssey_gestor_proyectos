@@ -29,24 +29,10 @@ export const LabelContent = styled.label`
 export const Content = styled.div`
     display: flex;
     align-items: center;
-    /* border: 1px solid var(--dark-3); */
-    /* &.disabled {
-        border-color: var(--light-3);
-        background-color: var(--light-1);
-    } */
-`;
-export const TextField = styled.input`
-    outline: none;
-    transition: 0.3s;
-    width: 100%;
-    padding: 12px 10px;
+    border: 1px solid var(--dark-3);
     border-radius: 3px;
-    ::-ms-reveal {
-        display: none;
-    }
-    ::placeholder {
-        user-select: none;
-    }
+    transition: 0.3s;
+    padding: 12px 10px;
     &.primary {
         background-color: var(--white-1-12);
         border: 1px solid var(--white-1);
@@ -69,6 +55,25 @@ export const TextField = styled.input`
         padding: 8px 10px;
         color: var(--white-1);
     }
+    /* &.disabled {
+        border-color: var(--light-3);
+        background-color: var(--light-1);
+    } */
+`;
+export const TextField = styled.input`
+    outline: none;
+    border-radius: inherit;
+    width: 100%;
+    transition: 0.3s;
+    border: 0;
+    background-color: inherit;
+    color: inherit;
+    ::-ms-reveal {
+        display: none;
+    }
+    ::placeholder {
+        user-select: none;
+    }
 `;
 export const PasswordRevealer = styled.div`
     display: flex;
@@ -87,5 +92,14 @@ export const PasswordRevealer = styled.div`
     .iconify {
         color: var(--dark-3);
         font-size: 20px;
+    }
+`;
+export const LensContainer = styled.span`
+    display: flex;    
+    padding: 2px 13px;
+    margin-right: 10px;
+    .iconify {
+        font-size: 20px;
+        color: var(--white-1);
     }
 `;
