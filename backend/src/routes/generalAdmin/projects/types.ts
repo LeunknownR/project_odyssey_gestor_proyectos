@@ -4,3 +4,6 @@ export type CreateProjectRequestBody = {
     userId: number,
     projectForm: ProjectForm
 };
+export type UpdateProjectRequestBody = {
+    projectForm: ProjectForm
+};

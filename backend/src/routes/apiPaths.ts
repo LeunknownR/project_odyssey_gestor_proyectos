@@ -11,7 +11,10 @@ export enum ApiPathEndpointsAuthentication {
 };
 export enum ApiPathEndpointsGeneralAdmin {
     GetProjectList = "/projects/:projectName",
-    CreateProject = "/projects/create"
+    CreateProject = "/projects/create",
+    UpdateProject = "/projects/update",
+    SearchCollaborator = "/projects/search-collaborator/:collaboratorName"
 };
 export enum ApiPathEndpointsCollaborator {
+    GetProjectList = "/projects/:projectName",
 };
