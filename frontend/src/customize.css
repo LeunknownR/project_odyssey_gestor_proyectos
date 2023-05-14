@@ -1,0 +1,62 @@
+/* Font */
+@font-face {
+    font-family: "InriaSans";
+    src: local("InriaSans"), url("/font/InriaSans-Bold.ttf");
+    font-weight: 700;
+}
+@font-face {
+    font-family: "InriaSans";
+    src: local("InriaSans"), url("/font/InriaSans-Regular.ttf");
+    font-weight: 400;
+}
+@font-face {
+    font-family: "InriaSans";
+    src: local("InriaSans"), url("/font/InriaSans-Light.ttf");
+    font-weight: 300;
+}
+:root {
+	--white-1: #FFFFFF;
+	--white-2: #EAEAEA;
+	--white-3: #D9D9D9;
+	--white-1-05: #FFFFFF0d;
+	--white-1-12: #FFFFFF1f;
+	--white-1-50: #FFFFFF80;
+	--gray-1: #DEDEDE;
+	--gray-2: #8F8F8F;
+	--gray-3: #8D8D8D;
+	--orange-1: #E8AF90;
+	--orange-2: #F1850A;
+	--orange-3: #E15625;
+	--red-1: #F57777;
+	--red-2: #F53C3C;
+	--red-3: #D80000;
+	--darkblue-1: #2D5A77;
+	--darkblue-2: #183243;
+	--darkblue-3: #112430;
+	--darkblue-4: #041825;
+	--dark-0: #000000;
+	--dark-1: #4B4B4B;
+	--dark-2: #252525;
+	--dark-3: #131313;
+	--yellow-1: #FFC164;
+	--yellow-2: #FFA51F;
+	--green-1: #95DD72;
+	--cream-1: #FFE0B2;
+}	
+/* General */
+html {
+    overflow-x: hidden;
+}
+* {
+    box-sizing: border-box;
+    font-family: "InriaSans";
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+}

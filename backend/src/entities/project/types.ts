@@ -1,6 +1,15 @@
-import { ProjectLeader } from "../collaborator/types";
+import { type } from "os";
+import { CollaboratorUser, ProjectCollaborator, ProjectLeader } from "../collaborator/types";
 import { ProjectState } from "./enums";
 
+export type UpdateEndDateForm = {
+    projectId: number,
+    endDate: number
+};
+export type AddCollaboratorsInProject = {
+    projectId: number,
+    membersIds: number[]
+};
 export type ProjectBase = {
     name: string,
     description: string,
@@ -12,12 +21,28 @@ export type Project = ProjectBase & {
     state: ProjectState,
     leader: ProjectLeader
 };
+export type ProjectByCollaborator = ProjectBase & {
+    id: number,
+    state: ProjectState,
+};
 export type ProjectForm = ProjectBase & {
     id?: number,
     userId?: number,
     leaderId: number
 };
-export type GroupedProjectList = {
+export type GroupedProjectListForGeneralAdmin = {
     recents: Project[],
     all: Project[]
+};
+export type GroupedProjectListForCollaborator = {
+    recents: ProjectByCollaborator[],
+    all: ProjectByCollaborator[]
+};
+export type ProjectDetails = {
+    id: number
+    name: string,
+    description: string,
+    period: string,
+    endDate: number,
+    collaborators: ProjectCollaborator[]
 };
