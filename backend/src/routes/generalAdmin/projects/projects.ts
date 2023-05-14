@@ -6,6 +6,7 @@ import { GenerateResponseBody } from "../../../utils/generateResponseBody";
 import ProjectController from "../../../controllers/projectController/projectController";
 import { ResponseBody } from "../../../utils/types";
 import { parseToCreateProjectRequestBody, parseToProjectName } from "./parsers";
+import { fatalErrorEndpointHandler } from "../../helpers";
 
 const router = Router();
 router.use("/", Authentication.checkTokenInEndpoints(DBRoles.GeneralAdmin));
@@ -30,4 +31,7 @@ router.post(ApiPathEndpointsGeneralAdmin.CreateProject, async (req, res) => {
         console.log(err);
         GenerateResponseBody.sendResponse(res, GenerateResponseBody.FATAL_ERROR_RESPONSE);
     }
+});
+router.delete(ApiPathEndpointsGeneralAdmin.DeleteProject, async (req, res) => {
+
 });

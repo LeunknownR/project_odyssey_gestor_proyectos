@@ -1,5 +1,6 @@
 import { ApiPathEndpointGroups } from "./apiPaths";
 import login from "./authentication/login";
+import { fatalErrorEndpointHandler } from "./helpers";
 import { Endpoint } from "./types";
 import { Router } from "express";
 
@@ -10,6 +11,7 @@ const routes: Endpoint[] = [
         routes: login 
     }
 ];
+router.use(fatalErrorEndpointHandler);
 routes.forEach(({ path, routes }) => {
     router.use(path, routes);
 });

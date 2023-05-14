@@ -11,18 +11,9 @@ const router = express.Router();
 router.post(
     ApiPathEndpointsAuthentication.Login, 
     async (req: Request, res: Response) => {
-        try {
-            const credentials: Credentials = parseToCredentials(req.body);
-            const payload: ResponseBody = await UserController.login(credentials);
-            GenerateResponseBody.sendResponse(res, payload);
-        }
-        catch (err) {
-            GenerateResponseBody.sendResponse(res, {
-                code: ResponseCodes.BAD_REQUEST,
-                message: "FATAL_ERROR",
-                data: null
-            });
-        }
+        const credentials: Credentials = parseToCredentials(req.body);
+        const payload: ResponseBody = await UserController.login(credentials);
+        GenerateResponseBody.sendResponse(res, payload);
     });
 
 export default router;
