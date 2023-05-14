@@ -34,6 +34,18 @@ export const parseToCreateProjectRequestBody = (body: any): CreateProjectRequest
         }
     };
 }
+const parseToProjectId = (params: any, error: string) => {
+    const { projectId } = params;
+    if (!isPositiveNumber(projectId))
+        throw new Error(error);
+    return projectId;
+}
+export const parseToProjectIdToDelete = (params: any): number => {
+    return parseToProjectId(params, "Invalid params to delete project");
+}
+export const parseToProjectIdToGetDetails = (params: any): number => {
+    return parseToProjectId(params, "Invalid project id");
+}
 export const parseToUpdateProjectRequestBody = (body: any): ProjectForm => {
     const {
         id, name, description,

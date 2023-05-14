@@ -1,8 +1,8 @@
 import { DBMessages } from "../../db/dbMessages";
 import { collaboratorMapper } from "../../entities/collaborator/mappers";
-import { Collaborator } from "../../entities/collaborator/types";
-import { projectListByCollaboratorMapper, projectListByGeneralAdminMapper } from "../../entities/project/mappers";
-import { AddCollaboratorsInProject, GroupedProjectListForGeneralAdmin, GroupedProjectListForCollaborator, ProjectForm, UpdateEndDateForm } from "../../entities/project/types";
+import { CollaboratorUser } from "../../entities/collaborator/types";
+import { projectDetailsMapper, projectListByCollaboratorMapper, projectListByGeneralAdminMapper } from "../../entities/project/mappers";
+import { AddCollaboratorsInProject, GroupedProjectListForGeneralAdmin, GroupedProjectListForCollaborator, ProjectForm, UpdateEndDateForm, ProjectDetails } from "../../entities/project/types";
 import ProjectModel from "../../models/projectModel/projectModel";
 import { CreateProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 import { ResponseCodes } from "../../utils/responseCodes";
@@ -18,9 +18,9 @@ export default abstract class ProjectController {
             data: projectList
         };
     }
-    static async searchCollaboratorByUsername(username: string): Promise<ResponseBody & { data: Collaborator[] }> {
+    static async searchCollaboratorByUsername(username: string): Promise<ResponseBody & { data: CollaboratorUser[] }> {
         const resultset: any[] = await ProjectModel.searchCollaboratorByUsername(username);
-        const collaborators: Collaborator[] = resultset.map(collaboratorMapper);
+        const collaborators: CollaboratorUser[] = resultset.map(collaboratorMapper);
         return {
             code: ResponseCodes.OK,
             message: DBMessages.Success,
@@ -55,9 +55,8 @@ export default abstract class ProjectController {
             data: projectList
         };
     }
-
     static async updateEndDateProjectByLeader(updateEndDateForm: UpdateEndDateForm): Promise<ResponseBody> {
-        const affectedRows = await ProjectModel.updateEndDateProjectByLeader(updateEndDateForm);
+        const affectedRows: number = await ProjectModel.updateEndDateProjectByLeader(updateEndDateForm);
         if (affectedRows === 0)
             throw new Error("It couldn't be update end date of the project");
         return {
@@ -65,12 +64,32 @@ export default abstract class ProjectController {
             message: DBMessages.Success
         };
     }
+    static async deleteProject(projectId: number): Promise<ResponseBody> {
+        const affectedRows: number = await ProjectModel.deleteProject(projectId);
+        if (affectedRows === 0)
+            throw new Error("It couldn't be deleted of the project");
+        return {
+            code: ResponseCodes.OK,
+            message: DBMessages.Success
+        };
+    }
+    static async getProjectDetails(projectId: number): Promise<ResponseBody & { data: ProjectDetails }> {
+        const resultset: any[] = await ProjectModel.getProjectDetails(projectId);
+        if (resultset.length === 0)
+            throw new Error("No details of the project");
+        const projectDetails: ProjectDetails = projectDetailsMapper(resultset);
+        return {
+            code: ResponseCodes.OK,
+            message: DBMessages.Success,
+            data: projectDetails
+        };
+    }
     static async SearchCollaboratorsMembersByLeader(
         projectId,
         collaboratorName
-    ): Promise<ResponseBody & { data: Collaborator[] }> {
+    ): Promise<ResponseBody & { data: CollaboratorUser[] }> {
         const resultset: any[] = await ProjectModel.SearchCollaboratorsForProjectMember(projectId,collaboratorName);
-        const collaborators: Collaborator[] = resultset.map(collaboratorMapper);
+        const collaborators: CollaboratorUser[] = resultset.map(collaboratorMapper);
         return {
             code: ResponseCodes.OK,
             message: DBMessages.Success,

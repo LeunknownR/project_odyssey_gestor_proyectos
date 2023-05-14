@@ -1,9 +1,10 @@
-import { ProjectLeader } from "../collaborator/types";
-import { Project, GroupedProjectListForGeneralAdmin, ProjectByCollaborator, GroupedProjectListForCollaborator } from "./types";
+import { projectCollaboratorMapper } from "../collaborator/mappers";
+import { ProjectLeader, ProjectRole } from "../collaborator/types";
+import { Project, GroupedProjectListForGeneralAdmin, ProjectByCollaborator, GroupedProjectListForCollaborator, ProjectDetails } from "./types";
 
 const projectLeaderMapper = (record: any): ProjectLeader => ({
     name: record["name"],
-    surname: record["surname"], 
+    surname: record["surname"],
     email: record["emil"],
     projectRole: record["project_role"],
     urlPhoto: record["url_photo"]
@@ -39,3 +40,14 @@ export const projectListByCollaboratorMapper = (resultset: any[]): GroupedProjec
         all: projectByCollaborator.slice(3)
     };
 }
+export const projectDetailsMapper = (resultset: any[]): ProjectDetails => {
+    const [header] = resultset;
+    return {
+        id: header["id"],
+        name: header["name"],
+        description: header["description"],
+        endDate: header["end_date"],
+        period: header["period"],// 10-05-2023 / 10-10-2023
+        collaborators: resultset.map(projectCollaboratorMapper)
+    };
+};

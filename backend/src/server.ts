@@ -4,7 +4,7 @@ import cors from "cors";
 import endpointRouter from "./routes/index";
 import files from "./routes/files";
 import { Application } from "express";
-import { initDBConnection } from "./db";
+import DBConnection from "./db";
 
 async function initServer() {
     // Inicializando variables de entorno
@@ -12,7 +12,7 @@ async function initServer() {
     // Inicializando aplicación
     const app: Application = express();
     // Conectando base de datos
-    await initDBConnection();
+    await DBConnection.connect();
     // Configurando puerto en el app
     app.set("port", process.env.PORT || 4000);
     // Limitando tamaño de cuerpo de peticiones
