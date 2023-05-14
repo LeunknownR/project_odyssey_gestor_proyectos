@@ -63,8 +63,8 @@ CREATE TABLE `project` (
     `description` VARCHAR(200),
     `creation_date` DATE NOT NULL,
     `state` ENUM('O', 'F', 'P') NOT NULL,
-    `start_datetime` DATETIME NOT NULL,
-    `end_datetime` DATETIME NOT NULL,
+    `start_date` DATE NOT NULL,
+    `end_date` DATE NOT NULL,
     `active` BIT NOT NULL DEFAULT 1,
     `id_admin_general` INT UNSIGNED NOT NULL,
     PRIMARY KEY (`id_project`),
@@ -89,16 +89,19 @@ VALUES
 DROP TABLE IF EXISTS `members_project`;
 CREATE TABLE `members_project` (
     `id_members_project` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `id_project` INT UNSIGNED NOT NULL,
     `id_collaborator` INT UNSIGNED NOT NULL,
     `id_project_role` CHAR(3) NOT NULL,
     PRIMARY KEY (`id_members_project`),
+    FOREIGN KEY (`id_project`) REFERENCES `project`(`id_project`),
     FOREIGN KEY (`id_collaborator`) REFERENCES `collaborator`(`id_collaborator`),
     FOREIGN KEY (`id_project_role`) REFERENCES `project_role`(`id_project_role`)
 );
 
 
 
--- [ INSERT INTO ] --
+-- --- [ INSERT INTO ] ------------------------------------------------------------
+-- Insertando datos en la tabla user
 INSERT INTO user(
     id_user,
     user_name,
@@ -114,6 +117,14 @@ VALUES
     (2, "Ralf Carsten", "Carrasco Stein", "ralfc", "$2a$10$YkcmXbwu9NIIw7ek4x/UUuPZtwzEpvAa7N3hnMcg0bC2pK3/pxoaS", "ralfcarrasco@gmail.com", 1, "CLB"),
     (3, "Manuel Alejandro", "Rivera Becerra", "manuelr", "$2a$10$qon6KKzLiPUaMDfuaYQ0aeO.2yils9vOxsVkAlOouHakcNgSu6gxe", "leunknownr@gmail.com", 1, "CLB");
 
+-- Insertando datos en la tabla admin. General
+INSERT INTO admin_general(
+    id_admin_general
+)
+VALUES
+    (1);
+
+-- Insertando datos en la tabla collaborator
 INSERT INTO collaborator(
     id_collaborator
 )
@@ -121,8 +132,7 @@ VALUES
     (2),
     (3);
 
--- [ STORED PROCEDUREs ] --
-
+-- --- [ STORED PROCEDUREs ] ------------------------------------------------------------
 -- SP para el login
 DELIMITER //
 CREATE PROCEDURE `sp_get_userpassword_by_username`(
@@ -155,8 +165,8 @@ BEGIN
     -- Trayendo la información cuando el usernema coincida
     SELECT 
         u.id_user, 
-        u.name, 
-        u.surname,  
+        u.user_name, 
+        u.user_surname,  
         u.username, 
         u.url_photo,
         u.id_role
@@ -168,14 +178,28 @@ DELIMITER ;
 
 /*¨OJO CON EL ACTIVE"*/
 -- SP para 
--- DELIMITER //
--- CREATE PROCEDURE `sp_get_project_list_by_project_name`(
---     IN p_project_name VARCHAR(50)
--- )
--- BEGIN
-
--- END //
--- DELIMITER ;
+DELIMITER //
+CREATE PROCEDURE `sp_get_project_list_by_project_name`(
+    IN p_project_name VARCHAR(50)
+)
+BEGIN
+    SELECT 
+    p.id_project,
+    p.project_name,
+    p.description,
+    p.state,
+    p.start_date,
+    p.end_date,
+    u.user_name,
+    u.user_surname,
+    u.email,
+    u.url_photo,
+    mmr.member_role
+    FROM project p
+    INNER JOIN members_project mmr ON p.id_project = mmr.id_project
+    INNER JOIN user u ON mmr.id_collaborator = u.id_user;
+END //
+DELIMITER ;
 
 -- SP para la busqueda de los colaboradores que existen segun el nombre
 DELIMITER //
@@ -183,16 +207,23 @@ CREATE PROCEDURE `sp_search_collaborator_by_username`(
     IN p_collaborator_name VARCHAR(50)
 )
 BEGIN
-    -- Trayendo registros
+    -- Seteando lo que se desea buscar con el formato más optimo
+    SET @search_collaborator_name = UPPER(CONCAT('%',p_collaborator_name,'%'));
+
+    -- Trayendo la información cuando el usernema coincida
     SELECT
+        clb.id_collaborator,
         u.user_name,
         u.user_surname,
         u.url_photo
     FROM collaborator clb
     INNER JOIN user u ON clb.id_collaborator = u.id_user 
-    WHERE u.name = p_collaborator_name;
+    WHERE u.active = 1
+    AND u.user_name LIKE @search_collaborator_name
+    ORDER BY u.user_name, u.user_surname ASC;
 END //
 DELIMITER ;
+-- CALL sp_search_collaborator_by_username("");
 
 -- SP para la creacion de un nuevo proyecto
 DELIMITER //
@@ -206,7 +237,7 @@ CREATE PROCEDURE `sp_create_project`(
 )
 BEGIN
     -- Validaciones previas a la creación del proyecto
-    IF EXISTS (
+    IF NOT EXISTS(
         SELECT id_project
         FROM project
         WHERE project_name = p_project_name
@@ -217,8 +248,8 @@ BEGIN
             description,
             creation_date,
             state,
-            start_datetime,
-            end_datetime,
+            start_date,
+            end_date,
             id_admin_general
         ) VALUES (
             p_project_name,
@@ -243,9 +274,13 @@ BEGIN
             p_id_collaborator,
             'PLD'
         );
+
+        -- Mostrando el mensaje de exito
+        SELECT 'SUCCESS' AS 'MESSAGE';
     END IF;
 END //
 DELIMITER ;
+-- CALL sp_create_project(1,"tilin","asodaosdwas","2023-05-15","2023-10-01",2);
 
 -- SP para la eliminación de un projecto
 DELIMITER //
@@ -270,8 +305,17 @@ BEGIN
     SELECT 'SUCCESS' AS 'MESSAGE';
 END //
 DELIMITER ;
+-- CALL sp_delete_project_by_id_project(1);
 
-
+-- Sp para ver los detalles de los proyectos segun su id
+-- DELIMITER //
+-- CREATE PROCEDURE `sp_get_project_details_by_project_id`(
+--     IN p_id_project INT
+-- )
+-- BEGIN
+    
+-- END //
+-- DELIMITER ;
 
 -- SP para actualizar un projecto identificandolo por su id_project
 -- DELIMITER //
@@ -280,7 +324,7 @@ DELIMITER ;
 --     IN p_project_name VARCHAR(50),
 --     IN p_project_description VARCHAR(200),
 --     IN p_project_start_date DATE,
---     IN p_project_end_date DATE.
+--     IN p_project_end_date DATE,
 --     IN p_id_collaborator INT
 -- )
 -- BEGIN
