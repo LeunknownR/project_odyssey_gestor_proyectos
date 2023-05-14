@@ -7,7 +7,6 @@ export const Container = styled.div`
 export const IconContainer = styled.span`
     display: flex;
     align-items: center;
-    
     padding-bottom: 110px;
     .iconify {
         font-size: 30px;
