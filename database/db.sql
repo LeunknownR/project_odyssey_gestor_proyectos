@@ -12,11 +12,11 @@ USE project_odyssey_gestor_proyectos;
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
     `id_role` CHAR(3) NOT NULL,
-    `name` VARCHAR(30) NOT NULL,
+    `role_name` VARCHAR(30) NOT NULL,
     PRIMARY KEY (`id_role`)
 );
 -- Insertando valores a "role"
-INSERT INTO `role`(`id_role`, `name`)
+INSERT INTO `role`(`id_role`, `role_name`)
 VALUES 
     ('GAD', 'Admin. general'),
     ('CLB', 'Colaborador');
@@ -195,6 +195,8 @@ VALUES
     (23, 13, 18, 'PLD'),
     (24, 14, 19, 'PLD');
 
+
+
 -- --- [ STORED PROCEDUREs ] ------------------------------------------------------------
 -- SP para el login
 DELIMITER //
@@ -215,7 +217,7 @@ BEGIN
         SET user_password = NULL;
     END IF;
     -- Mostrando la userpass
-    SELECT user_password AS `userpass`;
+    SELECT user_password AS `userpassword`;
 END //
 DELIMITER ;
 
@@ -232,7 +234,8 @@ BEGIN
         u.user_surname,  
         u.username, 
         u.url_photo,
-        u.id_role
+        u.id_role,
+        r.role_name
     FROM user u
     JOIN role r ON u.id_role = r.id_role
     WHERE u.username = p_username;
@@ -344,6 +347,28 @@ BEGIN
 END //
 DELIMITER ;
 
+-- SP para actualizar un projecto identificandolo por su id_project
+-- DELIMITER //
+-- CREATE PROCEDURE `sp_update_project_by_project_id`(
+--     IN p_id_project INT,
+--     IN p_project_name VARCHAR(50),
+--     IN p_project_description VARCHAR(200),
+--     IN p_project_start_date DATE,
+--     IN p_project_end_date DATE,
+--     IN p_id_collaborator INT
+-- )
+-- BEGIN
+--     -- Para
+--     UPDATE project
+--     SET project_name = p_project_name,
+--         description = p_project_description,
+--         start_date = p_project_start_date,
+--         end_date = p_project_end_date,
+--         id_collaborator = p_id_collaborator
+--     WHERE id_project = p_id_project
+-- END //
+-- DELIMITER ;
+
 -- SP para la eliminación de un projecto
 DELIMITER //
 CREATE PROCEDURE `sp_delete_project_by_id_project`(
@@ -367,7 +392,33 @@ BEGIN
     SELECT 'SUCCESS' AS 'MESSAGE';
 END //
 DELIMITER ;
--- CALL sp_delete_project_by_id_project(1);
+
+-- SP para listar los proyectos segun su nombre
+DELIMITER //
+CREATE PROCEDURE `sp_get_project_list_by_collaborator_name`(
+    IN p_collaborator_name VARCHAR(50)
+)
+BEGIN
+    -- Seteando lo que se desea buscar con el formato más optimo
+    SET @search_collaborator_name = UPPER(CONCAT('%',p_collaborator_name,'%'));
+
+    -- Consulta para traer los datos
+    SELECT 
+        p.id_project,
+        p.project_name,
+        p.description,
+        p.state,
+        p.start_date,
+        p.end_date
+    FROM project p
+    INNER JOIN members_project mmr ON p.id_project = mmr.id_project
+    INNER JOIN user u ON mmr.id_collaborator = u.id_user
+    WHERE p.active = 1
+    AND u.user_name LIKE @search_collaborator_name
+    ORDER BY p.creation_date ASC, p.project_name ASC
+    LIMIT 8;
+END //
+DELIMITER ;
 
 -- Sp para ver los detalles de los proyectos segun su id
 DELIMITER //
@@ -392,26 +443,16 @@ BEGIN
     WHERE p.active = 1
     AND p.id_project = p_id_project
     ORDER BY p.project_name ASC, p.creation_date ASC;
+END //
 DELIMITER ;
 
--- SP para actualizar un projecto identificandolo por su id_project
+-- SP para ...
 -- DELIMITER //
--- CREATE PROCEDURE `sp_update_project_by_project_id`(
+-- CREATE PROCEDURE `sp_update_end_date_leader`(
 --     IN p_id_project INT,
---     IN p_project_name VARCHAR(50),
---     IN p_project_description VARCHAR(200),
---     IN p_project_start_date DATE,
---     IN p_project_end_date DATE,
---     IN p_id_collaborator INT
+--     IN p_end_date DATE
 -- )
 -- BEGIN
---     -- Para
---     UPDATE project
---     SET project_name = p_project_name,
---         description = p_project_description,
---         start_date = p_project_start_date,
---         end_date = p_project_end_date,
---         id_collaborator = p_id_collaborator
---     WHERE id_project = p_id_project
+--     -- 
 -- END //
 -- DELIMITER ;
