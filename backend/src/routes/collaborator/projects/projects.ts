@@ -5,7 +5,7 @@ import { ApiPathEndpointsCollaborator } from "../../apiPaths";
 import { ResponseBody } from "../../../utils/types";
 import ProjectController from "../../../controllers/projectController/projectController";
 import { GenerateResponseBody } from "../../../utils/generateResponseBody";
-import { parseToAddCollaboratorsInProjectRequestBody, parseToCollaboratorName, parseToProjectId, parseToUpdateEndDateProjectRequestBody } from "./parsers";
+import { parseToAddProjectMembersRequestBody, parseToCollaboratorName, parseToProjectId, parseToSearchCollaboratorRequestBody, parseToUpdateEndDateProjectRequestBody } from "./parsers";
 import { parseToProjectName } from "../../generalAdmin/projects/parsers";
 
 const router = Router();
@@ -21,13 +21,12 @@ router.patch(ApiPathEndpointsCollaborator.UpdateEndDateProject, async (req, res)
     GenerateResponseBody.sendResponse(res, payload);
 });
 router.get(ApiPathEndpointsCollaborator.SearchCollaboratorMember, async (req, res) => {
-    const projectId = parseToProjectId(req.params);
-    const collaboratorName = parseToCollaboratorName(req.params);
-    const payload: ResponseBody = await ProjectController.SearchCollaboratorsMembersByLeader(projectId,collaboratorName );
+    const searchCollaboratorRequestBody = parseToSearchCollaboratorRequestBody(req.params)
+    const payload: ResponseBody = await ProjectController.searchCollaboratorsMembersByLeader(searchCollaboratorRequestBody);
     GenerateResponseBody.sendResponse(res, payload);
 });
-router.patch(ApiPathEndpointsCollaborator.AddCollaboratorsInProject, async (req, res) => {
-    const addCollaboratorsInProject = parseToAddCollaboratorsInProjectRequestBody(req.body);
-    const payload: ResponseBody = await ProjectController.AddCollaboratorsInProject(addCollaboratorsInProject);
+router.patch(ApiPathEndpointsCollaborator.AddProjectMembers, async (req, res) => {
+    const addCollaboratorsInProject = parseToAddProjectMembersRequestBody(req.body);
+    const payload: ResponseBody = await ProjectController.addProjectMembers(addCollaboratorsInProject);
     GenerateResponseBody.sendResponse(res, payload);
 });

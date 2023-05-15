@@ -2,7 +2,7 @@ import { DBMessages } from "../../db/dbMessages";
 import { collaboratorMapper } from "../../entities/collaborator/mappers";
 import { CollaboratorUser } from "../../entities/collaborator/types";
 import { projectDetailsMapper, projectListByCollaboratorMapper, projectListByGeneralAdminMapper } from "../../entities/project/mappers";
-import { AddCollaboratorsInProject, GroupedProjectListForGeneralAdmin, GroupedProjectListForCollaborator, ProjectForm, UpdateEndDateForm, ProjectDetails } from "../../entities/project/types";
+import { AddProjectMembersRequestBody, GroupedProjectListForGeneralAdmin, GroupedProjectListForCollaborator, ProjectForm, UpdateEndDateProjectRequestBody, ProjectDetails, SearchCollaboratorRequestBody } from "../../entities/project/types";
 import ProjectModel from "../../models/projectModel/projectModel";
 import { CreateProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 import { ResponseCodes } from "../../utils/responseCodes";
@@ -28,7 +28,7 @@ export default abstract class ProjectController {
         };
     }
     static async createProject(createProjectRequestBody: CreateProjectRequestBody): Promise<ResponseBody> {
-        const affectedRows = await ProjectModel.createProject(createProjectRequestBody);
+        const affectedRows: number = await ProjectModel.createProject(createProjectRequestBody);
         if (affectedRows === 0)
             throw new Error("It couldn't be create the project");
         return {
@@ -36,8 +36,8 @@ export default abstract class ProjectController {
             message: DBMessages.Success
         };
     }
-    static async updateProject(updateProjectRequestBody: ProjectForm): Promise<ResponseBody> {
-        const affectedRows = await ProjectModel.UpdateProject(updateProjectRequestBody);
+    static async updateProject(projectForm: ProjectForm): Promise<ResponseBody> {
+        const affectedRows: number = await ProjectModel.updateProject(projectForm);
         if (affectedRows === 0)
             throw new Error("It couldn't be update the project");
         return {
@@ -45,7 +45,6 @@ export default abstract class ProjectController {
             message: DBMessages.Success
         };
     }
-
     static async getProjectListForCollaborator(projectName: string): Promise<ResponseBody & { data: GroupedProjectListForCollaborator }> {
         const resultset: any[] = await ProjectModel.getProjectListForCollaborator(projectName);
         const projectList: GroupedProjectListForCollaborator = projectListByCollaboratorMapper(resultset);
@@ -55,7 +54,7 @@ export default abstract class ProjectController {
             data: projectList
         };
     }
-    static async updateEndDateProjectByLeader(updateEndDateForm: UpdateEndDateForm): Promise<ResponseBody> {
+    static async updateEndDateProjectByLeader(updateEndDateForm: UpdateEndDateProjectRequestBody): Promise<ResponseBody> {
         const affectedRows: number = await ProjectModel.updateEndDateProjectByLeader(updateEndDateForm);
         if (affectedRows === 0)
             throw new Error("It couldn't be update end date of the project");
@@ -84,11 +83,17 @@ export default abstract class ProjectController {
             data: projectDetails
         };
     }
-    static async SearchCollaboratorsMembersByLeader(
-        projectId,
-        collaboratorName
+    static async searchCollaboratorsMembersByLeader(
+        {
+            projectId,
+            collaboratorName
+        }: SearchCollaboratorRequestBody
     ): Promise<ResponseBody & { data: CollaboratorUser[] }> {
-        const resultset: any[] = await ProjectModel.SearchCollaboratorsForProjectMember(projectId,collaboratorName);
+        const resultset: any[] = await ProjectModel.searchCollaboratorsForProjectMember(
+            {
+                projectId,
+                collaboratorName
+            });
         const collaborators: CollaboratorUser[] = resultset.map(collaboratorMapper);
         return {
             code: ResponseCodes.OK,
@@ -96,8 +101,8 @@ export default abstract class ProjectController {
             data: collaborators
         };
     }
-    static async AddCollaboratorsInProject(addCollaboratorForm: AddCollaboratorsInProject): Promise<ResponseBody> {
-        const affectedRows = await ProjectModel.addCollaboratorsInProject(addCollaboratorForm);
+    static async addProjectMembers(addProjectMembersRequest: AddProjectMembersRequestBody): Promise<ResponseBody> {
+        const affectedRows: number = await ProjectModel.addProjectMembers(addProjectMembersRequest);
         if (affectedRows === 0)
             throw new Error("It couldn't be add collaborators in the project");
         return {
