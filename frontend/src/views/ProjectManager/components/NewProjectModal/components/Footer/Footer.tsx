@@ -4,7 +4,7 @@ import { Container } from "./styles";
 const Footer = () => {
     return (
         <Container>
-            <CustomButton content="Crear"/>
+            <CustomButton content="Crearr"/>
         </Container>
     );
 };
