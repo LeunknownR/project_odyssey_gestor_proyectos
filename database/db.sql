@@ -12,15 +12,14 @@ USE project_odyssey_gestor_proyectos;
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
     `id_role` CHAR(3) NOT NULL,
+    `name` VARCHAR(30) NOT NULL,
     PRIMARY KEY (`id_role`)
 );
 -- Insertando valores a "role"
-INSERT INTO `role` (
-    `id_role`
-)
+INSERT INTO `role`(`id_role`, `name`)
 VALUES 
-    ("GAD"),
-    ("CLB");
+    ('GAD', 'Admin. general'),
+    ('CLB', 'Colaborador');
 
 -- Tabla para guardar los usuarios
 DROP TABLE IF EXISTS `user`;
@@ -75,15 +74,14 @@ CREATE TABLE `project` (
 DROP TABLE IF EXISTS `project_role`;
 CREATE TABLE `project_role` (
     `id_project_role` CHAR(3) NOT NULL,
+    `name` VARCHAR(30) NOT NULL,
     PRIMARY KEY (`id_project_role`)
 );
 -- Insertando valores a "project_role"
-INSERT INTO `project_role` (
-    id_project_role
-)
+INSERT INTO `project_role`(`id_project_role`, `name`)
 VALUES 
-    ("PLD"),
-    ("PMB");
+    ('PLD', 'Líder del proyecto'),
+    ('PMB', 'Miembro del proyecto');
 
 -- Tabla para guardar los miembros del proyecto
 DROP TABLE IF EXISTS `members_project`;
@@ -104,25 +102,25 @@ CREATE TABLE `members_project` (
 -- Insertando datos en la tabla user
 INSERT INTO `user` (`id_user`, `user_name`, `user_surname`, `username`, `userpassword`, `url_photo`, `email`, `id_role`) 
 VALUES
-    (1, 'Diego Edgardo', 'Torres De La Cruz', 'diegot', 'password', '/diegot.jpg', 'diegoteodosiof@gmail.com', 'GAD'),
-    (2, 'Manuel Alejandro', 'Rivera Becerra', 'manuelr', 'password', '/manuelr.jpg', 'leunknownr@gmail.com', 'CLB'),
-    (3, 'Ralf Carsten', 'Carrasco Stein', 'ralfc', 'password', '/ralfc.jpg', 'ralfcarrasco@gmail.com', 'CLB'),
-    (4, 'John', 'Doe', 'johndoe', 'password', '/johndoe.jpg', 'johndoe@example.com', 'CLB'),
-    (5, 'Jane', 'Doe', 'janedoe', 'password', '/janedoe.jpg', 'janedoe@example.com', 'CLB'),
-    (6, 'Alice', 'Smith', 'alicesmith', 'password', '/alicesmith.jpg', 'alicesmith@example.com', 'CLB'),
-    (7, 'Bob', 'Johnson', 'bobjohnson', 'password', '/bobjohnson.jpg', 'bobjohnson@example.com', 'CLB'),
-    (8, 'Maria', 'Garcia', 'mariagarcia', 'password', '/mariagarcia.jpg', 'mariagarcia@example.com', 'CLB'),
-    (9, 'Jose', 'Martinez', 'josemartinez', 'password', '/josemartinez.jpg', 'josemartinez@example.com', 'CLB'),
-    (10, 'Amanda', 'Brown', 'amandabrown', 'password', '/amandabrown.jpg', 'amandabrown@example.com', 'CLB'),
-    (11, 'Matthew', 'Davis', 'matthewdavis', 'password', '/matthewdavis.jpg', 'matthewdavis@example.com', 'CLB'),
-    (12, 'Ashley', 'Wilson', 'ashleywilson', 'password', '/ashleywilson.jpg', 'ashleywilson@example.com', 'CLB'),
-    (13, 'Michael', 'Anderson', 'michaelanderson', 'password', '/michaelanderson.jpg', 'michaelanderson@example.com', 'CLB'),
-    (14, 'Linda', 'Gonzalez', 'lindagonzalez', 'password', '/lindagonzalez.jpg', 'lindagonzalez@example.com', 'CLB'),
-    (15, 'David', 'Taylor', 'davidtaylor', 'password', '/davidtaylor.jpg', 'davidtaylor@example.com', 'CLB'),
-    (16, 'Sarah', 'Lee', 'sarahlee', 'password', '/sarahlee.jpg', 'sarahlee@example.com', 'CLB'),
-    (17, 'Daniel', 'Martin', 'danielmartin', 'password', '/danielmartin.jpg', 'danielmartin@example.com', 'CLB'),
-    (18, 'Emily', 'Clark', 'emilyclark', 'password', '/emilyclark.jpg', 'emilyclark@example.com', 'CLB'),
-    (19, 'Christopher', 'Rodriguez', 'christopherrodriguez', 'password', '/christopherrodriguez.jpg', 'christopherrodriguez@example.com', 'CLB');
+    (1, 'Diego Edgardo', 'Torres De La Cruz', 'diegot', '$2a$10$5lDSbUyMEVZbfPFRiYuemesPnHyfdzCyRGoFJNDVpmuhmcFy5Soxe', '/diegot.jpg', 'diegoteodosiof@gmail.com', 'GAD'),
+    (2, 'Manuel Alejandro', 'Rivera Becerra', 'manuelr', '$2a$10$FOuqRzBR7drrXGku/hvJAunSKwNzFBxd.0HvL847iazSnLqftCuyG', '/manuelr.jpg', 'leunknownr@gmail.com', 'CLB'),
+    (3, 'Ralf Carsten', 'Carrasco Stein', 'ralfc', '$2a$10$yhW0eomyv23YbJTx.FG4keIKdmVi4HS9PEoZ5SMtJhRRLYhZFFi8a', '/ralfc.jpg', 'ralfcarrasco@gmail.com', 'CLB'),
+    (4, 'John', 'Doe', 'johnd', '$2a$10$JHyPCOL0YKEv.x11woSC4eBAIiQRog75kMn8Hdov0qjwvVgdY5.Na', '/johndoe.jpg', 'johndoe@example.com', 'CLB'),
+    (5, 'Jane', 'Doe', 'janed', '$2a$10$.8vLiaBYFYmaBMcFWmk0YefUvnitcAZh83Dyjrqtz52O7AbrZ/LNa', '/janedoe.jpg', 'janedoe@example.com', 'CLB'),
+    (6, 'Alice', 'Smith', 'alices', '$2a$10$0hkuRJzYuG4KTgcVruYjLOzqk0RNkieLkSTcrZjhprkPsTcBSuBju', '/alicesmith.jpg', 'alicesmith@example.com', 'CLB'),
+    (7, 'Bob', 'Johnson', 'bobj', '$2a$10$ZSKPZnbVXx5hSUTUbjqF9OaMx3PWVxnVyUFTxqManmlDluKweA/QG', '/bobjohnson.jpg', 'bobjohnson@example.com', 'CLB'),
+    (8, 'Maria', 'Garcia', 'mariag', '$2a$10$ZxEqZvDqnL2V4Qe4dK5xAuwkeZFirKECxZRDOYkX4DBs8Do2yR3Te', '/mariagarcia.jpg', 'mariagarcia@example.com', 'CLB'),
+    (9, 'Jose', 'Martinez', 'josem', '$2a$10$nRus1hX3stTK5cAVMHi3MeJEDxaQMslfCunxuNboFQbgsKFpSqzwW', '/josemartinez.jpg', 'josemartinez@example.com', 'CLB'),
+    (10, 'Amanda', 'Brown', 'amandab', '$2a$10$aDD7cz/hQnoD2VTDiTAmOeqFj/.hZhIcCGLERPnIIUBlX0aOc85Pi', '/amandabrown.jpg', 'amandabrown@example.com', 'CLB'),
+    (11, 'Matthew', 'Davis', 'matthewd', '$2a$10$CXEPzSABiUSUXNcSLQgO5eentZKf8.pe7RgKSDSbqKERW/dPagOMu', '/matthewdavis.jpg', 'matthewdavis@example.com', 'CLB'),
+    (12, 'Ashley', 'Wilson', 'ashleyw', '$2a$10$9ZvfMaJR.ndHpk3KcuFmM.t0P/Vl.AaGtPsYRyb6a4VUC509JX9le', '/ashleywilson.jpg', 'ashleywilson@example.com', 'CLB'),
+    (13, 'Michael', 'Anderson', 'michaela', '$2a$10$CbL0aK4/CL7jW6Ijpk1LveCstTbt7Pqk9Bm3Lbj9rXZKTfVx79Pea', '/michaelanderson.jpg', 'michaelanderson@example.com', 'CLB'),
+    (14, 'Linda', 'Gonzalez', 'lindag', '$2a$10$Cb/Z8lUXXzfntJJlBDY1W.AdmI2KxpqZrzkSCEZf86t52kBHM7qL.', '/lindagonzalez.jpg', 'lindagonzalez@example.com', 'CLB'),
+    (15, 'David', 'Taylor', 'davidt', '$2a$10$ZFzFpb2V30WQwnBVwxkzvehkNqTMZW80G79gQ/mgwnxDwVEhL8ANu', '/davidtaylor.jpg', 'davidtaylor@example.com', 'CLB'),
+    (16, 'Sarah', 'Lee', 'sarahl', '$2a$10$1R1ypXm5VjeKxlOK/039S.ySrKQk0EF/oCaG0k1eXhdSZDv9H1lZu', '/sarahlee.jpg', 'sarahlee@example.com', 'CLB'),
+    (17, 'Daniel', 'Martin', 'danielm', '$2a$10$0MZ61DjO5ENfW1OeOSYRgO7tZsLvkBnDFsPP3ofUefAeSusS6c3g2', '/danielmartin.jpg', 'danielmartin@example.com', 'CLB'),
+    (18, 'Emily', 'Clark', 'emilyc', '$2a$10$YdgwhXh9MNvThP9hUm3MZe1lJetaCut/bml9R.4sEpobZYEwG1ig2', '/emilyclark.jpg', 'emilyclark@example.com', 'CLB'),
+    (19, 'Christopher', 'Rodriguez', 'christopherr', '$2a$10$MRVVtZqyPY51FkZotVjgWuGM/0TKuvFOekfW2DdBrDPT3p6jRzq.S', '/christopherrodriguez.jpg', 'christopherrodriguez@example.com', 'CLB');
 
 
 -- Insertando datos en la tabla admin. General
@@ -140,7 +138,17 @@ VALUES
     (6),
     (7),
     (8),
-    (9);
+    (9),
+    (10),
+    (11),
+    (12),
+    (13),
+    (14),
+    (15),
+    (16),
+    (17),
+    (18),
+    (19);
 
 -- Insertando datos en la tabla collaborator  
 INSERT INTO `project` (`id_project`, `project_name`, `description`, `creation_date`, `state`, `start_date`, `end_date`, `id_admin_general`) 
@@ -160,20 +168,32 @@ VALUES
     (13, 'Desarrollo de software de automatización de procesos', 'Software de automatización de procesos para empresa de manufactura', '2023-04-29', 'O', '2023-05-01', '2023-06-01', 1),
     (14, 'Tilin Super proyecto 10k soles', 'app web para la creación de equipos de desarrollo web', '2023-01-01', 'O', '2023-01-05', '2023-06-28', 1);
 
-INSERT INTO `members_project` (`id_project`, `id_collaborator`, `id_project_role`) 
+INSERT INTO `members_project` (`id_members_project`, `id_project`, `id_collaborator`, `id_project_role`) 
 VALUES
-    (1, 2, 'PLD'),
-    (1, 3, 'PMB'),
-    (1, 5, 'PMB'),
-    (2, 7, 'PMB'),
-    (2, 4, 'PMB'),
-    (2, 5, 'PLD'),
-    (3, 2, 'PMB'),
-    (3, 3, 'PLD'),
-    (3, 6, 'PMB'),
-    (4, 7, 'PLD'),
-    (4, 3, 'PMB'),
-    (4, 5, 'PMB');
+    (1, 1, 2, 'PLD'),
+    (2, 1, 3, 'PMB'),
+    (3, 1, 5, 'PMB'),
+    (4, 2, 5, 'PLD'),
+    (5, 2, 7, 'PMB'),
+    (6, 2, 4, 'PMB'),
+    (7, 3, 3, 'PLD'),
+    (8, 3, 2, 'PMB'),
+    (9, 3, 6, 'PMB'),
+    (10, 4, 7, 'PLD'),
+    (11, 4, 3, 'PMB'),
+    (12, 4, 5, 'PMB'),
+    (13, 5, 8, 'PLD'),
+    (14, 5, 9, 'PMB'),
+    (15, 5, 10, 'PMB'),
+    (16, 6, 11, 'PLD'),
+    (17, 7, 12, 'PLD'),
+    (18, 8, 13, 'PLD'),
+    (19, 9, 14, 'PLD'),
+    (20, 10, 15, 'PLD'),
+    (21, 11, 16, 'PLD'),
+    (22, 12, 17, 'PLD'),
+    (23, 13, 18, 'PLD'),
+    (24, 14, 19, 'PLD');
 
 -- --- [ STORED PROCEDUREs ] ------------------------------------------------------------
 -- SP para el login
@@ -219,46 +239,38 @@ BEGIN
 END //
 DELIMITER ;
 
--- SP para 
--- DELIMITER //
--- CREATE PROCEDURE `sp_get_project_list_by_project_name`(
---     IN p_project_name VARCHAR(50),
---     IN p_recents BIT
--- )
--- BEGIN
---     SET @recents_projects = 5;
---     -- Validando los más recientes
---     IF (p_recents = 1) THEN
---         SET @recents_projects = 3;
---     END IF;
+-- SP para listar los proyectos segun su nombre
+DELIMITER //
+CREATE PROCEDURE `sp_get_project_list_by_project_name`(
+    IN p_project_name VARCHAR(50)
+)
+BEGIN
+    -- Seteando lo que se desea buscar con el formato más optimo
+    SET @search_project_name = UPPER(CONCAT('%',p_project_name,'%'));
 
---     -- Seteando lo que se desea buscar con el formato más optimo
---     SET @search_project_name = UPPER(CONCAT('%',p_project_name,'%'));
-
---     -- Consulta para traer los datos
---     SELECT 
---         p.id_project,
---         p.project_name,
---         p.description,
---         p.state,
---         p.start_date,
---         p.end_date,
---         u.user_name,
---         u.user_surname,
---         u.email,
---         u.url_photo,
---         mmr.id_project_role
---     FROM project p
---     INNER JOIN members_project mmr ON p.id_project = mmr.id_project
---     INNER JOIN user u ON mmr.id_collaborator = u.id_user
---     WHERE p.active = 1
---     AND mmr.id_project_role = "PLD"
---     AND p.project_name LIKE @search_project_name
---     ORDER BY p.creation_date ASC, p.project_name ASC
---     LIMIT @recents_projects;
-
--- END //
--- DELIMITER ;
+    -- Consulta para traer los datos
+    SELECT 
+        p.id_project,
+        p.project_name,
+        p.description,
+        p.state,
+        p.start_date,
+        p.end_date,
+        u.user_name,
+        u.user_surname,
+        u.email,
+        u.url_photo,
+        mmr.id_project_role
+    FROM project p
+    INNER JOIN members_project mmr ON p.id_project = mmr.id_project
+    INNER JOIN user u ON mmr.id_collaborator = u.id_user
+    WHERE p.active = 1
+    AND mmr.id_project_role = "PLD"
+    AND p.project_name LIKE @search_project_name
+    ORDER BY p.creation_date ASC, p.project_name ASC
+    LIMIT 8;
+END //
+DELIMITER ;
 
 -- SP para la busqueda de los colaboradores que existen segun el nombre
 DELIMITER //
@@ -282,7 +294,6 @@ BEGIN
     ORDER BY u.user_name, u.user_surname ASC;
 END //
 DELIMITER ;
--- CALL sp_search_collaborator_by_username("");
 
 -- SP para la creacion de un nuevo proyecto
 DELIMITER //
@@ -332,7 +343,6 @@ BEGIN
     SELECT 'SUCCESS' AS 'MESSAGE';
 END //
 DELIMITER ;
--- CALL sp_create_project(1,"tilin","asodaosdwas","2023-05-15","2023-10-01",2);
 
 -- SP para la eliminación de un projecto
 DELIMITER //
@@ -360,30 +370,29 @@ DELIMITER ;
 -- CALL sp_delete_project_by_id_project(1);
 
 -- Sp para ver los detalles de los proyectos segun su id
-DELIMITER //
-CREATE PROCEDURE `sp_get_project_details_by_project_id`(
-    IN p_id_project INT
-)
-BEGIN
-    SELECT 
-        p.id_project,
-        p.project_name,
-        p.description,
-        p.state,
-        p.start_date,
-        p.end_date,
-        u.user_name,
-        u.user_surname,
-        u.email,
-        u.url_photo,
-        mmr.id_project_role
-    FROM project p
-    INNER JOIN members_project mmr ON p.id_project = mmr.id_project
-    INNER JOIN user u ON mmr.id_collaborator = u.id_user
-    WHERE p.active = 1
-    AND p.id_project = id_project
-    ORDER BY p.project_name ASC, p.creation_date ASC;
-DELIMITER ;
+-- DELIMITER //
+-- CREATE PROCEDURE `sp_get_project_details_by_project_id`(
+--     IN p_id_project INT
+-- )
+-- BEGIN
+--     SELECT
+--         p.id_project,
+--         p.project_name,
+--         p.description,
+--         CONCAT(p.start_date, ' ', p.end_date) AS "period_project",
+--         u.user_name,
+--         u.user_surname,
+--         u.email,
+--         u.url_photo,
+--         mmr.id_project_role AS "project_role_name"
+--     FROM project p
+--     INNER JOIN members_project mmr ON p.id_project = mmr.id_project
+--     INNER JOIN user u ON mmr.id_collaborator = u.id_user
+--     INNER JOIN project_role pr ON pr.id_project_role = mmr.id_project_role
+--     WHERE p.active = 1
+--     AND p.id_project = id_project
+--     ORDER BY p.project_name ASC, p.creation_date ASC;
+-- DELIMITER ;
 
 -- SP para actualizar un projecto identificandolo por su id_project
 -- DELIMITER //
@@ -404,7 +413,5 @@ DELIMITER ;
 --         end_date = p_project_end_date,
 --         id_collaborator = p_id_collaborator
 --     WHERE id_project = p_id_project
-
-
 -- END //
 -- DELIMITER ;
