@@ -1,5 +1,5 @@
 import { DBMessages } from "../../db/dbMessages";
-import { collaboratorMapper } from "../../entities/collaborator/mappers";
+import { collaboratorUserMapper } from "../../entities/collaborator/mappers";
 import { CollaboratorUser } from "../../entities/collaborator/types";
 import { projectDetailsMapper, projectListByCollaboratorMapper, projectListByGeneralAdminMapper } from "../../entities/project/mappers";
 import { AddProjectMembersRequestBody, GroupedProjectListForGeneralAdmin, GroupedProjectListForCollaborator, ProjectForm, UpdateEndDateProjectRequestBody, ProjectDetails, SearchCollaboratorRequestBody } from "../../entities/project/types";
@@ -20,7 +20,7 @@ export default abstract class ProjectController {
     }
     static async searchCollaboratorByUsername(username: string): Promise<ResponseBody & { data: CollaboratorUser[] }> {
         const resultset: any[] = await ProjectModel.searchCollaboratorByUsername(username);
-        const collaborators: CollaboratorUser[] = resultset.map(collaboratorMapper);
+        const collaborators: CollaboratorUser[] = resultset.map(collaboratorUserMapper);
         return {
             code: ResponseCodes.OK,
             message: DBMessages.Success,
@@ -84,21 +84,14 @@ export default abstract class ProjectController {
         };
     }
     static async searchCollaboratorsMembersByLeader(
-        {
-            projectId,
-            collaboratorName
-        }: SearchCollaboratorRequestBody
+        searchCollaboratorRequestBody: SearchCollaboratorRequestBody
     ): Promise<ResponseBody & { data: CollaboratorUser[] }> {
-        const resultset: any[] = await ProjectModel.searchCollaboratorsForProjectMember(
-            {
-                projectId,
-                collaboratorName
-            });
-        const collaborators: CollaboratorUser[] = resultset.map(collaboratorMapper);
+        const resultset: any[] = await ProjectModel.searchCollaboratorsForProjectMember(searchCollaboratorRequestBody);
+        const collaboratorUserList: CollaboratorUser[] = resultset.map(collaboratorUserMapper);
         return {
             code: ResponseCodes.OK,
             message: DBMessages.Success,
-            data: collaborators
+            data: collaboratorUserList
         };
     }
     static async addProjectMembers(addProjectMembersRequest: AddProjectMembersRequestBody): Promise<ResponseBody> {

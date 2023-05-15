@@ -5,8 +5,7 @@ import { Project, GroupedProjectListForGeneralAdmin, ProjectByCollaborator, Grou
 const projectLeaderMapper = (record: any): ProjectLeader => ({
     name: record["name"],
     surname: record["surname"],
-    email: record["emil"],
-    projectRole: record["project_role"],
+    email: record["email"],
     urlPhoto: record["url_photo"]
 });
 const projectByGeneralAdminMapper = (record: any): Project => ({
@@ -43,11 +42,10 @@ export const projectListByCollaboratorMapper = (resultset: any[]): GroupedProjec
 export const projectDetailsMapper = (resultset: any[]): ProjectDetails => {
     const [header] = resultset;
     return {
-        id: header["id"],
-        name: header["name"],
+        name: header["project_name"],
         description: header["description"],
         endDate: header["end_date"],
-        period: header["period"],// 10-05-2023 / 10-10-2023
+        period: header["period_project"],// 10-05-2023 / 10-10-2023
         collaborators: resultset.map(projectCollaboratorMapper)
     };
 };

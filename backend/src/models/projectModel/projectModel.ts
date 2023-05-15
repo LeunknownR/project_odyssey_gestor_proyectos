@@ -86,11 +86,10 @@ export default abstract class ProjectModel {
         );
         return resultset;
     }
-    static async searchCollaboratorsForProjectMember(
-        {
-            projectId,
-            collaboratorName
-        }: SearchCollaboratorRequestBody): Promise<any[]> {
+    static async searchCollaboratorsForProjectMember({
+        projectId,
+        collaboratorName
+    }: SearchCollaboratorRequestBody): Promise<any[]> {
         const [resultset] = await DBConnection.query(
             StoredProcedures.SearchCollaboratorForProjectMember,
             [
@@ -107,7 +106,7 @@ export default abstract class ProjectModel {
             StoredProcedures.AddProjectMembers,
             [
                 projectId,
-                membersIds
+                membersIds.join(",")
             ]);
         return information.affectedRows;
     }

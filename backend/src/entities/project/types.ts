@@ -43,7 +43,6 @@ export type GroupedProjectListForCollaborator = {
     all: ProjectByCollaborator[]
 };
 export type ProjectDetails = {
-    id: number
     name: string,
     description: string,
     period: string,
