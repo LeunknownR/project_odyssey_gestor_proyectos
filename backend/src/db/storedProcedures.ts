@@ -1,8 +1,6 @@
 export enum StoredProcedures {
-    GetUserPasswordByUsername = "CALL get_userpassword_by_username(?);",
-    GetBasicUserInformation = "CALL get_basic_user_information(?);",
-    // GetUserPasswordByUsername = "CALL sp_get_userpassword_by_username(?);",
-    // GetBasicUserInformation = "CALL sp_get_basic_user_information(?);",
+    GetUserPasswordByUsername = "CALL sp_get_userpassword_by_username(?);",
+    GetBasicUserInformation = "CALL sp_get_basic_user_information(?);",
     GetProjectListByGeneralAdmin = "CALL sp_get_list_projects(?);",
     GetProjectListByCollaborator = "CALL sp_get_project_list_by_collaborator_name(?);",
     CreateProject = "CALL sp_create_project(?, ?, ?, ?, ?, ?);",
