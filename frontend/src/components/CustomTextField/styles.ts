@@ -14,30 +14,41 @@ export const Container = styled.div<ContainerProps>`
     width: ${({ width = "100%" }) => width};
     max-width: ${({ maxWidth }) => maxWidth};
     position: relative;
+    &.primary {
+        gap: 14px;
+    }
     @media (max-width: 600px) {
         max-width: unset;
         width: 100%;
     }
 `;
 export const LabelContent = styled.label`
-    font-weight: 600;
-    transition: 0.3s;
-    &.primary {
+    font-weight: 700;
+    &.login {
+        font-weight: 600;
         color: var(--white-1);
+    }
+    &.primary {
+        font-weight: 700;
+        color: var(--white-1);
+        font-size: 20px;
+    }
+    &.primary-search {
+        color: var(--darkblue-1);
+        font-size: 17px;
     }
 `;
 export const Content = styled.div`
     display: flex;
     align-items: center;
-    border: 1px solid var(--dark-3);
     border-radius: 3px;
     transition: 0.3s;
     padding: 12px 10px;
-    &.primary {
+    &.login {
         background-color: var(--white-1-12);
         border: 1px solid var(--white-1);
         color: var(--white-2);
-        :focus {
+        :focus-within {
             background-color: #e15625cc;
             border: 1px solid var(--white-1);
             ::placeholder {
@@ -48,7 +59,29 @@ export const Content = styled.div`
             color: var(--gray-3);
         }
     }
+    &.primary {
+        background-color: var(--white-1-12);
+        border: 1px solid var(--white-1);
+        color: var(--white-2);
+        border-radius: 5px;
+        padding: 10px 16px; 
+        ::placeholder {
+            color: var(--gray-3);
+        }
+    }
     &.primary-search {
+        border-radius: 5px;
+        border: 1px solid var(--darkblue-1);
+        color: var(--darkblue-1);
+        padding: 10px 15px;
+        :focus-within {
+            background-color: rgba(45, 90, 119, 0.2);
+        }
+        ::placeholder {
+            color: var(--darkblue-1);
+        }
+    }
+    &.header-search {
         border-radius: 8px;
         background-color: var(--darkblue-4);
         border: 1px solid var(--white-1-50);
@@ -66,13 +99,20 @@ export const TextField = styled.input`
     width: 100%;
     transition: 0.3s;
     border: 0;
-    background-color: inherit;
+    background-color: transparent;
     color: inherit;
     ::-ms-reveal {
         display: none;
     }
     ::placeholder {
         user-select: none;
+    }
+    &.primary-search {
+        font-weight: 700;
+        ::placeholder {
+            color: var(--darkblue-1);
+            font-weight: 400;
+        }
     }
 `;
 export const PasswordRevealer = styled.div`
@@ -95,11 +135,9 @@ export const PasswordRevealer = styled.div`
     }
 `;
 export const LensContainer = styled.span`
-    display: flex;    
-    padding: 2px 13px;
+    display: flex;
     margin-right: 10px;
     .iconify {
         font-size: 20px;
-        color: var(--white-1);
     }
 `;

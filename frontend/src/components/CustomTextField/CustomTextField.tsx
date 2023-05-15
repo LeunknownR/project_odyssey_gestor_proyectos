@@ -49,9 +49,7 @@ const CustomTextField = ({
     };
     return (
         <Container width={width} maxWidth={maxWidth} className={className}>
-            {label && (
-                <LabelContent className={className}>{label}</LabelContent>
-            )}
+            {label && <LabelContent className={className}>{label}</LabelContent>}
             <Content className={className}>
                 <TextField
                     disabled={disabled}

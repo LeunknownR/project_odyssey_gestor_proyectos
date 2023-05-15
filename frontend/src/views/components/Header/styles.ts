@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.header`
     position: sticky;
@@ -19,14 +19,4 @@ export const IconContainer = styled.span`
 `;
 export const TynpuLogo = styled.img`
     height: 45px;
-`;
-export const User = styled.div`
-    background-color: var(--cream-1);
-    padding: 8px;
-    border-radius: 50%;
-    color: var(--dark-1);
-    font-weight: 700;
-    font-size: 22px;
-    cursor: pointer;
-    user-select: none;
 `;

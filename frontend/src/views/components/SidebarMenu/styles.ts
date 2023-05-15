@@ -19,7 +19,13 @@ export const NewProjectButton = styled.button`
     background-color: transparent;
     border: none;
     cursor: pointer;
+    :hover {
+        .iconify {
+            color: var(--orange-3);
+        }
+    }
     .iconify {
+        transition: 0.2s;
         font-size: 32px;
     }
 `;
@@ -41,7 +47,13 @@ export const MenuButton = styled(NavLink)<MenuButtonProps>`
     &.active {
         background-color: var(--white-1-05);
     }
+    :hover {
+        .iconify {
+            color: var(--orange-3);
+        }
+    }
     .iconify {
+        transition: 0.2s;
         font-size: 33px;
         color: var(--white-1);
     }
