@@ -11,6 +11,6 @@ export enum StoredProcedures {
     DeleteProject = "CALL sp_delete_project_by_id_project(?);",
     UpdateEndDateProjectByLeader = "CALL sp_update_end_date_leader(?, ?);",
     SearchCollaboratorForProjectMember = "CALL sp_search_collaborator_member(?, ?);",
-    AddCollaboratorsInProject = "CALL sp_add_collaborator_member(?, ?);",
+    AddProjectMembers = "CALL sp_add_collaborator_member(?, ?);",
     GetProjectDetails = "CALL sp_get_project_details_by_project_id(?);"
 }

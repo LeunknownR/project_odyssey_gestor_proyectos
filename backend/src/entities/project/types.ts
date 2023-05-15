@@ -2,11 +2,15 @@ import { type } from "os";
 import { CollaboratorUser, ProjectCollaborator, ProjectLeader } from "../collaborator/types";
 import { ProjectState } from "./enums";
 
-export type UpdateEndDateForm = {
+export type UpdateEndDateProjectRequestBody = {
     projectId: number,
     endDate: number
 };
-export type AddCollaboratorsInProject = {
+export type SearchCollaboratorRequestBody = {
+    projectId: number,
+    collaboratorName: string
+}
+export type AddProjectMembersRequestBody = {
     projectId: number,
     membersIds: number[]
 };

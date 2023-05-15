@@ -1,19 +1,23 @@
-import { AddCollaboratorsInProject, UpdateEndDateForm } from "../../../entities/project/types";
+import { AddProjectMembersRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../../entities/project/types";
 import { isPositiveArrayNumber, isPositiveNumber } from "../../../utils/numbers";
 import { isLimitMaximString, isString } from "../../../utils/string";
 
 export const parseToCollaboratorName = (params: any): string => {
-    if (!isLimitMaximString(params.collaboratorName,100))
+    if (!isLimitMaximString(params.collaboratorName, 100))
         throw new Error("Invalid collaboratorName");
     return params.collaboratorName;
 }
-
+export const parseToSearchCollaboratorRequestBody = (params: any): SearchCollaboratorRequestBody => {
+    if (!isPositiveNumber(params.projectId) && !isLimitMaximString(params.collaboratorName, 100))
+        throw new Error("Invalid collaborator search request body");
+    return params;
+}
 export const parseToProjectId = (params: any): number => {
     if (!isPositiveNumber(params.projectId))
         throw new Error("Invalid projectId");
     return params.projectId;
 }
-export const parseToUpdateEndDateProjectRequestBody = (body: any): UpdateEndDateForm => {
+export const parseToUpdateEndDateProjectRequestBody = (body: any): UpdateEndDateProjectRequestBody => {
     const {
         projectId,
         endDate
@@ -26,7 +30,7 @@ export const parseToUpdateEndDateProjectRequestBody = (body: any): UpdateEndDate
         endDate
     };
 }
-export const parseToAddCollaboratorsInProjectRequestBody = (body: any): AddCollaboratorsInProject => {
+export const parseToAddProjectMembersRequestBody = (body: any): AddProjectMembersRequestBody => {
     const {
         projectId,
         membersIds
