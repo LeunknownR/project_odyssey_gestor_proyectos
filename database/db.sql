@@ -370,29 +370,29 @@ DELIMITER ;
 -- CALL sp_delete_project_by_id_project(1);
 
 -- Sp para ver los detalles de los proyectos segun su id
--- DELIMITER //
--- CREATE PROCEDURE `sp_get_project_details_by_project_id`(
---     IN p_id_project INT
--- )
--- BEGIN
---     SELECT
---         p.id_project,
---         p.project_name,
---         p.description,
---         CONCAT(p.start_date, ' ', p.end_date) AS "period_project",
---         u.user_name,
---         u.user_surname,
---         u.email,
---         u.url_photo,
---         mmr.id_project_role AS "project_role_name"
---     FROM project p
---     INNER JOIN members_project mmr ON p.id_project = mmr.id_project
---     INNER JOIN user u ON mmr.id_collaborator = u.id_user
---     INNER JOIN project_role pr ON pr.id_project_role = mmr.id_project_role
---     WHERE p.active = 1
---     AND p.id_project = id_project
---     ORDER BY p.project_name ASC, p.creation_date ASC;
--- DELIMITER ;
+DELIMITER //
+CREATE PROCEDURE `sp_get_project_details_by_project_id`(
+    IN p_id_project INT
+)
+BEGIN
+    SELECT
+        p.id_project,
+        p.project_name,
+        p.description,
+        CONCAT(p.start_date, ' ', p.end_date) AS "period_project",
+        u.user_name,
+        u.user_surname,
+        u.email,
+        u.url_photo,
+        mmr.id_project_role AS "project_role_name"
+    FROM project p
+    INNER JOIN members_project mmr ON p.id_project = mmr.id_project
+    INNER JOIN user u ON mmr.id_collaborator = u.id_user
+    INNER JOIN project_role pr ON pr.id_project_role = mmr.id_project_role
+    WHERE p.active = 1
+    AND p.id_project = p_id_project
+    ORDER BY p.project_name ASC, p.creation_date ASC;
+DELIMITER ;
 
 -- SP para actualizar un projecto identificandolo por su id_project
 -- DELIMITER //
