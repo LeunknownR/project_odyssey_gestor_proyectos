@@ -1,6 +1,7 @@
 import { ApiPathEndpointGroups } from "./apiPaths";
 import login from "./authentication/login";
-import { fatalErrorEndpointHandler } from "./helpers";
+import generalAdminProjects from "./generalAdmin/projects/projects";
+import collaboratorProjects from "./collaborator/projects/projects";
 import { Endpoint } from "./types";
 import { Router } from "express";
 
@@ -9,9 +10,16 @@ const routes: Endpoint[] = [
     {
         path: ApiPathEndpointGroups.Authentication, 
         routes: login 
+    },
+    {
+        path: ApiPathEndpointGroups.GeneralAdmin,
+        routes: generalAdminProjects 
+    },
+    {
+        path: ApiPathEndpointGroups.Collaborator,
+        routes: collaboratorProjects 
     }
 ];
-router.use(fatalErrorEndpointHandler);
 routes.forEach(({ path, routes }) => {
     router.use(path, routes);
 });

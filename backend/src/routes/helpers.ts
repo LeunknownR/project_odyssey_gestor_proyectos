@@ -1,15 +1,12 @@
-import { NextFunction, Request, Response } from "express"
-import { GenerateResponseBody } from "../utils/generateResponseBody";
+import { Request, Response } from "express"
+import { GenerateResponseBody } from "../utils/generateResponseBody"
 
-export const fatalErrorEndpointHandler = async (
-    err: any,
-    _: Request, 
-    res: Response, 
-    next: NextFunction) => {
-    console.log(err);
-    if (!err) {
-        next();
-        return;
-    }
-    GenerateResponseBody.sendResponse(res, GenerateResponseBody.FATAL_ERROR_RESPONSE);
-}
+export const withErrorHandler = (handler: (req: Request, res: Response) => Promise<void>) => {
+    return (req: Request, res: Response) => {
+        handler(req, res)
+        .catch((err: any) => {
+            console.log(err);
+            GenerateResponseBody.sendResponse(res, GenerateResponseBody.FATAL_ERROR_RESPONSE);
+        });
+    };
+};

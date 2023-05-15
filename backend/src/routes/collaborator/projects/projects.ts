@@ -31,3 +31,5 @@ router.patch(ApiPathEndpointsCollaborator.AddProjectMembers, async (req, res) =>
     const payload: ResponseBody = await ProjectController.addProjectMembers(addProjectMembersRequestBody);
     GenerateResponseBody.sendResponse(res, payload);
 });
+
+export default router;
