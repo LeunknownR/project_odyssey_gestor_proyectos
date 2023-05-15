@@ -8,8 +8,8 @@ import { userFromRecordMapper } from "../../entities/user/mappers";
 
 export default abstract class UserController {
     static login = async ({ username, password }: Credentials) => {
-        let record = await UserModel.getUserPasswordByUsername(username);
-        const currentPasswordHashed: string = record["userpass"];
+        const recordPassword: any = await UserModel.getUserPasswordByUsername(username);
+        const currentPasswordHashed: string = recordPassword["userpass"];
         if (!currentPasswordHashed)
             return {
                 message: "INVALID_USER",
@@ -22,8 +22,8 @@ export default abstract class UserController {
                 code: ResponseCodes.BAD_REQUEST,
                 data: null
             };
-        record = await UserModel.getBasicUserInformation(username);
-        const user: User = userFromRecordMapper(record);
+        const recordBasicUserInformation: any = await UserModel.getBasicUserInformation(username);
+        const user: User = userFromRecordMapper(recordBasicUserInformation);
         return {
             message: DBMessages.Success,
             code: ResponseCodes.OK,
