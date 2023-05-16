@@ -65,6 +65,7 @@ CREATE TABLE `project` (
     `start_date` DATE NOT NULL,
     `end_date` DATE NOT NULL,
     `active` BIT NOT NULL DEFAULT 1,
+    `id_deleter` INT UNSIGNED DEFAULT NULL,
     `id_admin_general` INT UNSIGNED NOT NULL,
     PRIMARY KEY (`id_project`),
     FOREIGN KEY (`id_admin_general`) REFERENCES `admin_general`(`id_admin_general`)
@@ -84,13 +85,15 @@ VALUES
     ('PMB', 'Miembro del proyecto');
 
 -- Tabla para guardar los miembros del proyecto
-DROP TABLE IF EXISTS `members_project`;
-CREATE TABLE `members_project` (
-    `id_members_project` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `project_has_collaborator`;
+CREATE TABLE `project_has_collaborator` (
+    `id_project_has_collaborator` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `id_project` INT UNSIGNED NOT NULL,
     `id_collaborator` INT UNSIGNED NOT NULL,
+    `active` BIT NOT NULL DEFAULT 1,
+    `id_deleter`  INT UNSIGNED DEFAULT NULL,
     `id_project_role` CHAR(3) NOT NULL,
-    PRIMARY KEY (`id_members_project`),
+    PRIMARY KEY (`id_project_has_collaborator`),
     FOREIGN KEY (`id_project`) REFERENCES `project`(`id_project`),
     FOREIGN KEY (`id_collaborator`) REFERENCES `collaborator`(`id_collaborator`),
     FOREIGN KEY (`id_project_role`) REFERENCES `project_role`(`id_project_role`)
@@ -168,7 +171,7 @@ VALUES
     (13, 'Desarrollo de software de automatización de procesos', 'Software de automatización de procesos para empresa de manufactura', '2023-04-29', 'O', '2023-05-01', '2023-06-01', 1),
     (14, 'Tilin Super proyecto 10k soles', 'app web para la creación de equipos de desarrollo web', '2023-01-01', 'O', '2023-01-05', '2023-06-28', 1);
 
-INSERT INTO `members_project` (`id_members_project`, `id_project`, `id_collaborator`, `id_project_role`) 
+INSERT INTO `project_has_collaborator` (`id_project_has_collaborator`, `id_project`, `id_collaborator`, `id_project_role`) 
 VALUES
     (1, 1, 2, 'PLD'),
     (2, 1, 3, 'PMB'),
@@ -262,12 +265,12 @@ BEGIN
         u.user_surname,
         u.email,
         u.url_photo,
-        mmr.id_project_role
+        phc.id_project_role
     FROM project p
-    INNER JOIN members_project mmr ON p.id_project = mmr.id_project
-    INNER JOIN user u ON mmr.id_collaborator = u.id_user
+    INNER JOIN project_has_collaborator phc ON p.id_project = phc.id_project
+    INNER JOIN user u ON phc.id_collaborator = u.id_user
     WHERE p.active = 1
-    AND mmr.id_project_role = "PLD"
+    AND phc.id_project_role = "PLD"
     AND p.project_name LIKE @search_project_name
     ORDER BY p.creation_date ASC, p.project_name ASC
     LIMIT 8;
@@ -328,7 +331,7 @@ BEGIN
     -- Seteando el ultimo id de proyecto insertado
     SET @id_project = LAST_INSERT_ID();
     -- Insertando el miembro que sera lider
-    INSERT INTO members_project (
+    INSERT INTO project_has_collaborator (
         id_project,
         id_collaborator,
         id_project_role
@@ -353,10 +356,10 @@ CREATE PROCEDURE `sp_update_project_by_project_id`(
     IN p_id_collaborator INT
 )
 BEGIN
-    -- Extrayendo el id_members_project segun el id_project y si es PLD
-    SET @id_members_project = (
-        SELECT id_members_project
-        FROM members_project
+    -- Extrayendo el id_project_has_collaborator segun el id_project y si es PLD
+    SET @id_project_has_collaborator = (
+        SELECT id_project_has_collaborator
+        FROM project_has_collaborator
         WHERE id_project = p_id_project
         AND id_collaborator = p_id_collaborator
         AND id_project_role = "PLD"
@@ -368,21 +371,18 @@ BEGIN
         start_date = p_project_start_date,
         end_date = p_project_end_date
     WHERE id_project = p_id_project;
-    -- Actualizando la tabla "members_project"
-    UPDATE members_project
+    -- Actualizando la tabla "project_has_collaborator"
+    UPDATE project_has_collaborator
     SET id_collaborator = p_id_collaborator
-    WHERE id_members_project = @id_members_project;
-
-    SELECT 'SUCCESS' AS 'message';
+    WHERE id_project_has_collaborator = @id_project_has_collaborator;
 END //
 DELIMITER ;
--- CALL sp_update_project_by_project_id(2, "pelon csm", "sistema de gestión para empresa de logística", "2023-05-10", "2023-05-10", 5);
 
 -- SP para la eliminación de un projecto
 DELIMITER //
 CREATE PROCEDURE `sp_delete_project_by_id_project`(
-    IN p_id_admin_general INT,
-    IN p_id_project INT
+    IN p_id_project INT,
+    IN p_id_admin_general INT
 )
 BEGIN
     -- Validando si el proyecto que se quiere eliminar aun existe (esta activado)
@@ -391,15 +391,18 @@ BEGIN
         FROM project
         WHERE id_project = p_id_project
         AND active = 1
+        AND id_admin_general = p_id_admin_general
     ) THEN
         -- Actualizando "Eliminando" el registro del proyecto
         UPDATE project
-        SET active = 0
+        SET active = 0,
+            id_deleter = p_id_admin_general
         WHERE id_project = p_id_project;
+        -- Cuando es exitoso
+        SELECT 'SUCCESS' AS 'message';
     ELSE
-        SELECT 'PROJECT_NOT_EXISTS' AS 'message';
+        SELECT 'NOT_DELETED' AS 'message';
     END IF;
-    SELECT 'SUCCESS' AS 'message', p_id_admin_general AS 'id_admin_general';
 END //
 DELIMITER ;
 
@@ -421,10 +424,10 @@ BEGIN
         p.start_date AS "project_start_date",
         p.end_date AS "project_end_date"
     FROM project p
-    INNER JOIN members_project mmr ON p.id_project = mmr.id_project
-    INNER JOIN user u ON mmr.id_collaborator = u.id_user
+    INNER JOIN project_has_collaborator phc ON p.id_project = phc.id_project
+    INNER JOIN user u ON phc.id_collaborator = u.id_user
     WHERE p.active = 1
-    AND mmr.id_collaborator = p_id_collaborator
+    AND phc.id_collaborator = p_id_collaborator
     AND p.project_name LIKE @search_project_name
     ORDER BY p.creation_date ASC, p.project_name ASC
     LIMIT 8;
@@ -447,19 +450,19 @@ BEGIN
         u.user_name AS "collaborator_name",
         u.user_surname AS "collaborator_surname",
         u.url_photo AS "collaborator_url_photo",
-        mmr.id_project_role AS "id_project_role_name",
+        phc.id_project_role AS "id_project_role",
         pr.project_role_name AS "project_role_name"
     FROM project p
-    INNER JOIN members_project mmr ON p.id_project = mmr.id_project
-    INNER JOIN user u ON mmr.id_collaborator = u.id_user
-    INNER JOIN project_role pr ON pr.id_project_role = mmr.id_project_role
+    INNER JOIN project_has_collaborator phc ON p.id_project = phc.id_project
+    INNER JOIN user u ON phc.id_collaborator = u.id_user
+    INNER JOIN project_role pr ON pr.id_project_role = phc.id_project_role
     WHERE p.active = 1
     AND p.id_project = p_id_project
     ORDER BY p.project_name ASC, p.creation_date ASC;
 END //
 DELIMITER ;
 
--- SP para ...
+-- SP para actualizar la fecha de finalización por parte del leader
 DELIMITER //
 CREATE PROCEDURE `sp_update_end_date_leader`(
     IN p_id_project INT,
@@ -490,8 +493,8 @@ BEGIN
     INSERT INTO temporary_table_user_ids (id)
     SELECT u.id_user
     FROM project p
-    INNER JOIN members_project mmr ON p.id_project = mmr.id_project
-    INNER JOIN user u ON mmr.id_collaborator = u.id_user
+    INNER JOIN project_has_collaborator phc ON p.id_project = phc.id_project
+    INNER JOIN user u ON phc.id_collaborator = u.id_user
     WHERE p.active = 1
     AND p.id_project = p_id_project;
 
@@ -504,8 +507,8 @@ BEGIN
         u.user_surname AS "collaborator_surname",
         u.url_photo AS "collaborator_url_photo"
     FROM project p
-    INNER JOIN members_project mmr ON p.id_project = mmr.id_project
-    INNER JOIN user u ON mmr.id_collaborator = u.id_user
+    INNER JOIN project_has_collaborator phc ON p.id_project = phc.id_project
+    INNER JOIN user u ON phc.id_collaborator = u.id_user
     WHERE p.active = 1
     AND p.id_project != p_id_project
     AND u.id_user NOT IN (
@@ -516,5 +519,90 @@ BEGIN
     ORDER BY u.user_name ASC, u.user_surname ASC;
 
     DROP TEMPORARY TABLE IF EXISTS temporary_table_user_ids;
+END //
+DELIMITER ;
+
+-- Sp para la Agregar
+DELIMITER //
+CREATE PROCEDURE `sp_add_project_members`(
+    IN p_id_project INT,
+    IN p_collaborator_id_list VARCHAR(100)
+)
+BEGIN
+    -- validación
+    IF EXISTS (
+        SELECT *
+        FROM project
+        WHERE id_project = p_id_project
+        AND active = 1
+    ) THEN
+        -- Validando si el member ya existe en el proyecto
+        IF EXISTS (
+            SELECT *
+            FROM project_has_collaborator
+            WHERE id_project = p_id_project
+            AND FIND_IN_SET(id_collaborator, p_collaborator_id_list)
+            AND active = 1
+        ) THEN
+            SELECT 'SOME_COLLABORATORS_EXIST_IN_PROJECT' AS 'message';
+        ELSE
+            -- Insertar el ID extraído en la tabla temporal
+            INSERT INTO project_has_collaborator (id_project, id_collaborator, id_project_role)
+            SELECT p_id_project, id_collaborator, 'PMB'
+            FROM collaborator 
+            WHERE FIND_IN_SET(id_collaborator, p_collaborator_id_list);
+
+            -- Mensaje de exito
+            SELECT 'SUCCESS' AS 'message';
+        END IF;
+    ELSE
+        SELECT 'PROJECT_NOT_EXISTS' AS 'message';
+    END IF;
+END //
+DELIMITER ;
+
+-- SP para la eliminación de un miembro de proyecto
+DELIMITER //
+CREATE PROCEDURE `sp_delete_project_member`(
+    IN p_id_project_has_collaborator INT,
+    IN p_id_collaborator INT
+)
+BEGIN
+    SELECT id_project, id_project_has_collaborator
+    INTO @id_project, @project_has_collaborator
+    FROM project_has_collaborator
+    WHERE active = 1
+    AND id_collaborator = p_id_collaborator
+    AND id_project_role = "PLD";
+    -- Validando los datos
+    IF EXISTS(
+        SELECT *
+        FROM project_has_collaborator
+        WHERE active = 1
+        AND id_collaborator = p_id_collaborator
+        AND id_project_has_collaborator = @id_project_has_collaborator
+        AND id_project_role = "PLD"
+    ) THEN
+        SELECT 'NOT_DELETED_PROJECT_ROLE_IS_PLD' AS 'message';
+    -- Validando si el proyecto que se quiere eliminar aun existe (esta activado)
+    ELSEIF EXISTS(
+        SELECT id_collaborator
+        FROM project_has_collaborator
+        WHERE active = 1
+        AND id_project_has_collaborator = p_id_project_has_collaborator
+        AND id_project = @id_project
+        AND id_project_role != "PLD"
+    ) THEN
+        -- Actualizando "Eliminando" el registro del proyecto
+        UPDATE project_has_collaborator
+        SET active = 0,
+            id_deleter = p_id_collaborator
+        WHERE id_project = @id_project
+        AND id_project_has_collaborator = p_id_project_has_collaborator;
+        -- Cuando es exitoso
+        SELECT 'SUCCESS' AS 'message';
+        ELSE
+            SELECT 'COLLABORATOR_NOT_EXIST_IN_PROJECT' AS 'message';
+    END IF;
 END //
 DELIMITER ;
