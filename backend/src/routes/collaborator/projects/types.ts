@@ -1,4 +1,4 @@
 export type GetProjectListForCollaboratorRequestBody = {
-    collaboratorId: number,
-    projectName: string
+    projectName: string,
+    collaboratorId: number
 };

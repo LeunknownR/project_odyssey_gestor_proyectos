@@ -57,24 +57,3 @@ export const parseToDeleteProjectRequestBody = (body: any): DeleteProjectRequest
         throw new Error("Invalid form to delete project");
     return { userId, projectId };
 }
-// export const parseToUpdateProjectRequestBody = (body: any): ProjectForm => {
-//     const {
-//         id, name, description,
-//         startDate, endDate, leaderId
-//     } = body;
-//     if (!isPositiveNumber(id) ||
-//         !isLimitMaximString(name, 255) || 
-//         !isLimitMaximString(description, 200)  ||
-//         !isPositiveNumber(startDate) || 
-//         !isPositiveNumber(endDate) ||
-//         !isPositiveNumber(leaderId))
-//         throw new Error("Invalid form to update project");
-//     return {
-//         id,
-//         name,
-//         description,
-//         startDate,
-//         endDate,
-//         leaderId
-//     };
-// }

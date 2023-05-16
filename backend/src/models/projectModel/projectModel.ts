@@ -1,10 +1,12 @@
 import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
-import { 
-    AddProjectMembersRequestBody, 
-    ProjectForm, 
-    SearchCollaboratorRequestBody, 
-    UpdateEndDateProjectRequestBody } from "../../entities/project/types";
+import {
+    AddProjectMembersRequestBody,
+    DeleteProjectMemberRequestBody,
+    ProjectForm,
+    SearchCollaboratorRequestBody,
+    UpdateEndDateProjectRequestBody
+} from "../../entities/project/types";
 import { GetProjectListForCollaboratorRequestBody } from "../../routes/collaborator/projects/types";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 
@@ -60,12 +62,12 @@ export default abstract class ProjectModel {
         return information.affectedRows;
     }
     static async getProjectListForCollaborator({
-        collaboratorId,
-        projectName
+        projectName,
+        collaboratorId
     }: GetProjectListForCollaboratorRequestBody): Promise<any[]> {
         const [resultset] = await DBConnection.query(
             StoredProcedures.GetProjectListByCollaborator,
-            [collaboratorId, projectName]);
+            [projectName, collaboratorId]);
         return resultset;
     }
     static async updateEndDateProjectByLeader({
@@ -109,14 +111,24 @@ export default abstract class ProjectModel {
         return resultset;
     }
     static async addProjectMembers({
-        projectId,
-        membersIds
+        projectId, membersIds
     }: AddProjectMembersRequestBody): Promise<number> {
         const information = await DBConnection.query(
             StoredProcedures.AddProjectMembers,
             [
                 projectId,
                 membersIds.join(",")
+            ]);
+        return information.affectedRows;
+    }
+    static async deleteProjectMember({
+        userId, projectHasMemberId
+    }: DeleteProjectMemberRequestBody): Promise<number> {
+        const information = await DBConnection.query(
+            StoredProcedures.AddProjectMembers,
+            [
+                userId,
+                projectHasMemberId
             ]);
         return information.affectedRows;
     }
