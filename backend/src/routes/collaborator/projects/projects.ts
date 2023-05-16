@@ -15,6 +15,7 @@ router.use("/", Authentication.checkTokenInEndpoints(DBRoles.Collaborator));
 router.get(ApiPathEndpointsCollaborator.GetProjectListForCollaborator,
     withErrorHandler(async (req, res) => {
         const projectName: string = parseToProjectName(req.params);
+        console.log(projectName)
         const payload: ResponseBody = await ProjectController.getProjectListForCollaborator(projectName);
         GenerateResponseBody.sendResponse(res, payload);
     }));

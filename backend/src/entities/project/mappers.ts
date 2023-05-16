@@ -31,11 +31,11 @@ export const projectListByGeneralAdminMapper = (resultset: any[]): GroupedProjec
     };
 }
 const projectByCollaboratorMapper = (record: any): ProjectByCollaborator => ({
-    id: record["id"],
-    name: record["name"],
+    id: record["id_project"],
+    name: record["project_name"],
     description: record["description"],
-    startDate: record["start_date"],
-    endDate: record["end_date"],
+    startDate: record["start_date"].getTime(),
+    endDate: record["end_date"].getTime(),
     state: record["state"],
 });
 export const projectListByCollaboratorMapper = (resultset: any[]): GroupedProjectListForCollaborator => {
@@ -50,7 +50,7 @@ export const projectDetailsMapper = (resultset: any[]): ProjectDetails => {
     return {
         name: header["project_name"],
         description: header["description"],
-        endDate: header["end_date"],
+        endDate: header["end_date"].getTime(),
         period: header["period_project"],// 10-05-2023 / 10-10-2023
         collaborators: resultset.map(projectCollaboratorMapper)
     };

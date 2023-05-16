@@ -38,6 +38,7 @@ export default abstract class ProjectController {
     }
     static async updateProject(projectForm: ProjectForm): Promise<ResponseBody> {
         const affectedRows: number = await ProjectModel.updateProject(projectForm);
+        console.log(affectedRows)
         if (affectedRows === 0)
             throw new Error("It couldn't be update the project");
         return {

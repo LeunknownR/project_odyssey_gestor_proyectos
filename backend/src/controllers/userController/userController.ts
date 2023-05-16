@@ -9,7 +9,7 @@ import { userFromRecordMapper } from "../../entities/user/mappers";
 export default abstract class UserController {
     static login = async ({ username, password }: Credentials) => {
         const recordPassword: any = await UserModel.getUserPasswordByUsername(username);
-        const currentPasswordHashed: string = recordPassword["userpass"];
+        const currentPasswordHashed: string = recordPassword["userpassword"];
         if (!currentPasswordHashed)
             return {
                 message: "INVALID_USER",
