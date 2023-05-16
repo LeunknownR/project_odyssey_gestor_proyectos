@@ -74,11 +74,11 @@ CREATE TABLE `project` (
 DROP TABLE IF EXISTS `project_role`;
 CREATE TABLE `project_role` (
     `id_project_role` CHAR(3) NOT NULL,
-    `name` VARCHAR(30) NOT NULL,
+    `project_role_name` VARCHAR(30) NOT NULL,
     PRIMARY KEY (`id_project_role`)
 );
 -- Insertando valores a "project_role"
-INSERT INTO `project_role`(`id_project_role`, `name`)
+INSERT INTO `project_role`(`id_project_role`, `project_role_name`)
 VALUES 
     ('PLD', 'Líder del proyecto'),
     ('PMB', 'Miembro del proyecto');
@@ -103,24 +103,24 @@ CREATE TABLE `members_project` (
 INSERT INTO `user` (`id_user`, `user_name`, `user_surname`, `username`, `userpassword`, `url_photo`, `email`, `id_role`) 
 VALUES
     (1, 'Diego Edgardo', 'Torres De La Cruz', 'diegot', '$2a$10$5lDSbUyMEVZbfPFRiYuemesPnHyfdzCyRGoFJNDVpmuhmcFy5Soxe', '/diegot.jpg', 'diegoteodosiof@gmail.com', 'GAD'),
-    (2, 'Manuel Alejandro', 'Rivera Becerra', 'manuelr', '$2a$10$FOuqRzBR7drrXGku/hvJAunSKwNzFBxd.0HvL847iazSnLqftCuyG', '/manuelr.jpg', 'leunknownr@gmail.com', 'CLB'),
-    (3, 'Ralf Carsten', 'Carrasco Stein', 'ralfc', '$2a$10$yhW0eomyv23YbJTx.FG4keIKdmVi4HS9PEoZ5SMtJhRRLYhZFFi8a', '/ralfc.jpg', 'ralfcarrasco@gmail.com', 'CLB'),
-    (4, 'John', 'Doe', 'johnd', '$2a$10$JHyPCOL0YKEv.x11woSC4eBAIiQRog75kMn8Hdov0qjwvVgdY5.Na', '/johndoe.jpg', 'johndoe@example.com', 'CLB'),
-    (5, 'Jane', 'Doe', 'janed', '$2a$10$.8vLiaBYFYmaBMcFWmk0YefUvnitcAZh83Dyjrqtz52O7AbrZ/LNa', '/janedoe.jpg', 'janedoe@example.com', 'CLB'),
-    (6, 'Alice', 'Smith', 'alices', '$2a$10$0hkuRJzYuG4KTgcVruYjLOzqk0RNkieLkSTcrZjhprkPsTcBSuBju', '/alicesmith.jpg', 'alicesmith@example.com', 'CLB'),
-    (7, 'Bob', 'Johnson', 'bobj', '$2a$10$ZSKPZnbVXx5hSUTUbjqF9OaMx3PWVxnVyUFTxqManmlDluKweA/QG', '/bobjohnson.jpg', 'bobjohnson@example.com', 'CLB'),
-    (8, 'Maria', 'Garcia', 'mariag', '$2a$10$ZxEqZvDqnL2V4Qe4dK5xAuwkeZFirKECxZRDOYkX4DBs8Do2yR3Te', '/mariagarcia.jpg', 'mariagarcia@example.com', 'CLB'),
-    (9, 'Jose', 'Martinez', 'josem', '$2a$10$nRus1hX3stTK5cAVMHi3MeJEDxaQMslfCunxuNboFQbgsKFpSqzwW', '/josemartinez.jpg', 'josemartinez@example.com', 'CLB'),
-    (10, 'Amanda', 'Brown', 'amandab', '$2a$10$aDD7cz/hQnoD2VTDiTAmOeqFj/.hZhIcCGLERPnIIUBlX0aOc85Pi', '/amandabrown.jpg', 'amandabrown@example.com', 'CLB'),
-    (11, 'Matthew', 'Davis', 'matthewd', '$2a$10$CXEPzSABiUSUXNcSLQgO5eentZKf8.pe7RgKSDSbqKERW/dPagOMu', '/matthewdavis.jpg', 'matthewdavis@example.com', 'CLB'),
-    (12, 'Ashley', 'Wilson', 'ashleyw', '$2a$10$9ZvfMaJR.ndHpk3KcuFmM.t0P/Vl.AaGtPsYRyb6a4VUC509JX9le', '/ashleywilson.jpg', 'ashleywilson@example.com', 'CLB'),
-    (13, 'Michael', 'Anderson', 'michaela', '$2a$10$CbL0aK4/CL7jW6Ijpk1LveCstTbt7Pqk9Bm3Lbj9rXZKTfVx79Pea', '/michaelanderson.jpg', 'michaelanderson@example.com', 'CLB'),
-    (14, 'Linda', 'Gonzalez', 'lindag', '$2a$10$Cb/Z8lUXXzfntJJlBDY1W.AdmI2KxpqZrzkSCEZf86t52kBHM7qL.', '/lindagonzalez.jpg', 'lindagonzalez@example.com', 'CLB'),
-    (15, 'David', 'Taylor', 'davidt', '$2a$10$ZFzFpb2V30WQwnBVwxkzvehkNqTMZW80G79gQ/mgwnxDwVEhL8ANu', '/davidtaylor.jpg', 'davidtaylor@example.com', 'CLB'),
-    (16, 'Sarah', 'Lee', 'sarahl', '$2a$10$1R1ypXm5VjeKxlOK/039S.ySrKQk0EF/oCaG0k1eXhdSZDv9H1lZu', '/sarahlee.jpg', 'sarahlee@example.com', 'CLB'),
-    (17, 'Daniel', 'Martin', 'danielm', '$2a$10$0MZ61DjO5ENfW1OeOSYRgO7tZsLvkBnDFsPP3ofUefAeSusS6c3g2', '/danielmartin.jpg', 'danielmartin@example.com', 'CLB'),
-    (18, 'Emily', 'Clark', 'emilyc', '$2a$10$YdgwhXh9MNvThP9hUm3MZe1lJetaCut/bml9R.4sEpobZYEwG1ig2', '/emilyclark.jpg', 'emilyclark@example.com', 'CLB'),
-    (19, 'Christopher', 'Rodriguez', 'christopherr', '$2a$10$MRVVtZqyPY51FkZotVjgWuGM/0TKuvFOekfW2DdBrDPT3p6jRzq.S', '/christopherrodriguez.jpg', 'christopherrodriguez@example.com', 'CLB');
+    (2, 'Manuel Alejandro', 'Rivera Becerra', 'manuelr', '$2a$10$FOuqRzBR7drrXGku/hvJAunSKwNzFBxd.0HvL847iazSnLqftCuyG', NULl, 'leunknownr@gmail.com', 'CLB'),
+    (3, 'Ralf Carsten', 'Carrasco Stein', 'ralfc', '$2a$10$yhW0eomyv23YbJTx.FG4keIKdmVi4HS9PEoZ5SMtJhRRLYhZFFi8a', NULL, 'ralfcarrasco@gmail.com', 'CLB'),
+    (4, 'John', 'Doe', 'johnd', '$2a$10$JHyPCOL0YKEv.x11woSC4eBAIiQRog75kMn8Hdov0qjwvVgdY5.Na', NULL, 'johndoe@example.com', 'CLB'),
+    (5, 'Jane', 'Doe', 'janed', '$2a$10$.8vLiaBYFYmaBMcFWmk0YefUvnitcAZh83Dyjrqtz52O7AbrZ/LNa', NULL, 'janedoe@example.com', 'CLB'),
+    (6, 'Alice', 'Smith', 'alices', '$2a$10$0hkuRJzYuG4KTgcVruYjLOzqk0RNkieLkSTcrZjhprkPsTcBSuBju', NULL, 'alicesmith@example.com', 'CLB'),
+    (7, 'Bob', 'Johnson', 'bobj', '$2a$10$ZSKPZnbVXx5hSUTUbjqF9OaMx3PWVxnVyUFTxqManmlDluKweA/QG', NULL, 'bobjohnson@example.com', 'CLB'),
+    (8, 'Maria', 'Garcia', 'mariag', '$2a$10$ZxEqZvDqnL2V4Qe4dK5xAuwkeZFirKECxZRDOYkX4DBs8Do2yR3Te', NULL, 'mariagarcia@example.com', 'CLB'),
+    (9, 'Jose', 'Martinez', 'josem', '$2a$10$nRus1hX3stTK5cAVMHi3MeJEDxaQMslfCunxuNboFQbgsKFpSqzwW', NULL, 'josemartinez@example.com', 'CLB'),
+    (10, 'Amanda', 'Brown', 'amandab', '$2a$10$aDD7cz/hQnoD2VTDiTAmOeqFj/.hZhIcCGLERPnIIUBlX0aOc85Pi', NULL, 'amandabrown@example.com', 'CLB'),
+    (11, 'Matthew', 'Davis', 'matthewd', '$2a$10$CXEPzSABiUSUXNcSLQgO5eentZKf8.pe7RgKSDSbqKERW/dPagOMu', NULL, 'matthewdavis@example.com', 'CLB'),
+    (12, 'Ashley', 'Wilson', 'ashleyw', '$2a$10$9ZvfMaJR.ndHpk3KcuFmM.t0P/Vl.AaGtPsYRyb6a4VUC509JX9le', NULL, 'ashleywilson@example.com', 'CLB'),
+    (13, 'Michael', 'Anderson', 'michaela', '$2a$10$CbL0aK4/CL7jW6Ijpk1LveCstTbt7Pqk9Bm3Lbj9rXZKTfVx79Pea', NULL, 'michaelanderson@example.com', 'CLB'),
+    (14, 'Linda', 'Gonzalez', 'lindag', '$2a$10$Cb/Z8lUXXzfntJJlBDY1W.AdmI2KxpqZrzkSCEZf86t52kBHM7qL.', NULL, 'lindagonzalez@example.com', 'CLB'),
+    (15, 'David', 'Taylor', 'davidt', '$2a$10$ZFzFpb2V30WQwnBVwxkzvehkNqTMZW80G79gQ/mgwnxDwVEhL8ANu', NULL, 'davidtaylor@example.com', 'CLB'),
+    (16, 'Sarah', 'Lee', 'sarahl', '$2a$10$1R1ypXm5VjeKxlOK/039S.ySrKQk0EF/oCaG0k1eXhdSZDv9H1lZu', NULL, 'sarahlee@example.com', 'CLB'),
+    (17, 'Daniel', 'Martin', 'danielm', '$2a$10$0MZ61DjO5ENfW1OeOSYRgO7tZsLvkBnDFsPP3ofUefAeSusS6c3g2', NULL, 'danielmartin@example.com', 'CLB'),
+    (18, 'Emily', 'Clark', 'emilyc', '$2a$10$YdgwhXh9MNvThP9hUm3MZe1lJetaCut/bml9R.4sEpobZYEwG1ig2', NULL, 'emilyclark@example.com', 'CLB'),
+    (19, 'Christopher', 'Rodriguez', 'christopherr', '$2a$10$MRVVtZqyPY51FkZotVjgWuGM/0TKuvFOekfW2DdBrDPT3p6jRzq.S', NULL, 'christopherrodriguez@example.com', 'CLB');
 
 
 -- Insertando datos en la tabla admin. General
@@ -250,7 +250,6 @@ CREATE PROCEDURE `sp_get_project_list_by_project_name`(
 BEGIN
     -- Seteando lo que se desea buscar con el formato más optimo
     SET @search_project_name = UPPER(CONCAT('%',p_project_name,'%'));
-
     -- Consulta para traer los datos
     SELECT 
         p.id_project,
@@ -283,7 +282,6 @@ CREATE PROCEDURE `sp_search_collaborator_by_username`(
 BEGIN
     -- Seteando lo que se desea buscar con el formato más optimo
     SET @search_collaborator_name = UPPER(CONCAT('%',p_collaborator_name,'%'));
-
     -- Trayendo la información cuando el usernema coincida
     SELECT
         clb.id_collaborator,
@@ -327,10 +325,8 @@ BEGIN
         p_project_end_date,
         p_id_admin_general
     );
-
     -- Seteando el ultimo id de proyecto insertado
     SET @id_project = LAST_INSERT_ID();
-
     -- Insertando el miembro que sera lider
     INSERT INTO members_project (
         id_project,
@@ -341,37 +337,51 @@ BEGIN
         p_id_collaborator,
         'PLD'
     );
-
     -- Mostrando el mensaje de exito
-    SELECT 'SUCCESS' AS 'MESSAGE';
+    SELECT 'SUCCESS' AS 'message';
 END //
 DELIMITER ;
 
 -- SP para actualizar un projecto identificandolo por su id_project
--- DELIMITER //
--- CREATE PROCEDURE `sp_update_project_by_project_id`(
---     IN p_id_project INT,
---     IN p_project_name VARCHAR(50),
---     IN p_project_description VARCHAR(200),
---     IN p_project_start_date DATE,
---     IN p_project_end_date DATE,
---     IN p_id_collaborator INT
--- )
--- BEGIN
---     -- Para
---     UPDATE project
---     SET project_name = p_project_name,
---         description = p_project_description,
---         start_date = p_project_start_date,
---         end_date = p_project_end_date,
---         id_collaborator = p_id_collaborator
---     WHERE id_project = p_id_project
--- END //
--- DELIMITER ;
+DELIMITER //
+CREATE PROCEDURE `sp_update_project_by_project_id`(
+    IN p_id_project INT,
+    IN p_project_name VARCHAR(50),
+    IN p_project_description VARCHAR(200),
+    IN p_project_start_date DATE,
+    IN p_project_end_date DATE,
+    IN p_id_collaborator INT
+)
+BEGIN
+    -- Extrayendo el id_members_project segun el id_project y si es PLD
+    SET @id_members_project = (
+        SELECT id_members_project
+        FROM members_project
+        WHERE id_project = p_id_project
+        AND id_collaborator = p_id_collaborator
+        AND id_project_role = "PLD"
+    );
+    -- Actualizando la tabla "project"
+    UPDATE project
+    SET project_name = p_project_name,
+        description = p_project_description,
+        start_date = p_project_start_date,
+        end_date = p_project_end_date
+    WHERE id_project = p_id_project;
+    -- Actualizando la tabla "members_project"
+    UPDATE members_project
+    SET id_collaborator = p_id_collaborator
+    WHERE id_members_project = @id_members_project;
+
+    SELECT 'SUCCESS' AS 'message';
+END //
+DELIMITER ;
+-- CALL sp_update_project_by_project_id(2, "pelon csm", "sistema de gestión para empresa de logística", "2023-05-10", "2023-05-10", 5);
 
 -- SP para la eliminación de un projecto
 DELIMITER //
 CREATE PROCEDURE `sp_delete_project_by_id_project`(
+    IN p_id_admin_general INT,
     IN p_id_project INT
 )
 BEGIN
@@ -387,34 +397,35 @@ BEGIN
         SET active = 0
         WHERE id_project = p_id_project;
     ELSE
-        SELECT 'PROJECT_NOT_EXISTS' AS 'MESSAGE';
+        SELECT 'PROJECT_NOT_EXISTS' AS 'message';
     END IF;
-    SELECT 'SUCCESS' AS 'MESSAGE';
+    SELECT 'SUCCESS' AS 'message', p_id_admin_general AS 'id_admin_general';
 END //
 DELIMITER ;
 
 -- SP para listar los proyectos segun su nombre
 DELIMITER //
-CREATE PROCEDURE `sp_get_project_list_by_collaborator_name`(
-    IN p_collaborator_name VARCHAR(50)
+CREATE PROCEDURE `sp_get_project_list_for_collaborator`(
+    IN p_project_name VARCHAR(50),
+    IN p_id_collaborator INT
 )
 BEGIN
     -- Seteando lo que se desea buscar con el formato más optimo
-    SET @search_collaborator_name = UPPER(CONCAT('%',p_collaborator_name,'%'));
-
+    SET @search_project_name = UPPER(CONCAT('%',p_project_name,'%'));
     -- Consulta para traer los datos
     SELECT 
         p.id_project,
         p.project_name,
-        p.description,
-        p.state,
-        p.start_date,
-        p.end_date
+        p.description AS "project_description",
+        p.state AS "project_state",
+        p.start_date AS "project_start_date",
+        p.end_date AS "project_end_date"
     FROM project p
     INNER JOIN members_project mmr ON p.id_project = mmr.id_project
     INNER JOIN user u ON mmr.id_collaborator = u.id_user
     WHERE p.active = 1
-    AND u.user_name LIKE @search_collaborator_name
+    AND mmr.id_collaborator = p_id_collaborator
+    AND p.project_name LIKE @search_project_name
     ORDER BY p.creation_date ASC, p.project_name ASC
     LIMIT 8;
 END //
@@ -429,13 +440,15 @@ BEGIN
     SELECT
         p.id_project,
         p.project_name,
-        p.description,
-        CONCAT(p.start_date, ' ', p.end_date) AS "period_project",
-        u.user_name,
-        u.user_surname,
-        u.email,
-        u.url_photo,
-        mmr.id_project_role AS "project_role_name"
+        p.description AS "project_description",
+        CONCAT(DATE_FORMAT(p.start_date, '%d-%m-%Y'), ' / ',DATE_FORMAT(p.end_date, '%d-%m-%Y')) AS "period_project",
+        p.end_date AS "project_end_date",
+        u.id_user AS "id_collaborator",
+        u.user_name AS "collaborator_name",
+        u.user_surname AS "collaborator_surname",
+        u.url_photo AS "collaborator_url_photo",
+        mmr.id_project_role AS "id_project_role_name",
+        pr.project_role_name AS "project_role_name"
     FROM project p
     INNER JOIN members_project mmr ON p.id_project = mmr.id_project
     INNER JOIN user u ON mmr.id_collaborator = u.id_user
@@ -447,12 +460,61 @@ END //
 DELIMITER ;
 
 -- SP para ...
--- DELIMITER //
--- CREATE PROCEDURE `sp_update_end_date_leader`(
---     IN p_id_project INT,
---     IN p_end_date DATE
--- )
--- BEGIN
---     -- 
--- END //
--- DELIMITER ;
+DELIMITER //
+CREATE PROCEDURE `sp_update_end_date_leader`(
+    IN p_id_project INT,
+    IN p_end_date DATE
+)
+BEGIN
+    -- Actualizando la tabla "project"
+    UPDATE project
+    SET end_date = p_end_date
+    WHERE id_project = p_id_project;
+
+    SELECT 'SUCCESS' AS 'message';
+END //
+DELIMITER ;
+
+-- SP para ...
+DELIMITER //
+CREATE PROCEDURE `sp_search_collaborator_member`(
+    IN p_id_project INT,
+    IN p_collaborator_name VARCHAR(50)
+)
+BEGIN
+    -- temporary_table_user_ids
+     CREATE TEMPORARY TABLE temporary_table_user_ids (
+        id INT
+    );
+    -- INSERTANDO LAS IDs en una tabla temporal
+    INSERT INTO temporary_table_user_ids (id)
+    SELECT u.id_user
+    FROM project p
+    INNER JOIN members_project mmr ON p.id_project = mmr.id_project
+    INNER JOIN user u ON mmr.id_collaborator = u.id_user
+    WHERE p.active = 1
+    AND p.id_project = p_id_project;
+
+    -- Seteando lo que se desea buscar con el formato más optimo
+    SET @search_collaborator_name = UPPER(CONCAT('%',p_collaborator_name,'%'));
+    -- Trayendo datos
+    SELECT DISTINCT
+        u.id_user AS "id_collaborator",
+        u.user_name AS "collaborator_name",
+        u.user_surname AS "collaborator_surname",
+        u.url_photo AS "collaborator_url_photo"
+    FROM project p
+    INNER JOIN members_project mmr ON p.id_project = mmr.id_project
+    INNER JOIN user u ON mmr.id_collaborator = u.id_user
+    WHERE p.active = 1
+    AND p.id_project != p_id_project
+    AND u.id_user NOT IN (
+        SELECT id
+        FROM temporary_table_user_ids
+    )
+    AND u.user_name LIKE @search_collaborator_name
+    ORDER BY u.user_name ASC, u.user_surname ASC;
+
+    DROP TEMPORARY TABLE IF EXISTS temporary_table_user_ids;
+END //
+DELIMITER ;
