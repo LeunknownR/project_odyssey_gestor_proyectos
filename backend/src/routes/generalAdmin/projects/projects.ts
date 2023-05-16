@@ -5,7 +5,12 @@ import { ApiPathEndpointsCollaborator, ApiPathEndpointsGeneralAdmin } from "../.
 import { GenerateResponseBody } from "../../../utils/generateResponseBody";
 import ProjectController from "../../../controllers/projectController/projectController";
 import { ResponseBody } from "../../../utils/types";
-import { parseToCreateProjectRequestBody, parseToProjectIdToDelete, parseToProjectIdToGetDetails, parseToProjectName, parseToUpdateProjectRequestBody } from "./parsers";
+import { 
+    parseToCreateProjectRequestBody, 
+    parseToProjectIdToDelete, 
+    parseToProjectIdToGetDetails, 
+    parseToProjectName, 
+    parseToProjectFormToUpdate } from "./parsers";
 import { parseToCollaboratorName } from "../../collaborator/projects/parsers";
 import { withErrorHandler } from "../../helpers";
 
@@ -35,7 +40,7 @@ router.post(
 router.put(
     ApiPathEndpointsGeneralAdmin.UpdateProject,
     withErrorHandler(async (req, res) => {
-        const updateProjectRequestBody = parseToUpdateProjectRequestBody(req.body);
+        const updateProjectRequestBody = parseToProjectFormToUpdate(req.body);
         const payload: ResponseBody = await ProjectController.updateProject(updateProjectRequestBody);
         GenerateResponseBody.sendResponse(res, payload);
     }));

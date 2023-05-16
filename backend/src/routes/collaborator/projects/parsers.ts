@@ -1,14 +1,14 @@
 import { AddProjectMembersRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../../entities/project/types";
 import { isPositiveArrayNumber, isPositiveNumber } from "../../../utils/numbers";
-import { isLimitMaximString, isString } from "../../../utils/string";
+import { checkMaxLength, isString } from "../../../utils/string";
 
 export const parseToCollaboratorName = (params: any): string => {
-    if (!isLimitMaximString(params.collaboratorName, 100))
+    if (!checkMaxLength(params.collaboratorName, 100))
         throw new Error("Invalid collaboratorName");
     return params.collaboratorName;
 }
 export const parseToSearchCollaboratorRequestBody = (params: any): SearchCollaboratorRequestBody => {
-    if (!isPositiveNumber(params.projectId) && !isLimitMaximString(params.collaboratorName, 100))
+    if (!isPositiveNumber(params.projectId) && !checkMaxLength(params.collaboratorName, 100))
         throw new Error("Invalid collaborator search request body");
     return params;
 }
