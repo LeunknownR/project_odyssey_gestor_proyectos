@@ -1,15 +1,15 @@
 import { ProjectForm } from "../../../entities/project/types";
 import { isPositiveNumber } from "../../../utils/numbers";
-import { checkMaxLength, isString } from "../../../utils/string";
-import { CreateProjectRequestBody } from "./types";
+import { checkLength } from "../../../utils/string";
+import { CreateProjectRequestBody, DeleteProjectRequestBody } from "./types";
 
 export const parseToProjectName = (params: any): string => {
-    if (!checkMaxLength(params.projectName, 255))
+    if (!checkLength(params.projectName, 0, 255))
         throw new Error("Invalid project name");
     return params.projectName;
 }
 export const parseToCollaboratorName = (params: any): string => {
-    if (!checkMaxLength(params.collaboratorName, 100))
+    if (!checkLength(params.collaboratorName, 0, 100))
         throw new Error("Invalid collaborator name");
     return params.projectName;
 }
@@ -19,8 +19,8 @@ export const parseToProjectForm = (body: any, withId: boolean): ProjectForm => {
         startDate, endDate, leaderId
     } = body;
     if ((withId && !isPositiveNumber(id)) ||
-        !checkMaxLength(name, 255) || 
-        !checkMaxLength(description, 200)  ||
+        !checkLength(name, 1, 255) || 
+        !checkLength(description, 1, 200)  ||
         !isPositiveNumber(startDate) || 
         !isPositiveNumber(endDate) ||
         !isPositiveNumber(leaderId))
@@ -51,17 +51,11 @@ export const parseToCreateProjectRequestBody = (body: any): CreateProjectRequest
 export const parseToProjectFormToUpdate = (body: any): ProjectForm => {
     return parseToProjectForm(body, true);
 }
-const parseToProjectId = (params: any, error: string) => {
-    const { projectId } = params;
-    if (!isPositiveNumber(projectId))
-        throw new Error(error);
-    return projectId;
-}
-export const parseToProjectIdToDelete = (params: any): number => {
-    return parseToProjectId(params, "Invalid params to delete project");
-}
-export const parseToProjectIdToGetDetails = (params: any): number => {
-    return parseToProjectId(params, "Invalid project id");
+export const parseToDeleteProjectRequestBody = (body: any): DeleteProjectRequestBody => {
+    const { userId, projectId } = body;
+    if (!isPositiveNumber(userId) || !isPositiveNumber(projectId))
+        throw new Error("Invalid form to delete project");
+    return { userId, projectId };
 }
 // export const parseToUpdateProjectRequestBody = (body: any): ProjectForm => {
 //     const {

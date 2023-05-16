@@ -48,10 +48,11 @@ export const projectListByCollaboratorMapper = (resultset: any[]): GroupedProjec
 export const projectDetailsMapper = (resultset: any[]): ProjectDetails => {
     const [header] = resultset;
     return {
+        id: header["id_project"],
         name: header["project_name"],
-        description: header["description"],
-        endDate: header["end_date"],
+        description: header["project_description"],
         period: header["period_project"],// 10-05-2023 / 10-10-2023
+        endDate: header["project_end_date"].getTime(),
         collaborators: resultset.map(projectCollaboratorMapper)
     };
 };
