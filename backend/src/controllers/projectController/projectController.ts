@@ -12,7 +12,6 @@ import { ResponseBody } from "../../utils/types";
 export default abstract class ProjectController {
     static async getProjectListByGeneralAdmin(projectName: string): Promise<ResponseBody & { data: GroupedProjectListForGeneralAdmin }> {
         const resultset: any[] = await ProjectModel.getProjectListByGeneralAdmin(projectName);
-        console.log(resultset);
         const projectList: GroupedProjectListForGeneralAdmin = projectListByGeneralAdminMapper(resultset);
         return {
             code: ResponseCodes.OK,
@@ -77,7 +76,6 @@ export default abstract class ProjectController {
     }
     static async getProjectDetails(projectId: number): Promise<ResponseBody & { data: ProjectDetails }> {
         const resultset: any[] = await ProjectModel.getProjectDetails(projectId);
-        console.log(resultset);
         if (resultset.length === 0)
             throw new Error("No details of the project");
         const projectDetails: ProjectDetails = projectDetailsMapper(resultset);
