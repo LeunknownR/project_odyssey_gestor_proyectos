@@ -14,8 +14,13 @@ export const Container = styled.div<ContainerProps>`
     width: ${({ width = "100%" }) => width};
     max-width: ${({ maxWidth }) => maxWidth};
     position: relative;
-    &.primary {
+    &.primary,
+    &.secondary {
         gap: 14px;
+    }
+    &.primdary-search,
+    &.secondary-search {
+        gap: 7px;
     }
     @media (max-width: 600px) {
         max-width: unset;
@@ -33,8 +38,17 @@ export const LabelContent = styled.label`
         color: var(--white-1);
         font-size: 20px;
     }
+    &.secondary {
+        font-weight: 700;
+        color: var(--darkblue-1);
+        font-size: 20px;
+    }
     &.primary-search {
         color: var(--darkblue-1);
+        font-size: 17px;
+    }
+    &.secondary-search {
+        color: var(--white-1);
         font-size: 17px;
     }
 `;
@@ -64,9 +78,19 @@ export const Content = styled.div`
         border: 1px solid var(--white-1);
         color: var(--white-2);
         border-radius: 5px;
-        padding: 10px 16px; 
+        padding: 9px 16px;
         ::placeholder {
             color: var(--gray-3);
+        }
+    }
+    &.secondary {
+        background-color: var(--white-1-12);
+        border: 1px solid var(--darkblue-1);
+        color: var(--darkblue-1);
+        border-radius: 5px;
+        padding: 9px 16px;
+        ::placeholder {
+            color: var(--gray-2);
         }
     }
     &.primary-search {
@@ -80,6 +104,13 @@ export const Content = styled.div`
         ::placeholder {
             color: var(--darkblue-1);
         }
+    }
+    &.secondary-search {
+        border-radius: 5px;
+        border: 1px solid var(--white-1);
+        color: var(--white-1);
+        padding: 10px 15px;
+        background-color: rgba(45, 90, 119, 0.2);
     }
     &.header-search {
         border-radius: 8px;
@@ -114,6 +145,13 @@ export const TextField = styled.input`
             font-weight: 400;
         }
     }
+    &.secondary-search {
+        font-weight: 700;
+        ::placeholder {
+            color: var(--gray-2);
+            font-weight: 400;
+        }
+    }
 `;
 export const PasswordRevealer = styled.div`
     display: flex;
@@ -136,7 +174,7 @@ export const PasswordRevealer = styled.div`
 `;
 export const LensContainer = styled.span`
     display: flex;
-    margin-right: 10px;
+    margin: 0 10px;
     .iconify {
         font-size: 20px;
     }

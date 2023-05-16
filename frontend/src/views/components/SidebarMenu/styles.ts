@@ -4,11 +4,13 @@ import styled from "styled-components";
 export const Sidebar = styled.nav`
     display: flex;
     flex-direction: column;
+    position: fixed;
     background-color: var(--darkblue-3);
     height: calc(100% - 75px);
     width: 75px;
     padding-top: 40px;
     gap: 20px;
+    z-index: 1000;
 `;
 export const NewProjectButton = styled.button`
     display: flex;

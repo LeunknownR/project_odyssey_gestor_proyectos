@@ -1,7 +1,7 @@
 import Modal from "src/components/Modal/Modal";
 import { NewProjectModalProps } from "./types";
 import { CloseBtn, Left, Right, Title } from "./styles";
-import NewProjectForm from "./components/NewProjectForm/NewProjectForm";
+import ProjectForm from "./components/ProjectForm/ProjectForm";
 import CustomInputSearch from "src/components/CustomInputSearch/CustomInputSearch";
 import ProjectInfo from "./components/ProjectInfo/ProjectInfo";
 import Footer from "./components/Footer/Footer";
@@ -11,7 +11,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 const testModalStyles = {
     padding: "0",
     borderRadius: "0",
-    maxWidth: "1100px"
+    maxWidth: "1100px",
 };
 const PROV_OP = [
     {
@@ -27,22 +27,26 @@ const NewProjectModal = ({ modalProps }: NewProjectModalProps) => {
                 <Left>
                     <Column width="80%" alignSelf="center" gap="40px">
                         <Title>Nuevo Proyecto</Title>
-                        <NewProjectForm />
+                        <ProjectForm />
                     </Column>
                 </Left>
                 <Right>
-                    <CloseBtn><Icon icon="material-symbols:close" /></CloseBtn>
+                    <CloseBtn>
+                        <Icon icon="material-symbols:close" />
+                    </CloseBtn>
                     <Column width="80%" alignSelf="center" gap="35px">
                         <ProjectInfo />
-                        <CustomInputSearch
-                            label="Líder del proyecto"
-                            placeholder="Ejm: Ral"
-                            variant="primary-search"
-                            options={PROV_OP}
-                            onChange={() => console.log()}
-                            fillOptions={() => console.log()}
-                        />
-                        <Footer />
+                        <Column width="85%" alignSelf="center" gap="100px">
+                            <CustomInputSearch
+                                label="Líder del proyecto"
+                                placeholder="Ejm: Ral"
+                                variant="primary-search"
+                                options={PROV_OP}
+                                onChange={() => console.log()}
+                                fillOptions={() => console.log()}
+                            />
+                            <Footer />
+                        </Column>
                     </Column>
                 </Right>
             </Row>

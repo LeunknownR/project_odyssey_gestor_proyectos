@@ -15,7 +15,7 @@ export const Right = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
-    padding: 85px 0;
+    padding: 85px 0 70px;
 `;
 export const CloseBtn = styled.div`
     position: absolute;

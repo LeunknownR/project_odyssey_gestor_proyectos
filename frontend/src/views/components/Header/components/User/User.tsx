@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import UserImage from "./components/UserImage/UserImage";
+import UserImage from "../../../UserImage/UserImage";
 import UserOptions from "./components/UserOptions/UserOptions";
 import { Container } from "./styles";
 

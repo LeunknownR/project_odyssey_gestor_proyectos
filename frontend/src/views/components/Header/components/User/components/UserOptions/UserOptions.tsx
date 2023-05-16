@@ -9,7 +9,7 @@ import {
 } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Footer from "./components/Footer/Footer";
-import UserImage from "../UserImage/UserImage";
+import UserImage from "../../../../../UserImage/UserImage";
 import { Column } from "src/components/styles";
 import { UserOptionsProps } from "./types";
 import { forwardRef } from "react";

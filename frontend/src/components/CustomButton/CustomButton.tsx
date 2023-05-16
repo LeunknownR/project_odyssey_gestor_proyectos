@@ -12,7 +12,7 @@ const CustomButton = ({
     content,
     disabled = false,
     variant = "main",
-    size = "medium",
+    size,
     // onClick,
     icon,
     width,

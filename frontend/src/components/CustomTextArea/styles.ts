@@ -13,7 +13,7 @@ export const Container = styled.div<ContainerProps>`
     width: ${({ width = "100%" }) => width};
     max-width: ${({ maxWidth }) => maxWidth};
     position: relative;
-    &.primary {
+    &.primary, &.secondary {
         gap: 14px;
     }
 `;
@@ -22,6 +22,11 @@ export const LabelContent = styled.label`
     &.primary {
         font-weight: 700;
         color: var(--white-1);
+        font-size: 20px;
+    }
+    &.secondary {
+        font-weight: 700;
+        color: var(--darkblue-1);
         font-size: 20px;
     }
 `;
@@ -39,6 +44,16 @@ export const Content = styled.div`
         padding: 10px 16px; 
         ::placeholder {
             color: var(--gray-3);
+        }
+    }
+    &.secondary {
+        background-color: var(--white-1-12);
+        border: 1px solid var(--darkblue-1);
+        color: var(--darkblue-1);
+        border-radius: 5px;
+        padding: 9px 16px;
+        ::placeholder {
+            color: var(--gray-2);
         }
     }
 `;

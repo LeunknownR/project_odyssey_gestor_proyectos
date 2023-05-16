@@ -1,27 +1,24 @@
 import Modal from "src/components/Modal/Modal";
 import { SavedChangesModalProps } from "./types";
-import { Container, ContainerButton, IconContainer, TextModal, TitleModal } from "./styles";
+import { IconContainer, TextModal, TitleModal } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import CustomButton from "src/components/CustomButton/CustomButton";
 import { Row } from "src/components/styles";
+import Footer from "./components/Footer/Footer";
 
 const testModalStyles = {
-    padding: "0px",
+    padding: "20px 30px",
+    minWidth: "620px"
 };
 
 const SavedChangesModal = ({ modalProps }: SavedChangesModalProps) => {
     return (
         <Modal {...modalProps} sizeProps={testModalStyles}>
-            <Container>
-            <Row align="center" gap="10px">
+            <Row align="center" gap="10px" justifySelf="flex-start">
                 <IconContainer><Icon icon="iconamoon:attention-square-fill" /></IconContainer>
                 <TitleModal>CAMBIOS GUARDADOS</TitleModal>
             </Row>
-            <TextModal>Los cambios que hizo se han guardado correctamente</TextModal>
-            <ContainerButton>
-                <CustomButton content="Confirmar" width="102.52px"></CustomButton>
-            </ContainerButton>
-            </Container> 
+            <TextModal>Los cambios que hizo se han guardado correctamente.</TextModal>
+            <Footer />
         </Modal>
     );
 };

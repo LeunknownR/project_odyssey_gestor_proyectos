@@ -2,11 +2,11 @@
 import styled from "styled-components";
 //#endregion
 export const Container = styled.div`
-    width: 85%;
     display: flex;
     align-items: center;
     align-self: center;
     position: relative;
+    width: 100%;
 `;
 export const List = styled.div`
     position: absolute;

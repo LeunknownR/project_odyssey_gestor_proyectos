@@ -26,4 +26,5 @@ export const ProjectName = styled.h2`
 export const Description = styled.p`
     font-size: 16px;
     width: 85%;
+    color: var(--dark-2);
 `;
