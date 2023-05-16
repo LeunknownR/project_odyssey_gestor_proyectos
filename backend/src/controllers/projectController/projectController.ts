@@ -4,7 +4,8 @@ import { CollaboratorUser } from "../../entities/collaborator/types";
 import { projectDetailsMapper, projectListByCollaboratorMapper, projectListByGeneralAdminMapper } from "../../entities/project/mappers";
 import { AddProjectMembersRequestBody, GroupedProjectListForGeneralAdmin, GroupedProjectListForCollaborator, ProjectForm, UpdateEndDateProjectRequestBody, ProjectDetails, SearchCollaboratorRequestBody } from "../../entities/project/types";
 import ProjectModel from "../../models/projectModel/projectModel";
-import { CreateProjectRequestBody } from "../../routes/generalAdmin/projects/types";
+import { GetProjectListForCollaboratorRequestBody } from "../../routes/collaborator/projects/types";
+import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 import { ResponseCodes } from "../../utils/responseCodes";
 import { ResponseBody } from "../../utils/types";
 
@@ -46,8 +47,8 @@ export default abstract class ProjectController {
             message: DBMessages.Success
         };
     }
-    static async getProjectListForCollaborator(projectName: string): Promise<ResponseBody & { data: GroupedProjectListForCollaborator }> {
-        const resultset: any[] = await ProjectModel.getProjectListForCollaborator(projectName);
+    static async getProjectListForCollaborator(getProjectListForCollaboratorRequestBody: GetProjectListForCollaboratorRequestBody): Promise<ResponseBody & { data: GroupedProjectListForCollaborator }> {
+        const resultset: any[] = await ProjectModel.getProjectListForCollaborator(getProjectListForCollaboratorRequestBody);
         const projectList: GroupedProjectListForCollaborator = projectListByCollaboratorMapper(resultset);
         return {
             code: ResponseCodes.OK,
@@ -64,13 +65,14 @@ export default abstract class ProjectController {
             message: DBMessages.Success
         };
     }
-    static async deleteProject(projectId: number): Promise<ResponseBody> {
-        const affectedRows: number = await ProjectModel.deleteProject(projectId);
-        if (affectedRows === 0)
+    static async deleteProject(deleteProjectRequestBody: DeleteProjectRequestBody): Promise<ResponseBody> {
+        const record: any = await ProjectModel.deleteProject(deleteProjectRequestBody);
+        if (!record)
             throw new Error("It couldn't be deleted of the project");
+        const message: string = record["MESSAGE"];
         return {
             code: ResponseCodes.OK,
-            message: DBMessages.Success
+            message
         };
     }
     static async getProjectDetails(projectId: number): Promise<ResponseBody & { data: ProjectDetails }> {

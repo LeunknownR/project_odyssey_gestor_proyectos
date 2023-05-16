@@ -20,12 +20,7 @@ export default abstract class DBConnection {
         }
     }
     public static async query(sql: string, params: any[]): Promise<any | any[]> {
-        try {
-            const [res] =  await this.connection.query(sql, params);
-            return res;
-        }
-        catch (err) {
-            console.log(err);    
-        }
+        const [res] =  await this.connection.query(sql, params);
+        return res;
     }
 }

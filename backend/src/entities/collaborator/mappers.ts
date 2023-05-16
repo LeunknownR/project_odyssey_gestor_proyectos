@@ -12,8 +12,8 @@ export const projectRoleMapper = (record: any): ProjectRole => ({
 });
 export const projectCollaboratorMapper = (record: any): ProjectCollaborator => ({
     id: record["id_collaborator"],
-    name: record["user_name"],
-    surname: record["user_surname"],
-    urlPhoto: record["url_photo"],
+    name: record["collaborator_name"],
+    surname: record["collaborator_surname"],
+    urlPhoto: record["collaborator_url_photo"],
     projectRole: projectRoleMapper(record)
 });
