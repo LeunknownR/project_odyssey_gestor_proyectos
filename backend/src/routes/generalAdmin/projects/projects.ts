@@ -1,56 +1,55 @@
 import { Router } from "express";
 import Authentication from "../../../utils/authentication";
 import { DBRoles } from "../../../db/enums";
-import { ApiPathEndpointsCollaborator, ApiPathEndpointsGeneralAdmin } from "../../apiPaths";
+import { ApiPathEndpointsGeneralAdmin } from "../../apiPaths";
 import { GenerateResponseBody } from "../../../utils/generateResponseBody";
 import ProjectController from "../../../controllers/projectController/projectController";
 import { ResponseBody } from "../../../utils/types";
-import { parseToCreateProjectRequestBody, parseToProjectIdToDelete, parseToProjectIdToGetDetails, parseToProjectName, parseToUpdateProjectRequestBody } from "./parsers";
+import { 
+    parseToCreateProjectRequestBody, 
+    parseToDeleteProjectRequestBody, 
+    parseToProjectName, 
+    parseToProjectFormToUpdate } from "./parsers";
 import { parseToCollaboratorName } from "../../collaborator/projects/parsers";
 import { withErrorHandler } from "../../helpers";
+import { CreateProjectRequestBody, DeleteProjectRequestBody } from "./types";
+import { ProjectForm } from "../../../entities/project/types";
 
 const router = Router();
 router.use("/", Authentication.checkTokenInEndpoints(DBRoles.GeneralAdmin));
 router.get(
     ApiPathEndpointsGeneralAdmin.GetProjectListByGeneralAdmin, 
     withErrorHandler(async (req, res) => {
-        const projectName = parseToProjectName(req.params);
+        const projectName: string = parseToProjectName(req.params);
         const payload: ResponseBody = await ProjectController.getProjectListByGeneralAdmin(projectName);
         GenerateResponseBody.sendResponse(res, payload);
-    }));
+    })); 
 router.get(
     ApiPathEndpointsGeneralAdmin.SearchCollaborator,
     withErrorHandler(async (req, res) => {
-        const username = parseToCollaboratorName(req.params);
+        const username: string = parseToCollaboratorName(req.params);
         const payload: ResponseBody = await ProjectController.searchCollaboratorByUsername(username);
         GenerateResponseBody.sendResponse(res, payload);
     }));
 router.post(
     ApiPathEndpointsGeneralAdmin.CreateProject,
     withErrorHandler(async (req, res) => {
-        const createProjectRequestBody = parseToCreateProjectRequestBody(req.body);
+        const createProjectRequestBody: CreateProjectRequestBody = parseToCreateProjectRequestBody(req.body);
         const payload: ResponseBody = await ProjectController.createProject(createProjectRequestBody);
         GenerateResponseBody.sendResponse(res, payload);
     }));
 router.put(
     ApiPathEndpointsGeneralAdmin.UpdateProject,
     withErrorHandler(async (req, res) => {
-        const updateProjectRequestBody = parseToUpdateProjectRequestBody(req.body);
+        const updateProjectRequestBody: ProjectForm = parseToProjectFormToUpdate(req.body);
         const payload: ResponseBody = await ProjectController.updateProject(updateProjectRequestBody);
         GenerateResponseBody.sendResponse(res, payload);
     }));
 router.delete(
     ApiPathEndpointsGeneralAdmin.DeleteProject,
     withErrorHandler(async (req, res) => {
-        const projectId = parseToProjectIdToDelete(req.params);
-        const payload: ResponseBody = await ProjectController.deleteProject(projectId);
-        GenerateResponseBody.sendResponse(res, payload);
-    }));
-router.get(
-    ApiPathEndpointsCollaborator.GetProjectDetails,
-    withErrorHandler(async (req, res) => {
-        const projectId = parseToProjectIdToGetDetails(req.params);
-        const payload: ResponseBody = await ProjectController.getProjectDetails(projectId);
+        const deleteProjectRequestBody: DeleteProjectRequestBody = parseToDeleteProjectRequestBody(req.body);
+        const payload: ResponseBody = await ProjectController.deleteProject(deleteProjectRequestBody);
         GenerateResponseBody.sendResponse(res, payload);
     }));
 

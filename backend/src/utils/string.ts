@@ -1,6 +1,8 @@
 export const isString = (value: any) => {
     return typeof value === "string";
 }
-export const isLimitMaximString = (value: any, limit: number) => {
-    return isString(value) && value.length <= limit && value.length > 0;
+export const checkLength = (value: any, min: number, max: number) => {
+    if (!isString(value))
+        return false;
+    return value.length >= min && value.length <= max;
 }

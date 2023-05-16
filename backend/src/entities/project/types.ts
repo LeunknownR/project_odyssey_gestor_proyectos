@@ -14,6 +14,10 @@ export type AddProjectMembersRequestBody = {
     projectId: number,
     membersIds: number[]
 };
+export type DeleteProjectMemberRequestBody = {
+    userId: number,
+    projectHasMemberId: number
+};
 export type ProjectBase = {
     name: string,
     description: string,
@@ -43,6 +47,7 @@ export type GroupedProjectListForCollaborator = {
     all: ProjectByCollaborator[]
 };
 export type ProjectDetails = {
+    id: number,
     name: string,
     description: string,
     period: string,
