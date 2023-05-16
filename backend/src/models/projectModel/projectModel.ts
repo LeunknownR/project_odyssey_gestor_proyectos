@@ -1,10 +1,11 @@
 import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
-import { 
-    AddProjectMembersRequestBody, 
-    ProjectForm, 
-    SearchCollaboratorRequestBody, 
-    UpdateEndDateProjectRequestBody } from "../../entities/project/types";
+import {
+    AddProjectMembersRequestBody,
+    ProjectForm,
+    SearchCollaboratorRequestBody,
+    UpdateEndDateProjectRequestBody
+} from "../../entities/project/types";
 import { GetProjectListForCollaboratorRequestBody } from "../../routes/collaborator/projects/types";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 
@@ -60,12 +61,12 @@ export default abstract class ProjectModel {
         return information.affectedRows;
     }
     static async getProjectListForCollaborator({
-        collaboratorId,
-        projectName
+        projectName,
+        collaboratorId
     }: GetProjectListForCollaboratorRequestBody): Promise<any[]> {
         const [resultset] = await DBConnection.query(
             StoredProcedures.GetProjectListByCollaborator,
-            [collaboratorId, projectName]);
+            [projectName, collaboratorId]);
         return resultset;
     }
     static async updateEndDateProjectByLeader({

@@ -24,14 +24,8 @@ const router = Router();
 router.use("/", Authentication.checkTokenInEndpoints(DBRoles.Collaborator));
 router.get(ApiPathEndpointsCollaborator.GetProjectListForCollaborator,
     withErrorHandler(async (req, res) => {
-<<<<<<< HEAD
-        const projectName: string = parseToProjectName(req.params);
-        console.log(projectName)
-        const payload: ResponseBody = await ProjectController.getProjectListForCollaborator(projectName);
-=======
         const getProjectListForCollaboratorRequestBody: GetProjectListForCollaboratorRequestBody = parseToGetProjectListForCollaboratorRequestBody(req.params);
         const payload: ResponseBody = await ProjectController.getProjectListForCollaborator(getProjectListForCollaboratorRequestBody);
->>>>>>> 39f30bac3a6e0e143642f2aa3c357c16c53d6ef0
         GenerateResponseBody.sendResponse(res, payload);
     }));
 router.patch(ApiPathEndpointsCollaborator.UpdateEndDateProject,

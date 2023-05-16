@@ -1,5 +1,5 @@
 import { DBMessages } from "../../db/dbMessages";
-import { collaboratorUserMapper } from "../../entities/collaborator/mappers";
+import { collaboratorMemberMapper, collaboratorUserMapper } from "../../entities/collaborator/mappers";
 import { CollaboratorUser } from "../../entities/collaborator/types";
 import { projectDetailsMapper, projectListByCollaboratorMapper, projectListByGeneralAdminMapper } from "../../entities/project/mappers";
 import { AddProjectMembersRequestBody, GroupedProjectListForGeneralAdmin, GroupedProjectListForCollaborator, ProjectForm, UpdateEndDateProjectRequestBody, ProjectDetails, SearchCollaboratorRequestBody } from "../../entities/project/types";
@@ -90,7 +90,7 @@ export default abstract class ProjectController {
         searchCollaboratorRequestBody: SearchCollaboratorRequestBody
     ): Promise<ResponseBody & { data: CollaboratorUser[] }> {
         const resultset: any[] = await ProjectModel.searchCollaboratorsForProjectMember(searchCollaboratorRequestBody);
-        const collaboratorUserList: CollaboratorUser[] = resultset.map(collaboratorUserMapper);
+        const collaboratorUserList: CollaboratorUser[] = resultset.map(collaboratorMemberMapper);
         return {
             code: ResponseCodes.OK,
             message: DBMessages.Success,

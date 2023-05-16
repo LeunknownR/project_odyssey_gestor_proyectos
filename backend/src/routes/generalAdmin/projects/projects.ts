@@ -23,7 +23,7 @@ router.get(
         const projectName: string = parseToProjectName(req.params);
         const payload: ResponseBody = await ProjectController.getProjectListByGeneralAdmin(projectName);
         GenerateResponseBody.sendResponse(res, payload);
-    }));
+    })); 
 router.get(
     ApiPathEndpointsGeneralAdmin.SearchCollaborator,
     withErrorHandler(async (req, res) => {

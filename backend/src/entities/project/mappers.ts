@@ -33,10 +33,10 @@ export const projectListByGeneralAdminMapper = (resultset: any[]): GroupedProjec
 const projectByCollaboratorMapper = (record: any): ProjectByCollaborator => ({
     id: record["id_project"],
     name: record["project_name"],
-    description: record["description"],
-    startDate: record["start_date"].getTime(),
-    endDate: record["end_date"].getTime(),
-    state: record["state"],
+    description: record["project_description"],
+    startDate: record["project_start_date"].getTime(),
+    endDate: record["project_end_date"].getTime(),
+    state: record["project_state"],
 });
 export const projectListByCollaboratorMapper = (resultset: any[]): GroupedProjectListForCollaborator => {
     const projectByCollaborator: ProjectByCollaborator[] = resultset.map(projectByCollaboratorMapper);
@@ -50,14 +50,9 @@ export const projectDetailsMapper = (resultset: any[]): ProjectDetails => {
     return {
         id: header["id_project"],
         name: header["project_name"],
-<<<<<<< HEAD
-        description: header["description"],
-        endDate: header["end_date"].getTime(),
-=======
         description: header["project_description"],
->>>>>>> 39f30bac3a6e0e143642f2aa3c357c16c53d6ef0
         period: header["period_project"],// 10-05-2023 / 10-10-2023
-        endDate: header["project_end_date"].getTime(),
+        endDate: header["project_end_date"],
         collaborators: resultset.map(projectCollaboratorMapper)
     };
 };
