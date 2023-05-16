@@ -70,7 +70,7 @@ export const parseToDeleteProjectMemberRequestBody = (body: any): DeleteProjectM
         projectHasMemberId
     } = body;
     if (!isPositiveNumber(userId) ||
-        !isPositiveArrayNumber(projectHasMemberId))
+        !isPositiveNumber(projectHasMemberId))
         throw new Error("Invalid form to delete a project member");
     return {
         userId,
