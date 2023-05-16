@@ -447,7 +447,7 @@ BEGIN
         u.user_name AS "collaborator_name",
         u.user_surname AS "collaborator_surname",
         u.url_photo AS "collaborator_url_photo",
-        mmr.id_project_role AS "id_project_role_name",
+        mmr.id_project_role AS "id_project_role",
         pr.project_role_name AS "project_role_name"
     FROM project p
     INNER JOIN members_project mmr ON p.id_project = mmr.id_project
