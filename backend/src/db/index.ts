@@ -1,8 +1,8 @@
 import mysql, { Connection } from "mysql2/promise";
 
-class DBConnection {
-    private connection: Connection;
-    public async connect() {
+export default abstract class DBConnection {
+    private static connection: Connection;
+    public static async connect() {
         try {
             this.connection = await mysql.createConnection({
                 host: process.env.DB_HOST,
@@ -15,10 +15,11 @@ class DBConnection {
             });
         }
         catch (err) {
+            console.log(err);
             process.exit(1);
         }
     }
-    public async query(sql: string, params: any[]): Promise<any | any[]> {
+    public static async query(sql: string, params: any[]): Promise<any | any[]> {
         try {
             const [res] =  await this.connection.query(sql, params);
             return res;
@@ -28,9 +29,3 @@ class DBConnection {
         }
     }
 }
-let db: DBConnection;
-export async function initDBConnection() {
-    db = new DBConnection();
-    await db.connect();
-}
-export default db;

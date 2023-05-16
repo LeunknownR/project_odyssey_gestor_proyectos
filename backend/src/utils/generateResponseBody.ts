@@ -1,6 +1,6 @@
 import { Response } from "express";
-import { ResponseBody } from "../types/response";
 import { ResponseCodes } from "./responseCodes";
+import { ResponseBody } from "./types";
 
 export abstract class GenerateResponseBody {
     public static readonly INVALID_PARAMS_RESPONSE: any = {
