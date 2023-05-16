@@ -18,9 +18,10 @@ export enum ApiPathEndpointsGeneralAdmin {
     SearchCollaborator = "/projects/search-collaborator/:collaboratorName"
 };
 export enum ApiPathEndpointsCollaborator {
-    GetProjectListForCollaborator = "/projects/:projectName",
+    GetProjectListForCollaborator = "/projects/:projectName/:collaboratorId",
     GetProjectDetails = "/projects/details/:projectId",
     UpdateEndDateProject="/projects/update-end-date",
     SearchCollaboratorMember = "/projects/search-collaborator-member/:projectId/:collaboratorName",
-    AddProjectMembers = "/collaborator/projects/add-members"
+    AddProjectMembers = "/collaborator/projects/add-members",
+    DeleteProjectMember = "/collaborator/projects/delete-member"
 };

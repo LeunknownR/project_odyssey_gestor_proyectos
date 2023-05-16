@@ -372,8 +372,6 @@ BEGIN
     UPDATE members_project
     SET id_collaborator = p_id_collaborator
     WHERE id_members_project = @id_members_project;
-
-    SELECT 'SUCCESS' AS 'message';
 END //
 DELIMITER ;
 -- CALL sp_update_project_by_project_id(2, "pelon csm", "sistema de gestión para empresa de logística", "2023-05-10", "2023-05-10", 5);

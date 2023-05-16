@@ -14,6 +14,10 @@ export type AddProjectMembersRequestBody = {
     projectId: number,
     membersIds: number[]
 };
+export type DeleteProjectMemberRequestBody = {
+    userId: number,
+    projectHasMemberId: number
+};
 export type ProjectBase = {
     name: string,
     description: string,
