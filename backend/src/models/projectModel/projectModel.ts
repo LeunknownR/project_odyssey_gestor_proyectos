@@ -1,7 +1,12 @@
 import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
-import { AddProjectMembersRequestBody as AddProjectMembers, AddProjectMembersRequestBody, ProjectForm, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../entities/project/types";
-import { CreateProjectRequestBody } from "../../routes/generalAdmin/projects/types";
+import { 
+    AddProjectMembersRequestBody, 
+    ProjectForm, 
+    SearchCollaboratorRequestBody, 
+    UpdateEndDateProjectRequestBody } from "../../entities/project/types";
+import { GetProjectListForCollaboratorRequestBody } from "../../routes/collaborator/projects/types";
+import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 
 export default abstract class ProjectModel {
     static async getProjectListByGeneralAdmin(projectName: string): Promise<any[]> {
@@ -26,8 +31,8 @@ export default abstract class ProjectModel {
                 userId,
                 projectForm.name,
                 projectForm.description,
-                projectForm.startDate,
-                projectForm.endDate,
+                new Date(projectForm.startDate),
+                new Date(projectForm.endDate),
                 projectForm.leaderId
             ]
         );
@@ -47,17 +52,20 @@ export default abstract class ProjectModel {
                 id,
                 name,
                 description,
-                startDate,
-                endDate,
+                new Date(startDate),
+                new Date(endDate),
                 leaderId
             ]
         );
         return information.affectedRows;
     }
-    static async getProjectListForCollaborator(projectName: string): Promise<any[]> {
+    static async getProjectListForCollaborator({
+        collaboratorId,
+        projectName
+    }: GetProjectListForCollaboratorRequestBody): Promise<any[]> {
         const [resultset] = await DBConnection.query(
             StoredProcedures.GetProjectListByCollaborator,
-            [projectName]);
+            [collaboratorId, projectName]);
         return resultset;
     }
     static async updateEndDateProjectByLeader({
@@ -68,16 +76,18 @@ export default abstract class ProjectModel {
             StoredProcedures.UpdateEndDateProjectByLeader,
             [
                 projectId,
-                endDate
+                new Date(endDate)
             ]);
         return information.affectedRows;
     }
-    static async deleteProject(projectId: number): Promise<number> {
-        const information = await DBConnection.query(
+    static async deleteProject({
+        userId, projectId
+    }: DeleteProjectRequestBody): Promise<any> {
+        const [[record]] = await DBConnection.query(
             StoredProcedures.DeleteProject,
-            [projectId]
+            [userId, projectId]
         );
-        return information.affectedRows;
+        return record;
     }
     static async getProjectDetails(projectId: number): Promise<any[]> {
         const [resultset] = await DBConnection.query(
