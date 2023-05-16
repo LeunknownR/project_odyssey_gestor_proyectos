@@ -1,10 +1,11 @@
 import { DBMessages } from "../../db/dbMessages";
-import { collaboratorUserMapper } from "../../entities/collaborator/mappers";
+import { collaboratorMemberMapper, collaboratorUserMapper } from "../../entities/collaborator/mappers";
 import { CollaboratorUser } from "../../entities/collaborator/types";
 import { projectDetailsMapper, projectListByCollaboratorMapper, projectListByGeneralAdminMapper } from "../../entities/project/mappers";
-import { AddProjectMembersRequestBody, GroupedProjectListForGeneralAdmin, GroupedProjectListForCollaborator, ProjectForm, UpdateEndDateProjectRequestBody, ProjectDetails, SearchCollaboratorRequestBody } from "../../entities/project/types";
+import { AddProjectMembersRequestBody, GroupedProjectListForGeneralAdmin, GroupedProjectListForCollaborator, ProjectForm, UpdateEndDateProjectRequestBody, ProjectDetails, SearchCollaboratorRequestBody, DeleteProjectMemberRequestBody } from "../../entities/project/types";
 import ProjectModel from "../../models/projectModel/projectModel";
-import { CreateProjectRequestBody } from "../../routes/generalAdmin/projects/types";
+import { GetProjectListForCollaboratorRequestBody } from "../../routes/collaborator/projects/types";
+import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 import { ResponseCodes } from "../../utils/responseCodes";
 import { ResponseBody } from "../../utils/types";
 
@@ -38,6 +39,7 @@ export default abstract class ProjectController {
     }
     static async updateProject(projectForm: ProjectForm): Promise<ResponseBody> {
         const affectedRows: number = await ProjectModel.updateProject(projectForm);
+        console.log(affectedRows)
         if (affectedRows === 0)
             throw new Error("It couldn't be update the project");
         return {
@@ -45,8 +47,8 @@ export default abstract class ProjectController {
             message: DBMessages.Success
         };
     }
-    static async getProjectListForCollaborator(projectName: string): Promise<ResponseBody & { data: GroupedProjectListForCollaborator }> {
-        const resultset: any[] = await ProjectModel.getProjectListForCollaborator(projectName);
+    static async getProjectListForCollaborator(getProjectListForCollaboratorRequestBody: GetProjectListForCollaboratorRequestBody): Promise<ResponseBody & { data: GroupedProjectListForCollaborator }> {
+        const resultset: any[] = await ProjectModel.getProjectListForCollaborator(getProjectListForCollaboratorRequestBody);
         const projectList: GroupedProjectListForCollaborator = projectListByCollaboratorMapper(resultset);
         return {
             code: ResponseCodes.OK,
@@ -63,13 +65,14 @@ export default abstract class ProjectController {
             message: DBMessages.Success
         };
     }
-    static async deleteProject(projectId: number): Promise<ResponseBody> {
-        const affectedRows: number = await ProjectModel.deleteProject(projectId);
-        if (affectedRows === 0)
+    static async deleteProject(deleteProjectRequestBody: DeleteProjectRequestBody): Promise<ResponseBody> {
+        const record: any = await ProjectModel.deleteProject(deleteProjectRequestBody);
+        if (!record)
             throw new Error("It couldn't be deleted of the project");
+        const message: string = record["message"];
         return {
             code: ResponseCodes.OK,
-            message: DBMessages.Success
+            message
         };
     }
     static async getProjectDetails(projectId: number): Promise<ResponseBody & { data: ProjectDetails }> {
@@ -87,7 +90,7 @@ export default abstract class ProjectController {
         searchCollaboratorRequestBody: SearchCollaboratorRequestBody
     ): Promise<ResponseBody & { data: CollaboratorUser[] }> {
         const resultset: any[] = await ProjectModel.searchCollaboratorsForProjectMember(searchCollaboratorRequestBody);
-        const collaboratorUserList: CollaboratorUser[] = resultset.map(collaboratorUserMapper);
+        const collaboratorUserList: CollaboratorUser[] = resultset.map(collaboratorMemberMapper);
         return {
             code: ResponseCodes.OK,
             message: DBMessages.Success,
@@ -97,7 +100,16 @@ export default abstract class ProjectController {
     static async addProjectMembers(addProjectMembersRequest: AddProjectMembersRequestBody): Promise<ResponseBody> {
         const affectedRows: number = await ProjectModel.addProjectMembers(addProjectMembersRequest);
         if (affectedRows === 0)
-            throw new Error("It couldn't be add collaborators in the project");
+            throw new Error("It couldn't be add project member");
+        return {
+            code: ResponseCodes.OK,
+            message: DBMessages.Success
+        };
+    }
+    static async deleteProjectMember(deleteProjectRequestBody: DeleteProjectMemberRequestBody): Promise<ResponseBody> {
+        const affectedRows: number = await ProjectModel.deleteProjectMember(deleteProjectRequestBody);
+        if (affectedRows === 0)
+            throw new Error("It couldn't be delete a project member");
         return {
             code: ResponseCodes.OK,
             message: DBMessages.Success

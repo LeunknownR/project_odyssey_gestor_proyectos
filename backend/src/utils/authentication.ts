@@ -9,7 +9,9 @@ export default abstract class Authentication {
     // 10 segundos
     // private static TOKEN_EXPIRATION_TIME: number = 10; 
     // 2 días de expiración
-    private static TOKEN_EXPIRATION_TIME: number = 2*24*60*60; 
+    // private static TOKEN_EXPIRATION_TIME: number = 2*24*60*60; 
+    // 3 meses de expiración
+    private static TOKEN_EXPIRATION_TIME: number = 3*30*24*60*60; 
     static createToken = ({ username: user, roleId }: TokenPayload): string => {
         const token = jwt.sign(
             { user, roleId }, 
