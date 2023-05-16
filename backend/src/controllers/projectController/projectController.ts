@@ -2,7 +2,7 @@ import { DBMessages } from "../../db/dbMessages";
 import { collaboratorMemberMapper, collaboratorUserMapper } from "../../entities/collaborator/mappers";
 import { CollaboratorUser } from "../../entities/collaborator/types";
 import { projectDetailsMapper, projectListByCollaboratorMapper, projectListByGeneralAdminMapper } from "../../entities/project/mappers";
-import { AddProjectMembersRequestBody, GroupedProjectListForGeneralAdmin, GroupedProjectListForCollaborator, ProjectForm, UpdateEndDateProjectRequestBody, ProjectDetails, SearchCollaboratorRequestBody } from "../../entities/project/types";
+import { AddProjectMembersRequestBody, GroupedProjectListForGeneralAdmin, GroupedProjectListForCollaborator, ProjectForm, UpdateEndDateProjectRequestBody, ProjectDetails, SearchCollaboratorRequestBody, DeleteProjectMemberRequestBody } from "../../entities/project/types";
 import ProjectModel from "../../models/projectModel/projectModel";
 import { GetProjectListForCollaboratorRequestBody } from "../../routes/collaborator/projects/types";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
@@ -100,7 +100,16 @@ export default abstract class ProjectController {
     static async addProjectMembers(addProjectMembersRequest: AddProjectMembersRequestBody): Promise<ResponseBody> {
         const affectedRows: number = await ProjectModel.addProjectMembers(addProjectMembersRequest);
         if (affectedRows === 0)
-            throw new Error("It couldn't be add collaborators in the project");
+            throw new Error("It couldn't be add project member");
+        return {
+            code: ResponseCodes.OK,
+            message: DBMessages.Success
+        };
+    }
+    static async deleteProjectMember(deleteProjectRequestBody: DeleteProjectMemberRequestBody): Promise<ResponseBody> {
+        const affectedRows: number = await ProjectModel.deleteProjectMember(deleteProjectRequestBody);
+        if (affectedRows === 0)
+            throw new Error("It couldn't be delete a project member");
         return {
             code: ResponseCodes.OK,
             message: DBMessages.Success

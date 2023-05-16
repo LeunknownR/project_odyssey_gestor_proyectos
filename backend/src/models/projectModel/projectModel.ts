@@ -2,6 +2,7 @@ import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
 import {
     AddProjectMembersRequestBody,
+    DeleteProjectMemberRequestBody,
     ProjectForm,
     SearchCollaboratorRequestBody,
     UpdateEndDateProjectRequestBody
@@ -110,14 +111,24 @@ export default abstract class ProjectModel {
         return resultset;
     }
     static async addProjectMembers({
-        projectId,
-        membersIds
+        projectId, membersIds
     }: AddProjectMembersRequestBody): Promise<number> {
         const information = await DBConnection.query(
             StoredProcedures.AddProjectMembers,
             [
                 projectId,
                 membersIds.join(",")
+            ]);
+        return information.affectedRows;
+    }
+    static async deleteProjectMember({
+        userId, projectHasMemberId
+    }: DeleteProjectMemberRequestBody): Promise<number> {
+        const information = await DBConnection.query(
+            StoredProcedures.AddProjectMembers,
+            [
+                userId,
+                projectHasMemberId
             ]);
         return information.affectedRows;
     }

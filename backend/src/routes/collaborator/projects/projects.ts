@@ -7,6 +7,7 @@ import ProjectController from "../../../controllers/projectController/projectCon
 import { GenerateResponseBody } from "../../../utils/generateResponseBody";
 import {
     parseToAddProjectMembersRequestBody,
+    parseToDeleteProjectMemberRequestBody,
     parseToGetProjectListForCollaboratorRequestBody,
     parseToProjectIdToGetDetails,
     parseToSearchCollaboratorRequestBody,
@@ -14,6 +15,7 @@ import {
 } from "./parsers";
 import {
     AddProjectMembersRequestBody,
+    DeleteProjectMemberRequestBody,
     SearchCollaboratorRequestBody,
     UpdateEndDateProjectRequestBody
 } from "../../../entities/project/types";
@@ -44,6 +46,13 @@ router.patch(ApiPathEndpointsCollaborator.AddProjectMembers,
     withErrorHandler(async (req, res) => {
         const addProjectMembersRequestBody: AddProjectMembersRequestBody = parseToAddProjectMembersRequestBody(req.body);
         const payload: ResponseBody = await ProjectController.addProjectMembers(addProjectMembersRequestBody);
+        GenerateResponseBody.sendResponse(res, payload);
+    }));
+router.get(
+    ApiPathEndpointsCollaborator.DeleteProjectMember,
+    withErrorHandler(async (req, res) => {
+        const deleteProjectMemberRequestBody: DeleteProjectMemberRequestBody = parseToDeleteProjectMemberRequestBody(req.params);
+        const payload: ResponseBody = await ProjectController.deleteProjectMember(deleteProjectMemberRequestBody);
         GenerateResponseBody.sendResponse(res, payload);
     }));
 router.get(

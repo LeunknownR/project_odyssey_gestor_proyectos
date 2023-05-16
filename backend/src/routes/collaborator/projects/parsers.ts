@@ -1,4 +1,5 @@
-import { AddProjectMembersRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../../entities/project/types";
+import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../../entities/project/types";
+import { isPast } from "../../../utils/datetime";
 import { isPositiveArrayNumber, isPositiveNumber } from "../../../utils/numbers";
 import { checkLength } from "../../../utils/string";
 import { GetProjectListForCollaboratorRequestBody } from "./types";
@@ -43,7 +44,7 @@ export const parseToUpdateEndDateProjectRequestBody = (body: any): UpdateEndDate
         endDate
     } = body;
     if (!isPositiveNumber(projectId) ||
-        !isPositiveNumber(endDate))
+        !isPositiveNumber(endDate) || isPast(endDate))
         throw new Error("Invalid form to update end date of the project");
     return {
         projectId,
@@ -57,9 +58,22 @@ export const parseToAddProjectMembersRequestBody = (body: any): AddProjectMember
     } = body;
     if (!isPositiveNumber(projectId) ||
         !isPositiveArrayNumber(membersIds))
-        throw new Error("Invalid form to add collaborators in the project");
+        throw new Error("Invalid form to add project members");
     return {
         projectId,
         membersIds
+    };
+}
+export const parseToDeleteProjectMemberRequestBody = (body: any): DeleteProjectMemberRequestBody => {
+    const {
+        userId,
+        projectHasMemberId
+    } = body;
+    if (!isPositiveNumber(userId) ||
+        !isPositiveArrayNumber(projectHasMemberId))
+        throw new Error("Invalid form to delete a project member");
+    return {
+        userId,
+        projectHasMemberId
     };
 }
