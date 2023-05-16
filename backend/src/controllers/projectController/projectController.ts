@@ -69,7 +69,7 @@ export default abstract class ProjectController {
         const record: any = await ProjectModel.deleteProject(deleteProjectRequestBody);
         if (!record)
             throw new Error("It couldn't be deleted of the project");
-        const message: string = record["MESSAGE"];
+        const message: string = record["message"];
         return {
             code: ResponseCodes.OK,
             message
