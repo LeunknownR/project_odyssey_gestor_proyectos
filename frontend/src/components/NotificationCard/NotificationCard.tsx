@@ -1,4 +1,6 @@
-import { Container } from "./styles";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { Row } from "../styles";
+import { CloseIconContainer, Container, IconContainer, TextModal, TitleModal } from "./styles";
 import { NotificationCardProps } from "./types";
 
 const NotificationCard = ({ 
@@ -12,14 +14,12 @@ const NotificationCard = ({
     }
     return (
         <Container className={getClassName()}>
-            <button onClick={() => handler.hide()}>x</button>
-            <h1>Notificación</h1>
-            <h1>Notificación</h1>
-            <h1>Notificación</h1>
-            <h1>Notificación</h1>
-            <h1>Notificación</h1>
-            <h1>Notificación</h1>
-            <h1>Notificación</h1>
+            <CloseIconContainer onClick={() => handler.hide()}><Icon icon="mdi:close" /></CloseIconContainer>
+            <Row align="center" gap="10px" justifySelf="flex-start">
+                <IconContainer><Icon icon="material-symbols:check-circle-outline" /></IconContainer>
+                <TitleModal>CAMBIOS GUARDADOS</TitleModal>
+            </Row>
+            <TextModal>Los cambios que hizo se han guardado correctamente.</TextModal>
         </Container>
     );
 }
