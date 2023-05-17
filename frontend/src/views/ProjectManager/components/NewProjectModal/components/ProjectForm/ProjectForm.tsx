@@ -1,6 +1,7 @@
 import CustomTextField from "src/components/CustomTextField/CustomTextField";
 import CustomTextArea from "src/components/CustomTextArea/CustomTextArea";
 import { Column } from "src/components/styles";
+import Duration from "./components/Duration/Duration";
 
 const ProjectForm = () => {
     return (
@@ -15,6 +16,7 @@ const ProjectForm = () => {
                 placeholder="Ejm: Proyecto para desarrollar el gran proyecto del siglo XXI."
                 variant="primary"
             />
+            <Duration />
         </Column>
     );
 };

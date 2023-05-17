@@ -7,7 +7,7 @@ import {
     Content } from "./styles";
 //#endregion
 //#region Components
-import ErrorMessage from "components/ErrorMessage/ErrorMessage";
+// import ErrorMessage from "components/ErrorMessage/ErrorMessage";
 import SelectBlock from "./components/SelectBlock/SelectBlock";
 import InputDate from "./components/InputDate/InputDate";
 //#endregion
@@ -17,7 +17,8 @@ import {
     getText, 
     getToday
  } from "./utils/helpers";
-import { Row } from "components/styles";
+import { CustomDatePickerProps } from "./types";
+import { Row } from "../styles";
 //#endregion
  
 const CustomDatePicker = ({
@@ -30,10 +31,10 @@ const CustomDatePicker = ({
     },
     availableDays,
     error = false,
-    errorText,
+    // errorText,
     disabled,
     width
-}) => {
+}: CustomDatePickerProps) => {
     //#region States
     const [showSelectBlock, setShowSelectBlock] = useState(false);
     //#endregion
@@ -41,7 +42,7 @@ const CustomDatePicker = ({
     const toggleShowSelectBlock = () => {
         setShowSelectBlock(prev => !prev);
     }
-    const changeValue = timestamp => {
+    const changeValue = (timestamp: number): void => {
         onChange && onChange(timestamp);
         toggleShowSelectBlock();
     }
@@ -62,7 +63,7 @@ const CustomDatePicker = ({
             className={className}
             width={width}>
             {label && 
-            <Row justifyContent="flex-start" gap="5px">
+            <Row justify="flex-start" gap="5px">
                 <label>{label}</label>
             </Row>}
             <Content
@@ -81,9 +82,9 @@ const CustomDatePicker = ({
                     handlerChangeValue={changeValue}
                     availableDays={availableDays}
                     period={period}/>}
-                <ErrorMessage
+                {/* <ErrorMessage
                     text={errorText}
-                    error={error}/>
+                    error={error}/> */}
             </Content>
         </Container>
     );

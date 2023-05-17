@@ -2,7 +2,10 @@
 import styled from "styled-components";
 //#endregion
 
-export const Container = styled.div`
+type ContainerProps = {
+    width?: string;
+}
+export const Container = styled.div<ContainerProps>`
     display: flex;
     flex-direction: column;
     width: ${({ width = "265px" }) => width};

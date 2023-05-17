@@ -10,7 +10,7 @@ export const Sidebar = styled.nav`
     width: 75px;
     padding-top: 40px;
     gap: 20px;
-    z-index: 1000;
+    z-index: 200;
 `;
 export const NewProjectButton = styled.button`
     display: flex;

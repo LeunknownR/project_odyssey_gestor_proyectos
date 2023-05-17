@@ -48,13 +48,13 @@ export const ContainerChangeMonthButton = styled.div`
     padding-top: 5px;
     user-select: none;
     cursor: pointer;
-    & svg {
-        fill: var(--light-1);
+    & .iconify {
+        color: var(--light-1);
     }
-    &.left svg {
+    &.left .iconify {
         transform: rotate(90deg);
     }
-    &.right svg {
+    &.right .iconify {
         transform: rotate(-90deg);
     }
     &:hover {
@@ -62,8 +62,8 @@ export const ContainerChangeMonthButton = styled.div`
     }
     &.disabled {
         pointer-events: none;
-        & svg {
-            fill: #25252533;
+        & .iconify {
+            color: #25252533;
         }
     }
 `;
