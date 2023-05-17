@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Alexis from "src/views/Alexis/Alexis";
+import Login from "src/views/Login/Login";
 import ProjectManager from "src/views/ProjectManager/ProjectManager";
 
 const ProvisionalRouter = () => {

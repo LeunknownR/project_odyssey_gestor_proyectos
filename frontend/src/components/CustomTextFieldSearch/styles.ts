@@ -5,9 +5,3 @@ export const Container = styled.div`
     align-items: center;
     width: 100%;
 `;
-export const IconContainer = styled.span`
-    .iconify {
-        font-size: 20px;
-        color: var(--white-1);
-    }
-`;
