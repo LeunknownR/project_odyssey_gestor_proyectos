@@ -1,8 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { CustomTextFieldSearchProps } from "./types";
 import CustomTextField from "../CustomTextField/CustomTextField";
-import { Icon } from "@iconify/react/dist/iconify.js";
-import { Container, IconContainer } from "./styles";
 
 const CustomTextFieldSearch = ({
     placeholder,
@@ -16,17 +14,12 @@ const CustomTextFieldSearch = ({
         changeField(value);
     };
     return (
-        <Container>
-            <CustomTextField
-                placeholder={placeholder}
-                value={searchText}
-                onChange={onChange}
-                variant={variant}
-            />
-            <IconContainer>
-                <Icon icon="simple-line-icons:magnifier" />
-            </IconContainer>
-        </Container>
+        <CustomTextField
+            placeholder={placeholder}
+            value={searchText}
+            onChange={onChange}
+            variant={variant}
+        />
     );
 };
 

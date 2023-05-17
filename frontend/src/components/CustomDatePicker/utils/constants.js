@@ -1,0 +1,1 @@
+export const NO_LIMIT_DATE_VALUE_PERIOD = [3000, 1, 1];

@@ -4,6 +4,7 @@ import {
     Container,
     Content,
     LabelContent,
+    LensContainer,
     PasswordRevealer,
     TextField,
 } from "./styles";
@@ -68,6 +69,11 @@ const CustomTextField = ({
                             }
                         />
                     </PasswordRevealer>
+                )}
+                {variant?.includes("search") && (
+                    <LensContainer>
+                        <Icon icon="simple-line-icons:magnifier" />
+                    </LensContainer>
                 )}
             </Content>
             {/* <ErrorMessage text={error} /> */}

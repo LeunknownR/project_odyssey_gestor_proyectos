@@ -6,7 +6,7 @@ export const IconContainer = styled.span`
         color: var(--white-1);
     }
 `;
-export const Title = styled.h1`
+export const Title = styled.h2`
     font-size: 24px;
     color: var(--white-1);
 `;

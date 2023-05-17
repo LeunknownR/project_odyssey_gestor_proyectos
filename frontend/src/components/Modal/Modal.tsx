@@ -32,6 +32,7 @@ const Modal = ({
                 minWidth={sizeProps?.minWidth}
                 maxWidth={sizeProps?.maxWidth}
                 padding={sizeProps?.padding}
+                borderRadius={sizeProps?.borderRadius}
                 className={isOpen && "opened"}
                 onMouseDown={(e: React.ChangeEvent<HTMLInputElement>) => {
                     e.stopPropagation();
