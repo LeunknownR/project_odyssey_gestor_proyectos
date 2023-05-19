@@ -1,5 +1,6 @@
 //#region Libraries
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
+import { Icon } from "@iconify/react/dist/iconify.js";
 //#endregion
 //#region Styles
 import {
@@ -23,19 +24,19 @@ import { MONTHS, WEEK_DAYS } from "../../utils/constants";
 //#endregion
 //#region Types
 import { ChangeMonthButtonProps, HeaderProps, SelectBlockProps } from "./types";
-import { Icon } from "@iconify/react/dist/iconify.js";
 //#endregion
 const getCurrentDate = (value: number) => {
     const [year, month, date] = getDatePartsByMillis(value);
     return { year, month, date };
 };
 
-const SelectBlock = ({
+const SelectBlock = forwardRef(({
     value,
     handlerChangeValue,
     availableDays,
     period,
-}: SelectBlockProps) => {
+    calendarAbove
+}: SelectBlockProps, ref) => {
     //#region States
     const [currentDate, setCurrentDate] = useState({
         year: 0,
@@ -123,7 +124,7 @@ const SelectBlock = ({
     };
     //#endregion
     return (
-        <CalendarPicker>
+        <CalendarPicker ref={ref} className={calendarAbove && "above"}>
             <Header
                 currentMonthCalendar={currentMonthCalendar}
                 changeMonth={changeMonth}
@@ -172,7 +173,7 @@ const SelectBlock = ({
             </Calendar>
         </CalendarPicker>
     );
-};
+});
 
 const Header = ({ currentMonthCalendar, changeMonth, period }: HeaderProps) => {
     //#region States
@@ -236,7 +237,7 @@ const ChangeMonthButton = ({
             onClick={onClick}
         >
             <span>
-                <Icon icon="selector-icon" />
+                <Icon icon="material-symbols:arrow-back-ios-new-rounded" />
             </span>
         </ContainerChangeMonthButton>
     );

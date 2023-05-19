@@ -5,6 +5,7 @@ export type SelectBlockProps = {
     handlerChangeValue: (timestamp: any) => void;
     availableDays: number[];
     period: Period;
+    calendarAbove: boolean;
 };
 export type HeaderProps = {
     currentMonthCalendar: CurrentMonthCalendar;

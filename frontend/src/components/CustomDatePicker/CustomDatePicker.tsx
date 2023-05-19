@@ -1,5 +1,5 @@
 //#region Libraries
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 //#endregion
 //#region Styles
 import { 
@@ -32,12 +32,21 @@ const CustomDatePicker = ({
     availableDays,
     error = false,
     // errorText,
-    disabled,
+    disabled = false,
     width
 }: CustomDatePickerProps) => {
     //#region States
     const [showSelectBlock, setShowSelectBlock] = useState(false);
+    const [calendarAbove, setCalendarAbove] = useState(false);
     //#endregion
+    const $calendarRef = useRef<HTMLDivElement | null>(null);
+    useEffect(() => {
+        if (!$calendarRef || !$calendarRef.current) return;
+        const rect = $calendarRef.current.getBoundingClientRect();
+        const position = rect.top + rect.height;
+        if (position > window.innerHeight)
+            setCalendarAbove(true)
+    }, [showSelectBlock]);
     //#region Functions
     const toggleShowSelectBlock = () => {
         setShowSelectBlock(prev => !prev);
@@ -81,7 +90,9 @@ const CustomDatePicker = ({
                     value={value}
                     handlerChangeValue={changeValue}
                     availableDays={availableDays}
-                    period={period}/>}
+                    period={period}
+                    ref={$calendarRef}
+                    calendarAbove={calendarAbove}/>}
                 {/* <ErrorMessage
                     text={errorText}
                     error={error}/> */}

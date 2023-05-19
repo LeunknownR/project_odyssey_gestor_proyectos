@@ -27,10 +27,12 @@ export const Container = styled.div<ContainerProps>`
     }
     &.disabled {
         pointer-events: none;
-        color: var(--purple-4);
-        border-color: var(--purple-4);
+        background-color: #4f6b7d;
         & .iconify {
-            color: var(--purple-4);
+            color: var(--white-1-50);
+        }
+        span {
+            color: var(--white-1-50);
         }
     }
 `;

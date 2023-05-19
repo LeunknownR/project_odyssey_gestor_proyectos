@@ -13,7 +13,8 @@ export const Container = styled.div<ContainerProps>`
     width: ${({ width = "100%" }) => width};
     max-width: ${({ maxWidth }) => maxWidth};
     position: relative;
-    &.primary, &.secondary {
+    &.primary,
+    &.secondary {
         gap: 14px;
     }
 `;
@@ -32,16 +33,18 @@ export const LabelContent = styled.label`
 `;
 export const Content = styled.div`
     display: flex;
+    flex-direction: column;
     align-items: center;
     border-radius: 3px;
     transition: 0.3s;
     padding: 12px 10px;
+    font-size: 16px;
     &.primary {
         background-color: var(--white-1-12);
         border: 1px solid var(--white-1);
-        color: var(--white-2);
+        color: var(--white-1);
         border-radius: 5px;
-        padding: 10px 16px; 
+        padding: 10px 16px;
         ::placeholder {
             color: var(--gray-3);
         }
@@ -73,4 +76,9 @@ export const TextArea = styled.textarea<TextAreaProps>`
     ::placeholder {
         user-select: none;
     }
+`;
+export const MaxLength = styled.span`
+    width: 100%;
+    text-align: right;
+    font-size: 14px;
 `;

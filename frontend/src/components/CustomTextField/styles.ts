@@ -76,9 +76,10 @@ export const Content = styled.div`
     &.primary {
         background-color: var(--white-1-12);
         border: 1px solid var(--white-1);
-        color: var(--white-2);
+        color: var(--white-1);
         border-radius: 5px;
         padding: 9px 16px;
+        font-size: 16px;
         ::placeholder {
             color: var(--gray-3);
         }

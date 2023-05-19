@@ -1,10 +1,12 @@
 export type NotificationCardHook = {
-    visible: boolean,
-    timeoutToClose: number,
-    hide: () => void,
-    show: (millis?: number) => void
+    visible: boolean;
+    timeoutToClose: number;
+    hide: () => void;
+    show: (millis?: number) => void;
 };
 export type NotificationCardProps = {
-    variant?: "success" | "error" | "warning",
-    handler: NotificationCardHook
+    variant?: "success" | "error" | "warning";
+    show: boolean;
+    maxSeconds: number;
+    handler: NotificationCardHook;
 };

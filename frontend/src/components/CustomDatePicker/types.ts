@@ -7,7 +7,7 @@ export type CustomDatePickerProps = {
     availableDays: number[];
     error?: boolean;
     errorText?: string;
-    disabled: boolean;
+    disabled?: boolean;
     width?: string;
 };
 export type Period = {

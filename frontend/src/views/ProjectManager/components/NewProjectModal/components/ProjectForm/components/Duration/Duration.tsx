@@ -7,8 +7,15 @@ const Duration = () => {
         <Container>
             <Label>Duración</Label>
             <Row gap="14px">
-                <CustomDatePicker placeholder="Fecha de inicio" disabled={false} availableDays={[1,2,3,4,5,6,7]}/>
-                <CustomDatePicker placeholder="Fecha de finalización" disabled={false} availableDays={[1,2,3,4,5,6,7]}/>
+                <CustomDatePicker
+                    placeholder="Fecha de inicio"
+                    availableDays={[1]}
+                />
+                <CustomDatePicker
+                    placeholder="Fecha de finalización"
+                    disabled={true}
+                    availableDays={[1,2,3,4,5,6,7,8]}
+                />
             </Row>
         </Container>
     );

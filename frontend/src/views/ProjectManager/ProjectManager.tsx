@@ -24,7 +24,9 @@ const ProjectManager = () => {
             <TemporalMain>
                 <button onClick={() => notificationCard.show()} style={{ padding: "100px 0" }}>Abrir</button>
                 <NotificationCard 
-                    handler={notificationCard}/>
+                    show={notificationCard.visible}
+                    handler={notificationCard}
+                    maxSeconds={notificationCard.timeoutToClose/1000}/>
                 {/* <RecentProjects />
                 <AllProjects /> */}
                 <ProjectDetails />
