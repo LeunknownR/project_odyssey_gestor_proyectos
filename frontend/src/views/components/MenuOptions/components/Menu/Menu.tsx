@@ -1,11 +1,10 @@
-import { forwardRef } from "react";
 import {
     Container,
     Option,
 } from "./styles";
 import { MenuProps } from "./types";
 
-const Menu = forwardRef(({ show, menuPosition }: MenuProps, ref) => {
+const Menu = ({ show, menuPosition }: MenuProps) => {
     
     const getClassName = () => {
         const classList: string[] = [];
@@ -15,11 +14,11 @@ const Menu = forwardRef(({ show, menuPosition }: MenuProps, ref) => {
     };
     const className: string = getClassName();
     return (
-        <Container className={className} ref={ref}>
+        <Container className={className}>
             <Option color="var(--dark-1)">Editar</Option>
             <Option color="var(--red-3)">Eliminar</Option>
         </Container>
     );
-});
+};
 
 export default Menu;

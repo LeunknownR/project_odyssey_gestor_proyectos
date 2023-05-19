@@ -2,24 +2,31 @@
 import styled from "styled-components";
 //#endregion
 
-export const CalendarPicker = styled.div`
+type CalendarPickerProps = {
+    ref: any;
+    className?: any;
+}
+export const CalendarPicker = styled.div<CalendarPickerProps>`
     position: absolute;
     top: calc(100% + 4px);
     z-index: 200;
     border-radius: 4px;
     border: 1px solid var(--purple-2);
     width: 100%;
+    &.above {
+        top: -225px;
+    }
 `;
 export const Calendar = styled.header`
     display: flex;
     flex-direction: column;
-    padding: 21px 20px;
-    background-color: var(--light-1);
-    border-radius: inherit;
+    background-color: var(--white-1);
+    border-radius: 0 0 5px 5px;
+    padding: 10px 15px;
     & span {
         font-size: 11px;
         text-align: center;
-        padding: 8px 6px;
+        padding: 4px;
         margin: 1px;
         color: var(--light-gray-5);
     }
@@ -28,14 +35,15 @@ export const ContainerHeader = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--purple-2);
+    background-color: var(--darkblue-1);
     padding: 14px 14px;
     user-select: none;
+    border-radius: 5px 5px 0 0;
     cursor: default;
     & h5 {
-        color: var(--light-1);
+        color: var(--white-1);
         margin: 0;
-        font-size: 12px;
+        font-size: 13px;
     }
 `;
 export const ContainerChangeMonthButton = styled.div`
@@ -44,48 +52,52 @@ export const ContainerChangeMonthButton = styled.div`
     transition: 0.35s;
     font-size: 12px;
     padding: 5px;
-    padding-left: 6px;
-    padding-top: 5px;
     user-select: none;
     cursor: pointer;
-    & svg {
-        fill: var(--light-1);
+    border-radius: 50%;
+    span {
+        display: flex;   
     }
-    &.left svg {
-        transform: rotate(90deg);
+    .iconify {
+        color: var(--white-1);
+        font-size: 16px;
     }
-    &.right svg {
-        transform: rotate(-90deg);
+    &.left .iconify {
+        transform: rotate(0deg);
+    }
+    &.right .iconify {
+        transform: rotate(180deg);
     }
     &:hover {
         background-color: #25252533;
     }
     &.disabled {
         pointer-events: none;
-        & svg {
-            fill: #25252533;
+        & .iconify {
+            color: #25252599;
         }
     }
 `;
-
 export const WeekDays = styled.header`
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    margin-bottom: 8px;
     user-select: none;
+    color: var(--darkblue-2);
     & span {
         cursor: default;
+        font-weight: 400;
     }
 `;
 export const Days = styled.section`
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    color: var(--darkblue-2);
     & span {
-        border-radius: 45%;
+        border-radius: 5px;
         user-select: none;
         &.day {
-            padding: 8px 0;
             cursor: pointer;
+            border: 1px solid transparent;
             &:not(.disabled) {
                 transition: 0.35s;
                 &:not(.selected).today {
@@ -93,16 +105,15 @@ export const Days = styled.section`
                 }
             }
             &:hover {
-                background-color: var(--purple-4);
-                color: var(--light-1);
+                border: 1px solid var(--darkblue-2);
             }
             &.selected {
                 background-color: var(--purple-1);
                 color: var(--light-1);
             }
             &.disabled {
-                background-color: var(--light-1);
-                color: var(--light-3);
+                /* background-color: var(--white-1); */
+                /* color: var(--white-3); */
                 pointer-events: none;
             }
         }

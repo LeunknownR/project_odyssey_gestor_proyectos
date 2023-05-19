@@ -26,7 +26,7 @@ export const useNotificationCard = (initialValue?: boolean, timeoutToClose?: num
         runTimeout();
     }
     function runTimeout(): void {
-        const timeoutToCloseId: number = setTimeout(hide, timeoutToCloseRef.current);
+        const timeoutToCloseId: number = window.setTimeout(hide, timeoutToCloseRef.current);
         setTimeoutToCloseId(timeoutToCloseId);
     }
     //#endregion
