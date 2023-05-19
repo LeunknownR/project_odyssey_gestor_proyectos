@@ -1,0 +1,1 @@
+export type HandlerErrorWithModals = (code: number, message: string) => void
