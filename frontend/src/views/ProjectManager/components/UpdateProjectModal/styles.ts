@@ -17,15 +17,3 @@ export const Right = styled.div`
     background-color: var(--darkblue-2);
     padding: 85px 0 70px;
 `;
-export const CloseBtn = styled.div`
-    position: absolute;
-    top: 0;
-    right: 0;
-    cursor: pointer;
-    padding: 25px 35px 0 0;
-    .iconify {
-        width: max-content;
-        font-size: 34px;
-        color: var(--white-1);
-    }
-`;

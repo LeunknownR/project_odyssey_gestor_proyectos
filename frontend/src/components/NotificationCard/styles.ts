@@ -32,6 +32,7 @@ export const Container = styled.div<ContainerProps>`
         height: 7px;
         background-color: var(--green-2);
         transition: ${({ transition }) => transition}s;
+        transition: 0.4s;
         top: 0;
         left: 0;
     }
