@@ -2,7 +2,7 @@ import { InternalAxiosRequestConfig } from "axios";
 import { tokenLocalStorage } from "../storage/user.local";
 import { clearStorage } from "src/storage";
 import { InterceptorMessages } from "./constants";
-import { ApiPathEndpoints } from "src/services/apiPathsEndpoints";
+import { ApiPathEndpoints } from "src/services/apiPathEndpoints";
 import { APIHandler } from "src/config/api";
 import { ResponseBody } from "src/services/types";
 import { HandlerErrorWithModals } from "./types";
@@ -15,13 +15,9 @@ const injectToken = (req: InternalAxiosRequestConfig): InternalAxiosRequestConfi
 const isLoginEndpoint = (endpoint: string): boolean => {
     return endpoint === ApiPathEndpoints.Login;
 }
-const addHeadersToRequest = (req: InternalAxiosRequestConfig): void => {
-    req.headers["Content-Type"] = "application/json";
-}
 export const initAxiosInterceptors = (handlerErrorWithModals: HandlerErrorWithModals): void => {
     const { api } = APIHandler;
     api.interceptors.request.use(req => {
-        addHeadersToRequest(req);
         if (isLoginEndpoint(req.url || "")) return req;
         return injectToken(req);
     });
@@ -36,8 +32,8 @@ export const initAxiosInterceptors = (handlerErrorWithModals: HandlerErrorWithMo
                 data: null,
                 message: InterceptorMessages.UnexpectedError
             };
-            if (typeof data !== "object")
-                responseBody = err.response.data;
+            if (typeof data === "object")
+                responseBody = data;
             handlerErrorWithModals(responseBody.code, responseBody.message);
             return Promise.resolve(responseBody);
         }

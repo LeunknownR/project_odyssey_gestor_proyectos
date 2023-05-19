@@ -6,8 +6,10 @@ export abstract class APIHandler {
         APIHandler.api = axios.create({
             baseURL: `${import.meta.env.VITE_API_URL}/api`,
             headers: {
-                'Content-Type': 'application/json',
-            }
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            signal: CancelServiceRequest.getSignal()
         });
         // requestLogin({
         //     username: "diegot",
@@ -16,8 +18,12 @@ export abstract class APIHandler {
     }
 }
 export abstract class CancelServiceRequest {
-    private static abortController: AbortController = new AbortController();
-    public static cancelWhenLeavePage(): void {
+    private static abortController: AbortController;
+    public static init(): void {
+       this.abortController = new AbortController();
+       CancelServiceRequest.cancelWhenLeavePage();
+    }
+    private static cancelWhenLeavePage(): void {
         window.addEventListener("beforeunload", e => {
             e.preventDefault();
             CancelServiceRequest.cancel();
