@@ -1,4 +1,4 @@
-import { Container, Content, LabelContent, TextArea } from "./styles";
+import { Container, Content, LabelContent, MaxLength, TextArea } from "./styles";
 import { CustomTextAreaProps } from "./types";
 
 const CustomTextArea = ({
@@ -32,6 +32,7 @@ const CustomTextArea = ({
                     value={value}
                     onChange={onChange}
                 />
+                <MaxLength>0 / {maxLength}</MaxLength>
             </Content>
         </Container>
     );

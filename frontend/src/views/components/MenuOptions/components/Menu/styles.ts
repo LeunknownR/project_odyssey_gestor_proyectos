@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 type ContainerProps = {
     className?: any;
-    ref: any;
 };
 export const Container = styled.div<ContainerProps>`
     display: none;

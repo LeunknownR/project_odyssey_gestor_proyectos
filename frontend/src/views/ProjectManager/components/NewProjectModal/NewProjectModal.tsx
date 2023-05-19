@@ -31,7 +31,7 @@ const NewProjectModal = ({ modalProps }: NewProjectModalProps) => {
                     </Column>
                 </Left>
                 <Right>
-                    <CloseBtn>
+                    <CloseBtn onClick={() => modalProps.handleOpen(false)}>
                         <Icon icon="material-symbols:close" />
                     </CloseBtn>
                     <Column width="80%" alignSelf="center" gap="35px">

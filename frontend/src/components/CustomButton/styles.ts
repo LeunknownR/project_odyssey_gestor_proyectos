@@ -27,6 +27,7 @@ export const Container = styled.button<ContainerProps>`
         border-radius: 10px;
         font-weight: 700;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border: 2px solid transparent;
         :disabled {
             background-color: var(--gray-3);
             color: var(--dark-1);
@@ -44,6 +45,11 @@ export const Container = styled.button<ContainerProps>`
             .iconify {
                 font-size: 18px;
             }
+        }
+        :hover {
+            background-color: var(--white-1);
+            color: var(--dark-2);
+            border: 2px solid var(--dark-2);
         }
     }
     &.main-2 {

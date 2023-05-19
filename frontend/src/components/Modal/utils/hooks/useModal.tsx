@@ -3,11 +3,11 @@ import { ModalProps } from "src/components/Modal/types";
 //#region Types
 //#endregion
 
-const useModal = (isOpenDefault = false): ModalProps => {
-    const [isOpen, setIsOpen] = useState(isOpenDefault);
+const useModal = (isOpenDefault?: boolean): ModalProps => {
+    const [isOpen, setIsOpen] = useState(isOpenDefault || false);
     return {
         isOpen,
-        handleOpen: setIsOpen,
+        handleOpen: setIsOpen
     };
 };
 
