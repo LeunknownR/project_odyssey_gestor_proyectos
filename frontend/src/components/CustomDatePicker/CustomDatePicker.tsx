@@ -1,5 +1,5 @@
 //#region Libraries
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 //#endregion
 //#region Styles
 import { 
@@ -7,7 +7,7 @@ import {
     Content } from "./styles";
 //#endregion
 //#region Components
-import ErrorMessage from "components/ErrorMessage/ErrorMessage";
+// import ErrorMessage from "components/ErrorMessage/ErrorMessage";
 import SelectBlock from "./components/SelectBlock/SelectBlock";
 import InputDate from "./components/InputDate/InputDate";
 //#endregion
@@ -17,7 +17,8 @@ import {
     getText, 
     getToday
  } from "./utils/helpers";
-import { Row } from "components/styles";
+import { CustomDatePickerProps } from "./types";
+import { Row } from "../styles";
 //#endregion
  
 const CustomDatePicker = ({
@@ -30,18 +31,27 @@ const CustomDatePicker = ({
     },
     availableDays,
     error = false,
-    errorText,
-    disabled,
+    // errorText,
+    disabled = false,
     width
-}) => {
+}: CustomDatePickerProps) => {
     //#region States
     const [showSelectBlock, setShowSelectBlock] = useState(false);
+    const [calendarAbove, setCalendarAbove] = useState(false);
     //#endregion
+    const $calendarRef = useRef<HTMLDivElement | null>(null);
+    useEffect(() => {
+        if (!$calendarRef || !$calendarRef.current) return;
+        const rect = $calendarRef.current.getBoundingClientRect();
+        const position = rect.top + rect.height;
+        if (position > window.innerHeight)
+            setCalendarAbove(true)
+    }, [showSelectBlock]);
     //#region Functions
     const toggleShowSelectBlock = () => {
         setShowSelectBlock(prev => !prev);
     }
-    const changeValue = timestamp => {
+    const changeValue = (timestamp: number): void => {
         onChange && onChange(timestamp);
         toggleShowSelectBlock();
     }
@@ -62,7 +72,7 @@ const CustomDatePicker = ({
             className={className}
             width={width}>
             {label && 
-            <Row justifyContent="flex-start" gap="5px">
+            <Row justify="flex-start" gap="5px">
                 <label>{label}</label>
             </Row>}
             <Content
@@ -80,10 +90,12 @@ const CustomDatePicker = ({
                     value={value}
                     handlerChangeValue={changeValue}
                     availableDays={availableDays}
-                    period={period}/>}
-                <ErrorMessage
+                    period={period}
+                    ref={$calendarRef}
+                    calendarAbove={calendarAbove}/>}
+                {/* <ErrorMessage
                     text={errorText}
-                    error={error}/>
+                    error={error}/> */}
             </Content>
         </Container>
     );

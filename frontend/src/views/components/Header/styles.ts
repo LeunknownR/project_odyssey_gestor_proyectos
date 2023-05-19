@@ -9,7 +9,7 @@ export const Container = styled.header`
     background-color: var(--darkblue-3);
     padding: 15px 50px 15px 30px;
     gap: 180px;
-    z-index: 1000;
+    z-index: 200;
 `;
 export const IconContainer = styled.span`
     cursor: pointer;

@@ -8,4 +8,5 @@ export const TemporalMain = styled.main`
     flex-direction: column;
     gap: 50px;
     min-height: calc(100vh - 75px);
+    margin-left: 75px;
 `;
