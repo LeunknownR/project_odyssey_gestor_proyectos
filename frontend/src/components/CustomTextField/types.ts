@@ -18,6 +18,7 @@ export type CustomTextFieldProps = {
 
 export type TextInputTarget = {
     target: {
+        name: string;
         value: string;
     };
 };

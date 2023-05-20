@@ -1,9 +1,15 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Sidebar, NewProjectButton, MenuList, MenuButton } from "./styles";
-import { SidebarMenuProps } from "./types";
+import useModal from "src/components/Modal/utils/hooks/useModal";
+import NewProjectModal from "src/views/ProjectManager/components/NewProjectModal/NewProjectModal";
+import { userLocalStorage } from "src/storage/user.local";
 
-const SidebarMenu = ({openNewProjectModal}: SidebarMenuProps) => {
+const SidebarMenu = () => {
+    const userRole = userLocalStorage.get();
+    const newProjectModal = useModal();
+    const openNewProjectModal = () => newProjectModal.handleOpen(true);
     return (
+        <>
         <Sidebar>
             <NewProjectButton onClick={openNewProjectModal}><span><Icon icon="mdi:layers-plus"/></span></NewProjectButton>
             <MenuList>
@@ -15,6 +21,8 @@ const SidebarMenu = ({openNewProjectModal}: SidebarMenuProps) => {
                 </MenuButton>
             </MenuList>
         </Sidebar>
+        <NewProjectModal modalProps={newProjectModal} />
+        </>
     );
 };
 

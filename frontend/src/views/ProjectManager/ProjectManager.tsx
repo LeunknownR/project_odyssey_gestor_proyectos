@@ -19,8 +19,8 @@ const ProjectManager = () => {
     return (
         <>
         <Container>
-            <Header />
-            <SidebarMenu openNewProjectModal={openNewProjectModal} />
+            {/* <Header /> */}
+            {/* <SidebarMenu openNewProjectModal={openNewProjectModal} /> */}
             <TemporalMain>
                 <button onClick={() => notificationCard.show()} style={{ padding: "100px 0" }}>Abrir</button>
                 <NotificationCard 

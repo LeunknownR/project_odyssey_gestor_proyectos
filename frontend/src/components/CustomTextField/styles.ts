@@ -57,7 +57,6 @@ export const Content = styled.div`
     align-items: center;
     border-radius: 3px;
     transition: 0.3s;
-    padding: 12px 10px;
     &.login {
         background-color: var(--white-1-12);
         border: 1px solid var(--white-1);
@@ -133,6 +132,7 @@ export const TextField = styled.input`
     border: 0;
     background-color: transparent;
     color: inherit;
+    padding: 12px 10px;
     ::-ms-reveal {
         display: none;
     }

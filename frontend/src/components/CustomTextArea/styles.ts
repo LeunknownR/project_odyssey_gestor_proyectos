@@ -37,7 +37,6 @@ export const Content = styled.div`
     align-items: center;
     border-radius: 3px;
     transition: 0.3s;
-    padding: 12px 10px;
     font-size: 16px;
     &.primary {
         background-color: var(--white-1-12);
@@ -73,6 +72,7 @@ export const TextArea = styled.textarea<TextAreaProps>`
     color: inherit;
     resize: none;
     min-height: 80px;
+    padding: 12px 10px;
     ::placeholder {
         user-select: none;
     }
