@@ -45,12 +45,20 @@ export const TextRecentCard = styled.div`
     align-items: center;
     justify-content: space-between;
 `;
-export const StateProyectDisable = styled.div`
+export const StateProject = styled.div`
     border-radius: 50%;
-    background-color: var(--red-1);
     width: 17px;
     height: 17px;
     display: flex;
+    &.O {
+        background-color: var(--green-1);
+    }
+    &.F {
+        background-color: var(--red-0);
+    }
+    &.P {
+        background-color: var(--yellow-1);
+    }
 `;
 export const ProjectTitle = styled.h4`
     white-space: nowrap;

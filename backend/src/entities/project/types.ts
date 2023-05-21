@@ -34,7 +34,6 @@ export type ProjectByCollaborator = ProjectBase & {
 };
 export type ProjectForm = ProjectBase & {
     id?: number,
-    userId?: number,
     leaderId: number
 };
 export type GroupedProjectListForGeneralAdmin = {

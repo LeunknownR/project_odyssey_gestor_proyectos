@@ -6,8 +6,8 @@ import CustomInputSearch from "src/components/CustomInputSearch/CustomInputSearc
 import ProjectInfo from "./components/ProjectInfo/ProjectInfo";
 import Footer from "./components/Footer/Footer";
 import { Column, Row } from "src/components/styles";
+import { CloseButtonProjectForm } from "src/views/ProjectManager/styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { CloseButtonProjectForm } from "../../styles";
 
 const testModalStyles = {
     padding: "0",

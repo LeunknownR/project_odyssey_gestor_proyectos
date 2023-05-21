@@ -1,14 +1,14 @@
 import TitleHeader from "../TitleHeader/TitleHeader";
 import RecentProjectCard from "./components/RecentProjectCard/RecentProjectCard";
 import { CardList, Container } from "./styles";
-const test = [1, 2, 3];
-const RecentProjects = () => {
+import { RecentProjectsProps } from "./types";
+const RecentProjects = ({ recentProjects }: RecentProjectsProps) => {
     return (
         <Container>
             <TitleHeader text="Proyectos recientes" />
             <CardList>
-                {test.map((_, idx) => {
-                    return <RecentProjectCard key={idx}/>
+                {recentProjects.map((project) => {
+                    return <RecentProjectCard key={project.id} project={project} />;
                 })}
             </CardList>
         </Container>

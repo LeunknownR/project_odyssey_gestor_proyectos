@@ -7,9 +7,17 @@ export const Container = styled.li`
     width: 100%;
     background-color: var(--white-1-12);
     border: 1px solid var(--white-1-50); 
-    border-left: 27px solid red;
     padding: 7px 24px;
     border-radius: 10px;
+    &.O {
+        border-left: 27px solid var(--green-1);
+    }
+    &.F {
+        border-left: 27px solid var(--red-0);
+    }
+    &.P {
+        border-left: 27px solid var(--yellow-1);
+    }
 `;
 export const IconContainer = styled.span`
     .iconify {

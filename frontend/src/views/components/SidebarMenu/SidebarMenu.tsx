@@ -1,11 +1,14 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Sidebar, NewProjectButton, MenuList, MenuButton } from "./styles";
+import { Sidebar, MenuList, MenuButton } from "./styles";
 import { SidebarMenuProps } from "./types";
 
-const SidebarMenu = ({openNewProjectModal}: SidebarMenuProps) => {
+const SidebarMenu = ({
+    mainMenuButton
+}: SidebarMenuProps) => {
     return (
+        <>
         <Sidebar>
-            <NewProjectButton onClick={openNewProjectModal}><span><Icon icon="mdi:layers-plus"/></span></NewProjectButton>
+            {mainMenuButton}
             <MenuList>
                 <MenuButton to="/ralf" activeclassname="active">
                     <span><Icon icon="material-symbols:home-outline-rounded" /></span>
@@ -15,6 +18,7 @@ const SidebarMenu = ({openNewProjectModal}: SidebarMenuProps) => {
                 </MenuButton>
             </MenuList>
         </Sidebar>
+        </>
     );
 };
 

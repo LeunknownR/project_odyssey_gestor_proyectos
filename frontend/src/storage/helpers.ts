@@ -12,7 +12,7 @@ export class LocalStorage<T> {
     public remove(): void {
         localStorage.removeItem(this.key);
     }
-};
+}
 export class SessionStorage<T> {
     private key: string;
     constructor(key: string) {

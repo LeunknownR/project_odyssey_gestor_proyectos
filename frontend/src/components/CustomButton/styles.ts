@@ -6,6 +6,7 @@ type ContainerProps = {
     weight?: string;
     padding?: string;
     maxWidth?: string;
+    onClick: any;
 };
 export const Container = styled.button<ContainerProps>`
     display: flex;
@@ -31,6 +32,7 @@ export const Container = styled.button<ContainerProps>`
         :disabled {
             background-color: var(--gray-3);
             color: var(--dark-1);
+            pointer-events: none;
         }
         &.big {
             font-size: 22px;

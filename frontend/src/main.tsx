@@ -5,10 +5,10 @@ import App from './App.tsx'
 import { APIHandler, CancelServiceRequest } from './config/api.ts';
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+    document.getElementById("root") as HTMLElement
 );
-CancelServiceRequest.init();
 APIHandler.init();
+CancelServiceRequest.cancelWhenLeavePage();
 root.render(
-  <App />
+    <App />
 );

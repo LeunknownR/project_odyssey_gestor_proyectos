@@ -4,6 +4,7 @@ export type CustomTextFieldProps = {
     placeholder?: string;
     label?: string;
     type?: string;
+    name?: string;
     variant?: string;
     maxLength?: number;
     size?: string;
@@ -18,6 +19,7 @@ export type CustomTextFieldProps = {
 
 export type TextInputTarget = {
     target: {
+        name: string;
         value: string;
     };
 };

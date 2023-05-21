@@ -18,13 +18,9 @@ export abstract class APIHandler {
     }
 }
 export abstract class CancelServiceRequest {
-    private static abortController: AbortController;
-    public static init(): void {
-       this.abortController = new AbortController();
-       CancelServiceRequest.cancelWhenLeavePage();
-    }
-    private static cancelWhenLeavePage(): void {
-        window.addEventListener("beforeunload", e => {
+    private static abortController: AbortController = new AbortController();
+    public static cancelWhenLeavePage(): void {
+        window.addEventListener("unload", e => {
             e.preventDefault();
             CancelServiceRequest.cancel();
         });
