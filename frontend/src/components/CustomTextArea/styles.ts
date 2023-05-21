@@ -43,7 +43,7 @@ export const Content = styled.div`
         border: 1px solid var(--white-1);
         color: var(--white-1);
         border-radius: 5px;
-        padding: 10px 16px;
+        padding: 0 15px 7px 0;
         ::placeholder {
             color: var(--gray-3);
         }
@@ -72,7 +72,7 @@ export const TextArea = styled.textarea<TextAreaProps>`
     color: inherit;
     resize: none;
     min-height: 80px;
-    padding: 12px 10px;
+    padding: 14px 0 0 16px;
     ::placeholder {
         user-select: none;
     }
@@ -81,4 +81,5 @@ export const MaxLength = styled.span`
     width: 100%;
     text-align: right;
     font-size: 14px;
+    user-select: none;
 `;

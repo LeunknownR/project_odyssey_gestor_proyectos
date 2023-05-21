@@ -6,7 +6,7 @@ export type LoginFormHook = {
     error: string | null;
     loading: boolean;
     handleChange: ({ target: { name, value } }: TextInputTarget) => void;
-    handleSubmit: () => Promise<void>;
+    handleSubmit: (e: Event) => Promise<void>;
 };
 type FormTypes = {
     value: LoginFormTypes;

@@ -13,7 +13,7 @@ const CustomButton = ({
     disabled = false,
     variant = "main",
     size,
-    // onClick,
+    onClick,
     icon,
     width,
     weight,
@@ -33,7 +33,7 @@ const CustomButton = ({
             className={getClassName()}
             disabled={disabled} 
             type="submit"
-            // onClick={onClick}
+            onClick={onClick}
             width={width}
             weight={weight}
             maxWidth={maxWidth}

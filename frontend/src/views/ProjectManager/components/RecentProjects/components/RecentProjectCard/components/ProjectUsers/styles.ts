@@ -5,6 +5,7 @@ export const Container = styled.div`
     flex-wrap: nowrap;
     gap: 3px;
     align-items: center;
+    user-select: none;
     > :first-child {
         background-color: var(--orange-3);
         color: var(--white-1);

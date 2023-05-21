@@ -1,12 +1,13 @@
 import Modal from "src/components/Modal/Modal";
 import { Column, Row } from "src/components/styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { CloseBtn, Left, Right, Title } from "./styles";
+import { Left, Right, Title } from "./styles";
 import CustomInputSearch from "src/components/CustomInputSearch/CustomInputSearch";
 import { UpdateDateModalProps } from "../UpdateDateModal/types";
 import ProjectForm from "./components/ProjectForm/ProjectForm";
 import Footer from "./components/Footer/Footer";
 import ProjectInfo from "./components/ProjectInfo/ProjectInfo";
+import { CloseButtonProjectForm } from "../../styles";
 
 const testModalStyles = {
     padding: "0",
@@ -31,9 +32,9 @@ const UpdateProjectModal = ({ modalProps }: UpdateDateModalProps) => {
                     </Column>
                 </Left>
                 <Right>
-                    <CloseBtn>
+                    <CloseButtonProjectForm className="update">
                         <Icon icon="material-symbols:close" />
-                    </CloseBtn>
+                    </CloseButtonProjectForm>
                     <Column width="80%" alignSelf="center" gap="35px">
                         <ProjectInfo />
                         <Column width="85%" alignSelf="center" gap="100px">

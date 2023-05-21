@@ -10,5 +10,5 @@ export const ProjectList = styled.ul`
     flex-direction: column;
     align-self: center;
     gap: 20px;
-    width: 1100px;
+    width: 1000px;
 `;

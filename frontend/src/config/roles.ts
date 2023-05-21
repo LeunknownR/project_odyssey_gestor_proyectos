@@ -6,7 +6,6 @@ export enum DBRoles {
 }
 export enum ViewModule {
     ProjectManager = "PROJECT_MANAGER",
-    
 }
 export const MODULE_VIEWS_BY_USER_ROLE: ModuleViewByUserRole = {
     [DBRoles.GeneralAdmin]: [

@@ -10,9 +10,7 @@ import {
 import { NotificationCardProps } from "./types";
 import { useEffect, useState } from "react";
 import {
-    DELTA_SECONDS,
-    TRANSITION_PROGRESS_BAR,
-} from "./utils/constants";
+    DELTA_SECONDS } from "./utils/constants";
 
 const NotificationCard = ({
     handler,
@@ -25,12 +23,10 @@ const NotificationCard = ({
         NodeJS.Timeout | undefined
     >();
     const [progress, setProgress] = useState(0);
-    const [transitionProgressBar, setTransitionProgressBar] = useState("unset");
     //#region Effects
     const initChronometer = () => {
         let intervalId: NodeJS.Timeout | undefined;
         setTimeout(() => {
-            setTransitionProgressBar(TRANSITION_PROGRESS_BAR);
             intervalId = setInterval(() => {
                 setTimeLeft(currentTimeLeft => {
                     // Eliminando interval al término del tiempo determinado
@@ -70,9 +66,7 @@ const NotificationCard = ({
     return (
         <Container
             className={getClassName()}
-            progress={progress}
-            transition={transitionProgressBar}
-        >
+            progress={progress}>
             <CloseIconContainer onClick={() => handler.hide()}>
                 <Icon icon="mdi:close" />
             </CloseIconContainer>

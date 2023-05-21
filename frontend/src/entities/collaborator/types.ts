@@ -7,8 +7,8 @@ export type CollaboratorUser = {
 export type ProjectLeader = {
 	name: string,
 	surname: string,
-	urlPhoto: string | null,
 	email: string
+	urlPhoto: string | null,
 };
 export type ProjectRole = {
     id: number;

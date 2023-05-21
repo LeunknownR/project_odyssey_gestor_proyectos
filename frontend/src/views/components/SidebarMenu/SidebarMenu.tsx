@@ -2,10 +2,10 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { Sidebar, NewProjectButton, MenuList, MenuButton } from "./styles";
 import useModal from "src/components/Modal/utils/hooks/useModal";
 import NewProjectModal from "src/views/ProjectManager/components/NewProjectModal/NewProjectModal";
-import { userLocalStorage } from "src/storage/user.local";
+import { currentUserLocalStorage } from "src/storage/user.local";
 
 const SidebarMenu = () => {
-    const userRole = userLocalStorage.get();
+    const userRole = currentUserLocalStorage.get();
     const newProjectModal = useModal();
     const openNewProjectModal = () => newProjectModal.handleOpen(true);
     return (

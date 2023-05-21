@@ -6,7 +6,6 @@ export const MODULE_VIEWS: ViewModulesRouteByViewModule = {
     [ViewModule.ProjectManager]: {
         View: ProjectManager,
         path: "proyectos",
-        key: "asd"
     },
     // [ViewModule.AffiliatedCompanies]: {
     //     View: CompanyManagementView,

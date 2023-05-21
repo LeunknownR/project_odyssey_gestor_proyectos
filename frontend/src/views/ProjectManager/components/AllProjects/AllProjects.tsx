@@ -1,15 +1,15 @@
 import TitleHeader from "../TitleHeader/TitleHeader";
 import AllProjectCard from "./components/AllProjectCard/AllProjectCard";
 import { Container, ProjectList } from "./styles";
+import { AllProjectProps } from "./types";
 
-const test = [1, 2, 3, 4];
-const AllProjects = () => {
+const AllProjects = ({ allProjects }: AllProjectProps) => {
     return (
         <Container>
             <TitleHeader text="Todos los proyectos" />
             <ProjectList>
-                {test.map((_, idx) => {
-                    return <AllProjectCard key={idx} />;
+                {allProjects.map((project) => {
+                    return <AllProjectCard key={project.id} project={project} />;
                 })}
             </ProjectList>
         </Container>

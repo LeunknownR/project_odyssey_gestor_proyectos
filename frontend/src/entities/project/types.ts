@@ -1,5 +1,4 @@
-import { type } from "os";
-import { CollaboratorUser, ProjectCollaborator, ProjectLeader } from "../collaborator/types";
+import { ProjectCollaborator, ProjectLeader } from "../collaborator/types";
 import { ProjectState } from "./enums";
 
 export type UpdateEndDateProjectRequestBody = {
@@ -35,7 +34,6 @@ export type ProjectByCollaborator = ProjectBase & {
 };
 export type ProjectForm = ProjectBase & {
     id?: number,
-    userId?: number,
     leaderId: number
 };
 export type GroupedProjectListForGeneralAdmin = {

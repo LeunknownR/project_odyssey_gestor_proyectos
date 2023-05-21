@@ -7,7 +7,9 @@ export abstract class APIHandler {
             baseURL: `${import.meta.env.VITE_API_URL}/api`,
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             },
+            signal: CancelServiceRequest.getSignal()
         });
         // requestLogin({
         //     username: "diegot",
@@ -21,7 +23,6 @@ export abstract class CancelServiceRequest {
         window.addEventListener("unload", e => {
             e.preventDefault();
             CancelServiceRequest.cancel();
-            console.log("asdasdasd")
         });
     }
     public static cancel() {

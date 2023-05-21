@@ -12,19 +12,24 @@ function App() {
     const modalUnexpectedError: ModalProps = useModal();
     useEffect(() => {
         initAxiosInterceptors(handlerErrorWithModals);
+        //initofflinehandler();
+        //checkexpirationtime();
+        //hace reload cuando se cierre el modal
     }, []);
     function handlerErrorWithModals(code: number) {
         if (code === ResponseCodes.InternalServerError)
             modalUnexpectedError.handleOpen(true);
     }
-    // return <ProvisionalRouter />;
     return (
+        //EN el main context pasar el show. Renderizar el modal
+        <>
         <BrowserRouter>
             <Routes>
                 <Route path="login" element={<Login/>} />
                 <Route path="*" element={<MasterRouter />} />
             </Routes>
         </BrowserRouter>
+        </>
     )
 }
 

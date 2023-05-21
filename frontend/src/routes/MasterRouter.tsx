@@ -5,25 +5,21 @@ import SidebarMenu from "src/views/components/SidebarMenu/SidebarMenu";
 import { Content, Main } from "./styles";
 import { MODULE_VIEWS } from "./constants";
 import { MODULE_VIEWS_BY_USER_ROLE } from "src/config/roles";
-import { userLocalStorage } from "src/storage/user.local";
 import { clearStorage } from "src/storage";
 import { AbsolutePaths } from "src/config/absolutePaths";
-import { User } from "src/entities/user/types";
+import { currentUserLocalStorage } from "src/storage/user.local";
 
 const MasterRouter = () => {
     const navigate = useNavigate();
     const [routes, setRoutes] = useState<ReactElement[] | null>(null);
     useEffect(() => {
-        const currentUser = userLocalStorage.get();
+        const currentUser = currentUserLocalStorage.get();
         if (!currentUser) {
             toLogin();
             return;
         }
-        try {
-            fillRoutes(currentUser.role.id);
-        } catch (err) {
-            toLogin();
-        }
+        try { fillRoutes(currentUser.role.id); } 
+        catch (err) { toLogin(); }
     }, []);
     const toLogin = () => {
         clearStorage();
@@ -42,7 +38,7 @@ const MasterRouter = () => {
                 })
         );
     };
-    const routesNotLoaded = routes !== null
+    const routesNotLoaded: boolean = routes !== null;
     return (
         <Main>
             {routesNotLoaded && <Header />}
@@ -50,9 +46,9 @@ const MasterRouter = () => {
             <Content>
                 <Routes>
                     {routes}
-                    {routesNotLoaded && (
-                        <Route path="*" element={<Navigate to="" replace />} />
-                    )}
+                    {routesNotLoaded && 
+                        <Route path="*" element={<Navigate to={AbsolutePaths.PROJECT_MANAGER} replace />} />
+                    }
                 </Routes>
             </Content>
         </Main>

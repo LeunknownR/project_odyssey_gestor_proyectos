@@ -3,10 +3,5 @@ export type ViewModulesRoute = {
     path: string
 }
 export type ViewModulesRouteByViewModule = {
-    [viewModules: string]: ModuleView;
+    [viewModules: string]: ViewModulesRoute;
 } 
-export type ModuleView = {
-    View: () => JSX.Element
-    path: string,
-    key: string,
-};

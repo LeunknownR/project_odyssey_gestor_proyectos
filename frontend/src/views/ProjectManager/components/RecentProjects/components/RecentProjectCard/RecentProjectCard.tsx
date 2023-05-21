@@ -5,12 +5,14 @@ import {
     Image,
     OptionsWrapper,
     ProjectTitle,
-    StateProyectDisable,
+    StateProject,
     TextRecentCard,
 } from "./styles";
 import ProjectUsers from "./components/ProjectUsers/ProjectUsers";
+import { RecentProjectCardProps } from "./types";
 
-const RecentProjectCard = () => {
+const RecentProjectCard = ({ project }: RecentProjectCardProps) => {
+    const {name, state, } = project
     return (
         <Container>
             <OptionsWrapper>
@@ -20,10 +22,9 @@ const RecentProjectCard = () => {
                 <Icon icon="ph:projector-screen-chart-fill" />
             </Image>
             <TextRecentCard>
-                <StateProyectDisable></StateProyectDisable>
-                {/*GNOMO🧚‍♀️*/}
-                <ProjectTitle title="Project Odyssey - Gestor de Proyectos">
-                    Project Odyssey - Gesasdasdasdasdasdasdasd
+                <StateProject className={state}></StateProject>
+                <ProjectTitle title={name}>
+                    {name}
                 </ProjectTitle>
                 <ProjectUsers />
             </TextRecentCard>

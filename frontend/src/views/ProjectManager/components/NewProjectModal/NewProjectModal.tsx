@@ -1,12 +1,13 @@
 import Modal from "src/components/Modal/Modal";
 import { NewProjectModalProps } from "./types";
-import { CloseBtn, Left, Right, Title } from "./styles";
+import { Left, Right, Title } from "./styles";
 import ProjectForm from "./components/ProjectForm/ProjectForm";
 import CustomInputSearch from "src/components/CustomInputSearch/CustomInputSearch";
 import ProjectInfo from "./components/ProjectInfo/ProjectInfo";
 import Footer from "./components/Footer/Footer";
 import { Column, Row } from "src/components/styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { CloseButtonProjectForm } from "../../styles";
 
 const testModalStyles = {
     padding: "0",
@@ -31,9 +32,9 @@ const NewProjectModal = ({ modalProps }: NewProjectModalProps) => {
                     </Column>
                 </Left>
                 <Right>
-                    <CloseBtn onClick={() => modalProps.handleOpen(false)}>
+                    <CloseButtonProjectForm onClick={() => modalProps.handleOpen(false)}>
                         <Icon icon="material-symbols:close" />
-                    </CloseBtn>
+                    </CloseButtonProjectForm>
                     <Column width="80%" alignSelf="center" gap="35px">
                         <ProjectInfo />
                         <Column width="85%" alignSelf="center" gap="100px">
