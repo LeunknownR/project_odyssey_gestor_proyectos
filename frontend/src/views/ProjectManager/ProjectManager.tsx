@@ -1,7 +1,5 @@
-import Header from "src/views/components/Header/Header";
 import { Container, TemporalMain } from "./styles";
 import SidebarMenu from "../components/SidebarMenu/SidebarMenu";
-import NewProjectModal from "./components/NewProjectModal/NewProjectModal";
 import useModal from "src/components/Modal/utils/hooks/useModal";
 import RecentProjects from "./components/RecentProjects/RecentProjects";
 import UpdateProjectModal from "./components/UpdateProjectModal/UpdateProjectModal";
@@ -12,6 +10,7 @@ import useNotificationCard from "src/components/NotificationCard/utils/hooks/use
 import { useEffect, useState } from "react";
 import { requestGetProjectsForGeneralAdmin } from "src/services/projects/relatedToProjects";
 import { Project } from "src/entities/project/types";
+import NewProjectSection from "./components/NewProjectSection/NewProjectSection";
 
 const ProjectManager = () => {
     const [recentProjects, setRecentProjects] = useState<Project[]>([]);
@@ -27,7 +26,7 @@ const ProjectManager = () => {
     // const preloader = usePreloader();
     const fillProjects = async () => {
         // preloader.show(null);
-        const data = await requestGetProjectsForGeneralAdmin("a");
+        const data = await requestGetProjectsForGeneralAdmin("&");
         // preloader.hide();
         if (data.data === null) return;
         // setCompanies(data);
@@ -36,6 +35,11 @@ const ProjectManager = () => {
     };
     return (
         <>
+        <SidebarMenu
+            mainMenuButton={
+                <NewProjectSection 
+                    modal={newProjectModal}/>
+            }/>
         {/* <ProjectManagerContext.Provider value={{openUpdateModal, openDeleteModal}}> */}
             <Container>
             <TemporalMain>
