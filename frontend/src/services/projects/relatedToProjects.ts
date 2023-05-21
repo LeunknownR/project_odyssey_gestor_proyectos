@@ -9,12 +9,7 @@ export const requestGetProjectsForGeneralAdmin: APIRequestFunction<
     string
 > = async (projectName: string) => {
     const data: ResponseBody<GroupedProjectListForGeneralAdmin> = await APIHandler.api.get(
-        ApiPathEndpoints.GetProjectListByGeneralAdmin,
-        {
-            params: {
-                projectName
-            }
-        }
+        ApiPathEndpoints.GetProjectListByGeneralAdmin + projectName,
     );
     console.log(data)
     return data;

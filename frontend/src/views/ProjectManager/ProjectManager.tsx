@@ -31,12 +31,13 @@ const ProjectManager = () => {
         // preloader.hide();
         if (data.data === null) return;
         // setCompanies(data);
-        setRecentProjects(data.data?.recents)
-        setAllProjects(data.data?.all)
+        setRecentProjects(data.data?.recents);
+        setAllProjects(data.data?.all);
     };
     return (
         <>
-        <Container>
+        {/* <ProjectManagerContext.Provider value={{openUpdateModal, openDeleteModal}}> */}
+            <Container>
             <TemporalMain>
                 {/* <button onClick={() => notificationCard.show()} style={{ padding: "100px 0" }}>Abrir</button> */}
                 <NotificationCard 
@@ -49,6 +50,7 @@ const ProjectManager = () => {
             </TemporalMain>
         </Container>
         <UpdateProjectModal modalProps={updateProjectModal}/>
+        {/* </ProjectManagerContext.Provider> */}
         </>
     );
 };

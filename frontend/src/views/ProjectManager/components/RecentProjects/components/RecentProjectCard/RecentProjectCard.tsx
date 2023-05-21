@@ -12,7 +12,7 @@ import ProjectUsers from "./components/ProjectUsers/ProjectUsers";
 import { RecentProjectCardProps } from "./types";
 
 const RecentProjectCard = ({ project }: RecentProjectCardProps) => {
-    const {name, state, } = project
+    const {name, state } = project;
     return (
         <Container>
             <OptionsWrapper>

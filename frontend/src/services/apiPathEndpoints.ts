@@ -3,7 +3,7 @@ export enum ApiPathEndpoints {
     GetProjectList = "/general-admin/projects/:projectName",
     CreateProject = "/general-admin/projects/create",
     DeleteProject = "/general-admin/projects/delete",
-    GetProjectListByGeneralAdmin = "/general-admin/projects/a",
+    GetProjectListByGeneralAdmin = "/general-admin/projects/",
     UpdateProject = "/general-admin/projects/update",
     SearchCollaborator = "/general-admin/projects/search-collaborator/:collaboratorName",
     GetProjectListForCollaborator = "/collaborator/projects/:projectName/:collaboratorId",
