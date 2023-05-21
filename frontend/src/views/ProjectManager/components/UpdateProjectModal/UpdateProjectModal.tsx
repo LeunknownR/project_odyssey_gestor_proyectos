@@ -46,7 +46,7 @@ const UpdateProjectModal = ({ modalProps }: UpdateDateModalProps) => {
                                 onChange={() => console.log()}
                                 fillOptions={() => console.log()}
                             />
-                            <Footer />
+                            <Footer/>
                         </Column>
                     </Column>
                 </Right>

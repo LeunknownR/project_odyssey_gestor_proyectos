@@ -6,7 +6,9 @@ import { DBRoles } from "src/config/roles";
 import useUserRole from "src/storage/hooks/useUserRole";
 
 const NewProjectSection = ({
-    modal
+    modal,
+    form,
+    getProjectFromForm
 }: NewProjectSectionProps) => {
     const userRole = useUserRole();
     if (userRole !== DBRoles.GeneralAdmin)
@@ -19,7 +21,7 @@ const NewProjectSection = ({
                 <Icon icon="mdi:layers-plus"/>
             </span>
         </NewProjectButton>
-        <NewProjectModal modalProps={modal} />
+        <NewProjectModal modalProps={modal} form={form} getProjectFromForm={getProjectFromForm}/>
         </>
     );
 }

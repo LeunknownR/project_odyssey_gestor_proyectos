@@ -11,13 +11,16 @@ import { useEffect, useState } from "react";
 import { requestGetProjectsForGeneralAdmin } from "src/services/projects/relatedToProjects";
 import { Project } from "src/entities/project/types";
 import NewProjectSection from "./components/NewProjectSection/NewProjectSection";
+import useFormProject from "./utils/hooks/useForm";
 
 const ProjectManager = () => {
     const [recentProjects, setRecentProjects] = useState<Project[]>([]);
     const [allProjects, setAllProjects] = useState<Project[]>([]);
+    const [currentProject, setCurrentProject] = useState<Project | null>(null);
     const notificationCard = useNotificationCard();
     const newProjectModal = useModal();
     const updateProjectModal = useModal();
+    const {form, getProjectFromForm} = useFormProject(newProjectModal, updateProjectModal, currentProject)
     const openUpdateProjectModal = () => updateProjectModal.handleOpen(true);
     useEffect(() => {
         fillProjects();
@@ -26,7 +29,7 @@ const ProjectManager = () => {
     // const preloader = usePreloader();
     const fillProjects = async () => {
         // preloader.show(null);
-        const data = await requestGetProjectsForGeneralAdmin("&");
+        const data = await requestGetProjectsForGeneralAdmin("a");
         // preloader.hide();
         if (data.data === null) return;
         // setCompanies(data);
@@ -38,7 +41,9 @@ const ProjectManager = () => {
         <SidebarMenu
             mainMenuButton={
                 <NewProjectSection 
-                    modal={newProjectModal}/>
+                    modal={newProjectModal}
+                    form={form}
+                    getProjectFromForm={getProjectFromForm}/>
             }/>
         {/* <ProjectManagerContext.Provider value={{openUpdateModal, openDeleteModal}}> */}
             <Container>
