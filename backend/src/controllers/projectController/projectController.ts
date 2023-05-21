@@ -20,8 +20,11 @@ export default abstract class ProjectController {
         return collaborators;
     }
     static async createProject(createProjectRequestBody: CreateProjectRequestBody): Promise<string> {
-        const affectedRows: number = await ProjectModel.createProject(createProjectRequestBody);
-        return affectedRows > 0 ? ResponseMessages.Success : ResponseMessages.FatalError;
+        const record: any = await ProjectModel.createProject(createProjectRequestBody);
+        if (!record)
+            throw new Error("It couldn't be created the project");
+        const message: string = record["message"];
+        return message ? message : ResponseMessages.FatalError;
     }
     static async updateProject(projectForm: ProjectForm): Promise<string> {
         const affectedRows: number = await ProjectModel.updateProject(projectForm);
