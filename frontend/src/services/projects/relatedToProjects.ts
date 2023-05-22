@@ -30,3 +30,13 @@ export const requestCreateProject: APIRequestFunction<
     );
     return data;
 };
+export const requestUpdateProject: APIRequestFunction<
+    null,
+    ProjectForm | null
+> = async (project: ProjectForm | null) => {
+    const data: ResponseBody<null> = await APIHandler.api.put(
+        ApiPathEndpoints.UpdateProject,
+        { project }
+    );
+    return data;
+};

@@ -42,38 +42,42 @@ const ProjectManager = () => {
     const fillCurrentProject = (project: Project | null) => {
         setCurrentProject(project);
     };
-    console.log(currentProject);
     return (
         <>
-        <SidebarMenu
-            mainMenuButton={
-                <NewProjectSection
-                    modal={newProjectModal}
-                    form={form}
-                    getProjectFromForm={getProjectFromForm}
-                />
-            }
-        />
-        {/* <ProjectManagerContext.Provider value={{openUpdateModal, openDeleteModal}}> */}
-        <Container>
-            <TemporalMain>
-                {/* <button onClick={() => notificationCard.show()} style={{ padding: "100px 0" }}>Abrir</button> */}
-                <NotificationCard
-                    show={notificationCard.visible}
-                    handler={notificationCard}
-                    maxSeconds={notificationCard.timeoutToClose / 1_000}
-                />
-                <RecentProjects
-                    recentProjects={recentProjects}
-                    setCurrentProject={setCurrentProject}
-                    updateProjectModal={updateProjectModal}
-                />
-                <AllProjects allProjects={allProjects} />
-                {/* <ProjectDetails /> */}
-            </TemporalMain>
-        </Container>
-        <UpdateProjectModal modalProps={updateProjectModal} form={form}/>
-        {/* </ProjectManagerContext.Provider> */}
+            <SidebarMenu
+                mainMenuButton={
+                    <NewProjectSection
+                        modal={newProjectModal}
+                        form={form}
+                        getProjectFromForm={getProjectFromForm}
+                        setCurrentProject={setCurrentProject}
+                    />
+                }
+            />
+            {/* <ProjectManagerContext.Provider value={{openUpdateModal, openDeleteModal}}> */}
+            <Container>
+                <TemporalMain>
+                    {/* <button onClick={() => notificationCard.show()} style={{ padding: "100px 0" }}>Abrir</button> */}
+                    <NotificationCard
+                        show={notificationCard.visible}
+                        handler={notificationCard}
+                        maxSeconds={notificationCard.timeoutToClose / 1_000}
+                    />
+                    <RecentProjects
+                        recentProjects={recentProjects}
+                        setCurrentProject={setCurrentProject}
+                        updateProjectModal={updateProjectModal}
+                    />
+                    <AllProjects allProjects={allProjects} />
+                    {/* <ProjectDetails /> */}
+                </TemporalMain>
+            </Container>
+            <UpdateProjectModal
+                modalProps={updateProjectModal}
+                form={form}
+                getProjectFromForm={getProjectFromForm}
+            />
+            {/* </ProjectManagerContext.Provider> */}
         </>
     );
 };

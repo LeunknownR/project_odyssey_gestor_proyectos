@@ -24,11 +24,13 @@ const ProjectForm = ({ form }: ProjectFormProps) => {
                 {...TEXT_FIELD_PROPS.PROJECT_NAME}
                 value={name}
                 variant="secondary"
+                onChange={changeNameProjectField}
             />
             <CustomTextArea
                 {...TEXT_FIELD_PROPS.PROJECT_DESCRIPTION}
                 value={description}
                 variant="secondary"
+                onChange={changeDescriptionProjectField}
             />
             <Duration form={form} labelColor="var(--darkblue-1)"/>
         </Column>

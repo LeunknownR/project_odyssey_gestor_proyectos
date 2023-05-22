@@ -1,10 +1,15 @@
 import CustomButton from "src/components/CustomButton/CustomButton";
 import { Container } from "./styles";
+import { FooterProps } from "./types";
 
-const Footer = () => {
+const Footer = ({ updateProject }: FooterProps) => {
     return (
         <Container>
-            <CustomButton content="Actualizar" size="big"/>
+            <CustomButton
+                content="Actualizar"
+                size="big"
+                onClick={updateProject}
+            />
         </Container>
     );
 };

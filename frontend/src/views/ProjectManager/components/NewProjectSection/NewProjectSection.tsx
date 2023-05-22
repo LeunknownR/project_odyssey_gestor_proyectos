@@ -8,15 +8,20 @@ import useUserRole from "src/storage/hooks/useUserRole";
 const NewProjectSection = ({
     modal,
     form,
-    getProjectFromForm
+    getProjectFromForm,
+    setCurrentProject
 }: NewProjectSectionProps) => {
     const userRole = useUserRole();
     if (userRole !== DBRoles.GeneralAdmin)
         return null;
+    const openModalFormToCreate = () => {
+        setCurrentProject(null);
+        modal.open(true)
+    }
     return (
         <>
         <NewProjectButton 
-            onClick={() => modal.open(true)}>
+            onClick={openModalFormToCreate}>
             <span>
                 <Icon icon="mdi:layers-plus"/>
             </span>

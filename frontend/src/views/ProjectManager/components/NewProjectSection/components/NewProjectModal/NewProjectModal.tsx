@@ -3,7 +3,7 @@ import { NewProjectModalProps } from "./types";
 import { Left, Right, Title } from "./styles";
 import ProjectForm from "./components/ProjectForm/ProjectForm";
 import CustomInputSearch from "src/components/CustomInputSearch/CustomInputSearch";
-import ProjectInfo from "./components/ProjectInfo/ProjectInfo";
+import ProjectInfo from "../../../ProjectInfo/ProjectInfo";
 import Footer from "./components/Footer/Footer";
 import { Column, Row } from "src/components/styles";
 import { CloseButtonProjectForm } from "src/views/ProjectManager/styles";
@@ -52,7 +52,7 @@ const NewProjectModal = ({
                         <Icon icon="material-symbols:close" />
                     </CloseButtonProjectForm>
                     <Column width="80%" alignSelf="center" gap="35px">
-                        <ProjectInfo form={form}/>
+                        <ProjectInfo form={form} variant="create"/>
                         <Column width="85%" alignSelf="center" gap="100px">
                             <LeaderSelector form={form} />
                             <Footer registerProject={registerProject}/>
