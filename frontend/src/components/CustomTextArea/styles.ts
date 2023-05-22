@@ -53,7 +53,7 @@ export const Content = styled.div`
         border: 1px solid var(--darkblue-1);
         color: var(--darkblue-1);
         border-radius: 5px;
-        padding: 9px 16px;
+        padding: 0 15px 7px 0;
         ::placeholder {
             color: var(--gray-2);
         }

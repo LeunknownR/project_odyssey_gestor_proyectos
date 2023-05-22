@@ -18,7 +18,7 @@ function App() {
     }, []);
     function handlerErrorWithModals(code: number) {
         if (code === ResponseCodes.InternalServerError)
-            modalUnexpectedError.handleOpen(true);
+            modalUnexpectedError.open(true);
     }
     return (
         //EN el main context pasar el show. Renderizar el modal

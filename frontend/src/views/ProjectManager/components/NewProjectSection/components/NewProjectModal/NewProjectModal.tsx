@@ -33,7 +33,7 @@ const NewProjectModal = ({
         // Error controlado
         // const { message } = data;
         // Exitoso
-        modalProps.handleOpen(false);
+        modalProps.open(false);
         // modalNotifyProps.handleOpen(true);
     };
     return (
@@ -47,12 +47,12 @@ const NewProjectModal = ({
                 </Left>
                 <Right>
                     <CloseButtonProjectForm
-                        onClick={() => modalProps.handleOpen(false)}
+                        onClick={() => modalProps.open(false)}
                     >
                         <Icon icon="material-symbols:close" />
                     </CloseButtonProjectForm>
                     <Column width="80%" alignSelf="center" gap="35px">
-                        <ProjectInfo />
+                        <ProjectInfo form={form}/>
                         <Column width="85%" alignSelf="center" gap="100px">
                             <LeaderSelector form={form} />
                             <Footer registerProject={registerProject}/>

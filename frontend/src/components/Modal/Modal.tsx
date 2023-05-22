@@ -11,7 +11,7 @@ const Modal = ({
     isOpen = false,
     sizeProps,
     handleClose,
-    handleOpen: handleOpen,
+    open: handleOpen,
 }: ModalProps) => {
     useEffect(() => {
         if (isOpen) {

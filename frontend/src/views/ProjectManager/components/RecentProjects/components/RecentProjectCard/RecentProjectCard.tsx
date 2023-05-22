@@ -11,21 +11,24 @@ import {
 import ProjectUsers from "./components/ProjectUsers/ProjectUsers";
 import { RecentProjectCardProps } from "./types";
 
-const RecentProjectCard = ({ project }: RecentProjectCardProps) => {
-    const {name, state } = project;
+const RecentProjectCard = ({
+    project,
+    setCurrentProject,
+    updateProjectModal,
+}: RecentProjectCardProps) => {
+    const { name, state } = project;
+    const openUpdateProjectModal = () => updateProjectModal.open(true)
     return (
         <Container>
-            <OptionsWrapper>
-                <MenuOptions />
+            <OptionsWrapper onClick={() => setCurrentProject(project)}>
+                <MenuOptions onClickEdit={openUpdateProjectModal}/>
             </OptionsWrapper>
             <Image>
                 <Icon icon="ph:projector-screen-chart-fill" />
             </Image>
             <TextRecentCard>
                 <StateProject className={state}></StateProject>
-                <ProjectTitle title={name}>
-                    {name}
-                </ProjectTitle>
+                <ProjectTitle title={name}>{name}</ProjectTitle>
                 <ProjectUsers />
             </TextRecentCard>
         </Container>

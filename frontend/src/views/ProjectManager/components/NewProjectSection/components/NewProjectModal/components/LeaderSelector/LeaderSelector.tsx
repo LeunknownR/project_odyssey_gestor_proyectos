@@ -22,6 +22,7 @@ const LeaderSelector = ({ form }: LeaderSelectorProps) => {
             options={PROV_OP}
             onChange={() => console.log()}
             fillOptions={() => console.log()}
+            variant="primary-search"
             // value={leaderId}
         />
     );

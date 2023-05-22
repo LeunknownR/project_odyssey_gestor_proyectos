@@ -16,7 +16,7 @@ const NewProjectSection = ({
     return (
         <>
         <NewProjectButton 
-            onClick={() => modal.handleOpen(true)}>
+            onClick={() => modal.open(true)}>
             <span>
                 <Icon icon="mdi:layers-plus"/>
             </span>

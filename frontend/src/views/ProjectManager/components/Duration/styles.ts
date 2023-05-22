@@ -6,7 +6,7 @@ export const Container = styled.div`
     gap: 14px;
 `;
 export const Label = styled.label`
-    color: var(--white-1);
+    color: ${({color}) => color};
     font-size: 20px;
     font-weight: 700;
 `;

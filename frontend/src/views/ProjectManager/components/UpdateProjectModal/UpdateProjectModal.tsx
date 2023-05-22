@@ -21,14 +21,14 @@ const PROV_OP = [
     },
 ];
 
-const UpdateProjectModal = ({ modalProps }: UpdateDateModalProps) => {
+const UpdateProjectModal = ({ modalProps, form }: UpdateDateModalProps) => {
     return (
         <Modal {...modalProps} sizeProps={testModalStyles}>
             <Row width="100%">
                 <Left>
                     <Column width="80%" alignSelf="center" gap="40px">
                         <Title>Actualizar Proyecto</Title>
-                        <ProjectForm />
+                        <ProjectForm form={form}/>
                     </Column>
                 </Left>
                 <Right>

@@ -15,7 +15,8 @@ const useFormProject = (
         initForm();
     }, [modalPropsCreate.isOpen, modalPropsUpdate.isOpen]);
     const initForm = () => {
-        if (!modalPropsCreate.isOpen || !modalPropsUpdate.isOpen) return;
+        if (!modalPropsCreate.isOpen && !modalPropsUpdate.isOpen) 
+            return;
         if (!currentProject) {
             setForm(INITIAL_FORM);
             return;
@@ -47,6 +48,7 @@ const useFormProject = (
         );
     };
     const changeField = (field: string, value: any) => {
+        console.log(form)
         setForm(prev => ({
             ...prev,
             [field]: typeof value === "function" ? value(prev[field]) : value,

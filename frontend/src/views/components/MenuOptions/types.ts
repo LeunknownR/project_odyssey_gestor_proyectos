@@ -1,3 +1,4 @@
 export type MenuOptionsProps = {
-    menuPosition: string;
+    menuPosition?: string;
+    onClickEdit: () => void;
 }

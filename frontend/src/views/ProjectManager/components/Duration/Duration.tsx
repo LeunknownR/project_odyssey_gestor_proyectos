@@ -4,7 +4,7 @@ import { Container, Label } from "./styles";
 import { TEXT_FIELD_PROPS } from "src/views/ProjectManager/utils/constants";
 import { DurationProps } from "./types";
 
-const Duration = ({ form }: DurationProps) => {
+const Duration = ({ form, labelColor }: DurationProps) => {
     const {startDate, endDate} = form.value;
     const changeStartDateProjectField = (value: number) => {
         form.change(TEXT_FIELD_PROPS.PROJECT_START.name, value);
@@ -14,7 +14,7 @@ const Duration = ({ form }: DurationProps) => {
     };
     return (
         <Container>
-            <Label>Duración</Label>
+            <Label color={labelColor}>Duración</Label>
             <Row gap="14px">
                 <CustomDatePicker
                     {...TEXT_FIELD_PROPS.PROJECT_START}
