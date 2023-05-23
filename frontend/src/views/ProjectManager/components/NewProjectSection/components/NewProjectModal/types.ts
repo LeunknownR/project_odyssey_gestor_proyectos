@@ -6,4 +6,5 @@ export type NewProjectModalProps = {
     modalProps: ModalProps;
     form: FormCompanyTypes;
     getProjectFromForm: () => ProjectForm | null;
+    fillProjects: () => Promise<void>
 }

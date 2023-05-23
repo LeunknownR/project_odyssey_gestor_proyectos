@@ -4,7 +4,7 @@ import {
 } from "./styles";
 import { MenuProps } from "./types";
 
-const Menu = ({ show, menuPosition , onClickEdit}: MenuProps) => {
+const Menu = ({ show, menuPosition , onClickEdit, onClickDelete}: MenuProps) => {
     
     const getClassName = () => {
         const classList: string[] = [];
@@ -16,7 +16,7 @@ const Menu = ({ show, menuPosition , onClickEdit}: MenuProps) => {
     return (
         <Container className={className}>
             <Option color="var(--dark-1)" onClick={onClickEdit}>Editar</Option>
-            <Option color="var(--red-3)">Eliminar</Option>
+            <Option color="var(--red-3)" onClick={onClickDelete}>Eliminar</Option>
         </Container>
     );
 };

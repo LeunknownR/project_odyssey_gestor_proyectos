@@ -7,4 +7,5 @@ export type NewProjectSectionProps = {
     form: FormCompanyTypes;
     getProjectFromForm: () => ProjectForm | null;
     setCurrentProject: (project: Project | null) => void;
+    fillProjects: () => Promise<void>;
 };

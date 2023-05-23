@@ -9,26 +9,30 @@ const NewProjectSection = ({
     modal,
     form,
     getProjectFromForm,
-    setCurrentProject
+    setCurrentProject,
+    fillProjects,
 }: NewProjectSectionProps) => {
     const userRole = useUserRole();
-    if (userRole !== DBRoles.GeneralAdmin)
-        return null;
+    if (userRole !== DBRoles.GeneralAdmin) return null;
     const openModalFormToCreate = () => {
         setCurrentProject(null);
-        modal.open(true)
-    }
+        modal.open(true);
+    };
     return (
         <>
-        <NewProjectButton 
-            onClick={openModalFormToCreate}>
-            <span>
-                <Icon icon="mdi:layers-plus"/>
-            </span>
-        </NewProjectButton>
-        <NewProjectModal modalProps={modal} form={form} getProjectFromForm={getProjectFromForm}/>
+            <NewProjectButton onClick={openModalFormToCreate}>
+                <span>
+                    <Icon icon="mdi:layers-plus" />
+                </span>
+            </NewProjectButton>
+            <NewProjectModal
+                modalProps={modal}
+                form={form}
+                getProjectFromForm={getProjectFromForm}
+                fillProjects={fillProjects}
+            />
         </>
     );
-}
+};
 
 export default NewProjectSection;

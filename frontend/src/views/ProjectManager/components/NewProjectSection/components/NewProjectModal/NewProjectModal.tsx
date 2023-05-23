@@ -21,6 +21,7 @@ const NewProjectModal = ({
     modalProps,
     form,
     getProjectFromForm,
+    fillProjects
 }: NewProjectModalProps) => {
     const registerProject = async () => {
         // preloader.show("Registrando empresa...");
@@ -28,12 +29,12 @@ const NewProjectModal = ({
         const data = await requestCreateProject(getProjectFromForm());
         // preloader.hide();
         // Error inesperado
-        console.log(data)
         if (!data) return;
         // Error controlado
         // const { message } = data;
         // Exitoso
         modalProps.open(false);
+        fillProjects();
         // modalNotifyProps.handleOpen(true);
     };
     return (

@@ -6,4 +6,5 @@ export type UpdateDateModalProps = {
     modalProps: ModalProps;
     form: FormCompanyTypes;
     getProjectFromForm: () => ProjectForm | null;
+    fillProjects: () => Promise<void>
 };

@@ -22,32 +22,39 @@ const PROV_OP = [
     },
 ];
 
-const UpdateProjectModal = ({ modalProps, form, getProjectFromForm }: UpdateDateModalProps) => {
-    console.log(getProjectFromForm())
+const UpdateProjectModal = ({
+    modalProps,
+    form,
+    getProjectFromForm,
+    fillProjects,
+}: UpdateDateModalProps) => {
     const updateProject = async () => {
         console.log("updating");
         // preloader.show("Actualizando datos de la empresa...");
         const data = await requestUpdateProject(getProjectFromForm());
         // preloader.hide();
         if (!data) return;
-        const { message } = data;
+        // const { message } = data;
         modalProps.open(false);
-    }
+        fillProjects();
+    };
     return (
         <Modal {...modalProps} sizeProps={testModalStyles}>
             <Row width="100%">
                 <Left>
                     <Column width="80%" alignSelf="center" gap="40px">
                         <Title>Actualizar Proyecto</Title>
-                        <ProjectForm form={form}/>
+                        <ProjectForm form={form} />
                     </Column>
                 </Left>
                 <Right>
-                    <CloseButtonProjectForm className="update">
+                    <CloseButtonProjectForm
+                        onClick={() => modalProps.open(false)}
+                        className="update">
                         <Icon icon="material-symbols:close" />
                     </CloseButtonProjectForm>
                     <Column width="80%" alignSelf="center" gap="35px">
-                        <ProjectInfo form={form} variant="update"/>
+                        <ProjectInfo form={form} variant="update" />
                         <Column width="85%" alignSelf="center" gap="100px">
                             <CustomInputSearch
                                 label="Líder del proyecto"
@@ -57,7 +64,7 @@ const UpdateProjectModal = ({ modalProps, form, getProjectFromForm }: UpdateDate
                                 onChange={() => console.log()}
                                 fillOptions={() => console.log()}
                             />
-                            <Footer updateProject={updateProject}/>
+                            <Footer updateProject={updateProject} />
                         </Column>
                     </Column>
                 </Right>

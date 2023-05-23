@@ -36,7 +36,17 @@ export const requestUpdateProject: APIRequestFunction<
 > = async (project: ProjectForm | null) => {
     const data: ResponseBody<null> = await APIHandler.api.put(
         ApiPathEndpoints.UpdateProject,
-        { project }
+        project
+    );
+    return data;
+};
+export const requestDeleteProject: APIRequestFunction<
+    null,
+    number | undefined
+> = async (projectId: number | undefined) => {
+    const data: ResponseBody<null> = await APIHandler.api.delete(
+        ApiPathEndpoints.DeleteProject,
+        { userId: getUserId(), projectId }
     );
     return data;
 };

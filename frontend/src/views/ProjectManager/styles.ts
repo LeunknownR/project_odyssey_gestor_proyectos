@@ -20,7 +20,7 @@ export const CloseButtonProjectForm = styled.div`
         width: max-content;
         font-size: 34px;
     }
-    .update {
+    &.update {
         color: var(--white-1);
     }
 `;

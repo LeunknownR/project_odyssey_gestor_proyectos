@@ -5,4 +5,5 @@ export type RecentProjectsProps = {
     recentProjects: Project[];
     setCurrentProject: (project: Project | null) => void;
     updateProjectModal: ModalProps;
+    deleteProjectModal: ModalProps;
 };

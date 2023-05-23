@@ -5,4 +5,5 @@ export type RecentProjectCardProps = {
     project: Project;
     setCurrentProject: (project: Project | null) => void;
     updateProjectModal: ModalProps;
+    deleteProjectModal: ModalProps;
 }

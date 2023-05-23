@@ -12,6 +12,7 @@ import { requestGetProjectsForGeneralAdmin } from "src/services/projects/related
 import { Project } from "src/entities/project/types";
 import NewProjectSection from "./components/NewProjectSection/NewProjectSection";
 import useFormProject from "./utils/hooks/useForm";
+import DeleteProjectModal from "./components/DeleteProjectModal/DeleteProjectModal";
 
 const ProjectManager = () => {
     const [recentProjects, setRecentProjects] = useState<Project[]>([]);
@@ -20,6 +21,7 @@ const ProjectManager = () => {
     const notificationCard = useNotificationCard();
     const newProjectModal = useModal();
     const updateProjectModal = useModal();
+    const deleteProjectModal = useModal();
     const { form, getProjectFromForm } = useFormProject(
         newProjectModal,
         updateProjectModal,
@@ -31,6 +33,7 @@ const ProjectManager = () => {
         // return () => CancelServiceRequest.cancel();
     }, []);
     // const preloader = usePreloader();
+    console.log(currentProject);
     const fillProjects = async () => {
         // preloader.show(null);
         const data = await requestGetProjectsForGeneralAdmin("a");
@@ -51,6 +54,7 @@ const ProjectManager = () => {
                         form={form}
                         getProjectFromForm={getProjectFromForm}
                         setCurrentProject={setCurrentProject}
+                        fillProjects={fillProjects}
                     />
                 }
             />
@@ -67,8 +71,14 @@ const ProjectManager = () => {
                         recentProjects={recentProjects}
                         setCurrentProject={setCurrentProject}
                         updateProjectModal={updateProjectModal}
+                        deleteProjectModal={deleteProjectModal}
                     />
-                    <AllProjects allProjects={allProjects} />
+                    <AllProjects
+                        allProjects={allProjects}
+                        setCurrentProject={setCurrentProject}
+                        updateProjectModal={updateProjectModal}
+                        deleteProjectModal={deleteProjectModal}
+                    />
                     {/* <ProjectDetails /> */}
                 </TemporalMain>
             </Container>
@@ -76,6 +86,11 @@ const ProjectManager = () => {
                 modalProps={updateProjectModal}
                 form={form}
                 getProjectFromForm={getProjectFromForm}
+                fillProjects={fillProjects}
+            />
+            <DeleteProjectModal
+                modalProps={deleteProjectModal}
+                projectId={currentProject?.id}
             />
             {/* </ProjectManagerContext.Provider> */}
         </>

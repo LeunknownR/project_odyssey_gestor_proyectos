@@ -7,6 +7,7 @@ import { MenuOptionsProps } from "./types";
 const MenuOptions = ({
     menuPosition = "left",
     onClickEdit,
+    onClickDelete,
 }: MenuOptionsProps) => {
     const [showMenu, setShowMenu] = useState(false);
     const toggleMenu = () => setShowMenu(prev => !prev);
@@ -15,7 +16,12 @@ const MenuOptions = ({
         <>
             <Container tabIndex={0} onBlur={() => setShowMenu(false)}>
                 <ThreeDots onClick={toggleMenu} />
-                <Menu show={showMenu} menuPosition={menuPosition} onClickEdit={onClickEdit}/>
+                <Menu
+                    show={showMenu}
+                    menuPosition={menuPosition}
+                    onClickEdit={onClickEdit}
+                    onClickDelete={onClickDelete}
+                />
             </Container>
         </>
     );
