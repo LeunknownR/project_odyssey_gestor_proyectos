@@ -15,7 +15,7 @@ export abstract class GenerateResponseBody {
             });
     }
     public static sendFatalErrorResponse = (res: Response<ResponseBody<null>>): void => {
-        res.status(ResponseCodes.Unauthorized)
+        res.status(ResponseCodes.InternalServerError)
             .send({
                 code: ResponseCodes.InternalServerError,
                 message: ResponseMessages.FatalError,

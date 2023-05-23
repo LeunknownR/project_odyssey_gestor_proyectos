@@ -5,6 +5,7 @@ export type CollaboratorUser = {
 	urlPhoto: string | null,
 };
 export type ProjectLeader = {
+	id: number,
 	name: string,
 	surname: string,
 	email: string

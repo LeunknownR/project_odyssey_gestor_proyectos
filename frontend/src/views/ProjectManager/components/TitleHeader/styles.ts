@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.header`
   display: flex;
   align-self: center;
-  width: 80%;
+  width: 100%;
   border-bottom: 1px solid var(--white-1);
 `;
 export const Title = styled.h3`

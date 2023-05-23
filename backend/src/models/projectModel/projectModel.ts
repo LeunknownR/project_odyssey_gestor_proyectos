@@ -26,8 +26,8 @@ export default abstract class ProjectModel {
     static async createProject({
         userId,
         projectForm
-    }: CreateProjectRequestBody): Promise<number> {
-        const information = await DBConnection.query(
+    }: CreateProjectRequestBody): Promise<string> {
+        const [[record]] = await DBConnection.query(
             StoredProcedures.CreateProject,
             [
                 userId,
@@ -38,7 +38,7 @@ export default abstract class ProjectModel {
                 projectForm.leaderId
             ]
         );
-        return information.affectedRows;
+        return record;
     }
     static async updateProject({
         id,
@@ -87,7 +87,7 @@ export default abstract class ProjectModel {
     }: DeleteProjectRequestBody): Promise<any> {
         const [[record]] = await DBConnection.query(
             StoredProcedures.DeleteProject,
-            [userId, projectId]
+            [projectId, userId]
         );
         return record;
     }
