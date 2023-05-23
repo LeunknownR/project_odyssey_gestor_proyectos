@@ -13,3 +13,7 @@ export type FormCompanyTypes = {
     haveChanges: () => boolean;
     change: (field: string, value: any) => void;
 }
+export type ProjectFilters = {
+    searchedProject: string;
+    [key: string]: string;
+};

@@ -6,7 +6,7 @@ const RecentProjects = ({
     recentProjects,
     setCurrentProject,
     updateProjectModal,
-    deleteProjectModal
+    deleteProjectModal,
 }: RecentProjectsProps) => {
     return (
         <Container>
