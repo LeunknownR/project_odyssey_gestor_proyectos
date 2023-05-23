@@ -87,7 +87,7 @@ export default abstract class ProjectModel {
     }: DeleteProjectRequestBody): Promise<any> {
         const [[record]] = await DBConnection.query(
             StoredProcedures.DeleteProject,
-            [userId, projectId]
+            [projectId, userId]
         );
         return record;
     }

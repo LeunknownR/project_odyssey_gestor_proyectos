@@ -2,11 +2,11 @@ import CustomTextField from "src/components/CustomTextField/CustomTextField";
 import CustomTextArea from "src/components/CustomTextArea/CustomTextArea";
 import { Column } from "src/components/styles";
 import Duration from "../../../../../Duration/Duration";
-import { ProjectFormProps } from "./types";
+import { ProjectFormComponentProps } from "./types";
 import { ChangeEvent } from "react";
 import { TEXT_FIELD_PROPS } from "src/views/ProjectManager/utils/constants";
 
-const ProjectForm = ({ form }: ProjectFormProps) => {
+const ProjectFormComponent = ({ form }: ProjectFormComponentProps) => {
     const { name, description } = form.value;
     const changeNameProjectField = ({
         target: { value },
@@ -38,4 +38,4 @@ const ProjectForm = ({ form }: ProjectFormProps) => {
     );
 };
 
-export default ProjectForm;
+export default ProjectFormComponent;

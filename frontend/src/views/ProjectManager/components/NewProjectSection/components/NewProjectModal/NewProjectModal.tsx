@@ -1,7 +1,7 @@
 import Modal from "src/components/Modal/Modal";
 import { NewProjectModalProps } from "./types";
 import { Left, Right, Title } from "./styles";
-import ProjectForm from "./components/ProjectForm/ProjectForm";
+import ProjectFormComponent from "./components/ProjectFormComponent/ProjectFormComponent";
 import CustomInputSearch from "src/components/CustomInputSearch/CustomInputSearch";
 import ProjectInfo from "../../../ProjectInfo/ProjectInfo";
 import Footer from "./components/Footer/Footer";
@@ -10,6 +10,7 @@ import { CloseButtonProjectForm } from "src/views/ProjectManager/styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import LeaderSelector from "./components/LeaderSelector/LeaderSelector";
 import { requestCreateProject } from "src/services/projects/relatedToProjects";
+import { ProjectForm } from "src/entities/project/types";
 
 const testModalStyles = {
     padding: "0",
@@ -24,9 +25,10 @@ const NewProjectModal = ({
     fillProjects
 }: NewProjectModalProps) => {
     const registerProject = async () => {
+        const projectForm: ProjectForm | null = getProjectFromForm();
+        if (!projectForm) return;
         // preloader.show("Registrando empresa...");
-        console.log("register")
-        const data = await requestCreateProject(getProjectFromForm());
+        const data = await requestCreateProject(projectForm);
         // preloader.hide();
         // Error inesperado
         if (!data) return;
@@ -43,7 +45,7 @@ const NewProjectModal = ({
                 <Left>
                     <Column width="80%" alignSelf="center" gap="40px">
                         <Title>Nuevo Proyecto</Title>
-                        <ProjectForm form={form} />
+                        <ProjectFormComponent form={form} />
                     </Column>
                 </Left>
                 <Right>

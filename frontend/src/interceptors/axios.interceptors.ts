@@ -24,7 +24,6 @@ export const initAxiosInterceptors = (handlerErrorWithModals: HandlerErrorWithMo
     api.interceptors.response.use(
         res => res.data,
         err => {
-            console.log(err.response.status)
             if (err.response?.status === ResponseCodes.Unauthorized) 
                 clearStorage();
             const { data } = err.response;

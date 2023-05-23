@@ -27,7 +27,7 @@ const useFormProject = (
             description: currentProject.description,
             startDate: currentProject.startDate,
             endDate: currentProject.endDate,
-            leaderId: currentProject.leader.id,
+            leaderId: currentProject.leader?.id || 0,
         });
     };
     const isCompletedForm = (): boolean => {
@@ -44,7 +44,7 @@ const useFormProject = (
             description !== currentProject.description ||
             startDate !== currentProject.startDate ||
             endDate !== currentProject.endDate ||
-            leaderId !== currentProject.leader.id
+            leaderId !== currentProject.leader?.id
         );
     };
     const changeField = (field: string, value: any) => {

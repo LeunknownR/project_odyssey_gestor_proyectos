@@ -1,5 +1,5 @@
 import { FormCompanyTypes } from "src/views/ProjectManager/types";
 
-export type ProjectFormProps = {
+export type ProjectFormComponentProps = {
     form: FormCompanyTypes;
 };

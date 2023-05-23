@@ -5,18 +5,26 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { Row } from "src/components/styles";
 import Footer from "./components/Footer/Footer";
 import { requestDeleteProject } from "src/services/projects/relatedToProjects";
+import { ResponseBody } from "src/services/types";
 
 const testModalStyles = {
     padding: "20px 30px",
     maxWidth: "630px"
 };
 
-const DeleteProjectModal = ({ modalProps, projectId }: DeleteProjectModalProps) => {
+const DeleteProjectModal = ({ 
+    // preloader, 
+    fillProjects,
+    modalProps, 
+    projectId 
+}: DeleteProjectModalProps) => {
     const deleteProject = async () => {
-        // preloader.show("Eliminando empresa...");
-        await requestDeleteProject(projectId);
-        // preloader.hide();
+        if (!projectId) return;
         modalProps.open(false);
+        // preloader.show("Eliminando proyecto...");
+        const { message } = await requestDeleteProject(projectId);
+        if (message !== "SUCCESS") return;
+        fillProjects();
     };
     return (
         <Modal {...modalProps} sizeProps={testModalStyles}>
@@ -30,7 +38,9 @@ const DeleteProjectModal = ({ modalProps, projectId }: DeleteProjectModalProps) 
                 Esta acción es permanente, y eliminará todo lo relacionado con
                 el proyecto: <b>tareas, cronograma y salas de chat.</b>
             </TextModal>
-            <Footer modal={modalProps}/>
+            <Footer 
+                modal={modalProps}
+                deleteProject={deleteProject}/>
         </Modal>
     );
 };

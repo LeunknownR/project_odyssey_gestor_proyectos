@@ -2,39 +2,57 @@ import { APIHandler } from "src/config/api";
 import { APIRequestFunction, ResponseBody } from "../types";
 import { ApiPathEndpoints } from "../apiPathEndpoints";
 import {
-    GroupedProjectListForGeneralAdmin,
+    GroupedProjectList,
     ProjectForm,
 } from "src/entities/project/types";
 import { getEndpointWithPathVariables } from "../utils/helpers";
 import { getUserId } from "src/storage/user.local";
+import { CreateProjectRequestBody, DeleteProjectRequestBody } from "./types";
 
 export const requestGetProjectsForGeneralAdmin: APIRequestFunction<
-    GroupedProjectListForGeneralAdmin,
+    GroupedProjectList,
     string
 > = async (projectName: string) => {
     const path: string = getEndpointWithPathVariables(
         ApiPathEndpoints.GetProjectListByGeneralAdmin,
         [projectName]
     );
-    const data: ResponseBody<GroupedProjectListForGeneralAdmin> =
+    const data: ResponseBody<GroupedProjectList> =
+        await APIHandler.api.get(path);
+    return data;
+};
+export const requestGetProjectsForCollaborator: APIRequestFunction<
+    GroupedProjectList,
+    string
+> = async (projectName: string) => {
+    // /:collaboratorId/:projectName
+    const path: string = getEndpointWithPathVariables(
+        ApiPathEndpoints.GetProjectListForCollaborator,
+        [getUserId(), projectName]
+    );
+    const data: ResponseBody<GroupedProjectList> =
         await APIHandler.api.get(path);
     return data;
 };
 export const requestCreateProject: APIRequestFunction<
     null,
-    ProjectForm | null
-> = async (project: ProjectForm | null) => {
-    const data: ResponseBody<null> = await APIHandler.api.post(
+    ProjectForm
+> = async (project: ProjectForm) => {
+    const body: CreateProjectRequestBody = {
+        userId: getUserId(), 
+        project
+    };
+    const data: ResponseBody = await APIHandler.api.post(
         ApiPathEndpoints.CreateProject,
-        { userId: getUserId(), project }
+        body
     );
     return data;
 };
 export const requestUpdateProject: APIRequestFunction<
     null,
-    ProjectForm | null
-> = async (project: ProjectForm | null) => {
-    const data: ResponseBody<null> = await APIHandler.api.put(
+    ProjectForm
+> = async (project: ProjectForm) => {
+    const data: ResponseBody = await APIHandler.api.put(
         ApiPathEndpoints.UpdateProject,
         project
     );
@@ -42,11 +60,15 @@ export const requestUpdateProject: APIRequestFunction<
 };
 export const requestDeleteProject: APIRequestFunction<
     null,
-    number | undefined
-> = async (projectId: number | undefined) => {
-    const data: ResponseBody<null> = await APIHandler.api.delete(
+    number
+> = async (projectId: number) => {
+    const body: DeleteProjectRequestBody = { 
+        userId: getUserId(), 
+        projectId
+    };
+    const data: ResponseBody = await APIHandler.api.delete(
         ApiPathEndpoints.DeleteProject,
-        { userId: getUserId(), projectId }
+        { data: body }
     );
     return data;
 };
