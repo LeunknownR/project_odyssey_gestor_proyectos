@@ -601,3 +601,5 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
+
+-- MIRGRACIÓN DE LUCID - dbdiagram.io
