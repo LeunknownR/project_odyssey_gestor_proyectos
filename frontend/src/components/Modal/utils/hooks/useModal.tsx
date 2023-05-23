@@ -7,7 +7,7 @@ const useModal = (isOpenDefault?: boolean): ModalProps => {
     const [isOpen, setIsOpen] = useState(isOpenDefault || false);
     return {
         isOpen,
-        handleOpen: setIsOpen
+        open: setIsOpen
     };
 };
 

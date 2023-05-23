@@ -1,7 +1,7 @@
 import { collaboratorMemberMapper, collaboratorUserMapper } from "../../entities/collaborator/mappers";
 import { CollaboratorUser } from "../../entities/collaborator/types";
 import { projectDetailsMapper, projectListByCollaboratorMapper, projectListByGeneralAdminMapper } from "../../entities/project/mappers";
-import { AddProjectMembersRequestBody, GroupedProjectListForGeneralAdmin, GroupedProjectListForCollaborator, ProjectForm, UpdateEndDateProjectRequestBody, ProjectDetails, SearchCollaboratorRequestBody, DeleteProjectMemberRequestBody } from "../../entities/project/types";
+import { AddProjectMembersRequestBody, GroupedProjectList, ProjectForm, UpdateEndDateProjectRequestBody, ProjectDetails, SearchCollaboratorRequestBody, DeleteProjectMemberRequestBody } from "../../entities/project/types";
 import ProjectModel from "../../models/projectModel/projectModel";
 import { GetProjectListForCollaboratorRequestBody } from "../../routes/collaborator/projects/types";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
@@ -9,9 +9,9 @@ import { ResponseMessages } from "../../utils/response/enums";
 
 export default abstract class ProjectController {
     // static async getProjectListByGeneralAdmin(projectName: string): Promise<ResponseBody & { data: GroupedProjectListForGeneralAdmin }> {
-    static async getProjectListByGeneralAdmin(projectName: string): Promise<GroupedProjectListForGeneralAdmin> {
+    static async getProjectListByGeneralAdmin(projectName: string): Promise<GroupedProjectList> {
         const resultset: any[] = await ProjectModel.getProjectListByGeneralAdmin(projectName);
-        const projectList: GroupedProjectListForGeneralAdmin = projectListByGeneralAdminMapper(resultset);
+        const projectList: GroupedProjectList = projectListByGeneralAdminMapper(resultset);
         return projectList;
     }
     static async searchCollaboratorByUsername(username: string): Promise<CollaboratorUser[]> {
@@ -20,16 +20,19 @@ export default abstract class ProjectController {
         return collaborators;
     }
     static async createProject(createProjectRequestBody: CreateProjectRequestBody): Promise<string> {
-        const affectedRows: number = await ProjectModel.createProject(createProjectRequestBody);
-        return affectedRows > 0 ? ResponseMessages.Success : ResponseMessages.FatalError;
+        const record: any = await ProjectModel.createProject(createProjectRequestBody);
+        if (!record)
+            throw new Error("It couldn't be created the project");
+        const message: string = record["message"];
+        return message ? message : ResponseMessages.FatalError;
     }
     static async updateProject(projectForm: ProjectForm): Promise<string> {
         const affectedRows: number = await ProjectModel.updateProject(projectForm);
         return affectedRows > 0 ? ResponseMessages.Success : ResponseMessages.FatalError;
     }
-    static async getProjectListForCollaborator(getProjectListForCollaboratorRequestBody: GetProjectListForCollaboratorRequestBody): Promise<GroupedProjectListForCollaborator> {
+    static async getProjectListForCollaborator(getProjectListForCollaboratorRequestBody: GetProjectListForCollaboratorRequestBody): Promise<GroupedProjectList> {
         const resultset: any[] = await ProjectModel.getProjectListForCollaborator(getProjectListForCollaboratorRequestBody);
-        const projectList: GroupedProjectListForCollaborator = projectListByCollaboratorMapper(resultset);
+        const projectList: GroupedProjectList = projectListByCollaboratorMapper(resultset);
         return projectList;
     }
     static async updateEndDateProjectByLeader(updateEndDateForm: UpdateEndDateProjectRequestBody): Promise<string> {

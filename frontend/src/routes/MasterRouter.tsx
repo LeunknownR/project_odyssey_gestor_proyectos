@@ -42,7 +42,6 @@ const MasterRouter = () => {
     return (
         <Main>
             {routesNotLoaded && <Header />}
-            <SidebarMenu />
             <Content>
                 <Routes>
                     {routes}

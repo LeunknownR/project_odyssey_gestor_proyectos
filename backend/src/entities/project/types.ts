@@ -26,24 +26,15 @@ export type ProjectBase = {
 export type Project = ProjectBase & {
     id: number,
     state: ProjectState,
-    leader: ProjectLeader
-};
-export type ProjectByCollaborator = ProjectBase & {
-    id: number,
-    state: ProjectState,
+    leader?: ProjectLeader
 };
 export type ProjectForm = ProjectBase & {
     id?: number,
-    userId?: number,
     leaderId: number
 };
-export type GroupedProjectListForGeneralAdmin = {
+export type GroupedProjectList = {
     recents: Project[],
     all: Project[]
-};
-export type GroupedProjectListForCollaborator = {
-    recents: ProjectByCollaborator[],
-    all: ProjectByCollaborator[]
 };
 export type ProjectDetails = {
     id: number,

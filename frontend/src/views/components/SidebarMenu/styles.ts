@@ -12,25 +12,6 @@ export const Sidebar = styled.nav`
     gap: 20px;
     z-index: 200;
 `;
-export const NewProjectButton = styled.button`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--white-1);
-    width: 100%;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    :hover {
-        .iconify {
-            color: var(--orange-3);
-        }
-    }
-    .iconify {
-        transition: 0.2s;
-        font-size: 32px;
-    }
-`;
 export const MenuList = styled.ul`
     display: flex;
     flex-direction: column;

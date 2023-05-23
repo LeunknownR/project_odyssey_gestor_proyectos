@@ -1,7 +1,7 @@
-export type ResponseBody<T> = {
+export type ResponseBody<T = null> = {
     code: number;
     message: string;
-    data: T | null;
+    data: T
 };
 export type APIRequestFunction<R, P> = (params: P) => Promise<ResponseBody<R>>;
 export type APIRequestFunctionNoParams<R> = () => Promise<ResponseBody<R>>;

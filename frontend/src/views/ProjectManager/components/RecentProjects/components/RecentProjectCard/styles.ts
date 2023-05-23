@@ -44,6 +44,10 @@ export const TextRecentCard = styled.div`
     gap: 7px;
     align-items: center;
     justify-content: space-between;
+    div:first-child {
+        display: flex;
+        gap: 10px;
+    }
 `;
 export const StateProject = styled.div`
     border-radius: 50%;
