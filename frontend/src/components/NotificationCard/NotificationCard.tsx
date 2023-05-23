@@ -8,7 +8,7 @@ import {
     TitleModal,
 } from "./styles";
 import { NotificationCardProps } from "./types";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import {
     DELTA_SECONDS } from "./utils/constants";
 
