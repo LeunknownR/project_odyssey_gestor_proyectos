@@ -271,8 +271,8 @@ BEGIN
     INNER JOIN user u ON phc.id_collaborator = u.id_user
     WHERE p.active = 1
     AND phc.id_project_role = "PLD"
-    AND p.project_name LIKE @search_project_name
-    ORDER BY p.creation_date ASC, p.project_name ASC
+    AND @search_project_name IS NULL OR p.project_name LIKE @search_project_name
+    ORDER BY p.start_date DESC, p.project_name ASC
     LIMIT 8;
 END //
 DELIMITER ;
@@ -429,7 +429,7 @@ BEGIN
     WHERE p.active = 1
     AND phc.id_collaborator = p_id_collaborator
     AND p.project_name LIKE @search_project_name
-    ORDER BY p.creation_date ASC, p.project_name ASC
+    ORDER BY p.start_date DESC
     LIMIT 8;
 END //
 DELIMITER ;
