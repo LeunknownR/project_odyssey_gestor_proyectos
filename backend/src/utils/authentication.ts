@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
 import { TokenPayload } from "./types";
-import { GenerateResponseBody } from "./generateResponseBody";
+import { GenerateResponseBody } from "./response/generateResponseBody";
 import { DBRoles } from "../db/enums";
 import { JwtPayload } from "jsonwebtoken";
 

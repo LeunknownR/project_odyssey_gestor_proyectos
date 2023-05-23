@@ -11,9 +11,9 @@ import { CustomButtonProps } from "./types";
 const CustomButton = ({
     content,
     disabled = false,
-    variant = "primary",
-    size = "medium",
-    // onClick,
+    variant = "main",
+    size,
+    onClick,
     icon,
     width,
     weight,
@@ -33,7 +33,7 @@ const CustomButton = ({
             className={getClassName()}
             disabled={disabled} 
             type="submit"
-            // onClick={onClick}
+            onClick={onClick}
             width={width}
             weight={weight}
             maxWidth={maxWidth}

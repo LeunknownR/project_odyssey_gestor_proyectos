@@ -27,9 +27,11 @@
 	--orange-1: #E8AF90;
 	--orange-2: #F1850A;
 	--orange-3: #E15625;
-	--red-1: #F57777;
-	--red-2: #F53C3C;
-	--red-3: #D80000;
+	--red-0: #F57777;
+	--red-1: #FFA9A9;
+	--red-2: #EF5757;
+	--red-3: #FE3E3E;
+	--red-4: #D80000;
 	--darkblue-1: #2D5A77;
 	--darkblue-2: #183243;
 	--darkblue-3: #112430;
@@ -41,6 +43,7 @@
 	--yellow-1: #FFC164;
 	--yellow-2: #FFA51F;
 	--green-1: #95DD72;
+	--green-2: #8BDE8E;
 	--cream-1: #FFE0B2;
 }	
 /* General */

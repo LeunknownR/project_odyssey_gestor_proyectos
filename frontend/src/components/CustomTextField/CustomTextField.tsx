@@ -4,14 +4,17 @@ import {
     Container,
     Content,
     LabelContent,
+    LensContainer,
     PasswordRevealer,
     TextField,
 } from "./styles";
 import { CustomTextFieldProps } from "./types";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 // import { RESTRICTIONS } from "./utils/restrictions";
 
 const CustomTextField = ({
     placeholder,
+    name,
     label,
     type,
     variant,
@@ -21,7 +24,7 @@ const CustomTextField = ({
     maxLength,
     disabled,
     value,
-    // error = null,
+    error = null,
     // restriction,
     onChange,
 }: CustomTextFieldProps) => {
@@ -53,6 +56,7 @@ const CustomTextField = ({
                 <TextField
                     disabled={disabled}
                     className={className}
+                    name={name}
                     maxLength={maxLength}
                     type={getType()}
                     placeholder={type === "password" ? "********" : placeholder}
@@ -69,8 +73,13 @@ const CustomTextField = ({
                         />
                     </PasswordRevealer>
                 )}
+                {variant?.includes("search") && (
+                    <LensContainer>
+                        <Icon icon="simple-line-icons:magnifier" />
+                    </LensContainer>
+                )}
             </Content>
-            {/* <ErrorMessage text={error} /> */}
+            <ErrorMessage text={error} />
         </Container>
     );
 };

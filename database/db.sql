@@ -456,7 +456,7 @@ BEGIN
     INNER JOIN project_has_collaborator phc ON p.id_project = phc.id_project
     INNER JOIN user u ON phc.id_collaborator = u.id_user
     INNER JOIN project_role pr ON pr.id_project_role = phc.id_project_role
-    WHERE p.active = 1
+    WHERE p.active = 1 AND phc.active = 1
     AND p.id_project = p_id_project
     ORDER BY p.project_name ASC, p.creation_date ASC;
 END //
@@ -565,45 +565,39 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `sp_delete_project_member`(
     IN p_id_project_has_collaborator INT,
-    IN p_id_collaborator INT
+    IN p_id_leader INT
 )
 BEGIN
     SET @id_project = (
-        SELECT id_project
+        SELECT id_project 
         FROM project_has_collaborator
-        WHERE active = 1
-        AND id_collaborator = p_id_collaborator
-        AND id_project_role = "PLD"
+        WHERE id_project_has_collaborator = p_id_project_has_collaborator
     );
-    -- Validando los datos
+    -- Validando si el usuario es el líder del proyecto
     IF EXISTS(
         SELECT *
         FROM project_has_collaborator
-        WHERE active = 1
-        AND id_collaborator = p_id_collaborator
-        AND id_project = @id_project
+        WHERE id_project = @id_project 
+        AND id_collaborator = @id_leader
         AND id_project_role = "PLD"
+        AND active = 1
     ) THEN
-        SELECT 'NOT_DELETED_PROJECT_ROLE_IS_PLD' AS 'message';
-    -- Validando si el proyecto que se quiere eliminar aun existe (esta activado)
+        SELECT 'COLLABORATOR_IS_NOT_A_PLD' AS 'message';
     ELSEIF EXISTS(
-        SELECT id_collaborator
+        SELECT *
         FROM project_has_collaborator
-        WHERE active = 1
-        AND id_project_has_collaborator = p_id_project_has_collaborator
-        AND id_project = @id_project
-        AND id_project_role != "PLD"
-    ) THEN
-        -- Actualizando "Eliminando" el registro del proyecto
-        UPDATE project_has_collaborator
-        SET active = 0,
-            id_deleter = p_id_collaborator
         WHERE id_project = @id_project
-        AND id_project_has_collaborator = p_id_project_has_collaborator;
+        AND id_project_has_collaborator = p_id_project_has_collaborator
+        AND id_collaborator = p_id_leader
+    ) THEN
+        SELECT 'PLD_CANNOT_DELETE_A_HIMSELF' AS 'message';
+    ELSE 
+        -- Desactivando el miembro del proyecto
+        UPDATE project_has_collaborator
+        SET active = 0, id_deleter = p_id_leader
+        WHERE id_project_has_collaborator = p_id_project_has_collaborator;
         -- Cuando es exitoso
         SELECT 'SUCCESS' AS 'message';
-    ELSE
-        SELECT 'COLLABORATOR_NOT_EXIST_IN_PROJECT' AS 'message';
     END IF;
 END //
 DELIMITER ;

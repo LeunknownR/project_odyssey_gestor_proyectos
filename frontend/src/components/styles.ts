@@ -4,6 +4,7 @@ type StyleProps = {
     justify?: string;
     align?: string
     alignSelf?: string;
+    justifySelf?: string;
     gap?: string;
     padding?: string;
     margin?: string;
@@ -17,6 +18,7 @@ export const Row = styled.div<StyleProps>`
     justify-content: ${({ justify = "normal" }) => justify};
     align-items: ${({ align = "normal" }) => align};
     align-self: ${({ alignSelf = "unset" }) => alignSelf};
+    justify-self: ${({ justifySelf = "unset" }) => justifySelf};
     gap: ${({ gap = "unset" }) => gap};
     padding: ${({ padding = "unset" }) => padding};
     margin: ${({ margin = "unset" }) => margin};

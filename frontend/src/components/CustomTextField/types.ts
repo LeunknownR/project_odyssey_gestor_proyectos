@@ -4,6 +4,7 @@ export type CustomTextFieldProps = {
     placeholder?: string;
     label?: string;
     type?: string;
+    name?: string;
     variant?: string;
     maxLength?: number;
     size?: string;
