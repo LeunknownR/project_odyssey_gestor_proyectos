@@ -6,22 +6,33 @@ import { DBRoles } from "src/config/roles";
 import useUserRole from "src/storage/hooks/useUserRole";
 
 const NewProjectSection = ({
-    modal
+    modal,
+    form,
+    getProjectFromForm,
+    setCurrentProject,
+    fillProjects,
 }: NewProjectSectionProps) => {
     const userRole = useUserRole();
-    if (userRole !== DBRoles.GeneralAdmin)
-        return null;
+    if (userRole !== DBRoles.GeneralAdmin) return null;
+    const openModalFormToCreate = () => {
+        setCurrentProject(null);
+        modal.open(true);
+    };
     return (
         <>
-        <NewProjectButton 
-            onClick={() => modal.handleOpen(true)}>
-            <span>
-                <Icon icon="mdi:layers-plus"/>
-            </span>
-        </NewProjectButton>
-        <NewProjectModal modalProps={modal} />
+            <NewProjectButton onClick={openModalFormToCreate}>
+                <span>
+                    <Icon icon="mdi:layers-plus" />
+                </span>
+            </NewProjectButton>
+            <NewProjectModal
+                modalProps={modal}
+                form={form}
+                getProjectFromForm={getProjectFromForm}
+                fillProjects={fillProjects}
+            />
         </>
     );
-}
+};
 
 export default NewProjectSection;

@@ -6,17 +6,21 @@ import {
     Project,
     ProjectName,
 } from "./styles";
+import { ProjectInfoProps } from "./types";
 
-const ProjectInfo = () => {
+const ProjectInfo = ({ form, variant }: ProjectInfoProps) => {
+    const {name, description} = form.value;
     return (
         <Container>
             <Project>
                 <IconContainer>
                     <Icon icon="eos-icons:project" />
                 </IconContainer>
-                <ProjectName>TCorp - Brazo robótico...</ProjectName>
+                <ProjectName className={variant} title={name}>{name || "[Nombre del proyecto]"}</ProjectName>
             </Project>
-            <Description>Proyecto para la empresa TCorp, para el soporte a empleados con discapacidad motora.</Description>
+            <Description className={variant}>
+                {description || "[Descripción]"}
+            </Description>
         </Container>
     );
 };

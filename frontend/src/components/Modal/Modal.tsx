@@ -1,9 +1,9 @@
-//#region Styles
 import { useEffect } from "react";
+//#region Styles
 import { Container, Content } from "./styles";
-import { ModalProps } from "./types";
 //#endregion
 //#region Types
+import { ModalProps } from "./types";
 //#endregion
 
 const Modal = ({
@@ -11,7 +11,7 @@ const Modal = ({
     isOpen = false,
     sizeProps,
     handleClose,
-    handleOpen,
+    open: handleOpen,
 }: ModalProps) => {
     useEffect(() => {
         if (isOpen) {

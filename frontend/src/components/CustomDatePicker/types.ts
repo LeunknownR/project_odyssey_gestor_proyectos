@@ -1,7 +1,7 @@
 export type CustomDatePickerProps = {
     label?: string;
     placeholder?: string;
-    onChange?: (timestamp: number) => void;
+    onChange?: (value: number) => void;
     value?: number;
     period?: Period;
     availableDays: number[];

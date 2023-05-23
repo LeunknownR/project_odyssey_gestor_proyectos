@@ -16,7 +16,7 @@ import {
 import {
     AddProjectMembersRequestBody,
     DeleteProjectMemberRequestBody,
-    GroupedProjectListForCollaborator,
+    GroupedProjectList,
     ProjectDetails,
     SearchCollaboratorRequestBody,
     UpdateEndDateProjectRequestBody
@@ -31,11 +31,11 @@ router.use("/", Authentication.checkTokenInEndpoints(DBRoles.Collaborator));
 router.get(ApiPathEndpointsCollaborator.GetProjectListForCollaborator,
     withErrorHandler(async (req, res) => {
         const getProjectListForCollaboratorRequestBody: GetProjectListForCollaboratorRequestBody = parseToGetProjectListForCollaboratorRequestBody(req.params);
-        const groupedProjectListForCollaborator: GroupedProjectListForCollaborator = await ProjectController.getProjectListForCollaborator(getProjectListForCollaboratorRequestBody);
-        GenerateResponseBody.sendResponse<GroupedProjectListForCollaborator>(res, {
+        const groupedProjectList: GroupedProjectList = await ProjectController.getProjectListForCollaborator(getProjectListForCollaboratorRequestBody);
+        GenerateResponseBody.sendResponse<GroupedProjectList>(res, {
             code: ResponseCodes.Ok,
             message: ResponseMessages.Success,
-            data: groupedProjectListForCollaborator,
+            data: groupedProjectList
         });
     }));
 router.patch(ApiPathEndpointsCollaborator.UpdateEndDateProject,

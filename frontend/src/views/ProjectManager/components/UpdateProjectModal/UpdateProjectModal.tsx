@@ -6,8 +6,9 @@ import CustomInputSearch from "src/components/CustomInputSearch/CustomInputSearc
 import { UpdateDateModalProps } from "../UpdateDateModal/types";
 import ProjectForm from "./components/ProjectForm/ProjectForm";
 import Footer from "./components/Footer/Footer";
-import ProjectInfo from "./components/ProjectInfo/ProjectInfo";
 import { CloseButtonProjectForm } from "../../styles";
+import ProjectInfo from "../ProjectInfo/ProjectInfo";
+import { requestUpdateProject } from "src/services/projects/relatedToProjects";
 
 const testModalStyles = {
     padding: "0",
@@ -21,22 +22,39 @@ const PROV_OP = [
     },
 ];
 
-const UpdateProjectModal = ({ modalProps }: UpdateDateModalProps) => {
+const UpdateProjectModal = ({
+    modalProps,
+    form,
+    getProjectFromForm,
+    fillProjects,
+}: UpdateDateModalProps) => {
+    const updateProject = async () => {
+        console.log("updating");
+        // preloader.show("Actualizando datos de la empresa...");
+        const data = await requestUpdateProject(getProjectFromForm());
+        // preloader.hide();
+        if (!data) return;
+        // const { message } = data;
+        modalProps.open(false);
+        fillProjects();
+    };
     return (
         <Modal {...modalProps} sizeProps={testModalStyles}>
             <Row width="100%">
                 <Left>
                     <Column width="80%" alignSelf="center" gap="40px">
                         <Title>Actualizar Proyecto</Title>
-                        <ProjectForm />
+                        <ProjectForm form={form} />
                     </Column>
                 </Left>
                 <Right>
-                    <CloseButtonProjectForm className="update">
+                    <CloseButtonProjectForm
+                        onClick={() => modalProps.open(false)}
+                        className="update">
                         <Icon icon="material-symbols:close" />
                     </CloseButtonProjectForm>
                     <Column width="80%" alignSelf="center" gap="35px">
-                        <ProjectInfo />
+                        <ProjectInfo form={form} variant="update" />
                         <Column width="85%" alignSelf="center" gap="100px">
                             <CustomInputSearch
                                 label="Líder del proyecto"
@@ -46,7 +64,7 @@ const UpdateProjectModal = ({ modalProps }: UpdateDateModalProps) => {
                                 onChange={() => console.log()}
                                 fillOptions={() => console.log()}
                             />
-                            <Footer />
+                            <Footer updateProject={updateProject} />
                         </Column>
                     </Column>
                 </Right>

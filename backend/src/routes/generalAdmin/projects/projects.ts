@@ -12,7 +12,7 @@ import {
 import { parseToCollaboratorName } from "../../collaborator/projects/parsers";
 import { withErrorHandler } from "../../helpers";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "./types";
-import { GroupedProjectListForGeneralAdmin, ProjectForm } from "../../../entities/project/types";
+import { GroupedProjectList, ProjectForm } from "../../../entities/project/types";
 import { CollaboratorUser } from "../../../entities/collaborator/types";
 import { ResponseCodes, ResponseMessages, getResponseCodeIfMessageExists } from "../../../utils/response/enums";
 
@@ -22,11 +22,11 @@ router.get(
     ApiPathEndpointsGeneralAdmin.GetProjectListByGeneralAdmin, 
     withErrorHandler(async (req, res) => {
         const projectName: string = parseToProjectName(req.params);
-        const groupedProjectListForGeneralAdmin: GroupedProjectListForGeneralAdmin = await ProjectController.getProjectListByGeneralAdmin(projectName);
-        GenerateResponseBody.sendResponse<GroupedProjectListForGeneralAdmin>(res, {
+        const groupedProjectList: GroupedProjectList = await ProjectController.getProjectListByGeneralAdmin(projectName);
+        GenerateResponseBody.sendResponse<GroupedProjectList>(res, {
             code: ResponseCodes.Ok,
             message: ResponseMessages.Success,
-            data: groupedProjectListForGeneralAdmin,
+            data: groupedProjectList,
         });
     })); 
 router.get(

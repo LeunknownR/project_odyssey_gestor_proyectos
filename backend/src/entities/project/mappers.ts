@@ -2,9 +2,7 @@ import { projectCollaboratorMapper } from "../collaborator/mappers";
 import { ProjectLeader } from "../collaborator/types";
 import { 
     Project, 
-    GroupedProjectListForGeneralAdmin, 
-    ProjectByCollaborator, 
-    GroupedProjectListForCollaborator, 
+    GroupedProjectList,
     ProjectDetails 
 } from "./types";
 
@@ -23,14 +21,14 @@ const projectByGeneralAdminMapper = (record: any): Project => ({
     state: record["state"],
     leader: projectLeaderMapper(record)
 });
-export const projectListByGeneralAdminMapper = (resultset: any[]): GroupedProjectListForGeneralAdmin => {
+export const projectListByGeneralAdminMapper = (resultset: any[]): GroupedProjectList => {
     const projectList: Project[] = resultset.map(projectByGeneralAdminMapper);
     return {
         recents: projectList.slice(0, 3),
         all: projectList.slice(3)
     };
 }
-const projectByCollaboratorMapper = (record: any): ProjectByCollaborator => ({
+const projectByCollaboratorMapper = (record: any): Project => ({
     id: record["id_project"],
     name: record["project_name"],
     description: record["project_description"],
@@ -38,8 +36,8 @@ const projectByCollaboratorMapper = (record: any): ProjectByCollaborator => ({
     endDate: record["project_end_date"].getTime(),
     state: record["project_state"],
 });
-export const projectListByCollaboratorMapper = (resultset: any[]): GroupedProjectListForCollaborator => {
-    const projectByCollaborator: ProjectByCollaborator[] = resultset.map(projectByCollaboratorMapper);
+export const projectListByCollaboratorMapper = (resultset: any[]): GroupedProjectList => {
+    const projectByCollaborator: Project[] = resultset.map(projectByCollaboratorMapper);
     return {
         recents: projectByCollaborator.slice(0, 3),
         all: projectByCollaborator.slice(3)
