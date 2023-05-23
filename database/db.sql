@@ -568,19 +568,20 @@ CREATE PROCEDURE `sp_delete_project_member`(
     IN p_id_collaborator INT
 )
 BEGIN
-    SELECT id_project, id_project_has_collaborator
-    INTO @id_project, @project_has_collaborator
-    FROM project_has_collaborator
-    WHERE active = 1
-    AND id_collaborator = p_id_collaborator
-    AND id_project_role = "PLD";
+    SET @id_project = (
+        SELECT id_project
+        FROM project_has_collaborator
+        WHERE active = 1
+        AND id_collaborator = p_id_collaborator
+        AND id_project_role = "PLD"
+    );
     -- Validando los datos
     IF EXISTS(
         SELECT *
         FROM project_has_collaborator
         WHERE active = 1
         AND id_collaborator = p_id_collaborator
-        AND id_project_has_collaborator = @id_project_has_collaborator
+        AND id_project = @id_project
         AND id_project_role = "PLD"
     ) THEN
         SELECT 'NOT_DELETED_PROJECT_ROLE_IS_PLD' AS 'message';
@@ -601,8 +602,8 @@ BEGIN
         AND id_project_has_collaborator = p_id_project_has_collaborator;
         -- Cuando es exitoso
         SELECT 'SUCCESS' AS 'message';
-        ELSE
-            SELECT 'COLLABORATOR_NOT_EXIST_IN_PROJECT' AS 'message';
+    ELSE
+        SELECT 'COLLABORATOR_NOT_EXIST_IN_PROJECT' AS 'message';
     END IF;
 END //
 DELIMITER ;
