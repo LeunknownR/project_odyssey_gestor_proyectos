@@ -1,21 +1,23 @@
-import CustomInputSearch from "src/components/CustomInputSearch/CustomInputSearch";
+import { useState } from "react";
+import CustomTextFieldSearch from "src/components/CustomTextFieldSearch/CustomTextFieldSearch";
+import { ProjectFinderProps } from "./types";
 
-const PROVISIONAL_OPTIONS = [
-    {
-        id: 1,
-        name: "ralf",
-    },
-];
-
-const ProjectFinder = () => {
+const ProjectFinder = ({ changeSearchedProject, doTriggerFillingRequest }: ProjectFinderProps) => {
+    const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | undefined>();
+    const changeSearchUser = (value: string) => {
+        changeSearchedProject(value);
+        clearTimeout(timeoutId);
+        const newTimeoutId = setTimeout(() => {
+            doTriggerFillingRequest();
+        }, 500);
+        setTimeoutId(newTimeoutId);
+    };
     return (
-        <CustomInputSearch
+        <CustomTextFieldSearch
             variant="header-search"
-            options={PROVISIONAL_OPTIONS}
-            onChange={() => console.log("gnomo")}
-            fillOptions={() => console.log("hola")}
+            changeField={changeSearchUser}
         />
     );
-}
+};
 
 export default ProjectFinder;

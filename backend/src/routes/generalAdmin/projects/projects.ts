@@ -45,7 +45,7 @@ router.post(
     withErrorHandler(async (req, res) => {
         const createProjectRequestBody: CreateProjectRequestBody = parseToCreateProjectRequestBody(req.body);
         const message: string = await ProjectController.createProject(createProjectRequestBody);
-        GenerateResponseBody.sendResponse<null>(res, {
+        GenerateResponseBody.sendResponse(res, {
             code: getResponseCodeIfMessageExists(message),
             message,
             data: null
@@ -56,7 +56,7 @@ router.put(
     withErrorHandler(async (req, res) => {
         const updateProjectRequestBody: ProjectForm = parseToProjectFormToUpdate(req.body);
         const message: string = await ProjectController.updateProject(updateProjectRequestBody);
-        GenerateResponseBody.sendResponse<null>(res, {
+        GenerateResponseBody.sendResponse(res, {
             code: getResponseCodeIfMessageExists(message),
             message,
             data: null
@@ -67,7 +67,7 @@ router.delete(
     withErrorHandler(async (req, res) => {
         const deleteProjectRequestBody: DeleteProjectRequestBody = parseToDeleteProjectRequestBody(req.body);
         const message: string = await ProjectController.deleteProject(deleteProjectRequestBody);
-        GenerateResponseBody.sendResponse<null>(res, {
+        GenerateResponseBody.sendResponse(res, {
             code: getResponseCodeIfMessageExists(message),
             message,
             data: null

@@ -1,30 +1,37 @@
+import { useState } from "react";
 import CustomInputSearch from "src/components/CustomInputSearch/CustomInputSearch";
 import { TEXT_FIELD_PROPS } from "src/views/ProjectManager/utils/constants";
 import { LeaderSelectorProps } from "./types";
-import { ChangeEvent } from "react";
+import useCollaboratorList from "src/views/ProjectManager/utils/hooks/useCollaboratoriList";
+import { Container, Label } from "./styles";
+import { CollaboratorUser } from "src/entities/collaborator/types";
 
-const PROV_OP = [
-    {
-        id: 1,
-        name: "ralf",
-    },
-];
 const LeaderSelector = ({ form }: LeaderSelectorProps) => {
-    const { leaderId } = form.value;
-    const changeLeaderProjectField = ({
-        target: { value },
-    }: ChangeEvent<HTMLInputElement>) => {
-        form.change(TEXT_FIELD_PROPS.PROJECT_LEADER.name, value);
+    const [selectedLeader, setSelectedLeader] = useState<CollaboratorUser | null>(null);
+    const collaboratorListHandler = useCollaboratorList();
+    const changeLeaderProjectField = (collaborator: CollaboratorUser) => {
+        console.log("putamareputamre")
+        form.change(TEXT_FIELD_PROPS.PROJECT_LEADER.name, collaborator.id);
+        setSelectedLeader(collaborator)
     };
     return (
-        <CustomInputSearch
-            {...TEXT_FIELD_PROPS.PROJECT_LEADER}
-            options={PROV_OP}
-            onChange={() => console.log()}
-            fillOptions={() => console.log()}
-            variant="primary-search"
-            // value={leaderId}
-        />
+        <Container>
+            <Label>Líder del proyecto</Label>
+            {selectedLeader ? (
+                <h1>{selectedLeader.name}</h1>
+            ) : (
+                <CustomInputSearch
+                    {...TEXT_FIELD_PROPS.PROJECT_LEADER}
+                    options={collaboratorListHandler.value}
+                    onChange={changeLeaderProjectField}
+                    fillOptions={value => collaboratorListHandler.fill(value)}
+                    variant="primary-search"
+                    clearOptions={collaboratorListHandler.clear}
+                    maxLength={100}
+                    // value={leaderId}
+                />
+            )}
+        </Container>
     );
 };
 
