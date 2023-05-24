@@ -9,6 +9,7 @@ import Footer from "./components/Footer/Footer";
 import { CloseButtonProjectForm } from "../../styles";
 import ProjectInfo from "../ProjectInfo/ProjectInfo";
 import { requestUpdateProject } from "src/services/projects/relatedToProjects";
+import LeaderSelector from "../NewProjectSection/components/NewProjectModal/components/LeaderSelector/LeaderSelector";
 
 const testModalStyles = {
     padding: "0",
@@ -30,13 +31,13 @@ const UpdateProjectModal = ({
 }: UpdateDateModalProps) => {
     const updateProject = async () => {
         console.log("updating");
-        // preloader.show("Actualizando datos de la empresa...");
-        const data = await requestUpdateProject(getProjectFromForm());
-        // preloader.hide();
-        if (!data) return;
-        // const { message } = data;
-        modalProps.open(false);
-        fillProjects();
+        // // preloader.show("Actualizando datos de la empresa...");
+        // const data = await requestUpdateProject(getProjectFromForm());
+        // // preloader.hide();
+        // if (!data) return;
+        // // const { message } = data;
+        // modalProps.open(false);
+        // fillProjects();
     };
     return (
         <Modal {...modalProps} sizeProps={testModalStyles}>
@@ -56,14 +57,9 @@ const UpdateProjectModal = ({
                     <Column width="80%" alignSelf="center" gap="35px">
                         <ProjectInfo form={form} variant="update" />
                         <Column width="85%" alignSelf="center" gap="100px">
-                            <CustomInputSearch
-                                label="Líder del proyecto"
-                                placeholder="Ejm: Ral"
-                                variant="secondary-search"
-                                options={PROV_OP}
-                                onChange={() => console.log()}
-                                fillOptions={() => console.log()}
-                            />
+                            <LeaderSelector
+                                form={form}
+                                modalProps={modalProps}/>
                             <Footer updateProject={updateProject} />
                         </Column>
                     </Column>

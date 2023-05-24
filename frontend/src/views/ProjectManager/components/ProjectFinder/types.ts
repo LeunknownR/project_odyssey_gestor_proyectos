@@ -1,4 +1,6 @@
+import { ProjectFiltersHook } from "../../utils/hooks/types";
+
 export type ProjectFinderProps = {
-    changeSearchedProject: (value: string) => void;
-    doTriggerFillingRequest: () => void;
+    filters: ProjectFiltersHook;
+    doFillProjects: () => void;
 };
