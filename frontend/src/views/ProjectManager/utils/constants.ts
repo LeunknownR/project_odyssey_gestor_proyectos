@@ -22,7 +22,6 @@ export const TEXT_FIELD_PROPS = {
         name: "endDate",
     },
     PROJECT_LEADER: {
-        label: "Líder del proyecto",
         placeholder: "Ejm: Ral",
         name: "leaderId"
     }

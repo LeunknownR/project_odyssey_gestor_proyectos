@@ -6,25 +6,25 @@ import { requestGetCollaboratorForAdmin } from "src/services/collaborators/relat
 const useCollaboratorList = (
     // preloader: PreloaderHook
 ): CollaboratorListHook => {
-    const [destinationList, setDestinationList] = useState<CollaboratorUser[]>([]);
-    const clearDestinations = () => {
-        setDestinationList([]);
+    const [collaboratorList, setCollaboratorList] = useState<CollaboratorUser[]>([]);
+    const clearCollaborators = () => {
+        setCollaboratorList([]);
     }
-    const fillDestinations = async (destinationSearched: string) => {
-        if (!destinationSearched) {
-            clearDestinations();
+    const fillCollaborators = async (collaboratorSearched: string) => {
+        if (!collaboratorSearched) {
+            clearCollaborators();
             return;
         }
         // preloader.show("Cargando destinos...");
-        const { data } = await requestGetCollaboratorForAdmin(destinationSearched);
+        const { data } = await requestGetCollaboratorForAdmin(collaboratorSearched);
         // preloader.hide();
         if (data === null) return;
-        setDestinationList(data);
+        setCollaboratorList(data);
     };
     return {
-        value: destinationList,
-        fill: fillDestinations,
-        clear: clearDestinations
+        value: collaboratorList,
+        fill: fillCollaborators,
+        clear: clearCollaborators
     };
 };
 

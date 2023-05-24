@@ -26,15 +26,3 @@ export const Username = styled.h3`
     color: var(--white-1);
     font-size: 22px;
 `;
-export const RolInfo = styled(Row)`
-    color: var(--orange-2);
-`;
-export const IconContainer = styled.span`
-    display: flex;
-    .iconify {
-        font-size: 23px;
-    }
-`;
-export const Rol = styled.span`
-    font-size: 14px;
-`;
