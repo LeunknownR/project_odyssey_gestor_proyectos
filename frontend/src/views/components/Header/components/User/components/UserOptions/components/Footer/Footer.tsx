@@ -1,5 +1,6 @@
 import CustomButton from "src/components/CustomButton/CustomButton";
 import { Column } from "src/components/styles";
+import { clearStorage } from "src/storage";
 
 const Footer = () => {
     return (
@@ -14,6 +15,10 @@ const Footer = () => {
                 content="Cerrar Sesión"
                 variant="user-options-logout"
                 width="180px"
+                onClick={() => {
+                    clearStorage();
+                    window.location.href = "/login";
+                }}
             />
         </Column>
     );

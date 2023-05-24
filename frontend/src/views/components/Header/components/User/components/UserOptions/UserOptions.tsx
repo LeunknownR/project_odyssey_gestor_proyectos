@@ -13,14 +13,16 @@ import UserImage from "../../../../../UserImage/UserImage";
 import { Column } from "src/components/styles";
 import { UserOptionsProps } from "./types";
 import { forwardRef } from "react";
+import { currentUserLocalStorage } from "src/storage/user.local";
 
 const UserOptions = forwardRef(({ isOpen }: UserOptionsProps, ref) => {
+    const currentUser = currentUserLocalStorage.get();
     return (
         <Container className={isOpen && "open"} ref={ref}>
             <Column gap="8px">
                 <UserInfo align="center" gap="12px">
                     <UserImage />
-                    <Username>Diego Edgardo Torres de la Cruz</Username>
+                    <Username>{currentUser.name} {currentUser.surname}</Username>
                 </UserInfo>
                 <RolInfo align="center" gap="6px" alignSelf="flex-end">
                     <IconContainer>
