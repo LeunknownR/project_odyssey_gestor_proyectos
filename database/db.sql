@@ -290,7 +290,8 @@ BEGIN
         clb.id_collaborator,
         u.user_name,
         u.user_surname,
-        u.url_photo
+        u.url_photo,
+        u.email
     FROM collaborator clb
     INNER JOIN user u ON clb.id_collaborator = u.id_user 
     WHERE u.active = 1
@@ -601,3 +602,5 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
+
+-- MIRGRACIÓN DE LUCID - dbdiagram.io
