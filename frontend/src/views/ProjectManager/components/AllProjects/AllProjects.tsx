@@ -13,10 +13,11 @@ const AllProjects = ({
         <Container>
             <TitleHeader text="Todos los proyectos" />
             <ProjectList>
-                {allProjects.map(project => {
+                {allProjects.map((project, idx) => {
+                    //GNOMO DEBERÍA USAR SU PROJECT.ID PERO ESTÁ ROTO ESA MIERDA
                     return (
                         <AllProjectCard
-                            key={project.id}
+                            key={idx}
                             project={project}
                             setCurrentProject={setCurrentProject}
                             updateProjectModal={updateProjectModal}

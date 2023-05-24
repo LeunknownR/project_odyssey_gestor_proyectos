@@ -2,7 +2,6 @@ import Modal from "src/components/Modal/Modal";
 import { NewProjectModalProps } from "./types";
 import { Left, Right, Title } from "./styles";
 import ProjectFormComponent from "./components/ProjectFormComponent/ProjectFormComponent";
-import CustomInputSearch from "src/components/CustomInputSearch/CustomInputSearch";
 import ProjectInfo from "../../../ProjectInfo/ProjectInfo";
 import Footer from "./components/Footer/Footer";
 import { Column, Row } from "src/components/styles";

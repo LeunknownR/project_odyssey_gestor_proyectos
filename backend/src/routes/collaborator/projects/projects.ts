@@ -42,7 +42,7 @@ router.patch(ApiPathEndpointsCollaborator.UpdateEndDateProject,
     withErrorHandler(async (req, res) => {
         const updateEndDateProjectRequestBody: UpdateEndDateProjectRequestBody = parseToUpdateEndDateProjectRequestBody(req.body);
         const message: string = await ProjectController.updateEndDateProjectByLeader(updateEndDateProjectRequestBody);
-        GenerateResponseBody.sendResponse<null>(res, {
+        GenerateResponseBody.sendResponse(res, {
             code: getResponseCodeIfMessageExists(message),
             message,
             data: null
@@ -62,7 +62,7 @@ router.patch(ApiPathEndpointsCollaborator.AddProjectMembers,
     withErrorHandler(async (req, res) => {
         const addProjectMembersRequestBody: AddProjectMembersRequestBody = parseToAddProjectMembersRequestBody(req.body);
         const message: string = await ProjectController.addProjectMembers(addProjectMembersRequestBody);
-        GenerateResponseBody.sendResponse<null>(res, {
+        GenerateResponseBody.sendResponse(res, {
             code: getResponseCodeIfMessageExists(message),
             message,
             data: null
@@ -73,7 +73,7 @@ router.get(
     withErrorHandler(async (req, res) => {
         const deleteProjectMemberRequestBody: DeleteProjectMemberRequestBody = parseToDeleteProjectMemberRequestBody(req.params);
         const message: string = await ProjectController.deleteProjectMember(deleteProjectMemberRequestBody);
-        GenerateResponseBody.sendResponse<null>(res, {
+        GenerateResponseBody.sendResponse(res, {
             code: getResponseCodeIfMessageExists(message),
             message,
             data: null

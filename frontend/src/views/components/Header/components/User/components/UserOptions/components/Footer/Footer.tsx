@@ -1,7 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import CustomButton from "src/components/CustomButton/CustomButton";
 import { Column } from "src/components/styles";
+import { AbsolutePaths } from "src/config/absolutePaths";
+import { clearStorage } from "src/storage";
 
 const Footer = () => {
+    const navigate = useNavigate();
+    const logout = () => {
+        clearStorage();
+        navigate(AbsolutePaths.LOGIN);
+    }
     return (
         <Column align="center" gap="10px">
             <CustomButton
@@ -14,6 +22,7 @@ const Footer = () => {
                 content="Cerrar Sesión"
                 variant="user-options-logout"
                 width="180px"
+                onClick={logout}
             />
         </Column>
     );
