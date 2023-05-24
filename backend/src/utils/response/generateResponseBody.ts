@@ -3,10 +3,10 @@ import { ResponseBody } from "../types";
 import { ResponseCodes, ResponseMessages } from "./enums";
 
 export abstract class GenerateResponseBody {
-    public static sendResponse<T>(res: Response<ResponseBody<T>>, body: ResponseBody<T>): void {
+    public static sendResponse<T = null>(res: Response<ResponseBody<T>>, body: ResponseBody<T>): void {
         res.status(body.code).send(body);
     }
-    public static sendUnauthorizedResponse = (res: Response<ResponseBody<null>>): void => {
+    public static sendUnauthorizedResponse = (res: Response<ResponseBody>): void => {
         res.status(ResponseCodes.Unauthorized)
             .send({
                 code: ResponseCodes.Unauthorized,
@@ -14,7 +14,7 @@ export abstract class GenerateResponseBody {
                 data: null
             });
     }
-    public static sendFatalErrorResponse = (res: Response<ResponseBody<null>>): void => {
+    public static sendFatalErrorResponse = (res: Response<ResponseBody>): void => {
         res.status(ResponseCodes.InternalServerError)
             .send({
                 code: ResponseCodes.InternalServerError,
