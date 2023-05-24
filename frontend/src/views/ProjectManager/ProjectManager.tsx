@@ -31,7 +31,6 @@ const ProjectManager = () => {
     const { recentProjects, allProjects, fillProjects, doFill } = useProjectList(filters.value);
     const changeSearchedProject = (value: string) =>
         filters.change("searchedProject", value);
-    console.log(getProjectFromForm())
     return (
         <>
             <SidebarMenu
@@ -42,9 +41,7 @@ const ProjectManager = () => {
                         getProjectFromForm={getProjectFromForm}
                         setCurrentProject={setCurrentProject}
                         fillProjects={fillProjects}
-                    />
-                }
-            />
+                    />}/>
             <Container>
                 <Content>
                     <ProjectFinder
