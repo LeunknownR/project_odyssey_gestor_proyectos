@@ -1,4 +1,7 @@
 export type UserImageProps = {
-    isClickable?: any;
+    clickable?: boolean;
     onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    name: string;
+    surname: string;
+    userPhoto: string | null;
 }

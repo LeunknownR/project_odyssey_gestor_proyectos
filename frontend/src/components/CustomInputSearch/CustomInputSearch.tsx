@@ -15,23 +15,24 @@ const CustomInputSearch = ({
     placeholder,
     variant,
     maxLength,
-    value,
+    // value,
     onChange,
     options,
     fillOptions,
+    searchText
 }: // clearOptions
 CustomInputSearchProps) => {
-    const [searchText, setSearchText] = useState("");
-    const selectOption = (option: CustomInputSearchOption) => {
-        setSearchText(option.name);
-        onChange(option);
-        // clearOptions();
-    };
-    const changeSearchText = (e: ChangeEvent<HTMLInputElement>) => {
-        const { value } = e.target;
-        setSearchText(value);
-        fillOptions(value);
-    };
+    // const [searchText, setSearchText] = useState("");
+    // const selectOption = (option: CustomInputSearchOption) => {
+    //     setSearchText(option.name);
+    //     onChange(option);
+    //     // clearOptions();
+    // };
+    // const changeSearchText = (e: ChangeEvent<HTMLInputElement>) => {
+    //     const { value } = e.target;
+    //     setSearchText(value);
+    //     fillOptions(value);
+    // };
     // const clearInput = () => {
     //     setSearchText("");
     //     onChange(null);
@@ -40,6 +41,7 @@ CustomInputSearchProps) => {
     return (
         <Container>
             <CustomTextField
+                label={label}
                 placeholder={placeholder}
                 value={searchText}
                 onChange={changeSearchText}
