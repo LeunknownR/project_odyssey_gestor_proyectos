@@ -17,3 +17,7 @@ export type ProjectFilters = {
     searchedProject: string;
     [key: string]: string;
 };
+export type CollaboratorFilter = {
+    idProject: number,
+    name: string
+};

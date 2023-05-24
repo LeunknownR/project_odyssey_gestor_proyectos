@@ -41,9 +41,7 @@ const ProjectManager = () => {
                         getProjectFromForm={getProjectFromForm}
                         setCurrentProject={setCurrentProject}
                         fillProjects={fillProjects}
-                    />
-                }
-            />
+                    />}/>
             <Container>
                 <Content>
                     <ProjectFinder
