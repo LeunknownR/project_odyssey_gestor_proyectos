@@ -1,24 +1,20 @@
-export type CollaboratorUser = {
+export type UserBase = {
+	name: string,
+	surname: string,
+	urlPhoto: string | null,
+}
+export type CollaboratorUser = UserBase & {
 	id: number
-	name: string,
-	surname: string,
-	urlPhoto: string | null,
-};
-export type ProjectLeader = {
-	id: number,
-	name: string,
-	surname: string,
 	email: string
-	urlPhoto: string | null,
+};
+export type ProjectLeader = UserBase & {
+	email: string
 };
 export type ProjectRole = {
     id: number;
-    name: string;    
+    name: string;
 };
-export type ProjectCollaborator = {
+export type ProjectCollaborator = UserBase & {
     id: number,
-    name: string,
-    surname: string,
-    urlPhoto: string | null,
     projectRole: ProjectRole
 };

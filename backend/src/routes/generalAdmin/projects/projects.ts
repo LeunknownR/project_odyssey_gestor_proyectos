@@ -20,7 +20,7 @@ const router = Router();
 router.use("/", Authentication.checkTokenInEndpoints(DBRoles.GeneralAdmin));
 router.get(
     ApiPathEndpointsGeneralAdmin.GetProjectListByGeneralAdmin, 
-    withErrorHandler(async (req, res) => {
+    withErrorHandler(async (req, res) => {        
         const projectName: string = parseToProjectName(req.params);
         const groupedProjectList: GroupedProjectList = await ProjectController.getProjectListByGeneralAdmin(projectName);
         GenerateResponseBody.sendResponse<GroupedProjectList>(res, {

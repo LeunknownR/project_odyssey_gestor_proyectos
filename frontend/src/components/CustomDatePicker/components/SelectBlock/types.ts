@@ -3,7 +3,7 @@ import { Period } from "../../types";
 export type SelectBlockProps = {
     value: number;
     handlerChangeValue: (timestamp: any) => void;
-    availableDays: number[];
+    availableDays?: number[] | undefined;
     period: Period;
     calendarAbove: boolean;
 };

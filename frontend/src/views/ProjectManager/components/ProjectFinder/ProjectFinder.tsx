@@ -1,21 +1,28 @@
 import { useState } from "react";
-import CustomTextFieldSearch from "src/components/CustomTextFieldSearch/CustomTextFieldSearch";
 import { ProjectFinderProps } from "./types";
+import CustomTextField from "src/components/CustomTextField/CustomTextField";
 
-const ProjectFinder = ({ changeSearchedProject, doTriggerFillingRequest }: ProjectFinderProps) => {
+const ProjectFinder = ({ 
+    filters, doFillProjects 
+}: ProjectFinderProps) => {
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | undefined>();
+    const changeSearchedProject = (value: string) => {
+        filters.change("searchedProject", value);
+    }
     const changeSearchUser = (value: string) => {
         changeSearchedProject(value);
         clearTimeout(timeoutId);
         const newTimeoutId = setTimeout(() => {
-            doTriggerFillingRequest();
+            doFillProjects();
         }, 500);
         setTimeoutId(newTimeoutId);
     };
     return (
-        <CustomTextFieldSearch
+        <CustomTextField
+            placeholder="Busca un proyecto..."
+            value={filters.value.searchedProject}
+            onChange={e => changeSearchUser(e.target.value)}
             variant="header-search"
-            changeField={changeSearchUser}
         />
     );
 };

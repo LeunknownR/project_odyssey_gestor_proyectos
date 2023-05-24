@@ -18,13 +18,11 @@ const Duration = ({ form, labelColor }: DurationProps) => {
             <Row gap="14px">
                 <CustomDatePicker
                     {...TEXT_FIELD_PROPS.PROJECT_START}
-                    availableDays={[1]}
                     onChange={changeStartDateProjectField}
                     value={startDate}
                 />
                 <CustomDatePicker
                     {...TEXT_FIELD_PROPS.PROJECT_END}
-                    availableDays={[1, 2, 3, 4, 5, 6, 7, 8]}
                     onChange={changeEndDateProjectField}
                     value={endDate}
                 />

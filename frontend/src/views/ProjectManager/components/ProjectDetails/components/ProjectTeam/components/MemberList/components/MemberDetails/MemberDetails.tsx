@@ -6,7 +6,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 const MemberDetails = () => {
     return (
         <Container>
-            <UserImage />
+            {/* <UserImage /> */}
             <Column gap="5px">
                 <Name>Manuel Alejandro Rivera Becerra</Name>
                 <Row align="center" justify="space-between">

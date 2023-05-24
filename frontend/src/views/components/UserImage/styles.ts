@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 type ContainerProps = {
-    className?: boolean | string;
+    className?: any;
     onMouseDown: any;
-}
+};
 export const Container = styled.div<ContainerProps>`
     display: flex;
     justify-content: center;
@@ -25,10 +25,17 @@ export const Container = styled.div<ContainerProps>`
         min-height: 42px;
     }
 `;
-export const NameInitials = styled.span`
+type NameInitialsProps = {
+    className?: any;
+};
+export const NameInitials = styled.span<NameInitialsProps>`
     color: var(--dark-1);
     font-weight: 700;
+    &.bigger {
+        font-size: 32px;
+    }
 `;
-export const UserPhoto = styled.img`
-  
-`;
+type UserPhoto = {
+    src: any;
+};
+export const UserPhoto = styled.img<UserPhoto>``;
