@@ -17,5 +17,4 @@ export type CustomInputSearchProps = {
     onChange: (value: CollaboratorUser) => void;
     fillOptions: (value: string) => void;
     clearOptions: () => void;
-    searchText: string;
 };

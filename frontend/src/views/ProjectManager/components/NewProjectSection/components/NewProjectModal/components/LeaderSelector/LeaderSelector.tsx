@@ -8,7 +8,6 @@ import { CollaboratorUser } from "src/entities/collaborator/types";
 import CollaboratorCard from "src/views/ProjectManager/components/CollaboratorCard/CollaboratorCard";
 
 const LeaderSelector = ({ form, modalProps }: LeaderSelectorProps) => {
-    const [searchText, setSearchText] = useState();
     const [selectedLeader, setSelectedLeader] = useState<CollaboratorUser | null>(null);
     const $wrapper = useRef<HTMLDivElement>();
     const collaboratorListHandler = useCollaboratorList();
@@ -44,7 +43,6 @@ const LeaderSelector = ({ form, modalProps }: LeaderSelectorProps) => {
                         variant="primary-search"
                         clearOptions={collaboratorListHandler.clear}
                         maxLength={100}
-                        // searchText={}
                         // value={leaderId}
                     />
                 </Wrapper>
