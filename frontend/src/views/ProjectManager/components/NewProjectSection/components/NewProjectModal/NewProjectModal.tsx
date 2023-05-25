@@ -18,17 +18,18 @@ const testModalStyles = {
 };
 
 const NewProjectModal = ({
+    preloader,
     modalProps,
     form,
     getProjectFromForm,
-    fillProjects
+    fillProjects,
 }: NewProjectModalProps) => {
     const registerProject = async () => {
         const projectForm: ProjectForm | null = getProjectFromForm();
         if (!projectForm) return;
-        // preloader.show("Registrando empresa...");
+        preloader.show("Creando proyecto...");
         const data = await requestCreateProject(projectForm);
-        // preloader.hide();
+        preloader.hide();
         // Error inesperado
         if (!data) return;
         // Error controlado
@@ -54,10 +55,15 @@ const NewProjectModal = ({
                         <Icon icon="material-symbols:close" />
                     </CloseButtonProjectForm>
                     <Column width="80%" alignSelf="center" gap="35px">
-                        <ProjectInfo form={form} variant="create"/>
+                        <ProjectInfo form={form} variant="create" />
                         <Column width="85%" alignSelf="center" gap="100px">
-                            <LeaderSelector form={form} modalProps={modalProps}/>
-                            <Footer registerProject={registerProject}/>
+                            <LeaderSelector
+                                form={form}
+                                modalProps={modalProps}
+                                variant="primary"
+                                preloader={preloader}
+                            />
+                            <Footer registerProject={registerProject} />
                         </Column>
                     </Column>
                 </Right>

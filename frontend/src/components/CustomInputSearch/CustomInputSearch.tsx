@@ -1,6 +1,3 @@
-//#region Libraries
-import { ChangeEvent, useState } from "react";
-//#endregion
 //#region Styles
 import { Container, List } from "./styles";
 //#endregion
@@ -45,6 +42,6 @@ function CustomInputSearch<O>({
             {/* {value && <CleanBtn onClick={clearInput}>Limpiar</CleanBtn>} */}
         </Container>
     );
-};
+}
 
 export default CustomInputSearch;

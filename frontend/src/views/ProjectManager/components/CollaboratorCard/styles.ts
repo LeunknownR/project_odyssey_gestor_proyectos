@@ -10,6 +10,9 @@ export const Container = styled.div`
     &.primary {
         background-color: var(--darkblue-2);
     }
+    &.secondary {
+        background-color: var(--white-1);
+    }
 `;
 export const Name = styled.h3`
     font-size: 17px;
