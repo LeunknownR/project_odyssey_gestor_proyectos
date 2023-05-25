@@ -1,22 +1,6 @@
-import { ProjectCollaborator, ProjectLeader } from "../collaborator/types";
+import { ProjectCollaborator, CollaboratorUser } from "../collaborator/types";
 import { ProjectState } from "./enums";
 
-export type UpdateEndDateProjectRequestBody = {
-    projectId: number,
-    endDate: number
-};
-export type SearchCollaboratorRequestBody = {
-    projectId: number,
-    collaboratorName: string
-}
-export type AddProjectMembersRequestBody = {
-    projectId: number,
-    membersIds: number[]
-};
-export type DeleteProjectMemberRequestBody = {
-    userId: number,
-    projectHasMemberId: number
-};
 export type ProjectBase = {
     name: string,
     description: string,
@@ -26,7 +10,7 @@ export type ProjectBase = {
 export type Project = ProjectBase & {
     id: number,
     state: ProjectState,
-    leader?: ProjectLeader
+    leader?: CollaboratorUser
 };
 export type ProjectForm = ProjectBase & {
     id?: number,

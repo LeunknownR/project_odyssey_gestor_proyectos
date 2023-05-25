@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import CustomInputSearch from "src/components/CustomInputSearch/CustomInputSearch";
 import { TEXT_FIELD_PROPS } from "src/views/ProjectManager/utils/constants";
 import { LeaderSelectorProps } from "./types";
-import useSelectCollaborator from "src/views/ProjectManager/utils/hooks/useCollaboratorUserList";
+import useSearchCollaborator from "src/views/ProjectManager/utils/hooks/useSearchCollaborator";
 import { Container, Label, Wrapper } from "./styles";
 import { CollaboratorUser } from "src/entities/collaborator/types";
 import CollaboratorCard from "src/views/ProjectManager/components/CollaboratorCard/CollaboratorCard";
@@ -12,7 +12,7 @@ import { requestSearchCollaboratorForGeneralAdmin } from "src/services/collabora
 const LeaderSelector = ({ form, modalProps }: LeaderSelectorProps) => {
     const $wrapper = useRef<HTMLDivElement>();
     const [selectedCollaborator, setSelectedCollaborator] = useState<CollaboratorUser | null>(null);
-    const selectProjectLeaderHandler = useSelectCollaborator({
+    const selectProjectLeaderHandler = useSearchCollaborator({
         requestSearchCollaborators: async (value: string) => {
             const { data } = await requestSearchCollaboratorForGeneralAdmin(value);
             return data;
@@ -44,7 +44,7 @@ const LeaderSelector = ({ form, modalProps }: LeaderSelectorProps) => {
                 <Wrapper ref={$wrapper}>
                     <CustomInputSearch<CollaboratorUser>
                         {...TEXT_FIELD_PROPS.PROJECT_LEADER}
-                        options={selectProjectLeaderHandler.value}
+                        options={selectProjectLeaderHandler.collaboratorUserList}
                         getSearchedItemToShow={option => ({ 
                             value: option.id,
                             text: selectProjectLeaderHandler.getText(option),

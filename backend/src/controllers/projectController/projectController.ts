@@ -1,14 +1,15 @@
 import { collaboratorMemberMapper, collaboratorUserMapper } from "../../entities/collaborator/mappers";
 import { CollaboratorUser } from "../../entities/collaborator/types";
 import { projectDetailsMapper, projectListByCollaboratorMapper, projectListByGeneralAdminMapper } from "../../entities/project/mappers";
-import { AddProjectMembersRequestBody, GroupedProjectList, ProjectForm, UpdateEndDateProjectRequestBody, ProjectDetails, SearchCollaboratorRequestBody, DeleteProjectMemberRequestBody } from "../../entities/project/types";
+import { 
+    GroupedProjectList, ProjectForm, 
+    ProjectDetails } from "../../entities/project/types";
 import ProjectModel from "../../models/projectModel/projectModel";
-import { GetProjectListForCollaboratorRequestBody } from "../../routes/collaborator/projects/types";
+import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectListForCollaboratorRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 import { ResponseMessages } from "../../utils/response/enums";
 
 export default abstract class ProjectController {
-    // static async getProjectListByGeneralAdmin(projectName: string): Promise<ResponseBody & { data: GroupedProjectListForGeneralAdmin }> {
     static async getProjectListByGeneralAdmin(projectName: string | null): Promise<GroupedProjectList> {
         const resultset: any[] = await ProjectModel.getProjectListByGeneralAdmin(projectName);
         const projectList: GroupedProjectList = projectListByGeneralAdminMapper(resultset);

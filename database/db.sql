@@ -261,6 +261,7 @@ BEGIN
         p.state,
         p.start_date,
         p.end_date,
+        u.id_user,
         u.user_name,
         u.user_surname,
         u.email,
@@ -606,4 +607,4 @@ BEGIN
 END //
 DELIMITER ;
 
--- MIRGRACIÓN DE LUCID - dbdiagram.io
+-- MIGRACIÓN DE LUCID - dbdiagram.io
