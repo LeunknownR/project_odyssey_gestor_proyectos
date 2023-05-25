@@ -7,6 +7,10 @@ import CustomInputSearch from "src/components/CustomInputSearch/CustomInputSearc
 import Header from "./components/Header/Header";
 import useSearchCollaborator from "src/views/ProjectManager/utils/hooks/useSearchCollaborator";
 import { requestSearchCollaboratorToBeMemberForCollaborator } from "src/services/collaborators/relatedToCollaborators";
+import { useState } from "react";
+import { CollaboratorUser } from "src/entities/collaborator/types";
+import useCustomInputSearch from "src/components/CustomInputSearch/utils/hooks/useCustomInputSearch";
+import MemberListItem from "./components/MemberListItem/MemberListItem";
 
 const testModalStyles = {
     padding: "0px",
@@ -18,42 +22,66 @@ const PROVISIONAL_OPTIONS = [
         name: "asdasd",
     },
 ];
-const AddMembersModal = ({ modalProps, preloader }: AddMembersChangesModalProps) => {
-    // const selectProjectLeaderHandler = useSearchCollaborator({
-    //     requestSearchCollaborators: async (value: string) => {
-    //         preloader.show("Buscando colaboradores...")
-    //         const { data } = await requestSearchCollaboratorToBeMemberForCollaborator(value);
-    //         preloader.hide();
-    //         return data;
-    //     },
-    // });
-    const addMemberToProject = () => {
-        console.log("agregnado");
+const AddMembersModal = ({ modalProps, preloader, projectId }: AddMembersChangesModalProps) => {
+    const [projectMembersToAddList, setProjectMembersToAddList] = useState<CollaboratorUser[]>([]);
+    const selectProjectMemberHandler = useSearchCollaborator({
+        requestSearchCollaborators: async (collaboratorName: string) => {
+            const { data } = await requestSearchCollaboratorToBeMemberForCollaborator({
+                projectId,
+                collaboratorName,
+            });
+            return data;
+        },
+    });
+    const addProjectMemberToAddList = (collaboratorUser: CollaboratorUser | null) => {
+        if (!collaboratorUser) return;
+        setProjectMembersToAddList((prev) => [...prev, collaboratorUser]);
     };
+    const removeProjectMemberToAddList = (projectMemberToDeleteId: number) => {
+        setProjectMembersToAddList((prev) => prev.filter(({ id }) => id !== projectMemberToDeleteId));
+    };
+    const customSearchInputHandler = useCustomInputSearch<CollaboratorUser>({
+        clearOptions: selectProjectMemberHandler.clear,
+        fillOptions: selectProjectMemberHandler.fill,
+        onChange: addProjectMemberToAddList,
+    });
+    const addMembersToProject = (): void => {
+        const projectMembersToAddListIds = projectMembersToAddList.map(memberId => (
+            return 
+        ))
+    };   
     return (
         <Modal {...modalProps} sizeProps={testModalStyles}>
             <Header />
             <BodyWrapper>
-                {/* <CustomInputSearch
-                    label="Miembros del proyecto"
-                    placeholder="Ejm: Ral"
-                    variant="primary-search"
-                    options={PROVISIONAL_OPTIONS}
-                    onChange={() => console.log()}
-                    getSearchedItemToShow={}
-                    selectOption={}
-                    value=""
-                /> */}
-                <NewMemberIcon>
-                    <IconContainer>
-                        <Icon icon="mdi:user-add" />
-                    </IconContainer>
-                    <IconText>Elija un nuevo miembro para el proyecto</IconText>
-                </NewMemberIcon>
+            <CustomInputSearch<CollaboratorUser>
+            placeholder="Ejm: Ral"
+            options={selectProjectMemberHandler.collaboratorUserList}
+            getSearchedItemToShow={option => ({ 
+                value: option.id,
+                text: selectProjectMemberHandler.getText(option),
+                urlPhoto: option.urlPhoto
+            })}
+            onChange={customSearchInputHandler.changeSearchText}
+            selectOption={customSearchInputHandler.selectOption}
+            value={customSearchInputHandler.searchText}
+            variant="primary-search"
+            maxLength={100}
+        />
+        {projectMembersToAddList.length === 0
+        ?   <NewMemberIcon>
+            <IconContainer>
+                <Icon icon="mdi:user-add" />
+            </IconContainer>
+            <IconText>Elija un nuevo miembro para el proyecto</IconText>
+            </NewMemberIcon>
+        : projectMembersToAddList.map(memberProject => (
+            <MemberListItem memberProject={memberProject} onRemove={removeProjectMemberToAddList}/>
+        ))}
             </BodyWrapper>
             <Footer
                 closeModal={() => modalProps.open(false)}
-                addMemberToProject={addMemberToProject}
+                addMembersToProject={addMembersToProject}
             />
         </Modal>
     );
