@@ -1,4 +1,4 @@
-import { CollaboratorUser } from "src/entities/collaborator/types";
+import { CollaboratorUser, ProjectRole } from "src/entities/collaborator/types";
 import { APIRequestFunction, ResponseBody } from "../types";
 import { ApiPathEndpoints } from "../apiPathEndpoints";
 import { APIHandler } from "src/config/api";

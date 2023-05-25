@@ -30,4 +30,13 @@ export type SelectCollaboratorHook = {
     fill: (collaboratorSearched: string) => Promise<void>;
     getText: ({ name, surname }: CollaboratorUser) => string;
     clear: () => void;
+<<<<<<< HEAD
 };
+=======
+}
+export type CollaboratorForMemberHook = {
+    collaborator: CollaboratorUser[];
+    fill: (collaboratorSearched: string) => Promise<void>;
+    clear: () => void;
+}
+>>>>>>> 00dd7fb9cfa409c58ef00ae5cda6043dac422229
