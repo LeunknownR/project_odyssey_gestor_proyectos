@@ -14,8 +14,10 @@ import Preloader from "src/components/Preloader/Preloader";
 import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
 
 const ProjectDetailsView = () => {
-    const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(null);
-    const addMemberModal = useModal();
+    const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(
+        null
+    );
+    const addMemberModal = useModal(true);
     const updateDateModal = useModal();
     const preloader = usePreloader();
     useEffect(() => {
@@ -29,22 +31,30 @@ const ProjectDetailsView = () => {
         console.log(data);
         setProjectDetails(data);
     };
-    if (!projectDetails) return null;
     return (
         <>
         <Container>
             <Content>
                 <TitleHeader text="DETALLE DEL PROYECTO" />
-                <ProjectInfo
-                    name={projectDetails.name}
-                    description={projectDetails.description}
-                    period={projectDetails.period}
-                />
-                <ProjectTeam collaborators={projectDetails.collaborators} />
+                {projectDetails && (
+                    <>
+                    <ProjectInfo
+                        name={projectDetails.name}
+                        description={projectDetails.description}
+                        period={projectDetails.period}
+                    />
+                    <ProjectTeam
+                        collaborators={projectDetails.collaborators}
+                    />
+                    </>
+                )}
                 <Footer />
             </Content>
         </Container>
-        <AddMembersModal modalProps={addMemberModal} />
+        <AddMembersModal
+            modalProps={addMemberModal}
+            preloader={preloader}
+        />
         <UpdateDateModal modalProps={updateDateModal} />
         <Preloader {...preloader.value} />
         </>
