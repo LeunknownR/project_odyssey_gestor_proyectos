@@ -10,6 +10,10 @@ import {
 } from "./styles";
 import ProjectUsers from "./components/ProjectUsers/ProjectUsers";
 import { RecentProjectCardProps } from "./types";
+import { useNavigate } from "react-router-dom";
+import { AbsolutePaths } from "src/config/absolutePaths";
+import { Project } from "src/entities/project/types";
+import { setProjectId } from "src/storage/project.session";
 
 const RecentProjectCard = ({
     project,
@@ -18,14 +22,20 @@ const RecentProjectCard = ({
     deleteProjectModal,
 }: RecentProjectCardProps) => {
     const { name, state } = project;
+    const navigate = useNavigate();
     const openUpdateProjectModal = () => updateProjectModal.open(true);
     const openDeleteProjectModal = () => deleteProjectModal.open(true);
+    const moveToProjectDetails = () => {
+        navigate(AbsolutePaths.PROJECT_DETAILS);
+        setProjectId(project.id)
+    }
     return (
         <Container>
-            <OptionsWrapper onClick={() => setCurrentProject(project)}>
+            <OptionsWrapper onClick={() => {setCurrentProject(project); console.log(project.id)}}>
                 <MenuOptions
                     onClickEdit={openUpdateProjectModal}
                     onClickDelete={openDeleteProjectModal}
+                    onClickDetails={moveToProjectDetails}
                 />
             </OptionsWrapper>
             <Image>

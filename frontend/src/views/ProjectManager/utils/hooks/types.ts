@@ -6,7 +6,7 @@ export type FormProjectHook = {
     form: FormProject;
     getProjectFromForm: () => ProjectForm | null;
 };
-type FormProject = {
+export type FormProject = {
     value: ProjectForStateForm,
     isCompleted: () => boolean,
     haveChanges: () => boolean,

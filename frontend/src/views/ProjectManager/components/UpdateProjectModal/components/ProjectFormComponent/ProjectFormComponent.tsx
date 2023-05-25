@@ -6,7 +6,7 @@ import Duration from "../../../Duration/Duration";
 import { ProjectFormProps } from "./types";
 import { ChangeEvent } from "react";
 
-const ProjectForm = ({ form }: ProjectFormProps) => {
+const ProjectFormComponent = ({ form }: ProjectFormProps) => {
     const { name, description } = form.value;
     const changeNameProjectField = ({
         target: { value },
@@ -37,4 +37,4 @@ const ProjectForm = ({ form }: ProjectFormProps) => {
     );
 };
 
-export default ProjectForm;
+export default ProjectFormComponent;

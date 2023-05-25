@@ -77,10 +77,9 @@ export const requestGetProjectDetails: APIRequestFunction<
     ProjectDetails,
     number
 > = async (projectId: number) => {
-    // /:collaboratorId/:projectName
     const path: string = getEndpointWithPathVariables(
         ApiPathEndpoints.GetProjectDetails,
-        [getUserId(), projectId]
+        [projectId]
     );
     const data: ResponseBody<ProjectDetails> =
         await APIHandler.api.get(path);

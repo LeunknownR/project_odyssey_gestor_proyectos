@@ -171,7 +171,7 @@ export const TextField = styled.input`
         font-weight: 700;
         padding: 10px 15px;
         ::placeholder {
-            color: var(--darkblue-1);
+            color: var(--darkblue-0);
             font-weight: 400;
         }
     }

@@ -5,14 +5,14 @@ import { Row } from "src/components/styles";
 import { UpdateDateModalProps } from "./types";
 import Footer from "./components/Footer/Footer";
 
-const testModalStyles = {
+const MODAL_STYLES = {
     padding: "20px 30px",
     minWidth: "700px"
 };
 
 const UpdateDateModal = ({ modalProps }: UpdateDateModalProps) => {
     return (
-        <Modal {...modalProps} sizeProps={testModalStyles}>
+        <Modal {...modalProps} sizeProps={MODAL_STYLES}>
             <Row align="center" gap="10px" justifySelf="flex-start">
                 <IconContainer><Icon icon="iconamoon:attention-square-fill" /></IconContainer>
                 <TitleModal>ACTUALIZACIÓN DE FECHA DE FINALIZACIÓN</TitleModal>

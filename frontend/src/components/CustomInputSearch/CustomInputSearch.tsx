@@ -1,6 +1,3 @@
-//#region Libraries
-import { ChangeEvent, useState } from "react";
-//#endregion
 //#region Styles
 import { Container, List } from "./styles";
 //#endregion

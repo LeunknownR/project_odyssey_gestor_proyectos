@@ -1,12 +1,13 @@
 import CustomButton from "src/components/CustomButton/CustomButton";
 import { Row } from "src/components/styles";
 import { Dates } from "./styles";
+import { PeriodProps } from "./types";
 
-const Period = () => {
+const Period = ({ period }: PeriodProps) => {
     return (
         <Row align="center" gap="16px" padding="0 0 0 65px">
             <Dates>
-                <b>Período</b> 10-05-2023 / 10-10-2023
+                <b>Período</b> {period}
             </Dates>
             <CustomButton
                 content="Finalización"

@@ -8,8 +8,9 @@ import {
 } from "./styles";
 import { Row } from "src/components/styles";
 import Period from "./components/Period/Period";
+import { ProjectInfoProps } from "./types";
 
-const ProjectInfo = () => {
+const ProjectInfo = ({ name, description, period }: ProjectInfoProps) => {
     return (
         <Container>
             <InfoWrapper>
@@ -17,14 +18,11 @@ const ProjectInfo = () => {
                     <IconContainer>
                         <Icon icon="eos-icons:project" />
                     </IconContainer>
-                    <ProjectName>TCorp - Brazo robótico (IOT)</ProjectName>
+                    <ProjectName>{name}</ProjectName>
                 </Row>
-                <Description>
-                    Proyecto para la empresa TCorp, para el soporte a empleados
-                    con discapacidad motora.
-                </Description>
+                <Description>{description}</Description>
             </InfoWrapper>
-            <Period />
+            <Period period={period} />
         </Container>
     );
 };

@@ -22,6 +22,7 @@ export const Container = styled.div<ContainerProps>`
 `;
 type OptionProps = {
     color?: string;
+    onClick?: any
 }
 export const Option = styled.div<OptionProps>`
     color: ${({color}) => color};
