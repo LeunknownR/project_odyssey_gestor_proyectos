@@ -26,14 +26,14 @@ const AddMembersModal = ({ modalProps }: AddMembersChangesModalProps) => {
         <Modal {...modalProps} sizeProps={testModalStyles}>
             <Header />
             <BodyWrapper>
-                <CustomInputSearch
+                {/* <CustomInputSearch
                     label="Miembros del proyecto"
                     placeholder="Ejm: Ral"
                     variant="primary-search"
                     options={PROVISIONAL_OPTIONS}
                     onChange={() => console.log()}
-                    fillOptions={() => console.log()}
-                />
+                    // fillOptions={() => console.log()}
+                /> */}
                 <NewMemberIcon>
                     <IconContainer>
                         <Icon icon="mdi:user-add" />

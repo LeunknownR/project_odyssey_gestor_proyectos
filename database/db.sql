@@ -247,7 +247,7 @@ DELIMITER ;
 
 -- SP para listar los proyectos segun su nombre
 DELIMITER //
-CREATE PROCEDURE `sp_get_project_list_by_project_name`(
+CREATE PROCEDURE `sp_get_project_list_for_general_admin`(
     IN p_project_name VARCHAR(50)
 )
 BEGIN
@@ -272,7 +272,6 @@ BEGIN
     INNER JOIN user u ON phc.id_collaborator = u.id_user
     WHERE p.active = 1
     AND phc.id_project_role = "PLD"
-    -- AND @search_project_name IS NULL OR p.project_name LIKE @search_project_name
     AND phc.active = 1
     AND (@search_project_name IS NULL OR p.project_name LIKE @search_project_name)
     ORDER BY p.start_date DESC, p.project_name ASC
@@ -432,7 +431,7 @@ BEGIN
     INNER JOIN user u ON phc.id_collaborator = u.id_user
     WHERE p.active = 1
     AND phc.id_collaborator = p_id_collaborator
-    AND p.project_name LIKE @search_project_name
+    AND (@search_project_name IS NULL OR p.project_name LIKE @search_project_name)
     ORDER BY p.start_date DESC
     LIMIT 8;
 END //

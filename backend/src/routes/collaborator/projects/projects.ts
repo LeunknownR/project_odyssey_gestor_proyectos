@@ -38,7 +38,8 @@ router.get(ApiPathEndpointsCollaborator.GetProjectListForCollaborator,
             message: ResponseMessages.Success,
             data: groupedProjectList
         });
-    }));
+    })
+);
 router.patch(ApiPathEndpointsCollaborator.UpdateEndDateProject,
     withErrorHandler(async (req, res) => {
         const updateEndDateProjectRequestBody: UpdateEndDateProjectRequestBody = parseToUpdateEndDateProjectRequestBody(req.body);
