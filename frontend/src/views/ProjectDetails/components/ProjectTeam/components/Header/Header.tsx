@@ -1,8 +1,9 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { AddMemberButton, Container, IconContainer, Title } from "./styles";
 import { Row } from "src/components/styles";
+import { HeaderProps } from "./types";
 
-const Header = () => {
+const Header = ({ openAddMemberModal }: HeaderProps) => {
     return (
         <Container>
             <Row align="center" gap="10px">
@@ -11,7 +12,7 @@ const Header = () => {
                 </IconContainer>
                 <Title>EQUIPO DEL PROYECTO</Title>
             </Row>
-            <AddMemberButton>
+            <AddMemberButton onClick={openAddMemberModal}>
                 <span><Icon icon="material-symbols:add-circle" /></span>
                 Agregar Miembro
             </AddMemberButton>

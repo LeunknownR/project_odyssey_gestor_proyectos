@@ -17,7 +17,7 @@ const ProjectDetailsView = () => {
     const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(
         null
     );
-    const addMemberModal = useModal(true);
+    const addMemberModal = useModal();
     const updateDateModal = useModal();
     const preloader = usePreloader();
     useEffect(() => {
@@ -28,7 +28,6 @@ const ProjectDetailsView = () => {
         const { data } = await requestGetProjectDetails(getProjectId());
         preloader.hide();
         if (data === null) return;
-        console.log(data);
         setProjectDetails(data);
     };
     return (
@@ -42,9 +41,11 @@ const ProjectDetailsView = () => {
                         name={projectDetails.name}
                         description={projectDetails.description}
                         period={projectDetails.period}
+                        
                     />
                     <ProjectTeam
                         collaborators={projectDetails.collaborators}
+                        openAddMemberModal={() => addMemberModal.open(true)}
                     />
                     </>
                 )}

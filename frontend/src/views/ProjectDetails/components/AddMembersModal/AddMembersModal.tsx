@@ -19,14 +19,14 @@ const PROVISIONAL_OPTIONS = [
     },
 ];
 const AddMembersModal = ({ modalProps, preloader }: AddMembersChangesModalProps) => {
-    const selectProjectLeaderHandler = useSearchCollaborator({
-        requestSearchCollaborators: async (value: string) => {
-            preloader.show("Buscando colaboradores...")
-            const { data } = await requestSearchCollaboratorToBeMemberForCollaborator(value);
-            preloader.hide();
-            return data;
-        },
-    });
+    // const selectProjectLeaderHandler = useSearchCollaborator({
+    //     requestSearchCollaborators: async (value: string) => {
+    //         preloader.show("Buscando colaboradores...")
+    //         const { data } = await requestSearchCollaboratorToBeMemberForCollaborator(value);
+    //         preloader.hide();
+    //         return data;
+    //     },
+    // });
     const addMemberToProject = () => {
         console.log("agregnado");
     };
