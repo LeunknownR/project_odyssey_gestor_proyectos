@@ -3,9 +3,10 @@ import CustomInputSearch from "src/components/CustomInputSearch/CustomInputSearc
 import { CollaboratorUser } from "src/entities/collaborator/types";
 import useSearchCollaborator from "../ProjectManager/utils/hooks/useSearchCollaborator";
 import { requestSearchCollaboratorToBeMemberForCollaborator } from "src/services/collaborators/relatedToCollaborators";
+import useCustomInputSearch from "src/components/CustomInputSearch/utils/hooks/useCustomInputSearch";
 
 const ProjectDetails = ({
-    projectId, value
+    projectId
 }: any) => {
     const [projectMembersToAddList, setProjectMembersToAddList] = useState<CollaboratorUser[]>([]);
     const selectProjectLeaderHandler = useSearchCollaborator({
@@ -16,15 +17,21 @@ const ProjectDetails = ({
             return data;
         }
     });
-    const addProjectMemmberToAddList = (projectMember: CollaboratorUser) => {
+    const addProjectMemberToAddList = (collaboratorUser: CollaboratorUser | null) => {
+        if (!collaboratorUser) return;
         setProjectMembersToAddList(prev => ([
             ...prev,
-            projectMember
+            collaboratorUser
         ]));
     }
     const removeProjectMemberToAddList = (projectMemberToDeleteId: number) => {
         setProjectMembersToAddList(prev => prev.filter(({ id }) => id !== projectMemberToDeleteId));
     }
+    const customSearchInputHandler = useCustomInputSearch<CollaboratorUser>({
+        clearOptions: selectProjectLeaderHandler.clear,
+        fillOptions: selectProjectLeaderHandler.fill,
+        onChange: addProjectMemberToAddList
+    });
     return (
         <>
         <CustomInputSearch<CollaboratorUser>
@@ -41,7 +48,9 @@ const ProjectDetails = ({
             variant="primary-search"
             maxLength={100}
         />
-        {projectMembersToAddList.map(item => (
+        {projectMembersToAddList.length === 0
+        ? <Empty/>
+        : projectMembersToAddList.map(item => (
             <Item item={item} onRemove={removeProjectMemberToAddList}/>
         ))}
         </>
