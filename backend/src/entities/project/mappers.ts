@@ -1,12 +1,13 @@
 import { projectCollaboratorMapper } from "../collaborator/mappers";
-import { ProjectLeader } from "../collaborator/types";
+import { CollaboratorUser } from "../collaborator/types";
 import { 
     Project, 
     GroupedProjectList,
     ProjectDetails 
 } from "./types";
 
-const projectLeaderMapper = (record: any): ProjectLeader => ({
+const projectLeaderMapper = (record: any): CollaboratorUser => ({
+    id: record["id_user"],
     name: record["user_name"],
     surname: record["user_surname"],
     email: record["email"],

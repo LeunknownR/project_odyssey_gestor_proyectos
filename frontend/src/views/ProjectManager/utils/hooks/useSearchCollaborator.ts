@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SelectCollaboratorHook, SelectCollaboratorHookParams } from "./types";
 import { CollaboratorUser } from "src/entities/collaborator/types";
 
-const useSelectCollaborator = ({
+const useSearchCollaborator = ({
     requestSearchCollaborators
 }: SelectCollaboratorHookParams): SelectCollaboratorHook => {
     const [collaboratorUserList, setCollaboratorUserList] = useState<CollaboratorUser[]>([]);
@@ -17,11 +17,11 @@ const useSelectCollaborator = ({
         return `${name} ${surname}`;
     }
     return {
-        value: collaboratorUserList,
+        collaboratorUserList: collaboratorUserList,
         fill: fillCollaboratorUserList,
         clear: clearCollaborators,
         getText: getCollaboratorText
     };
 };
 
-export default useSelectCollaborator;
+export default useSearchCollaborator;
