@@ -5,20 +5,14 @@ import { checkLength } from "../../../utils/string";
 import { GetProjectListForCollaboratorRequestBody } from "./types";
 
 export const parseToGetProjectListForCollaboratorRequestBody = (params: any): GetProjectListForCollaboratorRequestBody => {
-    const { projectName, collaboratorId } = params;
+    const { collaboratorId, projectName } = params;
     if (!isPositiveNumber(collaboratorId) ||
-        (projectName && !checkLength(projectName, 0, 50)))
+        (projectName && !checkLength(projectName, 1, 50)))
         throw new Error("Invalid request body to get project list");
     return {
         projectName: projectName || null,
         collaboratorId
     };
-}
-export const parseToCollaboratorName = (params: any): string => {
-    const { collaboratorName } = params;
-    if (!checkLength(collaboratorName, 0, 100))
-        throw new Error("Invalid collaborator name");
-    return collaboratorName;
 }
 export const parseToSearchCollaboratorRequestBody = (params: any): SearchCollaboratorRequestBody => {
     const { projectId, collaboratorName } = params;
@@ -29,7 +23,7 @@ export const parseToSearchCollaboratorRequestBody = (params: any): SearchCollabo
 }
 export const parseToProjectId = (params: any): number => {
     if (!isPositiveNumber(params.projectId))
-        throw new Error("Invalid projectId");
+        throw new Error("Invalid project id");
     return params.projectId;
 }
 export const parseToProjectIdToGetDetails = (params: any) => {
