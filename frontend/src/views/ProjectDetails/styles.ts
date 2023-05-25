@@ -1,9 +1,15 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.section`
+    background-color: var(--darkblue-4);
+    display: flex;
+    justify-content: center;
+`;
+export const Content = styled.main`
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
+    gap: 50px;
+    min-height: calc(100vh - 75px);
+    margin-left: 75px;
+    width: 70%;
 `;

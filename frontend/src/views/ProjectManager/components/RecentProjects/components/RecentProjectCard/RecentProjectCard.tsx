@@ -15,7 +15,7 @@ const RecentProjectCard = ({
     project,
     setCurrentProject,
     updateProjectModal,
-    deleteProjectModal
+    deleteProjectModal,
 }: RecentProjectCardProps) => {
     const { name, state } = project;
     const openUpdateProjectModal = () => updateProjectModal.open(true);
@@ -23,7 +23,10 @@ const RecentProjectCard = ({
     return (
         <Container>
             <OptionsWrapper onClick={() => setCurrentProject(project)}>
-                <MenuOptions onClickEdit={openUpdateProjectModal} onClickDelete={openDeleteProjectModal}/>
+                <MenuOptions
+                    onClickEdit={openUpdateProjectModal}
+                    onClickDelete={openDeleteProjectModal}
+                />
             </OptionsWrapper>
             <Image>
                 <Icon icon="ph:projector-screen-chart-fill" />

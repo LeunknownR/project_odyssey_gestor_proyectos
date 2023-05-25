@@ -3,6 +3,7 @@ import { APIRequestFunction, ResponseBody } from "../types";
 import { ApiPathEndpoints } from "../apiPathEndpoints";
 import {
     GroupedProjectList,
+    ProjectDetails,
     ProjectForm,
 } from "src/entities/project/types";
 import { getEndpointWithPathVariables } from "../utils/helpers";
@@ -70,5 +71,18 @@ export const requestDeleteProject: APIRequestFunction<
         ApiPathEndpoints.DeleteProject,
         { data: body }
     );
+    return data;
+};
+export const requestGetProjectDetails: APIRequestFunction<
+    ProjectDetails,
+    number
+> = async (projectId: number) => {
+    // /:collaboratorId/:projectName
+    const path: string = getEndpointWithPathVariables(
+        ApiPathEndpoints.GetProjectDetails,
+        [getUserId(), projectId]
+    );
+    const data: ResponseBody<ProjectDetails> =
+        await APIHandler.api.get(path);
     return data;
 };
