@@ -1,5 +1,6 @@
 import { Container, NameInitials, UserPhoto } from "./styles";
 import { UserImageProps } from "./types";
+import { currentUserLocalStorage } from "src/storage/user.local";
 
 const UserImage = ({ clickable, onClick, name, surname, userPhoto }: UserImageProps) => {
     return (

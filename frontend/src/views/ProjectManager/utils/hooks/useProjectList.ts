@@ -9,8 +9,9 @@ import {
     requestGetProjectsForCollaborator,
     requestGetProjectsForGeneralAdmin,
 } from "src/services/projects/relatedToProjects";
+import { PreloaderHook } from "src/components/Preloader/types";
 
-const useProjectList = (filters: ProjectFilters): ProjectListHook => {
+const useProjectList = (preloader: PreloaderHook, filters: ProjectFilters): ProjectListHook => {
     const [recentProjects, setRecentProjects] = useState<Project[]>([]);
     const [allProjects, setAllProjects] = useState<Project[]>([]);
     const [triggerRequest, setTriggerRequest] = useState(true);
@@ -25,9 +26,9 @@ const useProjectList = (filters: ProjectFilters): ProjectListHook => {
     const fillProjectsBase = async (
         request: APIRequestFunction<GroupedProjectList, string>
     ) => {
-        // preloader.show(null);
+        preloader.show("Cargando proyectos...");
         const { data } = await request(filters.searchedProject);
-        // preloader.hide();
+        preloader.hide();
         if (data === null) return;
         setRecentProjects(data?.recents);
         setAllProjects(data?.all);

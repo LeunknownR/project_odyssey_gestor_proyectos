@@ -1,7 +1,6 @@
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { ReactElement, useEffect, useState } from "react";
 import Header from "src/views/components/Header/Header";
-import SidebarMenu from "src/views/components/SidebarMenu/SidebarMenu";
 import { Content, Main } from "./styles";
 import { MODULE_VIEWS } from "./constants";
 import { MODULE_VIEWS_BY_USER_ROLE } from "src/config/roles";
@@ -21,11 +20,11 @@ const MasterRouter = () => {
         try { fillRoutes(currentUser.role.id); } 
         catch (err) { toLogin(); }
     }, []);
-    const toLogin = () => {
+    const toLogin = (): void => {
         clearStorage();
         navigate(AbsolutePaths.LOGIN);
     };
-    const fillRoutes = (roleId: string) => {
+    const fillRoutes = (roleId: string): void => {
         setRoutes(
             MODULE_VIEWS_BY_USER_ROLE[roleId]
                 .filter(module => module in MODULE_VIEWS)
@@ -38,14 +37,14 @@ const MasterRouter = () => {
                 })
         );
     };
-    const routesNotLoaded: boolean = routes !== null;
+    const routesLoaded: boolean = routes !== null;
     return (
         <Main>
-            {routesNotLoaded && <Header />}
+            {routesLoaded && <Header />}
             <Content>
                 <Routes>
                     {routes}
-                    {routesNotLoaded && 
+                    {routesLoaded && 
                         <Route path="*" element={<Navigate to={AbsolutePaths.PROJECT_MANAGER} replace />} />
                     }
                 </Routes>

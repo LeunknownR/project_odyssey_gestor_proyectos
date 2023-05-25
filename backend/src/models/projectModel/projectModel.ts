@@ -1,13 +1,9 @@
 import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
 import {
-    AddProjectMembersRequestBody,
-    DeleteProjectMemberRequestBody,
-    ProjectForm,
-    SearchCollaboratorRequestBody,
-    UpdateEndDateProjectRequestBody
+    ProjectForm
 } from "../../entities/project/types";
-import { GetProjectListForCollaboratorRequestBody } from "../../routes/collaborator/projects/types";
+import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectListForCollaboratorRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 
 export default abstract class ProjectModel {

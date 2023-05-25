@@ -6,6 +6,7 @@ export const withErrorHandler = (handler: (req: Request, res: Response) => Promi
         handler(req, res)
         .catch((err: any) => {
             console.log(err);
+            console.log("*************************************+");
             GenerateResponseBody.sendFatalErrorResponse(res);
         });
     };
