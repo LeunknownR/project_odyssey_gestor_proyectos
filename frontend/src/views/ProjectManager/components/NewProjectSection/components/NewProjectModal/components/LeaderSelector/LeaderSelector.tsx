@@ -14,7 +14,6 @@ const LeaderSelector = ({
     modalProps,
     variant,
     preloader
-    // selectedLeader,
 }: LeaderSelectorProps) => {
     const $wrapper = useRef<HTMLDivElement>();
     const [selectedCollaborator, setSelectedCollaborator] =

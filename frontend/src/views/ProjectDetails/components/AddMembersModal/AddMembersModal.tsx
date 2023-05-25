@@ -34,7 +34,7 @@ const AddMembersModal = ({ modalProps, preloader }: AddMembersChangesModalProps)
         <Modal {...modalProps} sizeProps={testModalStyles}>
             <Header />
             <BodyWrapper>
-                <CustomInputSearch
+                {/* <CustomInputSearch
                     label="Miembros del proyecto"
                     placeholder="Ejm: Ral"
                     variant="primary-search"
@@ -43,7 +43,7 @@ const AddMembersModal = ({ modalProps, preloader }: AddMembersChangesModalProps)
                     getSearchedItemToShow={}
                     selectOption={}
                     value=""
-                />
+                /> */}
                 <NewMemberIcon>
                     <IconContainer>
                         <Icon icon="mdi:user-add" />

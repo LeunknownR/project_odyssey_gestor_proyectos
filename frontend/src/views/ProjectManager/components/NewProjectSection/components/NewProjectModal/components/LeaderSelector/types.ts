@@ -7,5 +7,4 @@ export type LeaderSelectorProps = {
     modalProps: ModalProps;
     variant: string;
     preloader: PreloaderHook;
-    // selectedLeader: CollaboratorUser | undefined;
 };
