@@ -1,5 +1,7 @@
-import { FormCompanyTypes } from "src/views/ProjectManager/types";
+import { ModalProps } from "src/components/Modal/types";
+import { FormProjectHook } from "src/views/ProjectManager/types";
 
 export type LeaderSelectorProps = {
-    form: FormCompanyTypes;
+    form: FormProjectHook;
+    modalProps: ModalProps;
 };

@@ -89,10 +89,10 @@ const CustomDatePicker = ({
                 <SelectBlock 
                     value={value}
                     handlerChangeValue={changeValue}
-                    availableDays={availableDays}
                     period={period}
                     ref={$calendarRef}
-                    calendarAbove={calendarAbove}/>}
+                    calendarAbove={calendarAbove}
+                    availableDays={availableDays}/>}
                 {/* <ErrorMessage
                     text={errorText}
                     error={error}/> */}

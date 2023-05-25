@@ -9,7 +9,7 @@ import { ResponseMessages } from "../../utils/response/enums";
 
 export default abstract class ProjectController {
     // static async getProjectListByGeneralAdmin(projectName: string): Promise<ResponseBody & { data: GroupedProjectListForGeneralAdmin }> {
-    static async getProjectListByGeneralAdmin(projectName: string): Promise<GroupedProjectList> {
+    static async getProjectListByGeneralAdmin(projectName: string | null): Promise<GroupedProjectList> {
         const resultset: any[] = await ProjectModel.getProjectListByGeneralAdmin(projectName);
         const projectList: GroupedProjectList = projectListByGeneralAdminMapper(resultset);
         return projectList;

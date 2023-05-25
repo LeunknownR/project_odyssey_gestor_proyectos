@@ -2,15 +2,17 @@ import { CollaboratorUser, ProjectCollaborator, ProjectRole } from "./types";
 
 export const collaboratorUserMapper = (record: any): CollaboratorUser => ({
     id: record["id_collaborator"],
-    name: record["user_name"],
-    surname: record["user_surname"], 
-    urlPhoto: record["url_photo"]
+    name: record["name"],
+    surname: record["surname"], 
+    urlPhoto: record["url_photo"],
+    email: record["email"]
 });
 export const collaboratorMemberMapper = (record: any): CollaboratorUser => ({
     id: record["id_collaborator"],
-    name: record["collaborator_name"],
-    surname: record["collaborator_surname"], 
-    urlPhoto: record["collaborator_url_photo"]
+    name: record["name"],
+    surname: record["surname"], 
+    urlPhoto: record["url_photo"],
+    email: record["email"]
 });
 export const projectRoleMapper = (record: any): ProjectRole => ({
     id: record["id_project_role"],

@@ -8,6 +8,12 @@ export const Container = styled.div`
     font-weight: 700;
     font-size: 17px;
 `;
+type WrapperProps = {
+    ref: any;
+}
+export const Wrapper = styled.div<WrapperProps>`
+  
+`;
 export const Label = styled.label`
   
 `;

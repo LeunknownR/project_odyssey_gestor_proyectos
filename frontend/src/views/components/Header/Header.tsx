@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { Container, IconContainer, TynpuLogo } from "./styles";
 import SystemLogo from "./components/SystemLogo/SystemLogo";
 import MainLogo from "src/images/main-logo.png";
-import User from "./components/User/User";
+import UserAdministration from "./components/UserAdministration/UserAdministration";
 
 const Header = () => {
     return (
@@ -16,7 +16,7 @@ const Header = () => {
             </Row>
             <Row align="center" gap="50px">
                 <TynpuLogo src={MainLogo} />
-                <User />
+                <UserAdministration />
             </Row>
         </Container>
     );

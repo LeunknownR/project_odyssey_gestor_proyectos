@@ -7,7 +7,7 @@ export type ProjectForStateForm = {
     leaderId: number,
     [key: string]: any
 }
-export type FormCompanyTypes = {
+export type FormProjectHook = {
     value: ProjectForStateForm;
     isCompleted: () => boolean;
     haveChanges: () => boolean;

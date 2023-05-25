@@ -4,7 +4,7 @@ export type CustomDatePickerProps = {
     onChange?: (value: number) => void;
     value?: number;
     period?: Period;
-    availableDays: number[];
+    availableDays?: number[];
     error?: boolean;
     errorText?: string;
     disabled?: boolean;

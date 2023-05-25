@@ -1,18 +1,16 @@
-/* eslint-disable no-constant-condition */
-import { useState, useEffect } from "react";
 import { Container, NameInitials, UserPhoto } from "./styles";
 import { UserImageProps } from "./types";
 import { currentUserLocalStorage } from "src/storage/user.local";
 
-const UserImage = ({ isClickable, onClick }: UserImageProps) => {
-    const [nameInitials, setNameInitials] = useState("XX");
-    useEffect(() => {
-        const { name, surname } = currentUserLocalStorage.get();
-        setNameInitials(name[0] + surname[0]);
-    }, []);
+const UserImage = ({ clickable, onClick, name, surname, userPhoto }: UserImageProps) => {
     return (
-        <Container className={isClickable && "clickable"} onMouseDown={onClick}>
-            {true ? <NameInitials>{nameInitials}</NameInitials> : <UserPhoto />}
+        <Container className={clickable && "clickable"} onMouseDown={onClick}>
+            {userPhoto 
+                ? <UserPhoto src={userPhoto} />
+                : <NameInitials className={!clickable && "bigger"} >
+                    {name[0]}{surname[0]}
+                </NameInitials>
+            }
         </Container>
     );
 };

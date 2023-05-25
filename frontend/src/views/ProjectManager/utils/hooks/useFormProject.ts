@@ -48,7 +48,6 @@ const useFormProject = (
         );
     };
     const changeField = (field: string, value: any) => {
-        console.log(form)
         setForm(prev => ({
             ...prev,
             [field]: typeof value === "function" ? value(prev[field]) : value,

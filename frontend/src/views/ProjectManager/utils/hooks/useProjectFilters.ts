@@ -3,7 +3,7 @@ import { ProjectFilters } from "../../types";
 import { ProjectFiltersHook } from "./types";
 
 const INITIAL_PROJECT_FILTERS: ProjectFilters = {
-    searchedProject: "a",
+    searchedProject: "",
 };
 
 const useProjectFilters = (): ProjectFiltersHook => {

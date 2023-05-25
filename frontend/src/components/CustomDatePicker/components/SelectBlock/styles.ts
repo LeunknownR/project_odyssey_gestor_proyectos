@@ -97,23 +97,22 @@ export const Days = styled.section`
         user-select: none;
         &.day {
             cursor: pointer;
-            border: 1px solid transparent;
+            border: 1.5px solid transparent;
+            transition: 0.3s;
             &:not(.disabled) {
-                transition: 0.35s;
                 &:not(.selected).today {
-                    border: 1.5px solid var(--purple-2);   
+                    border: 1.5px solid var(--darkblue-2);   
                 }
             }
             &:hover {
-                border: 1px solid var(--darkblue-2);
+                background-color: #2D5A7730;
             }
             &.selected {
-                background-color: var(--purple-1);
-                color: var(--light-1);
+                background-color: var(--darkblue-1);
+                color: var(--white-1);
             }
             &.disabled {
-                /* background-color: var(--white-1); */
-                /* color: var(--white-3); */
+                color: var(--white-3);
                 pointer-events: none;
             }
         }

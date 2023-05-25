@@ -56,7 +56,7 @@ const NewProjectModal = ({
                     <Column width="80%" alignSelf="center" gap="35px">
                         <ProjectInfo form={form} variant="create"/>
                         <Column width="85%" alignSelf="center" gap="100px">
-                            <LeaderSelector form={form} />
+                            <LeaderSelector form={form} modalProps={modalProps}/>
                             <Footer registerProject={registerProject}/>
                         </Column>
                     </Column>

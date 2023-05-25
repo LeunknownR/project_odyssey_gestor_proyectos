@@ -6,7 +6,7 @@ import { getEndpointWithPathVariables } from "../utils/helpers";
 import { getUserId } from "src/storage/user.local";
 import { DeleteCollaboratorRequestBody} from "./types.ts"
 
-export const requestGetCollaboratorForAdmin: APIRequestFunction<
+export const requestSearchCollaboratorForGeneralAdmin: APIRequestFunction<
     CollaboratorUser[],
     string
 > = async (collaboratorName: string) => {
