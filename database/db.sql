@@ -271,7 +271,9 @@ BEGIN
     INNER JOIN user u ON phc.id_collaborator = u.id_user
     WHERE p.active = 1
     AND phc.id_project_role = "PLD"
-    AND @search_project_name IS NULL OR p.project_name LIKE @search_project_name
+    -- AND @search_project_name IS NULL OR p.project_name LIKE @search_project_name
+    AND phc.active = 1
+    AND (@search_project_name IS NULL OR p.project_name LIKE @search_project_name)
     ORDER BY p.start_date DESC, p.project_name ASC
     LIMIT 8;
 END //
@@ -288,9 +290,10 @@ BEGIN
     -- Trayendo la información cuando el usernema coincida
     SELECT
         clb.id_collaborator,
-        u.user_name,
-        u.user_surname,
-        u.url_photo
+        u.user_name as "name",
+        u.user_surname as "surname",
+        u.url_photo as "url_photo",
+        u.email
     FROM collaborator clb
     INNER JOIN user u ON clb.id_collaborator = u.id_user 
     WHERE u.active = 1
@@ -503,9 +506,10 @@ BEGIN
     -- Trayendo datos
     SELECT DISTINCT
         u.id_user AS "id_collaborator",
-        u.user_name AS "collaborator_name",
-        u.user_surname AS "collaborator_surname",
-        u.url_photo AS "collaborator_url_photo"
+        u.user_name AS "name",
+        u.user_surname AS "surname",
+        u.url_photo AS "url_photo",
+        u.email
     FROM project p
     INNER JOIN project_has_collaborator phc ON p.id_project = phc.id_project
     INNER JOIN user u ON phc.id_collaborator = u.id_user
@@ -601,3 +605,5 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
+
+-- MIRGRACIÓN DE LUCID - dbdiagram.io

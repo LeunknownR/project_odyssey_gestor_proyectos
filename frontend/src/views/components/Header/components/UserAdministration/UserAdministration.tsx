@@ -32,7 +32,7 @@ const UserAdministration = () => {
                 onClick={toggleOptions} 
                 name={currentUser.name}
                 surname={currentUser.surname}
-                userPhoto={currentUser.urlPhoto}
+                userPhoto={null}
                 clickable 
             />}
             <UserOptions 

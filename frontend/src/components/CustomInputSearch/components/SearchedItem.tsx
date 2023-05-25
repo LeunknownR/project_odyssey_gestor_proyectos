@@ -1,11 +1,11 @@
 import { Container, Image, Name } from "./styles";
 import { SearchedItemProps } from "./types";
 
-const SearchedItem = ({ name, surname, urlPhoto, onClick }: SearchedItemProps) => {
+const SearchedItem = ({ item, onClick }: SearchedItemProps) => {
     return (
         <Container onClick={onClick}>
             <Image />
-            <Name>{name} {surname}</Name>
+            <Name>{item.text}</Name>
         </Container>
     );
 };

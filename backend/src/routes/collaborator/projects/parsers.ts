@@ -7,10 +7,10 @@ import { GetProjectListForCollaboratorRequestBody } from "./types";
 export const parseToGetProjectListForCollaboratorRequestBody = (params: any): GetProjectListForCollaboratorRequestBody => {
     const { projectName, collaboratorId } = params;
     if (!isPositiveNumber(collaboratorId) ||
-        !checkLength(projectName, 0, 50))
+        (projectName && !checkLength(projectName, 0, 50)))
         throw new Error("Invalid request body to get project list");
     return {
-        projectName,
+        projectName: projectName || null,
         collaboratorId
     };
 }

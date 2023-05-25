@@ -11,7 +11,7 @@ import { GetProjectListForCollaboratorRequestBody } from "../../routes/collabora
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 
 export default abstract class ProjectModel {
-    static async getProjectListByGeneralAdmin(projectName: string): Promise<any[]> {
+    static async getProjectListByGeneralAdmin(projectName: string | null): Promise<any[]> {
         const [resultset] = await DBConnection.query(
             StoredProcedures.GetProjectListByGeneralAdmin,
             [projectName]);

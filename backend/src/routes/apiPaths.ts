@@ -13,12 +13,12 @@ export enum ApiPathEndpointsGeneralAdmin {
     GetProjectList = "/projects/:projectName",
     CreateProject = "/projects/create",
     DeleteProject = "/projects/delete",
-    GetProjectListByGeneralAdmin = "/projects/:projectName",
+    GetProjectListByGeneralAdmin = "/projects/:projectName?",
     UpdateProject = "/projects/update",
     SearchCollaborator = "/projects/search-collaborator/:collaboratorName"
 };
 export enum ApiPathEndpointsCollaborator {
-    GetProjectListForCollaborator = "/projects/:collaboratorId/:projectName",
+    GetProjectListForCollaborator = "/projects/:collaboratorId/:projectName?",
     GetProjectDetails = "/projects/details/:projectId",
     UpdateEndDateProject="/projects/update-end-date",
     SearchCollaboratorMember = "/projects/search-collaborator-member/:projectId/:collaboratorName",

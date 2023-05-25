@@ -4,7 +4,6 @@ import useModal from "src/components/Modal/utils/hooks/useModal";
 import RecentProjects from "./components/RecentProjects/RecentProjects";
 import UpdateProjectModal from "./components/UpdateProjectModal/UpdateProjectModal";
 import AllProjects from "./components/AllProjects/AllProjects";
-// import ProjectDetails from "./components/ProjectDetails/ProjectDetails";
 import NotificationCard from "src/components/NotificationCard/NotificationCard";
 import useNotificationCard from "src/components/NotificationCard/utils/hooks/useNotificationCard";
 import { useState } from "react";
@@ -29,8 +28,6 @@ const ProjectManager = () => {
     );
     const filters = useProjectFilters();
     const { recentProjects, allProjects, fillProjects, doFill } = useProjectList(filters.value);
-    const changeSearchedProject = (value: string) =>
-        filters.change("searchedProject", value);
     return (
         <>
             <SidebarMenu
@@ -45,8 +42,8 @@ const ProjectManager = () => {
             <Container>
                 <Content>
                     <ProjectFinder
-                        changeSearchedProject={changeSearchedProject}
-                        doTriggerFillingRequest={doFill}
+                        filters={filters}
+                        doFillProjects={doFill}
                     />
                     <RecentProjects
                         recentProjects={recentProjects}

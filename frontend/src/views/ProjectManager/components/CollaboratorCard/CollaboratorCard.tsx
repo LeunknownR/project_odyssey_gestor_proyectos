@@ -4,7 +4,11 @@ import { Container, Email, IconContainer, Name, Role } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { CollaboratorCardProps } from "./types";
 
-const CollaboratorCard = ({collaboratorUser, variant}: CollaboratorCardProps) => {
+const CollaboratorCard = ({
+    collaboratorUser, 
+    clear,
+    variant
+}: CollaboratorCardProps) => {
     const {name, surname, urlPhoto} = collaboratorUser;
     return (
         <Container className={variant}>
@@ -16,7 +20,7 @@ const CollaboratorCard = ({collaboratorUser, variant}: CollaboratorCardProps) =>
                 </Column>
                 <Row align="center" justify="space-between">
                     <Role>Líder del proyecto</Role>
-                    <IconContainer>
+                    <IconContainer onClick={clear}>
                         <Icon icon="mdi:trash-can-outline" />
                     </IconContainer>
                 </Row>

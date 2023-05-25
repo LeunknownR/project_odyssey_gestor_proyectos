@@ -1,20 +1,14 @@
-import { CollaboratorUser } from "src/entities/collaborator/types";
+import { ChangeEvent } from "react";
+import { SearchedItemToShow } from "./components/types";
 
-export type CustomInputSearchOption = {
-    id: number;
-    name: string;
-    surname: string;
-    urlPhoto: string | null;
-};
-export type CustomInputSearchProps = {
+export type CustomInputSearchProps<O> = {
     label?: string;
     placeholder?: string;
     maxLength?: number;
-    // options: CollaboratorUser[]; GNOMO
-    options: CustomInputSearchOption[];
-    value?: CustomInputSearchOption | null;
+    options: O[];
     variant: string;
-    onChange: (value: CollaboratorUser) => void;
-    fillOptions: (value: string) => void;
-    clearOptions: () => void;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    value: string;
+    selectOption: (option: O) => void;
+    getSearchedItemToShow: (option: O) => SearchedItemToShow;
 };

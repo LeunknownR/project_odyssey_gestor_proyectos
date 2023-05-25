@@ -1,9 +1,9 @@
 import { Project, ProjectForm } from "src/entities/project/types";
-import { FormCompanyTypes, ProjectFilters } from "../../types";
+import { ProjectFilters } from "../../types";
 import { CollaboratorUser } from "src/entities/collaborator/types";
 
 export type FormProjectHook = {
-    form: FormCompanyTypes;
+    form: FormProjectHook;
     getProjectFromForm: () => ProjectForm | null;
 };
 export type ProjectFiltersHook = {
@@ -16,8 +16,12 @@ export type ProjectListHook = {
     fillProjects: () => Promise<void>;
     doFill: () => void
 };
-export type CollaboratorListHook = {
+export type SelectCollaboratorHookParams = {
+    requestSearchCollaborators: (value: string) => Promise<CollaboratorUser[]>
+}
+export type SelectCollaboratorHook = {
     value: CollaboratorUser[];
     fill: (collaboratorSearched: string) => Promise<void>;
+    getText: ({ name, surname }: CollaboratorUser) => string;
     clear: () => void;
 }

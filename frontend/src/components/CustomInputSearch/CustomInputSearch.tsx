@@ -5,56 +5,37 @@ import { ChangeEvent, useState } from "react";
 import { Container, List } from "./styles";
 //#endregion
 //#region Types
-import { CustomInputSearchOption, CustomInputSearchProps } from "./types";
+import { CustomInputSearchProps } from "./types";
 import CustomTextField from "../CustomTextField/CustomTextField";
 import SearchedItem from "./components/SearchedItem";
+import { SearchedItemToShow } from "./components/types";
 //#endregion
 
-const CustomInputSearch = ({
-    label,
-    placeholder,
-    variant,
-    maxLength,
-    // value,
-    onChange,
-    options,
-    fillOptions,
-}: // clearOptions
-CustomInputSearchProps) => {
-    const [searchText, setSearchText] = useState("");
-    const selectOption = (option: CustomInputSearchOption) => {
-        setSearchText(option.name);
-        onChange(option);
-        // clearOptions();
-    };
-    const changeSearchText = (e: ChangeEvent<HTMLInputElement>) => {
-        const { value } = e.target;
-        setSearchText(value);
-        fillOptions(value);
-    };
-    // const clearInput = () => {
-    //     setSearchText("");
-    //     onChange(null);
-    //     clearOptions();
-    // }
+function CustomInputSearch<O>({
+    label, placeholder,
+    variant, maxLength,
+    value, onChange,
+    options, selectOption,
+    getSearchedItemToShow
+}: CustomInputSearchProps<O>) {
     return (
         <Container>
             <CustomTextField
                 label={label}
                 placeholder={placeholder}
-                value={searchText}
-                onChange={changeSearchText}
+                value={value}
+                onChange={onChange}
                 variant={variant}
                 maxLength={maxLength}
             />
             {options.length > 0 && (
                 <List>
-                    {options.map(option => {
-                        const { id } = option;
+                    {options.map((option, idx) => {
+                        const searchedItemToShow: SearchedItemToShow = getSearchedItemToShow(option);
                         return (
                             <SearchedItem
-                                key={id}
-                                {...option}
+                                key={searchedItemToShow.value || idx}
+                                item={searchedItemToShow}
                                 onClick={() => selectOption(option)}
                             />
                         );
@@ -64,6 +45,6 @@ CustomInputSearchProps) => {
             {/* {value && <CleanBtn onClick={clearInput}>Limpiar</CleanBtn>} */}
         </Container>
     );
-};
+}
 
 export default CustomInputSearch;

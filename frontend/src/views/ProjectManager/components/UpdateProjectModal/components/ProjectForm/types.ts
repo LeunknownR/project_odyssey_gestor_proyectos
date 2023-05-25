@@ -1,5 +1,5 @@
-import { FormCompanyTypes } from "src/views/ProjectManager/types";
+import { FormProjectHook } from "src/views/ProjectManager/types";
 
 export type ProjectFormProps = {
-    form: FormCompanyTypes;
+    form: FormProjectHook;
 }

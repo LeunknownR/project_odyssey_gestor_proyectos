@@ -4,7 +4,7 @@ import { ApiPathEndpoints } from "../apiPathEndpoints";
 import { APIHandler } from "src/config/api";
 import { getEndpointWithPathVariables } from "../utils/helpers";
 
-export const requestGetCollaboratorForAdmin: APIRequestFunction<
+export const requestSearchCollaboratorForGeneralAdmin: APIRequestFunction<
     CollaboratorUser[],
     string
 > = async (collaboratorName: string) => {

@@ -1,6 +1,6 @@
-import { FormCompanyTypes } from "src/views/ProjectManager/types";
+import { FormProjectHook } from "src/views/ProjectManager/types";
 
 export type DurationProps = {
-    form: FormCompanyTypes;
+    form: FormProjectHook;
     labelColor: string;
 }

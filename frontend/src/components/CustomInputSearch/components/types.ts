@@ -1,6 +1,9 @@
-export type SearchedItemProps = {
-    name: string;
-    surname: string;
+export type SearchedItemToShow = {
+    value?: string | number;
+    text: string;
     urlPhoto: string | null;
+}
+export type SearchedItemProps = {
+    item: SearchedItemToShow;
     onClick: () => void;
 }

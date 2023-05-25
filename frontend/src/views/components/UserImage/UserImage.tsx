@@ -7,8 +7,7 @@ const UserImage = ({ clickable, onClick, name, surname, userPhoto }: UserImagePr
             {userPhoto 
                 ? <UserPhoto src={userPhoto} />
                 : <NameInitials className={!clickable && "bigger"} >
-                    {name[0]}
-                    {surname[0]}
+                    {name[0]}{surname[0]}
                 </NameInitials>
             }
         </Container>
