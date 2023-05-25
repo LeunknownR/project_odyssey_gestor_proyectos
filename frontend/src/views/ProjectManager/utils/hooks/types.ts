@@ -20,7 +20,7 @@ export type SelectCollaboratorHookParams = {
     requestSearchCollaborators: (value: string) => Promise<CollaboratorUser[]>
 }
 export type SelectCollaboratorHook = {
-    value: CollaboratorUser[];
+    collaboratorUserList: CollaboratorUser[];
     fill: (collaboratorSearched: string) => Promise<void>;
     getText: ({ name, surname }: CollaboratorUser) => string;
     clear: () => void;

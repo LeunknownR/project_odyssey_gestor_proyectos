@@ -4,7 +4,7 @@ import { ApiPathEndpoints } from "../apiPathEndpoints";
 import { APIHandler } from "src/config/api";
 import { getEndpointWithPathVariables } from "../utils/helpers";
 import { getUserId } from "src/storage/user.local";
-import { DeleteCollaboratorRequestBody} from "./types.ts"
+import { SearchCollaboratorRequestBody } from "./types";
 
 export const requestSearchCollaboratorForGeneralAdmin: APIRequestFunction<
     CollaboratorUser[],
@@ -19,29 +19,19 @@ export const requestSearchCollaboratorForGeneralAdmin: APIRequestFunction<
         await APIHandler.api.get(path);
     return data;
 };
-export const requestGetCollaboratorForProyect: APIRequestFunction<
+export const requestSearchCollaboratorToBeMemberForCollaborator: APIRequestFunction<
     CollaboratorUser[],
-    string
-> = async (SearchCollaboratorRequestBody: string) => {
+    SearchCollaboratorRequestBody
+> = async ({
+    collaboratorName,
+    projectId
+}: SearchCollaboratorRequestBody) => {
+    // /:projectId/:collaboratorName
     const path: string = getEndpointWithPathVariables(
         ApiPathEndpoints.SearchCollaboratorMember,
-        [SearchCollaboratorRequestBody]
+        [projectId, collaboratorName]
     );
     const data: ResponseBody<CollaboratorUser[]> =
         await APIHandler.api.get(path);
-    return data;
-};
-export const requestDeleteCollaborator: APIRequestFunction<
-    null,
-    number
-> = async (projectHasCollaboratorId: number) => {
-    const body: DeleteCollaboratorRequestBody = { 
-        userId: getUserId(), 
-        projectHasCollaboratorId,
-    };
-    const data: ResponseBody = await APIHandler.api.delete(
-        ApiPathEndpoints.DeleteProjectMember,
-        { data: body }
-    );
     return data;
 };

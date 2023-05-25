@@ -2,7 +2,6 @@ import { Router } from "express";
 import Authentication from "../../../utils/authentication";
 import { DBRoles } from "../../../db/enums";
 import { ApiPathEndpointsCollaborator } from "../../apiPaths";
-import { ResponseBody } from "../../../utils/types";
 import ProjectController from "../../../controllers/projectController/projectController";
 import { GenerateResponseBody } from "../../../utils/response/generateResponseBody";
 import {
@@ -14,15 +13,17 @@ import {
     parseToUpdateEndDateProjectRequestBody
 } from "./parsers";
 import {
-    AddProjectMembersRequestBody,
-    DeleteProjectMemberRequestBody,
     GroupedProjectList,
     ProjectDetails,
-    SearchCollaboratorRequestBody,
-    UpdateEndDateProjectRequestBody
 } from "../../../entities/project/types";
 import { withErrorHandler } from "../../helpers";
-import { GetProjectListForCollaboratorRequestBody } from "./types";
+import { 
+    GetProjectListForCollaboratorRequestBody, 
+    AddProjectMembersRequestBody,
+    DeleteProjectMemberRequestBody,
+    SearchCollaboratorRequestBody,
+    UpdateEndDateProjectRequestBody
+} from "./types";
 import { ResponseCodes, ResponseMessages, getResponseCodeIfMessageExists } from "../../../utils/response/enums";
 import { CollaboratorUser } from "../../../entities/collaborator/types";
 
