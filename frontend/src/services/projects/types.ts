@@ -14,5 +14,5 @@ export type UpdateProjectEndDateRequestBody = {
 }
 export type DeleteProjectMemberRequestBody = {
     userId: number,
-    projectHasMemberId: number
+    projectHasCollaboratorId: number
 };

@@ -101,11 +101,11 @@ export const requestUpdateProjectEndDate: APIRequestFunction<
 };
 export const requestDeleteMember: APIRequestFunction<
     null,
-    DeleteProjectMemberRequestBody
-> = async ({userId, projectHasMemberId}:DeleteProjectMemberRequestBody) => {
+    number
+> = async (projectHasCollaboratorId: number) => {
     const body: DeleteProjectMemberRequestBody = {
-        userId, 
-        projectHasMemberId,
+        userId: getUserId(), 
+        projectHasCollaboratorId
     };
     const data: ResponseBody = await APIHandler.api.delete(
         ApiPathEndpoints.DeleteProject,

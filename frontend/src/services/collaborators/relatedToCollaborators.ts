@@ -2,7 +2,7 @@ import { CollaboratorUser } from "src/entities/collaborator/types";
 import { APIRequestFunction, ResponseBody } from "../types";
 import { ApiPathEndpoints } from "../apiPathEndpoints";
 import { APIHandler } from "src/config/api";
-import { getEndpointWithPathVariables, sleep } from "../utils/helpers";
+import { getEndpointWithPathVariables } from "../utils/helpers";
 import { AddProjectMembersRequestBody, SearchCollaboratorRequestBody } from "./types";
 
 export const requestSearchCollaboratorForGeneralAdmin: APIRequestFunction<
@@ -36,12 +36,6 @@ export const requestAddMemberToProject: APIRequestFunction<
 null,
 AddProjectMembersRequestBody
 > = async (addProjectMembersRequestBody: AddProjectMembersRequestBody) => {
-    await sleep(1000);
-    return {
-        code: 200,
-        data: null,
-        message: "SUCCESS"
-    };
     const res: ResponseBody = await APIHandler.api.patch(
         ApiPathEndpoints.AddProjectMembers,
         addProjectMembersRequestBody

@@ -9,7 +9,7 @@ const MemberList = ({ collaborators, openDeleteModal }: MemberListProps) => {
                 <MemberDetails
                     key={collaborator.id}
                     collaborator={collaborator}
-                    openDeleteModal={openDeleteModal}
+                    openDeleteModal={() => openDeleteModal(collaborator)}
                 />
             ))}
         </Container>

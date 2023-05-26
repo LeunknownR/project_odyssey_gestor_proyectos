@@ -8,31 +8,17 @@ export const Container = styled.span<ContainerProps>`
     justify-content: center;
     align-items: center;
     padding: 10px;
-    font-size: 35px;
     font-weight: bold;
     color: var(--dark-1);
     background-color: var(--cream-1);
     border-radius: 50%;
-    width: 2.3em;
-    height: 2.3em;
-    /* &.big {  } */
-    /* font-weight: 700;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    background-color: var(--cream-1);
-    user-select: none;
-    width: 100%;
-    height: 100%;
-    width: 100px;
-    height: 100px;
-    & span {
-        color: var(--dark-1);
-        font-weight: 700;
-        font-size: 28px;
-    } */
-    &.bigger {
+    width: 2em;
+    height: 2em;
+    font-size: 24px;
+    &.big {
         font-size: 32px;
+    }
+    &.small {
+        font-size: 14px;
     }
 `;

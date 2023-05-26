@@ -4,7 +4,8 @@ import { FooterProps } from "./types";
 
 const Footer = ({ 
     closeModal, 
-    addMembersToProject 
+    addMembersToProject,
+    noProjectMembers
 }: FooterProps) => {
     return (
         <Container>
@@ -14,6 +15,7 @@ const Footer = ({
                 size="normal"
                 onClick={closeModal}/>
             <CustomButton
+                disabled={noProjectMembers}
                 content="Agregar"
                 variant="main"
                 size="normal"

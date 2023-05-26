@@ -22,7 +22,7 @@ const MemberDetails = ({
                     <Role className={PROJECT_ROLE[projectRole.id].className}>
                         {PROJECT_ROLE[projectRole.id].name}
                     </Role>
-                    <IconContainer onClick={() => openDeleteModal(id)}>
+                    <IconContainer onClick={openDeleteModal}>
                         <Icon icon="mdi:trash-can-outline" />
                     </IconContainer>
                 </Row>

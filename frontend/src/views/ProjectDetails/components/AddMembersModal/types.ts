@@ -6,6 +6,7 @@ import { PreloaderHook } from "src/components/Preloader/types";
 export type AddMembersModalProps = {
     modalProps: ModalProps;
     preloader: PreloaderHook;
+    fillProjectDetails: () => Promise<void>;
     notificationCard: NotificationCardHook;
     projectId: number;
 };

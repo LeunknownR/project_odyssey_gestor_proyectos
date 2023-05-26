@@ -14,15 +14,16 @@ import Preloader from "src/components/Preloader/Preloader";
 import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
 import SidebarMenu from "../components/SidebarMenu/SidebarMenu";
 import DeleteMemberModal from "./components/DeleteMemberModal/DeleteMemberModal";
-import NotificationCard from "src/components/NotificationCard/NotificationCard";
 import useNotificationCard from "src/components/NotificationCard/utils/hooks/useNotificationCard";
+import NotificationCard from "src/components/NotificationCard/NotificationCard";
+import { ProjectCollaborator } from "src/entities/collaborator/types";
 
 const ProjectDetailsView = () => {
     const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(
         null
     );
-    const [currentMemberIdToDelete, setcurrentMemberIdToDelete] = useState<
-        number | null
+    const [currentProjectMember, setCurrentProjectMember] = useState<
+        ProjectCollaborator | null
     >(null);
     const addMemberModal = useModal();
     const updateDateModal = useModal();
@@ -39,9 +40,8 @@ const ProjectDetailsView = () => {
         if (data === null) return;
         setProjectDetails(data);
     };
-    const openDeleteModal = (memberId: number) => {
-        console.log("hola");
-        setcurrentMemberIdToDelete(memberId);
+    const openDeleteModal = (projectCollaborator: ProjectCollaborator) => {
+        setCurrentProjectMember(projectCollaborator);
         deleteMemberModal.open(true);
     };
     return (
@@ -62,9 +62,7 @@ const ProjectDetailsView = () => {
                             />
                             <ProjectTeam
                                 collaborators={projectDetails.collaborators}
-                                openAddMemberModal={() =>
-                                    addMemberModal.open(true)
-                                }
+                                openAddMemberModal={() => addMemberModal.open(true)}
                                 openDeleteModal={openDeleteModal}
                             />
                         </>
@@ -77,10 +75,10 @@ const ProjectDetailsView = () => {
                 <AddMembersModal
                     modalProps={addMemberModal}
                     preloader={preloader}
+                    fillProjectDetails={fillProjectDetails}
                     projectId={projectDetails.id}
                     notificationCard={notificationCard}
                 />
-
                 <UpdateDateModal
                     modalProps={updateDateModal}
                     currentEndDate={projectDetails?.endDate}
@@ -89,15 +87,16 @@ const ProjectDetailsView = () => {
                 />
                 </>
             )}
-            {currentMemberIdToDelete && projectDetails && (
+            {projectDetails && (
                 <DeleteMemberModal
                     modalProps={deleteMemberModal}
                     preloader={preloader}
                     fillCollaborator={fillProjectDetails}
-                    userId={currentMemberIdToDelete}
-                    projectHasMemberId={projectDetails.id}
+                    projectMemberToDelete={currentProjectMember}
                 />
             )}
+            <NotificationCard 
+                handler={notificationCard}/>
             <Preloader {...preloader.value} />
         </>
     );

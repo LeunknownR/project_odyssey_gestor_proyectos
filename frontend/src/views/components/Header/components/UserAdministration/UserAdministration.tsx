@@ -21,7 +21,7 @@ const UserAdministration = () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
-    const toggleOptions = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const toggleOptions = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
         setAreOptionsOpen(prev => !prev);
     };

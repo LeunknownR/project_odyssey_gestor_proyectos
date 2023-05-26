@@ -15,14 +15,13 @@ const DeleteMemberModal = ({
     preloader,
     fillCollaborator,
     modalProps,
-    userId,
-    projectHasMemberId
+    projectMemberToDelete
 }: DeleteCollaboratorModalProps) => {
     const deleteMember = async () => {
-        if (!projectHasMemberId) return;
+        if (!projectMemberToDelete) return;
         modalProps.open(false);
         preloader.show("Eliminando colaborador...");
-        const { message } = await requestDeleteMember({userId, projectHasMemberId});
+        const { message } = await requestDeleteMember(projectMemberToDelete.projectHasCollaboratorId);
         preloader.hide();
         if (message !== "SUCCESS") return;
         fillCollaborator();

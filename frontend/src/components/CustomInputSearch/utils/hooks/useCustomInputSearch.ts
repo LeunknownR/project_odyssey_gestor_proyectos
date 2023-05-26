@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { CustomInputSearchHookParams } from "./types";
 
 function useCustomInputSearch<O>({
@@ -9,6 +9,10 @@ function useCustomInputSearch<O>({
     const [searchText, setSearchText] = useState<string>("");
     const [timeoutToSearchId, setTimeoutId] = useState<NodeJS.Timeout | undefined>();
     //#endregion
+    useEffect(() => {
+        if (searchText) return;
+        clearOptions();
+    }, [searchText]);
     //#region Funciones
     const selectOption = (option: O): void => {
         setSearchText("");

@@ -2,10 +2,11 @@ import styled from "styled-components";
 
 export const Container = styled.li`
     display: flex;
-    color: #858585;
-    padding: 10px 15px;
+    color: var(--gray-4);
+    padding: 5px 15px;
     font-size: 14px;
     cursor: pointer;
+    transition: 0.35s;
     user-select: none;
     list-style: none;
     :first-child {

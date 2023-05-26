@@ -12,7 +12,8 @@ function CustomInputSearch<O>({
     label, placeholder,
     variant, maxLength,
     value, onChange,
-    options, selectOption,
+    options, clearOptions, 
+    selectOption,
     getSearchedItemToShow
 }: CustomInputSearchProps<O>) {
     return (
@@ -22,6 +23,7 @@ function CustomInputSearch<O>({
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
+                onBlur={() => setTimeout(clearOptions, 100)}
                 variant={variant}
                 maxLength={maxLength}
             />
