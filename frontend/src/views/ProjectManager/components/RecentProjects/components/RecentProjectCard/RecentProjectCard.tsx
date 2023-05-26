@@ -31,7 +31,7 @@ const RecentProjectCard = ({
     }
     return (
         <Container>
-            <OptionsWrapper onClick={() => {setCurrentProject(project); console.log(project.id)}}>
+            <OptionsWrapper onClick={() => setCurrentProject(project)}>
                 <MenuOptions
                     onClickEdit={openUpdateProjectModal}
                     onClickDelete={openDeleteProjectModal}

@@ -1,7 +1,7 @@
 import { Row } from "src/components/styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Container, IconContainer, TynpuLogo } from "./styles";
-import SystemLogo from "./components/SystemLogo/SystemLogo";
+import AppLogo from "./components/AppLogo/AppLogo";
 import MainLogo from "src/images/main-logo.png";
 import UserAdministration from "./components/UserAdministration/UserAdministration";
 
@@ -12,7 +12,7 @@ const Header = () => {
                 <IconContainer>
                     <Icon icon="iconamoon:menu-burger-horizontal" />
                 </IconContainer>
-                <SystemLogo />
+                <AppLogo />
             </Row>
             <Row align="center" gap="50px">
                 <TynpuLogo src={MainLogo} />

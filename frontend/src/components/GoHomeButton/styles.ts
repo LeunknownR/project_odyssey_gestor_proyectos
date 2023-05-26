@@ -13,6 +13,7 @@ export const GoHome = styled.button`
     transition: 0.25s;
     border-radius: 10px;
     padding: 5px 15px;
+    user-select: none;
     :hover {
         border: 2px solid var(--white-1);
     }

@@ -14,6 +14,7 @@ export const TitleModal = styled.h2`
     font-weight: bold;
 `;
 export const TextModal = styled.p`
+    width: 98%;
     font-size: 16px;
     color: var(--dark-1);
 `;

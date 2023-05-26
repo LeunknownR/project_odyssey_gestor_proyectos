@@ -11,5 +11,6 @@ export const Content = styled.main`
     gap: 50px;
     min-height: calc(100vh - 75px);
     margin-left: 75px;
-    width: 70%;
+    width: 80%;
+    margin-top: 50px;
 `;

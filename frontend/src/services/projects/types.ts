@@ -8,3 +8,11 @@ export type DeleteProjectRequestBody = {
     userId: number;
     projectId: number;
 };
+export type UpdateProjectEndDateRequestBody = {
+    projectId: number;
+    endDate: number;
+}
+export type DeleteProjectMemberRequestBody = {
+    userId: number,
+    projectHasMemberId: number
+};

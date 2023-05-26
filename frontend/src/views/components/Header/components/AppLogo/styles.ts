@@ -9,4 +9,5 @@ export const IconContainer = styled.span`
 export const Title = styled.h2`
     font-size: 24px;
     color: var(--white-1);
+    user-select: none;
 `;

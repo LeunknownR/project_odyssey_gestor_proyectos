@@ -12,13 +12,15 @@ import useModal from "src/components/Modal/utils/hooks/useModal";
 import UpdateDateModal from "./components/UpdateDateModal/UpdateDateModal";
 import Preloader from "src/components/Preloader/Preloader";
 import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
+import SidebarMenu from "../components/SidebarMenu/SidebarMenu";
+import DeleteMemberModal from "./components/DeleteMemberModal/DeleteMemberModal";
 
 const ProjectDetailsView = () => {
-    const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(
-        null
-    );
+    const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(null);
+    const [currentMemberIdToDelete, setcurrentMemberIdToDelete] = useState<number | null>(null);
     const addMemberModal = useModal();
     const updateDateModal = useModal();
+    const deleteMemberModal = useModal();
     const preloader = usePreloader();
     useEffect(() => {
         fillProjectDetails();
@@ -30,34 +32,59 @@ const ProjectDetailsView = () => {
         if (data === null) return;
         setProjectDetails(data);
     };
+    const openDeleteModal = (memberId: number) => {
+        console.log("hola")
+        setcurrentMemberIdToDelete(memberId);
+        deleteMemberModal.open(true);
+    };
     return (
         <>
-        <Container>
-            <Content>
-                <TitleHeader text="DETALLE DEL PROYECTO" />
-                {projectDetails && (
-                    <>
-                    <ProjectInfo
-                        name={projectDetails.name}
-                        description={projectDetails.description}
-                        period={projectDetails.period}
-                        
-                    />
-                    <ProjectTeam
-                        collaborators={projectDetails.collaborators}
-                        openAddMemberModal={() => addMemberModal.open(true)}
-                    />
-                    </>
-                )}
-                <Footer />
-            </Content>
-        </Container>
-        <AddMembersModal
-            modalProps={addMemberModal}
-            preloader={preloader}
-        />
-        <UpdateDateModal modalProps={updateDateModal} />
-        <Preloader {...preloader.value} />
+            <SidebarMenu />
+            <Container>
+                <Content>
+                    <TitleHeader text="DETALLE DEL PROYECTO" />
+                    {projectDetails && (
+                        <>
+                        <ProjectInfo
+                            name={projectDetails.name}
+                            description={projectDetails.description}
+                            period={projectDetails.period}
+                            openUpdateDateModal={() =>
+                                updateDateModal.open(true)
+                            }
+                        />
+                        <ProjectTeam
+                            collaborators={projectDetails.collaborators}
+                            openAddMemberModal={() =>
+                                addMemberModal.open(true)
+                            }
+                            openDeleteModal={openDeleteModal}
+                        />
+                        </>
+                    )}
+                    <Footer />
+                </Content>
+            </Container>
+            <AddMembersModal
+                modalProps={addMemberModal}
+                preloader={preloader}
+            />
+            {projectDetails && (
+                <UpdateDateModal
+                    modalProps={updateDateModal}
+                    currentEndDate={projectDetails?.endDate}
+                    projectId={projectDetails.id}
+                    preloader={preloader}
+                />
+            )}
+            {(currentMemberIdToDelete && projectDetails) && <DeleteMemberModal
+                modalProps={deleteMemberModal}
+                preloader={preloader}
+                fillCollaborator={fillProjectDetails}
+                userId={currentMemberIdToDelete}
+                projectHasMemberId={projectDetails.id}
+            />}
+            <Preloader {...preloader.value} />
         </>
     );
 };

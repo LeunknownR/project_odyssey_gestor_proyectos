@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { Row } from "src/components/styles";
 import { IconContainer, Title } from "./styles";
 
-const SystemLogo = () => {
+const AppLogo = () => {
     return (
         <Row align="center" gap="5px">
             <IconContainer>
@@ -13,4 +13,4 @@ const SystemLogo = () => {
     );
 };
 
-export default SystemLogo;
+export default AppLogo;

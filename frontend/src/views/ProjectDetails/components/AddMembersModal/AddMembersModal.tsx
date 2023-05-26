@@ -1,5 +1,5 @@
 import Modal from "src/components/Modal/Modal";
-import { AddMembersChangesModalProps } from "./types";
+import { AddMembersModalProps } from "./types";
 import { BodyWrapper, IconContainer, IconText, NewMemberIcon } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Footer from "./components/Footer/Footer";
@@ -18,7 +18,7 @@ const PROVISIONAL_OPTIONS = [
         name: "asdasd",
     },
 ];
-const AddMembersModal = ({ modalProps, preloader }: AddMembersChangesModalProps) => {
+const AddMembersModal = ({ modalProps, preloader }: AddMembersModalProps) => {
     // const selectProjectLeaderHandler = useSearchCollaborator({
     //     requestSearchCollaborators: async (value: string) => {
     //         preloader.show("Buscando colaboradores...")

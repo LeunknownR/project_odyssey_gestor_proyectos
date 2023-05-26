@@ -1,8 +1,10 @@
 import { ModalProps } from "src/components/Modal/types";
+import { PreloaderHook } from "src/components/Preloader/types";
 
 export type DeleteCollaboratorModalProps = {
-    // preloader: Preloder 
+    preloader: PreloaderHook
     modalProps: ModalProps;
-    userId?: number;
     fillCollaborator: () => Promise<void>;
+    userId: number;
+    projectHasMemberId: number;
 };

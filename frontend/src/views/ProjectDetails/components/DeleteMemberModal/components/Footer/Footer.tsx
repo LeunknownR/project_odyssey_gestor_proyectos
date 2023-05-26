@@ -3,7 +3,7 @@ import { Container } from "./styles";
 import { FooterProps } from "./types";
 
 const Footer = ({ 
-    modal, deleteCollaborator 
+    modal, deleteMember 
 }: FooterProps) => {
     return (
         <Container>
@@ -14,7 +14,7 @@ const Footer = ({
             <CustomButton 
                 content="Eliminar" 
                 variant="red-modal"
-                onClick={deleteCollaborator}/>
+                onClick={deleteMember}/>
         </Container>
     );
 };

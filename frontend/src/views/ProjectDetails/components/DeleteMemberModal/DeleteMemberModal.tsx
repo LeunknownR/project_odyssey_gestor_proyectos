@@ -4,26 +4,26 @@ import { IconContainer, TextModal, TitleModal } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Row } from "src/components/styles";
 import Footer from "./components/Footer/Footer";
-import { requestDeleteProject } from "src/services/projects/relatedToProjects";
-import { ResponseBody } from "src/services/types";
-import { requestDeleteCollaborator } from "src/services/collaborators/relatedToCollaborators";
+import { requestDeleteMember } from "src/services/projects/relatedToProjects";
 
 const testModalStyles = {
     padding: "20px 30px",
-    maxWidth: "630px"
+    maxWidth: "630px",
 };
 
-const DeleteCollaboratorModal = ({ 
-    // preloader, 
+const DeleteMemberModal = ({
+    preloader,
     fillCollaborator,
-    modalProps, 
-    userId 
+    modalProps,
+    userId,
+    projectHasMemberId
 }: DeleteCollaboratorModalProps) => {
-    const deleteCollaborator = async () => {
-        if (!userId) return;
+    const deleteMember = async () => {
+        if (!projectHasMemberId) return;
         modalProps.open(false);
-        // preloader.show("Eliminando colaborador...");
-        const { message } = await requestDeleteCollaborator(userId);
+        preloader.show("Eliminando colaborador...");
+        const { message } = await requestDeleteMember({userId, projectHasMemberId});
+        preloader.hide();
         if (message !== "SUCCESS") return;
         fillCollaborator();
     };
@@ -33,16 +33,17 @@ const DeleteCollaboratorModal = ({
                 <IconContainer>
                     <Icon icon="iconamoon:attention-square-fill" />
                 </IconContainer>
-                <TitleModal>ELIMINAR COLABORADOR</TitleModal>
+                <TitleModal>ELIMINAR MIEMBRO</TitleModal>
             </Row>
             <TextModal>
-                Esta acción eliminará al colaborador del proyecto.
+                Esta acción eliminará al miembro del proyecto.
             </TextModal>
-            <Footer 
+            <Footer
                 modal={modalProps}
-                deleteCollaborator={deleteCollaborator}/>
+                deleteMember={deleteMember}
+            />
         </Modal>
     );
 };
 
-export default DeleteCollaboratorModal;
+export default DeleteMemberModal;
