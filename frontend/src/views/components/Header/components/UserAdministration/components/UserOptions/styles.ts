@@ -5,11 +5,11 @@ type ContainerProps = {
     ref: any;
 }
 export const Container = styled.div<ContainerProps>`
-    position: absolute;
+    position: fixed;
     display: none;
     flex-direction: column;
-    top: 60px;
-    right: 0;
+    top: calc(var(--main-header-height) - 1px);
+    right: 40px;
     background-color: var(--darkblue-3);
     width: 310px;
     padding: 35px;

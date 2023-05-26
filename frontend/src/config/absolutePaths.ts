@@ -1,4 +1,6 @@
 export enum AbsolutePaths {
-    LOGIN = "/login",
-    PROJECT_MANAGER = "/proyectos",
+    Login = "/login",
+    ProjectManager = "/proyectos",
+    ProjectDetails = "/detalles-proyecto",
+    Settings = "/settings"
 }

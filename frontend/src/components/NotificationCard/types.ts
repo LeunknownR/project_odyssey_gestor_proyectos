@@ -6,7 +6,5 @@ export type NotificationCardHook = {
 };
 export type NotificationCardProps = {
     variant?: "success" | "error" | "warning";
-    show: boolean;
-    maxSeconds: number;
     handler: NotificationCardHook;
 };

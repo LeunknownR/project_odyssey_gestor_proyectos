@@ -25,7 +25,7 @@ export default abstract class ProjectController {
         if (!record)
             throw new Error("It couldn't be created the project");
         const message: string = record["message"];
-        return message ? message : ResponseMessages.FatalError;
+        return message || ResponseMessages.FatalError;
     }
     static async updateProject(projectForm: ProjectForm): Promise<string> {
         const affectedRows: number = await ProjectModel.updateProject(projectForm);
@@ -37,8 +37,11 @@ export default abstract class ProjectController {
         return projectList;
     }
     static async updateEndDateProjectByLeader(updateEndDateForm: UpdateEndDateProjectRequestBody): Promise<string> {
-        const affectedRows: number = await ProjectModel.updateEndDateProjectByLeader(updateEndDateForm);
-        return affectedRows > 0 ? ResponseMessages.Success : ResponseMessages.FatalError;
+        const record: any = await ProjectModel.updateEndDateProjectByLeader(updateEndDateForm);
+        if (!record)
+            throw new Error("It couldn't be update end date of the project");
+        const message: string = record["message"];
+        return message || ResponseMessages.FatalError;
     }
     static async deleteProject(deleteProjectRequestBody: DeleteProjectRequestBody): Promise<string> {
         const record: any = await ProjectModel.deleteProject(deleteProjectRequestBody);
@@ -62,11 +65,17 @@ export default abstract class ProjectController {
         return collaboratorUserList;
     }
     static async addProjectMembers(addProjectMembersRequest: AddProjectMembersRequestBody): Promise<string> {
-        const affectedRows: number = await ProjectModel.addProjectMembers(addProjectMembersRequest);
-        return affectedRows > 0 ? ResponseMessages.Success : ResponseMessages.FatalError;
+        const record: any = await ProjectModel.addProjectMembers(addProjectMembersRequest);
+        if (!record)
+            throw new Error("It couldn't be added project members");
+        const message: string = record["message"];
+        return message || ResponseMessages.FatalError;
     }
     static async deleteProjectMember(deleteProjectRequestBody: DeleteProjectMemberRequestBody): Promise<string> {
-        const affectedRows: number = await ProjectModel.deleteProjectMember(deleteProjectRequestBody);
-        return affectedRows > 0 ? ResponseMessages.Success : ResponseMessages.FatalError;
+        const record: any = await ProjectModel.deleteProjectMember(deleteProjectRequestBody);
+        if (!record)
+            throw new Error("It couldn't be deleted project member");
+        const message: string = record["message"];
+        return message || ResponseMessages.FatalError;
     }
 }

@@ -13,7 +13,7 @@ const testModalStyles = {
 };
 
 const DeleteProjectModal = ({ 
-    // preloader, 
+    preloader, 
     fillProjects,
     modalProps, 
     projectId 
@@ -21,8 +21,9 @@ const DeleteProjectModal = ({
     const deleteProject = async () => {
         if (!projectId) return;
         modalProps.open(false);
-        // preloader.show("Eliminando proyecto...");
+        preloader.show("Eliminando proyecto...");
         const { message } = await requestDeleteProject(projectId);
+        preloader.hide();
         if (message !== "SUCCESS") return;
         fillProjects();
     };

@@ -1,10 +1,11 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
-export const Sidebar = styled.nav`
+export const Sidebar = styled.aside`
     display: flex;
     flex-direction: column;
     position: fixed;
+    left: 0;
     background-color: var(--darkblue-3);
     height: calc(100% - 75px);
     width: 75px;

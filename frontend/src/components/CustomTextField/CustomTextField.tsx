@@ -14,17 +14,12 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 const CustomTextField = ({
     placeholder,
-    name,
-    label,
-    type,
-    variant,
-    size,
-    width,
-    maxWidth,
-    maxLength,
-    disabled,
-    value,
-    error = null,
+    name, label,
+    type, variant,
+    size, width, maxWidth,
+    maxLength, disabled,
+    value, error = null,
+    onBlur,
     // restriction,
     onChange,
 }: CustomTextFieldProps) => {
@@ -62,6 +57,7 @@ const CustomTextField = ({
                     placeholder={type === "password" ? "********" : placeholder}
                     value={value}
                     onChange={onChange}
+                    onBlur={onBlur}
                     // onKeyPress={RESTRICTIONS[restriction ? restriction : ""]}
                 />
                 {showPasswordRevealer() && (

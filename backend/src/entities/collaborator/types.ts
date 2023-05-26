@@ -2,10 +2,10 @@ export type UserBase = {
 	name: string,
 	surname: string,
 	urlPhoto: string | null,
+	email: string
 }
 export type CollaboratorUser = UserBase & {
 	id: number
-	email: string
 };
 export type ProjectRole = {
     id: number;
@@ -13,5 +13,6 @@ export type ProjectRole = {
 };
 export type ProjectCollaborator = UserBase & {
     id: number,
+	projectHasCollaboratorId: number,
     projectRole: ProjectRole
 };

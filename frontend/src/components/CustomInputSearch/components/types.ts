@@ -1,7 +1,7 @@
 export type SearchedItemToShow = {
     value?: string | number;
-    text: string;
-    urlPhoto: string | null;
+    content: JSX.Element;
+    text?: string;
 }
 export type SearchedItemProps = {
     item: SearchedItemToShow;

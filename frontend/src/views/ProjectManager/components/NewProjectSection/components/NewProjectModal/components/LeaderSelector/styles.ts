@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
     display: flex;
@@ -10,10 +10,13 @@ export const Container = styled.div`
 `;
 type WrapperProps = {
     ref: any;
-}
-export const Wrapper = styled.div<WrapperProps>`
-  
-`;
+};
+export const Wrapper = styled.div<WrapperProps>``;
 export const Label = styled.label`
-  
+    &.primary {
+        color: var(--darkblue-1);
+    }
+    &.secondary {
+        color: var(--white-1);
+    }
 `;

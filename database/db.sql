@@ -99,13 +99,11 @@ CREATE TABLE `project_has_collaborator` (
     FOREIGN KEY (`id_project_role`) REFERENCES `project_role`(`id_project_role`)
 );
 
-
-
 -- --- [ INSERT INTO ] ------------------------------------------------------------
 -- Insertando datos en la tabla user
 INSERT INTO `user` (`id_user`, `user_name`, `user_surname`, `username`, `userpassword`, `url_photo`, `email`, `id_role`) 
 VALUES
-    (1, 'Diego Edgardo', 'Torres De La Cruz', 'diegot', '$2a$10$5lDSbUyMEVZbfPFRiYuemesPnHyfdzCyRGoFJNDVpmuhmcFy5Soxe', '/diegot.jpg', 'diegoteodosiof@gmail.com', 'GAD'),
+    (1, 'Diego Edgardo', 'Torres De La Cruz', 'diegot', '$2a$10$5lDSbUyMEVZbfPFRiYuemesPnHyfdzCyRGoFJNDVpmuhmcFy5Soxe', '/makanaky.jpg', 'diegoteodosiof@gmail.com', 'GAD'),
     (2, 'Manuel Alejandro', 'Rivera Becerra', 'manuelr', '$2a$10$FOuqRzBR7drrXGku/hvJAunSKwNzFBxd.0HvL847iazSnLqftCuyG', NULl, 'leunknownr@gmail.com', 'CLB'),
     (3, 'Ralf Carsten', 'Carrasco Stein', 'ralfc', '$2a$10$yhW0eomyv23YbJTx.FG4keIKdmVi4HS9PEoZ5SMtJhRRLYhZFFi8a', NULL, 'ralfcarrasco@gmail.com', 'CLB'),
     (4, 'John', 'Doe', 'johnd', '$2a$10$JHyPCOL0YKEv.x11woSC4eBAIiQRog75kMn8Hdov0qjwvVgdY5.Na', NULL, 'johndoe@example.com', 'CLB'),
@@ -453,6 +451,8 @@ BEGIN
         u.user_name AS "collaborator_name",
         u.user_surname AS "collaborator_surname",
         u.url_photo AS "collaborator_url_photo",
+        u.email AS "collaborator_email",
+        phc.id_project_has_collaborator AS "collaborator_id_project_has_collaborator",
         phc.id_project_role AS "id_project_role",
         pr.project_role_name AS "project_role_name"
     FROM project p

@@ -19,6 +19,9 @@ export const List = styled.div`
     top: 45px;
     max-height: 300px;
     overflow-y: scroll;
+    ::-webkit-scrollbar {
+        display: none;
+    }
     @media (max-width: 500px) {
         top: 55px;
     }

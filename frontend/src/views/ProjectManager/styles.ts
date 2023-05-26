@@ -9,9 +9,10 @@ export const Content = styled.main`
     display: flex;
     flex-direction: column;
     gap: 50px;
-    min-height: calc(100vh - 75px);
+    min-height: calc(100vh - var(--main-header-height));
     margin-left: 75px;
     width: 70%;
+    margin-top: 50px;
 `;
 export const CloseButtonProjectForm = styled.div`
     position: absolute;
