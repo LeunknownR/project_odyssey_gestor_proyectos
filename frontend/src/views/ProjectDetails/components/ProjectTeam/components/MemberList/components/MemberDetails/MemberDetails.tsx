@@ -9,7 +9,7 @@ const MemberDetails = ({
     collaborator,
     openDeleteModal,
 }: MemberDetailsProps) => {
-    const { email, id, name, projectRole, surname, urlPhoto } = collaborator;
+    const { email, projectHasCollaboratorId, name, projectRole, surname, urlPhoto } = collaborator;
     return (
         <Container>
             <UserImage name={name} surname={surname} userPhoto={urlPhoto} />
@@ -22,7 +22,7 @@ const MemberDetails = ({
                     <Role className={PROJECT_ROLE[projectRole.id].className}>
                         {PROJECT_ROLE[projectRole.id].name}
                     </Role>
-                    <IconContainer onClick={() => openDeleteModal(id)}>
+                    <IconContainer onClick={() => openDeleteModal(projectHasCollaboratorId)}>
                         <Icon icon="mdi:trash-can-outline" />
                     </IconContainer>
                 </Row>

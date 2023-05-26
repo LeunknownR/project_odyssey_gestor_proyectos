@@ -99,17 +99,13 @@ export const requestUpdateProjectEndDate: APIRequestFunction<
     );
     return data;
 };
-export const requestDeleteMember: APIRequestFunction<
-    null,
-    DeleteProjectMemberRequestBody
-> = async ({userId, projectHasMemberId}:DeleteProjectMemberRequestBody) => {
-    const body: DeleteProjectMemberRequestBody = {
-        userId, 
-        projectHasMemberId,
-    };
-    const data: ResponseBody = await APIHandler.api.delete(
-        ApiPathEndpoints.DeleteProject,
-        { data: body }
+export const requestDeleteMember: APIRequestFunction<null, number> = async (
+    projectHasMemberId: number
+) => {
+    const path: string = getEndpointWithPathVariables(
+        ApiPathEndpoints.DeleteProjectMember,
+        [getUserId(), projectHasMemberId]
     );
+    const data: ResponseBody = await APIHandler.api.delete(path);
     return data;
 };

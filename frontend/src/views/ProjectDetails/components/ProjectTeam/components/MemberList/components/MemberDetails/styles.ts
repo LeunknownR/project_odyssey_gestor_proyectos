@@ -12,7 +12,8 @@ export const Name = styled.h3`
     min-width: 240px;
 `;
 export const Email = styled.h5`
-  
+    color: var(--white-1);
+    font-size: 13px;
 `;
 export const Role = styled.div`
     padding: 5px 10px;

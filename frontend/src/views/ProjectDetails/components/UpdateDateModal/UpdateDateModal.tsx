@@ -18,17 +18,19 @@ const UpdateDateModal = ({
     currentEndDate,
     projectId,
     preloader,
+    fillProjectDetails
 }: UpdateDateModalProps) => {
     const [endDate, setEndDate] = useState<number>(currentEndDate);
+    console.log(currentEndDate)
     useEffect(() => {
-        if (!modalProps.isOpen)
+        if (modalProps.isOpen)
             setEndDate(currentEndDate)
     }, [modalProps.isOpen]);
     const changeEndDateProjectField = (value: number) => {
+        console.log(value)
         setEndDate(value);
     };
     const updateProjectEndDate = async () => {
-        console.log("updateando jejejeje");
         modalProps.open(false)
         preloader.show("Actualizando fecha de finalización...");
         await requestUpdateProjectEndDate({
@@ -36,6 +38,7 @@ const UpdateDateModal = ({
             endDate,
         });
         preloader.hide();
+        fillProjectDetails();
     };
     return (
         <Modal {...modalProps} sizeProps={MODAL_STYLES}>

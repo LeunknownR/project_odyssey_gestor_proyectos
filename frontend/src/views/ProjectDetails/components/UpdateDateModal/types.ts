@@ -6,4 +6,5 @@ export type UpdateDateModalProps = {
     projectId: number;
     currentEndDate: number;
     preloader: PreloaderHook;
+    fillProjectDetails: () => Promise<void>;
 };

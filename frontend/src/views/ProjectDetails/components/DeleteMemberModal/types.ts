@@ -5,6 +5,5 @@ export type DeleteCollaboratorModalProps = {
     preloader: PreloaderHook
     modalProps: ModalProps;
     fillCollaborator: () => Promise<void>;
-    userId: number;
-    projectHasMemberId: number;
+    projectHasCollaboratorId: number;
 };
