@@ -454,6 +454,7 @@ BEGIN
         u.user_surname AS "collaborator_surname",
         u.url_photo AS "collaborator_url_photo",
         u.email AS "collaborator_email",
+        phc.id_project_has_collaborator AS "collaborator_id_project_has_collaborator",
         phc.id_project_role AS "id_project_role",
         pr.project_role_name AS "project_role_name"
     FROM project p

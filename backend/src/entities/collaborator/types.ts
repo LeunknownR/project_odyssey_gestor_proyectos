@@ -13,5 +13,6 @@ export type ProjectRole = {
 };
 export type ProjectCollaborator = UserBase & {
     id: number,
+	projectHasCollaboratorId: number,
     projectRole: ProjectRole
 };

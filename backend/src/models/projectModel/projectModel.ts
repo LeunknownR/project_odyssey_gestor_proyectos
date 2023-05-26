@@ -69,14 +69,14 @@ export default abstract class ProjectModel {
     static async updateEndDateProjectByLeader({
         projectId,
         endDate
-    }: UpdateEndDateProjectRequestBody): Promise<number> {
-        const information = await DBConnection.query(
+    }: UpdateEndDateProjectRequestBody): Promise<any> {
+        const [[record]] = await DBConnection.query(
             StoredProcedures.UpdateEndDateProjectByLeader,
             [
                 projectId,
                 new Date(endDate)
             ]);
-        return information.affectedRows;
+        return record;
     }
     static async deleteProject({
         userId, projectId
@@ -108,24 +108,24 @@ export default abstract class ProjectModel {
     }
     static async addProjectMembers({
         projectId, membersIds
-    }: AddProjectMembersRequestBody): Promise<number> {
-        const information = await DBConnection.query(
+    }: AddProjectMembersRequestBody): Promise<any> {
+        const [[record]] = await DBConnection.query(
             StoredProcedures.AddProjectMembers,
             [
                 projectId,
                 membersIds.join(",")
             ]);
-        return information.affectedRows;
+        return record;
     }
     static async deleteProjectMember({
-        userId, projectHasMemberId
-    }: DeleteProjectMemberRequestBody): Promise<number> {
-        const information = await DBConnection.query(
-            StoredProcedures.AddProjectMembers,
+        userId, projectHasCollaboratorId
+    }: DeleteProjectMemberRequestBody): Promise<any> {
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.DeleteProjectMember,
             [
-                userId,
-                projectHasMemberId
+                projectHasCollaboratorId,
+                userId
             ]);
-        return information.affectedRows;
+        return record;
     }
 }

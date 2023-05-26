@@ -16,5 +16,5 @@ export type AddProjectMembersRequestBody = {
 };
 export type DeleteProjectMemberRequestBody = {
     userId: number,
-    projectHasMemberId: number
+    projectHasCollaboratorId: number
 };
