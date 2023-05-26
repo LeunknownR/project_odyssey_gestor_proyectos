@@ -20,7 +20,6 @@ export const Container = styled.li`
         background-color: rgba(45, 90, 119, 0.2);
     }
 `;
-export const Image = styled.img``;
 export const Name = styled.h3`
     font-weight: 400;
 `;

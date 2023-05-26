@@ -1,4 +1,4 @@
 export type FooterProps = {
     closeModal: () => void;
-    addMemberToProject: () => void;
+    addMembersToProject: () => Promise<void>;
 }

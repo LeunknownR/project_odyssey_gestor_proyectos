@@ -1,16 +1,22 @@
-import { Container, NameInitials, UserPhoto } from "./styles";
+import NameInitials from "./NameInitials/NameInitials";
+import { Container, UserPhoto } from "./styles";
 import { UserImageProps } from "./types";
-import { currentUserLocalStorage } from "src/storage/user.local";
 
-const UserImage = ({ clickable, onClick, name, surname, userPhoto }: UserImageProps) => {
+const UserImage = ({ 
+    clickable, 
+    nameInitialsClassName,
+    onClick, 
+    name, surname, 
+    userPhoto 
+}: UserImageProps) => {
     return (
-        <Container className={clickable && "clickable"} onMouseDown={onClick}>
+        <Container className={clickable ? "clickable" : ""} onMouseDown={onClick}>
             {userPhoto 
                 ? <UserPhoto src={userPhoto} />
-                : <NameInitials className={!clickable && "bigger"} >
-                    {name[0]}{surname[0]}
-                </NameInitials>
-            }
+                : <NameInitials 
+                    name={name} 
+                    surname={surname} 
+                    className={nameInitialsClassName}/>} 
         </Container>
     );
 };

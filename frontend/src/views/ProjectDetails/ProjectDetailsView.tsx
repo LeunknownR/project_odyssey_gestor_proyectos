@@ -12,6 +12,8 @@ import useModal from "src/components/Modal/utils/hooks/useModal";
 import UpdateDateModal from "./components/UpdateDateModal/UpdateDateModal";
 import Preloader from "src/components/Preloader/Preloader";
 import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
+import NotificationCard from "src/components/NotificationCard/NotificationCard";
+import useNotificationCard from "src/components/NotificationCard/utils/hooks/useNotificationCard";
 
 const ProjectDetailsView = () => {
     const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(
@@ -20,6 +22,7 @@ const ProjectDetailsView = () => {
     const addMemberModal = useModal();
     const updateDateModal = useModal();
     const preloader = usePreloader();
+    const notificationCard = useNotificationCard();
     useEffect(() => {
         fillProjectDetails();
     }, []);
@@ -52,12 +55,20 @@ const ProjectDetailsView = () => {
                 <Footer />
             </Content>
         </Container>
+        {projectDetails && 
         <AddMembersModal
             modalProps={addMemberModal}
             preloader={preloader}
-        />
+            notificationCard={notificationCard}
+            projectId={projectDetails.id}
+        />}
         <UpdateDateModal modalProps={updateDateModal} />
         <Preloader {...preloader.value} />
+        <NotificationCard
+            show={notificationCard.visible}
+            handler={notificationCard}
+            maxSeconds={notificationCard.timeoutToClose / 1_000}
+        />
         </>
     );
 };

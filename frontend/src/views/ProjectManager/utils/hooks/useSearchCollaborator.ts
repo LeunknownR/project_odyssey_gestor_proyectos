@@ -10,6 +10,10 @@ const useSearchCollaborator = ({
         setCollaboratorUserList([]);
     }
     const fillCollaboratorUserList = async (collaboratorName: string): Promise<void> => {
+        if (!collaboratorName) {
+            clearCollaborators();
+            return;
+        }
         const data: CollaboratorUser[] = await requestSearchCollaborators(collaboratorName);
         setCollaboratorUserList(data);
     }

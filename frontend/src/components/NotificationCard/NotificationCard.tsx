@@ -25,6 +25,7 @@ const NotificationCard = ({
     const [progress, setProgress] = useState(0);
     //#region Effects
     const initChronometer = () => {
+        if (!show) return;
         let intervalId: NodeJS.Timeout | undefined;
         setTimeout(() => {
             intervalId = setInterval(() => {
