@@ -23,5 +23,6 @@ export const projectCollaboratorMapper = (record: any): ProjectCollaborator => (
     name: record["collaborator_name"],
     surname: record["collaborator_surname"],
     urlPhoto: record["collaborator_url_photo"],
+    email: record["collaborator_email"],
     projectRole: projectRoleMapper(record)
 });
