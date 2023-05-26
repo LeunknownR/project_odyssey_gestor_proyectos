@@ -9,10 +9,13 @@ const MemberDetails = ({
     collaborator,
     openDeleteModal,
 }: MemberDetailsProps) => {
-    const { email, id, name, projectRole, surname, urlPhoto } = collaborator;
+    const { email, name, projectRole, surname, urlPhoto } = collaborator;
     return (
         <Container>
-            <UserImage name={name} surname={surname} userPhoto={urlPhoto} />
+            <UserImage 
+                className="big"
+                name={name} surname={surname} 
+                urlPhoto={urlPhoto} />
             <Column gap="5px">
                 <Name>
                     {name} {surname}

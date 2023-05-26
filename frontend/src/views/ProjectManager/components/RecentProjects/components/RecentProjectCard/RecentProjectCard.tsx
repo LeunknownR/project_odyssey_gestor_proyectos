@@ -26,7 +26,7 @@ const RecentProjectCard = ({
     const openUpdateProjectModal = () => updateProjectModal.open(true);
     const openDeleteProjectModal = () => deleteProjectModal.open(true);
     const moveToProjectDetails = () => {
-        navigate(AbsolutePaths.PROJECT_DETAILS);
+        navigate(AbsolutePaths.ProjectDetails);
         setProjectId(project.id)
     }
     return (

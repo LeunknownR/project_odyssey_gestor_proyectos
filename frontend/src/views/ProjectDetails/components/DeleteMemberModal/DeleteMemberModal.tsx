@@ -13,8 +13,8 @@ const testModalStyles = {
 
 const DeleteMemberModal = ({
     preloader,
-    fillCollaborator,
-    modalProps,
+    fillProjectDetails,
+    modalProps, notificationCard,
     projectMemberToDelete
 }: DeleteCollaboratorModalProps) => {
     const deleteMember = async () => {
@@ -24,7 +24,8 @@ const DeleteMemberModal = ({
         const { message } = await requestDeleteMember(projectMemberToDelete.projectHasCollaboratorId);
         preloader.hide();
         if (message !== "SUCCESS") return;
-        fillCollaborator();
+        await fillProjectDetails();
+        notificationCard.show();
     };
     return (
         <Modal {...modalProps} sizeProps={testModalStyles}>

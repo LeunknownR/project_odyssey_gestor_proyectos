@@ -85,9 +85,9 @@ const AddMembersModal = ({
                             content: (
                                 <Row align="center" gap="10px">
                                     <UserImage 
-                                        nameInitialsClassName="small"
+                                        className="small"
                                         name={name} surname={surname}
-                                        userPhoto={urlPhoto}/>
+                                        urlPhoto={urlPhoto}/>
                                     {selectProjectMemberHandler.getText(option)}
                                 </Row>
                             )

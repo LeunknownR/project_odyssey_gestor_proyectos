@@ -6,7 +6,7 @@ import { AbsolutePaths } from "src/config/absolutePaths";
 const GoHomeButton = () => {
     const navigate = useNavigate()
     const returnHome = () => {
-        navigate(AbsolutePaths.PROJECT_MANAGER)
+        navigate(AbsolutePaths.ProjectManager)
     }
     return (
         <GoHome onClick={returnHome}>

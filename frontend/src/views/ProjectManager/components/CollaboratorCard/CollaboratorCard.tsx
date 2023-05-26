@@ -12,7 +12,7 @@ const CollaboratorCard = ({
     const {name, surname, urlPhoto, email} = collaboratorUser;
     return (
         <Container className={variant}>
-            <UserImage name={name} surname={surname} userPhoto={urlPhoto} />
+            <UserImage name={name} surname={surname} urlPhoto={urlPhoto} />
             <Column gap="5px" width="100%">
                 <Column gap="2px">
                     <Name className={variant}>{name} {surname}</Name>

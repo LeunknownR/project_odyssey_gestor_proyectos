@@ -6,14 +6,14 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 const ProjectMemberListItem = ({
     memberProject, onRemove
 }: ProjectMemberListItemProps) => {
-    const { name, surname, email, urlPhoto } = memberProject;
+    const { name, surname, urlPhoto } = memberProject;
     return (
         <Item>
             <MainData>
                 <UserImage 
                     name={name} surname={surname} 
-                    userPhoto={null}
-                    nameInitialsClassName="small"/>
+                    urlPhoto={urlPhoto}
+                    className="small"/>
                 <span>{memberProject.name} {memberProject.surname}</span>
             </MainData>
             <IconWrapper onClick={onRemove}>

@@ -18,7 +18,10 @@ const UserOptions = forwardRef(({ isOpen, currentUser }: UserOptionsProps, ref) 
         <Container className={isOpen && "open"} ref={ref}>
             <Column gap="8px">
                 <UserInfo align="center" gap="12px">
-                    <UserImage nameInitialsClassName="big" name={name} surname={surname} userPhoto={null} />
+                    <UserImage 
+                        className="big" 
+                        name={name} surname={surname} 
+                        urlPhoto={urlPhoto} />
                     <Username>{name} {surname}</Username>
                 </UserInfo>
                 <RolInfo role={role}/>

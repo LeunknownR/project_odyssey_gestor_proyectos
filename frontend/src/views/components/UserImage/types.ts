@@ -1,10 +1,10 @@
 export type UserImageProps = {
-    nameInitialsClassName?: string;
+    className?: string;
     clickable?: boolean;
     onClick?: (e: React.MouseEvent<HTMLElement>) => void;
     name: string;
     surname: string;
-    userPhoto: string | null;
+    urlPhoto: string | null;
 }
 export type NameInitialsProps = {
     className?: string;

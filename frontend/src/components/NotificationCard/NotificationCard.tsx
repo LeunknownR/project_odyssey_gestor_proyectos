@@ -22,7 +22,6 @@ const NotificationCard = ({
     //#region Effects
     const initChronometer = () => {
         if (!visible) {
-            console.log(intervalId);
             clearInterval(intervalId);
             return;
         }

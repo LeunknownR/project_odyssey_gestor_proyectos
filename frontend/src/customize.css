@@ -49,10 +49,15 @@
 	--green-2: #8BDE8E;
 	--cream-1: #FFE0B2;
 	--main-header-height: 80px;
+	--main-sidebar-width: 75px;
+    --main-content-height: calc(100vh - var(--main-header-height));
 }	
 /* General */
 html {
     overflow-x: hidden;
+}
+body {
+    background-color: var(--darkblue-4);
 }
 * {
     box-sizing: border-box;
