@@ -63,13 +63,13 @@ export const PasswordRevealer = styled.div`
     margin-right: 5px;
     transition: 0.3s;
     :hover {
-        background-color: #f3f2f3;
+        background-color: var(--dark-0);
     }
     :active {
         background-color: #d8d9d8;
     }
     .iconify {
-        color: var(--dark-3);
+        color: var(--white-1);
         font-size: 20px;
     }
 `;
@@ -87,14 +87,6 @@ export const Content = styled.div`
             border: 1px solid var(--white-1);
             ::placeholder {
                 color: var(--orange-1);
-            }
-            ${PasswordRevealer} {
-                :hover {
-                    background-color: var(--dark-3);
-                }
-                .iconify {
-                    color: var(--white-1);
-                }
             }
         }
         ::placeholder {

@@ -11,7 +11,7 @@ import LeaderSelector from "./components/LeaderSelector/LeaderSelector";
 import { requestCreateProject } from "src/services/projects/relatedToProjects";
 import { ProjectForm } from "src/entities/project/types";
 
-const testModalStyles = {
+const MODAL_STYLES = {
     padding: "0",
     borderRadius: "0",
     maxWidth: "1100px",
@@ -40,7 +40,7 @@ const NewProjectModal = ({
         // modalNotifyProps.handleOpen(true);
     };
     return (
-        <Modal {...modalProps} sizeProps={testModalStyles}>
+        <Modal {...modalProps} sizeProps={MODAL_STYLES}>
             <Row width="100%">
                 <Left>
                     <Column width="80%" alignSelf="center" gap="40px">
