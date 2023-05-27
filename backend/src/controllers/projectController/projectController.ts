@@ -1,6 +1,10 @@
 import { collaboratorMemberMapper, collaboratorUserMapper } from "../../entities/collaborator/mappers";
 import { CollaboratorUser } from "../../entities/collaborator/types";
-import { projectDetailsMapper, projectListByCollaboratorMapper, projectListByGeneralAdminMapper } from "../../entities/project/mappers";
+import { 
+    projectDetailsMapper, 
+    projectListByCollaboratorMapper, 
+    projectListByGeneralAdminMapper 
+} from "../../entities/project/mappers";
 import { 
     GroupedProjectList, ProjectForm, 
     ProjectDetails } from "../../entities/project/types";
@@ -10,8 +14,8 @@ import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes
 import { ResponseMessages } from "../../utils/response/enums";
 
 export default abstract class ProjectController {
-    static async getProjectListByGeneralAdmin(projectName: string | null): Promise<GroupedProjectList> {
-        const resultset: any[] = await ProjectModel.getProjectListByGeneralAdmin(projectName);
+    static async getProjectListForGeneralAdmin(projectName: string | null): Promise<GroupedProjectList> {
+        const resultset: any[] = await ProjectModel.getProjectListForGeneralAdmin(projectName);
         const projectList: GroupedProjectList = projectListByGeneralAdminMapper(resultset);
         return projectList;
     }

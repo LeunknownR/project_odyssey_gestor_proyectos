@@ -10,7 +10,6 @@ export const Content = styled.main`
     flex-direction: column;
     gap: 50px;
     min-height: calc(100vh - var(--main-header-height));
-    margin-left: 75px;
     width: 70%;
     margin-top: 50px;
 `;

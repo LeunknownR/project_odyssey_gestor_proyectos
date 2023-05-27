@@ -3,7 +3,6 @@ import { initAxiosInterceptors } from "./interceptors/axios.interceptors";
 import useModal from "./components/Modal/utils/hooks/useModal";
 import { ModalProps } from "./components/Modal/types";
 import { ResponseCodes } from "./services/utils/enums";
-import "./customize.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./views/Login/Login";
 import MasterRouter from "./routes/MasterRouter";

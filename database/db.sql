@@ -245,7 +245,7 @@ DELIMITER ;
 
 -- SP para listar los proyectos segun su nombre
 DELIMITER //
-CREATE PROCEDURE `sp_get_project_list_by_project_name`(
+CREATE PROCEDURE `sp_get_project_list_for_general_admin`(
     IN p_project_name VARCHAR(50)
 )
 BEGIN

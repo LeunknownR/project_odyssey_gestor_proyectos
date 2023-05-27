@@ -8,6 +8,7 @@ import { CollaboratorUser } from "src/entities/collaborator/types";
 import CollaboratorCard from "src/views/ProjectManager/components/CollaboratorCard/CollaboratorCard";
 import useCustomInputSearch from "src/components/CustomInputSearch/utils/hooks/useCustomInputSearch";
 import { requestSearchCollaboratorForGeneralAdmin } from "src/services/collaborators/relatedToCollaborators";
+import CustomInputSearchUserOption from "src/views/components/CustomInputSearchUserOption/CustomInputSearchUserOption";
 
 const LeaderSelector = ({
     form,
@@ -58,13 +59,13 @@ const LeaderSelector = ({
                 <Wrapper ref={$wrapper}>
                     <CustomInputSearch<CollaboratorUser>
                         {...TEXT_FIELD_PROPS.PROJECT_LEADER}
-                        options={
-                            selectProjectLeaderHandler.collaboratorUserList
-                        }
-                        getSearchedItemToShow={option => ({
-                            value: option.id,
-                            text: selectProjectLeaderHandler.getText(option),
-                            urlPhoto: option.urlPhoto,
+                        clearOptions={selectProjectLeaderHandler.clear}
+                        options={selectProjectLeaderHandler.collaboratorUserList}
+                        getSearchedItemToShow={options => ({ 
+                            value: options.id,
+                            content: (
+                                <CustomInputSearchUserOption {...options}/>
+                            )
                         })}
                         onChange={customSearchInputHandler.changeSearchText}
                         selectOption={customSearchInputHandler.selectOption}

@@ -10,9 +10,8 @@ import { useEffect, useState } from "react";
 import { CollaboratorUser } from "src/entities/collaborator/types";
 import useCustomInputSearch from "src/components/CustomInputSearch/utils/hooks/useCustomInputSearch";
 import { ResponseBody } from "src/services/types";
-import UserImage from "src/views/components/UserImage/UserImage";
-import { Row } from "src/components/styles";
 import ProjectMemberToAddList from "./components/ProjectMemberList/ProjectMemberToAddList";
+import CustomInputSearchUserOption from "src/views/components/CustomInputSearchUserOption/CustomInputSearchUserOption";
 
 const testModalStyles = {
     padding: "0px",
@@ -76,23 +75,12 @@ const AddMembersModal = ({
                     placeholder="Ejm: Ralf Carrasco Stein"
                     options={selectProjectMemberHandler.collaboratorUserList}
                     clearOptions={selectProjectMemberHandler.clear}
-                    getSearchedItemToShow={(option) => {
-                        const {
-                            id, name, surname, urlPhoto
-                        } = option;
-                        return ({ 
-                            value: id,
-                            content: (
-                                <Row align="center" gap="10px">
-                                    <UserImage 
-                                        className="small"
-                                        name={name} surname={surname}
-                                        urlPhoto={urlPhoto}/>
-                                    {selectProjectMemberHandler.getText(option)}
-                                </Row>
-                            )
-                        });
-                    }}
+                    getSearchedItemToShow={options => ({ 
+                        value: options.id,
+                        content: (
+                            <CustomInputSearchUserOption {...options}/>
+                        )
+                    })}
                     onChange={customSearchInputHandler.changeSearchText}
                     selectOption={customSearchInputHandler.selectOption}
                     value={customSearchInputHandler.searchText}
