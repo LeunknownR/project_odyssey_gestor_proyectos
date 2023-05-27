@@ -9,5 +9,5 @@ export type CustomTextAreaProps = {
     width?: string;
     maxWidth?: string;
     value?: string;
-    onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-}
+    onChange: any;
+};

@@ -59,10 +59,7 @@ export const Content = styled.div`
         }
     }
 `;
-type TextAreaProps = {
-    onChange: any;
-};
-export const TextArea = styled.textarea<TextAreaProps>`
+export const TextArea = styled.textarea`
     outline: none;
     border-radius: inherit;
     width: 100%;

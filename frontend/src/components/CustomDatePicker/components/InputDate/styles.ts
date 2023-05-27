@@ -2,10 +2,7 @@
 import styled from "styled-components";
 //#endregion
 
-type ContainerProps = {
-    onClick?: any;
-};
-export const Container = styled.div<ContainerProps>`
+export const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;

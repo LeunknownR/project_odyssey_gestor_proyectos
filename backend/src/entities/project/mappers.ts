@@ -16,10 +16,11 @@ const projectLeaderMapper = (record: any): CollaboratorUser => ({
 const projectByGeneralAdminMapper = (record: any): Project => ({
     id: record["id_project"],
     name: record["project_name"],
-    description: record["description"],
-    startDate: record["start_date"].getTime(),
-    endDate: record["end_date"].getTime(),
-    state: record["state"],
+    description: record["project_description"],
+    startDate: record["project_start_date"].getTime(),
+    endDate: record["project_end_date"].getTime(),
+    state: record["project_state"],
+    projectMemberCount: record["project_member_count"],
     leader: projectLeaderMapper(record)
 });
 export const projectListByGeneralAdminMapper = (resultset: any[]): GroupedProjectList => {
@@ -36,6 +37,7 @@ const projectByCollaboratorMapper = (record: any): Project => ({
     startDate: record["project_start_date"].getTime(),
     endDate: record["project_end_date"].getTime(),
     state: record["project_state"],
+    projectMemberCount: record["project_member_count"]
 });
 export const projectListByCollaboratorMapper = (resultset: any[]): GroupedProjectList => {
     const projectByCollaborator: Project[] = resultset.map(projectByCollaboratorMapper);
@@ -50,7 +52,7 @@ export const projectDetailsMapper = (resultset: any[]): ProjectDetails => {
         id: header["id_project"],
         name: header["project_name"],
         description: header["project_description"],
-        period: header["period_project"],// 10-05-2023 / 10-10-2023
+        period: header["period_project"],
         endDate: header["project_end_date"].getTime(),
         collaborators: resultset.map(projectCollaboratorMapper)
     };

@@ -10,5 +10,5 @@ export type CustomButtonProps = {
     maxWidth?: string;
     iconAfterText?: boolean;
     alignSelf?: string;
-    onClick?: unknown;
+    onClick: (e: React.MouseEvent<HTMLElement>) => void;
 };

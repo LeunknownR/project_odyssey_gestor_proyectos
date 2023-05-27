@@ -3,5 +3,5 @@ export type InputDateProps = {
     error: boolean;
     text: string | null;
     disabled: boolean;
-    onClick: () => void;
+    onClick: any;
 };

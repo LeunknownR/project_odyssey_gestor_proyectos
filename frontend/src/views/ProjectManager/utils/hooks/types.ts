@@ -28,11 +28,5 @@ export type SelectCollaboratorHookParams = {
 export type SelectCollaboratorHook = {
     collaboratorUserList: CollaboratorUser[];
     fill: (collaboratorSearched: string) => Promise<void>;
-    getText: ({ name, surname }: CollaboratorUser) => string;
     clear: () => void;
-}
-export type CollaboratorForMemberHook = {
-    collaborator: CollaboratorUser[];
-    fill: (collaboratorSearched: string) => Promise<void>;
-    clear: () => void;
-}
+};

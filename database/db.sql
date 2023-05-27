@@ -91,7 +91,7 @@ CREATE TABLE `project_has_collaborator` (
     `id_project` INT UNSIGNED NOT NULL,
     `id_collaborator` INT UNSIGNED NOT NULL,
     `active` BIT NOT NULL DEFAULT 1,
-    `id_deleter`  INT UNSIGNED DEFAULT NULL,
+    `id_deleter` INT UNSIGNED DEFAULT NULL,
     `id_project_role` CHAR(3) NOT NULL,
     PRIMARY KEY (`id_project_has_collaborator`),
     FOREIGN KEY (`id_project`) REFERENCES `project`(`id_project`),
@@ -255,16 +255,22 @@ BEGIN
     SELECT 
         p.id_project,
         p.project_name,
-        p.description,
-        p.state,
-        p.start_date,
-        p.end_date,
-        u.id_user,
-        u.user_name,
-        u.user_surname,
-        u.email,
-        u.url_photo,
-        phc.id_project_role
+        p.description AS "project_description",
+        p.state AS "project_state",
+        p.start_date AS "project_start_date",
+        p.end_date AS "project_end_date",
+        u.id_user AS "id_collaborator",
+        u.user_name AS "collaborator_name",
+        u.user_surname AS "collaborator_surname",
+        u.url_photo AS "collaborator_url_photo",
+        u.email AS "collaborator_email",
+        phc.id_project_role AS "id_project_role",
+        (
+			SELECT COUNT(*) 
+            FROM project_has_collaborator
+            WHERE id_project = p.id_project
+            AND id_project_role = "PMB"
+		) AS "project_member_count"
     FROM project p
     INNER JOIN project_has_collaborator phc ON p.id_project = phc.id_project
     INNER JOIN user u ON phc.id_collaborator = u.id_user
@@ -447,6 +453,7 @@ BEGIN
         p.description AS "project_description",
         CONCAT(DATE_FORMAT(p.start_date, '%d-%m-%Y'), ' / ',DATE_FORMAT(p.end_date, '%d-%m-%Y')) AS "period_project",
         p.end_date AS "project_end_date",
+        p.state AS "project_state",
         u.id_user AS "id_collaborator",
         u.user_name AS "collaborator_name",
         u.user_surname AS "collaborator_surname",

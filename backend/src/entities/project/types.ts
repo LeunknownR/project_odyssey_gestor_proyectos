@@ -10,7 +10,8 @@ export type ProjectBase = {
 export type Project = ProjectBase & {
     id: number,
     state: ProjectState,
-    leader?: CollaboratorUser
+    projectMemberCount: number,
+    leader?: CollaboratorUser,
 };
 export type ProjectForm = ProjectBase & {
     id?: number,

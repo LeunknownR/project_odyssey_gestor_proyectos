@@ -1,9 +1,6 @@
 import styled from "styled-components";
 
-type ContainerProps = {
-    className?: any;
-};
-export const Container = styled.span<ContainerProps>`
+export const Container = styled.span`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,6 +12,7 @@ export const Container = styled.span<ContainerProps>`
     width: 2em;
     height: 2em;
     font-size: 24px;
+    user-select: none;
     &.big {
         font-size: 32px;
     }
