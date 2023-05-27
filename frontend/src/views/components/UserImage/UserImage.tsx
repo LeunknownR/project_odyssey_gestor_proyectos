@@ -4,19 +4,23 @@ import { UserImageProps } from "./types";
 
 const UserImage = ({ 
     clickable, 
-    nameInitialsClassName,
+    className,
     onClick, 
     name, surname, 
-    userPhoto 
+    urlPhoto 
 }: UserImageProps) => {
     return (
-        <Container className={clickable ? "clickable" : ""} onMouseDown={onClick}>
-            {userPhoto 
-                ? <UserPhoto src={userPhoto} />
+        <Container 
+            className={clickable ? "clickable" : ""} 
+            onMouseDown={onClick}>
+            {urlPhoto 
+                ? <UserPhoto 
+                    className={className}
+                    src={`http://localhost:3006/images${urlPhoto}`} />
                 : <NameInitials 
                     name={name} 
                     surname={surname} 
-                    className={nameInitialsClassName}/>} 
+                    className={className}/>} 
         </Container>
     );
 };

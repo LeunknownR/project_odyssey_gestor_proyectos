@@ -8,9 +8,8 @@ export const Container = styled.section`
 export const Content = styled.main`
     display: flex;
     flex-direction: column;
-    gap: 50px;
-    min-height: calc(100vh - 75px);
-    margin-left: 75px;
+    gap: 40px;
+    min-height: calc(100vh - var(--main-header-height));
     width: 80%;
-    margin-top: 50px;
+    padding: 50px 0;
 `;

@@ -10,7 +10,6 @@ import { getEndpointWithPathVariables } from "../utils/helpers";
 import { getUserId } from "src/storage/user.local";
 import {
     CreateProjectRequestBody,
-    DeleteProjectMemberRequestBody,
     DeleteProjectRequestBody,
     UpdateProjectEndDateRequestBody,
 } from "./types";
@@ -99,12 +98,13 @@ export const requestUpdateProjectEndDate: APIRequestFunction<
     );
     return data;
 };
-export const requestDeleteMember: APIRequestFunction<null, number> = async (
-    projectHasMemberId: number
-) => {
+export const requestDeleteMember: APIRequestFunction<
+    null,
+    number
+> = async (projectHasCollaboratorId: number) => {
     const path: string = getEndpointWithPathVariables(
         ApiPathEndpoints.DeleteProjectMember,
-        [getUserId(), projectHasMemberId]
+        [getUserId(), projectHasCollaboratorId]
     );
     const data: ResponseBody = await APIHandler.api.delete(path);
     return data;

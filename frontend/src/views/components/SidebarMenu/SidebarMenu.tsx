@@ -11,10 +11,13 @@ const SidebarMenu = ({
         <Sidebar>
             {mainMenuButton}
             <MenuList>
-                <MenuButton to={AbsolutePaths.PROJECT_MANAGER} activeclassname="active">
+                <MenuButton 
+                    to={AbsolutePaths.ProjectManager} activeclassname="active">
                     <span><Icon icon="material-symbols:home-outline-rounded" /></span>
                 </MenuButton>
-                <MenuButton to="/alexis" activeclassname="active">
+                <MenuButton 
+                    to={AbsolutePaths.Settings}
+                    activeclassname="active">
                     <span><Icon icon="uiw:setting" /></span>
                 </MenuButton>
             </MenuList>

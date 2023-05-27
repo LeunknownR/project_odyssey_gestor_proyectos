@@ -1,6 +1,6 @@
 import { CollaboratorUser } from "src/entities/collaborator/types"
 
-export type MemberListItemProps = {
+export type ProjectMemberListItemProps = {
     memberProject: CollaboratorUser;
-    onRemove: (projectMemberToDeleteId: number) => void
+    onRemove: () => void;
 }

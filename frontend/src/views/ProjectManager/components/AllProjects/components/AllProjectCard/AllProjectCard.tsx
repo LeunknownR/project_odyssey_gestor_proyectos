@@ -27,8 +27,7 @@ const AllProjectCard = ({
     const openUpdateProjectModal = () => updateProjectModal.open(true);
     const openDeleteProjectModal = () => deleteProjectModal.open(true);
     const moveToProjectDetails = (project: Project) => {
-        console.log("movido a detalles")
-        navigate(AbsolutePaths.PROJECT_DETAILS);
+        navigate(AbsolutePaths.ProjectDetails);
         setProjectId(project.id)
     }
     return (

@@ -3,7 +3,7 @@ import Modal from "src/components/Modal/Modal";
 import { IconContainer, TitleModal } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Row } from "src/components/styles";
-import { UpdateDateModalProps } from "./types";
+import { UpdateEndDateModalProps } from "./types";
 import Footer from "./components/Footer/Footer";
 import CustomDatePicker from "src/components/CustomDatePicker/CustomDatePicker";
 import { requestUpdateProjectEndDate } from "src/services/projects/relatedToProjects";
@@ -13,13 +13,13 @@ const MODAL_STYLES = {
     minWidth: "700px",
 };
 
-const UpdateDateModal = ({
+const UpdateEndDateModal = ({
     modalProps,
     currentEndDate,
     projectId,
     preloader,
     fillProjectDetails
-}: UpdateDateModalProps) => {
+}: UpdateEndDateModalProps) => {
     const [endDate, setEndDate] = useState<number>(currentEndDate);
     useEffect(() => {
         if (modalProps.isOpen)
@@ -31,11 +31,12 @@ const UpdateDateModal = ({
     const updateProjectEndDate = async () => {
         modalProps.open(false)
         preloader.show("Actualizando fecha de finalización...");
-        await requestUpdateProjectEndDate({
+        const { message } = await requestUpdateProjectEndDate({
             projectId,
             endDate,
         });
         preloader.hide();
+        if (message !== "SUCCESS") return;
         fillProjectDetails();
     };
     const dateIsChanged = (): boolean => {
@@ -65,4 +66,4 @@ const UpdateDateModal = ({
     );
 };
 
-export default UpdateDateModal;
+export default UpdateEndDateModal;

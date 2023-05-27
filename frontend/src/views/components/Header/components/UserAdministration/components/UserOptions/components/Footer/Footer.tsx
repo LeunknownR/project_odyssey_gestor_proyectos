@@ -8,7 +8,7 @@ const Footer = () => {
     const navigate = useNavigate();
     const logout = () => {
         clearStorage();
-        navigate(AbsolutePaths.LOGIN);
+        navigate(AbsolutePaths.Login);
     }
     return (
         <Column align="center" gap="10px">

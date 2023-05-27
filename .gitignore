@@ -3,6 +3,6 @@ node_modules
 dist
 build
 .env
-backend/public
+# backend/public
 errors.log
-notes.sql 
+notes.sql

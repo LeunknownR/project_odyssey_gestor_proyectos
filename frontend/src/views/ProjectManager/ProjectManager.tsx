@@ -77,11 +77,7 @@ const ProjectManager = () => {
             projectId={currentProject?.id}
             fillProjects={fillProjects}
         />
-        <NotificationCard
-            show={notificationCard.visible}
-            handler={notificationCard}
-            maxSeconds={notificationCard.timeoutToClose / 1_000}
-        />
+        <NotificationCard handler={notificationCard}/>
         <Preloader {...preloader.value} />
         </>
     );

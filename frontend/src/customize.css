@@ -24,6 +24,7 @@
 	--gray-1: #DEDEDE;
 	--gray-2: #8F8F8F;
 	--gray-3: #8D8D8D;
+	--gray-4: #858585;
 	--orange-1: #E8AF90;
 	--orange-2: #F1850A;
 	--orange-3: #E15625;
@@ -47,10 +48,16 @@
 	--green-1: #95DD72;
 	--green-2: #8BDE8E;
 	--cream-1: #FFE0B2;
+	--main-header-height: 80px;
+	--main-sidebar-width: 75px;
+    --main-content-height: calc(100vh - var(--main-header-height));
 }	
 /* General */
 html {
     overflow-x: hidden;
+}
+body {
+    background-color: var(--darkblue-4);
 }
 * {
     box-sizing: border-box;
