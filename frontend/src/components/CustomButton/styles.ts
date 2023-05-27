@@ -22,6 +22,9 @@ export const Container = styled.button<ContainerProps>`
     width: ${({ width }) => width};
     font-weight: ${({ weight }) => weight};
     padding: ${({ padding }) => padding};
+    &:disabled {
+        pointer-events: none;
+    }
     &.main {
         color: var(--white-1);
         background-color: var(--dark-2);
@@ -94,6 +97,9 @@ export const Container = styled.button<ContainerProps>`
         font-weight: 700;
         padding: 8px;
         min-width: 125px;
+        &.disabled {
+            background-color: red;
+        }
     }
     &.blue-modal-2 {
         background-color: transparent;

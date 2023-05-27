@@ -21,13 +21,11 @@ const UpdateDateModal = ({
     fillProjectDetails
 }: UpdateDateModalProps) => {
     const [endDate, setEndDate] = useState<number>(currentEndDate);
-    console.log(currentEndDate)
     useEffect(() => {
         if (modalProps.isOpen)
             setEndDate(currentEndDate)
     }, [modalProps.isOpen]);
     const changeEndDateProjectField = (value: number) => {
-        console.log(value)
         setEndDate(value);
     };
     const updateProjectEndDate = async () => {
@@ -40,6 +38,9 @@ const UpdateDateModal = ({
         preloader.hide();
         fillProjectDetails();
     };
+    const dateIsChanged = (): boolean => {
+        return endDate === currentEndDate 
+    }
     return (
         <Modal {...modalProps} sizeProps={MODAL_STYLES}>
             <Row align="center" gap="10px" justifySelf="flex-start">
@@ -58,6 +59,7 @@ const UpdateDateModal = ({
             <Footer
                 closeModal={() => modalProps.open(false)}
                 updateProjectEndDate={updateProjectEndDate}
+                dateIsChanged={dateIsChanged}
             />
         </Modal>
     );

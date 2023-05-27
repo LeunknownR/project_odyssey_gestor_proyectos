@@ -2,7 +2,7 @@ import CustomButton from "src/components/CustomButton/CustomButton";
 import { Container } from "./styles";
 import { FooterProps } from "./types";
 
-const Footer = ({ closeModal, updateProjectEndDate }: FooterProps) => {
+const Footer = ({ closeModal, updateProjectEndDate, dateIsChanged }: FooterProps) => {
     return (
         <Container>
             <CustomButton
@@ -14,6 +14,7 @@ const Footer = ({ closeModal, updateProjectEndDate }: FooterProps) => {
                 content="Guardar"
                 variant="blue-modal"
                 onClick={updateProjectEndDate}
+                disabled={dateIsChanged()}
             ></CustomButton>
         </Container>
     );
