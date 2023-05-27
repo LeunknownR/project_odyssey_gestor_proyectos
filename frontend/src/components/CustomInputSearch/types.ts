@@ -6,6 +6,7 @@ export type CustomInputSearchProps<O> = {
     placeholder?: string;
     maxLength?: number;
     options: O[];
+    clearOptions: () => void;
     variant: string;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     value: string;

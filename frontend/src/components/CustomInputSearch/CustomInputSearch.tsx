@@ -1,6 +1,3 @@
-//#region Libraries
-import { ChangeEvent, useState } from "react";
-//#endregion
 //#region Styles
 import { Container, List } from "./styles";
 //#endregion
@@ -15,7 +12,8 @@ function CustomInputSearch<O>({
     label, placeholder,
     variant, maxLength,
     value, onChange,
-    options, selectOption,
+    options, clearOptions, 
+    selectOption,
     getSearchedItemToShow
 }: CustomInputSearchProps<O>) {
     return (
@@ -25,6 +23,7 @@ function CustomInputSearch<O>({
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
+                onBlur={() => setTimeout(clearOptions, 100)}
                 variant={variant}
                 maxLength={maxLength}
             />
@@ -45,6 +44,6 @@ function CustomInputSearch<O>({
             {/* {value && <CleanBtn onClick={clearInput}>Limpiar</CleanBtn>} */}
         </Container>
     );
-};
+}
 
 export default CustomInputSearch;

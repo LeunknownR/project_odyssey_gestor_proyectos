@@ -22,7 +22,7 @@ const MasterRouter = () => {
     }, []);
     const toLogin = (): void => {
         clearStorage();
-        navigate(AbsolutePaths.LOGIN);
+        navigate(AbsolutePaths.Login);
     };
     const fillRoutes = (roleId: string): void => {
         setRoutes(
@@ -32,7 +32,10 @@ const MasterRouter = () => {
                     const moduleView = MODULE_VIEWS[module];
                     const { View, path } = moduleView;
                     return (
-                        <Route key={module} path={path} element={<View />} />
+                        <Route 
+                            key={module} 
+                            path={path} 
+                            element={<View />} />
                     );
                 })
         );
@@ -45,8 +48,9 @@ const MasterRouter = () => {
                 <Routes>
                     {routes}
                     {routesLoaded && 
-                        <Route path="*" element={<Navigate to={AbsolutePaths.PROJECT_MANAGER} replace />} />
-                    }
+                        <Route 
+                            path="*" 
+                            element={<Navigate to={AbsolutePaths.ProjectManager} replace />} />}
                 </Routes>
             </Content>
         </Main>

@@ -49,7 +49,7 @@ const useLoginForm = (): LoginFormHook => {
         if (checkErrors(message, data)) return;
         // Éxito
         saveAuthData(data);
-        navigate(AbsolutePaths.PROJECT_MANAGER);
+        navigate(AbsolutePaths.ProjectManager);
         // checkExpirationTimeToken.init();
     };
     const checkErrors = (message: string, data: AuthData | null): boolean => {

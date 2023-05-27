@@ -9,14 +9,14 @@ const CollaboratorCard = ({
     clear,
     variant
 }: CollaboratorCardProps) => {
-    const {name, surname, urlPhoto} = collaboratorUser;
+    const {name, surname, urlPhoto, email} = collaboratorUser;
     return (
         <Container className={variant}>
-            <UserImage name={name} surname={surname} userPhoto={urlPhoto} />
+            <UserImage name={name} surname={surname} urlPhoto={urlPhoto} />
             <Column gap="5px" width="100%">
                 <Column gap="2px">
                     <Name className={variant}>{name} {surname}</Name>
-                    <Email className={variant}>GNOMO@yahoo.xxx</Email>
+                    <Email className={variant}>{email}</Email>
                 </Column>
                 <Row align="center" justify="space-between">
                     <Role>Líder del proyecto</Role>

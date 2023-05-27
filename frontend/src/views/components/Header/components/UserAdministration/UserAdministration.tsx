@@ -21,7 +21,7 @@ const UserAdministration = () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
-    const toggleOptions = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const toggleOptions = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
         setAreOptionsOpen(prev => !prev);
     };
@@ -32,7 +32,7 @@ const UserAdministration = () => {
                 onClick={toggleOptions} 
                 name={currentUser.name}
                 surname={currentUser.surname}
-                userPhoto={null}
+                urlPhoto={currentUser.urlPhoto}
                 clickable 
             />}
             <UserOptions 

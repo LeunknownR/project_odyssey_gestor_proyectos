@@ -1,20 +1,20 @@
+import { DBProjectRoles } from "src/config/roles";
+
 export type UserBase = {
 	name: string,
 	surname: string,
 	urlPhoto: string | null,
+	email: string
 }
 export type CollaboratorUser = UserBase & {
 	id: number
-	email: string
-};
-export type ProjectLeader = UserBase & {
-	email: string
 };
 export type ProjectRole = {
-    id: number;
+    id: DBProjectRoles;
     name: string;
 };
 export type ProjectCollaborator = UserBase & {
     id: number,
+	projectHasCollaboratorId: number,
     projectRole: ProjectRole
 };

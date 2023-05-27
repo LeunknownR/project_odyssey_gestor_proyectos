@@ -4,3 +4,8 @@ export const getEndpointWithPathVariables = (endpoint: string, params: any[]): s
     const encodedParams: string[] = params.map(param => encodeURIComponent(String(param)));
     return `${endpoint}/${encodedParams.join("/")}`
 }
+export const sleep = (timeout: number | null): Promise<void> => {
+    return new Promise(resolve => {
+        setTimeout(resolve, timeout === null ? 1000 : timeout);
+    });
+};

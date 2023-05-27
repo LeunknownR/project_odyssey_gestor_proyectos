@@ -6,6 +6,7 @@ import { DBRoles } from "src/config/roles";
 import useUserRole from "src/storage/hooks/useUserRole";
 
 const NewProjectSection = ({
+    preloader,
     modal,
     form,
     getProjectFromForm,
@@ -26,6 +27,7 @@ const NewProjectSection = ({
                 </span>
             </NewProjectButton>
             <NewProjectModal
+                preloader={preloader}
                 modalProps={modal}
                 form={form}
                 getProjectFromForm={getProjectFromForm}

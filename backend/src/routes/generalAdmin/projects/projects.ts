@@ -8,8 +8,8 @@ import {
     parseToCreateProjectRequestBody, 
     parseToDeleteProjectRequestBody, 
     parseToProjectName, 
-    parseToProjectFormToUpdate } from "./parsers";
-import { parseToCollaboratorName } from "../../collaborator/projects/parsers";
+    parseToProjectFormToUpdate, 
+    parseToCollaboratorName} from "./parsers";
 import { withErrorHandler } from "../../helpers";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "./types";
 import { GroupedProjectList, ProjectForm } from "../../../entities/project/types";

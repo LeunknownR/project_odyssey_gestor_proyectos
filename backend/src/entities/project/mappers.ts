@@ -51,7 +51,7 @@ export const projectDetailsMapper = (resultset: any[]): ProjectDetails => {
         name: header["project_name"],
         description: header["project_description"],
         period: header["period_project"],// 10-05-2023 / 10-10-2023
-        endDate: header["project_end_date"],
+        endDate: header["project_end_date"].getTime(),
         collaborators: resultset.map(projectCollaboratorMapper)
     };
 };
