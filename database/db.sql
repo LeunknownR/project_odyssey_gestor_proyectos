@@ -91,7 +91,7 @@ CREATE TABLE `project_has_collaborator` (
     `id_project` INT UNSIGNED NOT NULL,
     `id_collaborator` INT UNSIGNED NOT NULL,
     `active` BIT NOT NULL DEFAULT 1,
-    `id_deleter`  INT UNSIGNED DEFAULT NULL,
+    `id_deleter` INT UNSIGNED DEFAULT NULL,
     `id_project_role` CHAR(3) NOT NULL,
     PRIMARY KEY (`id_project_has_collaborator`),
     FOREIGN KEY (`id_project`) REFERENCES `project`(`id_project`),
@@ -272,7 +272,6 @@ BEGIN
     INNER JOIN user u ON phc.id_collaborator = u.id_user
     WHERE p.active = 1
     AND phc.id_project_role = "PLD"
-    -- AND @search_project_name IS NULL OR p.project_name LIKE @search_project_name
     AND phc.active = 1
     AND (@search_project_name IS NULL OR p.project_name LIKE @search_project_name)
     ORDER BY p.start_date DESC, p.project_name ASC
