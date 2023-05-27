@@ -22,7 +22,7 @@ router.get(
     ApiPathEndpointsGeneralAdmin.GetProjectListByGeneralAdmin, 
     withErrorHandler(async (req, res) => {        
         const projectName: string = parseToProjectName(req.params);
-        const groupedProjectList: GroupedProjectList = await ProjectController.getProjectListByGeneralAdmin(projectName);
+        const groupedProjectList: GroupedProjectList = await ProjectController.getProjectListForGeneralAdmin(projectName);
         GenerateResponseBody.sendResponse<GroupedProjectList>(res, {
             code: ResponseCodes.Ok,
             message: ResponseMessages.Success,

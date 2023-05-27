@@ -14,14 +14,10 @@ const useSearchCollaborator = ({
         const data: CollaboratorUser[] = await requestSearchCollaborators(collaboratorName);
         setCollaboratorUserList(data);
     }
-    const getCollaboratorText = ({ name, surname }: CollaboratorUser): string => {
-        return `${name} ${surname}`;
-    }
     return {
         collaboratorUserList,
         fill: fillCollaboratorUserList,
-        clear: clearCollaborators,
-        getText: getCollaboratorText
+        clear: clearCollaborators
     };
 };
 

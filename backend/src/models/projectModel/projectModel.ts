@@ -7,9 +7,9 @@ import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjec
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 
 export default abstract class ProjectModel {
-    static async getProjectListByGeneralAdmin(projectName: string | null): Promise<any[]> {
+    static async getProjectListForGeneralAdmin(projectName: string | null): Promise<any[]> {
         const [resultset] = await DBConnection.query(
-            StoredProcedures.GetProjectListByGeneralAdmin,
+            StoredProcedures.GetProjectListForGeneralAdmin,
             [projectName]);
         return resultset;
     }
@@ -62,7 +62,7 @@ export default abstract class ProjectModel {
         collaboratorId
     }: GetProjectListForCollaboratorRequestBody): Promise<any[]> {
         const [resultset] = await DBConnection.query(
-            StoredProcedures.GetProjectListByCollaborator,
+            StoredProcedures.GetProjectListForCollaborator,
             [projectName, collaboratorId]);
         return resultset;
     }
