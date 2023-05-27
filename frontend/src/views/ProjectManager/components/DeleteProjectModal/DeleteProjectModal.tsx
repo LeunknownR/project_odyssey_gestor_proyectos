@@ -16,7 +16,8 @@ const DeleteProjectModal = ({
     preloader, 
     fillProjects,
     modalProps, 
-    projectId 
+    projectId, 
+    notificationCard
 }: DeleteProjectModalProps) => {
     const deleteProject = async () => {
         if (!projectId) return;
@@ -26,6 +27,7 @@ const DeleteProjectModal = ({
         preloader.hide();
         if (message !== "SUCCESS") return;
         fillProjects();
+        notificationCard.show();
     };
     return (
         <Modal {...modalProps} sizeProps={testModalStyles}>

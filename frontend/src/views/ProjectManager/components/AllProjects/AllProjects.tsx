@@ -6,22 +6,21 @@ import { AllProjectProps } from "./types";
 const AllProjects = ({
     allProjects,
     setCurrentProject,
-    updateProjectModal,
-    deleteProjectModal
+    openUpdateProjectModal,
+    openDeleteProjectModal,
 }: AllProjectProps) => {
     return (
         <Container>
             <TitleHeader text="Todos los proyectos" />
             <ProjectList>
-                {allProjects.map((project, idx) => {
-                    //GNOMO DEBERÍA USAR SU PROJECT.ID PERO ESTÁ ROTO ESA MIERDA
+                {allProjects.map(project => {
                     return (
                         <AllProjectCard
-                            key={idx}
+                            key={project.id}
                             project={project}
                             setCurrentProject={setCurrentProject}
-                            updateProjectModal={updateProjectModal}
-                            deleteProjectModal={deleteProjectModal}
+                            openUpdateProjectModal={openUpdateProjectModal}
+                            openDeleteProjectModal={openDeleteProjectModal}
                         />
                     );
                 })}

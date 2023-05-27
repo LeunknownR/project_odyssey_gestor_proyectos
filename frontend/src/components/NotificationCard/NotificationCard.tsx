@@ -10,11 +10,11 @@ import {
 import { NotificationCardProps } from "./types";
 import {useEffect, useState} from "react";
 import {
-    DELTA_SECONDS } from "./utils/constants";
+    DELTA_SECONDS, VARIANT } from "./utils/constants";
 
 const NotificationCard = ({
     handler: { timeoutToClose, visible, hide },
-    variant = "success",
+    variant,
 }: NotificationCardProps) => {
     const [timeLeft, setTimeLeft] = useState<number>(timeoutToClose);
     const [progress, setProgress] = useState(0);
@@ -63,12 +63,12 @@ const NotificationCard = ({
                 <Icon icon="mdi:close" />
             </CloseIconContainer>
             <Row align="center" gap="10px">
-                <IconContainer>
+                <IconContainer className={getClassName()} >
                     <Icon icon="material-symbols:check-circle-outline" />
                 </IconContainer>
-                <TitleModal>CAMBIOS GUARDADOS</TitleModal>
+                <TitleModal className={getClassName()}>{VARIANT[variant].title}</TitleModal>
             </Row>
-            <TextModal>Los cambios realizados se guardaron correctamente.</TextModal>
+            <TextModal>{VARIANT[variant].subtitle}</TextModal>
         </Container>
     );
 };

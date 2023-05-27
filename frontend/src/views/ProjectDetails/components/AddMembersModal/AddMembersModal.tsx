@@ -49,7 +49,7 @@ const AddMembersModal = ({
     function addProjectMemberToAddList(collaboratorUser: CollaboratorUser | null) {
         if (!collaboratorUser) return;
         setProjectMembersToAddList((prev) => [...prev, collaboratorUser]);
-    };
+    }
     const removeProjectMemberToAddList = (projectMemberToDeleteId: number) => {
         setProjectMembersToAddList((prev) => prev.filter(({ id }) => id !== projectMemberToDeleteId));
     };

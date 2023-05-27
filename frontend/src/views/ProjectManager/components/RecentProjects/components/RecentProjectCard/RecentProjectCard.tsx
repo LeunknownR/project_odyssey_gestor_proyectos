@@ -18,13 +18,11 @@ import { setProjectId } from "src/storage/project.session";
 const RecentProjectCard = ({
     project,
     setCurrentProject,
-    updateProjectModal,
-    deleteProjectModal,
+    openUpdateProjectModal,
+    openDeleteProjectModal,
 }: RecentProjectCardProps) => {
     const { name, state } = project;
     const navigate = useNavigate();
-    const openUpdateProjectModal = () => updateProjectModal.open(true);
-    const openDeleteProjectModal = () => deleteProjectModal.open(true);
     const moveToProjectDetails = () => {
         navigate(AbsolutePaths.ProjectDetails);
         setProjectId(project.id)

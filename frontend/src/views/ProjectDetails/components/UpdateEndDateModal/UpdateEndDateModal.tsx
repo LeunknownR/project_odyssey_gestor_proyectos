@@ -18,7 +18,8 @@ const UpdateEndDateModal = ({
     currentEndDate,
     projectId,
     preloader,
-    fillProjectDetails
+    fillProjectDetails,
+    notificationCard
 }: UpdateEndDateModalProps) => {
     const [endDate, setEndDate] = useState<number>(currentEndDate);
     useEffect(() => {
@@ -38,6 +39,7 @@ const UpdateEndDateModal = ({
         preloader.hide();
         if (message !== "SUCCESS") return;
         fillProjectDetails();
+        notificationCard.show();
     };
     const dateIsChanged = (): boolean => {
         return endDate === currentEndDate 

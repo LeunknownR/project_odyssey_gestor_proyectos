@@ -67,6 +67,10 @@ export const Container = styled.button<ContainerProps>`
             padding: 8px;
             min-width: 110px;
         }
+        :hover {
+            color: var(--dark-4);
+            border-color: var(--dark-4);
+        }
     }
     &.user-options-config {
         color: var(--white-1);
@@ -92,12 +96,15 @@ export const Container = styled.button<ContainerProps>`
     &.blue-modal {
         color: var(--white-1);
         background-color: var(--darkblue-2);
+        border: 1px solid transparent;
         font-size: 17px;
         font-weight: 700;
         padding: 8px;
         min-width: 125px;
-        &.disabled {
-            background-color: red;
+        :hover {
+        }
+        &:disabled {
+            background-color: var(--gray-2);
         }
     }
     &.blue-modal-2 {
@@ -108,6 +115,9 @@ export const Container = styled.button<ContainerProps>`
         color: var(--darkblue-2);
         padding: 8px;
         min-width: 125px;
+        :hover {
+
+        }
     }
     &.red-modal {
         background-color: var(--red-2);

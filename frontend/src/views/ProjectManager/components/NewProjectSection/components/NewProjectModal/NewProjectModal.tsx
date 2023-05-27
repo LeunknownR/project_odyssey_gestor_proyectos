@@ -23,6 +23,7 @@ const NewProjectModal = ({
     form,
     getProjectFromForm,
     fillProjects,
+    notificationCard
 }: NewProjectModalProps) => {
     const registerProject = async () => {
         const projectForm: ProjectForm | null = getProjectFromForm();
@@ -38,6 +39,7 @@ const NewProjectModal = ({
         modalProps.open(false);
         fillProjects();
         // modalNotifyProps.handleOpen(true);
+        notificationCard.show();
     };
     return (
         <Modal {...modalProps} sizeProps={MODAL_STYLES}>

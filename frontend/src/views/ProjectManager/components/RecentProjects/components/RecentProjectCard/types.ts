@@ -4,6 +4,6 @@ import { Project } from "src/entities/project/types"
 export type RecentProjectCardProps = {
     project: Project;
     setCurrentProject: (project: Project | null) => void;
-    updateProjectModal: ModalProps;
-    deleteProjectModal: ModalProps;
+    openUpdateProjectModal: () => void;
+    openDeleteProjectModal: () => void;
 }

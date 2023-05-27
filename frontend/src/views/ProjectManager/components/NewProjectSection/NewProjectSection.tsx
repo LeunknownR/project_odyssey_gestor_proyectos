@@ -4,6 +4,7 @@ import { NewProjectButton } from "./styles";
 import { NewProjectSectionProps } from "./types";
 import { DBRoles } from "src/config/roles";
 import useUserRole from "src/storage/hooks/useUserRole";
+import { CardVariant } from "src/components/NotificationCard/types";
 
 const NewProjectSection = ({
     preloader,
@@ -12,12 +13,15 @@ const NewProjectSection = ({
     getProjectFromForm,
     setCurrentProject,
     fillProjects,
+    notificationCard
 }: NewProjectSectionProps) => {
     const userRole = useUserRole();
     if (userRole !== DBRoles.GeneralAdmin) return null;
     const openModalFormToCreate = () => {
+        notificationCard.hide();
         setCurrentProject(null);
         modal.open(true);
+        notificationCard.changeVariant(CardVariant.CreateProject);
     };
     return (
         <>
@@ -32,6 +36,7 @@ const NewProjectSection = ({
                 form={form}
                 getProjectFromForm={getProjectFromForm}
                 fillProjects={fillProjects}
+                notificationCard={notificationCard}
             />
         </>
     );

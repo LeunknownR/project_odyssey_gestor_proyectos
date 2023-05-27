@@ -18,6 +18,7 @@ import useNotificationCard from "src/components/NotificationCard/utils/hooks/use
 import NotificationCard from "src/components/NotificationCard/NotificationCard";
 import { ProjectCollaborator } from "src/entities/collaborator/types";
 import { Column } from "src/components/styles";
+import { CardVariant } from "src/components/NotificationCard/types";
 
 const ProjectDetailsView = () => {
     const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(
@@ -44,15 +45,18 @@ const ProjectDetailsView = () => {
     const openDeleteModal = (projectCollaborator: ProjectCollaborator): void => {
         setCurrentProjectMember(projectCollaborator);
         notificationCard.hide();
+        notificationCard.changeVariant(CardVariant.DeleteMember);
         deleteMemberModal.open(true);
     };
     const openAddMemberModal = (): void => {
         notificationCard.hide();
+        notificationCard.changeVariant(CardVariant.AddMember);
         addMemberModal.open(true);
     }
     const openUpdateDateModal = (): void => {
-        updateDateModal.open(true);
         notificationCard.hide();
+        notificationCard.changeVariant(CardVariant.UpdateDate);
+        updateDateModal.open(true);
     }
     return (
         <>
@@ -93,6 +97,7 @@ const ProjectDetailsView = () => {
                     projectId={projectDetails.id}
                     preloader={preloader}
                     fillProjectDetails={fillProjectDetails}
+                    notificationCard={notificationCard}
                 />
                 </>
             )}
@@ -106,7 +111,8 @@ const ProjectDetailsView = () => {
                 />
             )}
             <NotificationCard 
-                handler={notificationCard}/>
+                handler={notificationCard}
+                variant={notificationCard.cardVariant}/>
             <Preloader {...preloader.value} />
         </>
     );

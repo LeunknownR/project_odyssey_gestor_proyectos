@@ -18,14 +18,11 @@ import { setProjectId } from "src/storage/project.session";
 const AllProjectCard = ({
     project,
     setCurrentProject,
-    updateProjectModal,
-    deleteProjectModal,
+    openUpdateProjectModal,
+    openDeleteProjectModal,
 }: AllProjectCardProps) => {
     const { name, startDate, endDate, state } = project;
     const navigate = useNavigate();
-    //GNOMO: Reutilizar código
-    const openUpdateProjectModal = () => updateProjectModal.open(true);
-    const openDeleteProjectModal = () => deleteProjectModal.open(true);
     const moveToProjectDetails = (project: Project) => {
         navigate(AbsolutePaths.ProjectDetails);
         setProjectId(project.id)
