@@ -68,6 +68,7 @@ const ProjectManager = () => {
                 />
                 <AllProjects
                     allProjects={allProjects}
+                    recentProjects={recentProjects}
                     setCurrentProject={setCurrentProject}
                     openUpdateProjectModal={openUpdateProjectModal}
                     openDeleteProjectModal={openDeleteProjectModal}

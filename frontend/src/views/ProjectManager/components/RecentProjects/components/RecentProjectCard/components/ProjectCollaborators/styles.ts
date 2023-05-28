@@ -12,8 +12,12 @@ export const Container = styled.div`
     }
 `;
 export const UserBall = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
     border: 1px solid var(--orange-2);
     color: var(--orange-2);
-    padding: 4px 6.07px;
+    width: 22px;
+    height: 22px;
 `;

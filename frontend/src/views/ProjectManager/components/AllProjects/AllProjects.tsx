@@ -5,6 +5,7 @@ import { AllProjectProps } from "./types";
 
 const AllProjects = ({
     allProjects,
+    recentProjects,
     setCurrentProject,
     openUpdateProjectModal,
     openDeleteProjectModal,
@@ -13,7 +14,7 @@ const AllProjects = ({
         <Container>
             <TitleHeader text="Todos los proyectos" />
             <ProjectList>
-                {allProjects.map(project => {
+                {(allProjects.length > 0 ? allProjects : recentProjects).map(project => {
                     return (
                         <AllProjectCard
                             key={project.id}
