@@ -1,26 +1,26 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { CustomInputSearchHookParams } from "./types";
+import { CustomInputSearchHook, CustomInputSearchHookParams } from "./types";
 
 function useCustomInputSearch<O>({
     fillOptions, clearOptions,
     onChange,
-}: CustomInputSearchHookParams<O>) {
+}: CustomInputSearchHookParams<O>): CustomInputSearchHook<O> {
     //#region States
-    const [searchText, setSearchText] = useState<string>("");
+    const [searchedText, setSearchedText] = useState<string>("");
     const [timeoutToSearchId, setTimeoutId] = useState<NodeJS.Timeout | undefined>();
     //#endregion
     useEffect(() => {
-        if (searchText) return;
+        if (searchedText) return;
         clearOptions();
-    }, [searchText]);
+    }, [searchedText]);
     //#region Funciones
     const selectOption = (option: O): void => {
-        setSearchText("");
+        setSearchedText("");
         onChange(option);
     };
     const changeSearchText = (e: ChangeEvent<HTMLInputElement>): void => {
         const { value } = e.target;
-        setSearchText(value);
+        setSearchedText(value);
         clearTimeout(timeoutToSearchId);
         const newTimeoutToSearchId: NodeJS.Timeout | undefined = setTimeout(() => {
             fillOptions(value);
@@ -28,7 +28,7 @@ function useCustomInputSearch<O>({
         setTimeoutId(newTimeoutToSearchId);
     };
     const clear = (): void => {
-        setSearchText("");
+        setSearchedText("");
         clearOptions();
         onChange(null);
     }
@@ -36,7 +36,7 @@ function useCustomInputSearch<O>({
     return {
         selectOption,
         changeSearchText,
-        searchText,
+        searchedText,
         clear
     };
 }

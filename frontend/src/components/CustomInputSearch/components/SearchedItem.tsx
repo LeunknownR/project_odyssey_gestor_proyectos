@@ -1,9 +1,9 @@
 import { Container, Name } from "./styles";
 import { SearchedItemProps } from "./types";
 
-const SearchedItem = ({ item, onClick }: SearchedItemProps) => {
+const SearchedItem = ({ item, onSelect }: SearchedItemProps) => {
     return (
-        <Container onClick={onClick}>
+        <Container onMouseDown={onSelect}>
             {item.content}
             {item.text && <Name>{item.text}</Name>}
         </Container>

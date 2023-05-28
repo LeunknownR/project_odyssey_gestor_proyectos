@@ -5,5 +5,5 @@ export type SearchedItemToShow = {
 }
 export type SearchedItemProps = {
     item: SearchedItemToShow;
-    onClick: () => void;
+    onSelect: () => void;
 }

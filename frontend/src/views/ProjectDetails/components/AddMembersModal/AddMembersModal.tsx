@@ -73,17 +73,16 @@ const AddMembersModal = ({
             <BodyWrapper>
                 <CustomInputSearch<CollaboratorUser>
                     placeholder="Ejm: Ralf Carrasco Stein"
+                    handler={customSearchInputHandler}
                     options={selectProjectMemberHandler.collaboratorUserList}
                     clearOptions={selectProjectMemberHandler.clear}
+                    fillOptions={selectProjectMemberHandler.fill}
                     getSearchedItemToShow={options => ({ 
                         value: options.id,
                         content: (
                             <CustomInputSearchUserOption {...options}/>
                         )
                     })}
-                    onChange={customSearchInputHandler.changeSearchText}
-                    selectOption={customSearchInputHandler.selectOption}
-                    value={customSearchInputHandler.searchText}
                     variant="primary-search"
                     maxLength={100}
                 />
