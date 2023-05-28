@@ -12,6 +12,7 @@ import useCustomInputSearch from "src/components/CustomInputSearch/utils/hooks/u
 import { ResponseBody } from "src/services/types";
 import ProjectMemberToAddList from "./components/ProjectMemberList/ProjectMemberToAddList";
 import CustomInputSearchUserOption from "src/views/components/CustomInputSearchUserOption/CustomInputSearchUserOption";
+import { CardVariant } from "src/components/NotificationCard/types";
 
 const testModalStyles = {
     padding: "0px",
@@ -64,6 +65,7 @@ const AddMembersModal = ({
         if (message !== "SUCCESS") return;
         modalProps.open(false);
         await fillProjectDetails();
+        notificationCard.changeVariant(CardVariant.AddMember);
         notificationCard.show();
     };
     //#endregion

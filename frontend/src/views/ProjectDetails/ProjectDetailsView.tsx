@@ -18,7 +18,6 @@ import useNotificationCard from "src/components/NotificationCard/utils/hooks/use
 import NotificationCard from "src/components/NotificationCard/NotificationCard";
 import { ProjectCollaborator } from "src/entities/collaborator/types";
 import { Column } from "src/components/styles";
-import { CardVariant } from "src/components/NotificationCard/types";
 
 const ProjectDetailsView = () => {
     const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(
@@ -42,22 +41,19 @@ const ProjectDetailsView = () => {
         if (data === null) return;
         setProjectDetails(data);
     };
-    const openDeleteModal = (projectCollaborator: ProjectCollaborator): void => {
-        setCurrentProjectMember(projectCollaborator);
-        notificationCard.hide();
-        notificationCard.changeVariant(CardVariant.DeleteMember);
-        deleteMemberModal.open(true);
-    };
     const openAddMemberModal = (): void => {
         notificationCard.hide();
-        notificationCard.changeVariant(CardVariant.AddMember);
         addMemberModal.open(true);
     }
     const openUpdateDateModal = (): void => {
         notificationCard.hide();
-        notificationCard.changeVariant(CardVariant.UpdateDate);
         updateDateModal.open(true);
     }
+    const openDeleteModal = (projectCollaborator: ProjectCollaborator): void => {
+        setCurrentProjectMember(projectCollaborator);
+        notificationCard.hide();
+        deleteMemberModal.open(true);
+    };
     return (
         <>
             <SidebarMenu />

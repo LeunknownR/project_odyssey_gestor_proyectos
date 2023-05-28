@@ -10,6 +10,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import LeaderSelector from "./components/LeaderSelector/LeaderSelector";
 import { requestCreateProject } from "src/services/projects/relatedToProjects";
 import { ProjectForm } from "src/entities/project/types";
+import { CardVariant } from "src/components/NotificationCard/types";
 
 const MODAL_STYLES = {
     padding: "0",
@@ -38,7 +39,7 @@ const NewProjectModal = ({
         // Exitoso
         modalProps.open(false);
         fillProjects();
-        // modalNotifyProps.handleOpen(true);
+        notificationCard.changeVariant(CardVariant.CreateProject);
         notificationCard.show();
     };
     return (

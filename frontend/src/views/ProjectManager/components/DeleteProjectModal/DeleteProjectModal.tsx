@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { Row } from "src/components/styles";
 import Footer from "./components/Footer/Footer";
 import { requestDeleteProject } from "src/services/projects/relatedToProjects";
-import { ResponseBody } from "src/services/types";
+import { CardVariant } from "src/components/NotificationCard/types";
 
 const testModalStyles = {
     padding: "20px 30px",
@@ -27,6 +27,7 @@ const DeleteProjectModal = ({
         preloader.hide();
         if (message !== "SUCCESS") return;
         fillProjects();
+        notificationCard.changeVariant(CardVariant.DeleteProject);
         notificationCard.show();
     };
     return (

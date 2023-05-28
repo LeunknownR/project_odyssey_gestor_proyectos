@@ -8,6 +8,6 @@ export type CustomTextAreaProps = {
     size?: string;
     width?: string;
     maxWidth?: string;
-    value?: string;
+    value: string;
     onChange: any;
 };
