@@ -19,7 +19,7 @@ const CustomTextField = ({
     size, width, maxWidth,
     maxLength, disabled,
     value, error = null,
-    onBlur,
+    onFocus, onBlur,
     // restriction,
     onChange,
 }: CustomTextFieldProps) => {
@@ -57,6 +57,7 @@ const CustomTextField = ({
                     placeholder={type === "password" ? "********" : placeholder}
                     value={value}
                     onChange={onChange}
+                    onFocus={onFocus}
                     onBlur={onBlur}
                     // onKeyPress={RESTRICTIONS[restriction ? restriction : ""]}
                 />

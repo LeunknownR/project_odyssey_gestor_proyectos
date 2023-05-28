@@ -20,9 +20,9 @@ const LeaderSelector = ({
     const [selectedCollaborator, setSelectedCollaborator] =
         useState<CollaboratorUser | null>(null);
     const selectProjectLeaderHandler = useSearchCollaborator({
-        requestSearchCollaborators: async (value: string) => {
+        requestSearchCollaborators: async (collaboratorName: string) => {
             preloader.show("Buscando colaboradores...")
-            const { data } = await requestSearchCollaboratorForGeneralAdmin(value);
+            const { data } = await requestSearchCollaboratorForGeneralAdmin(collaboratorName);
             preloader.hide();
             return data;
         },
@@ -59,7 +59,9 @@ const LeaderSelector = ({
                 <Wrapper ref={$wrapper}>
                     <CustomInputSearch<CollaboratorUser>
                         {...TEXT_FIELD_PROPS.PROJECT_LEADER}
+                        handler={customSearchInputHandler}
                         clearOptions={selectProjectLeaderHandler.clear}
+                        fillOptions={selectProjectLeaderHandler.fill}
                         options={selectProjectLeaderHandler.collaboratorUserList}
                         getSearchedItemToShow={options => ({ 
                             value: options.id,
@@ -67,9 +69,6 @@ const LeaderSelector = ({
                                 <CustomInputSearchUserOption {...options}/>
                             )
                         })}
-                        onChange={customSearchInputHandler.changeSearchText}
-                        selectOption={customSearchInputHandler.selectOption}
-                        value={customSearchInputHandler.searchText}
                         variant={`${variant}-search`}
                         maxLength={100}
                     />

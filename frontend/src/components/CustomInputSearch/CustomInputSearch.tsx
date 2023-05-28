@@ -11,21 +11,25 @@ import { SearchedItemToShow } from "./components/types";
 function CustomInputSearch<O>({
     label, placeholder,
     variant, maxLength,
-    value, onChange,
+    handler: {
+        searchedText,
+        changeSearchText,
+        selectOption
+    },
     options, clearOptions, 
-    selectOption,
+    fillOptions,
     getSearchedItemToShow
 }: CustomInputSearchProps<O>) {
     return (
-        <Container>
+        <Container tabIndex={0} onBlur={() => clearOptions()}>
             <CustomTextField
                 label={label}
                 placeholder={placeholder}
-                value={value}
-                onChange={onChange}
-                onBlur={() => setTimeout(clearOptions, 100)}
+                value={searchedText}
+                onChange={changeSearchText}
                 variant={variant}
                 maxLength={maxLength}
+                onFocus={() => fillOptions(searchedText)}
             />
             {options.length > 0 && (
                 <List>
@@ -35,7 +39,7 @@ function CustomInputSearch<O>({
                             <SearchedItem
                                 key={searchedItemToShow.value || idx}
                                 item={searchedItemToShow}
-                                onClick={() => selectOption(option)}
+                                onSelect={() => selectOption(option)}
                             />
                         );
                     })}
