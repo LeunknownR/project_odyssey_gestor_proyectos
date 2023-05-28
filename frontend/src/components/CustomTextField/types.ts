@@ -15,7 +15,8 @@ export type CustomTextFieldProps = {
     error?: string | null;
     restriction?: string;
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-    onBlur?: FocusEventHandler<HTMLInputElement>
+    onBlur?: FocusEventHandler<HTMLInputElement>,
+    onFocus?: FocusEventHandler<HTMLInputElement>
 }
 
 export type TextInputTarget = {
