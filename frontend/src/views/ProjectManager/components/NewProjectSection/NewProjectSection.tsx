@@ -12,10 +12,12 @@ const NewProjectSection = ({
     getProjectFromForm,
     setCurrentProject,
     fillProjects,
+    notificationCard
 }: NewProjectSectionProps) => {
     const userRole = useUserRole();
     if (userRole !== DBRoles.GeneralAdmin) return null;
     const openModalFormToCreate = () => {
+        notificationCard.hide();
         setCurrentProject(null);
         modal.open(true);
     };
@@ -32,6 +34,7 @@ const NewProjectSection = ({
                 form={form}
                 getProjectFromForm={getProjectFromForm}
                 fillProjects={fillProjects}
+                notificationCard={notificationCard}
             />
         </>
     );

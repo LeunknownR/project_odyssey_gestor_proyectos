@@ -27,6 +27,7 @@ export type Project = ProjectBase & {
     id: number;
     state: ProjectState;
     leader?: CollaboratorUser;
+    projectMemberCount: number;
 };
 export type ProjectForm = ProjectBase & {
     id?: number;

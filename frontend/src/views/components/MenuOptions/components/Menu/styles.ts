@@ -6,7 +6,7 @@ type ContainerProps = {
 export const Container = styled.div<ContainerProps>`
     display: none;
     position: absolute;
-    top: 0;
+    top: 4px;
     right: 30px;
     background-color: var(--gray-1);
     border-radius: 2px;

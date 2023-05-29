@@ -12,14 +12,14 @@ const MemberDetails = ({
     const { email, name, projectRole, surname, urlPhoto } = collaborator;
     return (
         <Container>
-            <UserImage 
+            <UserImage
                 className="big"
-                name={name} surname={surname} 
-                urlPhoto={urlPhoto} />
+                name={name}
+                surname={surname}
+                urlPhoto={urlPhoto}
+            />
             <Column gap="5px">
-                <Name>
-                    {name} {surname}
-                </Name>
+                <Name>{name} {surname}</Name>
                 <Email>{email}</Email>
                 <Row align="center" justify="space-between">
                     <Role className={PROJECT_ROLE[projectRole.id].className}>

@@ -10,6 +10,7 @@ import { requestUpdateProject } from "src/services/projects/relatedToProjects";
 import LeaderSelector from "../NewProjectSection/components/NewProjectModal/components/LeaderSelector/LeaderSelector";
 import { UpdateProjectModalProps } from "./types";
 import { ProjectForm } from "src/entities/project/types";
+import { CardVariant } from "src/components/NotificationCard/types";
 
 const MODAL_STYLES = {
     padding: "0",
@@ -22,8 +23,8 @@ const UpdateProjectModal = ({
     form,
     getProjectFromForm,
     fillProjects,
-    selectedLeader,
-    preloader
+    preloader,
+    notificationCard
 }: UpdateProjectModalProps) => {
     const updateProject = async () => {
         const projectForm: ProjectForm | null = getProjectFromForm();
@@ -35,6 +36,8 @@ const UpdateProjectModal = ({
         // const { message } = data;
         modalProps.open(false);
         fillProjects();
+        notificationCard.changeVariant(CardVariant.UpdateProject);
+        notificationCard.show()
     };
     return (
         <Modal {...modalProps} sizeProps={MODAL_STYLES}>

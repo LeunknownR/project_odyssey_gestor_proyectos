@@ -6,8 +6,8 @@ import { RecentProjectsProps } from "./types";
 const RecentProjects = ({
     recentProjects,
     setCurrentProject,
-    updateProjectModal,
-    deleteProjectModal,
+    openUpdateProjectModal,
+    openDeleteProjectModal,
 }: RecentProjectsProps) => {
     return (
         <Container>
@@ -19,8 +19,8 @@ const RecentProjects = ({
                             key={project.id}
                             project={project}
                             setCurrentProject={setCurrentProject}
-                            updateProjectModal={updateProjectModal}
-                            deleteProjectModal={deleteProjectModal}
+                            openUpdateProjectModal={openUpdateProjectModal}
+                            openDeleteProjectModal={openDeleteProjectModal}
                         />
                     );
                 })}

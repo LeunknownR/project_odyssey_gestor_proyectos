@@ -41,19 +41,19 @@ const ProjectDetailsView = () => {
         if (data === null) return;
         setProjectDetails(data);
     };
-    const openDeleteModal = (projectCollaborator: ProjectCollaborator): void => {
-        setCurrentProjectMember(projectCollaborator);
-        notificationCard.hide();
-        deleteMemberModal.open(true);
-    };
     const openAddMemberModal = (): void => {
         notificationCard.hide();
         addMemberModal.open(true);
     }
     const openUpdateDateModal = (): void => {
-        updateDateModal.open(true);
         notificationCard.hide();
+        updateDateModal.open(true);
     }
+    const openDeleteModal = (projectCollaborator: ProjectCollaborator): void => {
+        setCurrentProjectMember(projectCollaborator);
+        notificationCard.hide();
+        deleteMemberModal.open(true);
+    };
     return (
         <>
             <SidebarMenu />
@@ -93,6 +93,7 @@ const ProjectDetailsView = () => {
                     projectId={projectDetails.id}
                     preloader={preloader}
                     fillProjectDetails={fillProjectDetails}
+                    notificationCard={notificationCard}
                 />
                 </>
             )}
@@ -106,7 +107,8 @@ const ProjectDetailsView = () => {
                 />
             )}
             <NotificationCard 
-                handler={notificationCard}/>
+                handler={notificationCard}
+                variant={notificationCard.cardVariant}/>
             <Preloader {...preloader.value} />
         </>
     );

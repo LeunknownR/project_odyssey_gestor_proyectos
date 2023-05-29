@@ -1,6 +1,6 @@
-import { Project } from "src/entities/project/types"
+import { Project } from "src/entities/project/types";
 
-export type RecentProjectCardProps = {
+export type HeaderProps = {
     project: Project;
     setCurrentProject: (project: Project | null) => void;
     openUpdateProjectModal: () => void;

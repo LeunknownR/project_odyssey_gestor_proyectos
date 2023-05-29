@@ -22,7 +22,7 @@ export const Calendar = styled.header`
     flex-direction: column;
     background-color: var(--white-1);
     border-radius: 0 0 5px 5px;
-    padding: 10px 15px;
+    padding: 10px 8px;
     & span {
         font-size: 11px;
         text-align: center;
@@ -41,6 +41,8 @@ export const ContainerHeader = styled.div`
     border-radius: 5px 5px 0 0;
     cursor: default;
     & h5 {
+        font-family: Lato;
+        font-weight: 800;
         color: var(--white-1);
         margin: 0;
         font-size: 13px;
@@ -84,6 +86,7 @@ export const WeekDays = styled.header`
     user-select: none;
     color: var(--darkblue-2);
     & span {
+        font-family: Lato;
         cursor: default;
         font-weight: 400;
     }
@@ -93,6 +96,7 @@ export const Days = styled.section`
     grid-template-columns: repeat(7, 1fr);
     color: var(--darkblue-2);
     & span {
+        font-family: Lato;
         border-radius: 5px;
         user-select: none;
         &.day {

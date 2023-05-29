@@ -6,7 +6,6 @@ type ContainerProps = {
     weight?: string;
     padding?: string;
     maxWidth?: string;
-    onClick: any;
 };
 export const Container = styled.button<ContainerProps>`
     display: flex;
@@ -22,6 +21,9 @@ export const Container = styled.button<ContainerProps>`
     width: ${({ width }) => width};
     font-weight: ${({ weight }) => weight};
     padding: ${({ padding }) => padding};
+    &:disabled {
+        pointer-events: none;
+    }
     &.main {
         color: var(--white-1);
         background-color: var(--dark-2);
@@ -65,6 +67,10 @@ export const Container = styled.button<ContainerProps>`
             padding: 8px;
             min-width: 110px;
         }
+        :hover {
+            color: var(--dark-4);
+            border-color: var(--dark-4);
+        }
     }
     &.user-options-config {
         color: var(--white-1);
@@ -90,10 +96,17 @@ export const Container = styled.button<ContainerProps>`
     &.blue-modal {
         color: var(--white-1);
         background-color: var(--darkblue-2);
+        border: 1px solid transparent;
         font-size: 17px;
         font-weight: 700;
         padding: 8px;
         min-width: 125px;
+        :hover {
+            background-color: var(--darkblue-1);
+        }
+        &:disabled {
+            background-color: var(--darkblue-0);
+        }
     }
     &.blue-modal-2 {
         background-color: transparent;
@@ -103,6 +116,9 @@ export const Container = styled.button<ContainerProps>`
         color: var(--darkblue-2);
         padding: 8px;
         min-width: 125px;
+        :hover {
+            border-color: transparent;
+        }
     }
     &.red-modal {
         background-color: var(--red-2);
@@ -110,6 +126,9 @@ export const Container = styled.button<ContainerProps>`
         font-weight: 700;
         padding: 6px;
         min-width: 110px;
+        :hover {
+            background-color: var(--red-3);
+        }
     }
     &.red-modal-2 {
         background-color: transparent;
@@ -118,6 +137,9 @@ export const Container = styled.button<ContainerProps>`
         font-weight: 700;
         padding: 6px;
         min-width: 110px;
+        :hover {
+            border-color: transparent;
+        }
     }
 `;
 type IconContainerProps = {

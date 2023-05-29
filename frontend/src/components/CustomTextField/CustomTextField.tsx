@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import {
-    Container,
+    CustomTextFieldContainer,
     Content,
     LabelContent,
     LensContainer,
@@ -45,7 +45,7 @@ const CustomTextField = ({
         return type === "password" && Boolean(value) && !disabled;
     };
     return (
-        <Container width={width} maxWidth={maxWidth} className={className}>
+        <CustomTextFieldContainer width={width} maxWidth={maxWidth} className={className}>
             {label && <LabelContent className={className}>{label}</LabelContent>}
             <Content className={className}>
                 <TextField
@@ -77,7 +77,7 @@ const CustomTextField = ({
                 )}
             </Content>
             <ErrorMessage text={error} />
-        </Container>
+        </CustomTextFieldContainer>
     );
 };
 

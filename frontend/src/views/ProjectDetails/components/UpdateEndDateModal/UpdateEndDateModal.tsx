@@ -7,6 +7,7 @@ import { UpdateEndDateModalProps } from "./types";
 import Footer from "./components/Footer/Footer";
 import CustomDatePicker from "src/components/CustomDatePicker/CustomDatePicker";
 import { requestUpdateProjectEndDate } from "src/services/projects/relatedToProjects";
+import { CardVariant } from "src/components/NotificationCard/types";
 
 const MODAL_STYLES = {
     padding: "20px 30px",
@@ -18,7 +19,8 @@ const UpdateEndDateModal = ({
     currentEndDate,
     projectId,
     preloader,
-    fillProjectDetails
+    fillProjectDetails,
+    notificationCard
 }: UpdateEndDateModalProps) => {
     const [endDate, setEndDate] = useState<number>(currentEndDate);
     useEffect(() => {
@@ -38,7 +40,12 @@ const UpdateEndDateModal = ({
         preloader.hide();
         if (message !== "SUCCESS") return;
         fillProjectDetails();
+        notificationCard.changeVariant(CardVariant.UpdateDate);
+        notificationCard.show();
     };
+    const dateIsChanged = (): boolean => {
+        return endDate === currentEndDate 
+    }
     return (
         <Modal {...modalProps} sizeProps={MODAL_STYLES}>
             <Row align="center" gap="10px" justifySelf="flex-start">
@@ -57,6 +64,7 @@ const UpdateEndDateModal = ({
             <Footer
                 closeModal={() => modalProps.open(false)}
                 updateProjectEndDate={updateProjectEndDate}
+                dateIsChanged={dateIsChanged}
             />
         </Modal>
     );

@@ -32,7 +32,7 @@ const CustomTextArea = ({
                     value={value}
                     onChange={onChange}
                 />
-                <MaxLength>0 / {maxLength}</MaxLength>
+                <MaxLength>{value.length} / {maxLength}</MaxLength>
             </Content>
         </Container>
     );
