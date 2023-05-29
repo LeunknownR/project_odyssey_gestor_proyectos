@@ -1,5 +1,6 @@
-import NameInitials from "./NameInitials/NameInitials";
-import { Container, UserPhoto } from "./styles";
+import BackendImage from "./components/BackendImage/BackendImage";
+import NameInitials from "./components/NameInitials/NameInitials";
+import { Container } from "./styles";
 import { UserImageProps } from "./types";
 
 const UserImage = ({ 
@@ -14,9 +15,7 @@ const UserImage = ({
             className={clickable ? "clickable" : ""} 
             onMouseDown={onClick}>
             {urlPhoto 
-                ? <UserPhoto 
-                    className={className}
-                    src={`http://localhost:3006/images${urlPhoto}`} />
+                ? <BackendImage className={className} path={urlPhoto}/>
                 : <NameInitials 
                     name={name} 
                     surname={surname} 

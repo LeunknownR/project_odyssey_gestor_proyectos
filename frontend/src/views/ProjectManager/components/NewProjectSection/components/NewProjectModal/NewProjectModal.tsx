@@ -24,7 +24,7 @@ const NewProjectModal = ({
     form,
     getProjectFromForm,
     fillProjects,
-    notificationCard
+    notificationCard,
 }: NewProjectModalProps) => {
     const registerProject = async () => {
         const projectForm: ProjectForm | null = getProjectFromForm();
@@ -66,7 +66,10 @@ const NewProjectModal = ({
                                 variant="primary"
                                 preloader={preloader}
                             />
-                            <Footer registerProject={registerProject} />
+                            <Footer
+                                registerProject={registerProject}
+                                formIsCompleted={form.isCompleted}
+                            />
                         </Column>
                     </Column>
                 </Right>

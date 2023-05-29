@@ -13,6 +13,7 @@ export const Content = styled.main`
     min-height: calc(100vh - var(--main-header-height));
     width: 80%;
     margin-top: 50px;
+    margin-bottom: 30px;
 `;
 export const ProjectFinderWrapper = styled.div`
     display: flex;

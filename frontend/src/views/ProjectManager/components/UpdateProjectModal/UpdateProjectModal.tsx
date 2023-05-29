@@ -20,11 +20,11 @@ const MODAL_STYLES = {
 
 const UpdateProjectModal = ({
     modalProps,
-    form,
+    currentProject, form,
     getProjectFromForm,
     fillProjects,
     preloader,
-    notificationCard
+    notificationCard,
 }: UpdateProjectModalProps) => {
     const updateProject = async () => {
         const projectForm: ProjectForm | null = getProjectFromForm();
@@ -37,7 +37,7 @@ const UpdateProjectModal = ({
         modalProps.open(false);
         fillProjects();
         notificationCard.changeVariant(CardVariant.UpdateProject);
-        notificationCard.show()
+        notificationCard.show();
     };
     return (
         <Modal {...modalProps} sizeProps={MODAL_STYLES}>
@@ -51,18 +51,24 @@ const UpdateProjectModal = ({
                 <Right>
                     <CloseButtonProjectForm
                         onClick={() => modalProps.open(false)}
-                        className="update">
+                        className="update"
+                    >
                         <Icon icon="material-symbols:close" />
                     </CloseButtonProjectForm>
                     <Column width="80%" alignSelf="center" gap="35px">
                         <ProjectInfo form={form} variant="update" />
                         <Column width="85%" alignSelf="center" gap="100px">
                             <LeaderSelector
+                                currentLeader={currentProject?.leader}
                                 form={form}
                                 modalProps={modalProps}
                                 variant="secondary"
-                                preloader={preloader}/>
-                            <Footer updateProject={updateProject} />
+                                preloader={preloader}
+                            />
+                            <Footer
+                                form={form}
+                                updateProject={updateProject}
+                            />
                         </Column>
                     </Column>
                 </Right>
