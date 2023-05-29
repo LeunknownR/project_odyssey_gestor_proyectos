@@ -102,9 +102,10 @@ export const Container = styled.button<ContainerProps>`
         padding: 8px;
         min-width: 125px;
         :hover {
+            background-color: var(--darkblue-1);
         }
         &:disabled {
-            background-color: var(--gray-2);
+            background-color: var(--darkblue-0);
         }
     }
     &.blue-modal-2 {
@@ -116,7 +117,7 @@ export const Container = styled.button<ContainerProps>`
         padding: 8px;
         min-width: 125px;
         :hover {
-
+            border-color: transparent;
         }
     }
     &.red-modal {
@@ -125,6 +126,9 @@ export const Container = styled.button<ContainerProps>`
         font-weight: 700;
         padding: 6px;
         min-width: 110px;
+        :hover {
+            background-color: var(--red-3);
+        }
     }
     &.red-modal-2 {
         background-color: transparent;
@@ -133,6 +137,9 @@ export const Container = styled.button<ContainerProps>`
         font-weight: 700;
         padding: 6px;
         min-width: 110px;
+        :hover {
+            border-color: transparent;
+        }
     }
 `;
 type IconContainerProps = {
