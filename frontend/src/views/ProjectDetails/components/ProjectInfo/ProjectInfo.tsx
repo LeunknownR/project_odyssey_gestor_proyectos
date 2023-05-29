@@ -9,6 +9,7 @@ import {
 import { Row } from "src/components/styles";
 import Period from "./components/Period/Period";
 import { ProjectInfoProps } from "./types";
+import ProjectState from "../../../components/ProjectState/ProjectState";
 
 const ProjectInfo = ({
     name,
@@ -25,9 +26,12 @@ const ProjectInfo = ({
                     </IconContainer>
                     <ProjectName>{name}</ProjectName>
                 </Row>
-                <Description>{description}</Description>
+                <ProjectState />
             </InfoWrapper>
-            <Period period={period} openUpdateDateModal={openUpdateDateModal}/>
+            <Row align="center" justify="space-between" padding="0 0 0 70px">
+                <Description>{description}asdasdasdas xaaaaaaaaaaaa aa</Description>
+                <Period period={period} openUpdateDateModal={openUpdateDateModal}/>
+            </Row>
         </Container>
     );
 };

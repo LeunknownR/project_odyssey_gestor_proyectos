@@ -20,12 +20,8 @@ import { ProjectCollaborator } from "src/entities/collaborator/types";
 import { Column } from "src/components/styles";
 
 const ProjectDetailsView = () => {
-    const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(
-        null
-    );
-    const [currentProjectMember, setCurrentProjectMember] = useState<
-        ProjectCollaborator | null
-    >(null);
+    const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(null);
+    const [currentProjectMember, setCurrentProjectMember] = useState<ProjectCollaborator | null>(null);
     const addMemberModal = useModal();
     const updateDateModal = useModal();
     const deleteMemberModal = useModal();
@@ -56,60 +52,60 @@ const ProjectDetailsView = () => {
     };
     return (
         <>
-            <SidebarMenu />
-            <Container>
-                <Content>
-                    <TitleHeader text="DETALLE DEL PROYECTO" />
-                    {projectDetails && (
-                        <Column gap="15px">
-                            <ProjectInfo
-                                name={projectDetails.name}
-                                description={projectDetails.description}
-                                period={projectDetails.period}
-                                openUpdateDateModal={openUpdateDateModal}
-                            />
-                            <ProjectTeam
-                                collaborators={projectDetails.collaborators}
-                                openAddMemberModal={openAddMemberModal}
-                                openDeleteModal={openDeleteModal}
-                            />
-                        </Column>
-                    )}
-                    <Footer />
-                </Content>
-            </Container>
-            {projectDetails && (
-                <>
-                <AddMembersModal
-                    modalProps={addMemberModal}
-                    preloader={preloader}
-                    fillProjectDetails={fillProjectDetails}
-                    projectId={projectDetails.id}
-                    notificationCard={notificationCard}
-                />
-                <UpdateEndDateModal
-                    modalProps={updateDateModal}
-                    currentEndDate={projectDetails.endDate}
-                    projectId={projectDetails.id}
-                    preloader={preloader}
-                    fillProjectDetails={fillProjectDetails}
-                    notificationCard={notificationCard}
-                />
-                </>
-            )}
-            {projectDetails && (
-                <DeleteMemberModal
-                    modalProps={deleteMemberModal}
-                    preloader={preloader}
-                    fillProjectDetails={fillProjectDetails}
-                    projectMemberToDelete={currentProjectMember}
-                    notificationCard={notificationCard}
-                />
-            )}
-            <NotificationCard 
-                handler={notificationCard}
-                variant={notificationCard.cardVariant}/>
-            <Preloader {...preloader.value} />
+        <SidebarMenu />
+        <Container>
+            <Content>
+                <TitleHeader text="DETALLE DEL PROYECTO" />
+                {projectDetails && (
+                    <Column gap="35px">
+                        <ProjectInfo
+                            name={projectDetails.name}
+                            description={projectDetails.description}
+                            period={projectDetails.period}
+                            openUpdateDateModal={openUpdateDateModal}
+                        />
+                        <ProjectTeam
+                            collaborators={projectDetails.collaborators}
+                            openAddMemberModal={openAddMemberModal}
+                            openDeleteModal={openDeleteModal}
+                        />
+                    </Column>
+                )}
+                <Footer />
+            </Content>
+        </Container>
+        {projectDetails && (
+            <>
+            <AddMembersModal
+                modalProps={addMemberModal}
+                preloader={preloader}
+                fillProjectDetails={fillProjectDetails}
+                projectId={projectDetails.id}
+                notificationCard={notificationCard}
+            />
+            <UpdateEndDateModal
+                modalProps={updateDateModal}
+                currentEndDate={projectDetails.endDate}
+                projectId={projectDetails.id}
+                preloader={preloader}
+                fillProjectDetails={fillProjectDetails}
+                notificationCard={notificationCard}
+            />
+            </>
+        )}
+        {projectDetails && (
+            <DeleteMemberModal
+                modalProps={deleteMemberModal}
+                preloader={preloader}
+                fillProjectDetails={fillProjectDetails}
+                projectMemberToDelete={currentProjectMember}
+                notificationCard={notificationCard}
+            />
+        )}
+        <NotificationCard 
+            handler={notificationCard}
+            variant={notificationCard.cardVariant}/>
+        <Preloader {...preloader.value} />
         </>
     );
 };

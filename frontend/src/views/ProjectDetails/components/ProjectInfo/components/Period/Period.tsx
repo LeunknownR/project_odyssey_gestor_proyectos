@@ -5,7 +5,7 @@ import { PeriodProps } from "./types";
 
 const Period = ({ period, openUpdateDateModal }: PeriodProps) => {
     return (
-        <Row align="center" gap="16px" padding="0 0 0 65px">
+        <Row align="center" gap="16px">
             <Dates>
                 <b>Período</b> {period}
             </Dates>

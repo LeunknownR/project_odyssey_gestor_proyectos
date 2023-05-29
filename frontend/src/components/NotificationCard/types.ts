@@ -22,4 +22,5 @@ export enum CardVariant {
 export type CardTypeVisual = {
     title: string;
     subtitle: string;
+    color: string;
 }

@@ -12,12 +12,11 @@ export const Content = styled.main`
     gap: 50px;
     min-height: calc(100vh - var(--main-header-height));
     width: 80%;
-    margin-top: 50px;
+    margin: 50px 0;
 `;
 export const ProjectFinderWrapper = styled.div`
     display: flex;
     justify-content: flex-end;
-    //GNOMO PREGUNTAR A MANUEL SI MI MÉTODO ESTÁ ACHORAO O ÑOFI
     ${CustomTextFieldContainer} {
         width: 45%;
     }
