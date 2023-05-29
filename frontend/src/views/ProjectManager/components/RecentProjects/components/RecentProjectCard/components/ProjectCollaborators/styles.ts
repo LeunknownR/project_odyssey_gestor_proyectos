@@ -18,6 +18,6 @@ export const UserBall = styled.div`
     border-radius: 50%;
     border: 1px solid var(--orange-2);
     color: var(--orange-2);
-    width: 22px;
-    height: 22px;
+    width: 2em;
+    height: 2em;
 `;

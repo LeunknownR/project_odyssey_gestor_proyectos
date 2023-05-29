@@ -17,8 +17,7 @@ const LeaderSelector = ({
     preloader
 }: LeaderSelectorProps) => {
     const $wrapper = useRef<HTMLDivElement>();
-    const [selectedCollaborator, setSelectedCollaborator] =
-        useState<CollaboratorUser | null>(null);
+    const [selectedCollaborator, setSelectedCollaborator] = useState<CollaboratorUser | null>(null);
     const selectProjectLeaderHandler = useSearchCollaborator({
         requestSearchCollaborators: async (collaboratorName: string) => {
             preloader.show("Buscando colaboradores...")

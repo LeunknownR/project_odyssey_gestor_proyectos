@@ -19,15 +19,19 @@ const MemberDetails = ({
                 urlPhoto={urlPhoto}
             />
             <Column gap="5px">
-                <Name>{name} {surname}</Name>
+                <Name>
+                    {name} {surname}
+                </Name>
                 <Email>{email}</Email>
                 <Row align="center" justify="space-between">
                     <Role className={PROJECT_ROLE[projectRole.id].className}>
                         {PROJECT_ROLE[projectRole.id].name}
                     </Role>
-                    <IconContainer onClick={openDeleteModal}>
-                        <Icon icon="mdi:trash-can-outline" />
-                    </IconContainer>
+                    {projectRole.id !== "PLD" && (
+                        <IconContainer onClick={openDeleteModal}>
+                            <Icon icon="mdi:trash-can-outline" />
+                        </IconContainer>
+                    )}
                 </Row>
             </Column>
         </Container>
