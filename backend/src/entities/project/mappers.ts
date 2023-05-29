@@ -27,7 +27,7 @@ export const projectListByGeneralAdminMapper = (resultset: any[]): GroupedProjec
     const projectList: Project[] = resultset.map(projectByGeneralAdminMapper);
     return {
         recents: projectList.slice(0, 3),
-        all: projectList.slice(3)
+        all: projectList
     };
 }
 const projectByCollaboratorMapper = (record: any): Project => ({
