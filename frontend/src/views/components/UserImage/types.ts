@@ -11,3 +11,7 @@ export type NameInitialsProps = {
     name: string; 
     surname: string;
 };
+export type BackendImageProps = {
+    className?: string;
+    path: string;
+}

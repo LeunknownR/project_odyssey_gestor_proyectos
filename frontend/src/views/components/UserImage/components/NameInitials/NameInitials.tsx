@@ -1,5 +1,5 @@
 import { Container } from "./styles";
-import { NameInitialsProps } from "../types";
+import { NameInitialsProps } from "../../types";
 
 const NameInitials = ({
     className,

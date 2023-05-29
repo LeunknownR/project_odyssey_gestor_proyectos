@@ -1,5 +1,5 @@
 import { Column } from "src/components/styles";
-import MemberList from "./components/MemberList/MemberList";
+import ProjectTeamList from "./components/MemberList/ProjectTeamList";
 import Header from "./components/Header/Header";
 import { ProjectTeamProps } from "./types";
 
@@ -11,7 +11,7 @@ const ProjectTeam = ({
     return (
         <Column margin="15px 0 0" gap="20px">
             <Header openAddMemberModal={openAddMemberModal} />
-            <MemberList
+            <ProjectTeamList
                 collaborators={collaborators}
                 openDeleteModal={openDeleteModal}
             />
