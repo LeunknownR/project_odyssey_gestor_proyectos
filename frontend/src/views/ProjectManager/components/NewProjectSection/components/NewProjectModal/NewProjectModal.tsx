@@ -10,8 +10,9 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import LeaderSelector from "./components/LeaderSelector/LeaderSelector";
 import { requestCreateProject } from "src/services/projects/relatedToProjects";
 import { ProjectForm } from "src/entities/project/types";
+import { CardVariant } from "src/components/NotificationCard/types";
 
-const testModalStyles = {
+const MODAL_STYLES = {
     padding: "0",
     borderRadius: "0",
     maxWidth: "1100px",
@@ -23,6 +24,7 @@ const NewProjectModal = ({
     form,
     getProjectFromForm,
     fillProjects,
+    notificationCard
 }: NewProjectModalProps) => {
     const registerProject = async () => {
         const projectForm: ProjectForm | null = getProjectFromForm();
@@ -37,10 +39,11 @@ const NewProjectModal = ({
         // Exitoso
         modalProps.open(false);
         fillProjects();
-        // modalNotifyProps.handleOpen(true);
+        notificationCard.changeVariant(CardVariant.CreateProject);
+        notificationCard.show();
     };
     return (
-        <Modal {...modalProps} sizeProps={testModalStyles}>
+        <Modal {...modalProps} sizeProps={MODAL_STYLES}>
             <Row width="100%">
                 <Left>
                     <Column width="80%" alignSelf="center" gap="40px">

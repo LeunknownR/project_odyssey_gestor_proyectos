@@ -70,7 +70,7 @@ router.patch(ApiPathEndpointsCollaborator.AddProjectMembers,
             data: null
         });
     }));
-router.get(
+router.delete(
     ApiPathEndpointsCollaborator.DeleteProjectMember,
     withErrorHandler(async (req, res) => {
         const deleteProjectMemberRequestBody: DeleteProjectMemberRequestBody = parseToDeleteProjectMemberRequestBody(req.params);

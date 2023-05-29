@@ -1,14 +1,14 @@
-import { ChangeEvent } from "react";
 import { SearchedItemToShow } from "./components/types";
+import { CustomInputSearchHook } from "./utils/hooks/types";
 
 export type CustomInputSearchProps<O> = {
     label?: string;
     placeholder?: string;
     maxLength?: number;
     options: O[];
+    clearOptions: () => void;
+    fillOptions: (searchedText: string) => Promise<void>;
     variant: string;
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-    value: string;
-    selectOption: (option: O) => void;
+    handler: CustomInputSearchHook<O>;
     getSearchedItemToShow: (option: O) => SearchedItemToShow;
 };

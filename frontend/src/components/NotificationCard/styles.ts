@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 type ContainerProps = {
     progress?: number;
     transition?: string;
-}
+};
 export const Container = styled.div<ContainerProps>`
     display: flex;
     flex-direction: column;
@@ -14,19 +14,18 @@ export const Container = styled.div<ContainerProps>`
     bottom: 15%;
     z-index: 1000;
     padding: 45px 60px 45px 30px;
-    background-color: #1E1E1E;
+    background-color: #1e1e1e;
     transition: 0.4s;
     translate: -105%;
     border: 1px solid var(--white-1-50);
     border-left: 0;
     border-radius: 0px 5px 5px 0px;
     overflow: hidden;
-    /* border-top: 8px solid #4BF097; */
     &.visible {
         translate: 0;
     }
     ::before {
-        content: '';
+        content: "";
         position: absolute;
         width: ${({ progress }) => `${progress}%`};
         height: 7px;
@@ -36,6 +35,10 @@ export const Container = styled.div<ContainerProps>`
         top: 0;
         left: 0;
     }
+    &.delete-project::before,
+    &.delete-member::before {
+        background-color: var(--red-3);
+    }
 `;
 export const CloseIconContainer = styled.span`
     display: flex;
@@ -44,7 +47,7 @@ export const CloseIconContainer = styled.span`
     right: 10px;
     .iconify {
         font-size: 26px;
-        color: var(--white-1-50);  
+        color: var(--white-1-50);
         cursor: pointer;
     }
 `;
@@ -55,12 +58,20 @@ export const IconContainer = styled.span`
         font-size: 24px;
         color: var(--green-2);
     }
+    &.delete-project .iconify,
+    &.delete-member .iconify {
+        color: var(--red-3);
+    }
 `;
 export const TitleModal = styled.h3`
     font-size: 20px;
     color: var(--green-2);
     font-weight: 700;
     text-align: start;
+    &.delete-member,
+    &.delete-project {
+        color: var(--red-3);
+    }
 `;
 export const TextModal = styled.p`
     font-size: 17px;

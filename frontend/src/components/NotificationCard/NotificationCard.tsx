@@ -10,73 +10,65 @@ import {
 import { NotificationCardProps } from "./types";
 import {useEffect, useState} from "react";
 import {
-    DELTA_SECONDS } from "./utils/constants";
+    DELTA_SECONDS, VARIANT } from "./utils/constants";
 
 const NotificationCard = ({
-    handler,
-    show,
-    maxSeconds,
-    variant = "success",
+    handler: { timeoutToClose, visible, hide },
+    variant,
 }: NotificationCardProps) => {
-    const [timeLeft, setTimeLeft] = useState<number>(maxSeconds);
-    const [loadingBarIntervalId, setLoadingBarIntervalId] = useState<
-        NodeJS.Timeout | undefined
-    >();
+    const [timeLeft, setTimeLeft] = useState<number>(timeoutToClose);
     const [progress, setProgress] = useState(0);
+    const [intervalId, setIntervalId] = useState<NodeJS.Timeout | undefined>();
     //#region Effects
     const initChronometer = () => {
-        let intervalId: NodeJS.Timeout | undefined;
+        if (!visible) {
+            clearInterval(intervalId);
+            return;
+        }
+        let newIntervalId: NodeJS.Timeout | undefined;
+        setTimeLeft(timeoutToClose);
         setTimeout(() => {
-            intervalId = setInterval(() => {
+            newIntervalId = setInterval(() => {
                 setTimeLeft(currentTimeLeft => {
                     // Eliminando interval al término del tiempo determinado
                     if (currentTimeLeft <= 0) {
-                        clearInterval(intervalId);
-                        handler.hide();
+                        clearInterval(newIntervalId);
                         return 0;
                     }
                     return currentTimeLeft - DELTA_SECONDS;
                 });
             }, DELTA_SECONDS * 1000);
-            setLoadingBarIntervalId(intervalId);
+            setIntervalId(newIntervalId);
         }, 100);
-        return () => clearInterval(intervalId);
     };
-    useEffect(initChronometer, [show]);
+    useEffect(initChronometer, [visible]);
     useEffect(() => {
         fillProgress();
     }, [timeLeft]);
-    useEffect(() => {
-        if (!show) {
-            clearInterval(loadingBarIntervalId);
-            return;
-        }
-        setTimeLeft(maxSeconds);
-    }, [show]);
     //#endregion
     //#region Functions
     const fillProgress = () => {
-        setProgress((timeLeft / maxSeconds) * 100);
+        setProgress((timeLeft / timeoutToClose) * 100);
     };
     const getClassName = (): string => {
         const classList: string[] = [variant];
-        handler.visible && classList.push("visible");
+        visible && classList.push("visible");
         return classList.join(" ");
     };
     return (
         <Container
             className={getClassName()}
             progress={progress}>
-            <CloseIconContainer onClick={() => handler.hide()}>
+            <CloseIconContainer onClick={() => hide()}>
                 <Icon icon="mdi:close" />
             </CloseIconContainer>
             <Row align="center" gap="10px">
-                <IconContainer>
+                <IconContainer className={getClassName()} >
                     <Icon icon="material-symbols:check-circle-outline" />
                 </IconContainer>
-                <TitleModal>CAMBIOS GUARDADOS</TitleModal>
+                <TitleModal className={getClassName()}>{VARIANT[variant].title}</TitleModal>
             </Row>
-            <TextModal>Los cambios realizados se guardaron correctamente.</TextModal>
+            <TextModal>{VARIANT[variant].subtitle}</TextModal>
         </Container>
     );
 };

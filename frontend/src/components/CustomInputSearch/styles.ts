@@ -4,7 +4,6 @@ import styled from "styled-components";
 export const Container = styled.div`
     display: flex;
     align-items: center;
-    align-self: center;
     position: relative;
     width: 100%;
 `;
@@ -19,6 +18,9 @@ export const List = styled.div`
     top: 45px;
     max-height: 300px;
     overflow-y: scroll;
+    ::-webkit-scrollbar {
+        display: none;
+    }
     @media (max-width: 500px) {
         top: 55px;
     }

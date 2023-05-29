@@ -2,21 +2,24 @@ import CustomButton from "src/components/CustomButton/CustomButton";
 import { Container } from "./styles";
 import { FooterProps } from "./types";
 
-const Footer = ({ closeModal, addMemberToProject }: FooterProps) => {
+const Footer = ({ 
+    closeModal, 
+    addMembersToProject,
+    noProjectMembers
+}: FooterProps) => {
     return (
         <Container>
             <CustomButton
                 content="Cancelar"
                 variant="main-2"
                 size="normal"
-                onClick={closeModal}
-            ></CustomButton>
+                onClick={closeModal}/>
             <CustomButton
+                disabled={noProjectMembers}
                 content="Agregar"
                 variant="main"
                 size="normal"
-                onClick={addMemberToProject}
-            ></CustomButton>
+                onClick={addMembersToProject}/>
         </Container>
     );
 };

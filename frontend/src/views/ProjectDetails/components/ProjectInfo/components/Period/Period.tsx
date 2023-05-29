@@ -3,7 +3,7 @@ import { Row } from "src/components/styles";
 import { Dates } from "./styles";
 import { PeriodProps } from "./types";
 
-const Period = ({ period }: PeriodProps) => {
+const Period = ({ period, openUpdateDateModal }: PeriodProps) => {
     return (
         <Row align="center" gap="16px" padding="0 0 0 65px">
             <Dates>
@@ -13,6 +13,7 @@ const Period = ({ period }: PeriodProps) => {
                 content="Finalización"
                 icon="material-symbols:edit"
                 size="supersmall"
+                onClick={openUpdateDateModal}
             />
         </Row>
     );

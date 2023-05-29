@@ -14,16 +14,16 @@ const MenuOptions = ({
     const toggleMenu = () => setShowMenu(prev => !prev);
     return (
         <>
-            <Container tabIndex={0} onBlur={() => setShowMenu(false)}>
-                <ThreeDots onClick={toggleMenu} />
-                <Menu
-                    show={showMenu}
-                    menuPosition={menuPosition}
-                    onClickEdit={onClickEdit}
-                    onClickDelete={onClickDelete}
-                    onClickDetails={onClickDetails}
-                />
-            </Container>
+        <Container tabIndex={0} onBlur={() => setShowMenu(false)}>
+            <ThreeDots onClick={toggleMenu} />
+            <Menu
+                show={showMenu}
+                menuPosition={menuPosition}
+                onClickEdit={onClickEdit}
+                onClickDelete={onClickDelete}
+                onClickDetails={onClickDetails}
+            />
+        </Container>
         </>
     );
 };

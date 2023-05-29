@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import {
-    Container,
+    CustomTextFieldContainer,
     Content,
     LabelContent,
     LensContainer,
@@ -14,17 +14,12 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 const CustomTextField = ({
     placeholder,
-    name,
-    label,
-    type,
-    variant,
-    size,
-    width,
-    maxWidth,
-    maxLength,
-    disabled,
-    value,
-    error = null,
+    name, label,
+    type, variant,
+    size, width, maxWidth,
+    maxLength, disabled,
+    value, error = null,
+    onFocus, onBlur,
     // restriction,
     onChange,
 }: CustomTextFieldProps) => {
@@ -50,7 +45,7 @@ const CustomTextField = ({
         return type === "password" && Boolean(value) && !disabled;
     };
     return (
-        <Container width={width} maxWidth={maxWidth} className={className}>
+        <CustomTextFieldContainer width={width} maxWidth={maxWidth} className={className}>
             {label && <LabelContent className={className}>{label}</LabelContent>}
             <Content className={className}>
                 <TextField
@@ -62,6 +57,8 @@ const CustomTextField = ({
                     placeholder={type === "password" ? "********" : placeholder}
                     value={value}
                     onChange={onChange}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                     // onKeyPress={RESTRICTIONS[restriction ? restriction : ""]}
                 />
                 {showPasswordRevealer() && (
@@ -80,7 +77,7 @@ const CustomTextField = ({
                 )}
             </Content>
             <ErrorMessage text={error} />
-        </Container>
+        </CustomTextFieldContainer>
     );
 };
 

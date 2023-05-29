@@ -9,18 +9,15 @@ const useSearchCollaborator = ({
     const clearCollaborators = (): void => {
         setCollaboratorUserList([]);
     }
-    const fillCollaboratorUserList = async (value: string): Promise<void> => {
-        const data: CollaboratorUser[] = await requestSearchCollaborators(value);
+    const fillCollaboratorUserList = async (collaboratorName: string): Promise<void> => {
+        if (!collaboratorName) return;
+        const data: CollaboratorUser[] = await requestSearchCollaborators(collaboratorName);
         setCollaboratorUserList(data);
     }
-    const getCollaboratorText = ({ name, surname }: CollaboratorUser): string => {
-        return `${name} ${surname}`;
-    }
     return {
-        collaboratorUserList: collaboratorUserList,
+        collaboratorUserList,
         fill: fillCollaboratorUserList,
-        clear: clearCollaborators,
-        getText: getCollaboratorText
+        clear: clearCollaborators
     };
 };
 

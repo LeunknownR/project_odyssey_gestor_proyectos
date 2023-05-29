@@ -6,7 +6,7 @@ export const Container = styled.div`
     align-items: center;
     justify-content: center;
     min-width: 280px;
-    border: 1px solid var(--white-3);
+    border: 2px solid var(--gray-1);
     background-color: #112430;
     border-radius: 7px;
     position: relative;
@@ -16,11 +16,6 @@ export const Container = styled.div`
     .SubMenuContainer {
         display: none;
     }
-`;
-export const OptionsWrapper = styled.div`
-    position: absolute;
-    top: 15px;
-    right: 7px;
 `;
 export const Image = styled.div`
     display: flex;
@@ -46,6 +41,7 @@ export const TextRecentCard = styled.div`
     justify-content: space-between;
     div:first-child {
         display: flex;
+        align-items: center;
         gap: 10px;
     }
 `;
@@ -68,5 +64,5 @@ export const ProjectTitle = styled.h4`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 130px;
+    max-width: 175px;
 `;

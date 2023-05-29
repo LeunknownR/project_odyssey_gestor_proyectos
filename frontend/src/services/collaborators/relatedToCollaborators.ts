@@ -3,7 +3,7 @@ import { APIRequestFunction, ResponseBody } from "../types";
 import { ApiPathEndpoints } from "../apiPathEndpoints";
 import { APIHandler } from "src/config/api";
 import { getEndpointWithPathVariables } from "../utils/helpers";
-import { SearchCollaboratorRequestBody } from "./types";
+import { AddProjectMembersRequestBody, SearchCollaboratorRequestBody } from "./types";
 
 export const requestSearchCollaboratorForGeneralAdmin: APIRequestFunction<
     CollaboratorUser[],
@@ -13,9 +13,9 @@ export const requestSearchCollaboratorForGeneralAdmin: APIRequestFunction<
         ApiPathEndpoints.SearchCollaborator,
         [collaboratorName]
     );
-    const data: ResponseBody<CollaboratorUser[]> =
+    const res: ResponseBody<CollaboratorUser[]> =
         await APIHandler.api.get(path);
-    return data;
+    return res;
 };
 export const requestSearchCollaboratorToBeMemberForCollaborator: APIRequestFunction<
     CollaboratorUser[],
@@ -28,7 +28,17 @@ export const requestSearchCollaboratorToBeMemberForCollaborator: APIRequestFunct
         ApiPathEndpoints.SearchCollaboratorMember,
         [projectId, collaboratorName]
     );
-    const data: ResponseBody<CollaboratorUser[]> =
+    const res: ResponseBody<CollaboratorUser[]> =
         await APIHandler.api.get(path);
-    return data;
+    return res;
 };
+export const requestAddMemberToProject: APIRequestFunction<
+null,
+AddProjectMembersRequestBody
+> = async (addProjectMembersRequestBody: AddProjectMembersRequestBody) => {
+    const res: ResponseBody = await APIHandler.api.patch(
+        ApiPathEndpoints.AddProjectMembers,
+        addProjectMembersRequestBody
+    );
+    return res;
+}

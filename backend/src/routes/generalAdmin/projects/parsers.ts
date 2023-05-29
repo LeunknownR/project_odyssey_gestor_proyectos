@@ -10,9 +10,9 @@ export const parseToProjectName = (params: any): string | null => {
     return projectName || null;
 }
 export const parseToCollaboratorName = (params: any): string => {
-    if (!checkLength(params.collaboratorName, 0, 100))
+    if (!checkLength(params.collaboratorName, 1, 100))
         throw new Error("Invalid collaborator name");
-    return params.projectName;
+    return params.collaboratorName;
 }
 export const parseToProjectForm = (body: any, withId: boolean): ProjectForm => {
     const {

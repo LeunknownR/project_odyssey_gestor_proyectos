@@ -8,6 +8,7 @@ import { CollaboratorUser } from "src/entities/collaborator/types";
 import CollaboratorCard from "src/views/ProjectManager/components/CollaboratorCard/CollaboratorCard";
 import useCustomInputSearch from "src/components/CustomInputSearch/utils/hooks/useCustomInputSearch";
 import { requestSearchCollaboratorForGeneralAdmin } from "src/services/collaborators/relatedToCollaborators";
+import CustomInputSearchUserOption from "src/views/components/CustomInputSearchUserOption/CustomInputSearchUserOption";
 
 const LeaderSelector = ({
     form,
@@ -19,9 +20,9 @@ const LeaderSelector = ({
     const [selectedCollaborator, setSelectedCollaborator] =
         useState<CollaboratorUser | null>(null);
     const selectProjectLeaderHandler = useSearchCollaborator({
-        requestSearchCollaborators: async (value: string) => {
+        requestSearchCollaborators: async (collaboratorName: string) => {
             preloader.show("Buscando colaboradores...")
-            const { data } = await requestSearchCollaboratorForGeneralAdmin(value);
+            const { data } = await requestSearchCollaboratorForGeneralAdmin(collaboratorName);
             preloader.hide();
             return data;
         },
@@ -58,17 +59,16 @@ const LeaderSelector = ({
                 <Wrapper ref={$wrapper}>
                     <CustomInputSearch<CollaboratorUser>
                         {...TEXT_FIELD_PROPS.PROJECT_LEADER}
-                        options={
-                            selectProjectLeaderHandler.collaboratorUserList
-                        }
-                        getSearchedItemToShow={option => ({
-                            value: option.id,
-                            text: selectProjectLeaderHandler.getText(option),
-                            urlPhoto: option.urlPhoto,
+                        handler={customSearchInputHandler}
+                        clearOptions={selectProjectLeaderHandler.clear}
+                        fillOptions={selectProjectLeaderHandler.fill}
+                        options={selectProjectLeaderHandler.collaboratorUserList}
+                        getSearchedItemToShow={options => ({ 
+                            value: options.id,
+                            content: (
+                                <CustomInputSearchUserOption {...options}/>
+                            )
                         })}
-                        onChange={customSearchInputHandler.changeSearchText}
-                        selectOption={customSearchInputHandler.selectOption}
-                        value={customSearchInputHandler.searchText}
                         variant={`${variant}-search`}
                         maxLength={100}
                     />

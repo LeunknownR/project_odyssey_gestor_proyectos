@@ -19,7 +19,7 @@ const ProjectFinder = ({
     };
     return (
         <CustomTextField
-            placeholder="Busca un proyecto..."
+            placeholder="Busca los proyectos por su nombre..."
             value={filters.value.searchedProject}
             onChange={e => changeSearchUser(e.target.value)}
             variant="header-search"

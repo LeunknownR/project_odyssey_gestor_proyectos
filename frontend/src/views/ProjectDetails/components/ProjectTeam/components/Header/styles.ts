@@ -4,7 +4,6 @@ export const Container = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 80%;
 `;
 export const IconContainer = styled.span`
     display: flex;
@@ -30,6 +29,7 @@ export const AddMemberButton = styled.button`
     font-weight: 700;
     font-size: 14px;
     padding: 3px 12px;
+    user-select: none;
     .iconify {
         display: flex;
         font-size: 24px;

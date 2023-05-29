@@ -10,7 +10,12 @@ import { Row } from "src/components/styles";
 import Period from "./components/Period/Period";
 import { ProjectInfoProps } from "./types";
 
-const ProjectInfo = ({ name, description, period }: ProjectInfoProps) => {
+const ProjectInfo = ({
+    name,
+    description,
+    period,
+    openUpdateDateModal,
+}: ProjectInfoProps) => {
     return (
         <Container>
             <InfoWrapper>
@@ -22,7 +27,7 @@ const ProjectInfo = ({ name, description, period }: ProjectInfoProps) => {
                 </Row>
                 <Description>{description}</Description>
             </InfoWrapper>
-            <Period period={period} />
+            <Period period={period} openUpdateDateModal={openUpdateDateModal}/>
         </Container>
     );
 };

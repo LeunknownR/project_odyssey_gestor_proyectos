@@ -1,3 +1,4 @@
+import { CustomTextFieldContainer } from "src/components/CustomTextField/styles";
 import styled from "styled-components";
 
 export const Container = styled.section`
@@ -9,9 +10,17 @@ export const Content = styled.main`
     display: flex;
     flex-direction: column;
     gap: 50px;
-    min-height: calc(100vh - 75px);
-    margin-left: 75px;
-    width: 70%;
+    min-height: calc(100vh - var(--main-header-height));
+    width: 80%;
+    margin-top: 50px;
+`;
+export const ProjectFinderWrapper = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    //GNOMO PREGUNTAR A MANUEL SI MI MÉTODO ESTÁ ACHORAO O ÑOFI
+    ${CustomTextFieldContainer} {
+        width: 45%;
+    }
 `;
 export const CloseButtonProjectForm = styled.div`
     position: absolute;
