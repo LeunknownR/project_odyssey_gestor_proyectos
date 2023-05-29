@@ -11,13 +11,17 @@ import { requestSearchCollaboratorForGeneralAdmin } from "src/services/collabora
 import CustomInputSearchUserOption from "src/views/components/CustomInputSearchUserOption/CustomInputSearchUserOption";
 
 const LeaderSelector = ({
-    form,
-    modalProps,
-    variant,
-    preloader
+    preloader,
+    currentLeader, form,
+    modalProps, variant,
 }: LeaderSelectorProps) => {
     const $wrapper = useRef<HTMLDivElement>();
-    const [selectedCollaborator, setSelectedCollaborator] = useState<CollaboratorUser | null>(null);
+    const [selectedCollaborator, setSelectedCollaborator] =
+        useState<CollaboratorUser | null>(null);
+    useEffect(() => {
+        if (!currentLeader || !modalProps.isOpen) return; 
+        setSelectedCollaborator(currentLeader);
+    }, [modalProps.isOpen]);
     const selectProjectLeaderHandler = useSearchCollaborator({
         requestSearchCollaborators: async (collaboratorName: string) => {
             preloader.show("Buscando colaboradores...")

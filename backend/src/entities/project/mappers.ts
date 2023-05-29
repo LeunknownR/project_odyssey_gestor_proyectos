@@ -7,11 +7,11 @@ import {
 } from "./types";
 
 const projectLeaderMapper = (record: any): CollaboratorUser => ({
-    id: record["id_user"],
-    name: record["user_name"],
-    surname: record["user_surname"],
-    email: record["email"],
-    urlPhoto: record["url_photo"]
+    id: record["id_collaborator"],
+    name: record["collaborator_name"],
+    surname: record["collaborator_surname"],
+    email: record["collaborator_email"],
+    urlPhoto: record["collaborator_url_photo"]
 });
 const projectByGeneralAdminMapper = (record: any): Project => ({
     id: record["id_project"],

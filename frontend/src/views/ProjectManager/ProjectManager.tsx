@@ -33,6 +33,7 @@ const ProjectManager = () => {
     const { recentProjects, allProjects, fillProjects, doFill } = useProjectList(preloader, filters.value);
     const openUpdateProjectModal = () => {
         notificationCard.hide();
+        setCurrentProject(currentProject);
         updateProjectModal.open(true);
     }
     const openDeleteProjectModal = () => {
@@ -77,6 +78,7 @@ const ProjectManager = () => {
         </Container>
         <UpdateProjectModal
             modalProps={updateProjectModal}
+            currentProject={currentProject}
             form={form}
             getProjectFromForm={getProjectFromForm}
             fillProjects={fillProjects}

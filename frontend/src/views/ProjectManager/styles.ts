@@ -12,7 +12,8 @@ export const Content = styled.main`
     gap: 50px;
     min-height: calc(100vh - var(--main-header-height));
     width: 80%;
-    margin: 50px 0;
+    margin-top: 50px;
+    margin-bottom: 30px;
 `;
 export const ProjectFinderWrapper = styled.div`
     display: flex;
