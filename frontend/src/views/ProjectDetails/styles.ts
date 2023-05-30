@@ -1,7 +1,10 @@
 import styled from "styled-components";
+import BackgroundImage from "./temporal-fondo-borrar.png";
 
 export const Container = styled.section`
-    background-color: var(--darkblue-4);
+    background: url(${BackgroundImage}) no-repeat;
+    background-size: cover;
+    /* background: var(--darkblue-4); */
     display: flex;
     justify-content: center;
 `;
