@@ -1,3 +1,4 @@
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 type ContainerProps = {
@@ -24,11 +25,17 @@ export const LabelContent = styled.label`
         font-weight: 700;
         color: var(--white-1);
         font-size: 20px;
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            font-size: 16px;
+        }
     }
     &.secondary {
         font-weight: 700;
         color: var(--darkblue-1);
         font-size: 20px;
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            font-size: 16px;
+        }
     }
 `;
 export const Content = styled.div`
@@ -56,6 +63,9 @@ export const Content = styled.div`
         ::placeholder {
             color: var(--gray-2);
         }
+    }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 13px;
     }
 `;
 export const TextArea = styled.textarea`
