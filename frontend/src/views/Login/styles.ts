@@ -22,7 +22,7 @@ export const Slogan = styled.div`
         font-size: 45px;
         color: #fff;
     }
-    @media (max-width: ${MOBILE_WIDTH}) {
+    @media (max-width: ${MOBILE_WIDTH}px) {
         display: none;
     }
 `;

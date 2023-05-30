@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
     display: flex;
     flex-wrap: nowrap;
-    gap: 3px;
+    gap: 6px;
     align-items: center;
     user-select: none;
     > :first-child {
