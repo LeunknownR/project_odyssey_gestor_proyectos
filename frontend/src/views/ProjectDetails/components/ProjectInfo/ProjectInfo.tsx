@@ -1,7 +1,8 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import {
     Container,
-    InfoWrapper,
+    DataPart1,
+    DataPart2,
     Description,
     IconContainer,
     ProjectName,
@@ -20,7 +21,7 @@ const ProjectInfo = ({
 }: ProjectInfoProps) => {
     return (
         <Container>
-            <InfoWrapper>
+            <DataPart1>
                 <Row gap="14px" align="center">
                     <IconContainer>
                         <Icon icon="eos-icons:project" />
@@ -28,8 +29,8 @@ const ProjectInfo = ({
                     <ProjectName>{name}</ProjectName>
                 </Row>
                 <ProjectState />
-            </InfoWrapper>
-            <Row align="center" justify="space-between" padding="0 0 0 70px">
+            </DataPart1>
+            <DataPart2>
                 <Description>
                     {description}
                 </Description>
@@ -38,7 +39,7 @@ const ProjectInfo = ({
                     openUpdateDateModal={openUpdateDateModal}
                     currentUserIsProjectLeader={currentUserIsProjectLeader}
                 />
-            </Row>
+            </DataPart2>
         </Container>
     );
 };

@@ -1,3 +1,4 @@
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -15,9 +16,10 @@ export const Container = styled.div`
         font-size: 13px;
         padding: 4px 10px;
     }
-    @media (max-width: 600px) {
+    @media (max-width: ${MOBILE_WIDTH}px) {
         &.short {
             font-size: 8px;
+            white-space: nowrap;
         }
         width: unset;
     }
