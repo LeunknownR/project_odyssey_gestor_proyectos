@@ -1,4 +1,4 @@
-import { CustomTextFieldContainer } from "src/components/CustomTextField/styles";
+import { Container as ContainerCustomTextField } from "src/components/CustomTextField/styles";
 import styled from "styled-components";
 
 export const Container = styled.section`
@@ -20,7 +20,7 @@ export const Content = styled.main`
 export const ProjectFinderWrapper = styled.div`
     display: flex;
     justify-content: flex-end;
-    ${CustomTextFieldContainer} {
+    ${ContainerCustomTextField} {
         width: 45%;
     }
 `;

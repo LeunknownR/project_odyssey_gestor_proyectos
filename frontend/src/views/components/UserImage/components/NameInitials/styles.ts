@@ -19,4 +19,13 @@ export const Container = styled.span`
     &.small {
         font-size: 14px;
     }
+    @media (max-width: 600px) {
+        font-size: 20px;
+        &.big {
+            font-size: 26px;
+        }
+        &.small {
+            font-size: 12px;
+        }   
+    }
 `;

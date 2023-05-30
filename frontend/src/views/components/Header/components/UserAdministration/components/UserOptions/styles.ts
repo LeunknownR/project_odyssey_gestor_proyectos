@@ -1,5 +1,6 @@
 import { Row } from 'src/components/styles';
 import styled from 'styled-components';
+
 type ContainerProps = {
     className?: any;
     ref: any;
@@ -16,6 +17,10 @@ export const Container = styled.div<ContainerProps>`
     gap: 25px;
     &.open {
         display: flex;
+    }
+    @media (max-width: 600px) {
+        top: unset;
+        bottom: calc(var(--main-sidebar-height-mobile) + 1px);
     }
 `;
 export const UserInfo = styled(Row)`

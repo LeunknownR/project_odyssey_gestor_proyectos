@@ -2,9 +2,10 @@ import { Row } from "src/components/styles";
 import {
     Container,
     IconContainer,
-    Label,
+    DateLabel,
     OptionsWrapper,
     ProjectName,
+    EndContent
 } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import MenuOptions from "src/views/components/MenuOptions/MenuOptions";
@@ -35,14 +36,15 @@ const AllProjectCard = ({
                 </IconContainer>
                 <ProjectName title={name}>{name}</ProjectName>
             </Row>
-            <Row align="center" gap="25px">
+            <EndContent align="center" gap="20px">
                 <Row gap="15px" align="center">
                     {/*GNOMO LEDER*/}
-                    {leader && <ProjectCollaborators leaderName={leader.name} projectMemberCount={projectMemberCount}/>}
-                    <Label>Fecha</Label>
-                    <Row width="230px">
-                        <ProjectDeadline startDate={startDate} endDate={endDate}/>
-                    </Row>
+                    {leader && 
+                    <ProjectCollaborators 
+                        leaderName={leader.name} 
+                        projectMemberCount={projectMemberCount}/>}
+                    <DateLabel>Fecha</DateLabel>
+                    <ProjectDeadline startDate={startDate} endDate={endDate}/>
                 </Row>
                 <OptionsWrapper onClick={() => setCurrentProject(project)}>
                     <MenuOptions
@@ -52,7 +54,7 @@ const AllProjectCard = ({
                         onClickDetails={moveToProjectDetails}
                     />
                 </OptionsWrapper>
-            </Row>
+            </EndContent>
         </Container>
     );
 };
