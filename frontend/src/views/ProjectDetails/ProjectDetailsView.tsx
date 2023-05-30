@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import TitleHeader from "src/views/ProjectManager/components/TitleHeader/TitleHeader";
+import TitleHeader from "src/views/components/TitleHeader/TitleHeader";
 import { Container, Content } from "./styles";
 import ProjectInfo from "./components/ProjectInfo/ProjectInfo";
 import ProjectTeam from "./components/ProjectTeam/ProjectTeam";
@@ -18,10 +18,13 @@ import useNotificationCard from "src/components/NotificationCard/utils/hooks/use
 import NotificationCard from "src/components/NotificationCard/NotificationCard";
 import { ProjectCollaborator } from "src/entities/collaborator/types";
 import { Column } from "src/components/styles";
+import { DBProjectRoles } from "src/config/roles";
+import { getUserId } from "src/storage/user.local";
 
 const ProjectDetailsView = () => {
     const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(null);
     const [currentProjectMember, setCurrentProjectMember] = useState<ProjectCollaborator | null>(null);
+    const [currentUserIsProjectLeader, setCurrentUserIsProjectLeader] = useState(false);
     const addMemberModal = useModal();
     const updateDateModal = useModal();
     const deleteMemberModal = useModal();
@@ -30,6 +33,10 @@ const ProjectDetailsView = () => {
     useEffect(() => {
         fillProjectDetails();
     }, []);
+    useEffect(() => {
+        if (!projectDetails) return;
+        setCurrentUserIsProjectLeader(projectDetails.collaborators.some(({ id, projectRole }) => projectRole.id === DBProjectRoles.ProjectLeader && id === getUserId()));
+    }, [projectDetails]);
     const fillProjectDetails = async (): Promise<void> => {
         preloader.show("Cargando detalles del proyecto...");
         const { data } = await requestGetProjectDetails(getProjectId());
@@ -63,11 +70,13 @@ const ProjectDetailsView = () => {
                             description={projectDetails.description}
                             period={projectDetails.period}
                             openUpdateDateModal={openUpdateDateModal}
+                            currentUserIsProjectLeader={currentUserIsProjectLeader}
                         />
                         <ProjectTeam
                             collaborators={projectDetails.collaborators}
                             openAddMemberModal={openAddMemberModal}
                             openDeleteModal={openDeleteModal}
+                            currentUserIsProjectLeader={currentUserIsProjectLeader}
                         />
                     </Column>
                 )}

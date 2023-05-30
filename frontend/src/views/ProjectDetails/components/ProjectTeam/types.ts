@@ -4,4 +4,5 @@ export type ProjectTeamProps = {
     collaborators: ProjectCollaborator[];
     openAddMemberModal: () => void;
     openDeleteModal: (projectCollaborator: ProjectCollaborator) => void;
+    currentUserIsProjectLeader: boolean;
 }

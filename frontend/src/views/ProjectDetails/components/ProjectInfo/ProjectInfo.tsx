@@ -16,6 +16,7 @@ const ProjectInfo = ({
     description,
     period,
     openUpdateDateModal,
+    currentUserIsProjectLeader,
 }: ProjectInfoProps) => {
     return (
         <Container>
@@ -29,8 +30,14 @@ const ProjectInfo = ({
                 <ProjectState />
             </InfoWrapper>
             <Row align="center" justify="space-between" padding="0 0 0 70px">
-                <Description>{description}asdasdasdas xaaaaaaaaaaaa aa</Description>
-                <Period period={period} openUpdateDateModal={openUpdateDateModal}/>
+                <Description>
+                    {description}
+                </Description>
+                <Period
+                    period={period}
+                    openUpdateDateModal={openUpdateDateModal}
+                    currentUserIsProjectLeader={currentUserIsProjectLeader}
+                />
             </Row>
         </Container>
     );
