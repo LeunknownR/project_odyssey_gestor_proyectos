@@ -368,8 +368,8 @@ BEGIN
         SELECT id_project_has_collaborator
         FROM project_has_collaborator
         WHERE id_project = p_id_project
-        AND id_collaborator = p_id_collaborator
         AND id_project_role = "PLD"
+        AND active = 1
     );
     -- Actualizando la tabla "project"
     UPDATE project
@@ -379,9 +379,48 @@ BEGIN
         end_date = p_project_end_date
     WHERE id_project = p_id_project;
     -- Actualizando la tabla "project_has_collaborator"
-    UPDATE project_has_collaborator
-    SET id_collaborator = p_id_collaborator
-    WHERE id_project_has_collaborator = @id_project_has_collaborator;
+    IF EXISTS(
+        SELECT id_project_has_collaborator
+        FROM project_has_collaborator
+        WHERE id_project = p_id_project
+        AND id_collaborator = p_id_collaborator
+        AND id_project_role = "PLD"
+        AND active = 1
+    ) THEN
+        SELECT 'SUCCESS' AS 'MESSAGE';
+    ELSE
+        -- Cambiando el anterior id_collaborator
+        UPDATE project_has_collaborator
+        SET active = 0
+        WHERE id_project_has_collaborator = @id_project_has_collaborator;
+        IF EXISTS(
+            SELECT id_collaborator
+            FROM project_has_collaborator
+            WHERE id_project = p_id_project
+            AND id_collaborator = p_id_collaborator
+            AND id_project_role = "PMB"
+            AND active = 1
+        ) THEN
+            -- Cambiando al nuevo id_collaborator
+            -- ASCENDIÉNDOLO
+            UPDATE project_has_collaborator
+            SET id_project_role = "PLD"
+            WHERE id_project = p_id_project
+            AND id_collaborator = p_id_collaborator;
+        ELSE
+            INSERT INTO project_has_collaborator(
+                id_project,
+                id_collaborator,
+                id_project_role
+            )
+            VALUES (
+                p_id_project,
+                p_id_collaborator,
+                "PLD"
+            );
+        END IF;
+        SELECT 'SUCCESS' AS 'MESSAGE';
+    END IF;
 END //
 DELIMITER ;
 
