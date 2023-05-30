@@ -1,3 +1,4 @@
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -17,6 +18,9 @@ export const IconContainer = styled.span`
         font-size: 46px;
         background-color: var(--green-1);
         color: var(--white-1);
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            font-size: 30px;
+        }
     }
 `;
 export const ProjectName = styled.h2`
@@ -32,6 +36,10 @@ export const ProjectName = styled.h2`
     &.update {
         color: var(--white-1);
     }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 22px;
+        max-width: 218px;
+    }
 `;
 export const Description = styled.p`
     font-size: 16px;
@@ -44,5 +52,8 @@ export const Description = styled.p`
     }
     &.update {
         color: var(--white-1);
+    }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 14px;
     }
 `;

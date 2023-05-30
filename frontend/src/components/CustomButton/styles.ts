@@ -45,6 +45,9 @@ export const Container = styled.button<ContainerProps>`
             padding: 8px;
             min-width: 110px;
         }
+        &.small {
+            padding: 5px 22px;
+        }
         &.supersmall {
             padding: 5px 12px;
             .iconify {
