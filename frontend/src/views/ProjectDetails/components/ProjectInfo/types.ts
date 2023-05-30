@@ -3,4 +3,5 @@ export type ProjectInfoProps = {
     description: string;
     period: string;
     openUpdateDateModal: () => void;
+    currentUserIsProjectLeader: boolean;
 }

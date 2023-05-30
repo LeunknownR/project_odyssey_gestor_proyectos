@@ -20,7 +20,7 @@ const MODAL_STYLES = {
 
 const UpdateProjectModal = ({
     modalProps,
-    form,
+    currentProject, form,
     getProjectFromForm,
     fillProjects,
     preloader,
@@ -59,6 +59,7 @@ const UpdateProjectModal = ({
                         <ProjectInfo form={form} variant="update" />
                         <Column width="85%" alignSelf="center" gap="100px">
                             <LeaderSelector
+                                currentLeader={currentProject?.leader}
                                 form={form}
                                 modalProps={modalProps}
                                 variant="secondary"

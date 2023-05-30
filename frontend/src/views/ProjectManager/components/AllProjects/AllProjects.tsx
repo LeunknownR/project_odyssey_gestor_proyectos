@@ -1,11 +1,10 @@
-import TitleHeader from "../TitleHeader/TitleHeader";
+import TitleHeader from "../../../components/TitleHeader/TitleHeader";
 import AllProjectCard from "./components/AllProjectCard/AllProjectCard";
 import { Container, ProjectList } from "./styles";
 import { AllProjectProps } from "./types";
 
 const AllProjects = ({
     allProjects,
-    recentProjects,
     setCurrentProject,
     openUpdateProjectModal,
     openDeleteProjectModal,
@@ -14,7 +13,7 @@ const AllProjects = ({
         <Container>
             <TitleHeader text="Todos los proyectos" />
             <ProjectList>
-                {(allProjects.length > 0 ? allProjects : recentProjects).map(project => {
+                {allProjects.map(project => {
                     return (
                         <AllProjectCard
                             key={project.id}

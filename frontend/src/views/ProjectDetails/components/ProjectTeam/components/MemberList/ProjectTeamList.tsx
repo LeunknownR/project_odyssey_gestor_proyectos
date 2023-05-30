@@ -1,13 +1,14 @@
-import MemberDetails from "./components/MemberDetails/MemberDetails";
+import ProjectTeamMember from "./components/MemberDetails/ProjectTeamMember";
 import { Container } from "./styles";
 import { MemberListProps } from "./types";
 
-const MemberList = ({ collaborators, openDeleteModal }: MemberListProps) => {
+const ProjectTeamList = ({ collaborators, openDeleteModal, currentUserIsProjectLeader }: MemberListProps) => {
     return (
         <Container>
             {collaborators.map(collaborator => (
-                <MemberDetails
+                <ProjectTeamMember
                     key={collaborator.id}
+                    currentUserIsProjectLeader={currentUserIsProjectLeader}
                     collaborator={collaborator}
                     openDeleteModal={() => openDeleteModal(collaborator)}
                 />
@@ -16,4 +17,4 @@ const MemberList = ({ collaborators, openDeleteModal }: MemberListProps) => {
     );
 };
 
-export default MemberList;
+export default ProjectTeamList;

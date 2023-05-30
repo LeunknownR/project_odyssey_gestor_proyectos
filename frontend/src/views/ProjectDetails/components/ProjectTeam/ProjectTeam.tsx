@@ -1,5 +1,5 @@
 import { Column } from "src/components/styles";
-import MemberList from "./components/MemberList/MemberList";
+import ProjectTeamList from "./components/MemberList/ProjectTeamList";
 import Header from "./components/Header/Header";
 import { ProjectTeamProps } from "./types";
 
@@ -7,13 +7,18 @@ const ProjectTeam = ({
     collaborators,
     openAddMemberModal,
     openDeleteModal,
+    currentUserIsProjectLeader,
 }: ProjectTeamProps) => {
     return (
         <Column margin="15px 0 0" gap="20px">
-            <Header openAddMemberModal={openAddMemberModal} />
-            <MemberList
+            <Header
+                openAddMemberModal={openAddMemberModal}
+                currentUserIsProjectLeader={currentUserIsProjectLeader}
+            />
+            <ProjectTeamList
                 collaborators={collaborators}
                 openDeleteModal={openDeleteModal}
+                currentUserIsProjectLeader={currentUserIsProjectLeader}
             />
         </Column>
     );

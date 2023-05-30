@@ -4,9 +4,11 @@ import { Container, Email, IconContainer, Name, Role } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { MemberDetailsProps } from "./types";
 import { PROJECT_ROLE } from "./utils/constants";
+import { DBProjectRoles } from "src/config/roles";
 
-const MemberDetails = ({
+const ProjectTeamMember = ({
     collaborator,
+    currentUserIsProjectLeader,
     openDeleteModal,
 }: MemberDetailsProps) => {
     const { email, name, projectRole, surname, urlPhoto } = collaborator;
@@ -27,7 +29,10 @@ const MemberDetails = ({
                     <Role className={PROJECT_ROLE[projectRole.id].className}>
                         {PROJECT_ROLE[projectRole.id].name}
                     </Role>
-                    {projectRole.id !== "PLD" && (
+                    {(
+                        projectRole.id !== DBProjectRoles.ProjectLeader && 
+                        currentUserIsProjectLeader
+                    ) && (
                         <IconContainer onClick={openDeleteModal}>
                             <Icon icon="mdi:trash-can-outline" />
                         </IconContainer>
@@ -38,4 +43,4 @@ const MemberDetails = ({
     );
 };
 
-export default MemberDetails;
+export default ProjectTeamMember;

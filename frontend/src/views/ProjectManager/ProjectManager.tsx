@@ -16,6 +16,7 @@ import useProjectList from "./utils/hooks/useProjectList";
 import useProjectFilters from "./utils/hooks/useProjectFilters";
 import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
 import Preloader from "src/components/Preloader/Preloader";
+import EmptyProjects from "./components/EmptyProjects/EmptyProjects";
 
 const ProjectManager = () => {
     const [currentProject, setCurrentProject] = useState<Project | null>(null);
@@ -33,68 +34,75 @@ const ProjectManager = () => {
     const { recentProjects, allProjects, fillProjects, doFill } = useProjectList(preloader, filters.value);
     const openUpdateProjectModal = () => {
         notificationCard.hide();
+        setCurrentProject(currentProject);
         updateProjectModal.open(true);
-    }
+    };
     const openDeleteProjectModal = () => {
         notificationCard.hide();
         deleteProjectModal.open(true);
-    }
+    };
     return (
         <>
-        <SidebarMenu
-            mainMenuButton={
-                <NewProjectSection
-                    modal={newProjectModal}
-                    form={form}
-                    getProjectFromForm={getProjectFromForm}
-                    setCurrentProject={setCurrentProject}
-                    fillProjects={fillProjects}
-                    preloader={preloader}
-                    notificationCard={notificationCard}
-                />}/>
-        <Container>
-            <Content>
-                <ProjectFinderWrapper>
-                    <ProjectFinder
-                        filters={filters}
-                        doFillProjects={doFill}
+            <SidebarMenu
+                mainMenuButton={
+                    <NewProjectSection
+                        modal={newProjectModal}
+                        form={form}
+                        getProjectFromForm={getProjectFromForm}
+                        setCurrentProject={setCurrentProject}
+                        fillProjects={fillProjects}
+                        preloader={preloader}
+                        notificationCard={notificationCard}
                     />
-                </ProjectFinderWrapper>
-                <RecentProjects
-                    recentProjects={recentProjects}
-                    setCurrentProject={setCurrentProject}
-                    openUpdateProjectModal={openUpdateProjectModal}
-                    openDeleteProjectModal={openDeleteProjectModal}
-                />
-                <AllProjects
-                    allProjects={allProjects}
-                    recentProjects={recentProjects}
-                    setCurrentProject={setCurrentProject}
-                    openUpdateProjectModal={openUpdateProjectModal}
-                    openDeleteProjectModal={openDeleteProjectModal}
-                />
-            </Content>
-        </Container>
-        <UpdateProjectModal
-            modalProps={updateProjectModal}
-            form={form}
-            getProjectFromForm={getProjectFromForm}
-            fillProjects={fillProjects}
-            preloader={preloader}
-            notificationCard={notificationCard}
-        />
-        <DeleteProjectModal
-            preloader={preloader}
-            modalProps={deleteProjectModal}
-            projectId={currentProject?.id}
-            fillProjects={fillProjects}
-            notificationCard={notificationCard}
-        />
-        <NotificationCard 
-            handler={notificationCard} 
-            variant={notificationCard.cardVariant}
-        />
-        <Preloader {...preloader.value} />
+                }
+            />
+            <Container>
+                {recentProjects.length > 0 ? (
+                    <Content>
+                        <ProjectFinderWrapper>
+                            <ProjectFinder
+                                filters={filters}
+                                doFillProjects={doFill}
+                            />
+                        </ProjectFinderWrapper>
+                        <RecentProjects
+                            recentProjects={recentProjects}
+                            setCurrentProject={setCurrentProject}
+                            openUpdateProjectModal={openUpdateProjectModal}
+                            openDeleteProjectModal={openDeleteProjectModal}
+                        />
+                        <AllProjects
+                            allProjects={allProjects}
+                            setCurrentProject={setCurrentProject}
+                            openUpdateProjectModal={openUpdateProjectModal}
+                            openDeleteProjectModal={openDeleteProjectModal}
+                        />
+                    </Content>
+                ) : (
+                    <EmptyProjects />
+                )}
+            </Container>
+            <UpdateProjectModal
+                modalProps={updateProjectModal}
+                currentProject={currentProject}
+                form={form}
+                getProjectFromForm={getProjectFromForm}
+                fillProjects={fillProjects}
+                preloader={preloader}
+                notificationCard={notificationCard}
+            />
+            <DeleteProjectModal
+                preloader={preloader}
+                modalProps={deleteProjectModal}
+                projectId={currentProject?.id}
+                fillProjects={fillProjects}
+                notificationCard={notificationCard}
+            />
+            <NotificationCard
+                handler={notificationCard}
+                variant={notificationCard.cardVariant}
+            />
+            <Preloader {...preloader.value} />
         </>
     );
 };
