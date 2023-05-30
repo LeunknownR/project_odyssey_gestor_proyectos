@@ -39,10 +39,10 @@ type OptionProps = {
 export const Option = styled.div<OptionProps>`
     color: ${({color}) => color};
     font-weight: bold;
-    font-size: 12px;
-    cursor: pointer;
+    font-size: 13px;
     padding: 10px 15px;
     transition: 0.25s;
+    cursor: pointer;
     :hover {
         background-color: #cccccc;
     }

@@ -14,8 +14,10 @@ const Footer = () => {
     }
     const logoutButtonProps: any = isMobile ? {
         icon: "material-symbols:logout",
+        width: "max-content"
     } : {
-        content: "Cerrar sesión"
+        content: "Cerrar sesión",
+        width: "80%"
     }
     return (
         <Container>
@@ -23,13 +25,12 @@ const Footer = () => {
                 content="Config. Perfil"
                 icon="uiw:setting"
                 variant="user-options-config"
-                width="180px"
+                width="80%"
                 onClick={() => navigate(AbsolutePaths.Settings)}
             />
             <CustomButton
                 {...logoutButtonProps}
                 variant="user-options-logout"
-                width="max-content"
                 onClick={logout}
             />
         </Container>

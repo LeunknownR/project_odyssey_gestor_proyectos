@@ -10,7 +10,7 @@ export const Container = styled.div<ContainerProps>`
     position: fixed;
     display: flex;
     flex-direction: column;
-    top: calc(var(--main-header-height) - 1px);
+    top: calc(var(--main-header-height) + 1px);
     right: 40px;
     background-color: var(--darkblue-3);
     width: 320px;
