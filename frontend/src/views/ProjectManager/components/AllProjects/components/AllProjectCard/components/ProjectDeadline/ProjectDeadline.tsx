@@ -21,7 +21,7 @@ const ProjectDeadline = ({
     };
     return (
         <Container className={variant}>
-            {isMobile 
+            {isMobile && variant === "short"
             ? <Column>
                 <span>
                     <b>Desde:</b> {readableDate.start}
