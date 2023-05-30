@@ -43,5 +43,6 @@ export type ProjectDetails = {
     description: string;
     period: string;
     endDate: number;
+    state: string;
     collaborators: ProjectCollaborator[];
 };

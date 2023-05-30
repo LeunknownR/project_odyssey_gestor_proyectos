@@ -16,6 +16,7 @@ const ProjectInfo = ({
     name,
     description,
     period,
+    state,
     openUpdateDateModal,
     currentUserIsProjectLeader,
 }: ProjectInfoProps) => {
@@ -28,7 +29,7 @@ const ProjectInfo = ({
                     </IconContainer>
                     <ProjectName>{name}</ProjectName>
                 </Row>
-                <ProjectState />
+                <ProjectState state={state}/>
             </DataPart1>
             <DataPart2>
                 <Description>
