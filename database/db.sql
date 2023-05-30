@@ -100,7 +100,7 @@ CREATE TABLE `project_has_collaborator` (
 );
 
 -- --- [ INSERT INTO ] ------------------------------------------------------------
--- Insertando datos en la tabla user
+-- Insertando datos en la tabla user 
 INSERT INTO `user` (`id_user`, `user_name`, `user_surname`, `username`, `userpassword`, `url_photo`, `email`, `id_role`) 
 VALUES
     (1, 'Diego Edgardo', 'Torres De La Cruz', 'diegot', '$2a$10$5lDSbUyMEVZbfPFRiYuemesPnHyfdzCyRGoFJNDVpmuhmcFy5Soxe', '/makanaky.jpg', 'diegoteodosiof@gmail.com', 'GAD'),
