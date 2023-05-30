@@ -16,7 +16,9 @@ export const Container = styled.div`
         padding: 4px 10px;
     }
     @media (max-width: 600px) {
-        font-size: 8px;
+        &.short {
+            font-size: 8px;
+        }
         width: unset;
     }
 `;
