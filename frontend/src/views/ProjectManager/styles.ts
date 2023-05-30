@@ -5,6 +5,8 @@ export const Container = styled.section`
     background-color: var(--darkblue-4);
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 100%;
 `;
 export const Content = styled.main`
     display: flex;

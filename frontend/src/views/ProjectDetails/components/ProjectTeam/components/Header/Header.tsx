@@ -3,7 +3,10 @@ import { AddMemberButton, Container, IconContainer, Title } from "./styles";
 import { Row } from "src/components/styles";
 import { HeaderProps } from "./types";
 
-const Header = ({ openAddMemberModal }: HeaderProps) => {
+const Header = ({
+    openAddMemberModal,
+    currentUserIsProjectLeader,
+}: HeaderProps) => {
     return (
         <Container>
             <Row align="center" gap="10px">
@@ -12,10 +15,14 @@ const Header = ({ openAddMemberModal }: HeaderProps) => {
                 </IconContainer>
                 <Title>EQUIPO DEL PROYECTO</Title>
             </Row>
-            <AddMemberButton onClick={openAddMemberModal}>
-                <span><Icon icon="material-symbols:add-circle" /></span>
-                Agregar Miembro
-            </AddMemberButton>
+            {currentUserIsProjectLeader && (
+                <AddMemberButton onClick={openAddMemberModal}>
+                    <span>
+                        <Icon icon="material-symbols:add-circle" />
+                    </span>
+                    Agregar Miembro
+                </AddMemberButton>
+            )}
         </Container>
     );
 };

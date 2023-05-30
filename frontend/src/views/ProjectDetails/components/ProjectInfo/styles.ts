@@ -3,11 +3,12 @@ import styled from 'styled-components';
 export const Container = styled.div`
     display: flex;
     flex-direction: column;
+    gap: 15px;
 `;
 export const InfoWrapper = styled.div`
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 30px;
 `;
 export const IconContainer = styled.span`
     .iconify {
@@ -23,7 +24,7 @@ export const ProjectName = styled.h1`
 `;
 export const Description = styled.p`
     color: var(--white-1);
-    width: 35%;
     font-weight: 400;
     font-size: 17px;
+    max-width: 565px;
 `;

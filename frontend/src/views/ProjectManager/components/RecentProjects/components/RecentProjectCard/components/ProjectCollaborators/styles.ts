@@ -20,4 +20,7 @@ export const UserBall = styled.div`
     color: var(--orange-2);
     width: 2em;
     height: 2em;
+    @media (max-width: 600px) {
+        font-size: 10px;
+    }
 `;

@@ -58,8 +58,9 @@
 	--green-1: #95DD72;
 	--green-2: #8BDE8E;
 	--cream-1: #FFE0B2;
-	--main-header-height: 80px;
+	--main-header-height: 89.38px;
 	--main-sidebar-width: 75px;
+	--main-sidebar-height-mobile: 75px;
     --main-content-height: calc(100vh - var(--main-header-height));
 }	
 /* General */

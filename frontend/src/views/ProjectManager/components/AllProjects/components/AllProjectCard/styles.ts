@@ -1,3 +1,4 @@
+import { Row } from 'src/components/styles';
 import styled from 'styled-components';
 
 export const Container = styled.li`
@@ -18,22 +19,41 @@ export const Container = styled.li`
     &.P {
         border-left: 27px solid var(--yellow-1);
     }
+    @media (max-width: 600px) {
+        &.O, &.F, &.P {
+            border-left-width: 15px;
+        }
+    }
 `;
 export const IconContainer = styled.span`
     .iconify {
         color: var(--white-1);
         font-size: 40px;
     }
+    @media (max-width: 600px) {
+        display: none;
+    }
 `;
 export const ProjectName = styled.h2`
     color: var(--white-1);
     font-size: 18px;
+    @media (max-width: 600px) {
+        font-size: 11px;
+    }
 `;
-export const Label = styled.span`
+export const DateLabel = styled.span`
     color: var(--white-1);
     font-weight: 700;
     font-size: 17px;
+    @media (max-width: 600px) {
+        display: none;
+    }
 `;
 export const OptionsWrapper = styled.div`
-    position: relative
+    position: relative;
+`;
+export const EndContent = styled(Row)`
+    @media (max-width: 600px) {
+        gap: 8px;
+    }
 `;

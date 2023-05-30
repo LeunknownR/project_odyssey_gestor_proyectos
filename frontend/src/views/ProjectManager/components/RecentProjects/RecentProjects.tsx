@@ -1,4 +1,4 @@
-import TitleHeader from "../TitleHeader/TitleHeader";
+import TitleHeader from "../../../components/TitleHeader/TitleHeader";
 import RecentProjectCard from "./components/RecentProjectCard/RecentProjectCard";
 import { CardList, Container } from "./styles";
 import { RecentProjectsProps } from "./types";
