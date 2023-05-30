@@ -5,6 +5,8 @@ export const Container = styled.section`
     background-color: var(--darkblue-4);
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 100%;
 `;
 export const Content = styled.main`
     display: flex;
@@ -18,7 +20,6 @@ export const Content = styled.main`
 export const ProjectFinderWrapper = styled.div`
     display: flex;
     justify-content: flex-end;
-    //GNOMO PREGUNTAR A MANUEL SI MI MÉTODO ESTÁ ACHORAO O ÑOFI
     ${CustomTextFieldContainer} {
         width: 45%;
     }

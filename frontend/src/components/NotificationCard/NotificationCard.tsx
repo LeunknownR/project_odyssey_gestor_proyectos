@@ -9,8 +9,7 @@ import {
 } from "./styles";
 import { NotificationCardProps } from "./types";
 import {useEffect, useState} from "react";
-import {
-    DELTA_SECONDS, VARIANT } from "./utils/constants";
+import {DELTA_SECONDS, VARIANT } from "./utils/constants";
 
 const NotificationCard = ({
     handler: { timeoutToClose, visible, hide },
@@ -51,22 +50,24 @@ const NotificationCard = ({
         setProgress((timeLeft / timeoutToClose) * 100);
     };
     const getClassName = (): string => {
-        const classList: string[] = [variant];
+        const classList: string[] = [];
         visible && classList.push("visible");
         return classList.join(" ");
     };
     return (
+        //GNOMO CAMBIAR NOMBRE DE VARIANT
         <Container
             className={getClassName()}
+            color={VARIANT[variant].color}
             progress={progress}>
             <CloseIconContainer onClick={() => hide()}>
                 <Icon icon="mdi:close" />
             </CloseIconContainer>
             <Row align="center" gap="10px">
-                <IconContainer className={getClassName()} >
+                <IconContainer color={VARIANT[variant].color} >
                     <Icon icon="material-symbols:check-circle-outline" />
                 </IconContainer>
-                <TitleModal className={getClassName()}>{VARIANT[variant].title}</TitleModal>
+                <TitleModal color={VARIANT[variant].color}>{VARIANT[variant].title}</TitleModal>
             </Row>
             <TextModal>{VARIANT[variant].subtitle}</TextModal>
         </Container>

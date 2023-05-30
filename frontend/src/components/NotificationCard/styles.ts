@@ -29,15 +29,10 @@ export const Container = styled.div<ContainerProps>`
         position: absolute;
         width: ${({ progress }) => `${progress}%`};
         height: 7px;
-        background-color: var(--green-2);
-        transition: ${({ transition }) => transition}s;
+        background-color: ${({ color }) => color};
         transition: 0.4s;
         top: 0;
         left: 0;
-    }
-    &.delete-project::before,
-    &.delete-member::before {
-        background-color: var(--red-3);
     }
 `;
 export const CloseIconContainer = styled.span`
@@ -56,22 +51,14 @@ export const IconContainer = styled.span`
     align-items: center;
     .iconify {
         font-size: 24px;
-        color: var(--green-2);
-    }
-    &.delete-project .iconify,
-    &.delete-member .iconify {
-        color: var(--red-3);
+        color: ${({ color }) => color};
     }
 `;
 export const TitleModal = styled.h3`
     font-size: 20px;
-    color: var(--green-2);
+    color: ${({ color }) => color};
     font-weight: 700;
     text-align: start;
-    &.delete-member,
-    &.delete-project {
-        color: var(--red-3);
-    }
 `;
 export const TextModal = styled.p`
     font-size: 17px;

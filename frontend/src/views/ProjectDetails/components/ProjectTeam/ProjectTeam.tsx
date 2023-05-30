@@ -7,13 +7,18 @@ const ProjectTeam = ({
     collaborators,
     openAddMemberModal,
     openDeleteModal,
+    currentUserIsProjectLeader,
 }: ProjectTeamProps) => {
     return (
         <Column margin="15px 0 0" gap="20px">
-            <Header openAddMemberModal={openAddMemberModal} />
+            <Header
+                openAddMemberModal={openAddMemberModal}
+                currentUserIsProjectLeader={currentUserIsProjectLeader}
+            />
             <ProjectTeamList
                 collaborators={collaborators}
                 openDeleteModal={openDeleteModal}
+                currentUserIsProjectLeader={currentUserIsProjectLeader}
             />
         </Column>
     );
