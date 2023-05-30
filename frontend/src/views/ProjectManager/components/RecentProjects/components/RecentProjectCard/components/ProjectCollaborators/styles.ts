@@ -10,7 +10,7 @@ export const Container = styled.div`
         background-color: var(--orange-3);
         color: var(--white-1);
     }
-`;
+`; 
 export const UserBall = styled.div`
     display: flex;
     align-items: center;
