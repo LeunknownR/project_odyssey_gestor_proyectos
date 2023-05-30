@@ -14,4 +14,13 @@ export const Image = styled.img<ImageProps>`
     &.small {
         font-size: 14px;
     }
+    @media (max-width: 600px) {
+        font-size: 22px;
+        &.big {
+            font-size: 26px;
+        }
+        &.small {
+            font-size: 12px;
+        }   
+    }
 `;

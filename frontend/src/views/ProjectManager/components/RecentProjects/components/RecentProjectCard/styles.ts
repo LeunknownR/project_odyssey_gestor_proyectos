@@ -64,5 +64,5 @@ export const ProjectTitle = styled.h4`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 175px;
+    max-width: 165px;
 `;

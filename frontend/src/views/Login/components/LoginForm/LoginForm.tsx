@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import FormBody from "./components/FormBody/FormBody";
-import FormFooter from "./components/FormFooter/FormFooter";
 import FormHeader from "./components/FormHeader/FormHeader";
 import { Container } from "./styles";
-import useLoginForm from "./utils/hooks/useLoginForm";
 import CustomButton from "src/components/CustomButton/CustomButton";
+import useLoginForm from "./utils/hooks/useLoginForm";
+
 const LoginForm = () => {
     const [btnDisabled, setBtnDisabled] = useState(true);
     const { form, error, loading, handleChange, handleSubmit } = useLoginForm();
@@ -24,6 +24,7 @@ const LoginForm = () => {
             <CustomButton
                 content="Ingresar"
                 size="big"
+                alignSelf="flex-end"
                 onClick={handleSubmit}
                 disabled={btnDisabled}
             />

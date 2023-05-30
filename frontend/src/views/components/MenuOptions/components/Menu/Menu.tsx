@@ -2,6 +2,7 @@ import {useState, useEffect} from "react";
 import { currentUserLocalStorage } from "src/storage/user.local";
 import { Container, Option } from "./styles";
 import { MenuProps } from "./types";
+import { DBRoles } from "src/config/roles";
 
 const Menu = ({
     show,
@@ -24,7 +25,7 @@ const Menu = ({
     const className: string = getClassName();
     return (
         <Container className={className}>
-            {currentRole === "GAD" ? (
+            {currentRole === DBRoles.GeneralAdmin ? (
                 <>
                     <Option color="var(--dark-1)" onClick={onClickEdit}>
                         Editar
@@ -33,7 +34,7 @@ const Menu = ({
                         Eliminar
                     </Option>
                 </>
-            ) : (
+            ) : currentRole === DBRoles.Collaborator && (
                 <Option color="var(--dark-1)" onClick={onClickDetails}>
                     Detalle
                 </Option>

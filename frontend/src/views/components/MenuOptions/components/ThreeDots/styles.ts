@@ -25,4 +25,7 @@ export const Container = styled.div<ContainerProps>`
             background-color: var(--white-1);
         }
     }
+    @media (max-width: 600px) {
+        width: 20px;
+    }
 `;

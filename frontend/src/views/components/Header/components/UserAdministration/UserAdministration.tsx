@@ -4,8 +4,11 @@ import UserOptions from "./components/UserOptions/UserOptions";
 import { Container } from "./styles";
 import { currentUserLocalStorage } from "src/storage/user.local";
 import { User } from "src/entities/user/types";
+import { UserAdministrationProps } from "./types";
 
-const UserAdministration = () => {
+const UserAdministration = ({
+    isInSidebar = false
+}: UserAdministrationProps) => {
     const [areOptionsOpen, setAreOptionsOpen] = useState(false);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const $optionsRef = useRef<HTMLDivElement | null>(null);
@@ -26,7 +29,7 @@ const UserAdministration = () => {
         setAreOptionsOpen(prev => !prev);
     };
     return (
-        <Container>
+        <Container className={isInSidebar ? "in-sidebar" : ""}>
             {currentUser && 
             <UserImage 
                 onClick={toggleOptions} 

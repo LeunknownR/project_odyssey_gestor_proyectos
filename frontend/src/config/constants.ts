@@ -1,1 +1,1 @@
-export const MOBILE_WIDTH = "600px"
+export const MOBILE_WIDTH = 600

@@ -6,7 +6,7 @@ type ContainerProps = {
     width?: string;
     maxWidth?: string;
 };
-export const CustomTextFieldContainer = styled.div<ContainerProps>`
+export const Container = styled.div<ContainerProps>`
     display: flex;
     flex-direction: column;
     gap: 5px;

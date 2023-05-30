@@ -6,7 +6,7 @@ export type LoginFormHook = {
     error: string | null;
     loading: boolean;
     handleChange: ({ target: { name, value } }: TextInputTarget) => void;
-    handleSubmit: (e: Event) => Promise<void>;
+    handleSubmit: (e: React.MouseEvent<HTMLElement>) => Promise<void>;
 };
 type FormTypes = {
     value: LoginFormTypes;

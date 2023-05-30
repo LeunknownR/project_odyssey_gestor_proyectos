@@ -1,7 +1,5 @@
 import { useState } from "react";
-
 import { useNavigate } from "react-router-dom";
-
 import { TextInputTarget } from "src/components/CustomTextField/types";
 import { LoginFormTypes } from "../../types";
 import { ERROR_MESSAGES, INITIAL_CREDENTIALS } from "../constants";
@@ -40,7 +38,7 @@ const useLoginForm = (): LoginFormHook => {
     const clearPassword = (): void => {
         setForm({ ...form, password: "" });
     };
-    const handleSubmit = async (e: Event): Promise<void> => {
+    const handleSubmit = async (e: React.MouseEvent<HTMLElement>): Promise<void> => {
         e.preventDefault();
         if (existsErrors()) return;
         setLoading(true);
@@ -83,7 +81,7 @@ const useLoginForm = (): LoginFormHook => {
         error,
         loading,
         handleChange,
-        handleSubmit,
+        handleSubmit
     };
 };
 
