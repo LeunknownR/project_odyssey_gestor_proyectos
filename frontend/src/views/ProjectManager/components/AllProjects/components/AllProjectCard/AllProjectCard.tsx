@@ -38,13 +38,15 @@ const AllProjectCard = ({
             </Row>
             <EndContent align="center" gap="20px">
                 <Row gap="15px" align="center">
-                    {/*GNOMO LEDER*/}
                     {leader && 
                     <ProjectCollaborators 
                         leaderName={leader.name} 
                         projectMemberCount={projectMemberCount}/>}
                     <DateLabel>Fecha</DateLabel>
-                    <ProjectDeadline startDate={startDate} endDate={endDate}/>
+                    <ProjectDeadline 
+                        startDate={startDate} 
+                        endDate={endDate}
+                        variant="short"/>
                 </Row>
                 <OptionsWrapper onClick={() => setCurrentProject(project)}>
                     <MenuOptions

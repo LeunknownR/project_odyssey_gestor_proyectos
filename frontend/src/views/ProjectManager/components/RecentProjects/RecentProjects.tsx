@@ -4,8 +4,8 @@ import TitleHeader from "../../../components/TitleHeader/TitleHeader";
 import RecentProjectCard from "./components/RecentProjectCard/RecentProjectCard";
 import { CardList, Container, Index, ScreenList } from "./styles";
 import { RecentProjectsProps } from "./types";
-import useDeviceSize from "src/utils/hooks/useDeviceSize";
 import useSlider from "./utils/hooks/useSlider";
+import useMainContext from "src/utils/contexts/main-context/useMainContext";
 
 const RecentProjects = ({
     recentProjects,
@@ -14,7 +14,7 @@ const RecentProjects = ({
     openDeleteProjectModal,
 }: RecentProjectsProps) => {
     const $list = useRef<HTMLDivElement>();
-    const { isMobile } = useDeviceSize();
+    const { isMobile } = useMainContext();
     const { currentTranslateX, dragging, handler, idxActiveCard } = useSlider(
         $list,
         recentProjects

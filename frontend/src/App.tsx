@@ -6,9 +6,13 @@ import { ResponseCodes } from "./services/utils/enums";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./views/Login/Login";
 import MasterRouter from "./routes/MasterRouter";
+import MainContext from "./utils/contexts/main-context/MainContext";
+import useDeviceSize from "./utils/hooks/useDeviceSize";
 
 function App() {
     const modalUnexpectedError: ModalProps = useModal();
+    const { isMobile } = useDeviceSize();
+    // const checkExpirationTimeToken = useCheckExpirationTimeToken();
     useEffect(() => {
         initAxiosInterceptors(handlerErrorWithModals);
         //initofflinehandler();
@@ -20,16 +24,15 @@ function App() {
             modalUnexpectedError.open(true);
     }
     return (
-        //EN el main context pasar el show. Renderizar el modal
-        <>
-        <BrowserRouter>
-            <Routes>
-                <Route path="login" element={<Login/>} />
-                <Route path="*" element={<MasterRouter />} />
-            </Routes>
-        </BrowserRouter>
-        </>
-    )
+        <MainContext.Provider value={{ isMobile }}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="login" element={<Login />} />
+                    <Route path="*" element={<MasterRouter />} />
+                </Routes>
+            </BrowserRouter>
+        </MainContext.Provider>
+    );
 }
 
 export default App;
