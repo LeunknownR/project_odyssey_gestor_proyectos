@@ -10,6 +10,9 @@ export const Container = styled.header`
     padding: 15px 50px 15px 30px;
     gap: 180px;
     z-index: 200;
+    @media (max-width: 600px) {
+        display: none;
+    }
 `;
 export const IconContainer = styled.span`
     cursor: pointer;

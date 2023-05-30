@@ -8,5 +8,5 @@ export const DeadlineWrapper = styled.div`
 export const OptionsWrapper = styled.div`
     position: absolute;
     top: 9px;
-    right: 3px;
+    right: 10px;
 `;

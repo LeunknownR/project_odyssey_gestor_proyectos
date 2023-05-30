@@ -12,6 +12,9 @@ export const Container = styled.section`
     background-image: url(${BackgroundImage});
     background-repeat: no-repeat;
     background-size: cover;
+    @media (max-width: 600px) {
+        padding: 0;
+    }
 `;
 export const Slogan = styled.div`
     flex: 1;

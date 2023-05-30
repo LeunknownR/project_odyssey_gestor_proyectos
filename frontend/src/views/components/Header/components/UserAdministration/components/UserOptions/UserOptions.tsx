@@ -2,7 +2,7 @@
 import {
     Container,
     UserInfo,
-    Username,
+    FullName,
 } from "./styles";
 import Footer from "./components/Footer/Footer";
 import UserImage from "../../../../../UserImage/UserImage";
@@ -22,7 +22,7 @@ const UserOptions = forwardRef(({ isOpen, currentUser }: UserOptionsProps, ref) 
                         className="big" 
                         name={name} surname={surname} 
                         urlPhoto={urlPhoto} />
-                    <Username>{name} {surname}</Username>
+                    <FullName>{name} {surname}</FullName>
                 </UserInfo>
                 <RolInfo role={role}/>
             </Column>

@@ -1,3 +1,4 @@
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 type ContainerProps = {
@@ -44,6 +45,9 @@ export const Container = styled.button<ContainerProps>`
             padding: 8px;
             min-width: 110px;
         }
+        &.small {
+            padding: 5px 22px;
+        }
         &.supersmall {
             padding: 5px 12px;
             .iconify {
@@ -80,6 +84,9 @@ export const Container = styled.button<ContainerProps>`
         :hover {
             color: #162834;
             background-color: var(--white-1);
+        }
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            font-size: 15px;
         }
     }
     &.user-options-logout {

@@ -1,4 +1,5 @@
 //#region Libraries
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 //#endregion
 type ContainerProps = {
@@ -6,7 +7,7 @@ type ContainerProps = {
     width?: string;
     maxWidth?: string;
 };
-export const CustomTextFieldContainer = styled.div<ContainerProps>`
+export const Container = styled.div<ContainerProps>`
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -37,11 +38,17 @@ export const LabelContent = styled.label`
         font-weight: 700;
         color: var(--white-1);
         font-size: 20px;
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            font-size: 16px;
+        }
     }
     &.secondary {
         font-weight: 700;
         color: var(--darkblue-1);
         font-size: 20px;
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            font-size: 16px;
+        }
     }
     &.primary-search {
         color: var(--darkblue-1);

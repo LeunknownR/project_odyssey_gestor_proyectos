@@ -9,7 +9,7 @@ export type NewProjectSectionProps = {
     modal: ModalProps;
     form: FormProjectHook;
     getProjectFromForm: () => ProjectForm | null;
-    setCurrentProject: (project: Project | null) => void;
     fillProjects: () => Promise<void>;
     notificationCard: NotificationCardHook;
+    openCreateProjectModal: () => void;
 };

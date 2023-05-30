@@ -1,6 +1,5 @@
 import CustomDatePicker from "src/components/CustomDatePicker/CustomDatePicker";
-import { Row } from "src/components/styles";
-import { Container, Label } from "./styles";
+import { Container, DatePickersWrapper, Label } from "./styles";
 import { TEXT_FIELD_PROPS } from "src/views/ProjectManager/utils/constants";
 import { DurationProps } from "./types";
 
@@ -15,7 +14,7 @@ const Duration = ({ form, labelColor }: DurationProps) => {
     return (
         <Container>
             <Label color={labelColor}>Duración</Label>
-            <Row gap="14px">
+            <DatePickersWrapper gap="14px">
                 <CustomDatePicker
                     {...TEXT_FIELD_PROPS.PROJECT_START}
                     onChange={changeStartDateProjectField}
@@ -26,7 +25,7 @@ const Duration = ({ form, labelColor }: DurationProps) => {
                     onChange={changeEndDateProjectField}
                     value={endDate}
                 />
-            </Row>
+            </DatePickersWrapper>
         </Container>
     );
 };

@@ -69,6 +69,7 @@ const ProjectDetailsView = () => {
                             name={projectDetails.name}
                             description={projectDetails.description}
                             period={projectDetails.period}
+                            state={projectDetails.state}
                             openUpdateDateModal={openUpdateDateModal}
                             currentUserIsProjectLeader={currentUserIsProjectLeader}
                         />

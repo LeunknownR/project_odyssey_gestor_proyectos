@@ -1,13 +1,17 @@
 import CustomTextField from "src/components/CustomTextField/CustomTextField";
 import CustomTextArea from "src/components/CustomTextArea/CustomTextArea";
-import { Column } from "src/components/styles";
-import Duration from "../../../../../Duration/Duration";
+import { Row } from "src/components/styles";
+import Duration from "../../../../../../../Duration/Duration";
 import { ProjectFormComponentProps } from "./types";
 import { ChangeEvent } from "react";
 import { TEXT_FIELD_PROPS } from "src/views/ProjectManager/utils/constants";
+import ResponsiveButtons from "../../../ResponsiveButtons/ResponsiveButtons";
+import { Container } from "./styles";
+import useMainContext from "src/utils/contexts/main-context/useMainContext";
 
-const ProjectFormComponent = ({ form }: ProjectFormComponentProps) => {
+const ProjectFormComponent = ({ form, tabIdx, toPage }: ProjectFormComponentProps) => {
     const { name, description } = form.value;
+    const { isMobile } = useMainContext();
     const changeNameProjectField = ({
         target: { value },
     }: ChangeEvent<HTMLInputElement>) => {
@@ -18,9 +22,8 @@ const ProjectFormComponent = ({ form }: ProjectFormComponentProps) => {
     }: ChangeEvent<HTMLInputElement>) => {
         form.change(TEXT_FIELD_PROPS.PROJECT_DESCRIPTION.name, value);
     };
-
     return (
-        <Column gap="25px" width="92%" alignSelf="center">
+        <Container gap="25px" width="92%" alignSelf="center">
             <CustomTextField
                 {...TEXT_FIELD_PROPS.PROJECT_NAME}
                 variant="primary"
@@ -33,8 +36,12 @@ const ProjectFormComponent = ({ form }: ProjectFormComponentProps) => {
                 value={description}
                 onChange={changeDescriptionProjectField}
             />
-            <Duration form={form} labelColor="var(--white-1)"/>
-        </Column>
+            <Duration form={form} labelColor="var(--white-1)" />
+            {isMobile && 
+                <Row justify="flex-end">
+                    <ResponsiveButtons tabIdx={tabIdx} toPage={toPage} />
+                </Row>}
+        </Container>
     );
 };
 
