@@ -20,6 +20,7 @@ export const Container = styled.li`
         border-left: 27px solid var(--yellow-1);
     }
     @media (max-width: 600px) {
+        padding: 5px 18px;
         &.O, &.F, &.P {
             border-left-width: 15px;
         }
@@ -39,6 +40,7 @@ export const ProjectName = styled.h2`
     font-size: 18px;
     @media (max-width: 600px) {
         font-size: 11px;
+        width: 25vw;
     }
 `;
 export const DateLabel = styled.span`
@@ -54,6 +56,7 @@ export const OptionsWrapper = styled.div`
 `;
 export const EndContent = styled(Row)`
     @media (max-width: 600px) {
+        justify-content: space-between;
         gap: 8px;
     }
 `;

@@ -46,4 +46,7 @@ export const Option = styled.div<OptionProps>`
     :hover {
         background-color: #cccccc;
     }
+    @media (max-width: 600px) {
+        font-size: 10px;
+    }
 `;

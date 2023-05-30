@@ -1,3 +1,4 @@
+import { MOBILE_WIDTH } from "src/config/constants";
 import { ProjectForStateForm } from "../types";
 
 export const TEXT_FIELD_PROPS = {
@@ -16,10 +17,12 @@ export const TEXT_FIELD_PROPS = {
     PROJECT_START: {
         placeholder: "Fecha de inicio",
         name: "startDate",
+        width: "100%"
     },
     PROJECT_END: {
         placeholder: "Fecha de finalización",
         name: "endDate",
+        width: "100%"
     },
     PROJECT_LEADER: {
         placeholder: "Ejm: Ral",

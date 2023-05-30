@@ -7,4 +7,7 @@ export const Content = styled.section`
     @media (min-width: 600px) {
         margin-left: var(--main-sidebar-width);
     }
+    @media (max-width: 600px) {
+        margin-bottom: calc(var(--main-sidebar-height-mobile) + 5px);
+    }
 `;
