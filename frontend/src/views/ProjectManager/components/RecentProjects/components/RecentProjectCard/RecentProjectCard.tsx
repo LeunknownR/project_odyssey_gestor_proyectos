@@ -33,7 +33,6 @@ const RecentProjectCard = ({
                     <StateProject className={state}></StateProject>
                     <ProjectTitle title={name}>{name}</ProjectTitle>
                 </div>
-                {/*GNOMO EL LEDER DEBERÍA VENIR SIEMPRE PORQUE NO EXISTE PROYECTO SIN LEDER*/}
                 {leader && (
                     <ProjectCollaborators
                         leaderName={leader.name}

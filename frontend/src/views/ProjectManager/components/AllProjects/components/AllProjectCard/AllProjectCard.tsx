@@ -37,7 +37,6 @@ const AllProjectCard = ({
             </Row>
             <Row align="center" gap="25px">
                 <Row gap="15px" align="center">
-                    {/*GNOMO LEDER*/}
                     {leader && <ProjectCollaborators leaderName={leader.name} projectMemberCount={projectMemberCount}/>}
                     <Label>Fecha</Label>
                     <Row width="230px">
