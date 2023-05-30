@@ -17,8 +17,6 @@ import useProjectFilters from "./utils/hooks/useProjectFilters";
 import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
 import Preloader from "src/components/Preloader/Preloader";
 import EmptyProjects from "./components/EmptyProjects/EmptyProjects";
-import useMainContext from "src/utils/contexts/main-context/useMainContext";
-import NewProjectButton from "./components/NewProjectButton/NewProjectButton";
 
 const ProjectManager = () => {
     const [currentProject, setCurrentProject] = useState<Project | null>(null);
@@ -27,7 +25,6 @@ const ProjectManager = () => {
     const updateProjectModal = useModal();
     const deleteProjectModal = useModal();
     const preloader = usePreloader();
-    const { isMobile } = useMainContext();
     const { form, getProjectFromForm } = useFormProject(
         newProjectModal,
         updateProjectModal,
