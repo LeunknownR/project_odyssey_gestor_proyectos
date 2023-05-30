@@ -17,6 +17,7 @@ import useProjectFilters from "./utils/hooks/useProjectFilters";
 import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
 import Preloader from "src/components/Preloader/Preloader";
 import EmptyProjects from "./components/EmptyProjects/EmptyProjects";
+import { Column } from "src/components/styles";
 
 const ProjectManager = () => {
     const [currentProject, setCurrentProject] = useState<Project | null>(null);
@@ -65,18 +66,20 @@ const ProjectManager = () => {
                                 doFillProjects={doFill}
                             />
                         </ProjectFinderWrapper>
-                        <RecentProjects
-                            recentProjects={recentProjects}
-                            setCurrentProject={setCurrentProject}
-                            openUpdateProjectModal={openUpdateProjectModal}
-                            openDeleteProjectModal={openDeleteProjectModal}
-                        />
-                        <AllProjects
-                            allProjects={allProjects}
-                            setCurrentProject={setCurrentProject}
-                            openUpdateProjectModal={openUpdateProjectModal}
-                            openDeleteProjectModal={openDeleteProjectModal}
-                        />
+                        <Column gap="40px">
+                            <RecentProjects
+                                recentProjects={recentProjects}
+                                setCurrentProject={setCurrentProject}
+                                openUpdateProjectModal={openUpdateProjectModal}
+                                openDeleteProjectModal={openDeleteProjectModal}
+                            />
+                            <AllProjects
+                                allProjects={allProjects}
+                                setCurrentProject={setCurrentProject}
+                                openUpdateProjectModal={openUpdateProjectModal}
+                                openDeleteProjectModal={openDeleteProjectModal}
+                            />
+                        </Column>
                     </Content>
                 ) : (
                     <EmptyProjects />

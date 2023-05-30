@@ -4,7 +4,7 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 50px;
+    gap: 30px;
 `;
 export const ProjectList = styled.ul`
     display: flex;

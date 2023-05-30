@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import CustomButton from "src/components/CustomButton/CustomButton";
-import { Column } from "src/components/styles";
 import { AbsolutePaths } from "src/config/absolutePaths";
 import { clearStorage } from "src/storage";
+import { Container } from "./styles";
 
 const Footer = () => {
     const navigate = useNavigate();
@@ -11,12 +11,13 @@ const Footer = () => {
         navigate(AbsolutePaths.Login);
     }
     return (
-        <Column align="center" gap="10px">
+        <Container>
             <CustomButton
                 content="Config. Perfil"
                 icon="uiw:setting"
                 variant="user-options-config"
                 width="180px"
+                onClick={() => navigate(AbsolutePaths.Settings)}
             />
             <CustomButton
                 content="Cerrar Sesión"
@@ -24,7 +25,7 @@ const Footer = () => {
                 width="180px"
                 onClick={logout}
             />
-        </Column>
+        </Container>
     );
 };
 

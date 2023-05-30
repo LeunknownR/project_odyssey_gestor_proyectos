@@ -7,7 +7,7 @@ type ContainerProps = {
 }
 export const Container = styled.div<ContainerProps>`
     position: fixed;
-    display: none;
+    display: flex;
     flex-direction: column;
     top: calc(var(--main-header-height) - 1px);
     right: 40px;
@@ -15,8 +15,15 @@ export const Container = styled.div<ContainerProps>`
     width: 320px;
     padding: 35px;
     gap: 25px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(100%);
+    transition: 0.35s;
     &.open {
         display: flex;
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
     }
     @media (max-width: 600px) {
         top: unset;
