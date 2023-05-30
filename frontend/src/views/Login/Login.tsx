@@ -6,7 +6,9 @@ import MainLogo from "src/images/main-logo.png"
 const Login = () => {
     return (
         <Container>
-            <Slogan><TypewriterText text="TRANSFORMA TU PROYECTO EN UNA EPOPEYA MODERNA" /></Slogan>
+            <Slogan>
+                <TypewriterText text="TRANSFORMA TU PROYECTO EN UNA EPOPEYA MODERNA" />
+            </Slogan>
             <LoginForm />
             <Logo src={MainLogo} />
         </Container>

@@ -1,7 +1,7 @@
 import CustomTextField from "src/components/CustomTextField/CustomTextField";
-import { Column } from "src/components/styles";
 import { FormBodyProps } from "./types";
 import ErrorMessage from "src/components/ErrorMessage/ErrorMessage";
+import { Container } from "./styles";
 
 const FormBody = ({
     username,
@@ -10,7 +10,7 @@ const FormBody = ({
     error,
 }: FormBodyProps) => {
     return (
-        <Column width="85%" gap="11px">
+        <Container width="85%" gap="11px">
             <CustomTextField
                 placeholder="Ejm: rcarrasco"
                 label="Usuario"
@@ -28,7 +28,7 @@ const FormBody = ({
                 onChange={handleChange}
             />
             <ErrorMessage text={error} />
-        </Column>
+        </Container>
     );
 };
 

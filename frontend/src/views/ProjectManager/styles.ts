@@ -1,4 +1,4 @@
-import { CustomTextFieldContainer } from "src/components/CustomTextField/styles";
+import { Container as ContainerCustomTextField } from "src/components/CustomTextField/styles";
 import styled from "styled-components";
 
 export const Container = styled.section`
@@ -18,8 +18,7 @@ export const Content = styled.main`
 export const ProjectFinderWrapper = styled.div`
     display: flex;
     justify-content: flex-end;
-    //GNOMO PREGUNTAR A MANUEL SI MI MÉTODO ESTÁ ACHORAO O ÑOFI
-    ${CustomTextFieldContainer} {
+    ${ContainerCustomTextField} {
         width: 45%;
     }
 `;
