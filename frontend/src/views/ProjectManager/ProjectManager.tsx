@@ -35,6 +35,11 @@ const ProjectManager = () => {
     );
     const filters = useProjectFilters();
     const { recentProjects, allProjects, fillProjects, doFill } = useProjectList(preloader, filters.value);
+    const openCreateProjectModal = () => {
+        notificationCard.hide();
+        setCurrentProject(null);
+        newProjectModal.open(true);
+    };
     const openUpdateProjectModal = () => {
         notificationCard.hide();
         setCurrentProject(currentProject);
@@ -52,10 +57,10 @@ const ProjectManager = () => {
                     modal={newProjectModal}
                     form={form}
                     getProjectFromForm={getProjectFromForm}
-                    setCurrentProject={setCurrentProject}
                     fillProjects={fillProjects}
                     preloader={preloader}
                     notificationCard={notificationCard}
+                    openCreateProjectModal={openCreateProjectModal}
                 />
             }
         />
@@ -84,7 +89,7 @@ const ProjectManager = () => {
             ) : (
                 <EmptyProjects />
             )}
-            {isMobile && <NewProjectButton modal={newProjectModal}/>}
+            {/* GNOMO {isMobile && <NewProjectButton openCreateProjectModal={openCreateProjectModal}/>} */}
         </Container>
         <UpdateProjectModal
             modalProps={updateProjectModal}
