@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Modal from "src/components/Modal/Modal";
 import { Column, Row } from "src/components/styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -11,6 +12,9 @@ import LeaderSelector from "../NewProjectSection/components/NewProjectModal/comp
 import { UpdateProjectModalProps } from "./types";
 import { ProjectForm } from "src/entities/project/types";
 import { CardVariant } from "src/components/NotificationCard/types";
+import useMainContext from "src/utils/contexts/main-context/useMainContext";
+import FormSection from "./components/FormSection/FormSection";
+import LeaderSelectionSection from "./components/LeaderSelectionSection/LeaderSelectionSection";
 
 const MODAL_STYLES = {
     padding: "0",
@@ -26,6 +30,8 @@ const UpdateProjectModal = ({
     preloader,
     notificationCard,
 }: UpdateProjectModalProps) => {
+    const [tabIdx, setTabIdx] = useState(0);
+    const { isMobile } = useMainContext();
     const updateProject = async () => {
         const projectForm: ProjectForm | null = getProjectFromForm();
         if (!projectForm) return;
@@ -39,9 +45,28 @@ const UpdateProjectModal = ({
         notificationCard.changeVariant(CardVariant.UpdateProject);
         notificationCard.show();
     };
+    const toPage = (idx: number) => setTabIdx(idx);
+    const views = [
+        <FormSection key={0} form={form} tabIdx={tabIdx} toPage={toPage}/>,
+        <LeaderSelectionSection
+            key={1}
+            form={form}
+            currentLeader={currentProject?.leader}
+            modalProps={modalProps}
+            preloader={preloader}
+            updateProject={updateProject}
+            tabIdx={tabIdx}
+            toPage={toPage}
+        />,
+    ];
     return (
         <Modal {...modalProps} sizeProps={MODAL_STYLES}>
             <Row width="100%">
+                {isMobile ? (
+                    views[tabIdx] || views[0]
+                ) : views }
+            </Row>
+            {/* <Row width="100%">
                 <Left>
                     <Column width="80%" alignSelf="center" gap="40px">
                         <Title>Actualizar Proyecto</Title>
@@ -72,7 +97,7 @@ const UpdateProjectModal = ({
                         </Column>
                     </Column>
                 </Right>
-            </Row>
+            </Row> */}
         </Modal>
     );
 };

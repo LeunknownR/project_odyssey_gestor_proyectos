@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Modal from "src/components/Modal/Modal";
 import { NewProjectModalProps } from "./types";
 import { Row } from "src/components/styles";
@@ -5,7 +6,6 @@ import { requestCreateProject } from "src/services/projects/relatedToProjects";
 import { ProjectForm } from "src/entities/project/types";
 import { CardVariant } from "src/components/NotificationCard/types";
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
-import { useState } from "react";
 import FormSection from "./components/FormSection/FormSection";
 import LeaderSelectionSection from "./components/LeaderSelectionSection/LeaderSelectionSection";
 
@@ -48,13 +48,14 @@ const NewProjectModal = ({
     // };
     const toPage = (idx: number) => setTabIdx(idx);
     const views = [
-        <FormSection key={0} form={form} toPage={toPage}/>,
+        <FormSection key={0} form={form} tabIdx={tabIdx} toPage={toPage}/>,
         <LeaderSelectionSection
             key={1}
             form={form}
             modalProps={modalProps}
             preloader={preloader}
             registerProject={registerProject}
+            tabIdx={tabIdx}
             toPage={toPage}
         />,
     ];
