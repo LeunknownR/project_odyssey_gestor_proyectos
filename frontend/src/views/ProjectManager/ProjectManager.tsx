@@ -17,6 +17,7 @@ import useProjectFilters from "./utils/hooks/useProjectFilters";
 import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
 import Preloader from "src/components/Preloader/Preloader";
 import EmptyProjects from "./components/EmptyProjects/EmptyProjects";
+import UserImage from "../components/UserImage/UserImage";
 
 const ProjectManager = () => {
     const [currentProject, setCurrentProject] = useState<Project | null>(null);

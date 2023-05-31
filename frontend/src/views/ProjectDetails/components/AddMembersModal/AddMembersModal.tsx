@@ -14,7 +14,7 @@ import ProjectMemberToAddList from "./components/ProjectMemberList/ProjectMember
 import CustomInputSearchUserOption from "src/views/components/CustomInputSearchUserOption/CustomInputSearchUserOption";
 import { CardVariant } from "src/components/NotificationCard/types";
 
-const testModalStyles = {
+const MODAL_STYLES = {
     padding: "0px",
     minWidth: "600px",
 };
@@ -70,7 +70,7 @@ const AddMembersModal = ({
     };
     //#endregion
     return (
-        <Modal {...modalProps} sizeProps={testModalStyles}>
+        <Modal {...modalProps} sizeProps={MODAL_STYLES}>
             <Header />
             <BodyWrapper>
                 <CustomInputSearch<CollaboratorUser>
