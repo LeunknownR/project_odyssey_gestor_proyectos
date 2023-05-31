@@ -62,7 +62,6 @@ const ProjectManager = () => {
             }
         />
         <Container>
-            {recentProjects.length > 0 ? (
                 <Content>
                     <ProjectFinderWrapper>
                         <ProjectFinder
@@ -70,6 +69,8 @@ const ProjectManager = () => {
                             doFillProjects={doFill}
                         />
                     </ProjectFinderWrapper>
+                    {recentProjects.length > 0 ? 
+                    <>
                     <RecentProjects
                         recentProjects={recentProjects}
                         setCurrentProject={setCurrentProject}
@@ -82,10 +83,8 @@ const ProjectManager = () => {
                         openUpdateProjectModal={openUpdateProjectModal}
                         openDeleteProjectModal={openDeleteProjectModal}
                     />
+                    </> : <EmptyProjects />}
                 </Content>
-            ) : (
-                <EmptyProjects />
-            )}
             {/* GNOMO {isMobile && <NewProjectButton openCreateProjectModal={openCreateProjectModal}/>} */}
         </Container>
         <UpdateProjectModal
