@@ -9,7 +9,7 @@ const Period = ({
     currentUserIsProjectLeader,
 }: PeriodProps) => {
     return (
-        <Row align="center" gap="16px">
+        <Row align="center" gap="16px" width="100%">
             <Dates>
                 <b>Período</b> {period}
             </Dates>

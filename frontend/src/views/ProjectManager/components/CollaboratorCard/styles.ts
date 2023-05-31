@@ -1,3 +1,4 @@
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -13,17 +14,26 @@ export const Container = styled.div`
     &.secondary {
         background-color: var(--white-1);
     }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        padding: 13px 15px;
+    }
 `;
 export const Name = styled.h3`
     font-size: 17px;
     &.primary {
         color: var(--white-1);
     }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 14px;
+    }
 `;
 export const Email = styled.h5`
     font-size: 12px;
     &.primary {
         color: var(--white-1);
+    }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 11px;
     }
 `;
 export const Role = styled.div`
@@ -34,6 +44,9 @@ export const Role = styled.div`
     border-radius: 4050px;
     font-size: 12px;
     font-weight: 700;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 10px;
+    }
 `;
 export const IconContainer = styled.span`
     display: flex;

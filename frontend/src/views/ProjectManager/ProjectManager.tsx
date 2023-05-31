@@ -17,8 +17,6 @@ import useProjectFilters from "./utils/hooks/useProjectFilters";
 import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
 import Preloader from "src/components/Preloader/Preloader";
 import EmptyProjects from "./components/EmptyProjects/EmptyProjects";
-import useMainContext from "src/utils/contexts/main-context/useMainContext";
-import NewProjectButton from "./components/NewProjectButton/NewProjectButton";
 
 const ProjectManager = () => {
     const [currentProject, setCurrentProject] = useState<Project | null>(null);
@@ -27,7 +25,6 @@ const ProjectManager = () => {
     const updateProjectModal = useModal();
     const deleteProjectModal = useModal();
     const preloader = usePreloader();
-    const { isMobile } = useMainContext();
     const { form, getProjectFromForm } = useFormProject(
         newProjectModal,
         updateProjectModal,
@@ -35,6 +32,11 @@ const ProjectManager = () => {
     );
     const filters = useProjectFilters();
     const { recentProjects, allProjects, fillProjects, doFill } = useProjectList(preloader, filters.value);
+    const openCreateProjectModal = () => {
+        notificationCard.hide();
+        setCurrentProject(null);
+        newProjectModal.open(true);
+    };
     const openUpdateProjectModal = () => {
         notificationCard.hide();
         setCurrentProject(currentProject);
@@ -52,15 +54,14 @@ const ProjectManager = () => {
                     modal={newProjectModal}
                     form={form}
                     getProjectFromForm={getProjectFromForm}
-                    setCurrentProject={setCurrentProject}
                     fillProjects={fillProjects}
                     preloader={preloader}
                     notificationCard={notificationCard}
+                    openCreateProjectModal={openCreateProjectModal}
                 />
             }
         />
         <Container>
-            {recentProjects.length > 0 ? (
                 <Content>
                     <ProjectFinderWrapper>
                         <ProjectFinder
@@ -68,6 +69,8 @@ const ProjectManager = () => {
                             doFillProjects={doFill}
                         />
                     </ProjectFinderWrapper>
+                    {recentProjects.length > 0 ? 
+                    <>
                     <RecentProjects
                         recentProjects={recentProjects}
                         setCurrentProject={setCurrentProject}
@@ -80,11 +83,9 @@ const ProjectManager = () => {
                         openUpdateProjectModal={openUpdateProjectModal}
                         openDeleteProjectModal={openDeleteProjectModal}
                     />
+                    </> : <EmptyProjects />}
                 </Content>
-            ) : (
-                <EmptyProjects />
-            )}
-            {isMobile && <NewProjectButton modal={newProjectModal}/>}
+            {/* GNOMO {isMobile && <NewProjectButton openCreateProjectModal={openCreateProjectModal}/>} */}
         </Container>
         <UpdateProjectModal
             modalProps={updateProjectModal}

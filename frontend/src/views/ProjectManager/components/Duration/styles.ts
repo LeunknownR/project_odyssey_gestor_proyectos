@@ -12,6 +12,9 @@ export const Label = styled.label`
     color: ${({color}) => color};
     font-size: 20px;
     font-weight: 700;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 16px;
+    }
 `;
 export const DatePickersWrapper = styled(Row)`
     @media (max-width: ${MOBILE_WIDTH}px) {

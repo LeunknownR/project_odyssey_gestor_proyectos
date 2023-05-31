@@ -22,7 +22,6 @@ const useProjectList = (preloader: PreloaderHook, filters: ProjectFilters): Proj
         setTriggerRequest(false)
         // return () => CancelServiceRequest.cancel();
     }, [userRole, triggerRequest]);
-    // const preloader = usePreloader();
     const fillProjectsBase = async (
         request: APIRequestFunction<GroupedProjectList, string>
     ) => {
@@ -34,6 +33,7 @@ const useProjectList = (preloader: PreloaderHook, filters: ProjectFilters): Proj
         setAllProjects(data?.all);
     };
     const fillProjects = async (): Promise<void> => {
+        console.log("fillProjects");
         if (userRole === DBRoles.GeneralAdmin)
             fillProjectsBase(requestGetProjectsForGeneralAdmin);
         else if (userRole === DBRoles.Collaborator)

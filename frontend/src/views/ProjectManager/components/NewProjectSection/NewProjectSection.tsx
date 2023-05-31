@@ -10,23 +10,18 @@ const NewProjectSection = ({
     modal,
     form,
     getProjectFromForm,
-    setCurrentProject,
     fillProjects,
-    notificationCard
+    notificationCard,
+    openCreateProjectModal
 }: NewProjectSectionProps) => {
     const userRole = useUserRole();
     if (userRole !== DBRoles.GeneralAdmin) return null;
-    const openModalFormToCreate = () => {
-        notificationCard.hide();
-        setCurrentProject(null);
-        modal.open(true);
-    };
     return (
         <>
             <NewProjectButton 
                 to="" 
                 activeclassname="active" 
-                onClick={openModalFormToCreate}>
+                onClick={openCreateProjectModal}>
                 <span>
                     <Icon icon="mdi:layers-plus" />
                 </span>

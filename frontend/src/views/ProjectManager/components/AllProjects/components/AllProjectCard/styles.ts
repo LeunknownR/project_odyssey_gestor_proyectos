@@ -9,6 +9,7 @@ export const Container = styled.li`
     background-color: var(--white-1-12);
     border: 1px solid var(--white-1-50); 
     padding: 7px 24px;
+    padding-right: 14px;
     border-radius: 10px;
     &.O {
         border-left: 27px solid var(--green-1);
@@ -21,6 +22,7 @@ export const Container = styled.li`
     }
     @media (max-width: 600px) {
         padding: 5px 18px;
+        padding-right: 10px;
         &.O, &.F, &.P {
             border-left-width: 15px;
         }

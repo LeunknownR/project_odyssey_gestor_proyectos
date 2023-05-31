@@ -40,10 +40,10 @@ const projectByCollaboratorMapper = (record: any): Project => ({
     projectMemberCount: record["project_member_count"]
 });
 export const projectListByCollaboratorMapper = (resultset: any[]): GroupedProjectList => {
-    const projectByCollaborator: Project[] = resultset.map(projectByCollaboratorMapper);
+    const projectList: Project[] = resultset.map(projectByCollaboratorMapper);
     return {
-        recents: projectByCollaborator.slice(0, 3),
-        all: projectByCollaborator.slice(3)
+        recents: projectList.slice(0, 3),
+        all: projectList
     };
 }
 export const projectDetailsMapper = (resultset: any[]): ProjectDetails => {
@@ -54,6 +54,7 @@ export const projectDetailsMapper = (resultset: any[]): ProjectDetails => {
         description: header["project_description"],
         period: header["period_project"],
         endDate: header["project_end_date"].getTime(),
+        state: header["project_state"],
         collaborators: resultset.map(projectCollaboratorMapper)
     };
 };

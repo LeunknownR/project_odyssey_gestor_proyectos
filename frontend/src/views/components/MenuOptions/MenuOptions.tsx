@@ -13,7 +13,6 @@ const MenuOptions = ({
     const [showMenu, setShowMenu] = useState(false);
     const toggleMenu = () => setShowMenu(prev => !prev);
     return (
-        <>
         <Container tabIndex={0} onBlur={() => setShowMenu(false)}>
             <ThreeDots onClick={toggleMenu} />
             <Menu
@@ -24,7 +23,6 @@ const MenuOptions = ({
                 onClickDetails={onClickDetails}
             />
         </Container>
-        </>
     );
 };
 

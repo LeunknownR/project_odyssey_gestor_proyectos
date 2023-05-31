@@ -2,10 +2,10 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { Button, Wrapper } from "./styles";
 import { NewProjectButtonProps } from "./types";
 
-const NewProjectButton = ({ modal }: NewProjectButtonProps) => {
+const NewProjectButton = ({ openCreateProjectModal }: NewProjectButtonProps) => {
     return (
         <Wrapper>
-            <Button onClick={() => modal.open(true)}>
+            <Button onClick={openCreateProjectModal}>
                 <Icon icon="mdi:layers-plus" />
                 Nuevo proyecto
             </Button>

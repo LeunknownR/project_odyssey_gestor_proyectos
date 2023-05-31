@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Modal from "src/components/Modal/Modal";
-import { IconContainer, TitleModal } from "./styles";
+import { Content, IconContainer, TitleModal } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Row } from "src/components/styles";
 import { UpdateEndDateModalProps } from "./types";
@@ -48,6 +48,7 @@ const UpdateEndDateModal = ({
     }
     return (
         <Modal {...modalProps} sizeProps={MODAL_STYLES}>
+            {/* <Content> */}
             <Row align="center" gap="10px" justifySelf="flex-start">
                 <IconContainer>
                     <Icon icon="iconamoon:attention-square-fill" />
@@ -66,6 +67,7 @@ const UpdateEndDateModal = ({
                 updateProjectEndDate={updateProjectEndDate}
                 dateIsChanged={dateIsChanged}
             />
+            {/* </Content> */}
         </Modal>
     );
 };
