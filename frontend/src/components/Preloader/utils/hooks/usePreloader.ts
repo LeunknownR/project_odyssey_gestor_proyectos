@@ -1,4 +1,4 @@
-import { PreloaderHook, PreloaderProps } from "components/Preloader/types";
+import { PreloaderHook, PreloaderProps } from "src/components/Preloader/types";
 import { useState } from "react";
 import { INIT_PRELOADER } from "../constants";
 

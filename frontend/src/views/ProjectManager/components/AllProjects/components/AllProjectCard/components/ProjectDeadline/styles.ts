@@ -17,10 +17,10 @@ export const Container = styled.div`
         padding: 4px 10px;
     }
     @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 12px;
+        width: unset;
         &.short {
-            font-size: 8px;
             white-space: nowrap;
         }
-        width: unset;
     }
 `;
