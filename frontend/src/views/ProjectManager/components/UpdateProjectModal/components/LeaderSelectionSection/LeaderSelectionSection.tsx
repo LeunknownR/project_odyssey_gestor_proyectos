@@ -32,8 +32,8 @@ const LeaderSelectionSection = ({
                         currentLeader={currentLeader}
                     />
                     <Footer
+                        form={form}
                         updateProject={updateProject}
-                        formIsCompleted={form.isCompleted}
                         tabIdx={tabIdx}
                         toPage={toPage}
                     />

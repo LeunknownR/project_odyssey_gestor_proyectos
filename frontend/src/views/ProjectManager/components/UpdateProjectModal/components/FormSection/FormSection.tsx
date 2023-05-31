@@ -7,7 +7,7 @@ const FormSection = ({ form, tabIdx, toPage }: FormSectionProps) => {
     return (
         <Container>
             <Column width="80%" alignSelf="center" gap="40px">
-                <Title>Nuevo Proyecto</Title>
+                <Title>Actualizar Proyecto</Title>
                 <ProjectFormComponent form={form} tabIdx={tabIdx} toPage={toPage}/>
             </Column>
         </Container>
