@@ -14,7 +14,7 @@ const Header = ({
 }: HeaderProps) => {
     const { startDate, endDate } = project;
     const navigate = useNavigate();
-    const moveToProjectDetails = () => {
+    const moveToProjectDetails = (): void => {
         navigate(AbsolutePaths.ProjectDetails);
         setProjectId(project.id);
     };
