@@ -1,5 +1,9 @@
+import TaskCard from "./components/TaskCard/TaskCard";
+
 const TaskManager = () => {
-    return ( <h1>Hola</h1> );
+    return (
+        <TaskCard/>
+    );
 }
  
 export default TaskManager;
