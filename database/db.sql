@@ -99,33 +99,55 @@ CREATE TABLE `project_has_collaborator` (
     FOREIGN KEY (`id_project_role`) REFERENCES `project_role`(`id_project_role`)
 );
 
+-- Tabla para guardar las subtareas de cada tarea
+DROP TABLE IF EXISTS `task_priority`;
+CREATE TABLE `task_priority` (
+    `id_task_priority` INT UNSIGNED AUTO_INCREMENT,
+    `task_priority_name` VARCHAR(30) NOT NULL,
+    `url_image` VARCHAR(100) NOT NULL,
+    PRIMARY KEY (`id_task_priority`)
+);
+
 -- Tabla para guardar las tareas
 DROP TABLE IF EXISTS `task`;
 CREATE TABLE `task` (
     `id_task` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `task_name` VARCHAR(255) NOT NULL,
-    `description` TEXT,
+    `task_name` VARCHAR(40) NOT NULL,
+    `description` VARCHAR(200),
     `deadline` DATE,
     `state` ENUM('P', 'O', 'F') NOT NULL,  -- Pending - OnProgress - Finalized
-    `priority` ENUM('L', 'M', 'H') NOT NULL, -- Low - Medium - High
+    `checked` BIT NOT NULL,
+    `id_task_priority` INT UNSIGNED NOT NULL,
     `id_project` INT UNSIGNED NOT NULL,
-    `id_project_has_collaborator` INT UNSIGNED,
+    `id_responsable` INT UNSIGNED,
     PRIMARY KEY (`id_task`),
+    FOREIGN KEY (`id_task_priority`) REFERENCES `task_priority`(`id_task_priority`),
     FOREIGN KEY (`id_project`) REFERENCES `project`(`id_project`),
-    FOREIGN KEY (`id_project_has_collaborator`) REFERENCES `project_has_collaborator`(`id_project_has_collaborator`)
+    FOREIGN KEY (`id_responsable`) REFERENCES `collaborator`(`id_collaborator`)
+);
+
+-- Tabla para guardar el comentario de cada tarea
+DROP TABLE IF EXISTS `task_commet`;
+CREATE TABLE `task_commet` (
+    `id_task_commet` INT UNSIGNED AUTO_INCREMENT,
+    `comment_content` VARCHAR(200) NOT NULL,
+    `comment_date` DATETIME NOT NULL,
+    `id_task` INT UNSIGNED NOT NULL,
+    `id_collaborator` INT UNSIGNED NOT NULL,
+    PRIMARY KEY (`id_task_commet`),
+    FOREIGN KEY (`id_task`) REFERENCES `task`(`id_task`),
+    FOREIGN KEY (`id_collaborator`) REFERENCES `collaborator`(`id_collaborator`)
 );
 
 -- Tabla para guardar las subtareas de cada tarea
-DROP TABLE IF EXISTS `subtasks`;
-CREATE TABLE `subtasks` (
-    `id_subtasks` INT UNSIGNED AUTO_INCREMENT,
-    `subtasks_name` VARCHAR(255) NOT NULL,
-    `deadline` DATE,
+DROP TABLE IF EXISTS `subtask`;
+CREATE TABLE `subtask` (
+    `id_subtask` INT UNSIGNED AUTO_INCREMENT,
+    `subtask_name` VARCHAR(255) NOT NULL,
+    `checked` BIT NOT NULL,
     `id_task` INT UNSIGNED NOT NULL,
-    `id_project_has_collaborator` INT UNSIGNED,
-    PRIMARY KEY (`id_subtasks`),
-    FOREIGN KEY (`id_task`) REFERENCES `task`(`id_task`),
-    FOREIGN KEY (`id_project_has_collaborator`) REFERENCES `project_has_collaborator`(`id_project_has_collaborator`)
+    PRIMARY KEY (`id_subtask`),
+    FOREIGN KEY (`id_task`) REFERENCES `task`(`id_task`)
 );
 
 -- --- [ INSERT INTO ] ------------------------------------------------------------
