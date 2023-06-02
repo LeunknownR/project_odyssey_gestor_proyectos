@@ -2,7 +2,8 @@ export enum AbsolutePaths {
     Login = "/login",
     ProjectManager = "/proyectos",
     ProjectDetails = "/detalles-proyecto",
-    //GNOMO PREGUNTAR SI TA BIEN LA RUTA
-    TaskManager = "/tareas",
+    TaskManager = "/tareas-proyecto",
+    Cronogram = "/cronograma-proyecto",
+    Chats = "/salas-chat-proyecto",
     Settings = "/settings"
 }

@@ -1,3 +1,4 @@
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 export const Container = styled.li`
@@ -41,6 +42,9 @@ export const IconContainer = styled.span`
     .iconify {
         color: var(--red-2);
         font-size: 24px;
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            font-size: 30px;
+        }
     }
     :hover {
         background-color: var(--red-1);

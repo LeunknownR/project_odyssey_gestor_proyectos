@@ -101,9 +101,6 @@ const ProjectDetailsView = () => {
                 fillProjectDetails={fillProjectDetails}
                 notificationCard={notificationCard}
             />
-            </>
-        )}
-        {projectDetails && (
             <DeleteMemberModal
                 modalProps={deleteMemberModal}
                 preloader={preloader}
@@ -111,6 +108,7 @@ const ProjectDetailsView = () => {
                 projectMemberToDelete={currentProjectMember}
                 notificationCard={notificationCard}
             />
+            </>
         )}
         <NotificationCard 
             handler={notificationCard}

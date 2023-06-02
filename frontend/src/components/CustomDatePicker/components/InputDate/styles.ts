@@ -1,4 +1,5 @@
 //#region Libraries
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 //#endregion
 
@@ -31,6 +32,9 @@ export const Container = styled.div`
         span {
             color: var(--white-1-50);
         }
+    }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        padding: 5px 10px;
     }
 `;
 export const IconContainer = styled.span`

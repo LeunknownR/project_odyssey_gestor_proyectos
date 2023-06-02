@@ -1,3 +1,4 @@
+import { MOBILE_WIDTH } from 'src/config/constants';
 import styled from 'styled-components';
 
 export const Container = styled.header`
@@ -11,4 +12,7 @@ export const Title = styled.h3`
   color: var(--white-1);
   padding-bottom: 10px;
   padding-left: 13px; 
+  @media (max-width: ${MOBILE_WIDTH}px) {
+      padding-left: 1px;
+  }
 `;

@@ -10,7 +10,7 @@ const ProjectTeam = ({
     currentUserIsProjectLeader,
 }: ProjectTeamProps) => {
     return (
-        <Column margin="15px 0 0" gap="20px">
+        <Column margin="15px 0 0" gap="40px">
             <Header
                 openAddMemberModal={openAddMemberModal}
                 currentUserIsProjectLeader={currentUserIsProjectLeader}

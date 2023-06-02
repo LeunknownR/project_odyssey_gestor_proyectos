@@ -53,6 +53,14 @@ export const Container = styled.button<ContainerProps>`
             .iconify {
                 font-size: 18px;
             }
+            @media (max-width: ${MOBILE_WIDTH}px) {
+                padding: 5px 12px;
+                font-size: 12px;
+                gap: 5px;
+                .iconify {
+                    font-size: 18px;
+                }
+            }
         }
         :hover {
             background-color: var(--white-1);
@@ -114,6 +122,11 @@ export const Container = styled.button<ContainerProps>`
         &:disabled {
             background-color: var(--darkblue-0);
         }
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            padding: 7px;
+            min-width: 100px;
+            font-size: 15px;
+        }
     }
     &.blue-modal-2 {
         background-color: transparent;
@@ -125,6 +138,11 @@ export const Container = styled.button<ContainerProps>`
         min-width: 125px;
         :hover {
             border-color: transparent;
+        }
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            padding: 7px;
+            min-width: 100px;
+            font-size: 15px;
         }
     }
     &.red-modal {

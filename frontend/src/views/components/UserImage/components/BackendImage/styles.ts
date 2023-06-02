@@ -11,6 +11,9 @@ export const Image = styled.img<ImageProps>`
     &.big {
         font-size: 32px;
     }
+    &.medium {
+        font-size: 18px;
+    }
     &.small {
         font-size: 14px;
     }

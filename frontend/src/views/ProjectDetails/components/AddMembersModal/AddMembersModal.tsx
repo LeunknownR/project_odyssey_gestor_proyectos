@@ -17,6 +17,7 @@ import { CardVariant } from "src/components/NotificationCard/types";
 const MODAL_STYLES = {
     padding: "0px",
     minWidth: "600px",
+    borderRadius: "0"
 };
 const AddMembersModal = ({ 
     modalProps, fillProjectDetails,
