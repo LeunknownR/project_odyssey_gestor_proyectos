@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Container, Content, ProjectFinderWrapper } from "./styles";
 import SidebarMenu from "../components/SidebarMenu/SidebarMenu";
 import useModal from "src/components/Modal/utils/hooks/useModal";
@@ -6,7 +7,6 @@ import UpdateProjectModal from "./components/UpdateProjectModal/UpdateProjectMod
 import AllProjects from "./components/AllProjects/AllProjects";
 import NotificationCard from "src/components/NotificationCard/NotificationCard";
 import useNotificationCard from "src/components/NotificationCard/utils/hooks/useNotificationCard";
-import { useState } from "react";
 import { Project } from "src/entities/project/types";
 import NewProjectSection from "./components/NewProjectSection/NewProjectSection";
 import useFormProject from "./utils/hooks/useFormProject";
@@ -62,29 +62,29 @@ const ProjectManager = () => {
             }
         />
         <Container>
-                <Content>
-                    <ProjectFinderWrapper>
-                        <ProjectFinder
-                            filters={filters}
-                            doFillProjects={doFill}
-                        />
-                    </ProjectFinderWrapper>
-                    {recentProjects.length > 0 ? 
-                    <>
-                    <RecentProjects
-                        recentProjects={recentProjects}
-                        setCurrentProject={setCurrentProject}
-                        openUpdateProjectModal={openUpdateProjectModal}
-                        openDeleteProjectModal={openDeleteProjectModal}
+            <Content>
+                <ProjectFinderWrapper>
+                    <ProjectFinder
+                        filters={filters}
+                        doFillProjects={doFill}
                     />
-                    <AllProjects
-                        allProjects={allProjects}
-                        setCurrentProject={setCurrentProject}
-                        openUpdateProjectModal={openUpdateProjectModal}
-                        openDeleteProjectModal={openDeleteProjectModal}
-                    />
-                    </> : <EmptyProjects />}
-                </Content>
+                </ProjectFinderWrapper>
+                {recentProjects.length > 0 ? 
+                <>
+                <RecentProjects
+                    recentProjects={recentProjects}
+                    setCurrentProject={setCurrentProject}
+                    openUpdateProjectModal={openUpdateProjectModal}
+                    openDeleteProjectModal={openDeleteProjectModal}
+                />
+                <AllProjects
+                    allProjects={allProjects}
+                    setCurrentProject={setCurrentProject}
+                    openUpdateProjectModal={openUpdateProjectModal}
+                    openDeleteProjectModal={openDeleteProjectModal}
+                />
+                </> : <EmptyProjects />}
+            </Content>
             {/* GNOMO {isMobile && <NewProjectButton openCreateProjectModal={openCreateProjectModal}/>} */}
         </Container>
         <UpdateProjectModal
