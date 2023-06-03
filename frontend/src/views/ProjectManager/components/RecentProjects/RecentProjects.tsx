@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Column, Row } from "src/components/styles";
+import { FlexFlow } from "src/components/styles";
 import TitleHeader from "../../../components/TitleHeader/TitleHeader";
 import RecentProjectCard from "./components/RecentProjectCard/RecentProjectCard";
 import { CardList, Container, Index, ScreenList } from "./styles";
@@ -22,7 +22,7 @@ const RecentProjects = ({
     return (
         <Container>
             <TitleHeader text="Proyectos recientes" />
-            <Column gap="25px" align="center">
+            <FlexFlow direction="column" gap="25px" align="center">
                 <ScreenList>
                     <CardList
                         ref={$list}
@@ -51,16 +51,16 @@ const RecentProjects = ({
                     </CardList>
                 </ScreenList>
                 {isMobile && (
-                    <Row gap="10px">
+                    <FlexFlow gap="10px">
                         {recentProjects.map((_, idx) => (
                             <Index
                                 key={idx}
                                 className={idx === idxActiveCard && "active"}
                             />
                         ))}
-                    </Row>
+                    </FlexFlow>
                 )}
-            </Column>
+            </FlexFlow>
         </Container>
     );
 };

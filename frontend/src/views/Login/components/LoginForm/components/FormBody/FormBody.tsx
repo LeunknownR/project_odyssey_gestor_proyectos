@@ -10,7 +10,7 @@ const FormBody = ({
     error,
 }: FormBodyProps) => {
     return (
-        <Container width="85%" gap="11px">
+        <Container direction="column" width="85%" gap="11px">
             <CustomTextField
                 placeholder="Ejm: rcarrasco"
                 label="Usuario"

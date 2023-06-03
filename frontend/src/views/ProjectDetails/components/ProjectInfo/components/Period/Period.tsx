@@ -1,7 +1,7 @@
 import CustomButton from "src/components/CustomButton/CustomButton";
-import { Row } from "src/components/styles";
 import { Dates } from "./styles";
 import { PeriodProps } from "./types";
+import { FlexFlow } from "src/components/styles";
 
 const Period = ({
     period,
@@ -9,7 +9,7 @@ const Period = ({
     currentUserIsProjectLeader,
 }: PeriodProps) => {
     return (
-        <Row align="center" gap="16px">
+        <FlexFlow align="center" gap="16px">
             <Dates>
                 <b>Período</b> {period}
             </Dates>
@@ -21,7 +21,7 @@ const Period = ({
                     onClick={openUpdateDateModal}
                 />
             )}
-        </Row>
+        </FlexFlow>
     );
 };
 

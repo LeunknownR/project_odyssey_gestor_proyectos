@@ -17,9 +17,9 @@ import DeleteMemberModal from "./components/DeleteMemberModal/DeleteMemberModal"
 import useNotificationCard from "src/components/NotificationCard/utils/hooks/useNotificationCard";
 import NotificationCard from "src/components/NotificationCard/NotificationCard";
 import { ProjectCollaborator } from "src/entities/collaborator/types";
-import { Column } from "src/components/styles";
 import { DBProjectRoles } from "src/config/roles";
 import { getUserId } from "src/storage/user.local";
+import { FlexFlow } from "src/components/styles";
 
 const ProjectDetailsView = () => {
     const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(null);
@@ -64,7 +64,7 @@ const ProjectDetailsView = () => {
             <Content>
                 <TitleHeader text="DETALLE DEL PROYECTO" />
                 {projectDetails && (
-                    <Column gap="35px">
+                    <FlexFlow direction="column" gap="35px">
                         <ProjectInfo
                             name={projectDetails.name}
                             description={projectDetails.description}
@@ -79,7 +79,7 @@ const ProjectDetailsView = () => {
                             openDeleteModal={openDeleteModal}
                             currentUserIsProjectLeader={currentUserIsProjectLeader}
                         />
-                    </Column>
+                    </FlexFlow>
                 )}
                 <Footer />
             </Content>

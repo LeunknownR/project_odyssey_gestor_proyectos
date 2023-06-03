@@ -1,13 +1,13 @@
 import { useState } from "react";
 import Modal from "src/components/Modal/Modal";
 import { NewProjectModalProps } from "./types";
-import { Row } from "src/components/styles";
 import { requestCreateProject } from "src/services/projects/relatedToProjects";
 import { ProjectForm } from "src/entities/project/types";
 import { CardVariant } from "src/components/NotificationCard/types";
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
 import FormSection from "./components/FormSection/FormSection";
 import LeaderSelectionSection from "./components/LeaderSelectionSection/LeaderSelectionSection";
+import { FlexFlow } from "src/components/styles";
 
 const MODAL_STYLES = {
     padding: "0",
@@ -41,11 +41,6 @@ const NewProjectModal = ({
         notificationCard.changeVariant(CardVariant.CreateProject);
         notificationCard.show();
     };
-    // const getTabActive = (idx: number) => {
-    //     const classList = [];
-    //     tabIdx === idx && classList.push("active-tab");
-    //     return classList.join(" ");
-    // };
     const toPage = (idx: number) => setTabIdx(idx);
     const views = [
         <FormSection key={0} form={form} tabIdx={tabIdx} toPage={toPage}/>,
@@ -61,11 +56,11 @@ const NewProjectModal = ({
     ];
     return (
         <Modal {...modalProps} sizeProps={MODAL_STYLES}>
-            <Row width="100%">
+            <FlexFlow width="100%">
                 {isMobile ? (
                     views[tabIdx] || views[0]
                 ) : views }
-            </Row>
+            </FlexFlow>
         </Modal>
     );
 };

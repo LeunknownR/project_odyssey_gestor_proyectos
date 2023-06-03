@@ -1,7 +1,7 @@
-import { Column } from "src/components/styles";
 import ProjectTeamList from "./components/MemberList/ProjectTeamList";
 import Header from "./components/Header/Header";
 import { ProjectTeamProps } from "./types";
+import { FlexFlow } from "src/components/styles";
 
 const ProjectTeam = ({
     collaborators,
@@ -10,7 +10,7 @@ const ProjectTeam = ({
     currentUserIsProjectLeader,
 }: ProjectTeamProps) => {
     return (
-        <Column margin="15px 0 0" gap="40px">
+        <FlexFlow direction="column" margin="15px 0 0" gap="40px">
             <Header
                 openAddMemberModal={openAddMemberModal}
                 currentUserIsProjectLeader={currentUserIsProjectLeader}
@@ -20,7 +20,7 @@ const ProjectTeam = ({
                 openDeleteModal={openDeleteModal}
                 currentUserIsProjectLeader={currentUserIsProjectLeader}
             />
-        </Column>
+        </FlexFlow>
     );
 };
 

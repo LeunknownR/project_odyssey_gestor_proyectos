@@ -1,17 +1,17 @@
 import CustomButton from "src/components/CustomButton/CustomButton";
-import { Row } from "src/components/styles";
 import { FormFooterProps } from "./types";
+import { FlexFlow } from "src/components/styles";
 
 const FormFooter = ({ handleSubmit, btnDisabled }: FormFooterProps) => {
     return (
-        <Row justify="center">
+        <FlexFlow justify="center">
             <CustomButton
                 content="Ingresar"
                 size="big"
                 onClick={handleSubmit}
                 disabled={btnDisabled}
             />
-        </Row>
+        </FlexFlow>
     );
 };
 

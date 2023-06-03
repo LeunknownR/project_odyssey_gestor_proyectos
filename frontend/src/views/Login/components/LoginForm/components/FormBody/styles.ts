@@ -1,7 +1,7 @@
-import { Column } from "src/components/styles";
+import { FlexFlow } from "src/components/styles";
 import styled from "styled-components";
 
-export const Container = styled(Column)`
+export const Container = styled(FlexFlow)`
     @media (max-width: 600px) {
         width: 100%;
     }

@@ -1,4 +1,4 @@
-import { Row } from 'src/components/styles';
+import { FlexFlow } from 'src/components/styles';
 import { MOBILE_WIDTH } from 'src/config/constants';
 import styled from 'styled-components';
 
@@ -19,7 +19,7 @@ export const TitleModal = styled.h2`
         text-align: center;
     }
 `;
-export const DatePickerWrapper = styled(Row)`
+export const DatePickerWrapper = styled(FlexFlow)`
     @media (max-width: ${MOBILE_WIDTH}px) {
         padding: 0;
     }

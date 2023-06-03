@@ -11,7 +11,7 @@ import { CustomButtonProps } from "./types";
 const CustomButton = ({
     content,
     disabled = false,
-    variant = "main",
+    variant,
     size,
     onClick,
     icon,
@@ -20,6 +20,7 @@ const CustomButton = ({
     padding,
     maxWidth,
     iconAfterText,
+    iconRotate,
     alignSelf
 }: CustomButtonProps) => {
     const getClassName = () => {
@@ -39,7 +40,7 @@ const CustomButton = ({
             maxWidth={maxWidth}
             padding={padding}
             alignSelf={alignSelf}>
-            {icon && <IconContainer isIconAfterText={iconAfterText}><Icon icon={icon} /></IconContainer>}
+            {icon && <IconContainer isIconAfterText={iconAfterText}><Icon icon={icon} rotate={iconRotate}/></IconContainer>}
             {content}
         </Container>
     );

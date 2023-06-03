@@ -9,6 +9,7 @@ export type CustomButtonProps = {
     padding?: string;
     maxWidth?: string;
     iconAfterText?: boolean;
+    iconRotate?: number;
     alignSelf?: string;
     onClick: (e: React.MouseEvent<HTMLElement>) => void;
 };

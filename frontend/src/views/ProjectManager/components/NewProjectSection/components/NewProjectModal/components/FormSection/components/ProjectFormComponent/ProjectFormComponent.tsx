@@ -1,13 +1,13 @@
 import CustomTextField from "src/components/CustomTextField/CustomTextField";
 import CustomTextArea from "src/components/CustomTextArea/CustomTextArea";
-import { Row } from "src/components/styles";
-import Duration from "../../../../../../../Duration/Duration";
 import { ProjectFormComponentProps } from "./types";
 import { ChangeEvent } from "react";
 import { TEXT_FIELD_PROPS } from "src/views/ProjectManager/utils/constants";
 import ResponsiveButtons from "../../../ResponsiveButtons/ResponsiveButtons";
 import { Container } from "./styles";
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
+import { FlexFlow } from "src/components/styles";
+import Duration from "src/views/ProjectManager/components/Duration/Duration";
 
 const ProjectFormComponent = ({ form, tabIdx, toPage }: ProjectFormComponentProps) => {
     const { name, description } = form.value;
@@ -23,7 +23,7 @@ const ProjectFormComponent = ({ form, tabIdx, toPage }: ProjectFormComponentProp
         form.change(TEXT_FIELD_PROPS.PROJECT_DESCRIPTION.name, value);
     };
     return (
-        <Container gap="25px" width="92%" alignSelf="center">
+        <Container direction="column" gap="25px" width="92%" alignSelf="center">
             <CustomTextField
                 {...TEXT_FIELD_PROPS.PROJECT_NAME}
                 variant="primary"
@@ -38,9 +38,9 @@ const ProjectFormComponent = ({ form, tabIdx, toPage }: ProjectFormComponentProp
             />
             <Duration form={form} labelColor="var(--white-1)" />
             {isMobile && 
-                <Row justify="flex-end">
+                <FlexFlow justify="flex-end">
                     <ResponsiveButtons tabIdx={tabIdx} toPage={toPage} />
-                </Row>}
+                </FlexFlow>}
         </Container>
     );
 };

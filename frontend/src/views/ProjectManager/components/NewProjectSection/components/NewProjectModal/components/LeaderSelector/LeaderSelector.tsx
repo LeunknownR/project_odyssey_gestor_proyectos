@@ -16,8 +16,7 @@ const LeaderSelector = ({
     modalProps, variant,
 }: LeaderSelectorProps) => {
     const $wrapper = useRef<HTMLDivElement>();
-    const [selectedCollaborator, setSelectedCollaborator] =
-        useState<CollaboratorUser | null>(null);
+    const [selectedCollaborator, setSelectedCollaborator] = useState<CollaboratorUser | null>(null);
     useEffect(() => {
         if (!currentLeader || !modalProps.isOpen) return; 
         setSelectedCollaborator(currentLeader);

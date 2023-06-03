@@ -1,4 +1,4 @@
-import { Row } from "src/components/styles";
+import { FlexFlow } from "src/components/styles";
 import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
@@ -13,7 +13,7 @@ export const Container = styled.header`
         padding: 15px;
     }
 `;
-export const Wrapper = styled(Row)`
+export const Wrapper = styled(FlexFlow)`
     @media (max-width: ${MOBILE_WIDTH}px) {
         gap: 10px;
     }

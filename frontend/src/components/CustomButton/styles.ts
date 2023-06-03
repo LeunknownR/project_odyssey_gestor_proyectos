@@ -7,6 +7,7 @@ type ContainerProps = {
     weight?: string;
     padding?: string;
     maxWidth?: string;
+    backgroundColor?: string;
 };
 export const Container = styled.button<ContainerProps>`
     display: flex;

@@ -1,7 +1,7 @@
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
 import { Container } from "./styles";
 import { ProjectDeadlineProps } from "./types";
-import { Column } from "src/components/styles";
+import { FlexFlow } from "src/components/styles";
 
 const ProjectDeadline = ({ 
     startDate, endDate, 
@@ -22,14 +22,14 @@ const ProjectDeadline = ({
     return (
         <Container className={variant}>
             {isMobile && variant === "short"
-            ? <Column>
+            ? <FlexFlow direction="column">
                 <span>
                     <b>Desde:</b> {readableDate.start}
                 </span>
                 <span>
                     <b>Hasta:</b> {readableDate.end}
                 </span>
-            </Column>
+            </FlexFlow>
             : `${readableDate.start} - ${readableDate.end}`}
         </Container>
     );

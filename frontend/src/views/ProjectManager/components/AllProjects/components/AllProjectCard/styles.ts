@@ -1,4 +1,4 @@
-import { Row } from 'src/components/styles';
+import { FlexFlow } from 'src/components/styles';
 import styled from 'styled-components';
 
 export const Container = styled.li`
@@ -56,7 +56,7 @@ export const DateLabel = styled.span`
 export const OptionsWrapper = styled.div`
     position: relative;
 `;
-export const EndContent = styled(Row)`
+export const EndContent = styled(FlexFlow)`
     @media (max-width: 600px) {
         justify-content: space-between;
         gap: 8px;
