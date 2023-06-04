@@ -8,6 +8,7 @@ import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes
 
 export default abstract class ProjectModel {
     static async getProjectListForGeneralAdmin(projectName: string | null): Promise<any[]> {
+        // return PROJECT_LIST_FOR_GENERAL_ADMIN_RESULSTSET;
         const [resultset] = await DBConnection.query(
             StoredProcedures.GetProjectListForGeneralAdmin,
             [projectName]);
@@ -70,6 +71,7 @@ export default abstract class ProjectModel {
         projectId,
         endDate
     }: UpdateEndDateProjectRequestBody): Promise<any> {
+        // return UPDATE_END_DATE_PROJECT_BY_LEADER_RESULTSET;
         const [[record]] = await DBConnection.query(
             StoredProcedures.UpdateEndDateProjectByLeader,
             [

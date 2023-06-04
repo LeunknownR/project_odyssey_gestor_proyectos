@@ -61,7 +61,7 @@ CREATE TABLE `project` (
     `project_name` VARCHAR(50) NOT NULL,
     `description` VARCHAR(200),
     `creation_date` DATE NOT NULL,
-    `state` ENUM('O', 'F', 'P') NOT NULL,
+    `state` ENUM('P', 'O', 'F') NOT NULL,  -- Pending - OnProgress - Finalized
     `start_date` DATE NOT NULL,
     `end_date` DATE NOT NULL,
     `active` BIT NOT NULL DEFAULT 1,
@@ -97,6 +97,57 @@ CREATE TABLE `project_has_collaborator` (
     FOREIGN KEY (`id_project`) REFERENCES `project`(`id_project`),
     FOREIGN KEY (`id_collaborator`) REFERENCES `collaborator`(`id_collaborator`),
     FOREIGN KEY (`id_project_role`) REFERENCES `project_role`(`id_project_role`)
+);
+
+-- Tabla para guardar las subtareas de cada tarea
+DROP TABLE IF EXISTS `task_priority`;
+CREATE TABLE `task_priority` (
+    `id_task_priority` INT UNSIGNED AUTO_INCREMENT,
+    `task_priority_name` VARCHAR(30) NOT NULL,
+    `url_image` VARCHAR(100) NOT NULL,
+    PRIMARY KEY (`id_task_priority`)
+);
+
+-- Tabla para guardar las tareas
+DROP TABLE IF EXISTS `task`;
+CREATE TABLE `task` (
+    `id_task` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `task_name` VARCHAR(40) NOT NULL,
+    `description` VARCHAR(200),
+    `deadline` DATE,
+    `state` ENUM('P', 'O', 'F') NOT NULL,  -- Pending - OnProgress - Finalized
+    `checked` BIT NOT NULL,
+    `id_task_priority` INT UNSIGNED NOT NULL,
+    `id_project` INT UNSIGNED NOT NULL,
+    `id_responsable` INT UNSIGNED,
+    PRIMARY KEY (`id_task`),
+    FOREIGN KEY (`id_task_priority`) REFERENCES `task_priority`(`id_task_priority`),
+    FOREIGN KEY (`id_project`) REFERENCES `project`(`id_project`),
+    FOREIGN KEY (`id_responsable`) REFERENCES `collaborator`(`id_collaborator`)
+);
+
+-- Tabla para guardar el comentario de cada tarea
+DROP TABLE IF EXISTS `task_commet`;
+CREATE TABLE `task_commet` (
+    `id_task_commet` INT UNSIGNED AUTO_INCREMENT,
+    `comment_content` VARCHAR(200) NOT NULL,
+    `comment_date` DATETIME NOT NULL,
+    `id_task` INT UNSIGNED NOT NULL,
+    `id_collaborator` INT UNSIGNED NOT NULL,
+    PRIMARY KEY (`id_task_commet`),
+    FOREIGN KEY (`id_task`) REFERENCES `task`(`id_task`),
+    FOREIGN KEY (`id_collaborator`) REFERENCES `collaborator`(`id_collaborator`)
+);
+
+-- Tabla para guardar las subtareas de cada tarea
+DROP TABLE IF EXISTS `subtask`;
+CREATE TABLE `subtask` (
+    `id_subtask` INT UNSIGNED AUTO_INCREMENT,
+    `subtask_name` VARCHAR(255) NOT NULL,
+    `checked` BIT NOT NULL,
+    `id_task` INT UNSIGNED NOT NULL,
+    PRIMARY KEY (`id_subtask`),
+    FOREIGN KEY (`id_task`) REFERENCES `task`(`id_task`)
 );
 
 -- --- [ INSERT INTO ] ------------------------------------------------------------
