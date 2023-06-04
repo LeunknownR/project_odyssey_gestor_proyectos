@@ -16,3 +16,7 @@ export type ProjectCollaborator = UserBase & {
 	projectHasCollaboratorId: number,
     projectRole: ProjectRole
 };
+export type ProjectTasksPriorities =  {
+    id: number,
+	urlPhoto: string,
+};

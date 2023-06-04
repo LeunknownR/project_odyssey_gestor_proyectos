@@ -1,15 +1,18 @@
-import { collaboratorMemberMapper, collaboratorUserMapper } from "../../entities/collaborator/mappers";
-import { CollaboratorUser } from "../../entities/collaborator/types";
-import { 
-    projectDetailsMapper, 
-    projectListByCollaboratorMapper, 
-    projectListByGeneralAdminMapper 
+import { collaboratorMemberMapper, collaboratorUserMapper, projectTasksPrioritiesMapper } from "../../entities/collaborator/mappers";
+import { CollaboratorUser, ProjectTasksPriorities } from "../../entities/collaborator/types";
+import { projectDetailForPanelMapper } from "../../entities/project/mappers";
+import {
+    projectDetailsMapper,
+    projectListByCollaboratorMapper,
+    projectListByGeneralAdminMapper
 } from "../../entities/project/mappers";
-import { 
-    GroupedProjectList, ProjectForm, 
-    ProjectDetails } from "../../entities/project/types";
+import {
+    GroupedProjectList, ProjectForm,
+    ProjectDetails,
+    ProjectDetailForPanel
+} from "../../entities/project/types";
 import ProjectModel from "../../models/projectModel/projectModel";
-import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectListForCollaboratorRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
+import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectDetailForPanelRequestBody, GetProjectListForCollaboratorRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 import { ResponseMessages } from "../../utils/response/enums";
 
@@ -81,5 +84,15 @@ export default abstract class ProjectController {
             throw new Error("It couldn't be deleted project member");
         const message: string = record["message"];
         return message || ResponseMessages.FatalError;
+    }
+    static async getProjectDetailForPanel(getProjectDetailForPanelRequestBody: GetProjectDetailForPanelRequestBody): Promise<ProjectDetailForPanel> {
+        const resultset: any = await ProjectModel.getProjectDetailForPanel(getProjectDetailForPanelRequestBody);
+        const projectDetailForPanel: ProjectDetailForPanel = projectDetailForPanelMapper(resultset);
+        return projectDetailForPanel;
+    }
+    static async getProjectTasksPriorities(): Promise<ProjectTasksPriorities[]> {
+        const resultset: any[] = await ProjectModel.getProjectTasksPriorities();
+        const projectTasksPrioritiesList: ProjectTasksPriorities[] = resultset.map(projectTasksPrioritiesMapper);
+        return projectTasksPrioritiesList;
     }
 }

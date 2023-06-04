@@ -1,4 +1,4 @@
-import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "./types";
+import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectDetailForPanelRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "./types";
 import { isPast } from "../../../utils/datetime";
 import { isPositiveArrayNumber, isPositiveNumber } from "../../../utils/numbers";
 import { checkLength } from "../../../utils/string";
@@ -69,5 +69,18 @@ export const parseToDeleteProjectMemberRequestBody = (params: any): DeleteProjec
     return {
         userId: parseInt(userId),
         projectHasCollaboratorId: parseInt(projectHasCollaboratorId)
+    };
+}
+export const parseToGetProjectDetailForPanelRequestBody = (params: any): GetProjectDetailForPanelRequestBody => {
+    const {
+        projectId,
+        userId
+    } = params;
+    if (!isPositiveNumber(projectId) ||
+        !isPositiveNumber(userId))
+        throw new Error("Invalid form to get project detail for panel ");
+    return {
+        projectId: parseInt(projectId),
+        userId: parseInt(userId),
     };
 }

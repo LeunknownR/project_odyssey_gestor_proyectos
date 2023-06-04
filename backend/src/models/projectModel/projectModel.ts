@@ -3,7 +3,7 @@ import { StoredProcedures } from "../../db/storedProcedures";
 import {
     ProjectForm
 } from "../../entities/project/types";
-import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectListForCollaboratorRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
+import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectDetailForPanelRequestBody, GetProjectListForCollaboratorRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 
 export default abstract class ProjectModel {
@@ -127,5 +127,22 @@ export default abstract class ProjectModel {
                 userId
             ]);
         return record;
+    }
+    static async getProjectDetailForPanel({
+        projectId, userId
+    }: GetProjectDetailForPanelRequestBody): Promise<any> {
+        const [resultset] = await DBConnection.query(
+            StoredProcedures.GetProjectDetailForPanel,
+            [
+                projectId,
+                userId
+            ]);
+        return resultset;
+    }
+    static async getProjectTasksPriorities(): Promise<any[]> {
+        const [resultset] = await DBConnection.query(
+            StoredProcedures.GetProjectTasksPriorities,
+            []);
+        return resultset;
     }
 }

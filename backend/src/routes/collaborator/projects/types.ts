@@ -18,3 +18,7 @@ export type DeleteProjectMemberRequestBody = {
     userId: number,
     projectHasCollaboratorId: number
 };
+export type GetProjectDetailForPanelRequestBody = {
+    projectId: number,
+    userId: number
+};

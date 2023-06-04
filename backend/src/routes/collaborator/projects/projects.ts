@@ -7,6 +7,7 @@ import { GenerateResponseBody } from "../../../utils/response/generateResponseBo
 import {
     parseToAddProjectMembersRequestBody,
     parseToDeleteProjectMemberRequestBody,
+    parseToGetProjectDetailForPanelRequestBody,
     parseToGetProjectListForCollaboratorRequestBody,
     parseToProjectIdToGetDetails,
     parseToSearchCollaboratorRequestBody,
@@ -14,18 +15,20 @@ import {
 } from "./parsers";
 import {
     GroupedProjectList,
+    ProjectDetailForPanel,
     ProjectDetails,
 } from "../../../entities/project/types";
 import { withErrorHandler } from "../../helpers";
-import { 
-    GetProjectListForCollaboratorRequestBody, 
+import {
+    GetProjectListForCollaboratorRequestBody,
     AddProjectMembersRequestBody,
     DeleteProjectMemberRequestBody,
     SearchCollaboratorRequestBody,
-    UpdateEndDateProjectRequestBody
+    UpdateEndDateProjectRequestBody,
+    GetProjectDetailForPanelRequestBody
 } from "./types";
 import { ResponseCodes, ResponseMessages, getResponseCodeIfMessageExists } from "../../../utils/response/enums";
-import { CollaboratorUser } from "../../../entities/collaborator/types";
+import { CollaboratorUser, ProjectTasksPriorities } from "../../../entities/collaborator/types";
 
 const router = Router();
 router.use("/", Authentication.checkTokenInEndpoints(DBRoles.Collaborator));
@@ -90,6 +93,27 @@ router.get(
             code: ResponseCodes.Ok,
             message: ResponseMessages.Success,
             data: projectDetails
+        });
+    }));
+router.get(
+    ApiPathEndpointsCollaborator.GetProjectDetailForPanel,
+    withErrorHandler(async (req, res) => {
+        const getProjectDetailForPanelRequestBody: GetProjectDetailForPanelRequestBody = parseToGetProjectDetailForPanelRequestBody(req.params);
+        const projectDetailForPanel: ProjectDetailForPanel = await ProjectController.getProjectDetailForPanel(getProjectDetailForPanelRequestBody);
+        GenerateResponseBody.sendResponse<ProjectDetailForPanel>(res, {
+            code: ResponseCodes.Ok,
+            message: ResponseMessages.Success,
+            data: projectDetailForPanel
+        });
+    }));
+
+router.get(ApiPathEndpointsCollaborator.GetProjectTasksPriorities,
+    withErrorHandler(async (req, res) => {
+        const projectTasksPrioritiesList: ProjectTasksPriorities[] = await ProjectController.getProjectTasksPriorities();
+        GenerateResponseBody.sendResponse<ProjectTasksPriorities[]>(res, {
+            code: ResponseCodes.Ok,
+            message: ResponseMessages.Success,
+            data: projectTasksPrioritiesList
         });
     }));
 

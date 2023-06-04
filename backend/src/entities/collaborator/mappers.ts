@@ -1,4 +1,4 @@
-import { CollaboratorUser, ProjectCollaborator, ProjectRole } from "./types";
+import { CollaboratorUser, ProjectCollaborator, ProjectRole, ProjectTasksPriorities } from "./types";
 
 export const collaboratorUserMapper = (record: any): CollaboratorUser => ({
     id: record["id_collaborator"],
@@ -26,4 +26,8 @@ export const projectCollaboratorMapper = (record: any): ProjectCollaborator => (
     email: record["collaborator_email"],
     projectHasCollaboratorId: record["collaborator_id_project_has_collaborator"],
     projectRole: projectRoleMapper(record)
+});
+export const projectTasksPrioritiesMapper = (record: any): ProjectTasksPriorities => ({
+    id: record["id_task"],
+    urlPhoto: record["url_photo"]
 });

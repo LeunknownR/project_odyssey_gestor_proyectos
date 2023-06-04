@@ -3,7 +3,8 @@ import { CollaboratorUser } from "../collaborator/types";
 import { 
     Project, 
     GroupedProjectList,
-    ProjectDetails 
+    ProjectDetails, 
+    ProjectDetailForPanel
 } from "./types";
 
 const projectLeaderMapper = (record: any): CollaboratorUser => ({
@@ -56,5 +57,14 @@ export const projectDetailsMapper = (resultset: any[]): ProjectDetails => {
         endDate: header["project_end_date"].getTime(),
         state: header["project_state"],
         collaborators: resultset.map(projectCollaboratorMapper)
+    };
+};
+export const projectDetailForPanelMapper = (resultset: any): ProjectDetailForPanel => {
+    const [header] = resultset;
+    return {
+        id: header["id_project"],
+        name: header["project_name"],
+        state: header["project_state"],
+        projectRoleId: header["id_role"],
     };
 };
