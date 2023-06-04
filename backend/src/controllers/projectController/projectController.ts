@@ -1,7 +1,7 @@
-import { collaboratorMemberMapper, collaboratorUserMapper, projectTasksPrioritiesMapper } from "../../entities/collaborator/mappers";
-import { CollaboratorUser, ProjectTasksPriorities } from "../../entities/collaborator/types";
-import { projectDetailForPanelMapper } from "../../entities/project/mappers";
+import { collaboratorMemberMapper, collaboratorUserMapper, taskPrioritiesMapper } from "../../entities/collaborator/mappers";
+import { CollaboratorUser, ProjectTableDetail, TaskPriorities } from "../../entities/collaborator/types";
 import {
+    projectTableDetailMapper,
     projectDetailsMapper,
     projectListByCollaboratorMapper,
     projectListByGeneralAdminMapper
@@ -9,10 +9,9 @@ import {
 import {
     GroupedProjectList, ProjectForm,
     ProjectDetails,
-    ProjectDetailForPanel
 } from "../../entities/project/types";
 import ProjectModel from "../../models/projectModel/projectModel";
-import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectDetailForPanelRequestBody, GetProjectListForCollaboratorRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
+import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectTableDetailRequestBody, GetProjectListForCollaboratorRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 import { ResponseMessages } from "../../utils/response/enums";
 
@@ -85,14 +84,14 @@ export default abstract class ProjectController {
         const message: string = record["message"];
         return message || ResponseMessages.FatalError;
     }
-    static async getProjectDetailForPanel(getProjectDetailForPanelRequestBody: GetProjectDetailForPanelRequestBody): Promise<ProjectDetailForPanel> {
-        const resultset: any = await ProjectModel.getProjectDetailForPanel(getProjectDetailForPanelRequestBody);
-        const projectDetailForPanel: ProjectDetailForPanel = projectDetailForPanelMapper(resultset);
-        return projectDetailForPanel;
+    static async getProjectTableDetail(getProjectTableDetailRequestBody: GetProjectTableDetailRequestBody): Promise<ProjectTableDetail> {
+        const resultset: any = await ProjectModel.getProjectTableDetail(getProjectTableDetailRequestBody);
+        const projectTableDetail: ProjectTableDetail = projectTableDetailMapper(resultset);
+        return projectTableDetail;
     }
-    static async getProjectTasksPriorities(): Promise<ProjectTasksPriorities[]> {
-        const resultset: any[] = await ProjectModel.getProjectTasksPriorities();
-        const projectTasksPrioritiesList: ProjectTasksPriorities[] = resultset.map(projectTasksPrioritiesMapper);
-        return projectTasksPrioritiesList;
+    static async getTaskPriorities(): Promise<TaskPriorities[]> {
+        const resultset: any[] = await ProjectModel.getTaskPriorities();
+        const tasksPrioritiesList: TaskPriorities[] = resultset.map(taskPrioritiesMapper);
+        return tasksPrioritiesList;
     }
 }

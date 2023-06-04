@@ -3,8 +3,9 @@ import { StoredProcedures } from "../../db/storedProcedures";
 import {
     ProjectForm
 } from "../../entities/project/types";
-import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectDetailForPanelRequestBody, GetProjectListForCollaboratorRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
+import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectTableDetailRequestBody, GetProjectListForCollaboratorRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
+import { MOKITOGetProjectDetailForPanelRequestBody, MOKITOgetProjectTasksPriorities, UPDATE_END_DATE_PROJECT_BY_LEADER_RESULTSET } from "./mocks";
 
 export default abstract class ProjectModel {
     static async getProjectListForGeneralAdmin(projectName: string | null): Promise<any[]> {
@@ -71,7 +72,6 @@ export default abstract class ProjectModel {
         projectId,
         endDate
     }: UpdateEndDateProjectRequestBody): Promise<any> {
-        // return UPDATE_END_DATE_PROJECT_BY_LEADER_RESULTSET;
         const [[record]] = await DBConnection.query(
             StoredProcedures.UpdateEndDateProjectByLeader,
             [
@@ -130,20 +130,20 @@ export default abstract class ProjectModel {
             ]);
         return record;
     }
-    static async getProjectDetailForPanel({
+    static async getProjectTableDetail({
         projectId, userId
-    }: GetProjectDetailForPanelRequestBody): Promise<any> {
+    }: GetProjectTableDetailRequestBody): Promise<any> {
         const [resultset] = await DBConnection.query(
-            StoredProcedures.GetProjectDetailForPanel,
+            StoredProcedures.GetProjectTableDetail,
             [
                 projectId,
                 userId
             ]);
         return resultset;
     }
-    static async getProjectTasksPriorities(): Promise<any[]> {
+    static async getTaskPriorities(): Promise<any[]> {
         const [resultset] = await DBConnection.query(
-            StoredProcedures.GetProjectTasksPriorities,
+            StoredProcedures.GetTaskPriorities,
             []);
         return resultset;
     }

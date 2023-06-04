@@ -7,7 +7,7 @@ import { GenerateResponseBody } from "../../../utils/response/generateResponseBo
 import {
     parseToAddProjectMembersRequestBody,
     parseToDeleteProjectMemberRequestBody,
-    parseToGetProjectDetailForPanelRequestBody,
+    parseToGetProjectTableDetailRequestBody,
     parseToGetProjectListForCollaboratorRequestBody,
     parseToProjectIdToGetDetails,
     parseToSearchCollaboratorRequestBody,
@@ -15,7 +15,6 @@ import {
 } from "./parsers";
 import {
     GroupedProjectList,
-    ProjectDetailForPanel,
     ProjectDetails,
 } from "../../../entities/project/types";
 import { withErrorHandler } from "../../helpers";
@@ -25,10 +24,10 @@ import {
     DeleteProjectMemberRequestBody,
     SearchCollaboratorRequestBody,
     UpdateEndDateProjectRequestBody,
-    GetProjectDetailForPanelRequestBody
+    GetProjectTableDetailRequestBody
 } from "./types";
 import { ResponseCodes, ResponseMessages, getResponseCodeIfMessageExists } from "../../../utils/response/enums";
-import { CollaboratorUser, ProjectTasksPriorities } from "../../../entities/collaborator/types";
+import { CollaboratorUser, ProjectTableDetail, TaskPriorities } from "../../../entities/collaborator/types";
 
 const router = Router();
 router.use("/", Authentication.checkTokenInEndpoints(DBRoles.Collaborator));
@@ -95,25 +94,23 @@ router.get(
             data: projectDetails
         });
     }));
-router.get(
-    ApiPathEndpointsCollaborator.GetProjectDetailForPanel,
+router.get(ApiPathEndpointsCollaborator.GetProjectTableDetail,
     withErrorHandler(async (req, res) => {
-        const getProjectDetailForPanelRequestBody: GetProjectDetailForPanelRequestBody = parseToGetProjectDetailForPanelRequestBody(req.params);
-        const projectDetailForPanel: ProjectDetailForPanel = await ProjectController.getProjectDetailForPanel(getProjectDetailForPanelRequestBody);
-        GenerateResponseBody.sendResponse<ProjectDetailForPanel>(res, {
+        const getProjectTableDetailRequestBody: GetProjectTableDetailRequestBody = parseToGetProjectTableDetailRequestBody(req.params);
+        const projectTableDetail: ProjectTableDetail = await ProjectController.getProjectTableDetail(getProjectTableDetailRequestBody);
+        GenerateResponseBody.sendResponse<ProjectTableDetail>(res, {
             code: ResponseCodes.Ok,
             message: ResponseMessages.Success,
-            data: projectDetailForPanel
+            data: projectTableDetail
         });
     }));
-
-router.get(ApiPathEndpointsCollaborator.GetProjectTasksPriorities,
+router.get(ApiPathEndpointsCollaborator.GetTaskPriorities,
     withErrorHandler(async (req, res) => {
-        const projectTasksPrioritiesList: ProjectTasksPriorities[] = await ProjectController.getProjectTasksPriorities();
-        GenerateResponseBody.sendResponse<ProjectTasksPriorities[]>(res, {
+        const taskPrioritiesList: TaskPriorities[] = await ProjectController.getTaskPriorities();
+        GenerateResponseBody.sendResponse<TaskPriorities[]>(res, {
             code: ResponseCodes.Ok,
             message: ResponseMessages.Success,
-            data: projectTasksPrioritiesList
+            data: taskPrioritiesList
         });
     }));
 

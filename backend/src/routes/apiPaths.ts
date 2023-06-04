@@ -24,6 +24,6 @@ export enum ApiPathEndpointsCollaborator {
     SearchCollaboratorMember = "/projects/search-collaborator-member/:projectId/:collaboratorName",
     AddProjectMembers = "/projects/add-members",
     DeleteProjectMember = "/projects/delete-member/:userId/:projectHasCollaboratorId",
-    GetProjectDetailForPanel="/project-tasks/details/:projectId/:userId",
-    GetProjectTasksPriorities ="/project-tasks/priorities"
+    GetProjectTableDetail="/project-tasks/details/:projectId/:userId",
+    GetTaskPriorities ="/project-tasks/priorities"
 }

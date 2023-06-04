@@ -1,16 +1,16 @@
-import { CollaboratorUser, ProjectCollaborator, ProjectRole, ProjectTasksPriorities } from "./types";
+import { CollaboratorUser, ProjectCollaborator, ProjectRole, TaskPriorities } from "./types";
 
 export const collaboratorUserMapper = (record: any): CollaboratorUser => ({
     id: record["id_collaborator"],
     name: record["name"],
-    surname: record["surname"], 
+    surname: record["surname"],
     urlPhoto: record["url_photo"],
     email: record["email"]
 });
 export const collaboratorMemberMapper = (record: any): CollaboratorUser => ({
     id: record["id_collaborator"],
     name: record["name"],
-    surname: record["surname"], 
+    surname: record["surname"],
     urlPhoto: record["url_photo"],
     email: record["email"]
 });
@@ -27,7 +27,7 @@ export const projectCollaboratorMapper = (record: any): ProjectCollaborator => (
     projectHasCollaboratorId: record["collaborator_id_project_has_collaborator"],
     projectRole: projectRoleMapper(record)
 });
-export const projectTasksPrioritiesMapper = (record: any): ProjectTasksPriorities => ({
-    id: record["id_task"],
-    urlPhoto: record["url_photo"]
+export const taskPrioritiesMapper = (record: any): TaskPriorities => ({
+    id: record["id_task_priority"],
+    urlPhoto: record["url_image"]
 });
