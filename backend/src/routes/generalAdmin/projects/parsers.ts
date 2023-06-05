@@ -1,4 +1,4 @@
-import { ProjectForm } from "../../../entities/project/types";
+import { ProjectForm } from "../../../entities/project/entities";
 import { isPositiveNumber } from "../../../utils/numbers";
 import { checkLength } from "../../../utils/string";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "./types";

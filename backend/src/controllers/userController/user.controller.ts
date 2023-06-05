@@ -1,4 +1,4 @@
-import UserModel from "../../models/userModel/userModel";
+import UserModel from "../../models/userModel/user.model";
 import Authentication from "../../utils/authentication";
 import { isCorrectPassword } from "./helpers";
 import { AuthData, Credentials, User } from "../../entities/user/types";
