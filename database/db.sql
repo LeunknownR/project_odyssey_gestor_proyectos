@@ -111,9 +111,9 @@ CREATE TABLE `task_priority` (
 
 INSERT INTO `task_priority`(`id_task_priority`, `task_priority_name`, `url_image`)
 VALUES 
-    (1, "low", "/low.jpg"),
-    (2, "medium", "/medium.jpg"),
-    (3, "high", "/high.jpg");
+    (1, "low", "/task-priority-low.svg"),
+    (2, "medium", "/task-priority-med.svg"),
+    (3, "high", "/task-priority-high.svg");
 
 -- Tabla para guardar las tareas
 DROP TABLE IF EXISTS `task`;
@@ -126,11 +126,11 @@ CREATE TABLE `task` (
     `checked` BIT NOT NULL,
     `id_task_priority` INT UNSIGNED NULL,
     `id_project` INT UNSIGNED NOT NULL,
-    `id_responsable` INT UNSIGNED NULL,
+    `id_responsible` INT UNSIGNED NULL,
     PRIMARY KEY (`id_task`),
     FOREIGN KEY (`id_task_priority`) REFERENCES `task_priority`(`id_task_priority`),
     FOREIGN KEY (`id_project`) REFERENCES `project`(`id_project`),
-    FOREIGN KEY (`id_responsable`) REFERENCES `collaborator`(`id_collaborator`)
+    FOREIGN KEY (`id_responsible`) REFERENCES `collaborator`(`id_collaborator`)
 );
 
 -- Tabla para guardar el comentario de cada tarea
@@ -791,7 +791,7 @@ BEGIN
         ) THEN
             -- Seteandole la tarea al miembro
             UPDATE task
-            SET id_responsable = p_id_collaborator
+            SET id_responsible = p_id_collaborator
             WHERE id_task = @id_task;
         END IF;
         -- Cuando la creación de la tarea es exitosa.
@@ -802,7 +802,7 @@ DELIMITER ;
 
 -- sp_update_task(
 -- 		p_id_project,
--- 		p_id_responsable,
+-- 		p_id_responsible,
 -- 		p_task_name,
 -- 		p_description,
 -- 		p_deadline,
@@ -831,10 +831,10 @@ BEGIN
         SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
     ELSE
         IF NOT EXISTS (
-            SELECT id_responsable
+            SELECT id_responsible
             FROM task
             WHERE id_task = p_id_task_to_be_deleted
-            AND id_responsable = p_id_collaborator
+            AND id_responsible = p_id_collaborator
         ) THEN
             -- Cuando el colaborador es miembro del proyecto y no es su tarea.
             SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
