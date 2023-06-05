@@ -12,5 +12,7 @@ export enum StoredProcedures {
     AddProjectMembers = "CALL sp_add_project_members(?, ?);",
     DeleteProjectMember = "CALL sp_delete_project_member(?, ?);",
     GetProjectDetails = "CALL sp_get_project_details_by_project_id(?);",
+    GetProjectTableDetail = "CALL sp_get_project_table_detail(?, ?);",
+    GetProjectTaskPriorities = "CALL sp_get_task_priorities();",
     GetProjectTaskBoard = "CALL sp_get_project_task_list(?);"
 }

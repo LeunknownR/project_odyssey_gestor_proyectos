@@ -8,4 +8,10 @@ export default abstract class ProjectTasksModel {
             [projectId]);
         return resultset;
     }
+    static async getTaskPriorities(): Promise<any[]> {
+        const [resultset] = await DBConnection.query(
+            StoredProcedures.GetProjectTaskPriorities,
+            []);
+        return resultset;
+    }
 }

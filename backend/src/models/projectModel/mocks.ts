@@ -17,3 +17,23 @@ export const PROJECT_LIST_FOR_GENERAL_ADMIN_RESULSTSET: any[] = [
 export const UPDATE_END_DATE_PROJECT_BY_LEADER_RESULTSET: any = {
     "message": "GAAAA"
 };
+export const MOKITOgetProjectTasksPriorities: any[] = [
+    {
+        "id_task_priority": 1,
+        "url_image": "low.svg",
+    },
+    {
+        "id_task_priority": 2,
+        "url_image": "medium.svg",
+    },
+    {
+        "id_task_priority": 3,
+        "url_image": "high.svg",
+    }
+];
+export const MOKITOGetProjectDetailForPanelRequestBody: any = {
+    "id_project": 2,
+    "project_name": "Gestor de proyectos - Project Odyssey",
+    "project_state": "P",
+    "id_project_role": "PLD"
+};

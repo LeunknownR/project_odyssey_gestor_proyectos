@@ -3,8 +3,17 @@ import { StoredProcedures } from "../../db/storedProcedures";
 import {
     ProjectForm
 } from "../../entities/project/entities";
-import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectListForCollaboratorRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
-import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
+import { GetProjectPanelDetailRequestBody } from "../../routes/collaborator/projectPanel/types";
+import { 
+    AddProjectMembersRequestBody, 
+    DeleteProjectMemberRequestBody, 
+    GetProjectListForCollaboratorRequestBody, 
+    SearchCollaboratorRequestBody, 
+    UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
+import { 
+    CreateProjectRequestBody, 
+    DeleteProjectRequestBody 
+} from "../../routes/generalAdmin/projects/types";
 
 export default abstract class ProjectModel {
     static async getProjectListForGeneralAdmin(projectName: string | null): Promise<any[]> {
@@ -71,7 +80,6 @@ export default abstract class ProjectModel {
         projectId,
         endDate
     }: UpdateEndDateProjectRequestBody): Promise<any> {
-        // return UPDATE_END_DATE_PROJECT_BY_LEADER_RESULTSET;
         const [[record]] = await DBConnection.query(
             StoredProcedures.UpdateEndDateProjectByLeader,
             [
@@ -129,5 +137,16 @@ export default abstract class ProjectModel {
                 userId
             ]);
         return record;
+    }
+    static async getProjectPanelDetail({
+        projectId, userId
+    }: GetProjectPanelDetailRequestBody): Promise<any> {
+        const [resultset] = await DBConnection.query(
+            StoredProcedures.GetProjectTableDetail,
+            [
+                projectId,
+                userId
+            ]);
+        return resultset;
     }
 }

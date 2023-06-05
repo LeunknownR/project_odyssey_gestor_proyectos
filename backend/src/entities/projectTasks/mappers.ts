@@ -59,11 +59,11 @@ export const projectTaskBoardMapper = (resulset: any[]): ProjectTaskBoard => {
                 checked: record["task_checked"],
                 priorityId: record["id_task_priority"],
                 deadline: record["task_deadline"],
-                responsable: {
-                    id: record["id_responsable"],
-                    name: record["responsable_name"],
-                    surname: record["responsable_surname"],
-                    urlPhoto: record["responsable_url_photo"]
+                responsible: {
+                    id: record["id_responsible"],
+                    name: record["responsible_name"],
+                    surname: record["responsible_surname"],
+                    urlPhoto: record["responsible_url_photo"]
                 },
                 subtasks: [projectSubtasksMapper(record)],
                 comments: [projectTaskCommentMapper(record)]

@@ -22,7 +22,7 @@ export type ProjectTask = {
     name: string;
     description: string | null;
     checked: boolean;
-    responsable: ProjectTaskCollaboratorUser;
+    responsible: ProjectTaskCollaboratorUser;
     priorityId: number | null;
     deadline: number;
     subtasks: ProjectSubtask[];
@@ -33,4 +33,8 @@ export type ProjectTaskBoard = {
     onProgress: ProjectTask[];
     finalized: ProjectTask[];
     [projectTaskState: string]: ProjectTask[];
+};
+export type ProjectTaskPriority =  {
+    id: number,
+	urlPhoto: string,
 };
