@@ -21,6 +21,13 @@ export abstract class WSServiceEventHandler {
     public abstract listen(socket: Socket): void;
     protected configSocket(socket: Socket, wsEventList: WSEvent[]) {
         for (const { name, handler } of wsEventList) 
-            socket.on(name, body => handler(socket, body));
+            socket.on(name, body => {
+                try {
+                    handler(socket, body);
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            });
     }
 }

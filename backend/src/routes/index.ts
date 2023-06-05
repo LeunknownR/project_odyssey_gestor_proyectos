@@ -23,11 +23,11 @@ const routes: Endpoint[] = [
     },
     {
         path: ApiPathEndpointGroups.Collaborator,
-        routes: collaboratorProjectTasks
+        routes: collaboratorProjectPanel
     },
     {
         path: ApiPathEndpointGroups.Collaborator,
-        routes: collaboratorProjectPanel
+        routes: collaboratorProjectTasks
     }
 ];
 routes.forEach(({ path, routes }) => {
