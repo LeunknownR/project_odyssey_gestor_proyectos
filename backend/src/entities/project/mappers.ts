@@ -1,10 +1,10 @@
 import { projectCollaboratorMapper } from "../collaborator/mappers";
-import { CollaboratorUser } from "../collaborator/types";
+import { CollaboratorUser } from "../collaborator/entities";
 import { 
     Project, 
     GroupedProjectList,
     ProjectDetails 
-} from "./types";
+} from "./entities";
 
 const projectLeaderMapper = (record: any): CollaboratorUser => ({
     id: record["id_collaborator"],

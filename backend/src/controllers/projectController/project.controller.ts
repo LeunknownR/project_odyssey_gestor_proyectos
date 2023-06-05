@@ -1,5 +1,5 @@
 import { collaboratorMemberMapper, collaboratorUserMapper } from "../../entities/collaborator/mappers";
-import { CollaboratorUser } from "../../entities/collaborator/types";
+import { CollaboratorUser } from "../../entities/collaborator/entities";
 import { 
     projectDetailsMapper, 
     projectListByCollaboratorMapper, 
@@ -7,8 +7,8 @@ import {
 } from "../../entities/project/mappers";
 import { 
     GroupedProjectList, ProjectForm, 
-    ProjectDetails } from "../../entities/project/types";
-import ProjectModel from "../../models/projectModel/projectModel";
+    ProjectDetails } from "../../entities/project/entities";
+import ProjectModel from "../../models/projectModel/project.model";
 import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectListForCollaboratorRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 import { ResponseMessages } from "../../utils/response/enums";

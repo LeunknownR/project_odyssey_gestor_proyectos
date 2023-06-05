@@ -2,7 +2,7 @@ import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
 import {
     ProjectForm
-} from "../../entities/project/types";
+} from "../../entities/project/entities";
 import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectListForCollaboratorRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 

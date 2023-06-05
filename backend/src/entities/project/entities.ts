@@ -1,4 +1,4 @@
-import { ProjectCollaborator, CollaboratorUser } from "../collaborator/types";
+import { ProjectCollaborator, CollaboratorUser } from "../collaborator/entities";
 import { ProjectState } from "./enums";
 
 export type ProjectBase = {

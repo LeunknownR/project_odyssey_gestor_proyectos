@@ -1,40 +1,13 @@
-import { WSTaskListByState, WSUserDataProjectTaskService } from "./utils/entities";
+import WSConnectedCollaboratorsInProjectHandler from "./connectedCollaboratorsInProjectHandler";
+import WSTaskBoardsHandler from "./taskBoardsHandler";
 
 export default class WSProjectTaskServiceDataHandler {
-    private taskListByState: WSTaskListByState;
-    private collaboratorListInProject: Map<number, number[]>;
+    public readonly taskBoardsHandler: WSTaskBoardsHandler;
+    public readonly connectedCollaboratorsInProjectHandler: WSConnectedCollaboratorsInProjectHandler;
     constructor() {
-        this.taskListByState = {
-            pending: [],
-            onProgress: [],
-            finalized: []
-        };
-        this.collaboratorListInProject = new Map();
+        this.connectedCollaboratorsInProjectHandler = new WSConnectedCollaboratorsInProjectHandler();
+        this.taskBoardsHandler = new WSTaskBoardsHandler();
     }
     public addTask(newTask: string): void {
-    }
-    public addCollaboratorInProject({
-        projectId,
-        userId
-    }: WSUserDataProjectTaskService): void {
-        const { collaboratorListInProject } = this;
-        const prevUsersInCurrentProject = collaboratorListInProject.get(projectId);
-        const newCollaboratorListInProject: number[] = 
-            prevUsersInCurrentProject 
-            ? [
-                ...prevUsersInCurrentProject,
-                userId
-            ] : [userId];
-        this.collaboratorListInProject.set(projectId, newCollaboratorListInProject);
-    }
-    public removeCollaboratorInProject(currentUserData: WSUserDataProjectTaskService): void {
-        const { projectId } = currentUserData;
-        const { collaboratorListInProject } = this;
-        const prevUsersInCurrentProject: number[] = collaboratorListInProject.get(projectId);
-        const newCollaboratorListInProject: number[] = 
-            prevUsersInCurrentProject 
-            ? prevUsersInCurrentProject.filter(userId => userId !== currentUserData.userId) 
-            : [];
-        this.collaboratorListInProject.set(projectId, newCollaboratorListInProject);
     }
 }

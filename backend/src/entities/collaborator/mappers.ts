@@ -1,4 +1,4 @@
-import { CollaboratorUser, ProjectCollaborator, ProjectRole } from "./types";
+import { CollaboratorUser, ProjectCollaborator, ProjectRole } from "./entities";
 
 export const collaboratorUserMapper = (record: any): CollaboratorUser => ({
     id: record["id_collaborator"],
