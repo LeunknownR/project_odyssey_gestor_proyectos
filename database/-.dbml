@@ -1,0 +1,76 @@
+
+Enum "project_state_enum" {
+  "O"
+  "F"
+  "P"
+}
+
+Table "role" {
+  "id_role" CHAR(3) [pk, not null]
+  "role_name" VARCHAR(30) [not null]
+}
+
+Table "user" {
+  "id_user" INT [pk, not null, increment]
+  "user_name" VARCHAR(50) [not null]
+  "user_surname" VARCHAR(50) [not null]
+  "username" VARCHAR(12) [not null]
+  "userpassword" VARCHAR(60) [not null]
+  "url_photo" VARCHAR(100) [default: NULL]
+  "email" VARCHAR(50) [not null]
+  "active" BIT [not null, default: 1]
+  "id_role" CHAR(3) [not null]
+
+Indexes {
+  email [unique]
+}
+}
+
+Table "admin_general" {
+  "id_admin_general" INT [pk, not null]
+}
+
+Table "collaborator" {
+  "id_collaborator" INT [pk, not null]
+}
+
+Table "project" {
+  "id_project" INT [pk, not null, increment]
+  "project_name" VARCHAR(50) [not null]
+  "description" VARCHAR(200)
+  "creation_date" DATE [not null]
+  "state" project_state_enum [not null]
+  "start_date" DATE [not null]
+  "end_date" DATE [not null]
+  "active" BIT [not null, default: 1]
+  "id_deleter" INT [default: NULL]
+  "id_admin_general" INT [not null]
+}
+
+Table "project_role" {
+  "id_project_role" CHAR(3) [pk, not null]
+  "project_role_name" VARCHAR(30) [not null]
+}
+
+Table "project_has_collaborator" {
+  "id_project_has_collaborator" INT [pk, not null, increment]
+  "id_project" INT [not null]
+  "id_collaborator" INT [not null]
+  "active" BIT [not null, default: 1]
+  "id_deleter" INT [default: NULL]
+  "id_project_role" CHAR(3) [not null]
+}
+
+Ref:"role"."id_role" < "user"."id_role"
+
+Ref:"user"."id_user" < "admin_general"."id_admin_general"
+
+Ref:"user"."id_user" < "collaborator"."id_collaborator"
+
+Ref:"admin_general"."id_admin_general" < "project"."id_admin_general"
+
+Ref:"project"."id_project" < "project_has_collaborator"."id_project"
+
+Ref:"collaborator"."id_collaborator" < "project_has_collaborator"."id_collaborator"
+
+Ref:"project_role"."id_project_role" < "project_has_collaborator"."id_project_role"

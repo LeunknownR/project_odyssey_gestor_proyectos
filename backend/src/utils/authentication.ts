@@ -4,6 +4,7 @@ import { TokenPayload } from "./types";
 import { GenerateResponseBody } from "./response/generateResponseBody";
 import { DBRoles } from "../db/enums";
 import { JwtPayload } from "jsonwebtoken";
+import { Socket } from "socket.io";
 
 export default abstract class Authentication {
     // 10 segundos
@@ -39,6 +40,27 @@ export default abstract class Authentication {
             }
             // Autorizando endpoint
             next();
+        });
+    }
+    static checkTokenInWSService = (role: DBRoles) => (socket: Socket): Promise<boolean> => {
+        return new Promise<boolean>((res, rej) => {
+            const token = this.decodeTokenInRequest(socket.handshake.auth.token);
+            // Revisando que el token haya sido proporcionado
+            if (!token) {
+                rej(false);
+                return;
+            }
+            // Verificando el token
+            jwt.verify(
+                token, 
+                process.env.SECRET_TOKEN_KEY, 
+                (err: any, decoded: JwtPayload) => {
+                    if (err || decoded.roleId !== role) {
+                        rej(false);
+                        return;
+                    }
+                    res(true);
+                });
         });
     }
 }
