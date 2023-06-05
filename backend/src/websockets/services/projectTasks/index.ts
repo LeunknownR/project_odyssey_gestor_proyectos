@@ -49,7 +49,7 @@ export default class WSProjectTaskService extends WSService {
             .taskBoardsHandler
             .getTaskBoardByProject(userDataBySocket.projectId);
         socket.emit(
-            WSProjectTaskServiceServerEvents.ListTasks, 
+            WSProjectTaskServiceServerEvents.DispatchTaskBoard, 
             taskBoard
         );
     }

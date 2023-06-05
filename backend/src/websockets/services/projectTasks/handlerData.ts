@@ -1,5 +1,5 @@
-import WSConnectedCollaboratorsInProjectHandler from "./connectedCollaboratorsInProjectHandler";
-import WSTaskBoardsHandler from "./taskBoardsHandler";
+import WSConnectedCollaboratorsInProjectHandler from "./eventHandlers/utils/connectedCollaboratorsInProjectHandler";
+import WSTaskBoardsHandler from "./eventHandlers/utils/taskBoardsHandler";
 
 export default class WSProjectTaskServiceDataHandler {
     public readonly taskBoardsHandler: WSTaskBoardsHandler;

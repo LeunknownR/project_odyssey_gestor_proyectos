@@ -1,4 +1,4 @@
-import { WSUserDataProjectTaskService } from "./utils/entities";
+import { WSUserDataProjectTaskService } from "../../utils/entities";
 
 export default class WSConnectedCollaboratorsInProjectHandler {
     //#region Attributes
