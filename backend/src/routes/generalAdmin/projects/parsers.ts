@@ -1,6 +1,6 @@
 import { ProjectForm } from "../../../entities/project/entities";
 import { isPositiveNumber } from "../../../utils/numbers";
-import { checkLength } from "../../../utils/string";
+import { checkLength } from "../../../utils/strings";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "./types";
 
 export const parseToProjectName = (params: any): string | null => {
