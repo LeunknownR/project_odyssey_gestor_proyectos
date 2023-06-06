@@ -3,21 +3,23 @@ import { ExtendedError } from "socket.io/dist/namespace";
 import { WSUserDataProjectTaskService } from "./utils/entities";
 import { getUserDataProjectTaskServiceBySocket } from "./utils/helpers";
 import WSServices from "../../utils/services";
-import { IOServerService, WSService } from "../../utils/types";
 import { rejectConnection } from "../../utils/helpers";
 import { checkWSCollaboratorToken } from "../../utils/authentication";
 import WSErrorMessages from "../../utils/errorMessages";
-import WSProjectTaskServiceCollaboratorEventHandler from "./eventHandlers/eventHandlers.collaborator";
+import WSProjectTaskServiceCollaboratorEventHandler from "./eventHandlers/eventHandler.collaborator";
 import WSProjectTaskServiceDataHandler from "./handlerData";
+import { WSService } from "../../utils/classes";
+import { WSProjectTaskServiceServerEvents } from "./events";
+import { ProjectTaskBoard } from "../../../entities/projectTasks/entities"
+import ProjectTasksController from "../../../controllers/projectTaskController/projectTasks.controller";
 
-export default class WSProjectTaskService implements WSService {
+export default class WSProjectTaskService extends WSService {
     //#region Attributes
-    private io: IOServerService;
     private dataHandler: WSProjectTaskServiceDataHandler;
     private collaboratorEventHandler: WSProjectTaskServiceCollaboratorEventHandler;
     //#endregion
     constructor(io: Server) {
-        this.io = io.of(WSServices.ProjectTask);
+        super(io.of(WSServices.ProjectTask));
         this.dataHandler = new WSProjectTaskServiceDataHandler();
         this.collaboratorEventHandler = new WSProjectTaskServiceCollaboratorEventHandler(
             this.io,
@@ -25,7 +27,8 @@ export default class WSProjectTaskService implements WSService {
         );
     }
     //#region Methods
-    private configCollaboratorUser(socket: Socket, next: (err?: ExtendedError) => void) {
+    private async connectCollaboratorUser(socket: Socket, next: (err?: ExtendedError) => void) {
+        // Obteniendo datos de conexión
         let userDataBySocket: WSUserDataProjectTaskService = null;
         try {
             userDataBySocket = getUserDataProjectTaskServiceBySocket(socket);
@@ -34,21 +37,55 @@ export default class WSProjectTaskService implements WSService {
             rejectConnection(socket, next, err);
             return;
         }
-        this.dataHandler.addCollaboratorInProject(userDataBySocket); 
+        // Agregando a los colaboradores conectados al proyecto correspondiente
+        this.dataHandler
+            .connectedCollaboratorsInProjectHandler
+            .addCollaborator(userDataBySocket);
+        const { projectId } = userDataBySocket;
+        let taskBoard: ProjectTaskBoard = null;
+        // Verificando si es el primer colaborador en entrar al tablero de tareas del proyecto
+        if (this.dataHandler.connectedCollaboratorsInProjectHandler.getCountConnectedCollaborators(projectId) === 1) {
+            // Consultando tablero de la bd
+            taskBoard = await ProjectTasksController.getTaskBoardByProjectId(projectId);
+            // Actualizar la memoria
+            this.dataHandler
+                .taskBoardsHandler
+                .addTaskTaskBoardProject(projectId, taskBoard);
+        }
+        else {
+            taskBoard = this.dataHandler
+                .taskBoardsHandler
+                .getTaskBoardByProject(userDataBySocket.projectId);
+        }
+        // Enviándole la lista de tareas actual
+        socket.emit(
+            WSProjectTaskServiceServerEvents.DispatchTaskBoard, 
+            taskBoard
+        );
+    }
+    private disconnectCollaboratorUser(socket: Socket) {
+        const userDataBySocket = getUserDataProjectTaskServiceBySocket(socket);
+        const {
+            connectedCollaboratorsInProjectHandler,
+            taskBoardsHandler: taskListByStateHandler
+        } = this.dataHandler;
+        // Eliminándolo de los colaboradores conectados en el tablero tareas del proyecto
+        connectedCollaboratorsInProjectHandler
+            .removeCollaborator(userDataBySocket);
+        // Verificando si ya no hay colaboradores conectados en el tablero del proyecto para eliminarlo de la lista de tableros
+        const { projectId } = userDataBySocket;
+        if (connectedCollaboratorsInProjectHandler.getCountConnectedCollaborators(projectId) !== 0) return;
+        taskListByStateHandler.removeTaskBoardByProjectId(projectId);
     }
     private async connectUser(socket: Socket, next: (err?: ExtendedError) => void) {
         // Autenticando token para la conexión
         const checked = await checkWSCollaboratorToken(socket);
         if (checked) {
-            this.configCollaboratorUser(socket, next);
+            this.connectCollaboratorUser(socket, next);
             next();
             return;
         }
         rejectConnection(socket, next, WSErrorMessages.Unauthorized);
-    }
-    private disconnectUser(socket: Socket) {
-        const userDataBySocket = getUserDataProjectTaskServiceBySocket(socket);
-        this.dataHandler.removeCollaboratorInProject(userDataBySocket);
     }
     //#region Main
     public config() {
@@ -57,7 +94,7 @@ export default class WSProjectTaskService implements WSService {
     public async init() {
         this.io.on("connection", socket => {
             this.collaboratorEventHandler.listen(socket);
-            socket.on("disconnect", () => this.disconnectUser(socket));
+            socket.on("disconnect", () => this.disconnectCollaboratorUser(socket));
         });
     }
     //#endregion

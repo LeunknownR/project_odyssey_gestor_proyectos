@@ -1,8 +1,14 @@
-import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "./types";
+import { 
+    AddProjectMembersRequestBody, 
+    DeleteProjectMemberRequestBody, 
+    SearchCollaboratorRequestBody, 
+    UpdateEndDateProjectRequestBody 
+} from "./types";
 import { isPast } from "../../../utils/datetime";
-import { isPositiveArrayNumber, isPositiveNumber } from "../../../utils/numbers";
-import { checkLength } from "../../../utils/string";
+import { isPositiveNumber } from "../../../utils/numbers";
+import { checkLength } from "../../../utils/strings";
 import { GetProjectListForCollaboratorRequestBody } from "./types";
+import { isPositiveArrayNumber } from "../../../utils/arrays";
 
 export const parseToGetProjectListForCollaboratorRequestBody = (params: any): GetProjectListForCollaboratorRequestBody => {
     const { collaboratorId, projectName } = params;

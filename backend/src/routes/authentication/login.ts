@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { ApiPathEndpointsAuthentication, ApiPathEndpointsGeneral } from "../apiPaths";
-import UserController from "../../controllers/userController/userController";
+import UserController from "../../controllers/userController/user.controller";
 import { GenerateResponseBody } from "../../utils/response/generateResponseBody";
 import { parseToCredentials } from "./parsers";
 import { AuthData, Credentials } from "../../entities/user/types";

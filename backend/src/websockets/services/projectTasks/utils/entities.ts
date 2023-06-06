@@ -1,34 +1,15 @@
-import { CollaboratorUser } from "../../../../entities/collaborator/types";
+import { ProjectTaskState } from "../../../../entities/projectTasks/entities";
 import { WSUserData } from "../../../utils/types";
 
 export type WSUserDataProjectTaskService = WSUserData & {
     projectId: number;
 };
-export type WSCollaboratorUser = Omit<CollaboratorUser, "email">;
-export type WSSubtask = {
-    id: number;
+export type WSNewProjectTask = {
     name: string;
-    checked: boolean;
+    state: ProjectTaskState;
 };
-export type WSCommentTask = {
-    id: number;
-    content: string;
-    datetime: number;
-    collaborator: WSCollaboratorUser
-}
-export type WSTask = {
-    id: number;
-    name: string;
-    description: string | null;
-    checked: boolean;
-    responsable: WSCollaboratorUser;
-    priorityId: number | null;
-    deadline: number;
-    subtasks: WSSubtask[];
-    comments: WSCommentTask[];
-};
-export type WSTaskListByState = {
-    pending: WSTask[];
-    onProgress: WSTask[];
-    finalized: WSTask[];
+export type WSNewProjectTaskForm = {
+    collaboratorId: number;
+    projectId: number;
+    newTask: WSNewProjectTask;
 };

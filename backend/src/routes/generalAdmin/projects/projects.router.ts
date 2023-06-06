@@ -3,7 +3,7 @@ import Authentication from "../../../utils/authentication";
 import { DBRoles } from "../../../db/enums";
 import { ApiPathEndpointsGeneralAdmin } from "../../apiPaths";
 import { GenerateResponseBody } from "../../../utils/response/generateResponseBody";
-import ProjectController from "../../../controllers/projectController/projectController";
+import ProjectController from "../../../controllers/projectController/project.controller";
 import { 
     parseToCreateProjectRequestBody, 
     parseToDeleteProjectRequestBody, 
@@ -12,8 +12,8 @@ import {
     parseToCollaboratorName} from "./parsers";
 import { withErrorHandler } from "../../helpers";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "./types";
-import { GroupedProjectList, ProjectForm } from "../../../entities/project/types";
-import { CollaboratorUser } from "../../../entities/collaborator/types";
+import { GroupedProjectList, ProjectForm } from "../../../entities/project/entities";
+import { CollaboratorUser } from "../../../entities/collaborator/entities";
 import { ResponseCodes, ResponseMessages, getResponseCodeIfMessageExists } from "../../../utils/response/enums";
 
 const router = Router();

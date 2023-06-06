@@ -12,7 +12,7 @@ export const getUserDataProjectTaskServiceBySocket = (socket: Socket): WSUserDat
         throw Error(WSErrorMessages.InvalidConnectionData);
     return { userId, projectId };
 }
-export abstract class WSProjectTaskServiceRoomGenerator {
+export abstract class WSProjectTaskServiceRoomHandler {
     public static getProjectRoom(projectId: number) {
         return `project:${projectId}`;
     }

@@ -2,7 +2,7 @@ import { Router } from "express";
 import Authentication from "../../../utils/authentication";
 import { DBRoles } from "../../../db/enums";
 import { ApiPathEndpointsCollaborator } from "../../apiPaths";
-import ProjectController from "../../../controllers/projectController/projectController";
+import ProjectController from "../../../controllers/projectController/project.controller";
 import { GenerateResponseBody } from "../../../utils/response/generateResponseBody";
 import {
     parseToAddProjectMembersRequestBody,
@@ -14,18 +14,18 @@ import {
 } from "./parsers";
 import {
     GroupedProjectList,
-    ProjectDetails,
-} from "../../../entities/project/types";
+    ProjectPanelDetails,
+} from "../../../entities/project/entities";
 import { withErrorHandler } from "../../helpers";
-import { 
-    GetProjectListForCollaboratorRequestBody, 
+import {
+    GetProjectListForCollaboratorRequestBody,
     AddProjectMembersRequestBody,
     DeleteProjectMemberRequestBody,
     SearchCollaboratorRequestBody,
     UpdateEndDateProjectRequestBody
 } from "./types";
 import { ResponseCodes, ResponseMessages, getResponseCodeIfMessageExists } from "../../../utils/response/enums";
-import { CollaboratorUser } from "../../../entities/collaborator/types";
+import { CollaboratorUser } from "../../../entities/collaborator/entities";
 
 const router = Router();
 router.use("/", Authentication.checkTokenInEndpoints(DBRoles.Collaborator));
@@ -85,8 +85,8 @@ router.get(
     ApiPathEndpointsCollaborator.GetProjectDetails,
     withErrorHandler(async (req, res) => {
         const projectId: number = parseToProjectIdToGetDetails(req.params);
-        const projectDetails: ProjectDetails = await ProjectController.getProjectDetails(projectId);
-        GenerateResponseBody.sendResponse<ProjectDetails>(res, {
+        const projectDetails: ProjectPanelDetails = await ProjectController.getProjectDetails(projectId);
+        GenerateResponseBody.sendResponse<ProjectPanelDetails>(res, {
             code: ResponseCodes.Ok,
             message: ResponseMessages.Success,
             data: projectDetails
