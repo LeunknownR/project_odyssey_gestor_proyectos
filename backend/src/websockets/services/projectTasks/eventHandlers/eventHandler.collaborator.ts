@@ -8,19 +8,19 @@ import { parseToWSNewProjectTask } from "../utils/parsers";
 import ProjectTasksController from "../../../../controllers/projectTaskController/projectTasks.controller";
 import { WSProjectTaskServiceRoomHandler, getUserDataProjectTaskServiceBySocket } from "../utils/helpers";
 import { ProjectTaskBoard } from "../../../../entities/projectTasks/entities";
+import { WSProjectTaskEvent } from "../utils/types";
 
-export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServiceEventHandler {
+export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServiceEventHandler<WSProjectTaskServiceCollaboratorEvents> {
     //#region Attributes
     private dataHandler: WSProjectTaskServiceDataHandler;
     //#endregion
     constructor(io: IOServerService, dataHandler: WSProjectTaskServiceDataHandler) {
         super(io);
         this.dataHandler = dataHandler;
-        // this.dataHandler = dataHandler;
     }
     //#region Methods
     public listen(socket: Socket) {
-        const wsEventList: WSEvent[] = [
+        const wsEventList: WSProjectTaskEvent[] = [
             {
                 name: WSProjectTaskServiceCollaboratorEvents.CreateTask,
                 handler: this.createTask 
@@ -46,7 +46,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         // Actualizando el tablero en la memoria
         this.dataHandler
             .taskBoardsHandler
-            .addTaskTaskBoardProject(projectId, taskBoard);
+            .addTaskBoardProject(projectId, taskBoard);
         // Actualizando el tablero a todos los colaboradores del proyecto
         const projectRoom: string = WSProjectTaskServiceRoomHandler.getProjectRoom(projectId);
         this.io
