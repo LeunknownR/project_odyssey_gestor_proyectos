@@ -1,12 +1,12 @@
 import TaskCard from "./components/TaskCard/TaskCard";
 import { Container } from "./styles";
+import { TaskListProps } from "./types";
 
-const TEST = [1, 2, 3, 4, 5, 6];
-const TaskList = () => {
+const TaskList = ({ taskListInfo }: TaskListProps) => {
     return (
         <Container className="custom-scrollbar">
-            {TEST.map(test => (
-                <TaskCard />
+            {taskListInfo.map(taskInfo => (
+                <TaskCard taskInfo={taskInfo}/>
             ))}
         </Container>
     );

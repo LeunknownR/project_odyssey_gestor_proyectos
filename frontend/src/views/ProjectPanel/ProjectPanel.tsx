@@ -36,7 +36,7 @@ const ProjectPanel = () => {
                     {routes !== null &&
                     <Route
                         path="*"
-                        element={<Navigate to={AbsolutePaths.TaskManager} replace/>}
+                        element={<Navigate to={AbsolutePaths.TaskBoard} replace/>}
                     />}
                 </Routes>
             </Content>

@@ -9,6 +9,14 @@ export const Container = styled.li`
     border-radius: 10px;
     max-width: 360px;
     margin-right: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    &.checked > * {
+        opacity: 0.4;
+    }
+    :hover {
+        border-color: var(--white-1);
+    }
 `;
 export const IconContainer = styled.span`
     display: flex;

@@ -3,7 +3,7 @@ export enum AbsolutePaths {
     ProjectManager = "/proyectos",
     ProjectDetails = "/detalles-proyecto",
     ProjectPanel = "/panel-proyecto",
-    TaskManager = "/tareas-proyecto",
+    TaskBoard = "/tablero-proyecto",
     Timeline = "/cronograma-proyecto",
     Chats = "/salas-chat-proyecto",
     Settings = "/settings"

@@ -5,7 +5,7 @@ import { FlexFlow } from "src/components/styles";
 const TABS_CONTENT = [
     {
         name: "Tablero",
-        path: AbsolutePaths.TaskManager,
+        path: AbsolutePaths.TaskBoard,
     },
     {
         name: "Cronograma",

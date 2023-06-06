@@ -9,7 +9,7 @@ const COMMENT_TEST = [
     {
         id: 1,
         content: "COMENTARIO COMENTARIO COMENTARIO comentario",
-        dateTime: 1290393320,
+        datetime: 1290393320,
         collaborator: {
             id: 1,
             name: "Diego Egdardo",

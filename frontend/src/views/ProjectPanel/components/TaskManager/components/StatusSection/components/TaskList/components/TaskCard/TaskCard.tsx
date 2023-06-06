@@ -8,7 +8,9 @@ import {
 } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import UserImage from "src/views/components/UserImage/UserImage";
-import { STATE_SWORD } from "./utils/constants";
+import { useState } from "react";
+import { TaskCardProps } from "./types";
+import TaskPriorityNullImage from "src/images/no-priority.svg"
 
 const FAKE_DATA = {
     TaskName: "Taxi a one",
@@ -17,14 +19,21 @@ const FAKE_DATA = {
     name: "Edgar",
     surname: "Peña",
     urlPhoto: null,
-    state: "high"
+    state: null,
 };
 
-const TaskCard = () => {
+const TaskCard = ({ taskInfo }: TaskCardProps) => {
+    const {checked} = taskInfo;
+    const [isChecked, setIsChecked] = useState(checked);
+    const getClassName = () => {
+        const classList = [];
+        isChecked && classList.push("checked");
+        return classList.join(" ");
+    };
     return (
-        <Container>
+        <Container className={getClassName()}>
             <FlexFlow align="center" gap="10px">
-                <IconContainer>
+                <IconContainer onClick={() => setIsChecked(prev => !prev)}>
                     <Icon icon="gg:check-o" />
                 </IconContainer>
                 <TaskCardName>{FAKE_DATA.TaskName}</TaskCardName>
@@ -39,7 +48,7 @@ const TaskCard = () => {
                     />
                     <DateText>{FAKE_DATA.TaskDate}</DateText>
                 </FlexFlow>
-                <StateSwordTag src={STATE_SWORD[FAKE_DATA.state]} />
+                <StateSwordTag src={TaskPriorityNullImage} />
             </FlexFlow>
         </Container>
     );

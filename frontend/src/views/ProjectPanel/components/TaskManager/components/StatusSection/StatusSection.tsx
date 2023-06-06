@@ -4,11 +4,11 @@ import TaskList from "./components/TaskList/TaskList";
 import { Container } from "./styles";
 import { StatusSectionProps } from "./types";
 
-const StatusSection = ({ name }: StatusSectionProps) => {
+const StatusSection = ({ status, taskListInfo }: StatusSectionProps) => {
     return (
         <Container>
-            <Header name={name} />
-            <TaskList />
+            <Header status={status} />
+            <TaskList taskListInfo={taskListInfo} />
             <Footer/>
         </Container>
     );

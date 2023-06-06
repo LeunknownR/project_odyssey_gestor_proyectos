@@ -6,14 +6,15 @@ type TabPropsDelete = {
 }
 export const Tab = styled(NavLink)<TabPropsDelete>`
     text-decoration: none;
-    color: var(--white-1);
-    font-weight: 300;
+    color: var(--gray-4);
+    font-weight: 700;
     font-size: 20px;
+    transition: 0.3s;
     :hover {
-        font-weight: 700;
+        color: var(--white-1);
     }
     &.active {
-        font-weight: 700;
+        color: var(--white-1);
     }
 `;
 export const Separator = styled.span`

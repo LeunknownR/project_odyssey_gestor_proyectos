@@ -8,10 +8,10 @@ import { Container, IconContainer } from "./styles";
 import { HeaderProps } from "./types";
 //#endregion
 
-const Header = ({ name }: HeaderProps) => {
+const Header = ({ status }: HeaderProps) => {
     return (
         <Container align="center" justify="space-between">
-            <h2>{name}</h2>
+            <h2>{status}</h2>
             <IconContainer>
                 <Icon icon="material-symbols:add" />
             </IconContainer>
