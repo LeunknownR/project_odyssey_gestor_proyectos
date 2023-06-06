@@ -6,7 +6,7 @@ import useSearchCollaborator from "src/views/ProjectManager/utils/hooks/useSearc
 import CustomInputSearchUserOption from "src/views/components/CustomInputSearchUserOption/CustomInputSearchUserOption";
 import { TASK_FIELD_PROPS } from "../../../../utils/constants";
 import { Container } from "./styles";
-import { CollaboratorUser } from "src/entities/collaborator/types";
+import { CollaboratorUser } from "src/entities/collaborator/entities";
 import { requestSearchCollaboratorForGeneralAdmin } from "src/services/collaborators/relatedToCollaborators";
 import { Label } from "../../styles";
 

@@ -9,22 +9,18 @@ import { CustomButtonProps } from "./types";
 //#endregion
 
 const CustomButton = ({
-    content,
-    disabled = false,
+    className,
+    content, disabled = false,
     variant = "main",
-    size,
-    onClick,
-    icon,
-    width,
-    weight,
-    padding,
-    maxWidth,
-    iconAfterText,
-    iconRotate,
+    size, onClick,
+    icon, width, weight,
+    padding, maxWidth,
+    iconAfterText, iconRotate,
     alignSelf
 }: CustomButtonProps) => {
     const getClassName = () => {
         const classList: string[] = [];
+        className && classList.push(className);
         variant && classList.push(variant);
         size && classList.push(size);
         return classList.join(" ");

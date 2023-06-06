@@ -1,4 +1,5 @@
 export type CustomButtonProps = {
+    className?: string;
     content?: string;
     disabled?: boolean;
     icon?: string;

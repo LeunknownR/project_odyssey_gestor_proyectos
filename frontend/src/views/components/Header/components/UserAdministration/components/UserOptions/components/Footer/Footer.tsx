@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import CustomButton from "src/components/CustomButton/CustomButton";
 import { AbsolutePaths } from "src/config/absolutePaths";
 import { clearStorage } from "src/storage";
-import { Container } from "./styles";
+import { Container, LogoutButton } from "./styles";
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
 
 const Footer = () => {
@@ -28,9 +28,10 @@ const Footer = () => {
                 width="80%"
                 onClick={() => navigate(AbsolutePaths.Settings)}
             />
-            <CustomButton
+            <LogoutButton
                 {...logoutButtonProps}
                 variant="user-options-logout"
+                icon="uiw:setting"
                 onClick={logout}
             />
         </Container>

@@ -4,8 +4,8 @@ import { ApiPathEndpoints } from "../apiPathEndpoints";
 import {
     GroupedProjectList,
     ProjectDetails,
-    ProjectForm,
-} from "src/entities/project/types";
+    ProjectForm
+} from "src/entities/project/entities";
 import { getEndpointWithPathVariables } from "../utils/helpers";
 import { getUserId } from "src/storage/user.local";
 import {

@@ -4,7 +4,7 @@ import { Container, Content } from "./styles";
 import ProjectInfo from "./components/ProjectInfo/ProjectInfo";
 import ProjectTeam from "./components/ProjectTeam/ProjectTeam";
 import Footer from "./components/Footer/Footer";
-import { ProjectDetails } from "src/entities/project/types";
+import { ProjectDetails } from "src/entities/project/entities";
 import { getProjectId } from "src/storage/project.session";
 import { requestGetProjectDetails } from "src/services/projects/relatedToProjects";
 import AddMembersModal from "./components/AddMembersModal/AddMembersModal";
@@ -16,7 +16,7 @@ import SidebarMenu from "../components/SidebarMenu/SidebarMenu";
 import DeleteMemberModal from "./components/DeleteMemberModal/DeleteMemberModal";
 import useNotificationCard from "src/components/NotificationCard/utils/hooks/useNotificationCard";
 import NotificationCard from "src/components/NotificationCard/NotificationCard";
-import { ProjectCollaborator } from "src/entities/collaborator/types";
+import { ProjectCollaborator } from "src/entities/collaborator/entities";
 import { DBProjectRoles } from "src/config/roles";
 import { getUserId } from "src/storage/user.local";
 import { FlexFlow } from "src/components/styles";
@@ -35,7 +35,10 @@ const ProjectDetailsView = () => {
     }, []);
     useEffect(() => {
         if (!projectDetails) return;
-        setCurrentUserIsProjectLeader(projectDetails.collaborators.some(({ id, projectRole }) => projectRole.id === DBProjectRoles.ProjectLeader && id === getUserId()));
+        setCurrentUserIsProjectLeader(
+            projectDetails
+            .collaborators
+            .some(({ id, projectRole }) => projectRole.id === DBProjectRoles.ProjectLeader && id === getUserId()));
     }, [projectDetails]);
     const fillProjectDetails = async (): Promise<void> => {
         preloader.show("Cargando detalles del proyecto...");

@@ -7,7 +7,7 @@ import Header from "./components/Header/Header";
 import useSearchCollaborator from "src/views/ProjectManager/utils/hooks/useSearchCollaborator";
 import { requestAddMemberToProject, requestSearchCollaboratorToBeMemberForCollaborator } from "src/services/collaborators/relatedToCollaborators";
 import { useEffect, useState } from "react";
-import { CollaboratorUser } from "src/entities/collaborator/types";
+import { CollaboratorUser } from "src/entities/collaborator/entities";
 import useCustomInputSearch from "src/components/CustomInputSearch/utils/hooks/useCustomInputSearch";
 import { ResponseBody } from "src/services/types";
 import ProjectMemberToAddList from "./components/ProjectMemberList/ProjectMemberToAddList";

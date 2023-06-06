@@ -4,7 +4,7 @@ import { TEXT_FIELD_PROPS } from "src/views/ProjectManager/utils/constants";
 import { LeaderSelectorProps } from "./types";
 import useSearchCollaborator from "src/views/ProjectManager/utils/hooks/useSearchCollaborator";
 import { Container, Label, Wrapper } from "./styles";
-import { CollaboratorUser } from "src/entities/collaborator/types";
+import { CollaboratorUser } from "src/entities/collaborator/entities";
 import CollaboratorCard from "src/views/ProjectManager/components/CollaboratorCard/CollaboratorCard";
 import useCustomInputSearch from "src/components/CustomInputSearch/utils/hooks/useCustomInputSearch";
 import { requestSearchCollaboratorForGeneralAdmin } from "src/services/collaborators/relatedToCollaborators";

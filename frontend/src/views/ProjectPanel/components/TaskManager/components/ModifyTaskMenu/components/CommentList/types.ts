@@ -1,4 +1,4 @@
-import { CollaboratorUser } from "src/entities/collaborator/types";
+import { CollaboratorUser } from "src/entities/collaborator/entities";
 
 export type CommentListProps = {
     comments: CommentTypes[];

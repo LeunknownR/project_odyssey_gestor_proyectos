@@ -1,4 +1,4 @@
-import { CollaboratorUser } from "src/entities/collaborator/types";
+import { CollaboratorUser } from "src/entities/collaborator/entities";
 import { CommentTypes } from "../ModifyTaskMenu/components/CommentList/types";
 import { SubtaskTypes } from "../ModifyTaskMenu/components/SubtaskList/types";
 

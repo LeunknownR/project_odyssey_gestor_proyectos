@@ -1,4 +1,4 @@
-import { CollaboratorUser, ProjectCollaborator } from "../collaborator/types";
+import { CollaboratorUser, ProjectCollaborator } from "../collaborator/entities";
 import { ProjectState } from "./enums";
 
 export type UpdateEndDateProjectRequestBody = {
