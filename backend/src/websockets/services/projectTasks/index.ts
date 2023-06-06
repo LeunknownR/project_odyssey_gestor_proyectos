@@ -50,7 +50,7 @@ export default class WSProjectTaskService extends WSService {
             // Actualizar la memoria
             this.dataHandler
                 .taskBoardsHandler
-                .addTaskTaskBoardProject(projectId, taskBoard);
+                .addTaskBoardProject(projectId, taskBoard);
         }
         else {
             taskBoard = this.dataHandler
@@ -80,12 +80,12 @@ export default class WSProjectTaskService extends WSService {
     private async connectUser(socket: Socket, next: (err?: ExtendedError) => void) {
         // Autenticando token para la conexión
         const checked = await checkWSCollaboratorToken(socket);
-        if (checked) {
-            this.connectCollaboratorUser(socket, next);
-            next();
+        if (!checked) {
+            rejectConnection(socket, next, WSErrorMessages.Unauthorized);
             return;
         }
-        rejectConnection(socket, next, WSErrorMessages.Unauthorized);
+        this.connectCollaboratorUser(socket, next);
+        next();
     }
     //#region Main
     public config() {

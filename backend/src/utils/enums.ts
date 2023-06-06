@@ -1,4 +1,4 @@
 export enum PhysicalDirectoryImages {
-    DynamicImages = "dynamic",
+    DynamicImages = "uploads",
     StaticImages = "static-images"
 }
