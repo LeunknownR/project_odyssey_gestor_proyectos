@@ -6,7 +6,7 @@ export default class WSConnectedCollaboratorsInProjectHandler {
     private connectedCollaboratorListInProject: Map<number, number[]>;
     //#endregion
     constructor() {
-        this.connectedCollaboratorListInProject = new Map();
+        this.connectedCollaboratorListInProject = new Map<number, number[]>();
     }
     //#region Methods
     public getCountConnectedCollaborators(projectId: number): number {
