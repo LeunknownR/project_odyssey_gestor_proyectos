@@ -1,8 +1,14 @@
-import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectTableDetailRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "./types";
+import { 
+    AddProjectMembersRequestBody, 
+    DeleteProjectMemberRequestBody, 
+    SearchCollaboratorRequestBody, 
+    UpdateEndDateProjectRequestBody 
+} from "./types";
 import { isPast } from "../../../utils/datetime";
-import { isPositiveArrayNumber, isPositiveNumber } from "../../../utils/numbers";
-import { checkLength } from "../../../utils/string";
+import { isPositiveNumber } from "../../../utils/numbers";
+import { checkLength } from "../../../utils/strings";
 import { GetProjectListForCollaboratorRequestBody } from "./types";
+import { isPositiveArrayNumber } from "../../../utils/arrays";
 
 export const parseToGetProjectListForCollaboratorRequestBody = (params: any): GetProjectListForCollaboratorRequestBody => {
     const { collaboratorId, projectName } = params;
@@ -69,18 +75,5 @@ export const parseToDeleteProjectMemberRequestBody = (params: any): DeleteProjec
     return {
         userId: parseInt(userId),
         projectHasCollaboratorId: parseInt(projectHasCollaboratorId)
-    };
-}
-export const parseToGetProjectTableDetailRequestBody = (params: any): GetProjectTableDetailRequestBody => {
-    const {
-        projectId,
-        userId
-    } = params;
-    if (!isPositiveNumber(projectId) ||
-        !isPositiveNumber(userId))
-        throw new Error("Invalid form to get project table detail ");
-    return {
-        projectId: parseInt(projectId),
-        userId: parseInt(userId),
     };
 }

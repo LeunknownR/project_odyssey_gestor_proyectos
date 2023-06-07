@@ -1,19 +1,26 @@
-import { collaboratorMemberMapper, collaboratorUserMapper, taskPrioritiesMapper } from "../../entities/collaborator/mappers";
-import { CollaboratorUser, ProjectTableDetail, TaskPriorities } from "../../entities/collaborator/types";
-import {
-    projectTableDetailMapper,
-    projectDetailsMapper,
-    projectListByCollaboratorMapper,
-    projectListByGeneralAdminMapper
+import { 
+    collaboratorMemberMapper, 
+    collaboratorUserMapper } from "../../entities/collaborator/mappers";
+import { CollaboratorUser } from "../../entities/collaborator/entities";
+import { 
+    projectListByCollaboratorMapper, 
+    projectListByGeneralAdminMapper, 
+    projetPanelDetailsMapper
 } from "../../entities/project/mappers";
-import {
-    GroupedProjectList, ProjectForm,
-    ProjectDetails,
-} from "../../entities/project/types";
-import ProjectModel from "../../models/projectModel/projectModel";
-import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectTableDetailRequestBody, GetProjectListForCollaboratorRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
+import { 
+    GroupedProjectList, ProjectForm, 
+    ProjectPanelDetails } from "../../entities/project/entities";
+import ProjectModel from "../../models/projectModel/project.model";
+import { 
+    AddProjectMembersRequestBody, 
+    DeleteProjectMemberRequestBody, 
+    GetProjectListForCollaboratorRequestBody, 
+    SearchCollaboratorRequestBody, 
+    UpdateEndDateProjectRequestBody 
+} from "../../routes/collaborator/projects/types";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 import { ResponseMessages } from "../../utils/response/enums";
+import { GetProjectPanelDetailRequestBody } from "../../routes/collaborator/projectPanel/types";
 
 export default abstract class ProjectController {
     static async getProjectListForGeneralAdmin(projectName: string | null): Promise<GroupedProjectList> {
@@ -56,12 +63,12 @@ export default abstract class ProjectController {
         const message: string = record["message"];
         return message ? message : ResponseMessages.FatalError;
     }
-    static async getProjectDetails(projectId: number): Promise<ProjectDetails> {
+    static async getProjectDetails(projectId: number): Promise<ProjectPanelDetails> {
         const resultset: any[] = await ProjectModel.getProjectDetails(projectId);
         if (resultset.length === 0)
             throw new Error("No details of the project");
-        const projectDetails: ProjectDetails = projectDetailsMapper(resultset);
-        return projectDetails;
+        const projectPanelDetails: ProjectPanelDetails = projetPanelDetailsMapper(resultset);
+        return projectPanelDetails;
     }
     static async searchCollaboratorsMembersByLeader(
         searchCollaboratorRequestBody: SearchCollaboratorRequestBody
@@ -84,14 +91,9 @@ export default abstract class ProjectController {
         const message: string = record["message"];
         return message || ResponseMessages.FatalError;
     }
-    static async getProjectTableDetail(getProjectTableDetailRequestBody: GetProjectTableDetailRequestBody): Promise<ProjectTableDetail> {
-        const resultset: any = await ProjectModel.getProjectTableDetail(getProjectTableDetailRequestBody);
-        const projectTableDetail: ProjectTableDetail = projectTableDetailMapper(resultset);
+    static async getProjectPanelDetail(getProjectPanelDetailRequestBody: GetProjectPanelDetailRequestBody): Promise<ProjectPanelDetails> {
+        const resultset: any = await ProjectModel.getProjectPanelDetail(getProjectPanelDetailRequestBody);
+        const projectTableDetail: ProjectPanelDetails = projetPanelDetailsMapper(resultset);
         return projectTableDetail;
-    }
-    static async getTaskPriorities(): Promise<TaskPriorities[]> {
-        const resultset: any[] = await ProjectModel.getTaskPriorities();
-        const tasksPrioritiesList: TaskPriorities[] = resultset.map(taskPrioritiesMapper);
-        return tasksPrioritiesList;
     }
 }

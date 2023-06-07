@@ -1,9 +1,11 @@
 import { projectCollaboratorMapper } from "../collaborator/mappers";
-import { CollaboratorUser, ProjectTableDetail } from "../collaborator/types";
-import {
-    Project,
+import { CollaboratorUser } from "../collaborator/entities";
+import { 
+    Project, 
     GroupedProjectList,
-    ProjectDetails} from "./types";
+    ProjectPanelDetails, 
+    ProjectDetails
+} from "./entities";
 
 const projectLeaderMapper = (record: any): CollaboratorUser => ({
     id: record["id_collaborator"],
@@ -57,7 +59,7 @@ export const projectDetailsMapper = (resultset: any[]): ProjectDetails => {
         collaborators: resultset.map(projectCollaboratorMapper)
     };
 };
-export const projectTableDetailMapper = (resultset: any): ProjectTableDetail => {
+export const projetPanelDetailsMapper = (resultset: any): ProjectPanelDetails => {
     const [header] = resultset;
     return {
         id: header["id_project"],

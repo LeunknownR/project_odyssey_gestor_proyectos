@@ -2,10 +2,18 @@ import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
 import {
     ProjectForm
-} from "../../entities/project/types";
-import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectTableDetailRequestBody, GetProjectListForCollaboratorRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
-import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
-import { MOKITOGetProjectDetailForPanelRequestBody, MOKITOgetProjectTasksPriorities, UPDATE_END_DATE_PROJECT_BY_LEADER_RESULTSET } from "./mocks";
+} from "../../entities/project/entities";
+import { GetProjectPanelDetailRequestBody } from "../../routes/collaborator/projectPanel/types";
+import { 
+    AddProjectMembersRequestBody, 
+    DeleteProjectMemberRequestBody, 
+    GetProjectListForCollaboratorRequestBody, 
+    SearchCollaboratorRequestBody, 
+    UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
+import { 
+    CreateProjectRequestBody, 
+    DeleteProjectRequestBody 
+} from "../../routes/generalAdmin/projects/types";
 
 export default abstract class ProjectModel {
     static async getProjectListForGeneralAdmin(projectName: string | null): Promise<any[]> {
@@ -130,21 +138,15 @@ export default abstract class ProjectModel {
             ]);
         return record;
     }
-    static async getProjectTableDetail({
+    static async getProjectPanelDetail({
         projectId, userId
-    }: GetProjectTableDetailRequestBody): Promise<any> {
+    }: GetProjectPanelDetailRequestBody): Promise<any> {
         const [resultset] = await DBConnection.query(
             StoredProcedures.GetProjectTableDetail,
             [
                 projectId,
                 userId
             ]);
-        return resultset;
-    }
-    static async getTaskPriorities(): Promise<any[]> {
-        const [resultset] = await DBConnection.query(
-            StoredProcedures.GetTaskPriorities,
-            []);
         return resultset;
     }
 }

@@ -1,4 +1,5 @@
-import { CollaboratorUser, ProjectCollaborator, ProjectRole, TaskPriorities } from "./types";
+import { ProjectTaskPriority } from "../projectTasks/entities";
+import { CollaboratorUser, ProjectCollaborator, ProjectRole } from "./entities";
 
 export const collaboratorUserMapper = (record: any): CollaboratorUser => ({
     id: record["id_collaborator"],
@@ -27,7 +28,7 @@ export const projectCollaboratorMapper = (record: any): ProjectCollaborator => (
     projectHasCollaboratorId: record["collaborator_id_project_has_collaborator"],
     projectRole: projectRoleMapper(record)
 });
-export const taskPrioritiesMapper = (record: any): TaskPriorities => ({
+export const projecTaskPriorityMapper = (record: any): ProjectTaskPriority => ({
     id: record["id_task_priority"],
     urlPhoto: record["url_image"]
 });
