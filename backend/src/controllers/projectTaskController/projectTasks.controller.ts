@@ -4,8 +4,8 @@ import { projectTaskBoardMapper } from "../../entities/projectTasks/mappers";
 import ProjectTasksModel from "../../models/projectTasksModel/projectTasks.model";
 import { ResponseMessages } from "../../utils/response/enums";
 import { 
-    WSChangeTaskStateForm,
-    WSDeleteTaskForm,
+    WSChangeProjectTaskStateForm,
+    WSDeleteProjectTaskForm,
     WSNewProjectTaskForm, 
     WSProjectTaskCommentForm, 
     WSProjectTaskToBeUpdatedForm 
@@ -33,14 +33,14 @@ export default abstract class ProjectTasksController {
         if (message === ResponseMessages.Success) return;
         throw new Error(message);
     }
-    static async changeTaskState(changeTaskStateForm: WSChangeTaskStateForm): Promise<void> {
+    static async changeTaskState(changeTaskStateForm: WSChangeProjectTaskStateForm): Promise<void> {
         const record: any = await ProjectTasksModel.changeTaskState(changeTaskStateForm);
         const message: string = record["message"];
         if (message === ResponseMessages.Success) return;
         throw new Error(message);
     }
-    static async deleteTask(deleteTaskForm: WSDeleteTaskForm): Promise<void> {
-        const record: any = await ProjectTasksModel.deleteTask(deleteTaskForm);
+    static async deleteTask(deleteProjectTaskForm: WSDeleteProjectTaskForm): Promise<void> {
+        const record: any = await ProjectTasksModel.deleteTask(deleteProjectTaskForm);
         const message: string = record["message"];
         if (message === ResponseMessages.Success) return;
         throw new Error(message);

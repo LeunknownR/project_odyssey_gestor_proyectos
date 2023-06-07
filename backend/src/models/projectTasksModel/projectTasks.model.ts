@@ -1,8 +1,8 @@
 import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
 import { 
-    WSChangeTaskStateForm,
-    WSDeleteTaskForm,
+    WSChangeProjectTaskStateForm,
+    WSDeleteProjectTaskForm,
     WSNewProjectTaskForm, 
     WSProjectTaskCommentForm, 
     WSProjectTaskToBeUpdatedForm 
@@ -53,7 +53,7 @@ export default abstract class ProjectTasksModel {
         projectId,
         payload: task,
         collaboratorId
-    }: WSChangeTaskStateForm): Promise<any> {
+    }: WSChangeProjectTaskStateForm): Promise<any> {
         const [record] = await DBConnection.query(
             StoredProcedures.ChangeTaskState,
             [
@@ -69,7 +69,7 @@ export default abstract class ProjectTasksModel {
         projectId,
         payload: task,
         collaboratorId
-    }: WSDeleteTaskForm): Promise<any> {
+    }: WSDeleteProjectTaskForm): Promise<any> {
         const [record] = await DBConnection.query(
             StoredProcedures.ChangeTaskState,
             [

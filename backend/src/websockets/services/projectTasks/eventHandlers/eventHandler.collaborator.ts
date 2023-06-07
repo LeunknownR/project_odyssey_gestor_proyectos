@@ -3,8 +3,8 @@ import { IOServerService, WSEvent } from "../../../utils/types";
 import { WSProjectTaskServiceCollaboratorEvents, WSProjectTaskServiceServerEvents } from "../events";
 import WSProjectTaskServiceDataHandler from "../handlerData";
 import { WSServiceEventHandler } from "../../../utils/classes";
-import { WSChangeTaskState, WSDeleteTask, WSNewProjectTask, WSProjectTaskComment, WSProjectTaskToBeUpdated } from "../utils/entities";
-import { parseToWSChangeTaskState, parseToWSDeleteTask, parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskToBeUpdated } from "../utils/parsers";
+import { WSChangeProjectTaskState, WSDeleteProjectTask, WSNewProjectTask, WSProjectTaskComment, WSProjectTaskToBeUpdated } from "../utils/entities";
+import { parseToWSChangeProjectTaskState, parseToWSDeleteTask, parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskToBeUpdated } from "../utils/parsers";
 import ProjectTasksController from "../../../../controllers/projectTaskController/projectTasks.controller";
 import { WSProjectTaskServiceRoomHandler, getUserDataProjectTaskServiceBySocket } from "../utils/helpers";
 import { ProjectTaskBoard } from "../../../../entities/projectTasks/entities";
@@ -112,7 +112,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
     //Cambiar Estado de Tarea
     private async changeTaskState(socket: Socket, body?: any) {
          //Validando datos 
-         const changeTaskState: WSChangeTaskState = parseToWSChangeTaskState(body);
+         const changeProjectTaskState: WSChangeProjectTaskState = parseToWSChangeProjectTaskState(body);
          //Obteniendo 
          const {
              userId: collaboratorId,
@@ -120,15 +120,15 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
          } = getUserDataProjectTaskServiceBySocket(socket);
          // Realizando query para cambiar el estado de una tarea
          await ProjectTasksController.changeTaskState({
-             projectId, payload: changeTaskState, collaboratorId
+             projectId, payload: changeProjectTaskState, collaboratorId
          });
-         // Obtener tablero de la bd
+         // Obtener tablero de la bd,  actualizar la memoria y mostrar a los miembros de la sala
          this.refreshTaskBoardByProject(projectId);
     }
     //Eliminar Tarea
     private async deleteTask(socket: Socket, body?: any) {
         //Validando datos 
-        const deleteTaskId: WSDeleteTask  = parseToWSDeleteTask(body);
+        const deleteTaskId: WSDeleteProjectTask  = parseToWSDeleteTask(body);
         //Obteniendo 
         const {
             userId: collaboratorId,

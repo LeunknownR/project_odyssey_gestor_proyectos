@@ -2,7 +2,7 @@ import { ProjectState } from "../../../../entities/project/enums";
 import { isArrayString, isPositiveArrayNumber } from "../../../../utils/arrays";
 import { isPositiveNumber, isPositiveNumberOrZero } from "../../../../utils/numbers";
 import { checkLength } from "../../../../utils/strings";
-import { WSNewProjectTask, WSChangeTaskState, WSDeleteTask, WSProjectTaskComment, WSProjectTaskToBeUpdated } from "./entities";
+import { WSNewProjectTask, WSChangeProjectTaskState, WSDeleteProjectTask, WSProjectTaskComment, WSProjectTaskToBeUpdated } from "./entities";
 
 export const parseToWSNewProjectTask = (body: any): WSNewProjectTask => {
     const { name, state } = body;
@@ -51,35 +51,33 @@ export const parseToWSProjectTaskToBeUpdated = (body: any): WSProjectTaskToBeUpd
         newSubTask, subTaskIdsToBeDeleted
     };
 }
-export const parseToWSChangeTaskState = (body: any): WSChangeTaskState => {
+export const parseToWSChangeProjectTaskState = (body: any): WSChangeProjectTaskState => {
     const {
-        taskId,
-        state
+        taskId, state
     } = body;
     if (
         !isPositiveNumber(taskId) ||
-        !checkLength(state, 1, 1)
+        ![ProjectState.Pending, ProjectState.OnProgress, ProjectState.Finalized].includes(state)
     )
         throw new Error("Invalid data to change task state");
 
     return {
-        taskId,
-        state
+        taskId, state
     };
 }
 
-export const parseToWSDeleteTask = (body: any): WSDeleteTask => {
+export const parseToWSDeleteTask = (body: any): WSDeleteProjectTask => {
     const {
         taskId
     } = body;
     if (!isPositiveNumber(taskId))
-        throw new Error("Invalid data to change task state");
+        throw new Error("Invalid data to delete state");
 
     return taskId;
 }
 export const parseToWSProjectTaskComment = (body: any): WSProjectTaskComment => {
     const { taskId, content } = body;
-    if (!isPositiveNumber(taskId) || !checkLength(content, 1, 200)) 
+    if (!isPositiveNumber(taskId) || !checkLength(content, 1, 200))
         throw new Error("Invalid data to comment in task");
     return {
         taskId,

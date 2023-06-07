@@ -1,3 +1,4 @@
+import { ProjectState } from "../../../../entities/project/enums";
 import { ProjectTaskState } from "../../../../entities/projectTasks/entities";
 import { WSUserData } from "../../../utils/types";
 
@@ -19,23 +20,23 @@ export type WSProjectTaskToBeUpdated = {
     subTaskIdsToBeDeleted: number[];
 };
 
-export type WSChangeTaskState = {
+export type WSChangeProjectTaskState = {
     taskId: number;
-    state: string;
+    state: ProjectState;
 };
-export type WSDeleteTask = Omit<WSChangeTaskState,"state">;
+export type WSDeleteProjectTask = Omit<WSChangeProjectTaskState, "state">;
 export type WSProjectTaskComment = {
     taskId: number;
     content: string;
 };
-export type WSProjectTaskForm<T 
-extends WSNewProjectTask|WSProjectTaskToBeUpdated|WSChangeTaskState| WSDeleteTask> = {
-    collaboratorId: number;
-    projectId: number;
-    payload: T;
-};
+export type WSProjectTaskForm<T
+    extends WSNewProjectTask | WSProjectTaskToBeUpdated | WSChangeProjectTaskState | WSDeleteProjectTask> = {
+        collaboratorId: number;
+        projectId: number;
+        payload: T;
+    };
 export type WSNewProjectTaskForm = WSProjectTaskForm<WSNewProjectTask>;
 export type WSProjectTaskToBeUpdatedForm = WSProjectTaskForm<WSProjectTaskToBeUpdated>;
-export type WSChangeTaskStateForm = WSProjectTaskForm<WSChangeTaskState>;
-export type WSDeleteTaskForm = WSProjectTaskForm<WSDeleteTask>;
+export type WSChangeProjectTaskStateForm = WSProjectTaskForm<WSChangeProjectTaskState>;
+export type WSDeleteProjectTaskForm = WSProjectTaskForm<WSDeleteProjectTask>;
 export type WSProjectTaskCommentForm = WSProjectTaskForm<WSProjectTaskComment>;
