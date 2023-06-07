@@ -89,12 +89,26 @@ export default class WSProjectTaskService extends WSService {
     }
     //#region Main
     public config() {
-        this.io.use((socket, next) => this.connectUser(socket, next));
+        this.io.use((socket, next) => {
+            try {
+                this.connectUser(socket, next);
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
     }
     public async init() {
         this.io.on("connection", socket => {
             this.collaboratorEventHandler.listen(socket);
-            socket.on("disconnect", () => this.disconnectCollaboratorUser(socket));
+            socket.on("disconnect", () => {
+                try {
+                    this.disconnectCollaboratorUser(socket);
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            });
         });
     }
     //#endregion
