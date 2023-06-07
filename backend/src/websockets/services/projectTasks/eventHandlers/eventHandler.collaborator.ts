@@ -3,8 +3,8 @@ import { IOServerService, WSEvent } from "../../../utils/types";
 import { WSProjectTaskServiceCollaboratorEvents, WSProjectTaskServiceServerEvents } from "../events";
 import WSProjectTaskServiceDataHandler from "../handlerData";
 import { WSServiceEventHandler } from "../../../utils/classes";
-import { WSNewProjectTask } from "../utils/entities";
-import { parseToWSNewProjectTask } from "../utils/parsers";
+import { WSNewProjectTask, WSTaskToBeUpdated } from "../utils/entities";
+import { parseToWSNewProjectTask, parseToWSUpdateProjectTask } from "../utils/parsers";
 import ProjectTasksController from "../../../../controllers/projectTaskController/projectTasks.controller";
 import { WSProjectTaskServiceRoomHandler, getUserDataProjectTaskServiceBySocket } from "../utils/helpers";
 import { ProjectTaskBoard } from "../../../../entities/projectTasks/entities";
@@ -23,7 +23,11 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         const wsEventList: WSProjectTaskEvent[] = [
             {
                 name: WSProjectTaskServiceCollaboratorEvents.CreateTask,
-                handler: this.createTask 
+                handler: this.createTask
+            },
+            {
+                name: WSProjectTaskServiceCollaboratorEvents.UpdateTask,
+                handler: this.updateTask
             }
         ];
         this.configSocket(socket, wsEventList);
@@ -33,13 +37,13 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         // Validando datos
         const newTask: WSNewProjectTask = parseToWSNewProjectTask(body);
         // Obteniendo datos de conexión del colaborador
-        const { 
-            userId: collaboratorId, 
-            projectId 
+        const {
+            userId: collaboratorId,
+            projectId
         } = getUserDataProjectTaskServiceBySocket(socket);
         // Realizando query para crear una tarea
         await ProjectTasksController.createTask({
-            collaboratorId, projectId, newTask
+            collaboratorId, projectId, task: newTask
         });
         // Obtener tablero de la bd
         const taskBoard: ProjectTaskBoard = await ProjectTasksController.getTaskBoardByProjectId(projectId);
@@ -56,7 +60,34 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
                 taskBoard
             );
     }
-    // ProjectTasksController.updateTask(userId, taskToBeUpdated); 
+    //Actualizar tarea
+    private async updateTask(socket: Socket, body?: any) {
+        //Validando 
+        const taskToBeUpdated: WSTaskToBeUpdated = parseToWSUpdateProjectTask(body);
+        //Obteniendo
+        const {
+            userId: collaboratorId,
+            projectId
+        } = getUserDataProjectTaskServiceBySocket(socket);
+        // Realizando query para actualizar una tarea
+        await ProjectTasksController.updateTask({
+            projectId, task: taskToBeUpdated, collaboratorId
+        });
+        // Obtener tablero de la bd
+        const taskBoard: ProjectTaskBoard = await ProjectTasksController.getTaskBoardByProjectId(projectId);
+        // Actualizando el tablero en la memoria
+        this.dataHandler
+            .taskBoardsHandler
+            .addTaskBoardProject(projectId, taskBoard);
+        // Actualizando el tablero a todos los colaboradores del proyecto
+        const projectRoom: string = WSProjectTaskServiceRoomHandler.getProjectRoom(projectId);
+        this.io
+            .to(projectRoom)
+            .emit(
+                WSProjectTaskServiceServerEvents.DispatchTaskBoard,
+                taskBoard
+            );
+    }
     //#endregion
     //#endregion
 }
