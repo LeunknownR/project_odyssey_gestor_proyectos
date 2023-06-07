@@ -13,6 +13,7 @@ export const CalendarPicker = styled.div<CalendarPickerProps>`
     border-radius: 4px;
     border: 1px solid var(--purple-2);
     width: 100%;
+    min-width: 190px;
     &.above {
         top: -225px;
     }

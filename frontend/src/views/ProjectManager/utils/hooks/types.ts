@@ -1,6 +1,6 @@
 import { Project, ProjectForm } from "src/entities/project/types";
 import { ProjectFilters, ProjectForStateForm } from "../../types";
-import { CollaboratorUser } from "src/entities/collaborator/types";
+import { CollaboratorUser } from "src/entities/collaborator/entities";
 
 export type FormProjectHook = {
     form: FormProject;

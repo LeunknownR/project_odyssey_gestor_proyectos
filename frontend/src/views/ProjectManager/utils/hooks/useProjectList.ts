@@ -3,7 +3,7 @@ import { ProjectFilters } from "../../types";
 import { ProjectListHook } from "./types";
 import useUserRole from "src/storage/hooks/useUserRole";
 import { APIRequestFunction } from "src/services/types";
-import { GroupedProjectList, Project } from "src/entities/project/types";
+import { GroupedProjectList, Project } from "src/entities/project/entities";
 import { DBRoles } from "src/config/roles";
 import {
     requestGetProjectsForCollaborator,

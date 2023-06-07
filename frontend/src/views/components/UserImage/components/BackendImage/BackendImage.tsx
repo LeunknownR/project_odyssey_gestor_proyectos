@@ -6,7 +6,6 @@ const BackendImage = ({ className, path }: BackendImageProps) => {
         <Image
             className={className}
             src={`http://localhost:3006/images${path}`}
-            // src={`${process.env}`}
         />
     );
 };

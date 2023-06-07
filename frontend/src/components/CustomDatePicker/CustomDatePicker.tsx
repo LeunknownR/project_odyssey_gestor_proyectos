@@ -18,7 +18,7 @@ import {
     getToday
  } from "./utils/helpers";
 import { CustomDatePickerProps } from "./types";
-import { Row } from "../styles";
+import { FlexFlow } from "../styles";
 //#endregion
  
 const CustomDatePicker = ({
@@ -72,9 +72,9 @@ const CustomDatePicker = ({
             className={className}
             width={width}>
             {label && 
-            <Row justify="flex-start" gap="5px">
+            <FlexFlow justify="flex-start" gap="5px">
                 <label>{label}</label>
-            </Row>}
+            </FlexFlow>}
             <Content
                 className={className}
                 tabIndex={0}

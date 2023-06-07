@@ -1,4 +1,3 @@
-import { MOBILE_WIDTH } from "src/config/constants";
 import { ProjectForStateForm } from "../types";
 
 export const TEXT_FIELD_PROPS = {

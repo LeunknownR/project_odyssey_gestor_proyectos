@@ -8,7 +8,7 @@ import {
     projetPanelDetailsMapper
 } from "../../entities/project/mappers";
 import { 
-    GroupedProjectList, ProjectForm, 
+    GroupedProjectList, ProjectDetails, ProjectForm, 
     ProjectPanelDetails } from "../../entities/project/entities";
 import ProjectModel from "../../models/projectModel/project.model";
 import { 
@@ -21,6 +21,7 @@ import {
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 import { ResponseMessages } from "../../utils/response/enums";
 import { GetProjectPanelDetailRequestBody } from "../../routes/collaborator/projectPanel/types";
+import { projectDetailsMapper } from "../../entities/project/mappers";
 
 export default abstract class ProjectController {
     static async getProjectListForGeneralAdmin(projectName: string | null): Promise<GroupedProjectList> {
@@ -63,12 +64,12 @@ export default abstract class ProjectController {
         const message: string = record["message"];
         return message ? message : ResponseMessages.FatalError;
     }
-    static async getProjectDetails(projectId: number): Promise<ProjectPanelDetails> {
+    static async getProjectDetails(projectId: number): Promise<ProjectDetails> {
         const resultset: any[] = await ProjectModel.getProjectDetails(projectId);
         if (resultset.length === 0)
             throw new Error("No details of the project");
-        const projectPanelDetails: ProjectPanelDetails = projetPanelDetailsMapper(resultset);
-        return projectPanelDetails;
+        const projectDetails: ProjectDetails = projectDetailsMapper(resultset);
+        return projectDetails;
     }
     static async searchCollaboratorsMembersByLeader(
         searchCollaboratorRequestBody: SearchCollaboratorRequestBody

@@ -2,10 +2,10 @@ import Modal from "src/components/Modal/Modal";
 import { DeleteCollaboratorModalProps } from "./types";
 import { IconContainer, TextModal, TitleModal } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Row } from "src/components/styles";
 import Footer from "./components/Footer/Footer";
 import { requestDeleteMember } from "src/services/projects/relatedToProjects";
 import { CardVariant } from "src/components/NotificationCard/types";
+import { FlexFlow } from "src/components/styles";
 
 const testModalStyles = {
     padding: "20px 30px",
@@ -31,12 +31,12 @@ const DeleteMemberModal = ({
     };
     return (
         <Modal {...modalProps} sizeProps={testModalStyles}>
-            <Row align="center" gap="10px" justifySelf="flex-start">
+            <FlexFlow align="center" gap="10px" justifySelf="flex-start">
                 <IconContainer>
                     <Icon icon="iconamoon:attention-square-fill" />
                 </IconContainer>
                 <TitleModal>ELIMINAR MIEMBRO</TitleModal>
-            </Row>
+            </FlexFlow>
             <TextModal>
                 Esta acción eliminará al miembro del proyecto.
             </TextModal>

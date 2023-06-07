@@ -1,3 +1,4 @@
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 type ContainerProps = {
@@ -34,6 +35,12 @@ export const Container = styled.div<ContainerProps>`
         top: 0;
         left: 0;
     }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        padding: 25px 70px 20px 20px;
+        background-color: #121212;
+        bottom: unset;
+        top: 5%;
+    }
 `;
 export const CloseIconContainer = styled.span`
     display: flex;
@@ -59,10 +66,18 @@ export const TitleModal = styled.h3`
     color: ${({ color }) => color};
     font-weight: 700;
     text-align: start;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 18px;
+    }
 `;
 export const TextModal = styled.p`
     font-size: 17px;
     width: 100%;
     font-weight: 300;
     color: var(--white-1-50);
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        padding-left: 35px;
+        font-size: 14px;
+        max-width: 200px;
+    }
 `;

@@ -1,3 +1,4 @@
+import { bufferToBoolean } from "../../db/helpers";
 import { ProjectCommentTask, ProjectSubtask, ProjectTask } from "./entities";
 import { ProjectTaskBoard, ProjectTaskState } from "./entities";
 
@@ -9,7 +10,7 @@ const projectTaskBoardStateByTaskState: Record<ProjectTaskState, string> = {
 const projectSubtasksMapper = (record: any): ProjectSubtask => ({
     id: record["id_subtask"],
     name: record["subtask_name"],
-    checked: record["subtask_checked"]
+    checked: bufferToBoolean(record["subtask_checked"])
 });
 const projectTaskCommentMapper = (record: any): ProjectCommentTask => ({
     id: record["id_task_comment"],
@@ -29,7 +30,7 @@ export const projectTaskBoardMapper = (resulset: any[]): ProjectTaskBoard => {
         finalized: []
     };
     resulset.forEach(record => {
-        const taskState: ProjectTaskState = record["task_state"]; 
+        const taskState: ProjectTaskState = record["task_state"];
         // Obteniendo el campo del tablero de tareas a través del taskState
         const projectTaskBoardState: string = projectTaskBoardStateByTaskState[taskState];
         const taskId: number = record["id_task"];
@@ -40,7 +41,7 @@ export const projectTaskBoardMapper = (resulset: any[]): ProjectTaskBoard => {
         // Si existe la tarea, se agregan la subtarea y el comentario
         if (taskIdx > 0) {
             taskBoardByState[taskIdx].subtasks = [
-                ...taskBoardByState[taskIdx].subtasks, 
+                ...taskBoardByState[taskIdx].subtasks,
                 projectSubtasksMapper(record)
             ];
             taskBoardByState[taskIdx].comments = [
@@ -56,7 +57,7 @@ export const projectTaskBoardMapper = (resulset: any[]): ProjectTaskBoard => {
                 id: taskId,
                 name: record["task_name"],
                 description: record["task_description"],
-                checked: record["task_checked"],
+                checked: bufferToBoolean(record["task_checked"]),
                 priorityId: record["id_task_priority"],
                 deadline: record["task_deadline"],
                 responsible: {

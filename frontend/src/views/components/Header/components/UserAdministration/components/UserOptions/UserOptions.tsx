@@ -6,17 +6,17 @@ import {
 } from "./styles";
 import Footer from "./components/Footer/Footer";
 import UserImage from "../../../../../UserImage/UserImage";
-import { Column } from "src/components/styles";
 import { UserOptionsProps } from "./types";
 import { forwardRef } from "react";
 import RolInfo from "./components/RolInfo/RolInfo";
+import { FlexFlow } from "src/components/styles";
 
 const UserOptions = forwardRef(({ isOpen, currentUser }: UserOptionsProps, ref) => {
     if (!currentUser) return null;
     const { name, surname, role, urlPhoto } = currentUser;
     return (
         <Container className={isOpen && "open"} ref={ref}>
-            <Column gap="8px">
+            <FlexFlow direction="column" gap="8px">
                 <UserInfo align="center" gap="12px">
                     <UserImage 
                         className="big" 
@@ -25,7 +25,7 @@ const UserOptions = forwardRef(({ isOpen, currentUser }: UserOptionsProps, ref) 
                     <FullName>{name} {surname}</FullName>
                 </UserInfo>
                 <RolInfo role={role}/>
-            </Column>
+            </FlexFlow>
             <Footer />
         </Container>
     );

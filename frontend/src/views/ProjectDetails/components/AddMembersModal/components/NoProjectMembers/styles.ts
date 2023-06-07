@@ -22,4 +22,5 @@ export const IconWrapper = styled.span`
 export const Text = styled.p`
     font-size: 14px;
     font-weight: lighter;
+    text-align: center;
 `;

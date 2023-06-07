@@ -4,6 +4,7 @@ import { ViewModule } from "src/config/roles";
 import ProjectDetailsView from "src/views/ProjectDetails/ProjectDetailsView";
 import { AbsolutePaths } from "src/config/absolutePaths";
 import OnDevelopment from "src/dev-components/OnDevelopment";
+import ProjectPanel from "src/views/ProjectPanel/ProjectPanel";
 
 export const MODULE_VIEWS: ViewModulesRouteByViewModule = {
     [ViewModule.ProjectManager]: {
@@ -13,6 +14,10 @@ export const MODULE_VIEWS: ViewModulesRouteByViewModule = {
     [ViewModule.ProjectDetails]: {
         View: ProjectDetailsView,
         path: AbsolutePaths.ProjectDetails,
+    },
+    [ViewModule.ProjectPanel]: {
+        View: ProjectPanel,
+        path: "*",
     },
     [ViewModule.Settings]: {
         View: OnDevelopment,

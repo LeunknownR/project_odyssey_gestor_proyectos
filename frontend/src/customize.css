@@ -89,3 +89,14 @@ h6,
 p {
     margin: 0;
 }
+*.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--white-1-50);
+    border-radius: 20px;
+}
+
+*.custom-scrollbar::-webkit-scrollbar {
+    background-color: var(--white-1-12);
+    width: 10px;
+    height: 10px;
+	border-radius: 20px;
+}

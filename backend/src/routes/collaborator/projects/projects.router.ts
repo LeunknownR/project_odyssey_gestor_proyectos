@@ -14,6 +14,7 @@ import {
 } from "./parsers";
 import {
     GroupedProjectList,
+    ProjectDetails,
     ProjectPanelDetails,
 } from "../../../entities/project/entities";
 import { withErrorHandler } from "../../helpers";
@@ -85,8 +86,8 @@ router.get(
     ApiPathEndpointsCollaborator.GetProjectDetails,
     withErrorHandler(async (req, res) => {
         const projectId: number = parseToProjectIdToGetDetails(req.params);
-        const projectDetails: ProjectPanelDetails = await ProjectController.getProjectDetails(projectId);
-        GenerateResponseBody.sendResponse<ProjectPanelDetails>(res, {
+        const projectDetails: ProjectDetails = await ProjectController.getProjectDetails(projectId);
+        GenerateResponseBody.sendResponse<ProjectDetails>(res, {
             code: ResponseCodes.Ok,
             message: ResponseMessages.Success,
             data: projectDetails

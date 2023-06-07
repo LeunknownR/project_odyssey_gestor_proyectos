@@ -7,6 +7,7 @@ type ContainerProps = {
     weight?: string;
     padding?: string;
     maxWidth?: string;
+    backgroundColor?: string;
 };
 export const Container = styled.button<ContainerProps>`
     display: flex;
@@ -53,6 +54,14 @@ export const Container = styled.button<ContainerProps>`
             .iconify {
                 font-size: 18px;
             }
+            @media (max-width: ${MOBILE_WIDTH}px) {
+                padding: 5px 12px;
+                font-size: 12px;
+                gap: 5px;
+                .iconify {
+                    font-size: 18px;
+                }
+            }
         }
         :hover {
             background-color: var(--white-1);
@@ -90,15 +99,7 @@ export const Container = styled.button<ContainerProps>`
         }
     }
     &.user-options-logout {
-        color: var(--white-1);
-        background-color: #8e4229;
-        padding: 8px;
-        font-weight: 700;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        :hover {
-            color: #8e4229;
-            background-color: var(--white-1);
-        }
+        
     }
     &.blue-modal {
         color: var(--white-1);
@@ -114,6 +115,11 @@ export const Container = styled.button<ContainerProps>`
         &:disabled {
             background-color: var(--darkblue-0);
         }
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            padding: 7px;
+            min-width: 100px;
+            font-size: 15px;
+        }
     }
     &.blue-modal-2 {
         background-color: transparent;
@@ -125,6 +131,11 @@ export const Container = styled.button<ContainerProps>`
         min-width: 125px;
         :hover {
             border-color: transparent;
+        }
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            padding: 7px;
+            min-width: 100px;
+            font-size: 15px;
         }
     }
     &.red-modal {

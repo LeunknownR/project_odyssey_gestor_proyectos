@@ -1,4 +1,4 @@
-import { Row } from 'src/components/styles';
+import { FlexFlow } from 'src/components/styles';
 import { MOBILE_WIDTH } from 'src/config/constants';
 import styled from 'styled-components';
 
@@ -33,7 +33,7 @@ export const Container = styled.div<ContainerProps>`
         bottom: calc(var(--main-sidebar-height-mobile) + 1px);
     }
 `;
-export const UserInfo = styled(Row)`
+export const UserInfo = styled(FlexFlow)`
     padding-bottom: 15px;
     border-bottom: 1px solid var(--white-1-50);
 `;

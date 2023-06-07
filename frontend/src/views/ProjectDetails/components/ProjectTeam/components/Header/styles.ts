@@ -1,10 +1,14 @@
-import { MOBILE_WIDTH } from 'src/config/constants';
-import styled from 'styled-components';
+import { FlexFlow } from "src/components/styles";
+import { MOBILE_WIDTH } from "src/config/constants";
+import styled from "styled-components";
 
 export const Container = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        gap: 10px;
+    }
 `;
 export const IconContainer = styled.span`
     display: flex;
@@ -14,14 +18,19 @@ export const IconContainer = styled.span`
     }
     @media (max-width: ${MOBILE_WIDTH}px) {
         .iconify {
-            font-size: 30px;
+            font-size: 24px;
         }
+    }
+`;
+export const Wrapper = styled(FlexFlow)`
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        gap: 5px;
     }
 `;
 export const Title = styled.h2`
     color: var(--white-1);
     @media (max-width: ${MOBILE_WIDTH}px) {
-        font-size: 18px;
+        font-size: 13px;
     }
 `;
 export const AddMemberButton = styled.button`
@@ -44,8 +53,8 @@ export const AddMemberButton = styled.button`
         font-size: 24px;
     }
     @media (max-width: ${MOBILE_WIDTH}px) {
-        font-size: 12px;
-        gap: 6px;
-        padding: 3px 9px;
+        font-size: 11px;
+        gap: 5px;
+        padding: 3px 5px;
     }
 `;

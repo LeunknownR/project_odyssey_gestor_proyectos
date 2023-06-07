@@ -3,7 +3,7 @@ import { ProjectTaskBoard, ProjectTaskPriority } from "../../entities/projectTas
 import { projectTaskBoardMapper } from "../../entities/projectTasks/mappers";
 import ProjectTasksModel from "../../models/projectTasksModel/projectTasks.model";
 import { ResponseMessages } from "../../utils/response/enums";
-import { WSNewProjectTask, WSNewProjectTaskForm } from "../../websockets/services/projectTasks/utils/entities";
+import { WSNewProjectTask, WSNewProjectTaskForm, WSProjectTaskForm, WSTaskToBeUpdated, WSProjectTaskToBeUpdatedForm } from "../../websockets/services/projectTasks/utils/entities";
 
 export default abstract class ProjectTasksController {
     static async getTaskPriorityList(): Promise<ProjectTaskPriority[]> {
@@ -17,6 +17,12 @@ export default abstract class ProjectTasksController {
     }
     static async createTask(newTaskForm: WSNewProjectTaskForm): Promise<void> {
         const record: any = await ProjectTasksModel.createTask(newTaskForm);
+        const message: string = record["message"];
+        if (message === ResponseMessages.Success) return;
+        throw new Error(message);
+    }
+    static async updateTask(taskToBeUpdatedForm: WSProjectTaskToBeUpdatedForm): Promise<void> {
+        const record: any = await ProjectTasksModel.updateTask(taskToBeUpdatedForm);
         const message: string = record["message"];
         if (message === ResponseMessages.Success) return;
         throw new Error(message);
