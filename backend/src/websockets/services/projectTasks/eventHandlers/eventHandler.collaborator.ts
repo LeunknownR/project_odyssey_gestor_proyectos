@@ -3,8 +3,8 @@ import { IOServerService, WSEvent } from "../../../utils/types";
 import { WSProjectTaskServiceCollaboratorEvents, WSProjectTaskServiceServerEvents } from "../events";
 import WSProjectTaskServiceDataHandler from "../handlerData";
 import { WSServiceEventHandler } from "../../../utils/classes";
-import { WSNewProjectTask, WSTaskToBeUpdated } from "../utils/entities";
-import { parseToWSNewProjectTask, parseToWSUpdateProjectTask } from "../utils/parsers";
+import { WSNewProjectTask, WSTaskToBeUpdated, WSChangeTaskState, WSDeleteTask } from "../utils/entities";
+import { parseToWSChangeTaskState, parseToWSDeleteTask, parseToWSNewProjectTask, parseToWSUpdateProjectTask } from "../utils/parsers";
 import ProjectTasksController from "../../../../controllers/projectTaskController/projectTasks.controller";
 import { WSProjectTaskServiceRoomHandler, getUserDataProjectTaskServiceBySocket } from "../utils/helpers";
 import { ProjectTaskBoard } from "../../../../entities/projectTasks/entities";
@@ -28,6 +28,14 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             {
                 name: WSProjectTaskServiceCollaboratorEvents.UpdateTask,
                 handler: this.updateTask
+            },
+            {
+                name: WSProjectTaskServiceCollaboratorEvents.ChangeTaskState,
+                handler: this.changeTaskState
+            },
+            {
+                name: WSProjectTaskServiceCollaboratorEvents.DeleteTask,
+                handler: this.deleteTask
             }
         ];
         this.configSocket(socket, wsEventList);
@@ -88,6 +96,46 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         // Actualizando el tablero a todos los colaboradores del proyecto
         this.refreshTaskBoardByProject(projectId, taskBoard);
     }
+    //Cambiar Estado de Tarea
+    private async changeTaskState(socket: Socket, body?: any) {
+         //Validando datos 
+         const changeTaskState: WSChangeTaskState = parseToWSChangeTaskState(body);
+         //Obteniendo 
+         const {
+             userId: collaboratorId,
+             projectId
+         } = getUserDataProjectTaskServiceBySocket(socket);
+         // Realizando query para cambiar el estado de una tarea
+         await ProjectTasksController.changeTaskState({
+             projectId, task: changeTaskState, collaboratorId
+         });
+         // Obtener tablero de la bd
+         const taskBoard: ProjectTaskBoard = await ProjectTasksController.getTaskBoardByProjectId(projectId);
+         // Actualizando el tablero en la memoria
+         this.setTaskBoardByProject(projectId, taskBoard);
+         // Actualizando el tablero a todos los colaboradores del proyecto
+         this.refreshTaskBoardByProject(projectId, taskBoard);
+    }
+    //Eliminar Tarea
+    private async deleteTask(socket: Socket, body?: any) {
+        //Validando datos 
+        const deleteTaskId: WSDeleteTask  = parseToWSDeleteTask(body);
+        //Obteniendo 
+        const {
+            userId: collaboratorId,
+            projectId
+        } = getUserDataProjectTaskServiceBySocket(socket);
+        // Realizando query para cambiar el estado de una tarea
+        await ProjectTasksController.deleteTask({
+            projectId, task: deleteTaskId , collaboratorId
+        });
+        // Obtener tablero de la bd
+        const taskBoard: ProjectTaskBoard = await ProjectTasksController.getTaskBoardByProjectId(projectId);
+        // Actualizando el tablero en la memoria
+        this.setTaskBoardByProject(projectId, taskBoard);
+        // Actualizando el tablero a todos los colaboradores del proyecto
+        this.refreshTaskBoardByProject(projectId, taskBoard);
+   }
     //#endregion
     //#endregion
 }

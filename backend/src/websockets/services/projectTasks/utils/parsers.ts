@@ -2,7 +2,7 @@ import { ProjectState } from "../../../../entities/project/enums";
 import { isArrayString, isPositiveArrayNumber } from "../../../../utils/arrays";
 import { isPositiveNumber, isPositiveNumberOrZero } from "../../../../utils/numbers";
 import { checkLength } from "../../../../utils/strings";
-import { WSNewProjectTask, WSTaskToBeUpdated } from "./entities";
+import { WSNewProjectTask, WSTaskToBeUpdated, WSChangeTaskState, WSDeleteTask } from "./entities";
 
 export const parseToWSNewProjectTask = (body: any): WSNewProjectTask => {
     const { name, state } = body;
@@ -50,4 +50,30 @@ export const parseToWSUpdateProjectTask = (body: any): WSTaskToBeUpdated => {
         deadline, priotityId,
         newSubTask, subTaskIdsToBeDeleted
     };
+}
+export const parseToWSChangeTaskState = (body: any): WSChangeTaskState => {
+    const {
+        taskId,
+        state
+    } = body;
+    if (
+        !isPositiveNumber(taskId) ||
+        !checkLength(state, 1, 1)
+    )
+        throw new Error("Invalid data to change task state");
+
+    return {
+        taskId,
+        state
+    };
+}
+
+export const parseToWSDeleteTask = (body: any): WSDeleteTask => {
+    const {
+        taskId
+    } = body;
+    if (!isPositiveNumber(taskId))
+        throw new Error("Invalid data to change task state");
+
+    return taskId;
 }
