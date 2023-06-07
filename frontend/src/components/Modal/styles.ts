@@ -27,7 +27,8 @@ type ContentProps = {
     padding?: string;
     width?: string;
     minWidth?: string;
-    maxWidth?: string
+    maxWidth?: string;
+    borderRadius?: string;
     className?: any;
     onMouseDown: any;
 }
@@ -35,7 +36,7 @@ export const Content = styled.article<ContentProps>`
     display: grid;
     place-items: center;
     background-color: var(--white-1);
-    border-radius: 10px;
+    border-radius: ${({ borderRadius = "10px" }) => borderRadius};
     gap: 20px;
     padding: ${({ padding = "40px 60px" }) => padding};
     transform: translateY(-800px);
@@ -48,7 +49,9 @@ export const Content = styled.article<ContentProps>`
         transform: translateY(0);
     }
     @media (max-width: 850px) {
-        width: 80vw;
+        width: 85vw;
+        max-width: unset;
+        min-width: unset;
     }
 `;
 type ModalImgProps = {

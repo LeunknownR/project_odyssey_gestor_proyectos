@@ -4,24 +4,22 @@ import {
     Container,
     Content,
     LabelContent,
+    LensContainer,
     PasswordRevealer,
     TextField,
 } from "./styles";
 import { CustomTextFieldProps } from "./types";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 // import { RESTRICTIONS } from "./utils/restrictions";
 
 const CustomTextField = ({
     placeholder,
-    label,
-    type,
-    variant,
-    size,
-    width,
-    maxWidth,
-    maxLength,
-    disabled,
-    value,
-    // error = null,
+    name, label,
+    type, variant,
+    size, width, maxWidth,
+    maxLength, disabled,
+    value, error = null,
+    onFocus, onBlur,
     // restriction,
     onChange,
 }: CustomTextFieldProps) => {
@@ -53,11 +51,14 @@ const CustomTextField = ({
                 <TextField
                     disabled={disabled}
                     className={className}
+                    name={name}
                     maxLength={maxLength}
                     type={getType()}
                     placeholder={type === "password" ? "********" : placeholder}
                     value={value}
                     onChange={onChange}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                     // onKeyPress={RESTRICTIONS[restriction ? restriction : ""]}
                 />
                 {showPasswordRevealer() && (
@@ -69,8 +70,13 @@ const CustomTextField = ({
                         />
                     </PasswordRevealer>
                 )}
+                {variant?.includes("search") && (
+                    <LensContainer>
+                        <Icon icon="simple-line-icons:magnifier" />
+                    </LensContainer>
+                )}
             </Content>
-            {/* <ErrorMessage text={error} /> */}
+            <ErrorMessage text={error} />
         </Container>
     );
 };

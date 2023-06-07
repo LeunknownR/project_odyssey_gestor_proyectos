@@ -14,6 +14,16 @@
     src: local("InriaSans"), url("/font/InriaSans-Light.ttf");
     font-weight: 300;
 }
+@font-face {
+	font-family: "Lato";
+	src: local("Lato"), url("/font/Lato-Black.ttf");
+	font-weight: 800;
+}
+@font-face {
+	font-family: "Lato";
+	src: local("Lato"), url("/font/Lato-Regular.ttf");
+	font-weight: 400;
+}
 :root {
 	--white-1: #FFFFFF;
 	--white-2: #EAEAEA;
@@ -24,16 +34,25 @@
 	--gray-1: #DEDEDE;
 	--gray-2: #8F8F8F;
 	--gray-3: #8D8D8D;
+	--gray-4: #858585;
 	--orange-1: #E8AF90;
 	--orange-2: #F1850A;
 	--orange-3: #E15625;
-	--red-1: #F57777;
-	--red-2: #F53C3C;
-	--red-3: #D80000;
+	--orange-4: #8E4229;
+	--red-0: #F57777;
+	--red-1: #FFA9A9;
+	--red-2: #EF5757;
+	--red-3: #FE3E3E;
+	--red-4: #D80000;
+	--red-5: #690606;
+	--lightblue-1: #61CDFF;
+	--darkblue-0: #68808E;
 	--darkblue-1: #2D5A77;
 	--darkblue-2: #183243;
 	--darkblue-3: #112430;
 	--darkblue-4: #041825;
+	--darkblue-5: #8DA3B1;
+	--darkblue-6: #536571;
 	--dark-0: #000000;
 	--dark-1: #4B4B4B;
 	--dark-2: #252525;
@@ -41,11 +60,21 @@
 	--yellow-1: #FFC164;
 	--yellow-2: #FFA51F;
 	--green-1: #95DD72;
+	--green-2: #8BDE8E;
+	--green-3: #5DA283;
+	--green-4: #1D3733;
 	--cream-1: #FFE0B2;
+	--main-header-height: 78px;
+	--main-sidebar-width: 75px;
+	--main-sidebar-height-mobile: 65px;
+    --main-content-height: calc(100vh - var(--main-header-height));
 }	
 /* General */
 html {
     overflow-x: hidden;
+}
+body {
+    background-color: var(--darkblue-4);
 }
 * {
     box-sizing: border-box;
@@ -59,4 +88,15 @@ h5,
 h6,
 p {
     margin: 0;
+}
+*.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--white-1-50);
+    border-radius: 20px;
+}
+
+*.custom-scrollbar::-webkit-scrollbar {
+    background-color: var(--white-1-12);
+    width: 10px;
+    height: 10px;
+	border-radius: 20px;
 }

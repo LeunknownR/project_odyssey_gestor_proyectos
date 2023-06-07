@@ -3,11 +3,12 @@ export type SizeModalProps = {
     maxWidth?: string;
     width?: string;
     padding?: string;
+    borderRadius?: string;
 };
 export type ModalProps = {
     children?: React.ReactNode;
     isOpen: boolean;
     sizeProps?: SizeModalProps;
-    handleOpen(value: boolean): void;
+    open(value: boolean): void;
     handleClose?: () => void;
 };

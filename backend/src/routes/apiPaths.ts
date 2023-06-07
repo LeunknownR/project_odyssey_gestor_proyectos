@@ -2,25 +2,28 @@ export enum ApiPathEndpointGroups {
     Authentication = "/authentication",
     GeneralAdmin = "/general-admin",
     Collaborator = "/collaborator"
-};
+}
 export enum ApiPathEndpointsGeneral {
-    Images = "/images/:imageName"
-};
+    DynamicImages = "/images/:imageName",
+    StaticImages = "/static-images/:imageName"
+}
 export enum ApiPathEndpointsAuthentication {
     Login = "/login"
-};
+}
 export enum ApiPathEndpointsGeneralAdmin {
-    GetProjectList = "/projects/:projectName",
+    GetProjectListByGeneralAdmin = "/projects/all/:projectName?",
     CreateProject = "/projects/create",
     DeleteProject = "/projects/delete",
-    GetProjectListByGeneralAdmin = "/projects/:projectName",
     UpdateProject = "/projects/update",
     SearchCollaborator = "/projects/search-collaborator/:collaboratorName"
-};
+}
 export enum ApiPathEndpointsCollaborator {
-    GetProjectListForCollaborator = "/projects/:projectName",
+    GetProjectListForCollaborator = "/projects/all/:collaboratorId/:projectName?",
     GetProjectDetails = "/projects/details/:projectId",
     UpdateEndDateProject="/projects/update-end-date",
     SearchCollaboratorMember = "/projects/search-collaborator-member/:projectId/:collaboratorName",
-    AddProjectMembers = "/collaborator/projects/add-members"
-};
+    AddProjectMembers = "/projects/add-members",
+    DeleteProjectMember = "/projects/delete-member/:userId/:projectHasCollaboratorId",
+    GetProjectPanelDetail="/project-panel/details/:projectId/:userId",
+    GetTaskPriorityList ="/project-tasks/priorities"
+}

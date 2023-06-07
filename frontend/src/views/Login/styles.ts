@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import BackgroundImage from "./temporal-fondo-borrar.png";
+import { MOBILE_WIDTH } from "src/config/constants";
 export const Container = styled.section`
     display: flex;
     height: 100vh;
@@ -11,12 +12,18 @@ export const Container = styled.section`
     background-image: url(${BackgroundImage});
     background-repeat: no-repeat;
     background-size: cover;
+    @media (max-width: 600px) {
+        padding: 0;
+    }
 `;
 export const Slogan = styled.div`
     flex: 1;
     h1 {
         font-size: 45px;
         color: #fff;
+    }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        display: none;
     }
 `;
 export const Logo = styled.img`

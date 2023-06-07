@@ -1,17 +1,18 @@
-import { ProjectForm } from "../../../entities/project/types";
+import { ProjectForm } from "../../../entities/project/entities";
 import { isPositiveNumber } from "../../../utils/numbers";
-import { checkLength } from "../../../utils/string";
+import { checkLength } from "../../../utils/strings";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "./types";
 
-export const parseToProjectName = (params: any): string => {
-    if (!checkLength(params.projectName, 0, 255))
+export const parseToProjectName = (params: any): string | null => {
+    const { projectName } = params;
+    if (projectName && !checkLength(params.projectName, 1, 255))
         throw new Error("Invalid project name");
-    return params.projectName;
+    return projectName || null;
 }
 export const parseToCollaboratorName = (params: any): string => {
-    if (!checkLength(params.collaboratorName, 0, 100))
+    if (!checkLength(params.collaboratorName, 1, 100))
         throw new Error("Invalid collaborator name");
-    return params.projectName;
+    return params.collaboratorName;
 }
 export const parseToProjectForm = (body: any, withId: boolean): ProjectForm => {
     const {
@@ -57,24 +58,3 @@ export const parseToDeleteProjectRequestBody = (body: any): DeleteProjectRequest
         throw new Error("Invalid form to delete project");
     return { userId, projectId };
 }
-// export const parseToUpdateProjectRequestBody = (body: any): ProjectForm => {
-//     const {
-//         id, name, description,
-//         startDate, endDate, leaderId
-//     } = body;
-//     if (!isPositiveNumber(id) ||
-//         !isLimitMaximString(name, 255) || 
-//         !isLimitMaximString(description, 200)  ||
-//         !isPositiveNumber(startDate) || 
-//         !isPositiveNumber(endDate) ||
-//         !isPositiveNumber(leaderId))
-//         throw new Error("Invalid form to update project");
-//     return {
-//         id,
-//         name,
-//         description,
-//         startDate,
-//         endDate,
-//         leaderId
-//     };
-// }

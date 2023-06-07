@@ -1,34 +1,35 @@
-import { AddProjectMembersRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../../entities/project/types";
-import { isPositiveArrayNumber, isPositiveNumber } from "../../../utils/numbers";
-import { checkLength } from "../../../utils/string";
+import { 
+    AddProjectMembersRequestBody, 
+    DeleteProjectMemberRequestBody, 
+    SearchCollaboratorRequestBody, 
+    UpdateEndDateProjectRequestBody 
+} from "./types";
+import { isPast } from "../../../utils/datetime";
+import { isPositiveNumber } from "../../../utils/numbers";
+import { checkLength } from "../../../utils/strings";
 import { GetProjectListForCollaboratorRequestBody } from "./types";
+import { isPositiveArrayNumber } from "../../../utils/arrays";
 
 export const parseToGetProjectListForCollaboratorRequestBody = (params: any): GetProjectListForCollaboratorRequestBody => {
     const { collaboratorId, projectName } = params;
     if (!isPositiveNumber(collaboratorId) ||
-        !checkLength(projectName, 0, 50))
-        throw new Error();
+        (projectName && !checkLength(projectName, 1, 50)))
+        throw new Error("Invalid request body to get project list");
     return {
-        collaboratorId,
-        projectName
+        projectName: projectName || null,
+        collaboratorId
     };
-}
-export const parseToCollaboratorName = (params: any): string => {
-    const { collaboratorName } = params;
-    if (!checkLength(collaboratorName, 0, 100))
-        throw new Error("Invalid collaborator name");
-    return collaboratorName;
 }
 export const parseToSearchCollaboratorRequestBody = (params: any): SearchCollaboratorRequestBody => {
     const { projectId, collaboratorName } = params;
-    if (!isPositiveNumber(projectId) || 
+    if (!isPositiveNumber(projectId) ||
         !checkLength(collaboratorName, 0, 100))
         throw new Error("Invalid request body to search collaborator");
     return { projectId, collaboratorName };
 }
 export const parseToProjectId = (params: any): number => {
     if (!isPositiveNumber(params.projectId))
-        throw new Error("Invalid projectId");
+        throw new Error("Invalid project id");
     return params.projectId;
 }
 export const parseToProjectIdToGetDetails = (params: any) => {
@@ -43,7 +44,7 @@ export const parseToUpdateEndDateProjectRequestBody = (body: any): UpdateEndDate
         endDate
     } = body;
     if (!isPositiveNumber(projectId) ||
-        !isPositiveNumber(endDate))
+        !isPositiveNumber(endDate) || isPast(endDate))
         throw new Error("Invalid form to update end date of the project");
     return {
         projectId,
@@ -57,9 +58,22 @@ export const parseToAddProjectMembersRequestBody = (body: any): AddProjectMember
     } = body;
     if (!isPositiveNumber(projectId) ||
         !isPositiveArrayNumber(membersIds))
-        throw new Error("Invalid form to add collaborators in the project");
+        throw new Error("Invalid form to add project members");
     return {
         projectId,
         membersIds
+    };
+}
+export const parseToDeleteProjectMemberRequestBody = (params: any): DeleteProjectMemberRequestBody => {
+    const {
+        userId,
+        projectHasCollaboratorId
+    } = params;
+    if (!isPositiveNumber(userId) ||
+        !isPositiveNumber(projectHasCollaboratorId))
+        throw new Error("Invalid form to delete a project member");
+    return {
+        userId: parseInt(userId),
+        projectHasCollaboratorId: parseInt(projectHasCollaboratorId)
     };
 }

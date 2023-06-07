@@ -7,5 +7,6 @@ const blink = keyframes`
 export const Cursor = styled.span`
     padding-left: 10px;
     border-right: 8px solid #fff;
+    height: 1px;
     animation: ${blink} .5s infinite step-end alternate;
 `;

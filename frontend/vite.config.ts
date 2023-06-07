@@ -8,5 +8,8 @@ export default defineConfig({
     alias: {
       src: "/src",
     },
+  },
+  define: {
+    'process.env': {}
   }
 })
