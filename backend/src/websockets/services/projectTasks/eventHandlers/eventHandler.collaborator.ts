@@ -1,16 +1,14 @@
 import { Socket } from "socket.io";
-import { IOServerService, WSEvent } from "../../../utils/types";
-import { WSProjectTaskServiceCollaboratorEvents, WSProjectTaskServiceServerEvents } from "../events";
+import { IOServerService, WSEvent, WSServiceEventHandler } from "../../../utils/common";
 import WSProjectTaskServiceDataHandler from "../handlerData";
-import { WSServiceEventHandler } from "../../../utils/classes";
 import { WSNewProjectTask, WSProjectTaskComment, WSProjectTaskToBeUpdated } from "../utils/entities";
 import { parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskToBeUpdated } from "../utils/parsers";
 import ProjectTasksController from "../../../../controllers/projectTaskController/projectTasks.controller";
 import { WSProjectTaskServiceRoomHandler, getUserDataProjectTaskServiceBySocket } from "../utils/helpers";
 import { ProjectTaskBoard } from "../../../../entities/projectTasks/entities";
-import { WSProjectTaskEvent } from "../utils/types";
+import WSProjectTaskServiceEvents from "../events";
 
-export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServiceEventHandler<WSProjectTaskServiceCollaboratorEvents> {
+export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServiceEventHandler<WSProjectTaskServiceEvents.Collaborator> {
     //#region Attributes
     private dataHandler: WSProjectTaskServiceDataHandler;
     //#endregion
@@ -20,17 +18,17 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
     }
     //#region Methods
     public listen(socket: Socket) {
-        const wsEventList: WSProjectTaskEvent[] = [
+        const wsEventList: WSEvent<WSProjectTaskServiceEvents.Collaborator>[] = [
             {
-                name: WSProjectTaskServiceCollaboratorEvents.CreateTask,
+                name: WSProjectTaskServiceEvents.Collaborator.CreateTask,
                 handler: this.createTask
             },
             {
-                name: WSProjectTaskServiceCollaboratorEvents.UpdateTask,
+                name: WSProjectTaskServiceEvents.Collaborator.UpdateTask,
                 handler: this.updateTask
             },
             {
-                name: WSProjectTaskServiceCollaboratorEvents.CommentInTask,
+                name: WSProjectTaskServiceEvents.Collaborator.CommentInTask,
                 handler: this.commentInTask
             }
         ];
@@ -49,7 +47,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         this.io
             .to(projectRoom)
             .emit(
-                WSProjectTaskServiceServerEvents.DispatchTaskBoard,
+                WSProjectTaskServiceEvents.Server.DispatchTaskBoard,
                 taskBoard
             );
     }

@@ -33,7 +33,9 @@ export default abstract class ProjectTasksModel {
         return record;
     }
     public static async updateTask({
-        projectId, payload: task, collaboratorId
+        projectId, 
+        payload: task, 
+        collaboratorId
     }: WSProjectTaskToBeUpdatedForm): Promise<any> {
         const [record] = await DBConnection.query(
             StoredProcedures.UpdateProjectTask,
