@@ -1,5 +1,5 @@
 import { Credentials } from "../../entities/user/types";
-import { checkLength } from "../../utils/string";
+import { checkLength } from "../../utils/strings";
 
 export const parseToCredentials = (body: any): Credentials => {
     const { username, password } = body;

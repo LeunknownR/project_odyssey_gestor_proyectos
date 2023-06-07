@@ -1,3 +1,4 @@
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 export const IconContainer = styled.span`
@@ -16,4 +17,7 @@ export const TitleModal = styled.h2`
 export const TextModal = styled.p`
     font-size: 16px;
     color: var(--dark-1);
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 14px;
+    }
 `;

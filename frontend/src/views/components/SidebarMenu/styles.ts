@@ -35,6 +35,7 @@ export const MenuList = styled.ul`
         width: max-content;
     }
 `;
+//GNOMO ESTE BRODER DEBERÍA LLAMARSE NAVLINKPROPS Y DEBERÍA ESTAR EN UN LUGAR ADECUADO.
 export type MenuButtonProps = {
     activeclassname: string;
 };

@@ -1,3 +1,4 @@
+import { MOBILE_WIDTH } from 'src/config/constants';
 import styled from 'styled-components';
 
 export const Container = styled.footer`
@@ -6,4 +7,7 @@ export const Container = styled.footer`
     gap: 20px;
     width: 80%;
     padding-bottom: 50px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        padding-bottom: 40px;
+    }
 `;

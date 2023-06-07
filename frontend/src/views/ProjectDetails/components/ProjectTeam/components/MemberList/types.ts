@@ -1,4 +1,4 @@
-import { ProjectCollaborator } from "src/entities/collaborator/types";
+import { ProjectCollaborator } from "src/entities/collaborator/entities";
 
 export type MemberListProps = {
     collaborators: ProjectCollaborator[];

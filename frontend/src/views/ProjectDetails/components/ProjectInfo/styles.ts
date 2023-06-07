@@ -31,6 +31,9 @@ export const IconContainer = styled.span`
         background-color: var(--green-1);
         font-size: 50px;
         border-radius: 4px;
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            font-size: 35px;
+        }
     }
 `;
 export const ProjectName = styled.h1`
@@ -45,4 +48,8 @@ export const Description = styled.p`
     font-weight: 400;
     font-size: 17px;
     max-width: 565px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 15px;
+        max-width: unset;
+    }
 `;

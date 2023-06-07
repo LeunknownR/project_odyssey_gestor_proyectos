@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SelectCollaboratorHook, SelectCollaboratorHookParams } from "./types";
-import { CollaboratorUser } from "src/entities/collaborator/types";
+import { CollaboratorUser } from "src/entities/collaborator/entities";
 
 const useSearchCollaborator = ({
     requestSearchCollaborators

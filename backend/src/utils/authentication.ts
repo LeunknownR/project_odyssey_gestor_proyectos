@@ -5,6 +5,7 @@ import { GenerateResponseBody } from "./response/generateResponseBody";
 import { DBRoles } from "../db/enums";
 import { JwtPayload } from "jsonwebtoken";
 import { Socket } from "socket.io";
+import { IncomingHttpHeaders } from "http";
 
 export default abstract class Authentication {
     // 10 segundos
@@ -20,9 +21,9 @@ export default abstract class Authentication {
             { expiresIn: Authentication.TOKEN_EXPIRATION_TIME });
         return token;
     }
-    static decodeTokenInRequest = (header: any) => {
+    static decodeTokenInRequest = (headers: IncomingHttpHeaders) => {
         // Obteniendo el nuevo token del header de autorización
-        const token = header as string || "";
+        const token: string = headers["authorization"];
         // Revisando que el token haya sido proporcionado
         return token ? token.split("Bearer ")[1] : "";
     }
@@ -30,7 +31,7 @@ export default abstract class Authentication {
         req: Request,
         res: Response, 
         next: NextFunction): void => {
-        const token: string = this.decodeTokenInRequest(req.headers["authorization"]);
+        const token: string = this.decodeTokenInRequest(req.headers);
         if (!token) return;
         // Verificando el token
         jwt.verify(token, process.env.SECRET_TOKEN_KEY, (err: any, decoded: JwtPayload) => {
@@ -44,7 +45,7 @@ export default abstract class Authentication {
     }
     static checkTokenInWSService = (role: DBRoles) => (socket: Socket): Promise<boolean> => {
         return new Promise<boolean>((res, rej) => {
-            const token = this.decodeTokenInRequest(socket.handshake.auth.token);
+            const token = this.decodeTokenInRequest(socket.handshake.headers);
             // Revisando que el token haya sido proporcionado
             if (!token) {
                 rej(false);

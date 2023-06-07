@@ -1,10 +1,11 @@
 //#region Styles
-import Loader from "src/components/Loader/Loader";
 import { useEffect } from "react";
 import { 
+    Blades,
     Container,
     Spinner } from "./styles";
 import { PreloaderProps } from "./types";
+import preloaderImage from "src/images/preloader-img.svg"
 //#endregion
 
 const Preloader = ({
@@ -29,10 +30,10 @@ const Preloader = ({
     }
     return (
         <Container className={getClassName()}>
-            {message && <h6>{message}</h6>}
             <Spinner>
-                <Loader/>
+                <Blades src={preloaderImage} />
             </Spinner>
+            {message && <h6>{message}</h6>}
         </Container>
     );
 }

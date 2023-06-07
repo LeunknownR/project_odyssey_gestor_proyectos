@@ -2,7 +2,7 @@ import Modal from "src/components/Modal/Modal";
 import { SavedChangesModalProps } from "./types";
 import { IconContainer, TextModal, TitleModal } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Row } from "src/components/styles";
+import { FlexFlow } from "src/components/styles";
 import Footer from "./components/Footer/Footer";
 
 const testModalStyles = {
@@ -13,10 +13,10 @@ const testModalStyles = {
 const SavedChangesModal = ({ modalProps }: SavedChangesModalProps) => {
     return (
         <Modal {...modalProps} sizeProps={testModalStyles}>
-            <Row align="center" gap="10px" justifySelf="flex-start">
+            <FlexFlow align="center" gap="10px" justifySelf="flex-start">
                 <IconContainer><Icon icon="iconamoon:attention-square-fill" /></IconContainer>
                 <TitleModal>CAMBIOS GUARDADOS</TitleModal>
-            </Row>
+            </FlexFlow>
             <TextModal>Los cambios que hizo se han guardado correctamente.</TextModal>
             <Footer />
         </Modal>

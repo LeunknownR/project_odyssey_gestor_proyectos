@@ -1,4 +1,4 @@
-import { Column, Row } from "src/components/styles";
+import { FlexFlow } from "src/components/styles";
 import UserImage from "src/views/components/UserImage/UserImage";
 import { Container, Email, IconContainer, Name, Role } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -20,12 +20,12 @@ const ProjectTeamMember = ({
                 surname={surname}
                 urlPhoto={urlPhoto}
             />
-            <Column gap="5px">
+            <FlexFlow direction="column" gap="5px">
                 <Name>
                     {name} {surname}
                 </Name>
                 <Email>{email}</Email>
-                <Row align="center" justify="space-between">
+                <FlexFlow align="center" justify="space-between">
                     <Role className={PROJECT_ROLE[projectRole.id].className}>
                         {PROJECT_ROLE[projectRole.id].name}
                     </Role>
@@ -37,8 +37,8 @@ const ProjectTeamMember = ({
                             <Icon icon="mdi:trash-can-outline" />
                         </IconContainer>
                     )}
-                </Row>
-            </Column>
+                </FlexFlow>
+            </FlexFlow>
         </Container>
     );
 };

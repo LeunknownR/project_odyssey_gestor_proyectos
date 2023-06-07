@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Modal from "src/components/Modal/Modal";
-import { Row } from "src/components/styles";
+import { FlexFlow } from "src/components/styles";
 import { requestUpdateProject } from "src/services/projects/relatedToProjects";
 import { UpdateProjectModalProps } from "./types";
 import { ProjectForm } from "src/entities/project/types";
@@ -54,11 +54,11 @@ const UpdateProjectModal = ({
     ];
     return (
         <Modal {...modalProps} sizeProps={MODAL_STYLES}>
-            <Row width="100%">
+            <FlexFlow width="100%">
                 {isMobile ? (
                     views[tabIdx] || views[0]
                 ) : views }
-            </Row>
+            </FlexFlow>
         </Modal>
     );
 };

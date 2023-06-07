@@ -13,14 +13,23 @@ export abstract class WSService {
     public abstract init(): void;
     //#endregion
 };
-export abstract class WSServiceEventHandler {
+export abstract class WSServiceEventHandler<E> {
+    //#region Attributes
     protected io: IOServerService;
+    //#endregion
     constructor(io: IOServerService) {
         this.io = io;
     }
     public abstract listen(socket: Socket): void;
-    protected configSocket(socket: Socket, wsEventList: WSEvent[]) {
+    protected configSocket(socket: Socket, wsEventList: WSEvent<E>[]) {
         for (const { name, handler } of wsEventList) 
-            socket.on(name, body => handler(socket, body));
+            socket.on(String(name), body => {
+                try {
+                    handler(socket, body);
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            });
     }
 }
