@@ -9,7 +9,7 @@ export default class WSTaskBoardsHandler {
         this.taskBoardList = new Map<number, ProjectTaskBoard>();
     }
     //#region Methods
-    public addTaskBoardProject(projectId: number, taskBoard: ProjectTaskBoard): void {
+    public setTaskBoardProject(projectId: number, taskBoard: ProjectTaskBoard): void {
         this.taskBoardList.set(projectId, taskBoard);
     }
     public getTaskBoardByProject(projectId: number): ProjectTaskBoard {

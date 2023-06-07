@@ -50,7 +50,7 @@ export default class WSProjectTaskService extends WSService {
             // Actualizar la memoria
             this.dataHandler
                 .taskBoardsHandler
-                .addTaskBoardProject(projectId, taskBoard);
+                .setTaskBoardProject(projectId, taskBoard);
         }
         else {
             taskBoard = this.dataHandler
