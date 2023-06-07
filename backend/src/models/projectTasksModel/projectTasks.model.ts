@@ -1,6 +1,8 @@
 import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
 import { 
+    WSProjectTaskToBeChangedStateForm,
+    WSProjectTaskToBeDeletedForm,
     WSNewProjectTaskForm, 
     WSProjectTaskCommentForm, 
     WSProjectTaskToBeUpdatedForm 
@@ -26,7 +28,7 @@ export default abstract class ProjectTasksModel {
         const [record] = await DBConnection.query(
             StoredProcedures.CreateProjectTask,
             [
-                projectId, task.name, 
+                projectId, task.name,
                 task.state, collaboratorId
             ]
         );
@@ -40,15 +42,47 @@ export default abstract class ProjectTasksModel {
         const [record] = await DBConnection.query(
             StoredProcedures.UpdateProjectTask,
             [
-                projectId, task.taskId, 
-                task.responsibleId, task.name, 
-                task.description, new Date(task.deadline), 
-                task.priotityId, task.newSubTask.join(","), 
+                projectId, task.taskId,
+                task.responsibleId, task.name,
+                task.description, new Date(task.deadline),
+                task.priotityId, task.newSubTask.join(","),
                 task.subTaskIdsToBeDeleted.join(","), collaboratorId
             ]
         );
         return record;
     }
+    static async changeTaskState({
+        projectId,
+        payload: task,
+        collaboratorId
+    }: WSProjectTaskToBeChangedStateForm): Promise<any> {
+        const [record] = await DBConnection.query(
+            StoredProcedures.ChangeTaskState,
+            [
+                projectId,
+                task.taskId,
+                task.state,
+                collaboratorId
+            ]
+        );
+        return record;
+    }
+    static async deleteTask({
+        projectId,
+        payload: taskId,
+        collaboratorId
+    }: WSProjectTaskToBeDeletedForm): Promise<any> {
+        const [record] = await DBConnection.query(
+            StoredProcedures.ChangeTaskState,
+            [
+                projectId,
+                taskId,
+                collaboratorId
+            ]
+        );
+        return record;
+    }
+
     public static async commentInTask({
         projectId,
         payload: comment,

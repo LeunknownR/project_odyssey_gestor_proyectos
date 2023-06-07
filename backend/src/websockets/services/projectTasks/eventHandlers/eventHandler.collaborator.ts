@@ -1,8 +1,8 @@
 import { Socket } from "socket.io";
 import { IOServerService, WSEvent, WSServiceEventHandler } from "../../../utils/common";
 import WSProjectTaskServiceDataHandler from "../handlerData";
-import { WSNewProjectTask, WSProjectTaskComment, WSProjectTaskToBeUpdated } from "../utils/entities";
-import { parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskToBeUpdated } from "../utils/parsers";
+import { WSProjectTaskToBeChangedState, WSNewProjectTask, WSProjectTaskComment, WSProjectTaskToBeUpdated } from "../utils/entities";
+import { parseToWSProjectTaskToBeChangedState, parseToWSTaskIdToBeDeleted, parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskToBeUpdated } from "../utils/parsers";
 import ProjectTasksController from "../../../../controllers/projectTaskController/projectTasks.controller";
 import { WSProjectTaskServiceRoomHandler, getUserDataProjectTaskServiceBySocket } from "../utils/helpers";
 import { ProjectTaskBoard } from "../../../../entities/projectTasks/entities";
@@ -26,6 +26,14 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             {
                 name: WSProjectTaskServiceEvents.Collaborator.UpdateTask,
                 handler: this.updateTask
+            },
+            {
+                name: WSProjectTaskServiceEvents.Collaborator.ChangeTaskState,
+                handler: this.changeTaskState
+            },
+            {
+                name: WSProjectTaskServiceEvents.Collaborator.DeleteTask,
+                handler: this.deleteTask
             },
             {
                 name: WSProjectTaskServiceEvents.Collaborator.CommentInTask,
@@ -65,22 +73,58 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         await ProjectTasksController.createTask({
             collaboratorId, projectId, payload: newTask
         });
+        //
         this.refreshTaskBoardByProject(projectId);
     }
     private async updateTask(socket: Socket, body?: any) {
-        //Validando 
+        // Validando y formateando formulario
         const taskToBeUpdated: WSProjectTaskToBeUpdated = parseToWSProjectTaskToBeUpdated(body);
-        //Obteniendo
+        // Obteniendo datos de conexión del colaborador
         const {
             userId: collaboratorId,
             projectId
         } = getUserDataProjectTaskServiceBySocket(socket);
         // Realizando query para actualizar una tarea
         await ProjectTasksController.updateTask({
-            projectId, 
-            payload: taskToBeUpdated, 
+            projectId,
+            payload: taskToBeUpdated,
             collaboratorId
         });
+        //
+        this.refreshTaskBoardByProject(projectId);
+    }
+    private async changeTaskState(socket: Socket, body?: any) {
+        // Validando y formateando formulario
+        const projectTaskToBeChangedState: WSProjectTaskToBeChangedState = parseToWSProjectTaskToBeChangedState(body);
+        // Obteniendo datos de conexión del colaborador
+        const {
+            userId: collaboratorId,
+            projectId
+        } = getUserDataProjectTaskServiceBySocket(socket);
+        // Realizando query para cambiar el estado de una tarea
+        await ProjectTasksController.changeTaskState({
+            projectId, 
+            payload: projectTaskToBeChangedState, 
+            collaboratorId
+        });
+        // Refrescando tabler a los colaboradores
+        this.refreshTaskBoardByProject(projectId);
+    }
+    private async deleteTask(socket: Socket, body?: any) {
+        // Validando y formateando formulario
+        const taskIdToBeDeleted: number = parseToWSTaskIdToBeDeleted(body);
+        // Obteniendo datos de conexión del colaborador
+        const {
+            userId: collaboratorId,
+            projectId
+        } = getUserDataProjectTaskServiceBySocket(socket);
+        // Realizando query para eliminar una tarea
+        await ProjectTasksController.deleteTask({
+            projectId, 
+            payload: taskIdToBeDeleted, 
+            collaboratorId
+        });
+        // Refrescando tabler a los colaboradores
         this.refreshTaskBoardByProject(projectId);
     }
     private async commentInTask(socket: Socket, body?: any) {
@@ -93,10 +137,11 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         } = getUserDataProjectTaskServiceBySocket(socket);
         // Realizando query para comentar en una tarea
         await ProjectTasksController.commentInTask({
-            projectId, 
-            payload: taskComment, 
+            projectId,
+            payload: taskComment,
             collaboratorId
         });
+        // Refrescando tabler a los colaboradores
         this.refreshTaskBoardByProject(projectId);
     }
     //#endregion

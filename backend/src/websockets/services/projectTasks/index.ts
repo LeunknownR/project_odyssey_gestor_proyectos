@@ -2,7 +2,7 @@ import { Server, Socket } from "socket.io";
 import { ExtendedError } from "socket.io/dist/namespace";
 import { WSUserDataProjectTaskService } from "./utils/entities";
 import { getUserDataProjectTaskServiceBySocket } from "./utils/helpers";
-import WSServiceNames from "../../utils/services";
+import WSServicePaths from "../../utils/services";
 import { rejectConnection } from "../../utils/helpers";
 import { checkWSCollaboratorToken } from "../../utils/authentication";
 import WSErrorMessages from "../../utils/errorMessages";
@@ -19,7 +19,7 @@ export default class WSProjectTaskService extends WSService {
     private collaboratorEventHandler: WSProjectTaskServiceCollaboratorEventHandler;
     //#endregion
     constructor(io: Server) {
-        super(io.of(WSServiceNames.ProjectTask));
+        super(io.of(WSServicePaths.ProjectTask));
         this.dataHandler = new WSProjectTaskServiceDataHandler();
         this.collaboratorEventHandler = new WSProjectTaskServiceCollaboratorEventHandler(
             this.io,

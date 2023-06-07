@@ -2,7 +2,12 @@ import { ProjectState } from "../../../../entities/project/enums";
 import { isArrayString, isPositiveArrayNumber } from "../../../../utils/arrays";
 import { isPositiveNumber, isPositiveNumberOrZero } from "../../../../utils/numbers";
 import { checkLength } from "../../../../utils/strings";
-import { WSNewProjectTask, WSProjectTaskComment, WSProjectTaskToBeUpdated } from "./entities";
+import { 
+    WSNewProjectTask, 
+    WSProjectTaskToBeChangedState, 
+    WSProjectTaskComment, 
+    WSProjectTaskToBeUpdated
+} from "./entities";
 
 export const parseToWSNewProjectTask = (body: any): WSNewProjectTask => {
     const { name, state } = body;
@@ -51,9 +56,35 @@ export const parseToWSProjectTaskToBeUpdated = (body: any): WSProjectTaskToBeUpd
         newSubTask, subTaskIdsToBeDeleted
     };
 }
+export const parseToWSProjectTaskToBeChangedState = (body: any): WSProjectTaskToBeChangedState => {
+    const {
+        taskId, state
+    } = body;
+    if (
+        !isPositiveNumber(taskId) ||
+        ![
+            ProjectState.Pending, 
+            ProjectState.OnProgress, 
+            ProjectState.Finalized
+        ].includes(state)
+    )
+        throw new Error("Invalid data to change task state");
+    return {
+        taskId, state
+    };
+}
+
+export const parseToWSTaskIdToBeDeleted = (body: any): number => {
+    const {
+        taskId
+    } = body;
+    if (!isPositiveNumber(taskId))
+        throw new Error("Invalid data to delete state");
+    return taskId;
+}
 export const parseToWSProjectTaskComment = (body: any): WSProjectTaskComment => {
     const { taskId, content } = body;
-    if (!isPositiveNumber(taskId) || !checkLength(content, 1, 200)) 
+    if (!isPositiveNumber(taskId) || !checkLength(content, 1, 200))
         throw new Error("Invalid data to comment in task");
     return {
         taskId,

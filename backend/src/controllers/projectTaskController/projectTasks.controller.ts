@@ -4,6 +4,8 @@ import { projectTaskBoardMapper } from "../../entities/projectTasks/mappers";
 import ProjectTasksModel from "../../models/projectTasksModel/projectTasks.model";
 import { ResponseMessages } from "../../utils/response/enums";
 import { 
+    WSProjectTaskToBeChangedStateForm,
+    WSProjectTaskToBeDeletedForm,
     WSNewProjectTaskForm, 
     WSProjectTaskCommentForm, 
     WSProjectTaskToBeUpdatedForm 
@@ -31,6 +33,19 @@ export default abstract class ProjectTasksController {
         if (message === ResponseMessages.Success) return;
         throw new Error(message);
     }
+    static async changeTaskState(projectTaskToBeChangedStateForm: WSProjectTaskToBeChangedStateForm): Promise<void> {
+        const record: any = await ProjectTasksModel.changeTaskState(projectTaskToBeChangedStateForm);
+        const message: string = record["message"];
+        if (message === ResponseMessages.Success) return;
+        throw new Error(message);
+    }
+    static async deleteTask(projectTaskToBeDeletedForm: WSProjectTaskToBeDeletedForm): Promise<void> {
+        const record: any = await ProjectTasksModel.deleteTask(projectTaskToBeDeletedForm);
+        const message: string = record["message"];
+        if (message === ResponseMessages.Success) return;
+        throw new Error(message);
+    }
+
     public static async commentInTask(projectTaskCommentForm: WSProjectTaskCommentForm): Promise<void> {
         const record: any = await ProjectTasksModel.commentInTask(projectTaskCommentForm);
         const message: string = record["message"];
