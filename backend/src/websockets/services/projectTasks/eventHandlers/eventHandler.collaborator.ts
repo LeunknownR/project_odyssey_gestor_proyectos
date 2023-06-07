@@ -32,6 +32,22 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         ];
         this.configSocket(socket, wsEventList);
     }
+    //#region Helpers
+    private setTaskBoardByProject(projectId: number, taskBoard: ProjectTaskBoard) {
+        this.dataHandler
+            .taskBoardsHandler
+            .setTaskBoardProject(projectId, taskBoard);
+    }
+    private refreshTaskBoardByProject(projectId: number, taskBoard: ProjectTaskBoard) {
+        const projectRoom: string = WSProjectTaskServiceRoomHandler.getProjectRoom(projectId);
+        this.io
+            .to(projectRoom)
+            .emit(
+                WSProjectTaskServiceServerEvents.DispatchTaskBoard,
+                taskBoard
+            );
+    }
+    //#endregion
     //#region Actions
     private async createTask(socket: Socket, body?: any) {
         // Validando datos
@@ -48,17 +64,9 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         // Obtener tablero de la bd
         const taskBoard: ProjectTaskBoard = await ProjectTasksController.getTaskBoardByProjectId(projectId);
         // Actualizando el tablero en la memoria
-        this.dataHandler
-            .taskBoardsHandler
-            .addTaskBoardProject(projectId, taskBoard);
+        this.setTaskBoardByProject(projectId, taskBoard);
         // Actualizando el tablero a todos los colaboradores del proyecto
-        const projectRoom: string = WSProjectTaskServiceRoomHandler.getProjectRoom(projectId);
-        this.io
-            .to(projectRoom)
-            .emit(
-                WSProjectTaskServiceServerEvents.DispatchTaskBoard,
-                taskBoard
-            );
+        this.refreshTaskBoardByProject(projectId, taskBoard);
     }
     //Actualizar tarea
     private async updateTask(socket: Socket, body?: any) {
@@ -76,17 +84,9 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         // Obtener tablero de la bd
         const taskBoard: ProjectTaskBoard = await ProjectTasksController.getTaskBoardByProjectId(projectId);
         // Actualizando el tablero en la memoria
-        this.dataHandler
-            .taskBoardsHandler
-            .addTaskBoardProject(projectId, taskBoard);
+        this.setTaskBoardByProject(projectId, taskBoard);
         // Actualizando el tablero a todos los colaboradores del proyecto
-        const projectRoom: string = WSProjectTaskServiceRoomHandler.getProjectRoom(projectId);
-        this.io
-            .to(projectRoom)
-            .emit(
-                WSProjectTaskServiceServerEvents.DispatchTaskBoard,
-                taskBoard
-            );
+        this.refreshTaskBoardByProject(projectId, taskBoard);
     }
     //#endregion
     //#endregion
