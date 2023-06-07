@@ -8,8 +8,20 @@ export type WSNewProjectTask = {
     name: string;
     state: ProjectTaskState;
 };
-export type WSNewProjectTaskForm = {
+export type WSTaskToBeUpdated = {
+    taskId: number;
+    responsibleId: number | null;
+    name: string;
+    description: string | null;
+    deadline: number;
+    priotityId: number | null;
+    newSubTask: string[];
+    subTaskIdsToBeDeleted: number[];
+};
+export type WSProjectTaskForm<T extends WSNewProjectTask|WSTaskToBeUpdated> = {
     collaboratorId: number;
     projectId: number;
-    newTask: WSNewProjectTask;
+    task: T;
 };
+export type WSNewProjectTaskForm = WSProjectTaskForm<WSNewProjectTask>;
+export type WSProjectTaskToBeUpdatedForm = WSProjectTaskForm<WSTaskToBeUpdated>;
