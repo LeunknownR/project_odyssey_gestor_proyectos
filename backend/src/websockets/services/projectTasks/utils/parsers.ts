@@ -2,7 +2,7 @@ import { ProjectState } from "../../../../entities/project/enums";
 import { isArrayString, isPositiveArrayNumber } from "../../../../utils/arrays";
 import { isPositiveNumber, isPositiveNumberOrZero } from "../../../../utils/numbers";
 import { checkLength } from "../../../../utils/strings";
-import { WSNewProjectTask, WSTaskToBeUpdated } from "./entities";
+import { WSNewProjectTask, WSProjectTaskComment, WSProjectTaskToBeUpdated } from "./entities";
 
 export const parseToWSNewProjectTask = (body: any): WSNewProjectTask => {
     const { name, state } = body;
@@ -34,7 +34,7 @@ const isValidWSUpdateProjectTask = (body: any): boolean => {
     )
 }
 
-export const parseToWSUpdateProjectTask = (body: any): WSTaskToBeUpdated => {
+export const parseToWSProjectTaskToBeUpdated = (body: any): WSProjectTaskToBeUpdated => {
     if (!isValidWSUpdateProjectTask(body))
         throw new Error("Invalid data to update task");
     const {
@@ -49,5 +49,14 @@ export const parseToWSUpdateProjectTask = (body: any): WSTaskToBeUpdated => {
         name, description,
         deadline, priotityId,
         newSubTask, subTaskIdsToBeDeleted
+    };
+}
+export const parseToWSProjectTaskComment = (body: any): WSProjectTaskComment => {
+    const { taskId, content } = body;
+    if (!isPositiveNumber(taskId) || !checkLength(content, 1, 200)) 
+        throw new Error("Invalid data to comment in task");
+    return {
+        taskId,
+        content
     };
 }
