@@ -38,19 +38,26 @@ export const projectTaskBoardMapper = (resulset: any[]): ProjectTaskBoard => {
         const taskBoardByState: ProjectTask[] = taskBoard[projectTaskBoardState];
         // Obtiendo idx de la tarea actual
         const taskIdx: number = taskBoardByState.findIndex(({ id }) => id === taskId);
+        const subtaskId: number | null = record["id_subtask"];
+        const taskCommentId: number | null = record["id_task_comment"];
         // Si existe la tarea, se agregan la subtarea y el comentario
         if (taskIdx > 0) {
-            taskBoardByState[taskIdx].subtasks = [
-                ...taskBoardByState[taskIdx].subtasks,
-                projectSubtasksMapper(record)
-            ];
-            taskBoardByState[taskIdx].comments = [
-                ...taskBoardByState[taskIdx].comments,
-                projectTaskCommentMapper(record)
-            ]
+            // Verificando si hay subtarea en la fila actual para agregarla a las subtareas de la tarea
+            if (subtaskId) 
+                taskBoardByState[taskIdx].subtasks = [
+                    ...taskBoardByState[taskIdx].subtasks,
+                    projectSubtasksMapper(record)
+                ];
+            // Verificando si hay comentario en la fila actual para agregarla a los comentarios de la tarea
+            if (taskCommentId)
+                taskBoardByState[taskIdx].comments = [
+                    ...taskBoardByState[taskIdx].comments,
+                    projectTaskCommentMapper(record)
+                ];
             return;
         }
         // Sino existe la tarea, se agrega la nueva y se agregan la primera subtarea y el primer comentario
+        const reponsibleId: number | null = record["id_responsible"];
         taskBoard[projectTaskBoardState] = [
             ...taskBoardByState,
             {
@@ -59,15 +66,15 @@ export const projectTaskBoardMapper = (resulset: any[]): ProjectTaskBoard => {
                 description: record["task_description"],
                 checked: bufferToBoolean(record["task_checked"]),
                 priorityId: record["id_task_priority"],
-                deadline: record["task_deadline"],
-                responsible: {
-                    id: record["id_responsible"],
+                deadline: record["task_deadline"].getTime(),
+                responsible: reponsibleId ? {
+                    id: reponsibleId,
                     name: record["responsible_name"],
                     surname: record["responsible_surname"],
                     urlPhoto: record["responsible_url_photo"]
-                },
-                subtasks: [projectSubtasksMapper(record)],
-                comments: [projectTaskCommentMapper(record)]
+                } : null,
+                subtasks: subtaskId ? [projectSubtasksMapper(record)] : [],
+                comments: taskCommentId ? [projectTaskCommentMapper(record)] : []
             }
         ];
     });
