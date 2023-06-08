@@ -123,7 +123,7 @@ CREATE TABLE `task` (
     `description` VARCHAR(200),  -- task_description 
     `deadline` DATE,
     `state` ENUM('P', 'O', 'F') NOT NULL,  -- Pending - OnProgress - Finalized
-    `checked` BIT NOT NULL,
+    `checked` BIT NOT NULL DEFAULT 0,
     `id_task_priority` INT UNSIGNED NULL,
     `id_project` INT UNSIGNED NOT NULL,
     `id_responsible` INT UNSIGNED NULL,
@@ -133,28 +133,28 @@ CREATE TABLE `task` (
     FOREIGN KEY (`id_responsible`) REFERENCES `collaborator`(`id_collaborator`)
 );
 
--- Tabla para guardar el comentario de cada tarea
-DROP TABLE IF EXISTS `task_commet`;
-CREATE TABLE `task_commet` (
-    `id_task_commet` INT UNSIGNED AUTO_INCREMENT,
-    `comment_content` VARCHAR(200) NOT NULL,
-    `comment_date` DATETIME NOT NULL,
-    `id_task` INT UNSIGNED NOT NULL,
-    `id_collaborator` INT UNSIGNED NOT NULL,
-    PRIMARY KEY (`id_task_commet`),
-    FOREIGN KEY (`id_task`) REFERENCES `task`(`id_task`),
-    FOREIGN KEY (`id_collaborator`) REFERENCES `collaborator`(`id_collaborator`)
-);
-
 -- Tabla para guardar las subtareas de cada tarea
 DROP TABLE IF EXISTS `subtask`;
 CREATE TABLE `subtask` (
     `id_subtask` INT UNSIGNED AUTO_INCREMENT,
     `subtask_name` VARCHAR(255) NOT NULL,
-    `checked` BIT NOT NULL,
+    `checked` BIT NOT NULL DEFAULT 0,
     `id_task` INT UNSIGNED NOT NULL,
     PRIMARY KEY (`id_subtask`),
     FOREIGN KEY (`id_task`) REFERENCES `task`(`id_task`)
+);
+
+-- Tabla para guardar el comentario de cada tarea
+DROP TABLE IF EXISTS `task_commet`;
+CREATE TABLE `task_commet` (
+    `id_task_comment` INT UNSIGNED AUTO_INCREMENT,
+    `comment_content` VARCHAR(200) NOT NULL,
+    `comment_date` DATETIME NOT NULL,
+    `id_task` INT UNSIGNED NOT NULL,
+    `id_collaborator` INT UNSIGNED NOT NULL,
+    PRIMARY KEY (`id_task_comment`),
+    FOREIGN KEY (`id_task`) REFERENCES `task`(`id_task`),
+    FOREIGN KEY (`id_collaborator`) REFERENCES `collaborator`(`id_collaborator`)
 );
 
 -- --- [ INSERT INTO ] ------------------------------------------------------------
@@ -254,11 +254,27 @@ VALUES
     (23, 13, 18, 'PLD'),
     (24, 14, 19, 'PLD');
 
-INSERT INTO `task`(id_task, task_name, id_project)
+INSERT INTO `task`(id_task, task_name, description, deadline, state, checked, id_task_priority, id_project, id_responsible)
 VALUES 
-    (1, "db | Stored procedures 'sprint-2'", 1),
-    (2, "backend | new logict with POO 'sprint-2'", 1),
-    (3, "frontend | dev responsive design to mobile 'sprint-2'", 1);
+    (1, "db | Stored procedures 'sprint-2'", "Desarrollo de Sotored procedures por parte del DBA, 'osea yo',  para los servicios REST del sprint 2", "2023-05-17", "F", 0, 3, 1, 3),
+    (2, "backend | new logict with POO 'sprint-2'", "Description example backend", "2023-05-12", "O", 0, 1, 1, 2),
+    (3, "frontend | dev responsive design to mobile 'sprint-2'", "Description example frontend", "2023-05-15", "O", 0, 1, 1, 5),
+    (4, "frontend | task example 'sprint-2'", "Description example frontend", "2023-05-20", "P", 0, 1, 1, 5),
+    (5, "backend | task example 'sprint-2'", "Description example backend", "2023-05-21", "P", 0, 1, 1, 2),
+    (6, "db | task example 'sprint-2'", "Description example db", "2023-05-23", "O", 0, 1, 1, 2);
+
+INSERT INTO `subtask`(id_subtask, subtask_name, checked, id_task)
+VALUES 
+    (1, "Analisis del CRUD task", 0, 1),
+    (2, "sp_1 - 'sp_create_task'", 0, 1),
+    (3, "sp_2 - 'sp_update_task'", 0, 1),
+    (4, "sp_3 - 'sp_delete_task'", 0, 1);
+
+INSERT INTO `task_commet`(id_task_comment, comment_content, comment_date, id_task, id_collaborator)
+VALUES 
+    (1, "oe mano esta mal la subtarea", NOW(), 1, 2),
+    (2, "skueretriste mano", NOW(), 1, 3);
+
 
 -- --- [ STORED PROCEDUREs ] ------------------------------------------------------------
 -- SP para el login
@@ -720,7 +736,7 @@ DELIMITER ;
 
 -- SP para traer el detalle de un colaborador de proyecto
 DELIMITER //
-CREATE PROCEDURE `sp_get_project_table_detail`(
+CREATE PROCEDURE `sp_get_project_panel_details`(
     IN p_id_project INT,
     IN p_id_user INT
 )
@@ -749,9 +765,44 @@ BEGIN
 END //
 DELIMITER ;
 
--- sp_get_project_task_list(
+-- sp_get_project_task_board(
 -- 		p_id_project
 -- );
+DELIMITER //
+CREATE PROCEDURE `sp_get_project_task_board`(
+    IN p_id_project INT
+)
+BEGIN
+    SELECT 
+        t.id_task,
+        t.task_name,
+        t.description AS "task_description",
+        t.state AS "task_state",
+        t.id_responsible,
+        urt.user_name AS "responsible_name",
+        urt.user_surname AS "responsible_name",
+        urt.url_photo AS "responsible_url_photo",
+        tp.id_task_priority,
+        t.deadline AS "task_deadline",
+        st.id_subtask,
+        st.subtask_name,
+        st.checked AS "subtask_checked",
+        tc.id_task_comment,
+        tc.comment_content AS "task_comment_content",
+        tc.comment_date AS "task_comment_datetime",
+        tc.id_collaborator AS "id_task_comment_collaborator",
+        utc.user_name AS "task_comment_collaborator_name",
+        utc.user_surname AS "task_comment_collaborator_surname",
+        utc.url_photo AS "task_comment_collaborator_url_photo"
+    FROM task t
+    LEFT JOIN user urt ON t.id_responsible = urt.id_user
+    LEFT JOIN subtask st ON t.id_task = st.id_task
+    LEFT JOIN task_priority tp ON t.id_task_priority = tp.id_task_priority
+    LEFT JOIN task_commet tc ON t.id_task = tc.id_task
+    LEFT JOIN user utc ON tc.id_collaborator = utc.id_user
+    WHERE t.id_project = p_id_project;
+END //
+DELIMITER ;
 
 -- SP para traer las imagenes de las prioridades
 DELIMITER //
@@ -809,8 +860,72 @@ DELIMITER ;
 -- 		p_id_priority,
 -- 		p_new_subtask_list,
 -- 		p_subtask_id_list_to_be_deleted,
--- p_id_collaborator
+--      p_id_collaborator
 -- );
+
+-- SP para actualizar una tarea
+-- DELIMITER //
+-- CREATE PROCEDURE `sp_update_task`(
+--     IN p_id_task INT,
+--     IN p_id_responsible INT,
+--     IN p_task_name VARCHAR(40),
+--     IN p_description VARCHAR(200),
+--     IN p_deadline DATE,
+--     IN p_id_task_priority INT,
+--     IN p_new_subtask_list VARCHAR(100),
+--     IN p_subtask_id_list_to_be_deleted VARCHAR(100),
+--     IN p_id_collaborator INT
+-- )
+-- BEGIN
+--     -- Validando si el collab existe en el proyecto
+--     IF NOT EXISTS(
+--         SELECT id_collaborator
+--         FROM project_has_collaborator
+--         WHERE id_project = p_id_project
+--         AND id_collaborator = p_id_collaborator
+--     ) THEN
+--         -- Cuando el colaborador no está dentro del proyecto.
+--         SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
+--     ELSE
+--         IF NOT EXISTS (
+--             SELECT id_responsible
+--             FROM task
+--             WHERE id_task = p_id_task
+--             AND id_responsible = p_id_collaborator
+--         ) THEN
+--             -- Cuando el colaborador es miembro del proyecto y no es su tarea.
+--             SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
+--         ELSE
+--             -- Actualizando la tarea
+--             UPDATE task
+--             SET id_responsible = p_id_responsible,
+--                 task_name = p_task_name,
+--                 description = p_description,
+--                 deadline = p_deadline,
+--                 id_task_priority = p_id_task_priority,
+--                 id_responsible = p_id_collaborator
+--             WHERE id_project = p_id_project
+--             AND id_task = @id_task;
+
+--             -- nuevas subtasks
+--             -- eliminando subtasks
+--             IF EXISTS(
+--                 SELECT id_subtask
+--                 FROM subtask
+--                 WHERE id_task = p_id_task
+--                 AND subtask_name NOT IN (
+--                     SELECT id
+--                     FROM temporary_subtask_ids
+--                 )
+--             ) THEN
+                
+--             END IF;
+--             -- Cuando la creación de la tarea es exitosa.
+--             SELECT 'SUCCESS' AS 'message';
+--         END IF;
+--     END IF;
+-- END //
+-- DELIMITER ;
 
 -- SP para eliminar una tarea
 DELIMITER //
@@ -851,7 +966,7 @@ DELIMITER ;
 
 -- SP para crear un comentario
 DELIMITER //
-CREATE PROCEDURE `sp_comment_to_task`(
+CREATE PROCEDURE `sp_comment_in_task`(
     IN p_id_project INT,
     IN p_id_task INT,
     IN p_comment VARCHAR(200),
