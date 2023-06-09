@@ -11,6 +11,7 @@ export const Container = styled.li`
     margin-right: 12px;
     cursor: pointer;
     transition: 0.3s;
+    user-select: none;
     &.checked > * {
         opacity: 0.4;
     }

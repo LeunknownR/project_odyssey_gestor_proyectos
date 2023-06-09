@@ -11,7 +11,7 @@ const Footer = ({
         <Container>
             <CustomButton
                 content="Cancelar"
-                variant="main-2"
+                variant="secondary"
                 size="normal"
                 onClick={closeModal}/>
             <CustomButton

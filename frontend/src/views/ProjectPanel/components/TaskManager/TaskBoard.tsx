@@ -121,7 +121,7 @@ const TaskBoard = () => {
                 <StatusSection status="En Curso" taskListInfo={TEST.onProgress}/>
                 <StatusSection status="Finalizadas" taskListInfo={TEST.finalized}/>
             </Container>
-            {/* <ModifyTaskMenu /> */}
+            <ModifyTaskMenu />
         </>
     );
 };

@@ -1,8 +1,8 @@
-import CustomButton from "src/components/CustomButton/CustomButton";
+import { AddTaskButton } from "./styles";
 
 const Footer = () => {
     return (
-        <CustomButton
+        <AddTaskButton
             onClick={() => console.log("asd")}
             content="Agregar tarea"
             icon="material-symbols:add"

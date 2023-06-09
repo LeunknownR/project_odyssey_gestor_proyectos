@@ -1,3 +1,4 @@
+import CustomButton from "src/components/CustomButton/CustomButton";
 import { FlexFlow } from "src/components/styles";
 import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
@@ -33,21 +34,15 @@ export const Title = styled.h2`
         font-size: 13px;
     }
 `;
-export const AddMemberButton = styled.button`
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+export const DashedAddButton = styled(CustomButton)`
     background-color: rgba(222, 222, 222, 0.15);
-    outline: none;
     border: 2.5px dashed var(--white-1-50);
-    border-spacing: 20px;
     border-radius: 10px;
     color: var(--white-2);
     gap: 8px;
     font-weight: 700;
     font-size: 14px;
     padding: 3px 12px;
-    user-select: none;
     .iconify {
         display: flex;
         font-size: 24px;

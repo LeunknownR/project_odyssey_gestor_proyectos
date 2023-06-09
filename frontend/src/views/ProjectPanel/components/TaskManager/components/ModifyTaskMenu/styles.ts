@@ -1,3 +1,4 @@
+import { DashedAddButton } from 'src/views/ProjectDetails/components/ProjectTeam/components/Header/styles';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -13,6 +14,14 @@ export const Container = styled.div`
     border-left: 1px solid var(--darkblue-0);
     background-color: var(--darkblue-4);
     width: 35%;
+`;
+export const AddSubtaskButton = styled(DashedAddButton)`
+    align-self: flex-end;
+    padding: 6px 12px;
+    margin-right: 30px;
+    .iconify {
+        font-size: 19px;
+    }
 `;
 export const Content = styled.div`
     display: flex;

@@ -3,7 +3,7 @@ import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import SubtaskList from "./components/SubtaskList/SubtaskList";
 import TaskForm from "./components/TaskForm/TaskForm";
-import { Container, Content } from "./styles";
+import { AddSubtaskButton, Container, Content } from "./styles";
 
 const COMMENT_TEST = [
     {
@@ -37,6 +37,11 @@ const ModifyTaskMenu = () => {
             <Content className="custom-scrollbar">
                 <TaskForm />
                 <SubtaskList subtasks={SUBTASK_TEST} />
+                <AddSubtaskButton
+                    content="Agregar subtarea"
+                    icon="material-symbols:add-circle"
+                    onClick={() => console.log("GNOMO Subtask")}
+                />
                 <CommentList comments={COMMENT_TEST} />
             </Content>
             <Footer />

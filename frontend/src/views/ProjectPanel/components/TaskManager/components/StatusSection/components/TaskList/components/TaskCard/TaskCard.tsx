@@ -10,7 +10,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import UserImage from "src/views/components/UserImage/UserImage";
 import { useState } from "react";
 import { TaskCardProps } from "./types";
-import TaskPriorityNullImage from "src/images/no-priority.svg"
+import TaskPriorityNullImage from "src/images/test2.svg"
 
 const FAKE_DATA = {
     TaskName: "Taxi a one",

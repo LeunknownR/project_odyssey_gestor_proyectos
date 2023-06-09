@@ -1,6 +1,6 @@
-import { CollaboratorUser } from "src/entities/collaborator/entities";
 import { CommentTypes } from "../ModifyTaskMenu/components/CommentList/types";
 import { SubtaskTypes } from "../ModifyTaskMenu/components/SubtaskList/types";
+import { ProjectTaskCollaboratorUser } from "src/entities/projectTasks/entities";
 
 export type StatusSectionProps = {
     status: string;
@@ -11,7 +11,7 @@ export type TaskInfoTypes = {
     name: string;
     description: string | null;
     checked: boolean;
-    responsible: Omit<CollaboratorUser, "email">;
+    responsible: ProjectTaskCollaboratorUser;
     priorityId: number | null;
     deadline: number;
     subtasks: SubtaskTypes[];
