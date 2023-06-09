@@ -1,6 +1,6 @@
-enum WSServices {
+enum WSServicePaths {
     ProjectTask = "/project-tasks",
     Chat = "/chats"
 }
 
-export default WSServices;
+export default WSServicePaths;
