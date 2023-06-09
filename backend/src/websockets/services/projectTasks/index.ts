@@ -2,16 +2,16 @@ import { Server, Socket } from "socket.io";
 import { ExtendedError } from "socket.io/dist/namespace";
 import { WSUserDataProjectTaskService } from "./utils/entities";
 import { getUserDataProjectTaskServiceBySocket } from "./utils/helpers";
-import WSServices from "../../utils/services";
+import WSServicePaths from "../../utils/services";
 import { rejectConnection } from "../../utils/helpers";
 import { checkWSCollaboratorToken } from "../../utils/authentication";
 import WSErrorMessages from "../../utils/errorMessages";
 import WSProjectTaskServiceCollaboratorEventHandler from "./eventHandlers/eventHandler.collaborator";
 import WSProjectTaskServiceDataHandler from "./handlerData";
-import { WSService } from "../../utils/classes";
-import { WSProjectTaskServiceServerEvents } from "./events";
 import { ProjectTaskBoard } from "../../../entities/projectTasks/entities"
 import ProjectTasksController from "../../../controllers/projectTaskController/projectTasks.controller";
+import { WSService } from "../../utils/common";
+import WSProjectTaskServiceEvents from "./events";
 
 export default class WSProjectTaskService extends WSService {
     //#region Attributes
@@ -19,7 +19,7 @@ export default class WSProjectTaskService extends WSService {
     private collaboratorEventHandler: WSProjectTaskServiceCollaboratorEventHandler;
     //#endregion
     constructor(io: Server) {
-        super(io.of(WSServices.ProjectTask));
+        super(io.of(WSServicePaths.ProjectTask));
         this.dataHandler = new WSProjectTaskServiceDataHandler();
         this.collaboratorEventHandler = new WSProjectTaskServiceCollaboratorEventHandler(
             this.io,
@@ -50,7 +50,7 @@ export default class WSProjectTaskService extends WSService {
             // Actualizar la memoria
             this.dataHandler
                 .taskBoardsHandler
-                .addTaskBoardProject(projectId, taskBoard);
+                .setTaskBoardProject(projectId, taskBoard);
         }
         else {
             taskBoard = this.dataHandler
@@ -59,7 +59,7 @@ export default class WSProjectTaskService extends WSService {
         }
         // Enviándole la lista de tareas actual
         socket.emit(
-            WSProjectTaskServiceServerEvents.DispatchTaskBoard, 
+            WSProjectTaskServiceEvents.Server.DispatchTaskBoard, 
             taskBoard
         );
     }
