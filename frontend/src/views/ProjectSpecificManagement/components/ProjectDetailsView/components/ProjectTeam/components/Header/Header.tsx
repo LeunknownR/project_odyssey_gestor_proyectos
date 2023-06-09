@@ -1,12 +1,7 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import {
-    DashedAddButton,
-    Container,
-    IconContainer,
-    Title,
-    Wrapper,
-} from "./styles";
+
 import { HeaderProps } from "./types";
+import { Container, DashedAddButton, IconContainer, Title, Wrapper } from "./styles";
 
 const Header = ({
     openAddMemberModal,

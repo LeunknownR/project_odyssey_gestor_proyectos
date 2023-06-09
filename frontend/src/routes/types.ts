@@ -1,5 +1,5 @@
 export type ViewModulesRoute = {
-    View: () => JSX.Element,
+    View: () => JSX.Element | null,
     path: string
 }
 export type ViewModulesRouteByViewModule = {

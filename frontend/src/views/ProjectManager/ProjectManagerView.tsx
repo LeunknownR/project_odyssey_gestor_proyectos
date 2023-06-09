@@ -18,7 +18,7 @@ import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
 import Preloader from "src/components/Preloader/Preloader";
 import EmptyProjects from "./components/EmptyProjects/EmptyProjects";
 
-const ProjectManager = () => {
+const ProjectManagerView = () => {
     const [currentProject, setCurrentProject] = useState<Project | null>(null);
     const notificationCard = useNotificationCard();
     const newProjectModal = useModal();
@@ -112,4 +112,4 @@ const ProjectManager = () => {
     );
 };
 
-export default ProjectManager;
+export default ProjectManagerView;

@@ -1,7 +1,7 @@
+import styled from "styled-components";
 import CustomButton from "src/components/CustomButton/CustomButton";
 import { FlexFlow } from "src/components/styles";
 import { MOBILE_WIDTH } from "src/config/constants";
-import styled from "styled-components";
 
 export const Container = styled.header`
     display: flex;

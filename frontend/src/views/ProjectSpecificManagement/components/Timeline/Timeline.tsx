@@ -1,6 +1,7 @@
 import OnDevelopment from "src/dev-components/OnDevelopment";
+import { PanelTabProps } from "../../types";
 
-const Timeline = () => {
+const Timeline = ({ projectId }: PanelTabProps) => {
     return ( <OnDevelopment /> );
 }
  

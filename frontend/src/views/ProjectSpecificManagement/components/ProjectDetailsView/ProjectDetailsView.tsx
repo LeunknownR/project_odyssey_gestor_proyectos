@@ -5,14 +5,12 @@ import ProjectInfo from "./components/ProjectInfo/ProjectInfo";
 import ProjectTeam from "./components/ProjectTeam/ProjectTeam";
 import Footer from "./components/Footer/Footer";
 import { ProjectDetails } from "src/entities/project/entities";
-import { getProjectId } from "src/storage/project.session";
 import { requestGetProjectDetails } from "src/services/projects/relatedToProjects";
 import AddMembersModal from "./components/AddMembersModal/AddMembersModal";
 import useModal from "src/components/Modal/utils/hooks/useModal";
 import UpdateEndDateModal from "./components/UpdateEndDateModal/UpdateEndDateModal";
 import Preloader from "src/components/Preloader/Preloader";
 import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
-import SidebarMenu from "../components/SidebarMenu/SidebarMenu";
 import DeleteMemberModal from "./components/DeleteMemberModal/DeleteMemberModal";
 import useNotificationCard from "src/components/NotificationCard/utils/hooks/useNotificationCard";
 import NotificationCard from "src/components/NotificationCard/NotificationCard";
@@ -20,8 +18,9 @@ import { ProjectCollaborator } from "src/entities/collaborator/entities";
 import { DBProjectRoles } from "src/config/roles";
 import { getUserId } from "src/storage/user.local";
 import { FlexFlow } from "src/components/styles";
+import { PanelTabProps } from "../../types";
 
-const ProjectDetailsView = () => {
+const ProjectDetailsView = ({ projectId }: PanelTabProps) => {
     const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(null);
     const [currentProjectMember, setCurrentProjectMember] = useState<ProjectCollaborator | null>(null);
     const [currentUserIsProjectLeader, setCurrentUserIsProjectLeader] = useState(false);
@@ -42,7 +41,8 @@ const ProjectDetailsView = () => {
     }, [projectDetails]);
     const fillProjectDetails = async (): Promise<void> => {
         preloader.show("Cargando detalles del proyecto...");
-        const { data } = await requestGetProjectDetails(getProjectId());
+        console.log(projectId)
+        const { data } = await requestGetProjectDetails(projectId);
         preloader.hide();
         if (data === null) return;
         setProjectDetails(data);
@@ -62,7 +62,6 @@ const ProjectDetailsView = () => {
     };
     return (
         <>
-        <SidebarMenu />
         <Container>
             <Content>
                 <TitleHeader text="DETALLE DEL PROYECTO" />

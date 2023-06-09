@@ -29,7 +29,6 @@ const Footer = () => {
             />
             <LogoutButton
                 {...logoutButtonProps}
-                icon="uiw:setting"
                 onClick={logout}
             />
         </Container>
