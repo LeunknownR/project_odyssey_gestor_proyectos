@@ -137,7 +137,7 @@ CREATE TABLE `task` (
 DROP TABLE IF EXISTS `subtask`;
 CREATE TABLE `subtask` (
     `id_subtask` INT UNSIGNED AUTO_INCREMENT,
-    `subtask_name` VARCHAR(255) NOT NULL,
+    `subtask_name` VARCHAR(50) NOT NULL,
     `checked` BIT NOT NULL DEFAULT 0,
     `id_task` INT UNSIGNED NOT NULL,
     PRIMARY KEY (`id_subtask`),
@@ -807,6 +807,7 @@ DELIMITER //
 CREATE PROCEDURE `sp_create_task`(
     IN p_id_project INT,
     IN p_task_name VARCHAR(40),
+    IN p_task_state CHAR(1),
     IN p_id_collaborator INT
 )
 BEGIN
@@ -820,12 +821,22 @@ BEGIN
         -- Cuando el colaborador no está dentro del proyecto.
         SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
     ELSE
+        IF (UPPER(p_task_state) = "F") THEN
+            SET @checked = 1;
+        ELSE
+            SET @checked = 0;
+        END IF;
+
         -- Creando tarea basica
         INSERT INTO task(
             task_name,
+            state,
+            checked,
             id_project
         ) VALUES (
             p_task_name,
+            p_task_state,
+            @checked,
             p_id_project
         );
         SET @id_task = LAST_INSERT_ID();
@@ -843,6 +854,7 @@ BEGIN
             SET id_responsible = p_id_collaborator
             WHERE id_task = @id_task;
         END IF;
+
         -- Cuando la creación de la tarea es exitosa.
         SELECT 'SUCCESS' AS 'message';
     END IF;
@@ -922,7 +934,6 @@ DELIMITER ;
 --                 FROM subtask
 --                 WHERE id_task = p_id_task
 --                 AND FIND_IN_SET(id_subtask, p_new_subtask_list)
-
 --             END IF;
 
 --             -- eliminando subtasks
