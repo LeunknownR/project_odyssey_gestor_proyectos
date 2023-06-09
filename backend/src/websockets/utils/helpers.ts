@@ -1,7 +1,7 @@
 import { Socket } from "socket.io";
 import { ExtendedError } from "socket.io/dist/namespace";
 import WSErrorMessages from "./errorMessages";
-import { WSUserData } from "./types";
+import { WSUserData } from "./common";
 import { isPositiveNumber } from "../../utils/numbers";
 
 export const getUserDataBySocket = (socket: Socket): WSUserData => {

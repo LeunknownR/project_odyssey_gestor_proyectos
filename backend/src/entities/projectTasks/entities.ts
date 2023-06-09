@@ -22,7 +22,7 @@ export type ProjectTask = {
     name: string;
     description: string | null;
     checked: boolean;
-    responsible: ProjectTaskCollaboratorUser;
+    responsible: ProjectTaskCollaboratorUser | null;
     priorityId: number | null;
     deadline: number;
     subtasks: ProjectSubtask[];
