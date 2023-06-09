@@ -41,17 +41,18 @@ export const projectTaskBoardMapper = (resulset: any[]): ProjectTaskBoard => {
         const subtaskId: number | null = record["id_subtask"];
         const taskCommentId: number | null = record["id_task_comment"];
         // Si existe la tarea, se agregan la subtarea y el comentario
-        if (taskIdx > 0) {
+        if (taskIdx >= 0) {
+            const currentTask: ProjectTask = taskBoardByState[taskIdx];
             // Verificando si hay subtarea en la fila actual para agregarla a las subtareas de la tarea
-            if (subtaskId) 
-                taskBoardByState[taskIdx].subtasks = [
-                    ...taskBoardByState[taskIdx].subtasks,
+            if (subtaskId && !currentTask.subtasks.some(({ id }) => id !== subtaskId)) 
+                currentTask.subtasks = [
+                    ...currentTask.subtasks,
                     projectSubtasksMapper(record)
                 ];
             // Verificando si hay comentario en la fila actual para agregarla a los comentarios de la tarea
-            if (taskCommentId)
-                taskBoardByState[taskIdx].comments = [
-                    ...taskBoardByState[taskIdx].comments,
+            if (taskCommentId && !currentTask.comments.some(({ id }) => id !== taskCommentId))
+                currentTask.comments = [
+                    ...currentTask.comments,
                     projectTaskCommentMapper(record)
                 ];
             return;
