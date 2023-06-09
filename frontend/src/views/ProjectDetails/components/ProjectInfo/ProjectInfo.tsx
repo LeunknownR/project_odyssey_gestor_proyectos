@@ -1,16 +1,17 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
+//#region styles
 import {
     Container,
-    DataPart1,
-    DataPart2,
+    DataPart,
     Description,
-    IconContainer,
-    ProjectName,
 } from "./styles";
+//#endregion
+//#region components
 import Period from "./components/Period/Period";
+import ProjectTitle from "src/views/components/ProjectTitle/ProjectTitle";
+//#endregion
+//#region types
 import { ProjectInfoProps } from "./types";
-import ProjectState from "../../../components/ProjectState/ProjectState";
-import { FlexFlow } from "src/components/styles";
+//#endregion
 
 const ProjectInfo = ({
     name,
@@ -22,16 +23,8 @@ const ProjectInfo = ({
 }: ProjectInfoProps) => {
     return (
         <Container>
-            <DataPart1>
-                <FlexFlow gap="14px" align="center">
-                    <IconContainer>
-                        <Icon icon="eos-icons:project" />
-                    </IconContainer>
-                    <ProjectName>{name}</ProjectName>
-                </FlexFlow>
-                <ProjectState state={state}/>
-            </DataPart1>
-            <DataPart2>
+            <ProjectTitle name={name} state={state} />
+            <DataPart>
                 <Description>
                     {description}
                 </Description>
@@ -40,7 +33,7 @@ const ProjectInfo = ({
                     openUpdateDateModal={openUpdateDateModal}
                     currentUserIsProjectLeader={currentUserIsProjectLeader}
                 />
-            </DataPart2>
+            </DataPart>
         </Container>
     );
 };

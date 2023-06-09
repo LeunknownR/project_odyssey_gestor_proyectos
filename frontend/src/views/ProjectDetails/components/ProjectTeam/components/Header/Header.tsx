@@ -1,5 +1,11 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { AddMemberButton, Container, IconContainer, Title, Wrapper } from "./styles";
+import {
+    DashedAddButton,
+    Container,
+    IconContainer,
+    Title,
+    Wrapper,
+} from "./styles";
 import { HeaderProps } from "./types";
 
 const Header = ({
@@ -15,12 +21,11 @@ const Header = ({
                 <Title>EQUIPO DEL PROYECTO</Title>
             </Wrapper>
             {currentUserIsProjectLeader && (
-                <AddMemberButton onClick={openAddMemberModal}>
-                    <span>
-                        <Icon icon="material-symbols:add-circle" />
-                    </span>
-                    Agregar Miembro
-                </AddMemberButton>
+                <DashedAddButton
+                    onClick={openAddMemberModal}
+                    icon="material-symbols:add-circle"
+                    content="Agregar miembro"
+                />
             )}
         </Container>
     );

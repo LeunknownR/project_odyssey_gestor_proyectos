@@ -46,3 +46,9 @@ export type ProjectDetails = {
     state: string;
     collaborators: ProjectCollaborator[];
 };
+export type ProjectDetailsForPanel = {
+    id: number;
+    name: string;
+    state: string;
+    projectRoleId: string;
+};

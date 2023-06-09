@@ -15,6 +15,7 @@ const Period = ({
             </Dates>
             {currentUserIsProjectLeader && (
                 <CustomButton
+                    variant="main"
                     content="Finalización"
                     icon="material-symbols:edit"
                     size="supersmall"

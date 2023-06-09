@@ -6,7 +6,7 @@ const TaskList = ({ taskListInfo }: TaskListProps) => {
     return (
         <Container className="custom-scrollbar">
             {taskListInfo.map(taskInfo => (
-                <TaskCard taskInfo={taskInfo}/>
+                <TaskCard key={taskInfo.id} taskInfo={taskInfo}/>
             ))}
         </Container>
     );

@@ -11,7 +11,7 @@ import { CustomButtonProps } from "./types";
 const CustomButton = ({
     className,
     content, disabled = false,
-    variant = "main",
+    variant,
     size, onClick,
     icon, width, weight,
     padding, maxWidth,

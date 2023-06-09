@@ -1,20 +1,14 @@
-import CustomButton from "src/components/CustomButton/CustomButton";
-import { Container } from "./styles";
+import { CancelRedModalButton, ConfirmRedModalButton, Container } from "./styles";
 import { FooterProps } from "./types";
 
-const Footer = ({ 
-    modal, deleteMember 
-}: FooterProps) => {
+const Footer = ({ modal, deleteMember }: FooterProps) => {
     return (
         <Container>
-            <CustomButton
+            <CancelRedModalButton
                 content="Cancelar"
-                variant="red-modal-2"
-                onClick={() => modal.open(false)}/>
-            <CustomButton 
-                content="Eliminar" 
-                variant="red-modal"
-                onClick={deleteMember}/>
+                onClick={() => modal.open(false)}
+            />
+            <ConfirmRedModalButton content="Eliminar" onClick={deleteMember} />
         </Container>
     );
 };

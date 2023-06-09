@@ -7,7 +7,7 @@ import UpdateProjectModal from "./components/UpdateProjectModal/UpdateProjectMod
 import AllProjects from "./components/AllProjects/AllProjects";
 import NotificationCard from "src/components/NotificationCard/NotificationCard";
 import useNotificationCard from "src/components/NotificationCard/utils/hooks/useNotificationCard";
-import { Project } from "src/entities/project/types";
+import { Project } from "src/entities/project/entities";
 import NewProjectSection from "./components/NewProjectSection/NewProjectSection";
 import useFormProject from "./utils/hooks/useFormProject";
 import DeleteProjectModal from "./components/DeleteProjectModal/DeleteProjectModal";
