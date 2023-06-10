@@ -47,7 +47,7 @@ const useLoginForm = (): LoginFormHook => {
         if (checkErrors(message, data)) return;
         // Éxito
         saveAuthData(data);
-        navigate(AbsolutePaths.ProjectManager);
+        navigate(AbsolutePaths.Projects);
         // checkExpirationTimeToken.init();
     };
     const checkErrors = (message: string, data: AuthData | null): boolean => {

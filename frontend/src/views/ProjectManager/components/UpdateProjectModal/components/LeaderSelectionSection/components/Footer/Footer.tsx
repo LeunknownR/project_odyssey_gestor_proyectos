@@ -21,6 +21,7 @@ const Footer = ({
             {isMobile && <ResponsiveButtons tabIdx={tabIdx} toPage={toPage} />}
             <CustomButton
                 content="Actualizar"
+                variant="main"
                 size={isMobile ? "small" : "big"}
                 onClick={updateProject}
                 disabled={buttonIsDisabled}

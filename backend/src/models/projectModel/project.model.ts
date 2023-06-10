@@ -142,7 +142,7 @@ export default abstract class ProjectModel {
         projectId, userId
     }: GetProjectPanelDetailRequestBody): Promise<any> {
         const [resultset] = await DBConnection.query(
-            StoredProcedures.GetProjectTableDetail,
+            StoredProcedures.GetProjectPanelDetails,
             [
                 projectId,
                 userId

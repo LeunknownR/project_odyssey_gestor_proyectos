@@ -1,4 +1,4 @@
-import CustomButton from "src/components/CustomButton/CustomButton";
+import { CancelRedModalButton, ConfirmRedModalButton } from "src/views/ProjectSpecificManagement/components/ProjectDetailsView/components/DeleteMemberModal/components/Footer/styles";
 import { Container } from "./styles";
 import { FooterProps } from "./types";
 
@@ -7,11 +7,11 @@ const Footer = ({
 }: FooterProps) => {
     return (
         <Container>
-            <CustomButton
+            <CancelRedModalButton
                 content="Cancelar"
                 variant="red-modal-2"
                 onClick={() => modal.open(false)}/>
-            <CustomButton 
+            <ConfirmRedModalButton
                 content="Eliminar" 
                 variant="red-modal"
                 onClick={deleteProject}/>

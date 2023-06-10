@@ -10,5 +10,6 @@ export enum ApiPathEndpoints {
     UpdateEndDateProject = "/collaborator/projects/update-end-date",
     SearchCollaboratorMember = "/collaborator/projects/search-collaborator-member",
     AddProjectMembers = "/collaborator/projects/add-members",
-    DeleteProjectMember = "/collaborator/projects/delete-member"
+    DeleteProjectMember = "/collaborator/projects/delete-member",
+    GetProjectDetailsForPanel = "/collaborator/project-panel/details",
 }
