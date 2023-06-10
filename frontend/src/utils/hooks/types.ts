@@ -5,7 +5,7 @@ export type DeviceSizeHook = {
 };
 export type WebsocketHook = {
     socketIo: Socket | null;
-    connect: () => Promise<Socket>;
+    connect: () => Socket;
     disconnect: () => void;
 };
 export type CheckExpirationTimeTokenHook = {
