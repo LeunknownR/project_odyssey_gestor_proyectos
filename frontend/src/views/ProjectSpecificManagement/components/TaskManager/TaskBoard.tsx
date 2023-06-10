@@ -1,3 +1,5 @@
+import { FlexFlow } from "src/components/styles";
+import { PanelTabProps } from "../../types";
 import ModifyTaskMenu from "./components/ModifyTaskMenu/ModifyTaskMenu";
 import StatusSection from "./components/StatusSection/StatusSection";
 import { Container } from "./styles";
@@ -113,15 +115,15 @@ const TEST = {
     ],
 };
 
-const TaskBoard = () => {
+const TaskBoard = ({ projectId }: PanelTabProps) => {
     return (
         <>
-            <Container>
+            <FlexFlow width="100%">
                 <StatusSection status="Pendientes" taskListInfo={TEST.pending}/>
                 <StatusSection status="En Curso" taskListInfo={TEST.onProgress}/>
                 <StatusSection status="Finalizadas" taskListInfo={TEST.finalized}/>
-            </Container>
-            <ModifyTaskMenu />
+            </FlexFlow>
+            {/*<ModifyTaskMenu />*/}
         </>
     );
 };

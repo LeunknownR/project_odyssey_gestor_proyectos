@@ -137,7 +137,7 @@ CREATE TABLE `task` (
 DROP TABLE IF EXISTS `subtask`;
 CREATE TABLE `subtask` (
     `id_subtask` INT UNSIGNED AUTO_INCREMENT,
-    `subtask_name` VARCHAR(255) NOT NULL,
+    `subtask_name` VARCHAR(50) NOT NULL,
     `checked` BIT NOT NULL DEFAULT 0,
     `id_task` INT UNSIGNED NOT NULL,
     PRIMARY KEY (`id_subtask`),
@@ -145,8 +145,8 @@ CREATE TABLE `subtask` (
 );
 
 -- Tabla para guardar el comentario de cada tarea
-DROP TABLE IF EXISTS `task_commet`;
-CREATE TABLE `task_commet` (
+DROP TABLE IF EXISTS `task_comment`;
+CREATE TABLE `task_comment` (
     `id_task_comment` INT UNSIGNED AUTO_INCREMENT,
     `comment_content` VARCHAR(200) NOT NULL,
     `comment_date` DATETIME NOT NULL,
@@ -270,7 +270,7 @@ VALUES
     (3, "sp_2 - 'sp_update_task'", 0, 1),
     (4, "sp_3 - 'sp_delete_task'", 0, 1);
 
-INSERT INTO `task_commet`(id_task_comment, comment_content, comment_date, id_task, id_collaborator)
+INSERT INTO `task_comment`(id_task_comment, comment_content, comment_date, id_task, id_collaborator)
 VALUES 
     (1, "oe mano esta mal la subtarea", NOW(), 1, 2),
     (2, "skueretriste mano", NOW(), 1, 3);
@@ -613,7 +613,7 @@ CREATE PROCEDURE `sp_search_collaborator_member`(
 )
 BEGIN
     -- temporary_table_user_ids
-     CREATE TEMPORARY TABLE temporary_table_user_ids (
+    CREATE TEMPORARY TABLE temporary_table_user_ids (
         id INT
     );
     -- INSERTANDO LAS IDs en una tabla temporal
@@ -765,9 +765,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- sp_get_project_task_board(
--- 		p_id_project
--- );
+-- Sp para listar la información de la task_board
 DELIMITER //
 CREATE PROCEDURE `sp_get_project_task_board`(
     IN p_id_project INT
@@ -778,11 +776,12 @@ BEGIN
         t.task_name,
         t.description AS "task_description",
         t.state AS "task_state",
+        t.checked AS "task_checked",
         t.id_responsible,
         urt.user_name AS "responsible_name",
         urt.user_surname AS "responsible_name",
         urt.url_photo AS "responsible_url_photo",
-        tp.id_task_priority,
+        t.id_task_priority,
         t.deadline AS "task_deadline",
         st.id_subtask,
         st.subtask_name,
@@ -797,8 +796,7 @@ BEGIN
     FROM task t
     LEFT JOIN user urt ON t.id_responsible = urt.id_user
     LEFT JOIN subtask st ON t.id_task = st.id_task
-    LEFT JOIN task_priority tp ON t.id_task_priority = tp.id_task_priority
-    LEFT JOIN task_commet tc ON t.id_task = tc.id_task
+    LEFT JOIN task_comment tc ON t.id_task = tc.id_task
     LEFT JOIN user utc ON tc.id_collaborator = utc.id_user
     WHERE t.id_project = p_id_project;
 END //
@@ -809,6 +807,7 @@ DELIMITER //
 CREATE PROCEDURE `sp_create_task`(
     IN p_id_project INT,
     IN p_task_name VARCHAR(40),
+    IN p_task_state CHAR(1),
     IN p_id_collaborator INT
 )
 BEGIN
@@ -822,12 +821,22 @@ BEGIN
         -- Cuando el colaborador no está dentro del proyecto.
         SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
     ELSE
+        IF (UPPER(p_task_state) = "F") THEN
+            SET @checked = 1;
+        ELSE
+            SET @checked = 0;
+        END IF;
+
         -- Creando tarea basica
         INSERT INTO task(
             task_name,
+            state,
+            checked,
             id_project
         ) VALUES (
             p_task_name,
+            p_task_state,
+            @checked,
             p_id_project
         );
         SET @id_task = LAST_INSERT_ID();
@@ -845,6 +854,7 @@ BEGIN
             SET id_responsible = p_id_collaborator
             WHERE id_task = @id_task;
         END IF;
+
         -- Cuando la creación de la tarea es exitosa.
         SELECT 'SUCCESS' AS 'message';
     END IF;
@@ -908,24 +918,47 @@ DELIMITER ;
 --             AND id_task = @id_task;
 
 --             -- nuevas subtasks
+--             IF NOT EXISTS(
+--                 SELECT id_subtask
+--                 FROM subtask
+--                 WHERE id_task = p_id_task
+--                 AND FIND_IN_SET(id_subtask, p_new_subtask_list)
+--             ) THEN
+--                 -- nuevas subtasks
+--                 CREATE TEMPORARY TABLE temporary_new_subtask_list (
+--                     id INT
+--                 );
+--                 -- INSERTANDO LAS IDs en una tabla temporal
+--                 INSERT INTO temporary_new_subtask_list (id)
+--                 SELECT id_subtask
+--                 FROM subtask
+--                 WHERE id_task = p_id_task
+--                 AND FIND_IN_SET(id_subtask, p_new_subtask_list)
+--             END IF;
+
 --             -- eliminando subtasks
 --             IF EXISTS(
 --                 SELECT id_subtask
 --                 FROM subtask
 --                 WHERE id_task = p_id_task
---                 AND subtask_name NOT IN (
---                     SELECT id
---                     FROM temporary_subtask_ids
---                 )
+--                 AND FIND_IN_SET(id_subtask, p_subtask_id_list_to_be_deleted)
 --             ) THEN
-                
+--                 -- Eliminando la tarea
+--                 DELETE FROM subtask
+--                 WHERE id_task = p_id_task
+--                 AND FIND_IN_SET(id_subtask, p_subtask_id_list_to_be_deleted);
 --             END IF;
+
+--             -- Eliminando la tabla temporal
+--             DROP TEMPORARY TABLE IF EXISTS temporary_new_subtask_list;
+
 --             -- Cuando la creación de la tarea es exitosa.
 --             SELECT 'SUCCESS' AS 'message';
 --         END IF;
 --     END IF;
 -- END //
 -- DELIMITER ;
+
 
 -- SP para eliminar una tarea
 DELIMITER //
@@ -984,7 +1017,7 @@ BEGIN
         SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
     ELSE
         -- Insertando el nuevo comentario
-        INSERT INTO task_commet(
+        INSERT INTO task_comment(
             comment_content, 
             comment_date, 
             id_task, 

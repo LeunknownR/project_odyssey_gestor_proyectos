@@ -1,5 +1,5 @@
-import { DashedAddButton } from 'src/views/ProjectDetails/components/ProjectTeam/components/Header/styles';
 import styled from 'styled-components';
+import { DashedAddButton } from '../../../ProjectDetailsView/components/ProjectTeam/components/Header/styles';
 
 export const Container = styled.div`
     display: flex;
@@ -7,7 +7,7 @@ export const Container = styled.div`
     position: fixed;
     right: 0;
     bottom: 0;
-    z-index: 900;
+    z-index: 100;
     overflow: hidden;
     transition: 0.4s;
     /* translate: 105%; */
