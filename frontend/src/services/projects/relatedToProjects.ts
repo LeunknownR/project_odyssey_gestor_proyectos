@@ -4,8 +4,9 @@ import { ApiPathEndpoints } from "../apiPathEndpoints";
 import {
     GroupedProjectList,
     ProjectDetails,
+    ProjectDetailsForPanel,
     ProjectForm,
-} from "src/entities/project/types";
+} from "src/entities/project/entities";
 import { getEndpointWithPathVariables } from "../utils/helpers";
 import { getUserId } from "src/storage/user.local";
 import {
@@ -13,6 +14,7 @@ import {
     DeleteProjectRequestBody,
     UpdateProjectEndDateRequestBody,
 } from "./types";
+import { getProjectId } from "src/storage/project.session";
 
 export const requestGetProjectsForGeneralAdmin: APIRequestFunction<
     GroupedProjectList,
@@ -98,14 +100,26 @@ export const requestUpdateProjectEndDate: APIRequestFunction<
     );
     return data;
 };
-export const requestDeleteMember: APIRequestFunction<
-    null,
-    number
-> = async (projectHasCollaboratorId: number) => {
+export const requestDeleteMember: APIRequestFunction<null, number> = async (
+    projectHasCollaboratorId: number
+) => {
     const path: string = getEndpointWithPathVariables(
         ApiPathEndpoints.DeleteProjectMember,
         [getUserId(), projectHasCollaboratorId]
     );
     const data: ResponseBody = await APIHandler.api.delete(path);
+    return data;
+};
+export const requestGetProjectDetailForPanel: APIRequestFunction<
+    ProjectDetailsForPanel,
+    number
+> = async (projectId: number) => {
+    const path: string = getEndpointWithPathVariables(
+        ApiPathEndpoints.GetProjectDetailsForPanel,
+        [projectId, getUserId()]    
+    );
+    const data: ResponseBody<ProjectDetailsForPanel> = await APIHandler.api.get(
+        path
+    );
     return data;
 };

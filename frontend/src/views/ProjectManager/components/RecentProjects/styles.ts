@@ -1,4 +1,4 @@
-import { Row } from 'src/components/styles';
+import { FlexFlow } from 'src/components/styles';
 import { MOBILE_WIDTH } from 'src/config/constants';
 import styled from 'styled-components';
 import { CARD_LIST_GAP } from './utils/constants';
@@ -9,7 +9,7 @@ export const Container = styled.div`
     gap: 50px;
     width: 100%;
 `;
-export const ScreenList = styled(Row)`
+export const ScreenList = styled(FlexFlow)`
     @media (max-width: ${MOBILE_WIDTH}px) {
         width: 280px;
         overflow: hidden;
@@ -20,7 +20,7 @@ type CardListProps = {
     currentTranslateX: number;
     dragging: boolean;
 }
-export const CardList = styled(Row)<CardListProps>`
+export const CardList = styled(FlexFlow)<CardListProps>`
     display: flex;
     justify-content: center;
     gap: 35px;

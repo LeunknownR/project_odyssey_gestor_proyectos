@@ -9,21 +9,18 @@ import { CustomButtonProps } from "./types";
 //#endregion
 
 const CustomButton = ({
-    content,
-    disabled = false,
-    variant = "main",
-    size,
-    onClick,
-    icon,
-    width,
-    weight,
-    padding,
-    maxWidth,
-    iconAfterText,
+    className,
+    content, disabled = false,
+    variant,
+    size, onClick,
+    icon, width, weight,
+    padding, maxWidth,
+    iconAfterText, iconRotate,
     alignSelf
 }: CustomButtonProps) => {
     const getClassName = () => {
         const classList: string[] = [];
+        className && classList.push(className);
         variant && classList.push(variant);
         size && classList.push(size);
         return classList.join(" ");
@@ -39,7 +36,7 @@ const CustomButton = ({
             maxWidth={maxWidth}
             padding={padding}
             alignSelf={alignSelf}>
-            {icon && <IconContainer isIconAfterText={iconAfterText}><Icon icon={icon} /></IconContainer>}
+            {icon && <IconContainer isIconAfterText={iconAfterText}><Icon icon={icon} rotate={iconRotate}/></IconContainer>}
             {content}
         </Container>
     );

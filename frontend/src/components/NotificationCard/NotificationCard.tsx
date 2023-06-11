@@ -1,5 +1,4 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Row } from "../styles";
 import {
     CloseIconContainer,
     Container,
@@ -10,6 +9,7 @@ import {
 import { NotificationCardProps } from "./types";
 import {useEffect, useState} from "react";
 import {DELTA_SECONDS, VARIANT } from "./utils/constants";
+import { FlexFlow } from "../styles";
 
 const NotificationCard = ({
     handler: { timeoutToClose, visible, hide },
@@ -63,12 +63,12 @@ const NotificationCard = ({
             <CloseIconContainer onClick={() => hide()}>
                 <Icon icon="mdi:close" />
             </CloseIconContainer>
-            <Row align="center" gap="10px">
+            <FlexFlow align="center" gap="10px">
                 <IconContainer color={VARIANT[variant].color} >
                     <Icon icon="material-symbols:check-circle-outline" />
                 </IconContainer>
                 <TitleModal color={VARIANT[variant].color}>{VARIANT[variant].title}</TitleModal>
-            </Row>
+            </FlexFlow>
             <TextModal>{VARIANT[variant].subtitle}</TextModal>
         </Container>
     );

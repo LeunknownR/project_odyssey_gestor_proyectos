@@ -1,4 +1,5 @@
 //#region Libraries
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 //#endregion
 
@@ -18,6 +19,9 @@ export const Container = styled.div<ContainerProps>`
     }
     &.disabled label {
         color: var(--purple-4);
+    }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        width: 150px;
     }
 `;
 export const Content = styled.div`

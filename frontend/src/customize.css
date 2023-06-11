@@ -64,11 +64,10 @@
 	--green-3: #5DA283;
 	--green-4: #1D3733;
 	--cream-1: #FFE0B2;
-	--main-header-height: 78px;
+	--main-header-height: 89.38px;
 	--main-sidebar-width: 75px;
 	--main-sidebar-height-mobile: 65px;
-    --main-content-height: calc(100vh - var(--main-header-height));
-}	
+}
 /* General */
 html {
     overflow-x: hidden;
@@ -88,4 +87,15 @@ h5,
 h6,
 p {
     margin: 0;
+}
+*.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--white-1-50);
+    border-radius: 20px;
+}
+
+*.custom-scrollbar::-webkit-scrollbar {
+    background-color: var(--white-1-12);
+    width: 10px;
+    height: 10px;
+	border-radius: 20px;
 }

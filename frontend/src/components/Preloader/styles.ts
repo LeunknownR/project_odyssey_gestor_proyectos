@@ -1,12 +1,12 @@
 import styled, { keyframes } from "styled-components";
 
-export const Container = styled.section` 
+export const Container = styled.section`
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #151515cc;
+    background: rgba(8, 27, 40, 0.7);
     z-index: 5000;
     display: flex;
     flex-direction: column;
@@ -21,10 +21,11 @@ export const Container = styled.section`
         opacity: 0;
     }
     & h6 {
-        font-size: 14px;
+        font-size: 18px;
         margin: 0;
         color: var(--white-1);
         user-select: none;
+        translate: 0 -20px;
     }
 `;
 
@@ -37,20 +38,12 @@ const spinnerAnimation = keyframes`
     }
 `;
 export const Spinner = styled.div`
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background-color: var(--white-1);
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    & span {
-        width: calc(72px/2);
-        height: calc(72px/2);
-        border-radius: inherit;
-        border: 4px solid var(--orange-3);
-        border-bottom-color: transparent;
-        animation: linear ${spinnerAnimation} 0.65s infinite;
-    }
+    color: var(--white-1);
+`;
+export const Blades = styled.img`
+    animation: linear ${spinnerAnimation} 1.2s infinite;
 `;

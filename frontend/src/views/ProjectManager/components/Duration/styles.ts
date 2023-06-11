@@ -1,4 +1,4 @@
-import { Row } from 'src/components/styles';
+import { FlexFlow } from 'src/components/styles';
 import { MOBILE_WIDTH } from 'src/config/constants';
 import styled from 'styled-components';
 
@@ -16,7 +16,7 @@ export const Label = styled.label`
         font-size: 16px;
     }
 `;
-export const DatePickersWrapper = styled(Row)`
+export const DatePickersWrapper = styled(FlexFlow)`
     @media (max-width: ${MOBILE_WIDTH}px) {
         flex-direction: column;
         width: 200px;

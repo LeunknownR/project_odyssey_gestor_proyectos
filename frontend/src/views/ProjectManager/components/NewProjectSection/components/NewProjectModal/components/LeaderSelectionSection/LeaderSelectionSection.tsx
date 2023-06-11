@@ -1,11 +1,11 @@
-import { Column } from "src/components/styles";
-import { Container, CustomColumn } from "./styles";
+import { Container, Column } from "./styles";
 import { CloseButtonProjectForm } from "src/views/ProjectManager/styles";
 import ProjectInfo from "src/views/ProjectManager/components/ProjectInfo/ProjectInfo";
 import LeaderSelector from "../LeaderSelector/LeaderSelector";
 import Footer from "./components/Footer/Footer";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { LeaderSelectionSectionProps } from "./types";
+import { FlexFlow } from "src/components/styles";
 
 const LeaderSelectionSection = ({
     modalProps,
@@ -20,9 +20,9 @@ const LeaderSelectionSection = ({
             <CloseButtonProjectForm onClick={() => modalProps.open(false)}>
                 <Icon icon="material-symbols:close" />
             </CloseButtonProjectForm>
-            <Column width="80%" alignSelf="center" gap="35px">
+            <FlexFlow direction="column" width="80%" alignSelf="center" gap="35px">
                 <ProjectInfo form={form} variant="create" />
-                <CustomColumn width="85%" alignSelf="center" gap="180px">
+                <Column direction="column" width="85%" alignSelf="center" gap="180px">
                     <LeaderSelector
                         form={form}
                         modalProps={modalProps}
@@ -35,8 +35,8 @@ const LeaderSelectionSection = ({
                         tabIdx={tabIdx}
                         toPage={toPage}
                     />
-                </CustomColumn>
-            </Column>
+                </Column>
+            </FlexFlow>
         </Container>
     );
 };

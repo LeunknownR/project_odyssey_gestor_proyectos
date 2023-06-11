@@ -1,6 +1,6 @@
-import { Column } from "src/components/styles";
-import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
+import { FlexFlow } from "src/components/styles";
+import { MOBILE_WIDTH } from "src/config/constants";
 
 export const Container = styled.div`
     display: flex;
@@ -8,7 +8,7 @@ export const Container = styled.div`
     flex: 1;
     padding: 85px 0 70px;
 `;
-export const CustomColumn = styled(Column)`
+export const Column = styled(FlexFlow)`
     @media (max-width: ${MOBILE_WIDTH}px) {
         width: 100%;
     }

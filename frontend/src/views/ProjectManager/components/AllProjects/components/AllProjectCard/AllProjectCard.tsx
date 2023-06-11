@@ -1,4 +1,3 @@
-import { Row } from "src/components/styles";
 import {
     Container,
     IconContainer,
@@ -15,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { AbsolutePaths } from "src/config/absolutePaths";
 import { setProjectId } from "src/storage/project.session";
 import ProjectCollaborators from "../../../RecentProjects/components/RecentProjectCard/components/ProjectCollaborators/ProjectCollaborators";
+import { FlexFlow } from "src/components/styles";
 
 const AllProjectCard = ({
     project,
@@ -30,14 +30,14 @@ const AllProjectCard = ({
     }
     return (
         <Container className={state}>
-            <Row align="center" gap="10px">
+            <FlexFlow align="center" gap="10px">
                 <IconContainer>
                     <Icon icon="ph:projector-screen-chart-fill" />
                 </IconContainer>
                 <ProjectName title={name}>{name}</ProjectName>
-            </Row>
+            </FlexFlow>
             <EndContent align="center" gap="20px">
-                <Row gap="15px" align="center">
+                <FlexFlow gap="15px" align="center">
                     {leader && 
                     <ProjectCollaborators 
                         leaderName={leader.name} 
@@ -47,7 +47,7 @@ const AllProjectCard = ({
                         startDate={startDate} 
                         endDate={endDate}
                         variant="short"/>
-                </Row>
+                </FlexFlow>
                 <OptionsWrapper onClick={() => setCurrentProject(project)}>
                     <MenuOptions
                         menuPosition="right"

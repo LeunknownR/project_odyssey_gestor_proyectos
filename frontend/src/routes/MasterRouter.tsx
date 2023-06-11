@@ -50,7 +50,7 @@ const MasterRouter = () => {
                     {routesLoaded && 
                         <Route 
                             path="*" 
-                            element={<Navigate to={AbsolutePaths.ProjectManager} replace />} />}
+                            element={<Navigate to={AbsolutePaths.Projects} replace />} />}
                 </Routes>
             </Content>
         </Main>
