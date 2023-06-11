@@ -17,6 +17,7 @@ export enum StoredProcedures {
     GetProjectTaskBoard = "CALL sp_get_project_task_board(?);",
     CreateProjectTask = "CALL sp_create_task(?, ?, ?, ?);",
     UpdateProjectTaskMainInformation = "CALL sp_update_task(?, ?, ?, ?, ?, ?, ?, ?, ?);",
+    CreateProjectSubtask = "CALL sp_create_subtask(?, ?, ?, ?);",
     ChangeProjectTaskState = "CALL sp_change_task_state(?, ?, ?, ?);",
     DeleteProjectTask = "CALL sp_delete_task(?, ?, ?);",
     CommentInProjectTask = "CALL sp_comment_in_task(?, ?, ?, ?);"

@@ -1,8 +1,8 @@
 import { Socket } from "socket.io";
 import { IOServerService, WSEvent, WSServiceEventHandler } from "../../../utils/common";
 import WSProjectTaskServiceDataHandler from "../handlerData";
-import { WSProjectTaskToBeChangedState, WSNewProjectTask, WSProjectTaskComment, WSProjectTaskMainInformation, WSProjectTaskForm, WSUserDataProjectTaskService } from "../utils/entities";
-import { parseToWSProjectTaskToBeChangedState, parseToWSTaskIdToBeDeleted, parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskMainInformation } from "../utils/parsers";
+import { WSProjectTaskToBeChangedState, WSNewProjectTask, WSProjectTaskComment, WSProjectTaskMainInformation, WSProjectTaskForm, WSUserDataProjectTaskService, WSNewProjectSubtask } from "../utils/entities";
+import { parseToWSProjectTaskToBeChangedState, parseToWSTaskIdToBeDeleted, parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskMainInformation, parseToWSNewProjectSubtask } from "../utils/parsers";
 import ProjectTasksController from "../../../../controllers/projectTaskController/projectTasks.controller";
 import { WSProjectTaskServiceRoomHandler, getUserDataProjectTaskServiceBySocket } from "../utils/helpers";
 import { ProjectTaskBoard } from "../../../../entities/projectTasks/entities";
@@ -30,6 +30,10 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             {
                 name: WSProjectTaskServiceEvents.Collaborator.ChangeTaskState,
                 handler: this.changeTaskState.bind(this)
+            },
+            {
+                name: WSProjectTaskServiceEvents.Collaborator.CreateSubtask,
+                handler: this.createSubtask.bind(this)
             },
             {
                 name: WSProjectTaskServiceEvents.Collaborator.DeleteTask,
@@ -97,6 +101,23 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             collaboratorId
         });
         // Refrescando tablero a los colaboradores
+        this.refreshTaskBoardByProject(userData);
+    }
+    private async createSubtask(socket: Socket, body?: any) {
+        // Validando datos
+        const newSubtask: WSNewProjectSubtask = parseToWSNewProjectSubtask(body);
+        // Obteniendo datos de conexión del colaborador
+        const userData = getUserDataProjectTaskServiceBySocket(socket);
+        const {
+            userId: collaboratorId,
+            projectId
+        } = userData;
+        // Realizando query para crear una tarea
+        await ProjectTasksController.createSubtask({
+            collaboratorId, 
+            projectId, 
+            payload: newSubtask
+        });
         this.refreshTaskBoardByProject(userData);
     }
     private async changeTaskState(socket: Socket, body?: any) {

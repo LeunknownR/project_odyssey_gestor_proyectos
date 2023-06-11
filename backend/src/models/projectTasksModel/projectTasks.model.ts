@@ -6,7 +6,8 @@ import {
     WSNewProjectTaskForm, 
     WSProjectTaskCommentForm, 
     WSProjectTaskMainInformationForm, 
-    WSProjectTaskForm
+    WSProjectTaskForm,
+    WSNewProjectSubtaskForm
 } from "../../websockets/services/projectTasks/utils/entities";
 
 export default abstract class ProjectTasksModel {
@@ -55,6 +56,22 @@ export default abstract class ProjectTasksModel {
                 taskMainInformation.description, 
                 new Date(taskMainInformation.deadline),
                 taskMainInformation.priotityId
+            ]
+        );
+        return record;
+    }
+    static async createSubtask({
+        collaboratorId,
+        payload: newSubtask,
+        projectId
+    }: WSNewProjectSubtaskForm) {
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.CreateProjectSubtask,
+            [
+                projectId, 
+                collaboratorId,
+                newSubtask.taskId,
+                newSubtask.name,
             ]
         );
         return record;
