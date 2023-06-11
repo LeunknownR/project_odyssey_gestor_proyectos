@@ -33,7 +33,6 @@ const useProjectList = (preloader: PreloaderHook, filters: ProjectFilters): Proj
         setAllProjects(data?.all);
     };
     const fillProjects = async (): Promise<void> => {
-        console.log("fillProjects");
         if (userRole === DBRoles.GeneralAdmin)
             fillProjectsBase(requestGetProjectsForGeneralAdmin);
         else if (userRole === DBRoles.Collaborator)

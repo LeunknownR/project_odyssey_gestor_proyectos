@@ -25,7 +25,7 @@ export default abstract class ProjectTasksModel {
         collaboratorId,
         projectId, payload: task
     }: WSNewProjectTaskForm): Promise<any> {
-        const [record] = await DBConnection.query(
+        const [[record]] = await DBConnection.query(
             StoredProcedures.CreateProjectTask,
             [
                 projectId, task.name,
@@ -39,7 +39,7 @@ export default abstract class ProjectTasksModel {
         payload: task, 
         collaboratorId
     }: WSProjectTaskToBeUpdatedForm): Promise<any> {
-        const [record] = await DBConnection.query(
+        const [[record]] = await DBConnection.query(
             StoredProcedures.UpdateProjectTask,
             [
                 projectId, task.taskId,
@@ -56,8 +56,8 @@ export default abstract class ProjectTasksModel {
         payload: task,
         collaboratorId
     }: WSProjectTaskToBeChangedStateForm): Promise<any> {
-        const [record] = await DBConnection.query(
-            StoredProcedures.ChangeTaskState,
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.ChangeProjectTaskState,
             [
                 projectId,
                 task.taskId,
@@ -72,8 +72,8 @@ export default abstract class ProjectTasksModel {
         payload: taskId,
         collaboratorId
     }: WSProjectTaskToBeDeletedForm): Promise<any> {
-        const [record] = await DBConnection.query(
-            StoredProcedures.ChangeTaskState,
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.DeleteProjectTask,
             [
                 projectId,
                 taskId,
@@ -88,8 +88,13 @@ export default abstract class ProjectTasksModel {
         payload: comment,
         collaboratorId
     }: WSProjectTaskCommentForm): Promise<any> {
-        const [record] = await DBConnection.query(
-            StoredProcedures.UpdateProjectTask,
+        console.log({
+            projectId,
+            payload: comment,
+            collaboratorId
+        });
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.CommentInProjectTask,
             [
                 projectId, 
                 comment.taskId,
@@ -97,6 +102,7 @@ export default abstract class ProjectTasksModel {
                 collaboratorId
             ]
         );
+        console.log(record);
         return record;
     }
 }
