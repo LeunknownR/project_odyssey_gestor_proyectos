@@ -1,8 +1,8 @@
 import { Socket } from "socket.io";
 import { IOServerService, WSEvent, WSServiceEventHandler } from "../../../utils/common";
 import WSProjectTaskServiceDataHandler from "../handlerData";
-import { WSProjectTaskToBeChangedState, WSNewProjectTask, WSProjectTaskComment, WSProjectTaskToBeUpdated } from "../utils/entities";
-import { parseToWSProjectTaskToBeChangedState, parseToWSTaskIdToBeDeleted, parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskToBeUpdated } from "../utils/parsers";
+import { WSProjectTaskToBeChangedState, WSNewProjectTask, WSProjectTaskComment, WSProjectTaskMainInformation } from "../utils/entities";
+import { parseToWSProjectTaskToBeChangedState, parseToWSTaskIdToBeDeleted, parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskMainInformation } from "../utils/parsers";
 import ProjectTasksController from "../../../../controllers/projectTaskController/projectTasks.controller";
 import { WSProjectTaskServiceRoomHandler, getUserDataProjectTaskServiceBySocket } from "../utils/helpers";
 import { ProjectTaskBoard } from "../../../../entities/projectTasks/entities";
@@ -24,8 +24,8 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
                 handler: this.createTask.bind(this)
             },
             {
-                name: WSProjectTaskServiceEvents.Collaborator.UpdateTask,
-                handler: this.updateTask.bind(this)
+                name: WSProjectTaskServiceEvents.Collaborator.UpdateTaskMainInfo,
+                handler: this.updateTaskMainInfo.bind(this)
             },
             {
                 name: WSProjectTaskServiceEvents.Collaborator.ChangeTaskState,
@@ -75,18 +75,18 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         });
         this.refreshTaskBoardByProject(projectId);
     }
-    private async updateTask(socket: Socket, body?: any) {
+    private async updateTaskMainInfo(socket: Socket, body?: any) {
         // Validando y formateando formulario
-        const taskToBeUpdated: WSProjectTaskToBeUpdated = parseToWSProjectTaskToBeUpdated(body);
+        const taskMainInformation: WSProjectTaskMainInformation = parseToWSProjectTaskMainInformation(body);
         // Obteniendo datos de conexión del colaborador
         const {
             userId: collaboratorId,
             projectId
         } = getUserDataProjectTaskServiceBySocket(socket);
         // Realizando query para actualizar una tarea
-        await ProjectTasksController.updateTask({
+        await ProjectTasksController.updateTaskMainInformation({
             projectId,
-            payload: taskToBeUpdated,
+            payload: taskMainInformation,
             collaboratorId
         });
         // Refrescando tablero a los colaboradores

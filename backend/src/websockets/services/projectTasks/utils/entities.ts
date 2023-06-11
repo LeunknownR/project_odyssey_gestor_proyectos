@@ -9,17 +9,26 @@ export type WSNewProjectTask = {
     name: string;
     state: ProjectTaskState;
 };
-export type WSProjectTaskToBeUpdated = {
+export type WSProjectTaskMainInformation = {
     taskId: number;
     responsibleId: number | null;
     name: string;
     description: string | null;
     deadline: number;
     priotityId: number | null;
-    newSubTask: string[];
-    subTaskIdsToBeDeleted: number[];
 };
-
+export type WSNewSubtask = {
+	taskId: number;
+	name: string;
+};
+export type WSSubtaskToBeUpdated = {
+	subtaskId: number;
+	name: string;
+};
+export type WSSubtaskToBeSwitchedCheckStatus = {
+	subtaskId: number;
+    checked: boolean;
+};
 export type WSProjectTaskToBeChangedState = {
     taskId: number;
     state: ProjectState;
@@ -34,7 +43,7 @@ export type WSProjectTaskForm<T> = {
     payload: T;
 };
 export type WSNewProjectTaskForm = WSProjectTaskForm<WSNewProjectTask>;
-export type WSProjectTaskToBeUpdatedForm = WSProjectTaskForm<WSProjectTaskToBeUpdated>;
+export type WSProjectTaskMainInformationForm = WSProjectTaskForm<WSProjectTaskMainInformation>;
 export type WSProjectTaskToBeChangedStateForm = WSProjectTaskForm<WSProjectTaskToBeChangedState>;
 export type WSProjectTaskToBeDeletedForm = WSProjectTaskForm<number>;
 export type WSProjectTaskCommentForm = WSProjectTaskForm<WSProjectTaskComment>;
