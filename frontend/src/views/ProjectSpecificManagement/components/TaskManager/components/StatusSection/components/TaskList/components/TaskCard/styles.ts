@@ -18,6 +18,9 @@ export const Container = styled.li`
     :hover {
         border-color: var(--white-1);
     }
+    :active {
+        scale: 1.01;
+    }
 `;
 export const IconContainer = styled.span`
     display: flex;

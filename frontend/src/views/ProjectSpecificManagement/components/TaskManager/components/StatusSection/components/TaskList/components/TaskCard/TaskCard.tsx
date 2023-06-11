@@ -14,7 +14,7 @@ import { useState } from "react";
 import { TaskCardProps } from "./types";
 import TaskPriorityNullImage from "src/images/test2.svg"
 
-const TaskCard = ({ taskInfo }: TaskCardProps) => {
+const TaskCard = ({ taskInfo, openTaskMenu }: TaskCardProps) => {
     const {checked, name, responsible, deadline} = taskInfo;
     const [isChecked, setIsChecked] = useState(checked);
     const getClassName = () => {
@@ -23,7 +23,7 @@ const TaskCard = ({ taskInfo }: TaskCardProps) => {
         return classList.join(" ");
     };
     return (
-        <Container className={getClassName()}>
+        <Container className={getClassName()} onClick={() => openTaskMenu(taskInfo)}>
             <FlexFlow align="center" gap="10px">
                 <IconContainer onClick={() => setIsChecked(prev => !prev)}>
                     <Icon icon="gg:check-o" />
