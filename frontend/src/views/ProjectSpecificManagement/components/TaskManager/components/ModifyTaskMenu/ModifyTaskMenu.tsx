@@ -1,34 +1,37 @@
 import CommentList from "./components/CommentList/CommentList";
-import CommentBox from "./components/Footer/CommentBox";
+import CommentBox from "./components/CommentBox/CommentBox";
 import Header from "./components/Header/Header";
-import SubtaskList from "./components/SubtaskList/SubtaskList";
 import TaskForm from "./components/TaskForm/TaskForm";
-import { AddSubtaskButton, Container, Content } from "./styles";
+import { Container, Content, Wrapper } from "./styles";
 import { ModifyTaskMenuProps } from "./types";
+import SubtaskSection from "./components/SubtaskSection/SubtaskSection";
 
-const ModifyTaskMenu = ({ currentProjectTask }: ModifyTaskMenuProps) => {
+const ModifyTaskMenu = ({
+    currentProjectTask,
+    isTaskMenuOpen,
+    closeTaskMenu,
+}: ModifyTaskMenuProps) => {
     const renderContent = () => {
         if (!currentProjectTask) return null;
-        const { name, subtasks, comments } = currentProjectTask;
+        const { name, comments } = currentProjectTask;
         return (
             <>
             <Header name={name} />
             <Content className="custom-scrollbar">
-                <TaskForm currentProjectTask={currentProjectTask}/>
-                {subtasks.length > 0 && <SubtaskList currentProjectTask={currentProjectTask} />}
-                <AddSubtaskButton
-                    content="Agregar subtarea"
-                    icon="material-symbols:add-circle"
-                    onClick={() => console.log("GNOMO Subtask")}
-                />
+                <TaskForm currentProjectTask={currentProjectTask} />
+                <SubtaskSection currentProjectTask={currentProjectTask} />
                 {comments.length > 0 && <CommentList comments={comments} />}
             </Content>
-            <CommentBox taskId={currentProjectTask.id}/>
+            <CommentBox taskId={currentProjectTask.id} />
             </>
         );
     };
     return (
-        <Container className={currentProjectTask ? "show" : ""}>
+        <Container
+            className={isTaskMenuOpen ? "show" : ""}
+            tabIndex={0}
+            onBlur={closeTaskMenu}
+        >
             {renderContent()}
         </Container>
     );

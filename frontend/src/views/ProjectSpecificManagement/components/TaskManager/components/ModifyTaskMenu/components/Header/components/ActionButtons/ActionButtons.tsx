@@ -16,10 +16,10 @@ const ActionButtons = () => {
             onBlur={() => setAreActionButtonsOpen(false)}
             onFocus={() => setAreActionButtonsOpen(true)}
         >
-            <SlideButton className={actionButtonsOpen && "inactive"}>
+            <SlideButton className={actionButtonsOpen ? "inactive" : ""}>
                 <Icon icon="ic:sharp-double-arrow" rotate={2} />
             </SlideButton>
-            <Wrapper className={actionButtonsOpen && "active"}>
+            <Wrapper className={actionButtonsOpen ? "active" : ""}>
                 <DeleteButton onClick={() => console.log("GNOMO BORRAR")}>
                     <Icon icon="ion:skull" />
                 </DeleteButton>

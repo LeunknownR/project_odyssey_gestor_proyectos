@@ -1,6 +1,8 @@
 import styled from 'styled-components';
-import { DashedAddButton } from '../../../ProjectDetailsView/components/ProjectTeam/components/Header/styles';
 
+export const Wrapper = styled.div`
+  
+`;
 export const Container = styled.div`
     display: flex;
     flex-direction: column;
@@ -16,14 +18,6 @@ export const Container = styled.div`
     width: 35%;
     &.show {
         translate: 0;
-    }
-`;
-export const AddSubtaskButton = styled(DashedAddButton)`
-    align-self: flex-end;
-    padding: 6px 12px;
-    margin-right: 30px;
-    .iconify {
-        font-size: 19px;
     }
 `;
 export const Content = styled.div`
