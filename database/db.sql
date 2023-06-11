@@ -62,7 +62,7 @@ CREATE TABLE `project` (
     `description` VARCHAR(200),
     `creation_date` DATE NOT NULL,
     `state` ENUM('P', 'O', 'F') NOT NULL,  -- Pending - OnProgress - Finalized
-    `checked` BIT NOT NULL,
+    `checked` BIT NOT NULL DEFAULT 0,
     `start_date` DATE NOT NULL,
     `end_date` DATE NOT NULL,
     `active` BIT NOT NULL DEFAULT 1,
@@ -123,7 +123,6 @@ CREATE TABLE `task` (
     `description` VARCHAR(200),  -- task_description 
     `deadline` DATE,
     `state` ENUM('P', 'O', 'F') NOT NULL,  -- Pending - OnProgress - Finalized
-    `checked` BIT NOT NULL DEFAULT 0,
     `id_task_priority` INT UNSIGNED NULL,
     `id_project` INT UNSIGNED NOT NULL,
     `id_responsible` INT UNSIGNED NULL,
@@ -254,14 +253,14 @@ VALUES
     (23, 13, 18, 'PLD'),
     (24, 14, 19, 'PLD');
 
-INSERT INTO `task`(id_task, task_name, description, deadline, state, checked, id_task_priority, id_project, id_responsible)
+INSERT INTO `task`(id_task, task_name, description, deadline, state, id_task_priority, id_project, id_responsible)
 VALUES 
-    (1, "db | Stored procedures 'sprint-2'", "Desarrollo de Sotored procedures por parte del DBA, 'osea yo',  para los servicios REST del sprint 2", "2023-05-17", "F", 0, 3, 1, 3),
-    (2, "backend | new logict with POO 'sprint-2'", "Description example backend", "2023-05-12", "O", 0, 1, 1, 2),
-    (3, "frontend | dev responsive design to mobile 'sprint-2'", "Description example frontend", "2023-05-15", "O", 0, 1, 1, 5),
-    (4, "frontend | task example 'sprint-2'", "Description example frontend", "2023-05-20", "P", 0, 1, 1, 5),
-    (5, "backend | task example 'sprint-2'", "Description example backend", "2023-05-21", "P", 0, 1, 1, 2),
-    (6, "db | task example 'sprint-2'", "Description example db", "2023-05-23", "O", 0, 1, 1, 2);
+    (1, "db | Stored procedures 'sprint-2'", "Desarrollo de Sotored procedures por parte del DBA, 'osea yo',  para los servicios REST del sprint 2", "2023-05-17", "F", 3, 1, 3),
+    (2, "backend | new logict with POO 'sprint-2'", "Description example backend", "2023-05-12", "O", 1, 1, 2),
+    (3, "frontend | dev responsive design to mobile 'sprint-2'", "Description example frontend", "2023-05-15", "O", 1, 1, 5),
+    (4, "frontend | task example 'sprint-2'", "Description example frontend", "2023-05-20", "P", 1, 1, 5),
+    (5, "backend | task example 'sprint-2'", "Description example backend", "2023-05-21", "P", 1, 1, 2),
+    (6, "db | task example 'sprint-2'", "Description example db", "2023-05-23", "O", 1, 1, 2);
 
 INSERT INTO `subtask`(id_subtask, subtask_name, checked, id_task)
 VALUES 
@@ -776,7 +775,6 @@ BEGIN
         t.task_name,
         t.description AS "task_description",
         t.state AS "task_state",
-        t.checked AS "task_checked",
         t.id_responsible,
         urt.user_name AS "responsible_name",
         urt.user_surname AS "responsible_surname",
@@ -821,22 +819,14 @@ BEGIN
         -- Cuando el colaborador no está dentro del proyecto.
         SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
     ELSE
-        IF (UPPER(p_task_state) = "F") THEN
-            SET @checked = 1;
-        ELSE
-            SET @checked = 0;
-        END IF;
-
         -- Creando tarea basica
         INSERT INTO task(
             task_name,
             state,
-            checked,
             id_project
         ) VALUES (
             p_task_name,
             p_task_state,
-            @checked,
             p_id_project
         );
         SET @id_task = LAST_INSERT_ID();
@@ -1037,13 +1027,6 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
-
--- sp_change_task_state(
--- 	p_id_project,
---  p_id_collaborator,
--- 	p_id_task,
--- 	p_task_state
--- );
 
 -- SP para cambiar el estado de la subtarea
 DELIMITER //
