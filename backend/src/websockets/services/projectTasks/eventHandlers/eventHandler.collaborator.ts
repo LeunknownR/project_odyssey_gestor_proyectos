@@ -50,7 +50,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         this.dataHandler
             .taskBoardsHandler
             .setTaskBoardProject(projectId, taskBoard);
-        // Refrescar el tablero a todos los colaboradores del proyecto
+        // Refrescando tablero a los colaboradores
         const projectRoom: string = WSProjectTaskServiceRoomHandler.getProjectRoom(projectId);
         this.io
             .to(projectRoom)
@@ -89,7 +89,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             payload: taskToBeUpdated,
             collaboratorId
         });
-        //
+        // Refrescando tablero a los colaboradores
         this.refreshTaskBoardByProject(projectId);
     }
     private async changeTaskState(socket: Socket, body?: any) {
@@ -106,7 +106,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             payload: projectTaskToBeChangedState, 
             collaboratorId
         });
-        // Refrescando tabler a los colaboradores
+        // Refrescando tablero a los colaboradores
         this.refreshTaskBoardByProject(projectId);
     }
     private async deleteTask(socket: Socket, body?: any) {
@@ -123,7 +123,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             payload: taskIdToBeDeleted, 
             collaboratorId
         });
-        // Refrescando tabler a los colaboradores
+        // Refrescando tablero a los colaboradores
         this.refreshTaskBoardByProject(projectId);
     }
     private async commentInTask(socket: Socket, body?: any) {
@@ -140,7 +140,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             payload: taskComment,
             collaboratorId
         });
-        // Refrescando tabler a los colaboradores
+        // Refrescando tablero a los colaboradores
         this.refreshTaskBoardByProject(projectId);
     }
     //#endregion
