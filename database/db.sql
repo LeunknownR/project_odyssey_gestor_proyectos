@@ -1037,3 +1037,53 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
+
+-- sp_change_task_state(
+-- 	p_id_project,
+--  p_id_collaborator,
+-- 	p_id_task,
+-- 	p_task_state
+-- );
+
+-- SP para cambiar el estado de la subtarea
+DELIMITER //
+CREATE PROCEDURE `sp_change_task_state`(
+    IN p_id_project INT,
+    IN p_id_collaborator INT,
+    IN p_id_task INT,
+    IN p_task_state CHAR(1)
+)
+BEGIN
+    -- Validando si el collab existe en el proyecto
+    IF NOT EXISTS(
+        SELECT id_collaborator
+        FROM project_has_collaborator
+        WHERE id_project = p_id_project
+        AND id_collaborator = p_id_collaborator
+    ) THEN
+        -- Cuando el colaborador no está dentro del proyecto.
+        SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
+    ELSE
+        IF EXISTS (
+            SELECT *
+            FROM project_has_collaborator phc 
+            INNER JOIN task t
+            ON phc.id_project = t.id_project
+            WHERE t.id_task = p_id_task
+            AND phc.id_collaborator = p_id_collaborator 
+            AND phc.id_project_role = "PMB"
+            AND (t.id_responsible != p_id_collaborator OR t.id_responsible IS NULL)
+        ) THEN
+            -- Cuando el colaborador es miembro del proyecto y no es su tarea.
+            SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
+        ELSE
+            -- Cambiar de estado a la tarea
+            UPDATE task
+            SET state = p_task_state
+            WHERE id_task = p_id_task;
+            -- Cuando la creación de la tarea es exitosa.
+            SELECT 'SUCCESS' AS 'message';
+        END IF;
+    END IF;
+END //
+DELIMITER ;
