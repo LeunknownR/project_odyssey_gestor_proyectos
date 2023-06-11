@@ -8,7 +8,8 @@ import {
     WSProjectTaskToBeDeletedForm,
     WSNewProjectTaskForm, 
     WSProjectTaskCommentForm, 
-    WSProjectTaskMainInformationForm 
+    WSProjectTaskMainInformationForm, 
+    WSProjectTaskForm
 } from "../../websockets/services/projectTasks/utils/entities";
 
 export default abstract class ProjectTasksController {
@@ -17,8 +18,8 @@ export default abstract class ProjectTasksController {
         const taskPriorityList: ProjectTaskPriority[] = resultset.map(projecTaskPriorityMapper);
         return taskPriorityList;
     }
-    public static async getTaskBoardByProjectId(projectId: number): Promise<ProjectTaskBoard> {
-        const resultset: any[] = await ProjectTasksModel.getTaskBoardByProjectId(projectId);
+    public static async getTaskBoardByProjectId(projectTaskForm: WSProjectTaskForm): Promise<ProjectTaskBoard> {
+        const resultset: any[] = await ProjectTasksModel.getTaskBoardByProjectId(projectTaskForm);
         return projectTaskBoardMapper(resultset);
     }
     public static async createTask(newTaskForm: WSNewProjectTaskForm): Promise<void> {

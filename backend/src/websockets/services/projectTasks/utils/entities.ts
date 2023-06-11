@@ -37,7 +37,7 @@ export type WSProjectTaskComment = {
     taskId: number;
     content: string;
 };
-export type WSProjectTaskForm<T> = {
+export type WSProjectTaskForm<T = null> = {
     collaboratorId: number;
     projectId: number;
     payload: T;

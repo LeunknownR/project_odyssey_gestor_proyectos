@@ -1,7 +1,7 @@
 import { Socket } from "socket.io";
 import { IOServerService, WSEvent, WSServiceEventHandler } from "../../../utils/common";
 import WSProjectTaskServiceDataHandler from "../handlerData";
-import { WSProjectTaskToBeChangedState, WSNewProjectTask, WSProjectTaskComment, WSProjectTaskMainInformation } from "../utils/entities";
+import { WSProjectTaskToBeChangedState, WSNewProjectTask, WSProjectTaskComment, WSProjectTaskMainInformation, WSProjectTaskForm, WSUserDataProjectTaskService } from "../utils/entities";
 import { parseToWSProjectTaskToBeChangedState, parseToWSTaskIdToBeDeleted, parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskMainInformation } from "../utils/parsers";
 import ProjectTasksController from "../../../../controllers/projectTaskController/projectTasks.controller";
 import { WSProjectTaskServiceRoomHandler, getUserDataProjectTaskServiceBySocket } from "../utils/helpers";
@@ -43,9 +43,14 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         this.configSocket(socket, wsEventList);
     }
     //#region Helpers
-    private async refreshTaskBoardByProject(projectId: number) {
+    private async refreshTaskBoardByProject(userData: WSUserDataProjectTaskService) {
+        const { userId, projectId } = userData;
         // Obtener tablero de la bd
-        const taskBoard: ProjectTaskBoard = await ProjectTasksController.getTaskBoardByProjectId(projectId);
+        const taskBoard: ProjectTaskBoard = await ProjectTasksController.getTaskBoardByProjectId({
+            projectId: projectId,
+            payload: null,
+            collaboratorId: userId
+        });
         // Actualizando el tablero en la memoria
         this.dataHandler
             .taskBoardsHandler
@@ -65,24 +70,26 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         // Validando datos
         const newTask: WSNewProjectTask = parseToWSNewProjectTask(body);
         // Obteniendo datos de conexión del colaborador
+        const userData = getUserDataProjectTaskServiceBySocket(socket);
         const {
             userId: collaboratorId,
             projectId
-        } = getUserDataProjectTaskServiceBySocket(socket);
+        } = userData;
         // Realizando query para crear una tarea
         await ProjectTasksController.createTask({
             collaboratorId, projectId, payload: newTask
         });
-        this.refreshTaskBoardByProject(projectId);
+        this.refreshTaskBoardByProject(userData);
     }
     private async updateTaskMainInfo(socket: Socket, body?: any) {
         // Validando y formateando formulario
         const taskMainInformation: WSProjectTaskMainInformation = parseToWSProjectTaskMainInformation(body);
         // Obteniendo datos de conexión del colaborador
+        const userData = getUserDataProjectTaskServiceBySocket(socket);
         const {
             userId: collaboratorId,
             projectId
-        } = getUserDataProjectTaskServiceBySocket(socket);
+        } = userData;
         // Realizando query para actualizar una tarea
         await ProjectTasksController.updateTaskMainInformation({
             projectId,
@@ -90,16 +97,17 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             collaboratorId
         });
         // Refrescando tablero a los colaboradores
-        this.refreshTaskBoardByProject(projectId);
+        this.refreshTaskBoardByProject(userData);
     }
     private async changeTaskState(socket: Socket, body?: any) {
         // Validando y formateando formulario
         const projectTaskToBeChangedState: WSProjectTaskToBeChangedState = parseToWSProjectTaskToBeChangedState(body);
         // Obteniendo datos de conexión del colaborador
+        const userData = getUserDataProjectTaskServiceBySocket(socket);
         const {
             userId: collaboratorId,
             projectId
-        } = getUserDataProjectTaskServiceBySocket(socket);
+        } = userData;
         // Realizando query para cambiar el estado de una tarea
         await ProjectTasksController.changeTaskState({
             projectId, 
@@ -107,16 +115,17 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             collaboratorId
         });
         // Refrescando tablero a los colaboradores
-        this.refreshTaskBoardByProject(projectId);
+        this.refreshTaskBoardByProject(userData);
     }
     private async deleteTask(socket: Socket, body?: any) {
         // Validando y formateando formulario
         const taskIdToBeDeleted: number = parseToWSTaskIdToBeDeleted(body);
         // Obteniendo datos de conexión del colaborador
+        const userData = getUserDataProjectTaskServiceBySocket(socket);
         const {
             userId: collaboratorId,
             projectId
-        } = getUserDataProjectTaskServiceBySocket(socket);
+        } = userData;
         // Realizando query para eliminar una tarea
         await ProjectTasksController.deleteTask({
             projectId, 
@@ -124,16 +133,17 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             collaboratorId
         });
         // Refrescando tablero a los colaboradores
-        this.refreshTaskBoardByProject(projectId);
+        this.refreshTaskBoardByProject(userData);
     }
     private async commentInTask(socket: Socket, body?: any) {
         // Validando y formateando formulario
         const taskComment: WSProjectTaskComment = parseToWSProjectTaskComment(body);
         // Obteniendo datos de conexión del colaborador
+        const userData = getUserDataProjectTaskServiceBySocket(socket);
         const {
             userId: collaboratorId,
             projectId
-        } = getUserDataProjectTaskServiceBySocket(socket);
+        } = userData;
         // Realizando query para comentar en una tarea
         await ProjectTasksController.commentInTask({
             projectId,
@@ -141,7 +151,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             collaboratorId
         });
         // Refrescando tablero a los colaboradores
-        this.refreshTaskBoardByProject(projectId);
+        this.refreshTaskBoardByProject(userData);
     }
     //#endregion
     //#endregion
