@@ -767,36 +767,48 @@ DELIMITER ;
 -- Sp para listar la información de la task_board
 DELIMITER //
 CREATE PROCEDURE `sp_get_project_task_board`(
-    IN p_id_project INT
+    IN p_id_project INT,
+    IN p_id_collaborator INT
 )
 BEGIN
-    SELECT 
-        t.id_task,
-        t.task_name,
-        t.description AS "task_description",
-        t.state AS "task_state",
-        t.id_responsible,
-        urt.user_name AS "responsible_name",
-        urt.user_surname AS "responsible_surname",
-        urt.url_photo AS "responsible_url_photo",
-        t.id_task_priority,
-        t.deadline AS "task_deadline",
-        st.id_subtask,
-        st.subtask_name,
-        st.checked AS "subtask_checked",
-        tc.id_task_comment,
-        tc.comment_content AS "task_comment_content",
-        tc.comment_date AS "task_comment_datetime",
-        tc.id_collaborator AS "id_task_comment_collaborator",
-        utc.user_name AS "task_comment_collaborator_name",
-        utc.user_surname AS "task_comment_collaborator_surname",
-        utc.url_photo AS "task_comment_collaborator_url_photo"
-    FROM task t
-    LEFT JOIN user urt ON t.id_responsible = urt.id_user
-    LEFT JOIN subtask st ON t.id_task = st.id_task
-    LEFT JOIN task_comment tc ON t.id_task = tc.id_task
-    LEFT JOIN user utc ON tc.id_collaborator = utc.id_user
-    WHERE t.id_project = p_id_project;
+    -- Validando si el collab existe en el proyecto
+    IF NOT EXISTS(
+        SELECT id_collaborator
+        FROM project_has_collaborator
+        WHERE id_project = p_id_project
+        AND id_collaborator = p_id_collaborator
+    ) THEN
+        -- Cuando el colaborador no está dentro del proyecto.
+        SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
+    ELSE
+        SELECT 
+            t.id_task,
+            t.task_name,
+            t.description AS "task_description",
+            t.state AS "task_state",
+            t.id_responsible,
+            urt.user_name AS "responsible_name",
+            urt.user_surname AS "responsible_surname",
+            urt.url_photo AS "responsible_url_photo",
+            t.id_task_priority,
+            t.deadline AS "task_deadline",
+            st.id_subtask,
+            st.subtask_name,
+            st.checked AS "subtask_checked",
+            tc.id_task_comment,
+            tc.comment_content AS "task_comment_content",
+            tc.comment_date AS "task_comment_datetime",
+            tc.id_collaborator AS "id_task_comment_collaborator",
+            utc.user_name AS "task_comment_collaborator_name",
+            utc.user_surname AS "task_comment_collaborator_surname",
+            utc.url_photo AS "task_comment_collaborator_url_photo"
+        FROM task t
+        LEFT JOIN user urt ON t.id_responsible = urt.id_user
+        LEFT JOIN subtask st ON t.id_task = st.id_task
+        LEFT JOIN task_comment tc ON t.id_task = tc.id_task
+        LEFT JOIN user utc ON tc.id_collaborator = utc.id_user
+        WHERE t.id_project = p_id_project;
+    END IF;
 END //
 DELIMITER ;
 
