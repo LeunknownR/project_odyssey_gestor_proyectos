@@ -978,14 +978,15 @@ BEGIN
         -- Cuando el colaborador no está dentro del proyecto.
         SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
     ELSE
-        IF NOT EXISTS (
+        IF EXISTS (
             SELECT *
-            FROM task t
-            INNER JOIN project_has_collaborator phc
-            ON t.id_project = phc.id_project
-            WHERE t.id_task = 7 
+            FROM project_has_collaborator phc 
+            INNER JOIN task t
+            ON phc.id_project = t.id_project
+            WHERE t.id_task = p_id_task_to_be_deleted
+            AND phc.id_collaborator = p_id_collaborator 
             AND phc.id_project_role = "PMB"
-            AND phc.id_collaborator = 7
+            AND (t.id_responsible != p_id_collaborator OR t.id_responsible IS NULL)
         ) THEN
             -- Cuando el colaborador es miembro del proyecto y no es su tarea.
             SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';

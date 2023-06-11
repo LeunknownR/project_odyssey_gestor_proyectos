@@ -5,9 +5,10 @@ export type IOServerService = Namespace<DefaultEventsMap, DefaultEventsMap, Defa
 export type WSUserData = {
     userId: number;
 };
+type WSEventHandler = (socket: Socket, body?: any) => void | Promise<void>;
 export type WSEvent<E> = {
     name: E;
-    handler(socket: Socket, body?: any): void;
+    handler: WSEventHandler;
 };
 export abstract class WSService {
     //#region Attributes
@@ -29,15 +30,18 @@ export abstract class WSServiceEventHandler<E> {
         this.io = io;
     }
     public abstract listen(socket: Socket): void;
+    private async withErrorHandler(handler: WSEventHandler, socket: Socket, body?: any): Promise<void> {
+        try {
+            await handler(socket, body);
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
     protected configSocket(socket: Socket, wsEventList: WSEvent<E>[]) {
         for (const { name, handler } of wsEventList) 
             socket.on(String(name), body => {
-                try {
-                    handler(socket, body);
-                }
-                catch (err) {
-                    console.log(err);
-                }
+                this.withErrorHandler(handler, socket, body);
             });
     }
 }
