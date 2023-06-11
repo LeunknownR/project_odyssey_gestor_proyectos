@@ -23,5 +23,7 @@ export enum ApiPathEndpointsCollaborator {
     UpdateEndDateProject="/projects/update-end-date",
     SearchCollaboratorMember = "/projects/search-collaborator-member/:projectId/:collaboratorName",
     AddProjectMembers = "/projects/add-members",
-    DeleteProjectMember = "/projects/delete-member/:userId/:projectHasCollaboratorId"
+    DeleteProjectMember = "/projects/delete-member/:userId/:projectHasCollaboratorId",
+    GetProjectPanelDetail="/project-panel/details/:projectId/:userId",
+    GetTaskPriorityList ="/project-tasks/priorities"
 }

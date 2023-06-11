@@ -2,24 +2,34 @@ import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
 import {
     ProjectForm
-} from "../../entities/project/types";
-import { AddProjectMembersRequestBody, DeleteProjectMemberRequestBody, GetProjectListForCollaboratorRequestBody, SearchCollaboratorRequestBody, UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
-import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
+} from "../../entities/project/entities";
+import { GetProjectPanelDetailRequestBody } from "../../routes/collaborator/projectPanel/types";
+import { 
+    AddProjectMembersRequestBody, 
+    DeleteProjectMemberRequestBody, 
+    GetProjectListForCollaboratorRequestBody, 
+    SearchCollaboratorRequestBody, 
+    UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
+import { 
+    CreateProjectRequestBody, 
+    DeleteProjectRequestBody 
+} from "../../routes/generalAdmin/projects/types";
 
 export default abstract class ProjectModel {
-    static async getProjectListForGeneralAdmin(projectName: string | null): Promise<any[]> {
+    public static async getProjectListForGeneralAdmin(projectName: string | null): Promise<any[]> {
+        // return PROJECT_LIST_FOR_GENERAL_ADMIN_RESULSTSET;
         const [resultset] = await DBConnection.query(
             StoredProcedures.GetProjectListForGeneralAdmin,
             [projectName]);
         return resultset;
     }
-    static async searchCollaboratorByUsername(username: string): Promise<any[]> {
+    public static async searchCollaboratorByUsername(username: string): Promise<any[]> {
         const [resultset] = await DBConnection.query(
             StoredProcedures.SearchCollaborator,
             [username]);
         return resultset;
     }
-    static async createProject({
+    public static async createProject({
         userId,
         projectForm
     }: CreateProjectRequestBody): Promise<string> {
@@ -36,7 +46,7 @@ export default abstract class ProjectModel {
         );
         return record;
     }
-    static async updateProject({
+    public static async updateProject({
         id,
         name,
         description,
@@ -57,7 +67,7 @@ export default abstract class ProjectModel {
         );
         return information.affectedRows;
     }
-    static async getProjectListForCollaborator({
+    public static async getProjectListForCollaborator({
         projectName,
         collaboratorId
     }: GetProjectListForCollaboratorRequestBody): Promise<any[]> {
@@ -66,7 +76,7 @@ export default abstract class ProjectModel {
             [projectName, collaboratorId]);
         return resultset;
     }
-    static async updateEndDateProjectByLeader({
+    public static async updateEndDateProjectByLeader({
         projectId,
         endDate
     }: UpdateEndDateProjectRequestBody): Promise<any> {
@@ -78,7 +88,7 @@ export default abstract class ProjectModel {
             ]);
         return record;
     }
-    static async deleteProject({
+    public static async deleteProject({
         userId, projectId
     }: DeleteProjectRequestBody): Promise<any> {
         const [[record]] = await DBConnection.query(
@@ -87,14 +97,14 @@ export default abstract class ProjectModel {
         );
         return record;
     }
-    static async getProjectDetails(projectId: number): Promise<any[]> {
+    public static async getProjectDetails(projectId: number): Promise<any[]> {
         const [resultset] = await DBConnection.query(
             StoredProcedures.GetProjectDetails,
             [projectId]
         );
         return resultset;
     }
-    static async searchCollaboratorsForProjectMember({
+    public static async searchCollaboratorsForProjectMember({
         projectId,
         collaboratorName
     }: SearchCollaboratorRequestBody): Promise<any[]> {
@@ -106,7 +116,7 @@ export default abstract class ProjectModel {
             ]);
         return resultset;
     }
-    static async addProjectMembers({
+    public static async addProjectMembers({
         projectId, membersIds
     }: AddProjectMembersRequestBody): Promise<any> {
         const [[record]] = await DBConnection.query(
@@ -117,7 +127,7 @@ export default abstract class ProjectModel {
             ]);
         return record;
     }
-    static async deleteProjectMember({
+    public static async deleteProjectMember({
         userId, projectHasCollaboratorId
     }: DeleteProjectMemberRequestBody): Promise<any> {
         const [[record]] = await DBConnection.query(
@@ -127,5 +137,16 @@ export default abstract class ProjectModel {
                 userId
             ]);
         return record;
+    }
+    public static async getProjectPanelDetail({
+        projectId, userId
+    }: GetProjectPanelDetailRequestBody): Promise<any> {
+        const [resultset] = await DBConnection.query(
+            StoredProcedures.GetProjectTableDetail,
+            [
+                projectId,
+                userId
+            ]);
+        return resultset;
     }
 }

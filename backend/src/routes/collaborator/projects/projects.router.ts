@@ -2,7 +2,7 @@ import { Router } from "express";
 import Authentication from "../../../utils/authentication";
 import { DBRoles } from "../../../db/enums";
 import { ApiPathEndpointsCollaborator } from "../../apiPaths";
-import ProjectController from "../../../controllers/projectController/projectController";
+import ProjectController from "../../../controllers/projectController/project.controller";
 import { GenerateResponseBody } from "../../../utils/response/generateResponseBody";
 import {
     parseToAddProjectMembersRequestBody,
@@ -15,17 +15,18 @@ import {
 import {
     GroupedProjectList,
     ProjectDetails,
-} from "../../../entities/project/types";
+    ProjectPanelDetails,
+} from "../../../entities/project/entities";
 import { withErrorHandler } from "../../helpers";
-import { 
-    GetProjectListForCollaboratorRequestBody, 
+import {
+    GetProjectListForCollaboratorRequestBody,
     AddProjectMembersRequestBody,
     DeleteProjectMemberRequestBody,
     SearchCollaboratorRequestBody,
     UpdateEndDateProjectRequestBody
 } from "./types";
 import { ResponseCodes, ResponseMessages, getResponseCodeIfMessageExists } from "../../../utils/response/enums";
-import { CollaboratorUser } from "../../../entities/collaborator/types";
+import { CollaboratorUser } from "../../../entities/collaborator/entities";
 
 const router = Router();
 router.use("/", Authentication.checkTokenInEndpoints(DBRoles.Collaborator));
