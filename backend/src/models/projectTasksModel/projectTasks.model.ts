@@ -88,11 +88,6 @@ export default abstract class ProjectTasksModel {
         payload: comment,
         collaboratorId
     }: WSProjectTaskCommentForm): Promise<any> {
-        console.log({
-            projectId,
-            payload: comment,
-            collaboratorId
-        });
         const [[record]] = await DBConnection.query(
             StoredProcedures.CommentInProjectTask,
             [
@@ -102,7 +97,6 @@ export default abstract class ProjectTasksModel {
                 collaboratorId
             ]
         );
-        console.log(record);
         return record;
     }
 }
