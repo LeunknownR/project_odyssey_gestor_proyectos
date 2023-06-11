@@ -6,7 +6,7 @@ import {
     WSNewProjectTask, 
     WSProjectTaskToBeChangedState, 
     WSProjectTaskComment, 
-    WSProjectTaskToBeUpdated
+    WSProjectTaskMainInformation
 } from "./entities";
 
 export const parseToWSNewProjectTask = (body: any): WSNewProjectTask => {
@@ -19,13 +19,11 @@ export const parseToWSNewProjectTask = (body: any): WSNewProjectTask => {
     };
 }
 
-const isValidWSUpdateProjectTask = (body: any): boolean => {
+const isValidWSProjectTaskMainInformation = (body: any): boolean => {
     const {
         taskId, responsibleId,
         name, description,
-        deadline, priotityId,
-        newSubTask,
-        subTaskIdsToBeDeleted
+        deadline, priotityId
     } = body;
     return (
         isPositiveNumber(taskId) &&
@@ -33,27 +31,22 @@ const isValidWSUpdateProjectTask = (body: any): boolean => {
         checkLength(name, 1, 40) &&
         (checkLength(description, 1, 200) || description == null) &&
         isPositiveNumberOrZero(deadline) &&
-        (isPositiveNumber(priotityId) || priotityId == null) &&
-        isArrayString(newSubTask, 1, 255) &&
-        isPositiveArrayNumber(subTaskIdsToBeDeleted)
+        (isPositiveNumber(priotityId) || priotityId == null)
     )
 }
 
-export const parseToWSProjectTaskToBeUpdated = (body: any): WSProjectTaskToBeUpdated => {
-    if (!isValidWSUpdateProjectTask(body))
+export const parseToWSProjectTaskMainInformation = (body: any): WSProjectTaskMainInformation => {
+    if (!isValidWSProjectTaskMainInformation(body))
         throw new Error("Invalid data to update task");
     const {
         taskId, responsibleId,
         name, description,
-        deadline, priotityId,
-        newSubTask,
-        subTaskIdsToBeDeleted
+        deadline, priotityId
     } = body;
     return {
         taskId, responsibleId,
         name, description,
-        deadline, priotityId,
-        newSubTask, subTaskIdsToBeDeleted
+        deadline, priotityId
     };
 }
 export const parseToWSProjectTaskToBeChangedState = (body: any): WSProjectTaskToBeChangedState => {
