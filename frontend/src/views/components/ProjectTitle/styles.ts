@@ -1,0 +1,54 @@
+import styled from 'styled-components';
+import { MOBILE_WIDTH } from 'src/config/constants';
+
+export const Container = styled.div`
+    display: flex;
+<<<<<<<< HEAD:frontend/src/views/ProjectSpecificManagement/components/ProjectDetailsView/components/ProjectInfo/styles.ts
+    flex-direction: column;
+    gap: 15px;
+`;
+export const DataPart = styled.section`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0 0 70px;
+    gap: 30px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        flex-direction: column;
+        padding: 0;
+    }
+`;
+export const Description = styled.p`
+    color: var(--white-1);
+    font-weight: 400;
+    font-size: 17px;
+    max-width: 565px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 15px;
+        max-width: unset;
+========
+    align-items: center;
+    gap: 30px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        gap: 10px;
+    }
+`;
+export const IconContainer = styled.span`
+    .iconify {
+        color: var(--white-1);
+        background-color: var(--green-1);
+        font-size: 50px;
+        border-radius: 4px;
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            font-size: 35px;
+        }
+    }
+`;
+export const ProjectName = styled.h1`
+    color: var(--white-1);
+    font-size: 36px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 20px;
+>>>>>>>> c90fc6259ac0d94fcffed729c3e7230cbbff66ab:frontend/src/views/components/ProjectTitle/styles.ts
+    }
+`;

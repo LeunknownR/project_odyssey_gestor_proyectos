@@ -12,7 +12,7 @@ const SidebarMenu = ({
             {mainMenuButton}
             <MenuList>
                 <MenuButton 
-                    to={AbsolutePaths.ProjectManager} activeclassname="active">
+                    to={AbsolutePaths.Projects} activeclassname="active">
                     <span><Icon icon="material-symbols:home-outline-rounded" /></span>
                 </MenuButton>
                 <MenuButton 

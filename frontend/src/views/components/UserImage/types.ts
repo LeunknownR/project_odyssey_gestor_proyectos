@@ -14,4 +14,5 @@ export type NameInitialsProps = {
 export type BackendImageProps = {
     className?: string;
     path: string;
+    isDynamic?: boolean;
 }

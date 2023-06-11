@@ -1,7 +1,7 @@
-import { Row } from 'src/components/styles';
+import { FlexFlow } from 'src/components/styles';
 import styled from 'styled-components';
 
-export const Container = styled(Row)`
+export const Container = styled(FlexFlow)`
     color: ${({ color }) => color};
 `;
 export const IconContainer = styled.span`
