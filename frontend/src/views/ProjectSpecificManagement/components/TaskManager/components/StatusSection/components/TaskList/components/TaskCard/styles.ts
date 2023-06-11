@@ -33,6 +33,9 @@ export const TaskCardName = styled.h3`
     align-self: center;
     color: var(--white-1);
 `;
+export const UnselectedResponsible = styled.img`
+    
+`;
 export const DateText = styled.div`
     display: flex;
     justify-content: center;

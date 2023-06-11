@@ -9,11 +9,9 @@ const Footer = ({
         <Container>
             <CancelRedModalButton
                 content="Cancelar"
-                variant="red-modal-2"
                 onClick={() => modal.open(false)}/>
             <ConfirmRedModalButton
                 content="Eliminar" 
-                variant="red-modal"
                 onClick={deleteProject}/>
         </Container>
     );

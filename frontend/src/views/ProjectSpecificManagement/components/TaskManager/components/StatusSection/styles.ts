@@ -6,4 +6,5 @@ export const Container = styled.article`
     gap: 30px;
     padding: 29px 25px;
     width: 100%;
+    /* background-color: #061A27; */
 `;

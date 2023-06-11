@@ -1,5 +1,5 @@
-import { TaskInfoTypes } from "../../types"
+import { ProjectTask } from "src/entities/projectTasks/entities";
 
 export type TaskListProps = {
-    taskListInfo: TaskInfoTypes[];
+    taskListInfo: ProjectTask[];
 }
