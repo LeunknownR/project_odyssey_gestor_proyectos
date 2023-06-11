@@ -8,7 +8,7 @@ import {
     WSProjectTaskToBeDeletedForm,
     WSNewProjectTaskForm, 
     WSProjectTaskCommentForm, 
-    WSProjectTaskToBeUpdatedForm 
+    WSProjectTaskMainInformationForm 
 } from "../../websockets/services/projectTasks/utils/entities";
 
 export default abstract class ProjectTasksController {
@@ -27,8 +27,8 @@ export default abstract class ProjectTasksController {
         if (message === ResponseMessages.Success) return;
         throw new Error(message);
     }
-    public static async updateTask(taskToBeUpdatedForm: WSProjectTaskToBeUpdatedForm): Promise<void> {
-        const record: any = await ProjectTasksModel.updateTask(taskToBeUpdatedForm);
+    public static async updateTaskMainInformation(taskMainInformationForm: WSProjectTaskMainInformationForm): Promise<void> {
+        const record: any = await ProjectTasksModel.updateTaskMainInformation(taskMainInformationForm);
         const message: string = record["message"];
         if (message === ResponseMessages.Success) return;
         throw new Error(message);

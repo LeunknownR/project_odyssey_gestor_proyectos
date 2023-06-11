@@ -5,7 +5,7 @@ import {
     WSProjectTaskToBeDeletedForm,
     WSNewProjectTaskForm, 
     WSProjectTaskCommentForm, 
-    WSProjectTaskToBeUpdatedForm 
+    WSProjectTaskMainInformationForm 
 } from "../../websockets/services/projectTasks/utils/entities";
 
 export default abstract class ProjectTasksModel {
@@ -34,19 +34,22 @@ export default abstract class ProjectTasksModel {
         );
         return record;
     }
-    public static async updateTask({
+    public static async updateTaskMainInformation({
         projectId, 
-        payload: task, 
+        payload: taskMainInformation, 
         collaboratorId
-    }: WSProjectTaskToBeUpdatedForm): Promise<any> {
+    }: WSProjectTaskMainInformationForm): Promise<any> {
         const [[record]] = await DBConnection.query(
-            StoredProcedures.UpdateProjectTask,
+            StoredProcedures.UpdateProjectTaskMainInformation,
             [
-                projectId, task.taskId,
-                task.responsibleId, task.name,
-                task.description, new Date(task.deadline),
-                task.priotityId, task.newSubTask.join(","),
-                task.subTaskIdsToBeDeleted.join(","), collaboratorId
+                projectId, 
+                collaboratorId,
+                taskMainInformation.taskId,
+                taskMainInformation.responsibleId, 
+                taskMainInformation.name,
+                taskMainInformation.description, 
+                new Date(taskMainInformation.deadline),
+                taskMainInformation.priotityId
             ]
         );
         return record;
@@ -88,11 +91,6 @@ export default abstract class ProjectTasksModel {
         payload: comment,
         collaboratorId
     }: WSProjectTaskCommentForm): Promise<any> {
-        console.log({
-            projectId,
-            payload: comment,
-            collaboratorId
-        });
         const [[record]] = await DBConnection.query(
             StoredProcedures.CommentInProjectTask,
             [
@@ -102,7 +100,6 @@ export default abstract class ProjectTasksModel {
                 collaboratorId
             ]
         );
-        console.log(record);
         return record;
     }
 }
