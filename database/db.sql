@@ -804,9 +804,9 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `sp_create_task`(
     IN p_id_project INT,
+    IN p_id_collaborator INT,
     IN p_task_name VARCHAR(40),
-    IN p_task_state CHAR(1),
-    IN p_id_collaborator INT
+    IN p_task_state CHAR(1)
 )
 BEGIN
     -- Validando si el collab existe en el proyecto
@@ -851,111 +851,12 @@ BEGIN
 END //
 DELIMITER ;
 
--- sp_update_task(
--- 		p_id_project,
--- 		p_id_responsible,
--- 		p_task_name,
--- 		p_description,
--- 		p_deadline,
--- 		p_id_priority,
--- 		p_new_subtask_list,
--- 		p_subtask_id_list_to_be_deleted,
---      p_id_collaborator
--- );
-
--- SP para actualizar una tarea
--- DELIMITER //
--- CREATE PROCEDURE `sp_update_task`(
---     IN p_id_task INT,
---     IN p_id_responsible INT,
---     IN p_task_name VARCHAR(40),
---     IN p_description VARCHAR(200),
---     IN p_deadline DATE,
---     IN p_id_task_priority INT,
---     IN p_new_subtask_list VARCHAR(100),
---     IN p_subtask_id_list_to_be_deleted VARCHAR(100),
---     IN p_id_collaborator INT
--- )
--- BEGIN
---     -- Validando si el collab existe en el proyecto
---     IF NOT EXISTS(
---         SELECT id_collaborator
---         FROM project_has_collaborator
---         WHERE id_project = p_id_project
---         AND id_collaborator = p_id_collaborator
---     ) THEN
---         -- Cuando el colaborador no está dentro del proyecto.
---         SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
---     ELSE
---         IF NOT EXISTS (
---             SELECT id_responsible
---             FROM task
---             WHERE id_task = p_id_task
---             AND id_responsible = p_id_collaborator
---         ) THEN
---             -- Cuando el colaborador es miembro del proyecto y no es su tarea.
---             SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
---         ELSE
---             -- Actualizando la tarea
---             UPDATE task
---             SET id_responsible = p_id_responsible,
---                 task_name = p_task_name,
---                 description = p_description,
---                 deadline = p_deadline,
---                 id_task_priority = p_id_task_priority,
---                 id_responsible = p_id_collaborator
---             WHERE id_project = p_id_project
---             AND id_task = @id_task;
-
---             -- nuevas subtasks
---             IF NOT EXISTS(
---                 SELECT id_subtask
---                 FROM subtask
---                 WHERE id_task = p_id_task
---                 AND FIND_IN_SET(id_subtask, p_new_subtask_list)
---             ) THEN
---                 -- nuevas subtasks
---                 CREATE TEMPORARY TABLE temporary_new_subtask_list (
---                     id INT
---                 );
---                 -- INSERTANDO LAS IDs en una tabla temporal
---                 INSERT INTO temporary_new_subtask_list (id)
---                 SELECT id_subtask
---                 FROM subtask
---                 WHERE id_task = p_id_task
---                 AND FIND_IN_SET(id_subtask, p_new_subtask_list)
---             END IF;
-
---             -- eliminando subtasks
---             IF EXISTS(
---                 SELECT id_subtask
---                 FROM subtask
---                 WHERE id_task = p_id_task
---                 AND FIND_IN_SET(id_subtask, p_subtask_id_list_to_be_deleted)
---             ) THEN
---                 -- Eliminando la tarea
---                 DELETE FROM subtask
---                 WHERE id_task = p_id_task
---                 AND FIND_IN_SET(id_subtask, p_subtask_id_list_to_be_deleted);
---             END IF;
-
---             -- Eliminando la tabla temporal
---             DROP TEMPORARY TABLE IF EXISTS temporary_new_subtask_list;
-
---             -- Cuando la creación de la tarea es exitosa.
---             SELECT 'SUCCESS' AS 'message';
---         END IF;
---     END IF;
--- END //
--- DELIMITER ;
-
-
 -- SP para eliminar una tarea
 DELIMITER //
 CREATE PROCEDURE `sp_delete_task`(
     IN p_id_project INT,
-    IN p_id_task_to_be_deleted INT,
-    IN p_id_collaborator INT
+    IN p_id_collaborator INT,
+    IN p_id_task_to_be_deleted INT
 )
 BEGIN
     -- Validando si el collab existe en el proyecto
@@ -995,9 +896,9 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `sp_comment_in_task`(
     IN p_id_project INT,
+    IN p_id_collaborator INT,
     IN p_id_task INT,
-    IN p_comment VARCHAR(200),
-    IN p_id_collaborator INT
+    IN p_comment VARCHAR(200)
 )
 BEGIN
     -- Validando si el collab existe en el proyecto
