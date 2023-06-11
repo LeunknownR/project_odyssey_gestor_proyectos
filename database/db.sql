@@ -62,7 +62,7 @@ CREATE TABLE `project` (
     `description` VARCHAR(200),
     `creation_date` DATE NOT NULL,
     `state` ENUM('P', 'O', 'F') NOT NULL,  -- Pending - OnProgress - Finalized
-    `checked` BIT NOT NULL,
+    `checked` BIT NOT NULL DEFAULT 0,
     `start_date` DATE NOT NULL,
     `end_date` DATE NOT NULL,
     `active` BIT NOT NULL DEFAULT 1,
@@ -123,7 +123,6 @@ CREATE TABLE `task` (
     `description` VARCHAR(200),  -- task_description 
     `deadline` DATE,
     `state` ENUM('P', 'O', 'F') NOT NULL,  -- Pending - OnProgress - Finalized
-    `checked` BIT NOT NULL DEFAULT 0,
     `id_task_priority` INT UNSIGNED NULL,
     `id_project` INT UNSIGNED NOT NULL,
     `id_responsible` INT UNSIGNED NULL,
@@ -254,14 +253,14 @@ VALUES
     (23, 13, 18, 'PLD'),
     (24, 14, 19, 'PLD');
 
-INSERT INTO `task`(id_task, task_name, description, deadline, state, checked, id_task_priority, id_project, id_responsible)
+INSERT INTO `task`(id_task, task_name, description, deadline, state, id_task_priority, id_project, id_responsible)
 VALUES 
-    (1, "db | Stored procedures 'sprint-2'", "Desarrollo de Sotored procedures por parte del DBA, 'osea yo',  para los servicios REST del sprint 2", "2023-05-17", "F", 0, 3, 1, 3),
-    (2, "backend | new logict with POO 'sprint-2'", "Description example backend", "2023-05-12", "O", 0, 1, 1, 2),
-    (3, "frontend | dev responsive design to mobile 'sprint-2'", "Description example frontend", "2023-05-15", "O", 0, 1, 1, 5),
-    (4, "frontend | task example 'sprint-2'", "Description example frontend", "2023-05-20", "P", 0, 1, 1, 5),
-    (5, "backend | task example 'sprint-2'", "Description example backend", "2023-05-21", "P", 0, 1, 1, 2),
-    (6, "db | task example 'sprint-2'", "Description example db", "2023-05-23", "O", 0, 1, 1, 2);
+    (1, "db | Stored procedures 'sprint-2'", "Desarrollo de Sotored procedures por parte del DBA, 'osea yo',  para los servicios REST del sprint 2", "2023-05-17", "F", 3, 1, 3),
+    (2, "backend | new logict with POO 'sprint-2'", "Description example backend", "2023-05-12", "O", 1, 1, 2),
+    (3, "frontend | dev responsive design to mobile 'sprint-2'", "Description example frontend", "2023-05-15", "O", 1, 1, 5),
+    (4, "frontend | task example 'sprint-2'", "Description example frontend", "2023-05-20", "P", 1, 1, 5),
+    (5, "backend | task example 'sprint-2'", "Description example backend", "2023-05-21", "P", 1, 1, 2),
+    (6, "db | task example 'sprint-2'", "Description example db", "2023-05-23", "O", 1, 1, 2);
 
 INSERT INTO `subtask`(id_subtask, subtask_name, checked, id_task)
 VALUES 
@@ -776,7 +775,6 @@ BEGIN
         t.task_name,
         t.description AS "task_description",
         t.state AS "task_state",
-        t.checked AS "task_checked",
         t.id_responsible,
         urt.user_name AS "responsible_name",
         urt.user_surname AS "responsible_surname",
@@ -821,22 +819,14 @@ BEGIN
         -- Cuando el colaborador no está dentro del proyecto.
         SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
     ELSE
-        IF (UPPER(p_task_state) = "F") THEN
-            SET @checked = 1;
-        ELSE
-            SET @checked = 0;
-        END IF;
-
         -- Creando tarea basica
         INSERT INTO task(
             task_name,
             state,
-            checked,
             id_project
         ) VALUES (
             p_task_name,
             p_task_state,
-            @checked,
             p_id_project
         );
         SET @id_task = LAST_INSERT_ID();
@@ -1034,6 +1024,49 @@ BEGIN
         );
         -- Cuando la creación de la tarea es exitosa.
         SELECT 'SUCCESS' AS 'message';
+    END IF;
+END //
+DELIMITER ;
+
+-- SP para cambiar el estado de la subtarea
+DELIMITER //
+CREATE PROCEDURE `sp_change_task_state`(
+    IN p_id_project INT,
+    IN p_id_collaborator INT,
+    IN p_id_task INT,
+    IN p_task_state CHAR(1)
+)
+BEGIN
+    -- Validando si el collab existe en el proyecto
+    IF NOT EXISTS(
+        SELECT id_collaborator
+        FROM project_has_collaborator
+        WHERE id_project = p_id_project
+        AND id_collaborator = p_id_collaborator
+    ) THEN
+        -- Cuando el colaborador no está dentro del proyecto.
+        SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
+    ELSE
+        IF EXISTS (
+            SELECT *
+            FROM project_has_collaborator phc 
+            INNER JOIN task t
+            ON phc.id_project = t.id_project
+            WHERE t.id_task = p_id_task
+            AND phc.id_collaborator = p_id_collaborator 
+            AND phc.id_project_role = "PMB"
+            AND (t.id_responsible != p_id_collaborator OR t.id_responsible IS NULL)
+        ) THEN
+            -- Cuando el colaborador es miembro del proyecto y no es su tarea.
+            SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
+        ELSE
+            -- Cambiar de estado a la tarea
+            UPDATE task
+            SET state = p_task_state
+            WHERE id_task = p_id_task;
+            -- Cuando la creación de la tarea es exitosa.
+            SELECT 'SUCCESS' AS 'message';
+        END IF;
     END IF;
 END //
 DELIMITER ;
