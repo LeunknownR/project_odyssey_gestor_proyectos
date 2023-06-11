@@ -59,6 +59,7 @@ export const projectTaskBoardMapper = (resulset: any[]): ProjectTaskBoard => {
         }
         // Sino existe la tarea, se agrega la nueva y se agregan la primera subtarea y el primer comentario
         const reponsibleId: number | null = record["id_responsible"];
+        const deadline: Date | null = record["task_deadline"];
         taskBoard[projectTaskBoardState] = [
             ...taskBoardByState,
             {
@@ -67,7 +68,7 @@ export const projectTaskBoardMapper = (resulset: any[]): ProjectTaskBoard => {
                 description: record["task_description"],
                 checked: bufferToBoolean(record["task_checked"]),
                 priorityId: record["id_task_priority"],
-                deadline: record["task_deadline"],
+                deadline: deadline ? deadline.getTime() : -1,
                 responsible: reponsibleId ? {
                     id: reponsibleId,
                     name: record["responsible_name"],

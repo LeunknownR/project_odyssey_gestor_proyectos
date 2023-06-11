@@ -21,23 +21,23 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         const wsEventList: WSEvent<WSProjectTaskServiceEvents.Collaborator>[] = [
             {
                 name: WSProjectTaskServiceEvents.Collaborator.CreateTask,
-                handler: this.createTask
+                handler: this.createTask.bind(this)
             },
             {
                 name: WSProjectTaskServiceEvents.Collaborator.UpdateTask,
-                handler: this.updateTask
+                handler: this.updateTask.bind(this)
             },
             {
                 name: WSProjectTaskServiceEvents.Collaborator.ChangeTaskState,
-                handler: this.changeTaskState
+                handler: this.changeTaskState.bind(this)
             },
             {
                 name: WSProjectTaskServiceEvents.Collaborator.DeleteTask,
-                handler: this.deleteTask
+                handler: this.deleteTask.bind(this)
             },
             {
                 name: WSProjectTaskServiceEvents.Collaborator.CommentInTask,
-                handler: this.commentInTask
+                handler: this.commentInTask.bind(this)
             }
         ];
         this.configSocket(socket, wsEventList);
@@ -73,7 +73,6 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         await ProjectTasksController.createTask({
             collaboratorId, projectId, payload: newTask
         });
-        //
         this.refreshTaskBoardByProject(projectId);
     }
     private async updateTask(socket: Socket, body?: any) {

@@ -1,7 +1,7 @@
 import { Server, Socket } from "socket.io";
 import { ExtendedError } from "socket.io/dist/namespace";
 import { WSUserDataProjectTaskService } from "./utils/entities";
-import { getUserDataProjectTaskServiceBySocket } from "./utils/helpers";
+import { WSProjectTaskServiceRoomHandler, getUserDataProjectTaskServiceBySocket } from "./utils/helpers";
 import WSServicePaths from "../../utils/services";
 import { rejectConnection } from "../../utils/helpers";
 import { checkWSCollaboratorToken } from "../../utils/authentication";
@@ -42,6 +42,8 @@ export default class WSProjectTaskService extends WSService {
             .connectedCollaboratorsInProjectHandler
             .addCollaborator(userDataBySocket);
         const { projectId } = userDataBySocket;
+        // Uniendo al socket del colaborador a la sala de sockets de proyecto
+        socket.join(WSProjectTaskServiceRoomHandler.getProjectRoom(projectId));
         let taskBoard: ProjectTaskBoard = null;
         // Verificando si es el primer colaborador en entrar al tablero de tareas del proyecto
         if (this.dataHandler.connectedCollaboratorsInProjectHandler.getCountConnectedCollaborators(projectId) === 1) {
@@ -74,6 +76,7 @@ export default class WSProjectTaskService extends WSService {
             .removeCollaborator(userDataBySocket);
         // Verificando si ya no hay colaboradores conectados en el tablero del proyecto para eliminarlo de la lista de tableros
         const { projectId } = userDataBySocket;
+        socket.leave(WSProjectTaskServiceRoomHandler.getProjectRoom(projectId));
         if (connectedCollaboratorsInProjectHandler.getCountConnectedCollaborators(projectId) !== 0) return;
         taskListByStateHandler.removeTaskBoardByProjectId(projectId);
     }

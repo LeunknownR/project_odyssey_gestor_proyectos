@@ -7,7 +7,7 @@ export type WSUserData = {
 };
 export type WSEvent<E> = {
     name: E;
-    handler: (socket: Socket, body?: any) => void;
+    handler(socket: Socket, body?: any): void;
 };
 export abstract class WSService {
     //#region Attributes
