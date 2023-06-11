@@ -779,7 +779,7 @@ BEGIN
         t.checked AS "task_checked",
         t.id_responsible,
         urt.user_name AS "responsible_name",
-        urt.user_surname AS "responsible_name",
+        urt.user_surname AS "responsible_surname",
         urt.url_photo AS "responsible_url_photo",
         t.id_task_priority,
         t.deadline AS "task_deadline",
@@ -979,10 +979,13 @@ BEGIN
         SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
     ELSE
         IF NOT EXISTS (
-            SELECT id_responsible
-            FROM task
-            WHERE id_task = p_id_task_to_be_deleted
-            AND id_responsible = p_id_collaborator
+            SELECT *
+            FROM task t
+            INNER JOIN project_has_collaborator phc
+            ON t.id_project = phc.id_project
+            WHERE t.id_task = 7 
+            AND phc.id_project_role = "PMB"
+            AND phc.id_collaborator = 7
         ) THEN
             -- Cuando el colaborador es miembro del proyecto y no es su tarea.
             SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';

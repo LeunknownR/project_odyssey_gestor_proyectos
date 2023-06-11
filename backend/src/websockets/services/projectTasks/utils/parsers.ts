@@ -74,10 +74,7 @@ export const parseToWSProjectTaskToBeChangedState = (body: any): WSProjectTaskTo
     };
 }
 
-export const parseToWSTaskIdToBeDeleted = (body: any): number => {
-    const {
-        taskId
-    } = body;
+export const parseToWSTaskIdToBeDeleted = (taskId: any): number => {
     if (!isPositiveNumber(taskId))
         throw new Error("Invalid data to delete state");
     return taskId;
