@@ -23,32 +23,32 @@ export default abstract class ProjectTasksController {
     }
     public static async createTask(newTaskForm: WSNewProjectTaskForm): Promise<void> {
         const record: any = await ProjectTasksModel.createTask(newTaskForm);
-        const message: string = record["message"];
+        const message: string = record[0]["message"];
         if (message === ResponseMessages.Success) return;
         throw new Error(message);
     }
     public static async updateTask(taskToBeUpdatedForm: WSProjectTaskToBeUpdatedForm): Promise<void> {
         const record: any = await ProjectTasksModel.updateTask(taskToBeUpdatedForm);
-        const message: string = record["message"];
+        const message: string = record[0]["message"];
         if (message === ResponseMessages.Success) return;
         throw new Error(message);
     }
     static async changeTaskState(projectTaskToBeChangedStateForm: WSProjectTaskToBeChangedStateForm): Promise<void> {
         const record: any = await ProjectTasksModel.changeTaskState(projectTaskToBeChangedStateForm);
-        const message: string = record["message"];
+        const message: string = record[0]["message"];
         if (message === ResponseMessages.Success) return;
         throw new Error(message);
     }
     static async deleteTask(projectTaskToBeDeletedForm: WSProjectTaskToBeDeletedForm): Promise<void> {
         const record: any = await ProjectTasksModel.deleteTask(projectTaskToBeDeletedForm);
-        const message: string = record["message"];
+        const message: string = record[0]["message"];
         if (message === ResponseMessages.Success) return;
         throw new Error(message);
     }
 
     public static async commentInTask(projectTaskCommentForm: WSProjectTaskCommentForm): Promise<void> {
         const record: any = await ProjectTasksModel.commentInTask(projectTaskCommentForm);
-        const message: string = record["message"];
+        const message: string = record[0]["message"];
         if (message === ResponseMessages.Success) return;
         throw new Error(message);
     }

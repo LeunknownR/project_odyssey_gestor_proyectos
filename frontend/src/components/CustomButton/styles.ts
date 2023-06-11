@@ -69,7 +69,7 @@ export const Container = styled.button<ContainerProps>`
             border: 2px solid var(--dark-2);
         }
     }
-    &.main-2 {
+    &.secondary {
         background-color: transparent;
         border: 1px solid var(--gray-3);
         border-radius: 10px;
@@ -83,80 +83,6 @@ export const Container = styled.button<ContainerProps>`
         :hover {
             color: var(--dark-4);
             border-color: var(--dark-4);
-        }
-    }
-    &.user-options-config {
-        color: var(--white-1);
-        background-color: #162834;
-        padding: 8px;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        :hover {
-            color: #162834;
-            background-color: var(--white-1);
-        }
-        @media (max-width: ${MOBILE_WIDTH}px) {
-            font-size: 15px;
-        }
-    }
-    &.user-options-logout {
-        
-    }
-    &.blue-modal {
-        color: var(--white-1);
-        background-color: var(--darkblue-2);
-        border: 1px solid transparent;
-        font-size: 17px;
-        font-weight: 700;
-        padding: 8px;
-        min-width: 125px;
-        :hover {
-            background-color: var(--darkblue-1);
-        }
-        &:disabled {
-            background-color: var(--darkblue-0);
-        }
-        @media (max-width: ${MOBILE_WIDTH}px) {
-            padding: 7px;
-            min-width: 100px;
-            font-size: 15px;
-        }
-    }
-    &.blue-modal-2 {
-        background-color: transparent;
-        border: 1px solid var(--darkblue-2);
-        font-size: 17px;
-        font-weight: 700;
-        color: var(--darkblue-2);
-        padding: 8px;
-        min-width: 125px;
-        :hover {
-            border-color: transparent;
-        }
-        @media (max-width: ${MOBILE_WIDTH}px) {
-            padding: 7px;
-            min-width: 100px;
-            font-size: 15px;
-        }
-    }
-    &.red-modal {
-        background-color: var(--red-2);
-        color: var(--white-1);
-        font-weight: 700;
-        padding: 6px;
-        min-width: 110px;
-        :hover {
-            background-color: var(--red-3);
-        }
-    }
-    &.red-modal-2 {
-        background-color: transparent;
-        color: var(--dark-2);
-        border: 1px solid var(--dark-2);
-        font-weight: 700;
-        padding: 6px;
-        min-width: 110px;
-        :hover {
-            border-color: transparent;
         }
     }
 `;

@@ -1,26 +1,17 @@
-import ProjectManager from "src/views/ProjectManager/ProjectManager";
+import ProjectManagerView from "src/views/ProjectManager/ProjectManagerView";
 import { ViewModulesRouteByViewModule } from "./types";
 import { ViewModule } from "src/config/roles";
-import ProjectDetailsView from "src/views/ProjectDetails/ProjectDetailsView";
 import { AbsolutePaths } from "src/config/absolutePaths";
 import OnDevelopment from "src/dev-components/OnDevelopment";
-import ProjectPanel from "src/views/ProjectPanel/ProjectPanel";
+import ProjectView from "src/views/ProjectView/ProjectView";
 
 export const MODULE_VIEWS: ViewModulesRouteByViewModule = {
-    [ViewModule.ProjectManager]: {
-        View: ProjectManager,
-        path: AbsolutePaths.ProjectManager,
-    },
-    [ViewModule.ProjectDetails]: {
-        View: ProjectDetailsView,
-        path: AbsolutePaths.ProjectDetails,
-    },
-    [ViewModule.ProjectPanel]: {
-        View: ProjectPanel,
-        path: "*",
+    [ViewModule.Projects]: {
+        View: ProjectView,
+        path: "proyectos/*"
     },
     [ViewModule.Settings]: {
         View: OnDevelopment,
         path: AbsolutePaths.Settings
-    }
+    },
 };

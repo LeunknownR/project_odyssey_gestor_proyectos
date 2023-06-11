@@ -9,20 +9,18 @@ export enum DBProjectRoles {
     ProjectMember = "PMB"
 }
 export enum ViewModule {
-    ProjectManager = "PROJECT_MANAGER",
-    ProjectDetails = "PROJECT_DETAILS",
-    ProjectPanel = "PROJECT_PANEL",
+    Projects = "PROJECTS",
     Settings = "SETTINGS"
 }
 export const MODULE_VIEWS_BY_USER_ROLE: ModuleViewByUserRole = {
     [DBRoles.GeneralAdmin]: [
-        ViewModule.ProjectManager,
+        ViewModule.Projects,
         ViewModule.Settings
     ],
     [DBRoles.Collaborator]: [
-        ViewModule.ProjectManager,
-        ViewModule.ProjectDetails,
-        ViewModule.ProjectPanel,
+        ViewModule.Projects,
+        // ViewModule.ProjectDetails,
+        // ViewModule.ProjectSpecificManagement,
         ViewModule.Settings
     ]
 };

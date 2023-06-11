@@ -11,6 +11,7 @@ const Footer = ({ registerProject, formIsCompleted, tabIdx, toPage }: FooterProp
             {isMobile && <ResponsiveButtons tabIdx={tabIdx} toPage={toPage} />}
             <CustomButton
                 content="Crear"
+                variant="main"
                 size={isMobile ? "small" : "big"}
                 onClick={registerProject}
                 disabled={!formIsCompleted()}
