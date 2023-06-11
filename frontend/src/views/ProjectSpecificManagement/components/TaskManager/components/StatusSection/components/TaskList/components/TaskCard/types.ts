@@ -1,5 +1,6 @@
-import { TaskInfoTypes } from "../../../../types";
+import { ProjectTask } from "src/entities/projectTasks/entities";
 
 export type TaskCardProps = {
-    taskInfo: TaskInfoTypes;
+    taskInfo: ProjectTask;
+    openTaskMenu: (taskInfo: ProjectTask) => void;
 }

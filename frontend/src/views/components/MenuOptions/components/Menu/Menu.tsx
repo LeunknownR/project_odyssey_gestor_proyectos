@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import { currentUserLocalStorage } from "src/storage/user.local";
-import { Container, Option } from "./styles";
+import { Container, Option, OptionLink } from "./styles";
 import { MenuProps } from "./types";
 import { DBRoles } from "src/config/roles";
 
@@ -35,9 +35,9 @@ const Menu = ({
                     </Option>
                 </>
             ) : currentRole === DBRoles.Collaborator && (
-                <Option color="var(--dark-1)" onClick={onClickDetails}>
+                <OptionLink color="var(--dark-1)" to={onClickDetails}>
                     Detalle
-                </Option>
+                </OptionLink>
             )}
         </Container>
     );

@@ -6,7 +6,8 @@ import {
     WSNewProjectTask, 
     WSProjectTaskToBeChangedState, 
     WSProjectTaskComment, 
-    WSProjectTaskMainInformation
+    WSProjectTaskMainInformation,
+    WSNewProjectSubtask
 } from "./entities";
 
 export const parseToWSNewProjectTask = (body: any): WSNewProjectTask => {
@@ -18,7 +19,6 @@ export const parseToWSNewProjectTask = (body: any): WSNewProjectTask => {
         state
     };
 }
-
 const isValidWSProjectTaskMainInformation = (body: any): boolean => {
     const {
         taskId, responsibleId,
@@ -34,7 +34,6 @@ const isValidWSProjectTaskMainInformation = (body: any): boolean => {
         (isPositiveNumber(priotityId) || priotityId == null)
     )
 }
-
 export const parseToWSProjectTaskMainInformation = (body: any): WSProjectTaskMainInformation => {
     if (!isValidWSProjectTaskMainInformation(body))
         throw new Error("Invalid data to update task");
@@ -47,6 +46,16 @@ export const parseToWSProjectTaskMainInformation = (body: any): WSProjectTaskMai
         taskId, responsibleId,
         name, description,
         deadline, priotityId
+    };
+}
+export const parseToWSNewProjectSubtask = (body: any): WSNewProjectSubtask => {
+    const {
+        taskId, name
+    } = body;
+    if (!isValidWSProjectTaskMainInformation(body))
+        throw new Error("Invalid data to update task");
+    return {
+        taskId, name
     };
 }
 export const parseToWSProjectTaskToBeChangedState = (body: any): WSProjectTaskToBeChangedState => {
