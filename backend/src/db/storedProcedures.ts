@@ -15,7 +15,7 @@ export enum StoredProcedures {
     GetProjectPanelDetails = "CALL sp_get_project_panel_details(?, ?);",
     GetProjectTaskPriorities = "CALL sp_get_task_priorities();",
     GetProjectTaskBoard = "CALL sp_get_project_task_board(?);",
-    CreateProjectTask = "CALL sp_create_task(?, ?, ?);",
+    CreateProjectTask = "CALL sp_create_task(?, ?, ?, ?);",
     UpdateProjectTask = "CALL sp_update_task(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
     ChangeTaskState = "CALL sp_change_task_state(?, ?, ?, ?);",
     DeleteProjectTask = "CALL sp_delete_task(?, ?, ?);",

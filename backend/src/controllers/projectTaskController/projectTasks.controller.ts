@@ -23,7 +23,7 @@ export default abstract class ProjectTasksController {
     }
     public static async createTask(newTaskForm: WSNewProjectTaskForm): Promise<void> {
         const record: any = await ProjectTasksModel.createTask(newTaskForm);
-        const message: string = record["message"];
+        const message: string = record[0]["message"];
         if (message === ResponseMessages.Success) return;
         throw new Error(message);
     }

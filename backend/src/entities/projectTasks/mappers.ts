@@ -15,7 +15,7 @@ const projectSubtasksMapper = (record: any): ProjectSubtask => ({
 const projectTaskCommentMapper = (record: any): ProjectCommentTask => ({
     id: record["id_task_comment"],
     content: record["task_comment_content"],
-    datetime: record["task_comment_datetime"],
+    datetime: record["task_comment_datetime"].getTime(),
     collaborator: {
         id: record["id_task_comment_collaborator"],
         name: record["task_comment_collaborator_name"],
@@ -67,7 +67,7 @@ export const projectTaskBoardMapper = (resulset: any[]): ProjectTaskBoard => {
                 description: record["task_description"],
                 checked: bufferToBoolean(record["task_checked"]),
                 priorityId: record["id_task_priority"],
-                deadline: record["task_deadline"].getTime(),
+                deadline: record["task_deadline"],
                 responsible: reponsibleId ? {
                     id: reponsibleId,
                     name: record["responsible_name"],
