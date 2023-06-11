@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
     padding: 18px 8px 18px 18px;
@@ -26,7 +26,7 @@ export const MemberPhotoContainer = styled.div`
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    
+
     background-color: #fff;
 `;
 export const DateText = styled.div`
@@ -43,5 +43,4 @@ export const SwordIconContainer = styled.div`
 
     margin-left: 100px;
     background-color: var(--orange-2);
-
 `;
