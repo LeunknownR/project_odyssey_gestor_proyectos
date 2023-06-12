@@ -665,7 +665,7 @@ BEGIN
         SELECT id
         FROM temporary_table_user_ids
     )
-    AND u.user_name LIKE @search_collaborator_name
+    AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @search_collaborator_name
     ORDER BY u.user_name ASC, u.user_surname ASC;
 
     DROP TEMPORARY TABLE IF EXISTS temporary_table_user_ids;
@@ -788,7 +788,6 @@ END //
 DELIMITER ;
 
 -- SP para buscar miembros del equipo de un proyecto
-DROP PROCEDURE sp_search_project_team_member;
 DELIMITER //
 CREATE PROCEDURE `sp_search_project_team_member`(
     IN p_id_project INT,
