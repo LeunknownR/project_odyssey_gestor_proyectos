@@ -1,10 +1,8 @@
-import styled from 'styled-components';
+import { FlexFlow } from "src/components/styles";
+import { MOBILE_WIDTH } from "src/config/constants";
+import styled from "styled-components";
 
-export const Wrapper = styled.div`
-  
-`;
-export const Container = styled.div`
-    display: flex;
+export const Container = styled(FlexFlow.withComponent("section"))`
     flex-direction: column;
     position: fixed;
     right: 0;
@@ -16,8 +14,13 @@ export const Container = styled.div`
     border-left: 1px solid var(--darkblue-0);
     background-color: var(--darkblue-4);
     width: 35%;
+    outline: none;
+    height: calc(100vh - var(--main-header-height));
     &.show {
         translate: 0;
+    }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        height: calc(100vh - var(--main-sidebar-height-mobile));
     }
 `;
 export const Content = styled.div`

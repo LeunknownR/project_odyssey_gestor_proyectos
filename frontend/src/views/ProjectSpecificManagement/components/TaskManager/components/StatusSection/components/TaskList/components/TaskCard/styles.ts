@@ -22,14 +22,6 @@ export const Container = styled.li`
         scale: 1.01;
     }
 `;
-export const IconContainer = styled.span`
-    display: flex;
-    cursor: pointer;
-    .iconify {
-        color: var(--white-1);
-        font-size: 24px;
-    }
-`;
 export const TaskCardName = styled.h3`
     font-size: 17px;
     font-weight: 700;

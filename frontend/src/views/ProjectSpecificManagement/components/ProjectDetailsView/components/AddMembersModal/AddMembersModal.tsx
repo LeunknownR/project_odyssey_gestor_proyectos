@@ -39,7 +39,7 @@ const AddMembersModal = ({
                 collaboratorName
             });
             preloader.hide();
-            return data.filter(({ id }) => !projectMembersToAddList.some(projectMember => projectMember.id === id));
+            return data;
         },
     });
     const customSearchInputHandler = useCustomInputSearch<CollaboratorUser>({

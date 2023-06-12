@@ -1,5 +1,5 @@
 //#region Libraries
-import { useState, useEffect, MouseEvent } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Socket } from "socket.io-client";
 //#endregion
 //#region Styles
@@ -29,6 +29,7 @@ const TaskBoard = ({ projectId }: PanelTabProps) => {
     const [projectTaskBoard, setProjectTaskBoard] = useState<ProjectTaskBoard | null>(null);
     const [currentProjectTask, setCurrentProjectTask] = useState<ProjectTask | null>(null);
     const [isTaskMenuOpen, setIsTaskMenuOpen] = useState(false);
+    const modifyMenuRef = useRef<HTMLElement>(null);
     useEffect(() => {
         const socketIoValue: Socket = socketIo.connect();
         socketIoValue.on(
@@ -38,23 +39,27 @@ const TaskBoard = ({ projectId }: PanelTabProps) => {
             }
         );
     }, []);
-    const openTaskMenu = (taskInfo: ProjectTask) => {
+    const fillCurrentProjectTask = (taskInfo: ProjectTask) => {
+        if(!modifyMenuRef.current) return;
+        modifyMenuRef.current.focus()
         setCurrentProjectTask(taskInfo);
-        setIsTaskMenuOpen(true);
     };
+    const openTaskMenu = () => setIsTaskMenuOpen(true);
     const closeTaskMenu = () => setIsTaskMenuOpen(false);
     return (
         <>
         {projectTaskBoard ? (
-            <TaskBoardContext.Provider value={{ socketIo }}>
+            <TaskBoardContext.Provider value={{ socketIo, projectId }}>
                 <Board
                     projectTaskBoard={projectTaskBoard}
-                    openTaskMenu={openTaskMenu}
+                    openTaskMenu={fillCurrentProjectTask}
                 />
                 <ModifyTaskMenu
                     currentProjectTask={currentProjectTask}
                     isTaskMenuOpen={isTaskMenuOpen}
+                    openTaskMenu={openTaskMenu}
                     closeTaskMenu={closeTaskMenu}
+                    ref={modifyMenuRef}
                 />
             </TaskBoardContext.Provider>
         ) : null}

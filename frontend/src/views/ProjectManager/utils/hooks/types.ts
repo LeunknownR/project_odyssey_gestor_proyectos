@@ -1,4 +1,4 @@
-import { Project, ProjectForm } from "src/entities/project/types";
+import { Project, ProjectForm } from "src/entities/project/entities";
 import { ProjectFilters, ProjectForStateForm } from "../../types";
 import { CollaboratorUser } from "src/entities/collaborator/entities";
 

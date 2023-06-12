@@ -3,6 +3,7 @@ import { InitTaskBoardContext } from "./types";
 
 const initTaskBoardContext: InitTaskBoardContext = {
     socketIo: null,
+    projectId: 0,
     // checkExpirationTimeToken: {
     //     init: () => undefined,
     //     clear: () => {}

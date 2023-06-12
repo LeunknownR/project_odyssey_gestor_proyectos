@@ -2,46 +2,59 @@ import { FlexFlow } from "src/components/styles";
 import {
     Container,
     DateText,
-    IconContainer,
     StateSwordTag,
     TaskCardName,
     UnselectedResponsible,
 } from "./styles";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import UserImage from "src/views/components/UserImage/UserImage";
-import NoResponsible from "src/images/no-responsible.svg"
-import { useState } from "react";
+import NoResponsible from "src/images/no-responsible.svg";
+import { useState, useEffect } from "react";
 import { TaskCardProps } from "./types";
-import TaskPriorityNullImage from "src/images/test2.svg"
+import TaskPriorityNullImage from "src/images/test2.svg";
+import { ProjectState } from "src/entities/project/enums";
+import BackendImage from "src/views/components/UserImage/components/BackendImage/BackendImage";
+import { TASK_PRIORITY } from "./utils/constants";
 
-const TaskCard = ({ taskInfo, openTaskMenu }: TaskCardProps) => {
-    const {checked, name, responsible, deadline} = taskInfo;
-    const [isChecked, setIsChecked] = useState(checked);
+const TaskCard = ({ taskInfo, openTaskMenu, status }: TaskCardProps) => {
+    const { name, responsible, deadline, priorityId } = taskInfo;
+    const [isFinalized, setIsFinalized] = useState(false);
+    useEffect(() => setIsFinalized(status === ProjectState.Finalized), []);
     const getClassName = () => {
         const classList = [];
-        isChecked && classList.push("checked");
+        isFinalized && classList.push("checked");
         return classList.join(" ");
     };
     return (
-        <Container className={getClassName()} onClick={() => openTaskMenu(taskInfo)}>
+        <Container
+            className={getClassName()}
+            onClick={() => openTaskMenu(taskInfo)}
+        >
             <FlexFlow align="center" gap="10px">
-                <IconContainer onClick={() => setIsChecked(prev => !prev)}>
-                    <Icon icon="gg:check-o" />
-                </IconContainer>
                 <TaskCardName>{name}</TaskCardName>
             </FlexFlow>
             <FlexFlow justify="space-between">
                 <FlexFlow gap="12px" align="center">
-                    {responsible ? 
+                    {responsible ? (
                         <UserImage
                             name={responsible.name}
-                            surname="Peña"
+                            surname={responsible.surname}
                             urlPhoto={responsible.urlPhoto}
                             className="small"
-                        /> : <UnselectedResponsible src={NoResponsible} />}
+                        />
+                    ) : (
+                        <UnselectedResponsible src={NoResponsible} />
+                    )}
                     <DateText>{deadline}</DateText>
                 </FlexFlow>
-                <StateSwordTag src={TaskPriorityNullImage} />
+                {priorityId ? (
+                    <BackendImage
+                        path={TASK_PRIORITY[priorityId]}
+                        isDynamic={false}
+                        className="big"
+                    />
+                ) : (
+                    <StateSwordTag src={TaskPriorityNullImage} />
+                )}
             </FlexFlow>
         </Container>
     );

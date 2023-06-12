@@ -21,7 +21,7 @@ export type ProjectTask = {
     id: number;
     name: string;
     description: string | null;
-    responsible: ProjectTaskCollaboratorUser | null;
+    responsible?: ProjectTaskCollaboratorUser | null;
     priorityId: number | null;
     deadline: number;
     subtasks: ProjectSubtask[];
@@ -37,3 +37,12 @@ export type ProjectTaskPriority =  {
     id: number,
 	urlPhoto: string,
 };
+export type ProjectTaskForm = {
+    id: number;
+    responsibleId: number | null;
+    name: string;
+    description: string | null;
+    deadline: number;
+    priorityId: number | null;
+    [key: string]: any;
+}

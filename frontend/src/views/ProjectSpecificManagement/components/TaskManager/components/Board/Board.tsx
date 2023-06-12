@@ -1,19 +1,23 @@
 import { FlexFlow } from "src/components/styles";
 import StatusSection from "../StatusSection/StatusSection";
 import { BoardProps } from "./types";
+import { ProjectState } from "src/entities/project/enums";
 
 const Board = ({ projectTaskBoard, openTaskMenu }: BoardProps) => {
     const statusSectionProps = [
         {
-            status: "Pendientes",
+            sectionName: "Pendientes",
+            status: ProjectState.Pending,
             taskListInfo: projectTaskBoard.pending,
         },
         {
-            status: "En Curso",
+            sectionName: "En Curso",
+            status: ProjectState.OnProgress,
             taskListInfo: projectTaskBoard.onProgress,
         },
         {
-            status: "Finalizadas",
+            sectionName: "Finalizadas",
+            status: ProjectState.Finalized,
             taskListInfo: projectTaskBoard.finalized,
         },
     ];
@@ -22,24 +26,12 @@ const Board = ({ projectTaskBoard, openTaskMenu }: BoardProps) => {
             {statusSectionProps.map((section, idx) => (
                 <StatusSection
                     key={idx}
+                    sectionName={section.sectionName}
                     status={section.status}
                     taskListInfo={section.taskListInfo}
                     openTaskMenu={openTaskMenu}
                 />
             ))}
-            {/* <StatusSection
-                status="Pendientes"
-                taskListInfo={projectTaskBoard.pending}
-                setCurrentProjectTask={setCurrentProjectTask}
-            />
-            <StatusSection
-                status="En Curso"
-                taskListInfo={projectTaskBoard.onProgress}
-            />
-            <StatusSection
-                status="Finalizadas"
-                taskListInfo={projectTaskBoard.finalized}
-            /> */}
         </FlexFlow>
     );
 };

@@ -1,16 +1,20 @@
+import {forwardRef} from "react";
 import CommentList from "./components/CommentList/CommentList";
 import CommentBox from "./components/CommentBox/CommentBox";
 import Header from "./components/Header/Header";
 import TaskForm from "./components/TaskForm/TaskForm";
-import { Container, Content, Wrapper } from "./styles";
+import { Container, Content } from "./styles";
 import { ModifyTaskMenuProps } from "./types";
 import SubtaskSection from "./components/SubtaskSection/SubtaskSection";
+import useTaskForm from "./utils/hooks/useTaskForm";
 
-const ModifyTaskMenu = ({
+const ModifyTaskMenu = forwardRef<HTMLElement, ModifyTaskMenuProps>(({
     currentProjectTask,
     isTaskMenuOpen,
+    openTaskMenu,
     closeTaskMenu,
-}: ModifyTaskMenuProps) => {
+}, ref) => {
+    const {form, getProjectFromForm} = useTaskForm(currentProjectTask, isTaskMenuOpen)
     const renderContent = () => {
         if (!currentProjectTask) return null;
         const { name, comments } = currentProjectTask;
@@ -18,7 +22,7 @@ const ModifyTaskMenu = ({
             <>
             <Header name={name} />
             <Content className="custom-scrollbar">
-                <TaskForm currentProjectTask={currentProjectTask} />
+                <TaskForm currentProjectTask={currentProjectTask} form={form}/>
                 <SubtaskSection currentProjectTask={currentProjectTask} />
                 {comments.length > 0 && <CommentList comments={comments} />}
             </Content>
@@ -30,11 +34,13 @@ const ModifyTaskMenu = ({
         <Container
             className={isTaskMenuOpen ? "show" : ""}
             tabIndex={0}
+            onFocus={openTaskMenu}
             onBlur={closeTaskMenu}
+            ref={ref}
         >
             {renderContent()}
         </Container>
     );
-};
+});
 
 export default ModifyTaskMenu;

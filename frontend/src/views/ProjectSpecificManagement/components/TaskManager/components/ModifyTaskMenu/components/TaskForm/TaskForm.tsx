@@ -5,13 +5,13 @@ import ResponsibleField from "./components/ResponsibleField/ResponsibleField";
 import { Container } from "./styles";
 import { TaskFormProps } from "./types";
 
-const TaskForm = ({currentProjectTask}: TaskFormProps) => {
+const TaskForm = ({ currentProjectTask, form }: TaskFormProps) => {
     return (
         <Container direction="column" gap="20px" margin="0 30px 20px 0">
-            <ResponsibleField />
-            <DeadlineField />
+            <ResponsibleField form={form} currentResponsible={currentProjectTask.responsible}/>
+            <DeadlineField form={form}/>
             <PriorityField />
-            <DescriptionField />
+            <DescriptionField form={form}/>
         </Container>
     );
 };

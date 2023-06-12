@@ -3,11 +3,11 @@ import Modal from "src/components/Modal/Modal";
 import { FlexFlow } from "src/components/styles";
 import { requestUpdateProject } from "src/services/projects/relatedToProjects";
 import { UpdateProjectModalProps } from "./types";
-import { ProjectForm } from "src/entities/project/types";
 import { CardVariant } from "src/components/NotificationCard/types";
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
 import FormSection from "./components/FormSection/FormSection";
 import LeaderSelectionSection from "./components/LeaderSelectionSection/LeaderSelectionSection";
+import { ProjectForm } from "src/entities/project/entities";
 
 const MODAL_STYLES = {
     padding: "0",
