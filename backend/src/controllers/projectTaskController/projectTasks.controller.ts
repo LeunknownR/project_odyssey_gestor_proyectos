@@ -8,7 +8,9 @@ import {
     WSProjectTaskToBeDeletedForm,
     WSNewProjectTaskForm, 
     WSProjectTaskCommentForm, 
-    WSProjectTaskMainInformationForm 
+    WSProjectTaskMainInformationForm, 
+    WSProjectTaskForm,
+    WSNewProjectSubtaskForm
 } from "../../websockets/services/projectTasks/utils/entities";
 
 export default abstract class ProjectTasksController {
@@ -17,8 +19,8 @@ export default abstract class ProjectTasksController {
         const taskPriorityList: ProjectTaskPriority[] = resultset.map(projecTaskPriorityMapper);
         return taskPriorityList;
     }
-    public static async getTaskBoardByProjectId(projectId: number): Promise<ProjectTaskBoard> {
-        const resultset: any[] = await ProjectTasksModel.getTaskBoardByProjectId(projectId);
+    public static async getTaskBoardByProjectId(projectTaskForm: WSProjectTaskForm): Promise<ProjectTaskBoard> {
+        const resultset: any[] = await ProjectTasksModel.getTaskBoardByProjectId(projectTaskForm);
         return projectTaskBoardMapper(resultset);
     }
     public static async createTask(newTaskForm: WSNewProjectTaskForm): Promise<void> {
@@ -29,6 +31,12 @@ export default abstract class ProjectTasksController {
     }
     public static async updateTaskMainInformation(taskMainInformationForm: WSProjectTaskMainInformationForm): Promise<void> {
         const record: any = await ProjectTasksModel.updateTaskMainInformation(taskMainInformationForm);
+        const message: string = record["message"];
+        if (message === ResponseMessages.Success) return;
+        throw new Error(message);
+    }
+    public static async createSubtask(newProjectSubtaskForm: WSNewProjectSubtaskForm): Promise<void> {
+        const record: any = await ProjectTasksModel.createSubtask(newProjectSubtaskForm);
         const message: string = record["message"];
         if (message === ResponseMessages.Success) return;
         throw new Error(message);

@@ -23,11 +23,6 @@ const AllProjectCard = ({
     openDeleteProjectModal,
 }: AllProjectCardProps) => {
     const { name, startDate, endDate, state, leader, projectMemberCount } = project;
-    const navigate = useNavigate();
-    const moveToProjectDetails = () => {
-        navigate(AbsolutePaths.ProjectDetails);
-        setProjectId(project.id)
-    }
     return (
         <Container className={state}>
             <FlexFlow align="center" gap="10px">
@@ -53,7 +48,7 @@ const AllProjectCard = ({
                         menuPosition="right"
                         onClickEdit={openUpdateProjectModal}
                         onClickDelete={openDeleteProjectModal}
-                        onClickDetails={moveToProjectDetails}
+                        onClickDetails={`${project.id}/detalles`}
                     />
                 </OptionsWrapper>
             </EndContent>

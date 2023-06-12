@@ -17,15 +17,15 @@ export type WSProjectTaskMainInformation = {
     deadline: number;
     priotityId: number | null;
 };
-export type WSNewSubtask = {
+export type WSNewProjectSubtask = {
 	taskId: number;
 	name: string;
 };
-export type WSSubtaskToBeUpdated = {
+export type WSProjectSubtaskToBeUpdated = {
 	subtaskId: number;
 	name: string;
 };
-export type WSSubtaskToBeSwitchedCheckStatus = {
+export type WSProjectSubtaskToBeSwitchedCheckStatus = {
 	subtaskId: number;
     checked: boolean;
 };
@@ -37,13 +37,14 @@ export type WSProjectTaskComment = {
     taskId: number;
     content: string;
 };
-export type WSProjectTaskForm<T> = {
+export type WSProjectTaskForm<T = null> = {
     collaboratorId: number;
     projectId: number;
     payload: T;
 };
 export type WSNewProjectTaskForm = WSProjectTaskForm<WSNewProjectTask>;
 export type WSProjectTaskMainInformationForm = WSProjectTaskForm<WSProjectTaskMainInformation>;
+export type WSNewProjectSubtaskForm = WSProjectTaskForm<WSNewProjectSubtask>;
 export type WSProjectTaskToBeChangedStateForm = WSProjectTaskForm<WSProjectTaskToBeChangedState>;
 export type WSProjectTaskToBeDeletedForm = WSProjectTaskForm<number>;
 export type WSProjectTaskCommentForm = WSProjectTaskForm<WSProjectTaskComment>;

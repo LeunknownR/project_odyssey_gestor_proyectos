@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 type ContainerProps = {
     className?: any;
@@ -34,15 +35,30 @@ export const Container = styled.div<ContainerProps>`
 `;
 type OptionProps = {
     color?: string;
-    onClick?: any
-}
+    onClick?: any;
+};
 export const Option = styled.div<OptionProps>`
-    color: ${({color}) => color};
+    color: ${({ color }) => color};
     font-weight: bold;
     font-size: 13px;
     padding: 10px 15px;
     transition: 0.25s;
     cursor: pointer;
+    :hover {
+        background-color: #cccccc;
+    }
+    @media (max-width: 600px) {
+        font-size: 10px;
+    }
+`;
+export const OptionLink = styled(Link)`
+    color: ${({ color }) => color};
+    font-weight: bold;
+    font-size: 13px;
+    padding: 10px 15px;
+    transition: 0.25s;
+    cursor: pointer;
+    text-decoration: none;
     :hover {
         background-color: #cccccc;
     }
