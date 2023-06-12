@@ -1,8 +1,8 @@
 import { Socket } from "socket.io";
 import { IOServerService, WSEvent, WSServiceEventHandler } from "../../../utils/common";
 import WSProjectTaskServiceDataHandler from "../handlerData";
-import { WSProjectTaskToBeChangedState, WSNewProjectTask, WSProjectTaskComment, WSProjectTaskMainInformation, WSProjectTaskForm, WSUserDataProjectTaskService, WSNewProjectSubtask } from "../utils/entities";
-import { parseToWSProjectTaskToBeChangedState, parseToWSTaskIdToBeDeleted, parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskMainInformation, parseToWSNewProjectSubtask } from "../utils/parsers";
+import { WSProjectTaskToBeChangedState, WSNewProjectTask, WSProjectTaskComment, WSProjectTaskMainInformation, WSUserDataProjectTaskService, WSNewProjectSubtask, WSProjectSubtaskToBeUpdated, WSProjectSubtaskToBeSwitchedCheckStatus } from "../utils/entities";
+import { parseToWSProjectTaskToBeChangedState, parseToWSTaskIdToBeDeleted, parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskMainInformation, parseToWSNewProjectSubtask, parseToWSProjectSubtaskToBeUpdated, parseToWSProjectSubtaskToBeSwitchedCheckStatus, parseToWSSubtaskIdToBeDeleted } from "../utils/parsers";
 import ProjectTasksController from "../../../../controllers/projectTaskController/projectTasks.controller";
 import { WSProjectTaskServiceRoomHandler, getUserDataProjectTaskServiceBySocket } from "../utils/helpers";
 import { ProjectTaskBoard } from "../../../../entities/projectTasks/entities";
@@ -30,6 +30,18 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             {
                 name: WSProjectTaskServiceEvents.Collaborator.ChangeTaskState,
                 handler: this.changeTaskState.bind(this)
+            },
+            {
+                name: WSProjectTaskServiceEvents.Collaborator.UpdateSubtask,
+                handler: this.updateSubtask.bind(this)
+            },
+            {
+                name: WSProjectTaskServiceEvents.Collaborator.SwitchCheckStatusSubtask,
+                handler: this.switchCheckStatusSubtask.bind(this)
+            },
+            {
+                name: WSProjectTaskServiceEvents.Collaborator.DeleteSubtask,
+                handler: this.deleteSubtask.bind(this)
             },
             {
                 name: WSProjectTaskServiceEvents.Collaborator.CreateSubtask,
@@ -118,6 +130,60 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             projectId, 
             payload: newSubtask
         });
+        this.refreshTaskBoardByProject(userData);
+    }
+    private async updateSubtask(socket: Socket, body?: any) {
+        // Validando y formateando formulario
+        const subtaskToBeUpdated: WSProjectSubtaskToBeUpdated = parseToWSProjectSubtaskToBeUpdated(body);
+        // Obteniendo datos de conexión del colaborador
+        const userData = getUserDataProjectTaskServiceBySocket(socket);
+        const {
+            userId: collaboratorId,
+            projectId
+        } = userData;
+        // Realizando query para actualizar una tarea
+        await ProjectTasksController.updateSubtask({
+            projectId,
+            payload: subtaskToBeUpdated,
+            collaboratorId
+        });
+        // Refrescando tablero a los colaboradores
+        this.refreshTaskBoardByProject(userData);
+    }
+    private async switchCheckStatusSubtask(socket: Socket, body?: any) {
+        // Validando y formateando formulario
+        const subtaskToBeSwitchedCheckStatus: WSProjectSubtaskToBeSwitchedCheckStatus = parseToWSProjectSubtaskToBeSwitchedCheckStatus(body);
+        // Obteniendo datos de conexión del colaborador
+        const userData = getUserDataProjectTaskServiceBySocket(socket);
+        const {
+            userId: collaboratorId,
+            projectId
+        } = userData;
+        // Realizando query para cambiar el estado de una tarea
+        await ProjectTasksController.switchCheckStatusSubtask({
+            projectId, 
+            payload: subtaskToBeSwitchedCheckStatus, 
+            collaboratorId
+        });
+        // Refrescando tablero a los colaboradores
+        this.refreshTaskBoardByProject(userData);
+    }
+    private async deleteSubtask(socket: Socket, body?: any) {
+        // Validando y formateando formulario
+        const subtaskIdToBeDeleted: number = parseToWSSubtaskIdToBeDeleted(body);
+        // Obteniendo datos de conexión del colaborador
+        const userData = getUserDataProjectTaskServiceBySocket(socket);
+        const {
+            userId: collaboratorId,
+            projectId
+        } = userData;
+        // Realizando query para eliminar una tarea
+        await ProjectTasksController.deleteSubtask({
+            projectId, 
+            payload: subtaskIdToBeDeleted, 
+            collaboratorId
+        });
+        // Refrescando tablero a los colaboradores
         this.refreshTaskBoardByProject(userData);
     }
     private async changeTaskState(socket: Socket, body?: any) {

@@ -9,24 +9,23 @@ import {
     parseToDeleteProjectMemberRequestBody,
     parseToGetProjectListForCollaboratorRequestBody,
     parseToProjectIdToGetDetails,
-    parseToSearchCollaboratorRequestBody,
     parseToUpdateEndDateProjectRequestBody
 } from "./parsers";
 import {
     GroupedProjectList,
-    ProjectDetails,
-    ProjectPanelDetails,
+    ProjectDetails
 } from "../../../entities/project/entities";
 import { withErrorHandler } from "../../helpers";
 import {
     GetProjectListForCollaboratorRequestBody,
     AddProjectMembersRequestBody,
     DeleteProjectMemberRequestBody,
-    SearchCollaboratorRequestBody,
     UpdateEndDateProjectRequestBody
 } from "./types";
 import { ResponseCodes, ResponseMessages, getResponseCodeIfMessageExists } from "../../../utils/response/enums";
 import { CollaboratorUser } from "../../../entities/collaborator/entities";
+import { SearchCollaboratorRequestBody } from "../types";
+import { parseToSearchCollaboratorRequestBody } from "../parsers";
 
 const router = Router();
 router.use("/", Authentication.checkTokenInEndpoints(DBRoles.Collaborator));
@@ -51,10 +50,10 @@ router.patch(ApiPathEndpointsCollaborator.UpdateEndDateProject,
             data: null
         });
     }));
-router.get(ApiPathEndpointsCollaborator.SearchCollaboratorMember,
+router.get(ApiPathEndpointsCollaborator.SearchCollaboratorForProjectTeamMember,
     withErrorHandler(async (req, res) => {
-        const searchCollaboratorRequestBody: SearchCollaboratorRequestBody = parseToSearchCollaboratorRequestBody(req.params)
-        const collaboratorUserList: CollaboratorUser[] = await ProjectController.searchCollaboratorsMembersByLeader(searchCollaboratorRequestBody);
+        const searchCollaboratorRequestBody: SearchCollaboratorRequestBody = parseToSearchCollaboratorRequestBody(req.params, "Invalid request body to search collaborator");
+        const collaboratorUserList: CollaboratorUser[] = await ProjectController.searchCollaboratorForProjectTeamMember(searchCollaboratorRequestBody);
         GenerateResponseBody.sendResponse<CollaboratorUser[]>(res, {
             code: ResponseCodes.Ok,
             message: ResponseMessages.Success,

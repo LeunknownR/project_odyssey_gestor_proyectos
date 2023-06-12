@@ -787,6 +787,31 @@ BEGIN
 END //
 DELIMITER ;
 
+-- SP para buscar miembros del equipo de un proyecto
+DROP PROCEDURE sp_search_project_team_member;
+DELIMITER //
+CREATE PROCEDURE `sp_search_project_team_member`(
+    IN p_id_project INT,
+    IN p_team_member_name VARCHAR(50)
+)
+BEGIN
+    -- Seteando lo que se desea buscar con el formato más optimo
+    SET @search_team_member_name = UPPER(CONCAT('%', p_team_member_name, '%'));
+    -- Trayendo datos
+    SELECT 
+        u.id_user AS "id_collaborator",
+        u.user_name AS "name",
+        u.user_surname AS "surname",
+        u.url_photo AS "url_photo",
+        u.email
+    FROM project_has_collaborator phc
+    INNER JOIN user u ON phc.id_collaborator = u.id_user
+    WHERE phc.id_project = p_id_project
+    AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @search_team_member_name
+    ORDER BY u.user_name ASC, u.user_surname ASC;
+END //
+DELIMITER ;
+
 -- Sp para listar la información de la task_board
 DELIMITER //
 CREATE PROCEDURE `sp_get_project_task_board`(
