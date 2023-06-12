@@ -10,10 +10,13 @@ export const Container = styled.div`
     z-index: 100;
     overflow: hidden;
     transition: 0.4s;
-    /* translate: 105%; */
+    translate: 105%;
     border-left: 1px solid var(--darkblue-0);
     background-color: var(--darkblue-4);
     width: 35%;
+    &.show {
+        translate: 0;
+    }
 `;
 export const AddSubtaskButton = styled(DashedAddButton)`
     align-self: flex-end;

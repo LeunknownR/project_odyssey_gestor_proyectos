@@ -4,12 +4,16 @@ import TaskList from "./components/TaskList/TaskList";
 import { Container } from "./styles";
 import { StatusSectionProps } from "./types";
 
-const StatusSection = ({ status, taskListInfo }: StatusSectionProps) => {
+const StatusSection = ({
+    status,
+    taskListInfo,
+    openTaskMenu,
+}: StatusSectionProps) => {
     return (
         <Container>
             <Header status={status} />
-            <TaskList taskListInfo={taskListInfo} />
-            <Footer/>
+            <TaskList taskListInfo={taskListInfo} openTaskMenu={openTaskMenu} />
+            <Footer />
         </Container>
     );
 };

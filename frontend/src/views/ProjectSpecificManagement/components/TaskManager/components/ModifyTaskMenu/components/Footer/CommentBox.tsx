@@ -2,8 +2,9 @@ import CustomTextArea from "src/components/CustomTextArea/CustomTextArea";
 import { Container, IconContainer } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { TASK_FIELD_PROPS } from "../../utils/constants";
+import { CommentBoxProps } from "./types";
 
-const Footer = () => {
+const CommentBox = ({ taskId }: CommentBoxProps) => {
     return (
         <Container align="center">
             <CustomTextArea
@@ -18,4 +19,4 @@ const Footer = () => {
     );
 };
 
-export default Footer;
+export default CommentBox;

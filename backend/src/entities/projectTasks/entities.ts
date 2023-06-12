@@ -21,7 +21,6 @@ export type ProjectTask = {
     id: number;
     name: string;
     description: string | null;
-    checked: boolean;
     responsible: ProjectTaskCollaboratorUser | null;
     priorityId: number | null;
     deadline: number;

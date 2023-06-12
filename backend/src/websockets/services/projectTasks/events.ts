@@ -8,7 +8,7 @@ namespace WSProjectTaskServiceEvents {
         CreateSubtask = "collaborator:create-subtask",
         UpdateSubtask = "collaborator:update-subtask",
         DeleteSubtask = "collaborator:delete-subtask",
-        SwitchCheckStatusSubtask = "collaborator:switch-check-status-subtask",
+        SwitchCheckStatusSubtask = "collaboratorswitch-check-status-subtask",
         ChangeTaskState = "collaborator:change-task-state",
         DeleteTask = "collaborator:delete-task",
         CommentInTask = "collaborator:comment-in-task"

@@ -5,25 +5,17 @@ import {
     IconContainer,
     StateSwordTag,
     TaskCardName,
+    UnselectedResponsible,
 } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import UserImage from "src/views/components/UserImage/UserImage";
+import NoResponsible from "src/images/no-responsible.svg"
 import { useState } from "react";
 import { TaskCardProps } from "./types";
 import TaskPriorityNullImage from "src/images/test2.svg"
 
-const FAKE_DATA = {
-    TaskName: "Taxi a one",
-    MemberPhoto: null,
-    TaskDate: "40 de abril",
-    name: "Edgar",
-    surname: "Peña",
-    urlPhoto: null,
-    state: null,
-};
-
-const TaskCard = ({ taskInfo }: TaskCardProps) => {
-    const {checked} = taskInfo;
+const TaskCard = ({ taskInfo, openTaskMenu }: TaskCardProps) => {
+    const {checked, name, responsible, deadline} = taskInfo;
     const [isChecked, setIsChecked] = useState(checked);
     const getClassName = () => {
         const classList = [];
@@ -31,22 +23,23 @@ const TaskCard = ({ taskInfo }: TaskCardProps) => {
         return classList.join(" ");
     };
     return (
-        <Container className={getClassName()}>
+        <Container className={getClassName()} onClick={() => openTaskMenu(taskInfo)}>
             <FlexFlow align="center" gap="10px">
                 <IconContainer onClick={() => setIsChecked(prev => !prev)}>
                     <Icon icon="gg:check-o" />
                 </IconContainer>
-                <TaskCardName>{FAKE_DATA.TaskName}</TaskCardName>
+                <TaskCardName>{name}</TaskCardName>
             </FlexFlow>
             <FlexFlow justify="space-between">
                 <FlexFlow gap="12px" align="center">
-                    <UserImage
-                        name={FAKE_DATA.name}
-                        surname={FAKE_DATA.surname}
-                        urlPhoto={FAKE_DATA.urlPhoto}
-                        className="small"
-                    />
-                    <DateText>{FAKE_DATA.TaskDate}</DateText>
+                    {responsible ? 
+                        <UserImage
+                            name={responsible.name}
+                            surname="Peña"
+                            urlPhoto={responsible.urlPhoto}
+                            className="small"
+                        /> : <UnselectedResponsible src={NoResponsible} />}
+                    <DateText>{deadline}</DateText>
                 </FlexFlow>
                 <StateSwordTag src={TaskPriorityNullImage} />
             </FlexFlow>

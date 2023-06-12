@@ -1,4 +1,4 @@
-import { Project } from "src/entities/project/types";
+import { Project } from "src/entities/project/entities";
 
 export type RecentProjectsProps = {
     recentProjects: Project[];

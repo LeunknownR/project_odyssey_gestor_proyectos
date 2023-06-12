@@ -1,50 +1,35 @@
 import CommentList from "./components/CommentList/CommentList";
-import Footer from "./components/Footer/Footer";
+import CommentBox from "./components/Footer/CommentBox";
 import Header from "./components/Header/Header";
 import SubtaskList from "./components/SubtaskList/SubtaskList";
 import TaskForm from "./components/TaskForm/TaskForm";
 import { AddSubtaskButton, Container, Content } from "./styles";
+import { ModifyTaskMenuProps } from "./types";
 
-const COMMENT_TEST = [
-    {
-        id: 1,
-        content: "COMENTARIO COMENTARIO COMENTARIO comentario",
-        datetime: 1290393320,
-        collaborator: {
-            id: 1,
-            name: "Diego Egdardo",
-            surname: "Torres de la Cruz",
-            urlPhoto: null,
-        },
-    },
-];
-const SUBTASK_TEST = [
-    {
-        id: 1,
-        name: "Modelado de base de datos",
-        checked: true,
-    },
-    {
-        id: 2,
-        name: "Modelame esta",
-        checked: false,
-    },
-];
-const ModifyTaskMenu = () => {
-    return (
-        <Container>
-            <Header name="Crear script mysql" />
+const ModifyTaskMenu = ({ currentProjectTask }: ModifyTaskMenuProps) => {
+    const renderContent = () => {
+        if (!currentProjectTask) return null;
+        const { name, subtasks, comments } = currentProjectTask;
+        return (
+            <>
+            <Header name={name} />
             <Content className="custom-scrollbar">
-                <TaskForm />
-                <SubtaskList subtasks={SUBTASK_TEST} />
+                <TaskForm currentProjectTask={currentProjectTask}/>
+                {subtasks.length > 0 && <SubtaskList currentProjectTask={currentProjectTask} />}
                 <AddSubtaskButton
                     content="Agregar subtarea"
                     icon="material-symbols:add-circle"
                     onClick={() => console.log("GNOMO Subtask")}
                 />
-                <CommentList comments={COMMENT_TEST} />
+                {comments.length > 0 && <CommentList comments={comments} />}
             </Content>
-            <Footer />
+            <CommentBox taskId={currentProjectTask.id}/>
+            </>
+        );
+    };
+    return (
+        <Container className={currentProjectTask ? "show" : ""}>
+            {renderContent()}
         </Container>
     );
 };

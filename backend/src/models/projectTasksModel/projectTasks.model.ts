@@ -5,7 +5,12 @@ import {
     WSProjectTaskToBeDeletedForm,
     WSNewProjectTaskForm, 
     WSProjectTaskCommentForm, 
-    WSProjectTaskMainInformationForm 
+    WSProjectTaskMainInformationForm, 
+    WSProjectSubtaskToBeDeletedForm,
+    WSSubtaskToBeUpdatedForm,
+    WSSubtaskToBeSwitchedCheckStatusForm,
+    WSNewProjectSubtaskForm,
+    WSProjectTaskForm
 } from "../../websockets/services/projectTasks/utils/entities";
 
 export default abstract class ProjectTasksModel {
@@ -15,10 +20,12 @@ export default abstract class ProjectTasksModel {
             []);
         return resultset;
     }
-    public static async getTaskBoardByProjectId(projectId: number): Promise<any[]> {
+    public static async getTaskBoardByProjectId({
+        projectId, collaboratorId
+    }: WSProjectTaskForm): Promise<any[]> {
         const [resultset] = await DBConnection.query(
             StoredProcedures.GetProjectTaskBoard,
-            [projectId]);
+            [projectId, collaboratorId]);
         return resultset;
     }
     public static async createTask({
@@ -28,8 +35,10 @@ export default abstract class ProjectTasksModel {
         const [[record]] = await DBConnection.query(
             StoredProcedures.CreateProjectTask,
             [
-                projectId, task.name,
-                task.state, collaboratorId
+                projectId, 
+                collaboratorId,
+                task.name,
+                task.state
             ]
         );
         return record;
@@ -54,6 +63,71 @@ export default abstract class ProjectTasksModel {
         );
         return record;
     }
+    public static async updatesubtask({
+        projectId, 
+        payload: subtask, 
+        collaboratorId
+    }: WSSubtaskToBeUpdatedForm): Promise<any> {
+        return { message: 'SUCCESS' }
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.UpdateProjectSubtask,
+            [
+                projectId, 
+                collaboratorId,
+                subtask.subtaskId,
+                subtask.name, 
+            ]
+        );
+        return record;
+    }
+    static async switchCheckStatusSubtask({
+        projectId,
+        payload: subtask,
+        collaboratorId
+    }: WSSubtaskToBeSwitchedCheckStatusForm): Promise<any> {
+        return { message: 'SUCCESS' }
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.SwitchCheckStatusSubtask,
+            [
+                projectId,
+                subtask.subtaskId,
+                subtask.checked,
+                collaboratorId
+            ]
+        );
+        return record;
+    }
+    static async deleteSubtask({
+        projectId,
+        payload: subtaskId,
+        collaboratorId
+    }: WSProjectSubtaskToBeDeletedForm): Promise<any> {
+        return { message: 'SUCCESS' }
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.DeleteProjectSubtask,
+            [
+                projectId,
+                subtaskId,
+                collaboratorId    ]
+                );
+                return record;
+            }
+    static async createSubtask({
+        collaboratorId,
+        payload: newSubtask,
+        projectId
+    }: WSNewProjectSubtaskForm) {
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.CreateProjectSubtask,
+            [
+                projectId, 
+                collaboratorId,
+                newSubtask.taskId,
+                newSubtask.name,
+            ]
+        );
+        return record;
+    }
     static async changeTaskState({
         projectId,
         payload: task,
@@ -63,9 +137,9 @@ export default abstract class ProjectTasksModel {
             StoredProcedures.ChangeProjectTaskState,
             [
                 projectId,
+                collaboratorId,
                 task.taskId,
-                task.state,
-                collaboratorId
+                task.state
             ]
         );
         return record;
@@ -79,13 +153,12 @@ export default abstract class ProjectTasksModel {
             StoredProcedures.DeleteProjectTask,
             [
                 projectId,
-                taskId,
-                collaboratorId
+                collaboratorId,
+                taskId
             ]
         );
         return record;
     }
-
     public static async commentInTask({
         projectId,
         payload: comment,
@@ -94,10 +167,10 @@ export default abstract class ProjectTasksModel {
         const [[record]] = await DBConnection.query(
             StoredProcedures.CommentInProjectTask,
             [
-                projectId, 
+                projectId,
+                collaboratorId,
                 comment.taskId,
-                comment.content,
-                collaboratorId
+                comment.content
             ]
         );
         return record;
