@@ -787,6 +787,31 @@ BEGIN
 END //
 DELIMITER ;
 
+-- SP para buscar miembros del equipo de un proyecto
+DROP PROCEDURE sp_search_project_team_member;
+DELIMITER //
+CREATE PROCEDURE `sp_search_project_team_member`(
+    IN p_id_project INT,
+    IN p_team_member_name VARCHAR(50)
+)
+BEGIN
+    -- Seteando lo que se desea buscar con el formato más optimo
+    SET @search_team_member_name = UPPER(CONCAT('%', p_team_member_name, '%'));
+    -- Trayendo datos
+    SELECT 
+        u.id_user AS "id_collaborator",
+        u.user_name AS "name",
+        u.user_surname AS "surname",
+        u.url_photo AS "url_photo",
+        u.email
+    FROM project_has_collaborator phc
+    INNER JOIN user u ON phc.id_collaborator = u.id_user
+    WHERE phc.id_project = p_id_project
+    AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @search_team_member_name
+    ORDER BY u.user_name ASC, u.user_surname ASC;
+END //
+DELIMITER ;
+
 -- Sp para listar la información de la task_board
 DELIMITER //
 CREATE PROCEDURE `sp_get_project_task_board`(
@@ -1012,8 +1037,8 @@ DELIMITER //
 CREATE PROCEDURE `sp_update_task_main_info`(
     IN p_id_project INT,
     IN p_id_collaborator INT,
-    IN p_id_responsible INT,
     IN p_id_task INT,
+    IN p_id_responsible INT,
     IN p_task_name VARCHAR(40),
     IN p_description VARCHAR(200),
     IN p_deadline DATE,
@@ -1042,16 +1067,9 @@ BEGIN
         ) THEN
             -- Cuando el colaborador es miembro del proyecto y no es su tarea.
             SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
-            -- Cuando el collab es lider puede editar al id_responsible
-        ELSEIF EXISTS(
-            SELECT *
-            FROM project_has_collaborator phc 
-            INNER JOIN task t ON phc.id_project = t.id_project
-            WHERE t.id_project = p_id_project
-            AND (t.id_responsible != p_id_responsible AND phc.id_collaborator = p_id_responsible)
-            AND t.id_task = p_id_task
-        ) THEN
-            -- Actualizando la tarea
+            -- Cuando el collab es líder puede editar al id_responsible
+        ELSE
+        -- Actualizando la tarea
             UPDATE task
             SET id_responsible = p_id_responsible,
                 task_name = p_task_name,
@@ -1060,12 +1078,8 @@ BEGIN
                 id_task_priority = p_id_task_priority
             WHERE id_project = p_id_project
             AND id_task = p_id_task;
-
             -- Cuando la creación de la tarea es exitosa.
             SELECT 'SUCCESS' AS 'message';
-        ELSE
-            -- Cuando se modifico el id_responsible de la task
-            SELECT 'ID_RESPONSIBLE_NOT_UPDATED' AS 'message';   
         END IF;
     END IF;
 END //
@@ -1076,7 +1090,6 @@ DELIMITER //
 CREATE PROCEDURE `sp_create_subtask`(
     IN p_id_project INT,
     IN p_id_collaborator INT,
-    IN p_id_responsible INT,
     IN p_id_task INT,
     IN p_subtask_name VARCHAR(50)
 )
