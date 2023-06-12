@@ -8,7 +8,10 @@ import {
     WSProjectTaskToBeDeletedForm,
     WSNewProjectTaskForm, 
     WSProjectTaskCommentForm, 
-    WSProjectTaskMainInformationForm 
+    WSProjectTaskMainInformationForm, 
+    WSProjectSubtaskToBeDeletedForm,
+    WSSubtaskToBeUpdatedForm,
+    WSSubtaskToBeSwitchedCheckStatusForm
 } from "../../websockets/services/projectTasks/utils/entities";
 
 export default abstract class ProjectTasksController {
@@ -33,12 +36,31 @@ export default abstract class ProjectTasksController {
         if (message === ResponseMessages.Success) return;
         throw new Error(message);
     }
+    public static async updateSubtask(subtaskToBeUpdated: WSSubtaskToBeUpdatedForm): Promise<void> {
+        const record: any = await ProjectTasksModel.updatesubtask(subtaskToBeUpdated);
+        const message: string = record["message"];
+        if (message === ResponseMessages.Success) return;
+        throw new Error(message);
+    }
+    public static async switchCheckStatusSubtask(subtaskToBeSwitchedCheckStatusForm: WSSubtaskToBeSwitchedCheckStatusForm): Promise<void> {
+        const record: any = await ProjectTasksModel.switchCheckStatusSubtask(subtaskToBeSwitchedCheckStatusForm);
+        const message: string = record["message"];
+        if (message === ResponseMessages.Success) return;
+        throw new Error(message);
+    }
+    static async deleteSubtask(projectSubtaskToBeDeletedForm: WSProjectSubtaskToBeDeletedForm): Promise<void> {
+        const record: any = await ProjectTasksModel.deleteSubtask(projectSubtaskToBeDeletedForm);
+        const message: string = record["message"];
+        if (message === ResponseMessages.Success) return;
+        throw new Error(message);
+    }    
     static async changeTaskState(projectTaskToBeChangedStateForm: WSProjectTaskToBeChangedStateForm): Promise<void> {
         const record: any = await ProjectTasksModel.changeTaskState(projectTaskToBeChangedStateForm);
         const message: string = record["message"];
         if (message === ResponseMessages.Success) return;
         throw new Error(message);
     }
+
     static async deleteTask(projectTaskToBeDeletedForm: WSProjectTaskToBeDeletedForm): Promise<void> {
         const record: any = await ProjectTasksModel.deleteTask(projectTaskToBeDeletedForm);
         const message: string = record["message"];

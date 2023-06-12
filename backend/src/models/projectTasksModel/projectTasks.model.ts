@@ -5,7 +5,10 @@ import {
     WSProjectTaskToBeDeletedForm,
     WSNewProjectTaskForm, 
     WSProjectTaskCommentForm, 
-    WSProjectTaskMainInformationForm 
+    WSProjectTaskMainInformationForm, 
+    WSProjectSubtaskToBeDeletedForm,
+    WSSubtaskToBeUpdatedForm,
+    WSSubtaskToBeSwitchedCheckStatusForm
 } from "../../websockets/services/projectTasks/utils/entities";
 
 export default abstract class ProjectTasksModel {
@@ -54,6 +57,56 @@ export default abstract class ProjectTasksModel {
         );
         return record;
     }
+    public static async updatesubtask({
+        projectId, 
+        payload: subtask, 
+        collaboratorId
+    }: WSSubtaskToBeUpdatedForm): Promise<any> {
+        return { message: 'SUCCESS' }
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.UpdateProjectSubtask,
+            [
+                projectId, 
+                collaboratorId,
+                subtask.subtaskId,
+                subtask.name, 
+            ]
+        );
+        return record;
+    }
+    static async switchCheckStatusSubtask({
+        projectId,
+        payload: subtask,
+        collaboratorId
+    }: WSSubtaskToBeSwitchedCheckStatusForm): Promise<any> {
+        return { message: 'SUCCESS' }
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.SwitchCheckStatusSubtask,
+            [
+                projectId,
+                subtask.subtaskId,
+                subtask.checked,
+                collaboratorId
+            ]
+        );
+        return record;
+    }
+    static async deleteSubtask({
+        projectId,
+        payload: subtaskId,
+        collaboratorId
+    }: WSProjectSubtaskToBeDeletedForm): Promise<any> {
+        return { message: 'SUCCESS' }
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.DeleteProjectSubtask,
+            [
+                projectId,
+                subtaskId,
+                collaboratorId
+            ]
+        );
+        return record;
+    }
     static async changeTaskState({
         projectId,
         payload: task,
@@ -85,7 +138,6 @@ export default abstract class ProjectTasksModel {
         );
         return record;
     }
-
     public static async commentInTask({
         projectId,
         payload: comment,

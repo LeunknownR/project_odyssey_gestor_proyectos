@@ -44,6 +44,9 @@ export type WSProjectTaskForm<T> = {
 };
 export type WSNewProjectTaskForm = WSProjectTaskForm<WSNewProjectTask>;
 export type WSProjectTaskMainInformationForm = WSProjectTaskForm<WSProjectTaskMainInformation>;
+export type WSSubtaskToBeUpdatedForm = WSProjectTaskForm<WSSubtaskToBeUpdated>;
+export type WSSubtaskToBeSwitchedCheckStatusForm = WSProjectTaskForm<WSSubtaskToBeSwitchedCheckStatus>;
 export type WSProjectTaskToBeChangedStateForm = WSProjectTaskForm<WSProjectTaskToBeChangedState>;
+export type WSProjectSubtaskToBeDeletedForm = WSProjectTaskForm<number>;
 export type WSProjectTaskToBeDeletedForm = WSProjectTaskForm<number>;
 export type WSProjectTaskCommentForm = WSProjectTaskForm<WSProjectTaskComment>;

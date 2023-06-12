@@ -1,8 +1,8 @@
 import { Socket } from "socket.io";
 import { IOServerService, WSEvent, WSServiceEventHandler } from "../../../utils/common";
 import WSProjectTaskServiceDataHandler from "../handlerData";
-import { WSProjectTaskToBeChangedState, WSNewProjectTask, WSProjectTaskComment, WSProjectTaskMainInformation } from "../utils/entities";
-import { parseToWSProjectTaskToBeChangedState, parseToWSTaskIdToBeDeleted, parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskMainInformation } from "../utils/parsers";
+import { WSProjectTaskToBeChangedState, WSNewProjectTask, WSProjectTaskComment, WSProjectTaskMainInformation, WSSubtaskToBeSwitchedCheckStatus, WSSubtaskToBeUpdated } from "../utils/entities";
+import { parseToWSProjectTaskToBeChangedState, parseToWSTaskIdToBeDeleted, parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskMainInformation, parseToWSSubtaskIdToBeDeleted, parseToWSProjectSubtaskToBeSwitchedCheckStatus, parseToWSProjectSubtaskToBeUpdated } from "../utils/parsers";
 import ProjectTasksController from "../../../../controllers/projectTaskController/projectTasks.controller";
 import { WSProjectTaskServiceRoomHandler, getUserDataProjectTaskServiceBySocket } from "../utils/helpers";
 import { ProjectTaskBoard } from "../../../../entities/projectTasks/entities";
@@ -30,6 +30,18 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             {
                 name: WSProjectTaskServiceEvents.Collaborator.ChangeTaskState,
                 handler: this.changeTaskState.bind(this)
+            },
+            {
+                name: WSProjectTaskServiceEvents.Collaborator.UpdateSubtask,
+                handler: this.updateSubtask.bind(this)
+            },
+            {
+                name: WSProjectTaskServiceEvents.Collaborator.SwitchCheckStatusSubtask,
+                handler: this.switchCheckStatusSubtask.bind(this)
+            },
+            {
+                name: WSProjectTaskServiceEvents.Collaborator.DeleteSubtask,
+                handler: this.deleteSubtask.bind(this)
             },
             {
                 name: WSProjectTaskServiceEvents.Collaborator.DeleteTask,
@@ -87,6 +99,57 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         await ProjectTasksController.updateTaskMainInformation({
             projectId,
             payload: taskMainInformation,
+            collaboratorId
+        });
+        // Refrescando tablero a los colaboradores
+        this.refreshTaskBoardByProject(projectId);
+    }
+    private async updateSubtask(socket: Socket, body?: any) {
+        // Validando y formateando formulario
+        const subtaskToBeUpdated: WSSubtaskToBeUpdated = parseToWSProjectSubtaskToBeUpdated(body);
+        // Obteniendo datos de conexión del colaborador
+        const {
+            userId: collaboratorId,
+            projectId
+        } = getUserDataProjectTaskServiceBySocket(socket);
+        // Realizando query para actualizar una tarea
+        await ProjectTasksController.updateSubtask({
+            projectId,
+            payload: subtaskToBeUpdated,
+            collaboratorId
+        });
+        // Refrescando tablero a los colaboradores
+        this.refreshTaskBoardByProject(projectId);
+    }
+    private async switchCheckStatusSubtask(socket: Socket, body?: any) {
+        // Validando y formateando formulario
+        const subtaskToBeSwitchedCheckStatus: WSSubtaskToBeSwitchedCheckStatus = parseToWSProjectSubtaskToBeSwitchedCheckStatus(body);
+        // Obteniendo datos de conexión del colaborador
+        const {
+            userId: collaboratorId,
+            projectId
+        } = getUserDataProjectTaskServiceBySocket(socket);
+        // Realizando query para cambiar el estado de una tarea
+        await ProjectTasksController.switchCheckStatusSubtask({
+            projectId, 
+            payload: subtaskToBeSwitchedCheckStatus, 
+            collaboratorId
+        });
+        // Refrescando tablero a los colaboradores
+        this.refreshTaskBoardByProject(projectId);
+    }
+    private async deleteSubtask(socket: Socket, body?: any) {
+        // Validando y formateando formulario
+        const subtaskIdToBeDeleted: number = parseToWSSubtaskIdToBeDeleted(body);
+        // Obteniendo datos de conexión del colaborador
+        const {
+            userId: collaboratorId,
+            projectId
+        } = getUserDataProjectTaskServiceBySocket(socket);
+        // Realizando query para eliminar una tarea
+        await ProjectTasksController.deleteSubtask({
+            projectId, 
+            payload: subtaskIdToBeDeleted, 
             collaboratorId
         });
         // Refrescando tablero a los colaboradores
