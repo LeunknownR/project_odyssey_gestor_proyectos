@@ -52,6 +52,7 @@ export default abstract class ProjectTasksController {
     }
     public static async switchCheckStatusSubtask(subtaskToBeSwitchedCheckStatusForm: WSSubtaskToBeSwitchedCheckStatusForm): Promise<void> {
         const record: any = await ProjectTasksModel.switchCheckStatusSubtask(subtaskToBeSwitchedCheckStatusForm);
+        console.log(record)
         const message: string = record["message"];
         if (message === ResponseMessages.Success) return;
         throw new Error(message);
