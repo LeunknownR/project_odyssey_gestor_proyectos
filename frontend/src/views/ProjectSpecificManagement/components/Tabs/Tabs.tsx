@@ -1,26 +1,28 @@
-import { AbsolutePaths } from "src/config/absolutePaths";
 import TabComponent from "./components/TabComponent/TabComponent";
 import { FlexFlow } from "src/components/styles";
+import { TabsProps } from "./types";
 
-const TABS_CONTENT = [
-    {
-        name: "Tablero",
-        path: AbsolutePaths.TaskBoard,
-    },
-    {
-        name: "Cronograma",
-        path: AbsolutePaths.Timeline,
-    },
-    {
-        name: "Salas de chat",
-        path: AbsolutePaths.Chats,
-    },
-];
 
-const Tabs = () => {
+
+const Tabs = ({ projectId }: TabsProps) => {
+    //GNOMO CREO QUE SE PEUDE HACER MEJOR
+    const TABS_CONTENT = [
+        {
+            name: "Tablero",
+            path: `/proyectos/${projectId}/tareas`,
+        },
+        {
+            name: "Cronograma",
+            path: `/proyectos/${projectId}/cronograma`,
+        },
+        {
+            name: "Salas de chat",
+            path: `/proyectos/${projectId}/salas-chat`,
+        },
+    ];
     return (
         <FlexFlow gap="20px">
-            {TABS_CONTENT.map(({name, path}, idx) => (
+            {TABS_CONTENT.map(({ name, path }, idx) => (
                 <TabComponent
                     key={idx}
                     name={name}

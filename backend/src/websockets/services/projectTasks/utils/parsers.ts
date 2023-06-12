@@ -7,8 +7,9 @@ import {
     WSProjectTaskToBeChangedState, 
     WSProjectTaskComment, 
     WSProjectTaskMainInformation,
-    WSSubtaskToBeSwitchedCheckStatus,
-    WSSubtaskToBeUpdated
+    WSNewProjectSubtask,
+    WSProjectSubtaskToBeUpdated,
+    WSProjectSubtaskToBeSwitchedCheckStatus,
 } from "./entities";
 
 export const parseToWSNewProjectTask = (body: any): WSNewProjectTask => {
@@ -20,7 +21,6 @@ export const parseToWSNewProjectTask = (body: any): WSNewProjectTask => {
         state
     };
 }
-
 const isValidWSProjectTaskMainInformation = (body: any): boolean => {
     const {
         taskId, responsibleId,
@@ -36,7 +36,6 @@ const isValidWSProjectTaskMainInformation = (body: any): boolean => {
         (isPositiveNumber(priotityId) || priotityId == null)
     )
 }
-
 export const parseToWSProjectTaskMainInformation = (body: any): WSProjectTaskMainInformation => {
     if (!isValidWSProjectTaskMainInformation(body))
         throw new Error("Invalid data to update task");
@@ -51,7 +50,7 @@ export const parseToWSProjectTaskMainInformation = (body: any): WSProjectTaskMai
         deadline, priotityId
     };
 }
-export const parseToWSProjectSubtaskToBeUpdated = (body: any): WSSubtaskToBeUpdated => {
+export const parseToWSProjectSubtaskToBeUpdated = (body: any): WSProjectSubtaskToBeUpdated => {
     const {
         subtaskId, name
     } = body;
@@ -64,7 +63,7 @@ export const parseToWSProjectSubtaskToBeUpdated = (body: any): WSSubtaskToBeUpda
         subtaskId, name
     };
 }
-export const parseToWSProjectSubtaskToBeSwitchedCheckStatus = (body: any): WSSubtaskToBeSwitchedCheckStatus => {
+export const parseToWSProjectSubtaskToBeSwitchedCheckStatus = (body: any): WSProjectSubtaskToBeSwitchedCheckStatus => {
     const {
         subtaskId, checked
     } = body;
@@ -81,6 +80,16 @@ export const parseToWSSubtaskIdToBeDeleted = (subtaskId: any): number => {
     if (!isPositiveNumber(subtaskId))
         throw new Error("Invalid data to delete subtask ");
     return subtaskId;
+}
+export const parseToWSNewProjectSubtask = (body: any): WSNewProjectSubtask => {
+    const {
+        taskId, name
+    } = body;
+    if (!isValidWSProjectTaskMainInformation(body))
+        throw new Error("Invalid data to update task");
+    return {
+        taskId, name
+    };
 }
 export const parseToWSProjectTaskToBeChangedState = (body: any): WSProjectTaskToBeChangedState => {
     const {

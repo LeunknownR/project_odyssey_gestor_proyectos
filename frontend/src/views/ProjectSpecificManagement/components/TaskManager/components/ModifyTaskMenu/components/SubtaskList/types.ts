@@ -1,8 +1,5 @@
+import { ProjectTask } from "src/entities/projectTasks/entities";
+
 export type SubtaskListProps = {
-    subtasks: SubtaskTypes[];
-};
-export type SubtaskTypes = {
-    id: number;
-    name: string;
-    checked: boolean;
+    currentProjectTask: ProjectTask;
 };

@@ -18,6 +18,9 @@ export const Container = styled.li`
     :hover {
         border-color: var(--white-1);
     }
+    :active {
+        scale: 1.01;
+    }
 `;
 export const IconContainer = styled.span`
     display: flex;
@@ -32,6 +35,9 @@ export const TaskCardName = styled.h3`
     font-weight: 700;
     align-self: center;
     color: var(--white-1);
+`;
+export const UnselectedResponsible = styled.img`
+    
 `;
 export const DateText = styled.div`
     display: flex;

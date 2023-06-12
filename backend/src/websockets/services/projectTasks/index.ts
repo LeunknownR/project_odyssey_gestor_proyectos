@@ -41,14 +41,18 @@ export default class WSProjectTaskService extends WSService {
         this.dataHandler
             .connectedCollaboratorsInProjectHandler
             .addCollaborator(userDataBySocket);
-        const { projectId } = userDataBySocket;
+        const { userId: collaboratorId, projectId } = userDataBySocket;
         // Uniendo al socket del colaborador a la sala de sockets de proyecto
         socket.join(WSProjectTaskServiceRoomHandler.getProjectRoom(projectId));
         let taskBoard: ProjectTaskBoard = null;
         // Verificando si es el primer colaborador en entrar al tablero de tareas del proyecto
         if (this.dataHandler.connectedCollaboratorsInProjectHandler.getCountConnectedCollaborators(projectId) === 1) {
             // Consultando tablero de la bd
-            taskBoard = await ProjectTasksController.getTaskBoardByProjectId(projectId);
+            taskBoard = await ProjectTasksController.getTaskBoardByProjectId({
+                collaboratorId,
+                payload: null,
+                projectId
+            });
             // Actualizar la memoria
             this.dataHandler
                 .taskBoardsHandler
