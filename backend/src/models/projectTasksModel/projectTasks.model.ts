@@ -54,7 +54,9 @@ export default abstract class ProjectTasksModel {
                 taskMainInformation.responsibleId, 
                 taskMainInformation.name,
                 taskMainInformation.description, 
-                new Date(taskMainInformation.deadline),
+                taskMainInformation.deadline > 0
+                    ? new Date(taskMainInformation.deadline)
+                    : null,
                 taskMainInformation.priotityId
             ]
         );

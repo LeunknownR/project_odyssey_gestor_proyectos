@@ -1012,8 +1012,8 @@ DELIMITER //
 CREATE PROCEDURE `sp_update_task_main_info`(
     IN p_id_project INT,
     IN p_id_collaborator INT,
-    IN p_id_responsible INT,
     IN p_id_task INT,
+    IN p_id_responsible INT,
     IN p_task_name VARCHAR(40),
     IN p_description VARCHAR(200),
     IN p_deadline DATE,
@@ -1042,16 +1042,9 @@ BEGIN
         ) THEN
             -- Cuando el colaborador es miembro del proyecto y no es su tarea.
             SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
-            -- Cuando el collab es lider puede editar al id_responsible
-        ELSEIF EXISTS(
-            SELECT *
-            FROM project_has_collaborator phc 
-            INNER JOIN task t ON phc.id_project = t.id_project
-            WHERE t.id_project = p_id_project
-            AND (t.id_responsible != p_id_responsible AND phc.id_collaborator = p_id_responsible)
-            AND t.id_task = p_id_task
-        ) THEN
-            -- Actualizando la tarea
+            -- Cuando el collab es líder puede editar al id_responsible
+        ELSE
+        -- Actualizando la tarea
             UPDATE task
             SET id_responsible = p_id_responsible,
                 task_name = p_task_name,
@@ -1060,12 +1053,8 @@ BEGIN
                 id_task_priority = p_id_task_priority
             WHERE id_project = p_id_project
             AND id_task = p_id_task;
-
             -- Cuando la creación de la tarea es exitosa.
             SELECT 'SUCCESS' AS 'message';
-        ELSE
-            -- Cuando se modifico el id_responsible de la task
-            SELECT 'ID_RESPONSIBLE_NOT_UPDATED' AS 'message';   
         END IF;
     END IF;
 END //
@@ -1076,7 +1065,6 @@ DELIMITER //
 CREATE PROCEDURE `sp_create_subtask`(
     IN p_id_project INT,
     IN p_id_collaborator INT,
-    IN p_id_responsible INT,
     IN p_id_task INT,
     IN p_subtask_name VARCHAR(50)
 )
