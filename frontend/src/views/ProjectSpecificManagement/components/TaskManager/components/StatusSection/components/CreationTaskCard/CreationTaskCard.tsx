@@ -37,6 +37,7 @@ const CreationTaskCard = ({
         );
         hideCreateTaskCard();
     };
+    //GNOMO CAMBIAR NOMBRE DE ESTAS FUNCIONES DE ABAJO
     const onKeyDownHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {
         if (!newTaskName.trim() && e.key === "Enter") {
             e.preventDefault();

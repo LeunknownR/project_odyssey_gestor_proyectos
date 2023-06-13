@@ -14,12 +14,13 @@ import TaskPriorityNullImage from "src/images/test2.svg";
 import { ProjectState } from "src/entities/project/enums";
 import BackendImage from "src/views/components/UserImage/components/BackendImage/BackendImage";
 import { TASK_PRIORITY } from "./utils/constants";
+import { dayMonthFormat } from "src/utils/dates";
 
 const TaskCard = ({ taskInfo, openTaskMenu, status }: TaskCardProps) => {
     const { name, responsible, deadline, priorityId } = taskInfo;
     const [isFinalized, setIsFinalized] = useState(false);
     useEffect(() => setIsFinalized(status === ProjectState.Finalized), []);
-    const getClassName = () => {
+    const getClassName = (): string => {
         const classList = [];
         isFinalized && classList.push("checked");
         return classList.join(" ");
@@ -44,7 +45,7 @@ const TaskCard = ({ taskInfo, openTaskMenu, status }: TaskCardProps) => {
                     ) : (
                         <UnselectedResponsible src={NoResponsible} />
                     )}
-                    <DateText>{deadline}</DateText>
+                    <DateText>{deadline !== -1 && dayMonthFormat(deadline)}</DateText>
                 </FlexFlow>
                 {priorityId ? (
                     <BackendImage

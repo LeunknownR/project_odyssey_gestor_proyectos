@@ -39,13 +39,13 @@ const TaskBoard = ({ projectId }: PanelTabProps) => {
             }
         );
     }, []);
-    const fillCurrentProjectTask = (taskInfo: ProjectTask) => {
+    const fillCurrentProjectTask = (taskInfo: ProjectTask): void => {
         if(!modifyMenuRef.current) return;
         modifyMenuRef.current.focus()
         setCurrentProjectTask(taskInfo);
     };
-    const openTaskMenu = () => setIsTaskMenuOpen(true);
-    const closeTaskMenu = (e: React.FocusEvent<HTMLDivElement>) => {
+    const openTaskMenu = (): void => setIsTaskMenuOpen(true);
+    const closeTaskMenu = (e: React.FocusEvent<HTMLDivElement>): void => {
         if (e.currentTarget.contains(e.relatedTarget as Node)) return;
         setIsTaskMenuOpen(false);
     }

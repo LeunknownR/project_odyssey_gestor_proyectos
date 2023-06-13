@@ -14,9 +14,9 @@ const StatusSection = ({
 }: StatusSectionProps) => {
     const [createTaskCard, setCreateTaskCard] = useState(false);
     const taskListRef = useRef<HTMLUListElement>(null);
-    const inputNewTaskNameRef = useRef<HTMLTextAreaElement>(null);
+    // const inputNewTaskNameRef = useRef<HTMLTextAreaElement>(null);
     //GNOMO PREGUNTÓN -> ESTA IMPLEMENTACIÓN CON TIMEOUT VALE O NO VALE
-    const scrollToHistoryBottom = () => {
+    const scrollToHistoryBottom = (): void => {
         setTimeout(() => {
             taskListRef.current?.scrollTo({
                 behavior: "smooth",
@@ -24,11 +24,11 @@ const StatusSection = ({
             });
         }, 1);
     };
-    const showCreateTaskCard = () => {
+    const showCreateTaskCard = (): void => {
         setCreateTaskCard(true);
         scrollToHistoryBottom();
     };
-    const hideCreateTaskCard = () => {
+    const hideCreateTaskCard = (): void => {
         setCreateTaskCard(false);
     };
     return (
