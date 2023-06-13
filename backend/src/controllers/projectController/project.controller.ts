@@ -15,13 +15,13 @@ import {
     AddProjectMembersRequestBody, 
     DeleteProjectMemberRequestBody, 
     GetProjectListForCollaboratorRequestBody, 
-    SearchCollaboratorRequestBody, 
     UpdateEndDateProjectRequestBody 
 } from "../../routes/collaborator/projects/types";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "../../routes/generalAdmin/projects/types";
 import { ResponseMessages } from "../../utils/response/enums";
 import { GetProjectPanelDetailRequestBody } from "../../routes/collaborator/projectPanel/types";
 import { projectDetailsMapper } from "../../entities/project/mappers";
+import { SearchCollaboratorRequestBody } from "../../routes/collaborator/types";
 
 export default abstract class ProjectController {
     public static async getProjectListForGeneralAdmin(projectName: string | null): Promise<GroupedProjectList> {
@@ -71,10 +71,10 @@ export default abstract class ProjectController {
         const projectDetails: ProjectDetails = projectDetailsMapper(resultset);
         return projectDetails;
     }
-    public static async searchCollaboratorsMembersByLeader(
+    public static async searchCollaboratorForProjectTeamMember(
         searchCollaboratorRequestBody: SearchCollaboratorRequestBody
     ): Promise<CollaboratorUser[]> {
-        const resultset: any[] = await ProjectModel.searchCollaboratorsForProjectMember(searchCollaboratorRequestBody);
+        const resultset: any[] = await ProjectModel.searchCollaboratorForProjectTeamMember(searchCollaboratorRequestBody);
         const collaboratorUserList: CollaboratorUser[] = resultset.map(collaboratorMemberMapper);
         return collaboratorUserList;
     }

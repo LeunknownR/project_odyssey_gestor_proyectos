@@ -689,7 +689,7 @@ BEGIN
         SELECT id
         FROM temporary_table_user_ids
     )
-    AND u.user_name LIKE @search_collaborator_name
+    AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @search_collaborator_name
     ORDER BY u.user_name ASC, u.user_surname ASC;
 
     DROP TEMPORARY TABLE IF EXISTS temporary_table_user_ids;
@@ -808,6 +808,30 @@ BEGIN
         id_task_priority,
         url_image
     FROM task_priority;
+END //
+DELIMITER ;
+
+-- SP para buscar miembros del equipo de un proyecto
+DELIMITER //
+CREATE PROCEDURE `sp_search_project_team_member`(
+    IN p_id_project INT,
+    IN p_team_member_name VARCHAR(50)
+)
+BEGIN
+    -- Seteando lo que se desea buscar con el formato más optimo
+    SET @search_team_member_name = UPPER(CONCAT('%', p_team_member_name, '%'));
+    -- Trayendo datos
+    SELECT 
+        u.id_user AS "id_collaborator",
+        u.user_name AS "name",
+        u.user_surname AS "surname",
+        u.url_photo AS "url_photo",
+        u.email
+    FROM project_has_collaborator phc
+    INNER JOIN user u ON phc.id_collaborator = u.id_user
+    WHERE phc.id_project = p_id_project
+    AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @search_team_member_name
+    ORDER BY u.user_name ASC, u.user_surname ASC;
 END //
 DELIMITER ;
 
@@ -1007,8 +1031,8 @@ DELIMITER //
 CREATE PROCEDURE `sp_update_task_main_info`(
     IN p_id_project INT,
     IN p_id_collaborator INT,
-    IN p_id_responsible INT,
     IN p_id_task INT,
+    IN p_id_responsible INT,
     IN p_task_name VARCHAR(40),
     IN p_description VARCHAR(200),
     IN p_deadline DATE,
@@ -1037,7 +1061,6 @@ BEGIN
                 id_task_priority = p_id_task_priority
             WHERE id_project = p_id_project
             AND id_task = p_id_task;
-
             -- Cuando la creación de la tarea es exitosa.
             SELECT 'SUCCESS' AS 'message'; 
         END IF;
