@@ -14,6 +14,7 @@ export const Container = styled(FlexFlow)`
     }
 `;
 export const IconContainer = styled.span`
+    display: flex;
     cursor: pointer;
     color: var(--gray-1);
     .iconify {

@@ -7,14 +7,15 @@ import { Container, Content } from "./styles";
 import { ModifyTaskMenuProps } from "./types";
 import SubtaskSection from "./components/SubtaskSection/SubtaskSection";
 import useTaskForm from "./utils/hooks/useTaskForm";
+import useTaskBoardContext from "../../utils/contexts/useTaskBoardContext";
 
 const ModifyTaskMenu = forwardRef<HTMLElement, ModifyTaskMenuProps>(({
     currentProjectTask,
-    isTaskMenuOpen,
     openTaskMenu,
     closeTaskMenu,
 }, ref) => {
-    const {form, getProjectFromForm} = useTaskForm(currentProjectTask, isTaskMenuOpen)
+    const {isTaskMenuOpen} = useTaskBoardContext();
+    const {form} = useTaskForm(currentProjectTask, isTaskMenuOpen)
     const renderContent = () => {
         if (!currentProjectTask) return null;
         const { name, comments } = currentProjectTask;

@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { FlexFlow } from "src/components/styles";
 import {
     Container,
@@ -8,7 +9,6 @@ import {
 } from "./styles";
 import UserImage from "src/views/components/UserImage/UserImage";
 import NoResponsible from "src/images/no-responsible.svg";
-import { useState, useEffect } from "react";
 import { TaskCardProps } from "./types";
 import TaskPriorityNullImage from "src/images/test2.svg";
 import { ProjectState } from "src/entities/project/enums";

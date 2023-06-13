@@ -18,11 +18,11 @@ const ResponsibleField = ({
 }: ResponsibleFieldProps) => {
     const [selectedResponsible, setSelectedResponsible] =
         useState<ProjectTaskCollaboratorUser | null>(null);
-    const { projectId } = useTaskBoardContext();
+    const { projectId, isTaskMenuOpen } = useTaskBoardContext();
     useEffect(() => {
         if (!currentResponsible) return;
         setSelectedResponsible(currentResponsible);
-    }, []);
+    }, [isTaskMenuOpen]);
     const selectTaskResponsibleHandler = useSearchCollaborator({
         requestSearchCollaborators: async (collaboratorName: string) => {
             // preloader.show("Buscando colaboradores...")

@@ -45,11 +45,14 @@ const TaskBoard = ({ projectId }: PanelTabProps) => {
         setCurrentProjectTask(taskInfo);
     };
     const openTaskMenu = () => setIsTaskMenuOpen(true);
-    const closeTaskMenu = () => setIsTaskMenuOpen(false);
+    const closeTaskMenu = (e: React.FocusEvent<HTMLDivElement>) => {
+        if (e.currentTarget.contains(e.relatedTarget as Node)) return;
+        setIsTaskMenuOpen(false);
+    }
     return (
         <>
         {projectTaskBoard ? (
-            <TaskBoardContext.Provider value={{ socketIo, projectId }}>
+            <TaskBoardContext.Provider value={{ socketIo, projectId, isTaskMenuOpen, modifyMenuRef }}>
                 <Board
                     projectTaskBoard={projectTaskBoard}
                     openTaskMenu={fillCurrentProjectTask}

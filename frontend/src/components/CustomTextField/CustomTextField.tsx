@@ -13,6 +13,7 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 // import { RESTRICTIONS } from "./utils/restrictions";
 
 const CustomTextField = ({
+    className,
     placeholder,
     name, label,
     type, variant,
@@ -26,6 +27,7 @@ const CustomTextField = ({
     const [isPasswordRevealed, setIsPasswordRevealed] = useState(false);
     const getClassName = () => {
         const classList: string[] = [];
+        className && classList.push(className);
         size && classList.push(size);
         variant && classList.push(variant);
         disabled && classList.push("disabled");
@@ -37,7 +39,6 @@ const CustomTextField = ({
             return "text";
         return type ? type : "text";
     };
-    const className: string = getClassName();
     const togglePasswordRevealed = () => {
         setIsPasswordRevealed(prev => !prev);
     };
@@ -46,7 +47,7 @@ const CustomTextField = ({
     };
     return (
         <Container width={width} maxWidth={maxWidth} className={className}>
-            {label && <LabelContent className={className}>{label}</LabelContent>}
+            {label && <LabelContent className={getClassName()}>{label}</LabelContent>}
             <Content className={className}>
                 <TextField
                     disabled={disabled}

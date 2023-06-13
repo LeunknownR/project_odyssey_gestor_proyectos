@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { SUBMODULES_VIEWS } from "./constants";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Tabs from "../Tabs/Tabs";
 import { PanelTabProps } from "../../types";
 import { FlexFlow } from "src/components/styles";
 import { ProjectDetailsForPanel } from "src/entities/project/entities";
 import { requestGetProjectDetailForPanel } from "src/services/projects/relatedToProjects";
 import ProjectTitle from "src/views/components/ProjectTitle/ProjectTitle";
+import { AbsolutePaths } from "src/config/absolutePaths";
 
 const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
     //#region States
@@ -40,6 +41,7 @@ const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
                             element={<View preloader={preloader} projectId={projectId} />}
                         />
                     ))}
+                    <Route path="*" element={<Navigate to={`/proyectos/${projectId}/detalles`} replace/>} />
                 </Routes>
                 {/* <Preloader {...preloader.value} /> */}
             </FlexFlow>

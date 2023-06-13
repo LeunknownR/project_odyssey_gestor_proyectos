@@ -24,7 +24,6 @@ const ProjectSpecificManagerView = () => {
 		}
         const projectIdValue = Number(params.projectId);
         setShowRoutes(true);
-        // fillProjectInfo(projectIdValue);
         fillRoutes(projectIdValue);
     }, []);
     const fillRoutes = (projectId: number) => {

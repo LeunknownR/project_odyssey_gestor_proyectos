@@ -1,3 +1,4 @@
+import CustomTextArea from "src/components/CustomTextArea/CustomTextArea";
 import styled from "styled-components";
 
 export const Container = styled.li`
@@ -5,22 +6,24 @@ export const Container = styled.li`
     flex-direction: column;
     gap: 22px;
     padding: 18px 8px 18px 18px;
-    border: 1px solid var(--gray-3);
+    background-color: rgba(112, 112, 112, 0.3373);
+    border: 1px solid var(--gray-1);
     border-radius: 10px;
     max-width: 360px;
     margin-right: 12px;
     cursor: pointer;
     transition: 0.3s;
     user-select: none;
-    &.checked > * {
-        opacity: 0.4;
-    }
     :hover {
         border-color: var(--white-1);
     }
-    :active {
-        scale: 1.01;
-    }
+`;
+export const TransparentTextField = styled(CustomTextArea)`
+    padding: 0;
+    color: var(--white-1);
+    font-weight: 700;
+    font-size: 17px;
+    min-height: min-content;
 `;
 export const TaskCardName = styled.h3`
     font-size: 17px;
@@ -29,14 +32,6 @@ export const TaskCardName = styled.h3`
     color: var(--white-1);
 `;
 export const UnselectedResponsible = styled.img``;
-export const DateText = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--white-1);
-`;
 export const StateSwordTag = styled.img`
     width: 100px;
 `;
