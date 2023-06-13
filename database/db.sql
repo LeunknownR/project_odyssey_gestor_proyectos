@@ -1052,17 +1052,30 @@ BEGIN
             -- Cuando el colaborador es miembro del proyecto y no es su tarea.
             SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
         ELSE
+            IF EXISTS (
+                SELECT id_collaborator
+                FROM project_has_collaborator
+                WHERE id_collaborator = p_id_collaborator
+                AND id_project = p_id_project
+                AND id_project_role = "PLD"
+            ) THEN
+                SET @id_responsible = p_id_responsible;
+            ELSE
+                SET @id_responsible = p_id_collaborator;
+            END IF;
+
             -- Actualizando la tarea
             UPDATE task
-            SET id_responsible = p_id_responsible,
+            SET id_responsible = @id_responsible,
                 task_name = p_task_name,
                 description = p_description,
                 deadline = p_deadline,
                 id_task_priority = p_id_task_priority
             WHERE id_project = p_id_project
             AND id_task = p_id_task;
+
             -- Cuando la creación de la tarea es exitosa.
-            SELECT 'SUCCESS' AS 'message'; 
+            SELECT 'SUCCESS' AS 'message';
         END IF;
     END IF;
 END //
