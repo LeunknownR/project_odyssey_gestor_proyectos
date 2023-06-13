@@ -13,31 +13,42 @@ import useTaskBoardContext from "../../../../utils/contexts/useTaskBoardContext"
 import WSProjectTaskServiceEvents from "src/services/websockets/services/projectTasks/events";
 import { Socket } from "socket.io-client";
 
-const CreationTaskCard = ({ status, hideCreateTaskCard }: CreationTaskCardProps) => {
+const CreationTaskCard = ({
+    status,
+    hideCreateTaskCard,
+}: CreationTaskCardProps) => {
     const [newTaskName, setNewTaskName] = useState<string>("");
     const { socketIo } = useTaskBoardContext();
-    const changeNewTaskName = ({target: { value }}: ChangeEvent<HTMLInputElement>) => {
+    const changeNewTaskName = ({
+        target: { value },
+    }: ChangeEvent<HTMLInputElement>) => {
         setNewTaskName(value);
     };
     const createTask = () => {
         if (!socketIo) return;
         const newTask: any = {
             name: newTaskName,
-            state: status
+            state: status,
         };
         const socketIoValue: Socket = socketIo.connect();
-        socketIoValue.emit(WSProjectTaskServiceEvents.Collaborator.CreateTask, newTask);
+        socketIoValue.emit(
+            WSProjectTaskServiceEvents.Collaborator.CreateTask,
+            newTask
+        );
         hideCreateTaskCard();
-    }
+    };
     const onKeyDownHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-        if (e.key === "Enter") 
-            createTask()
+        if (!newTaskName.trim() && e.key === "Enter") {
+            e.preventDefault();
+            return;
+        }
+        if (!newTaskName.trim() && e.key === "Backspace") hideCreateTaskCard();
+        if (e.key === "Enter") createTask();
     };
     const onBlurHandler = () => {
-        if (!newTaskName) 
-            hideCreateTaskCard();
-        createTask()
-    }
+        if (!newTaskName) hideCreateTaskCard();
+        createTask();
+    };
     return (
         <Container tabIndex={0} onBlur={onBlurHandler}>
             <TransparentTextField
