@@ -4,7 +4,7 @@ import { FlexFlow } from "src/components/styles";
 export const Container = styled(FlexFlow)`
     background-color: var(--white-1-12);
     border-radius: 10px;
-    span {
+    & > span {
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
