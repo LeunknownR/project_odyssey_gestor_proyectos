@@ -27,12 +27,12 @@ const Menu = ({
         <Container className={className}>
             {currentRole === DBRoles.GeneralAdmin ? (
                 <>
-                    <Option color="var(--dark-1)" onClick={onClickEdit}>
-                        Editar
-                    </Option>
-                    <Option color="var(--red-3)" onClick={onClickDelete}>
-                        Eliminar
-                    </Option>
+                <Option color="var(--dark-1)" onClick={onClickEdit}>
+                    Editar
+                </Option>
+                <Option color="var(--red-3)" onClick={onClickDelete}>
+                    Eliminar
+                </Option>
                 </>
             ) : currentRole === DBRoles.Collaborator && (
                 <OptionLink color="var(--dark-1)" to={onClickDetails}>
