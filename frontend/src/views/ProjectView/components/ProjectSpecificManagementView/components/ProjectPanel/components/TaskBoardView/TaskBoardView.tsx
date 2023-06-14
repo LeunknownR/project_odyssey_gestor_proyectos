@@ -2,14 +2,12 @@
 import { useState, useEffect, useRef } from "react";
 import { Socket } from "socket.io-client";
 //#endregion
-//#region Styles
-import { FlexFlow } from "src/components/styles";
-//#endregion
 //#region Components
-import StatusSection from "./components/StatusSection/StatusSection";
+import Board from "./components/Board/Board";
+import ModifyTaskMenu from "./components/ModifyTaskMenu/ModifyTaskMenu";
 //#endregion
 //#region Types
-import { PanelTabProps } from "../../types";
+import { PanelTabProps } from "../../../../types";
 import {
     ProjectTask,
     ProjectTaskBoard,
@@ -19,17 +17,18 @@ import {
 import useWebsocket from "src/utils/hooks/useWebsocket";
 import { wsProjectTasksServiceDataConnection } from "src/services/websockets/connections";
 import WSProjectTaskServiceEvents from "src/services/websockets/services/projectTasks/events";
-import ModifyTaskMenu from "./components/ModifyTaskMenu/ModifyTaskMenu";
-import Board from "./components/Board/Board";
 import TaskBoardContext from "./utils/contexts/TaskBoardContext";
 //#endregion
 
 const TaskBoard = ({ projectId }: PanelTabProps) => {
+    const modifyMenuRef = useRef<HTMLElement>(null);
+    //#region States
     const socketIo = useWebsocket<number>(wsProjectTasksServiceDataConnection, projectId);
     const [projectTaskBoard, setProjectTaskBoard] = useState<ProjectTaskBoard | null>(null);
     const [currentProjectTask, setCurrentProjectTask] = useState<ProjectTask | null>(null);
-    const [isTaskMenuOpen, setIsTaskMenuOpen] = useState(false);
-    const modifyMenuRef = useRef<HTMLElement>(null);
+    const [isTaskMenuOpen, setIsTaskMenuOpen] = useState<boolean>(false);
+    //#endregion
+    //#region Effects
     useEffect(() => {
         const socketIoValue: Socket = socketIo.connect();
         socketIoValue.on(
@@ -39,6 +38,8 @@ const TaskBoard = ({ projectId }: PanelTabProps) => {
             }
         );
     }, []);
+    //#endregion
+    //#region Functions
     const fillCurrentProjectTask = (taskInfo: ProjectTask): void => {
         if(!modifyMenuRef.current) return;
         modifyMenuRef.current.focus()
