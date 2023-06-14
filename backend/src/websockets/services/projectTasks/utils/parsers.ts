@@ -25,7 +25,7 @@ const isValidWSProjectTaskMainInformation = (body: any): boolean => {
     const {
         taskId, responsibleId,
         name, description,
-        deadline, priotityId
+        deadline, priorityId
     } = body;
     return (
         isPositiveNumber(taskId) &&
@@ -33,7 +33,7 @@ const isValidWSProjectTaskMainInformation = (body: any): boolean => {
         checkLength(name, 1, 40) &&
         (description == null || checkLength(description, 1, 200)) &&
         (deadline === -1 || isPositiveNumberOrZero(deadline)) &&
-        (priotityId == null || isPositiveNumber(priotityId))
+        (priorityId == null || isPositiveNumber(priorityId))
     )
 }
 export const parseToWSProjectTaskMainInformation = (body: any): WSProjectTaskMainInformation => {

@@ -1,4 +1,5 @@
 export type CustomTextAreaProps = {
+    className?: string;
     placeholder?: string;
     label?: string;
     variant?: string;
@@ -8,4 +9,6 @@ export type CustomTextAreaProps = {
     maxWidth?: string;
     value: string;
     onChange: any;
+    onKeyDown?: any;
+    characterCounter?: boolean;
 };
