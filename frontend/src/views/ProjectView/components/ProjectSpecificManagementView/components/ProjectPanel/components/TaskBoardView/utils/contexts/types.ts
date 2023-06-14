@@ -1,8 +1,8 @@
 import { RefObject } from "react";
-import { WebsocketHook } from "src/utils/hooks/types";
+import { Socket } from "socket.io-client";
 
 export type InitTaskBoardContext = {
-    socketIo: WebsocketHook | null;
+    socketIo: Socket | null;
     projectId: number;
     isTaskMenuOpen: boolean;
     modifyMenuRef: RefObject<HTMLElement> | null;

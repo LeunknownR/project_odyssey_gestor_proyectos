@@ -10,7 +10,7 @@ const TaskForm = ({ currentProjectTask, form }: TaskFormProps) => {
         <Container direction="column" gap="20px" margin="0 30px 20px 0">
             <ResponsibleField form={form} currentResponsible={currentProjectTask.responsible}/>
             <DeadlineField form={form}/>
-            <PriorityField />
+            <PriorityField form={form}/>
             <DescriptionField form={form}/>
         </Container>
     );

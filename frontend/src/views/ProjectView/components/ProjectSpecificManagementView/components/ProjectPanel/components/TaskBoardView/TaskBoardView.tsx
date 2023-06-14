@@ -23,14 +23,14 @@ import TaskBoardContext from "./utils/contexts/TaskBoardContext";
 const TaskBoard = ({ projectId }: PanelTabProps) => {
     const modifyMenuRef = useRef<HTMLElement>(null);
     //#region States
-    const socketIo = useWebsocket<number>(wsProjectTasksServiceDataConnection, projectId);
+    const socketHandler = useWebsocket<number>(wsProjectTasksServiceDataConnection, projectId);
     const [projectTaskBoard, setProjectTaskBoard] = useState<ProjectTaskBoard | null>(null);
     const [currentProjectTask, setCurrentProjectTask] = useState<ProjectTask | null>(null);
     const [isTaskMenuOpen, setIsTaskMenuOpen] = useState<boolean>(false);
     //#endregion
     //#region Effects
     useEffect(() => {
-        const socketIoValue: Socket = socketIo.connect();
+        const socketIoValue: Socket = socketHandler.connect();
         socketIoValue.on(
             WSProjectTaskServiceEvents.Server.DispatchTaskBoard,
             (projectTaskBoard: ProjectTaskBoard) => {
@@ -53,7 +53,7 @@ const TaskBoard = ({ projectId }: PanelTabProps) => {
     return (
         <>
         {projectTaskBoard ? (
-            <TaskBoardContext.Provider value={{ socketIo, projectId, isTaskMenuOpen, modifyMenuRef }}>
+            <TaskBoardContext.Provider value={{ socketIo: socketHandler.socketIo, projectId, isTaskMenuOpen, modifyMenuRef }}>
                 <Board
                     projectTaskBoard={projectTaskBoard}
                     openTaskMenu={fillCurrentProjectTask}

@@ -5,9 +5,7 @@ import { AllProjectProps } from "./types";
 
 const AllProjects = ({
     allProjects,
-    setCurrentProject,
-    openUpdateProjectModal,
-    openDeleteProjectModal,
+    getMenuOptions
 }: AllProjectProps) => {
     return (
         <Container>
@@ -18,9 +16,7 @@ const AllProjects = ({
                         <AllProjectCard
                             key={project.id}
                             project={project}
-                            setCurrentProject={setCurrentProject}
-                            openUpdateProjectModal={openUpdateProjectModal}
-                            openDeleteProjectModal={openDeleteProjectModal}
+                            options={getMenuOptions(project)}
                         />
                     );
                 })}

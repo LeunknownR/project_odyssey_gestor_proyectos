@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { currentUserLocalStorage } from "../user.local";
+import { DBRoles } from "src/config/roles";
 
-const useUserRole = () => {
-    const [userRole, setUserRole] = useState<string | null>(null);
+const useUserRole = (): DBRoles | null => {
+    const [userRole, setUserRole] = useState<DBRoles | null>(null);
     useEffect(() => {
-        setUserRole(currentUserLocalStorage.get().role.id);
+        const currentUser = currentUserLocalStorage.get();
+        if (!currentUser) return;
+        setUserRole(currentUser.role.id as DBRoles);
     }, []);
     return userRole;
 }

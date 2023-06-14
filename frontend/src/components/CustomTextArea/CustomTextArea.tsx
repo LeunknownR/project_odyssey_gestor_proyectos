@@ -6,7 +6,7 @@ const CustomTextArea = ({
     label, variant,
     maxLength, size,
     width, maxWidth,
-    value, onChange,
+    value, onChange, onBlur,
     characterCounter = true,
     onKeyDown
 }: CustomTextAreaProps) => {
@@ -30,7 +30,7 @@ const CustomTextArea = ({
                     value={value}
                     onChange={onChange}
                     onKeyDown={onKeyDown}
-                />
+                    onBlur={onBlur}/>
                 {characterCounter && <MaxLength>{value.length} / {maxLength}</MaxLength>}
             </Content>
         </Container>

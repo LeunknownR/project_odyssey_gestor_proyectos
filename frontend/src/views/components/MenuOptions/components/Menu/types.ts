@@ -1,7 +1,6 @@
+import { MenuOption } from "../../types";
+
 export type MenuProps = {
-    show: boolean;
-    menuPosition: string;
-    onClickEdit: () => void;
-    onClickDelete: () => void;
-    onClickDetails: string;
+    className: string;
+    options: MenuOption[];
 };

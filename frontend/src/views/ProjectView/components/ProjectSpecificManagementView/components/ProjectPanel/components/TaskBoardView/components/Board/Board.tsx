@@ -7,17 +7,17 @@ const Board = ({ projectTaskBoard, openTaskMenu }: BoardProps) => {
     const statusSectionProps = [
         {
             sectionName: "Pendientes",
-            status: ProjectState.Pending,
+            state: ProjectState.Pending,
             taskListInfo: projectTaskBoard.pending,
         },
         {
             sectionName: "En Curso",
-            status: ProjectState.OnProgress,
+            state: ProjectState.OnProgress,
             taskListInfo: projectTaskBoard.onProgress,
         },
         {
             sectionName: "Finalizadas",
-            status: ProjectState.Finalized,
+            state: ProjectState.Finalized,
             taskListInfo: projectTaskBoard.finalized,
         },
     ];
@@ -27,7 +27,7 @@ const Board = ({ projectTaskBoard, openTaskMenu }: BoardProps) => {
                 <StatusSection
                     key={idx}
                     sectionName={section.sectionName}
-                    status={section.status}
+                    state={section.state}
                     taskListInfo={section.taskListInfo}
                     openTaskMenu={openTaskMenu}
                 />
