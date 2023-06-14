@@ -26,7 +26,7 @@ export const requestSearchCollaboratorToBeMemberForCollaborator: APIRequestFunct
     projectId
 }: SearchCollaboratorRequestBody) => {
     const path: string = getEndpointWithPathVariables(
-        ApiPathEndpoints.SearchCollaboratorMember,
+        ApiPathEndpoints.SearchProjectTeamMembers,
         [projectId, collaboratorName]
     );
     const res: ResponseBody<CollaboratorUser[]> =
