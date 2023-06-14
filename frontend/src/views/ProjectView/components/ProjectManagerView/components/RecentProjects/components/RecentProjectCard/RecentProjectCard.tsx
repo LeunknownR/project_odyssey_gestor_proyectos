@@ -12,18 +12,14 @@ import Header from "./components/Header/Header";
 
 const RecentProjectCard = ({
     project,
-    setCurrentProject,
-    openUpdateProjectModal,
-    openDeleteProjectModal,
+    options
 }: RecentProjectCardProps) => {
     const { name, state, leader, projectMemberCount } = project;
     return (
         <Container>
             <Header
                 project={project}
-                setCurrentProject={setCurrentProject}
-                openUpdateProjectModal={openUpdateProjectModal}
-                openDeleteProjectModal={openDeleteProjectModal}
+                options={options}
             />
             <Image>
                 <Icon icon="ph:projector-screen-chart-fill" />

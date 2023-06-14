@@ -24,7 +24,7 @@ export const Container = styled.div<ContainerProps>`
     padding: 5px;
     transition: 0.3s;
     cursor: pointer;
-    :hover {
+    &:hover {
         ${Square} {
             background-color: var(--white-1);
         }

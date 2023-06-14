@@ -1,8 +1,7 @@
 import { Project } from "src/entities/project/entities";
+import { MenuOption } from "src/views/components/MenuOptions/types";
 
 export type RecentProjectsProps = {
     recentProjects: Project[];
-    setCurrentProject: (project: Project | null) => void;
-    openUpdateProjectModal: () => void;
-    openDeleteProjectModal: () => void;
+    getMenuOptions: (project: Project) => MenuOption[];
 };

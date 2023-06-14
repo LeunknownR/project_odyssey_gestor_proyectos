@@ -1,44 +1,41 @@
-import {useState, useEffect} from "react";
-import { currentUserLocalStorage } from "src/storage/user.local";
-import { Container, Option, OptionLink } from "./styles";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { Container, OptionLink, Option } from "./styles";
 import { MenuProps } from "./types";
-import { DBRoles } from "src/config/roles";
 
 const Menu = ({
-    show,
-    menuPosition,
-    onClickEdit,
-    onClickDelete,
-    onClickDetails
+    className,
+    options
 }: MenuProps) => {
-    const [currentRole, setCurrentRole] = useState<string | null>(null);
-    useEffect(() => {
-        const currentRole = currentUserLocalStorage.get();
-        setCurrentRole(currentRole.role.id);
-    }, []);
-    const getClassName = () => {
-        const classList: string[] = [];
-        show && classList.push("show");
-        menuPosition && classList.push(menuPosition);
-        return classList.join(" ");
-    };
-    const className: string = getClassName();
     return (
         <Container className={className}>
-            {currentRole === DBRoles.GeneralAdmin ? (
-                <>
-                <Option color="var(--dark-1)" onClick={onClickEdit}>
-                    Editar
-                </Option>
-                <Option color="var(--red-3)" onClick={onClickDelete}>
-                    Eliminar
-                </Option>
-                </>
-            ) : currentRole === DBRoles.Collaborator && (
-                <OptionLink color="var(--dark-1)" to={onClickDetails}>
-                    Detalle
-                </OptionLink>
-            )}
+            {options.map(({
+                text, icon, color,
+                onClick, to
+            }, idx) => {
+                const content = (
+                    <>
+                        {icon && <Icon icon={icon}/>}
+                        <span>{text}</span>
+                    </>
+                );
+                if (to) 
+                    return (
+                        <OptionLink 
+                            key={idx} 
+                            color={color}
+                            to={to}>
+                            {content}
+                        </OptionLink>
+                    )
+                return (
+                    <Option 
+                        key={idx}
+                        color={color}  
+                        onClick={onClick}>
+                        {content}
+                    </Option>
+                );
+            })}
         </Container>
     );
 };

@@ -5,9 +5,7 @@ import ProjectDeadline from "../../../../../AllProjects/components/AllProjectCar
 
 const Header = ({
     project,
-    setCurrentProject,
-    openUpdateProjectModal,
-    openDeleteProjectModal,
+    options
 }: HeaderProps) => {
     const { startDate, endDate } = project;
     return (
@@ -19,12 +17,10 @@ const Header = ({
                 variant="short"
             />
         </DeadlineWrapper>
-        <OptionsWrapper onClick={() => setCurrentProject(project)}>
-            <MenuOptions
-                onClickEdit={openUpdateProjectModal}
-                onClickDelete={openDeleteProjectModal}
-                onClickDetails={`${project.id}/detalles`}
-            />
+        <OptionsWrapper>
+            <MenuOptions 
+                menuPosition="left" 
+                options={options}/>
         </OptionsWrapper>
         </>
     );
