@@ -4,6 +4,7 @@ import { CollaboratorUser } from "src/entities/collaborator/entities";
 import { APIHandler } from "src/config/api";
 import { ApiPathEndpoints } from "../apiPathEndpoints";
 import { getEndpointWithPathVariables } from "../utils/helpers";
+import { ProjectTaskPriority } from "src/entities/projectTasks/entities";
 
 export const requestGetTeamMembers: APIRequestFunction<
     CollaboratorUser[],
@@ -18,5 +19,10 @@ export const requestGetTeamMembers: APIRequestFunction<
     );
     const res: ResponseBody<CollaboratorUser[]> =
         await APIHandler.api.get(path);
+    return res;
+};
+export const requestGetTaskPriority = async () => {
+    const res: ResponseBody<ProjectTaskPriority[]> =
+        await APIHandler.api.get(ApiPathEndpoints.SearchTaskPriorities);
     return res;
 };

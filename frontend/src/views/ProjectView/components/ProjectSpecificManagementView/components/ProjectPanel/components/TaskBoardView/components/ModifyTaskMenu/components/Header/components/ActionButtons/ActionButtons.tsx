@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
 import {
     Container,
@@ -6,8 +7,7 @@ import {
     SlideButton,
     Wrapper,
 } from "./styles";
-import { Icon } from "@iconify/react/dist/iconify.js";
-
+//GNOMO BORRAR TAL VEZ NO DEBA BORRARLO JUJUJU
 const ActionButtons = () => {
     const [actionButtonsOpen, setAreActionButtonsOpen] = useState(false);
     return (
