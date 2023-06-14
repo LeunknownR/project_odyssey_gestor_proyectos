@@ -3,14 +3,15 @@ import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import TaskList from "./components/TaskList/TaskList";
 import { Container } from "./styles";
-import { StatusSectionProps } from "./types";
+import { ProjectTaskStateSectionProps } from "./types";
 
-const StatusSection = ({
+const TaskStateSection = ({
     sectionName,
     status,
     taskListInfo,
     openTaskMenu,
-}: StatusSectionProps) => {
+    changeProjectTaskState
+}: ProjectTaskStateSectionProps) => {
     return (
         <Container>
             <Header sectionName={sectionName} status={status} />
@@ -24,4 +25,4 @@ const StatusSection = ({
     );
 };
 
-export default StatusSection;
+export default TaskStateSection;

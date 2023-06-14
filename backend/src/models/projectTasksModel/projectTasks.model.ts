@@ -73,7 +73,7 @@ export default abstract class ProjectTasksModel {
                 taskMainInformation.deadline > 0
                     ? new Date(taskMainInformation.deadline)
                     : null,
-                taskMainInformation.priotityId
+                taskMainInformation.priorityId
             ]
         );
         return record;

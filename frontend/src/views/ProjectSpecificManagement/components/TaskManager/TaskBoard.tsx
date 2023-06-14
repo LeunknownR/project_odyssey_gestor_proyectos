@@ -6,7 +6,7 @@ import { Socket } from "socket.io-client";
 import { FlexFlow } from "src/components/styles";
 //#endregion
 //#region Components
-import StatusSection from "./components/StatusSection/StatusSection";
+import TaskStateSection from "./components/TaskStateSection/TaskStateSection";
 //#endregion
 //#region Types
 import { PanelTabProps } from "../../types";
@@ -25,11 +25,14 @@ import TaskBoardContext from "./utils/contexts/TaskBoardContext";
 //#endregion
 
 const TaskBoard = ({ projectId }: PanelTabProps) => {
+    const modifyMenuRef = useRef<HTMLElement>(null);
+    //#region States
     const socketIo = useWebsocket<number>(wsProjectTasksServiceDataConnection, projectId);
     const [projectTaskBoard, setProjectTaskBoard] = useState<ProjectTaskBoard | null>(null);
     const [currentProjectTask, setCurrentProjectTask] = useState<ProjectTask | null>(null);
-    const [isTaskMenuOpen, setIsTaskMenuOpen] = useState(false);
-    const modifyMenuRef = useRef<HTMLElement>(null);
+    const [isTaskMenuOpen, setIsTaskMenuOpen] = useState<boolean>(false);
+    //#endregion
+    //#region Effects
     useEffect(() => {
         const socketIoValue: Socket = socketIo.connect();
         socketIoValue.on(
@@ -39,6 +42,8 @@ const TaskBoard = ({ projectId }: PanelTabProps) => {
             }
         );
     }, []);
+    //#endregion
+    //#region Functions
     const fillCurrentProjectTask = (taskInfo: ProjectTask) => {
         if(!modifyMenuRef.current) return;
         modifyMenuRef.current.focus()
@@ -46,6 +51,7 @@ const TaskBoard = ({ projectId }: PanelTabProps) => {
     };
     const openTaskMenu = () => setIsTaskMenuOpen(true);
     const closeTaskMenu = () => setIsTaskMenuOpen(false);
+    //#endregion
     return (
         <>
         {projectTaskBoard ? (

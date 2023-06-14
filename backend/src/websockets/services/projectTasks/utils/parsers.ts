@@ -42,12 +42,12 @@ export const parseToWSProjectTaskMainInformation = (body: any): WSProjectTaskMai
     const {
         taskId, responsibleId,
         name, description,
-        deadline, priotityId
+        deadline, priorityId
     } = body;
     return {
         taskId, responsibleId,
         name, description,
-        deadline, priotityId
+        deadline, priorityId
     };
 }
 export const parseToWSNewProjectSubtask = (body: any): WSNewProjectSubtask => {
