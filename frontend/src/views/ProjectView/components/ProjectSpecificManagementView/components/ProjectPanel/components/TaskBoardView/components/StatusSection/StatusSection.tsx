@@ -8,8 +8,6 @@ const StatusSection = ({
     state, taskListInfo,
     openTaskMenu,
 }: StatusSectionProps) => {
-    // const inputNewTaskNameRef = useRef<HTMLTextAreaElement>(null);
-    //GNOMO PREGUNTÓN -> ESTA IMPLEMENTACIÓN CON TIMEOUT VALE O NO VALE
     return (
         <Container>
             <Header sectionName={sectionName} status={state} />

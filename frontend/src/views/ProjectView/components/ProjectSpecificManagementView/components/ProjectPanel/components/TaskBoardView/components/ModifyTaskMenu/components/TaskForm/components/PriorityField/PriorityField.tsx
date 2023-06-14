@@ -1,21 +1,20 @@
 import { FlexFlow } from "src/components/styles";
-import { Label } from "../../styles";
+import { DeleteSelectedDataField, Label } from "../../styles";
 import { useEffect, useState } from "react";
 import emptyTaskPriority from "src/images/no-priority.svg";
 import { PriorityFieldProps } from "./types";
 import {
-    DeletePriority,
     ListWrapper,
     PriorityImage,
     PriorityList,
     PrioritySelector,
     SelectedPriorityWrapper,
 } from "./styles";
-import BackendImage from "src/views/components/UserImage/components/BackendImage/BackendImage";
 import { requestGetTaskPriority } from "src/services/projectTasks/aboutProjectTasks";
 import { ProjectTaskPriority } from "src/entities/projectTasks/entities";
 import { TASK_PRIORITY } from "../../../../../StatusSection/components/TaskList/components/TaskCard/utils/constants";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { TaskPriorityImage } from "../../../../../StatusSection/components/TaskList/components/TaskCard/styles";
 
 const PriorityField = ({ form }: PriorityFieldProps) => {
     const [isListOpened, setIsListOpened] = useState<boolean>(false);
@@ -52,16 +51,16 @@ const PriorityField = ({ form }: PriorityFieldProps) => {
                 ) : (
                     <FlexFlow align="center" gap="10px">
                         <SelectedPriorityWrapper onClick={toggleShowList}>
-                            <BackendImage
+                            <TaskPriorityImage
                                 path={TASK_PRIORITY[priorityId]}
                                 isDynamic={false}
                             />
                         </SelectedPriorityWrapper>
-                        <DeletePriority
+                        <DeleteSelectedDataField
                             onClick={() => changeTaskPriorityField(0)}
                         >
                             <Icon icon="material-symbols:close" />
-                        </DeletePriority>
+                        </DeleteSelectedDataField>
                     </FlexFlow>
                 )}
                 <ListWrapper>
@@ -74,7 +73,7 @@ const PriorityField = ({ form }: PriorityFieldProps) => {
                                 key={id}
                                 onClick={() => changeTaskPriorityField(id)}
                             >
-                                <BackendImage
+                                <TaskPriorityImage
                                     path={urlPhoto}
                                     isDynamic={false}
                                 />

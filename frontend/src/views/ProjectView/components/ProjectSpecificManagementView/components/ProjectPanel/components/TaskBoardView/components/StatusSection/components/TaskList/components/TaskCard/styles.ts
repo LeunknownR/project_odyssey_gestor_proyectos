@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { ContainerProps, EmptyProps } from './types';
+import BackendImage from 'src/views/components/UserImage/components/BackendImage/BackendImage';
 
 export const Empty = styled.div<EmptyProps>`
     border: 1px solid var(--gray-3);
@@ -53,6 +54,11 @@ export const DateText = styled.div`
     font-weight: 700;
     color: var(--white-1);
 `;
-export const StateSwordTag = styled.img`
+export const TaskPriorityImage = styled(BackendImage)`
+    width: 100px;
+    height: unset;
+    border-radius: 0;
+`;
+export const EmptyTaskPriority = styled.img`
     width: 100px;
 `;

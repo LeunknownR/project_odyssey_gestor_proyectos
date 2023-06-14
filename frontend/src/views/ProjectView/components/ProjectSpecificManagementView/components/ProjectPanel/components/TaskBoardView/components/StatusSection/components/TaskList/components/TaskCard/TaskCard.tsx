@@ -3,8 +3,9 @@ import { FlexFlow } from "src/components/styles";
 import {
     Container,
     DateText,
-    StateSwordTag,
+    EmptyTaskPriority,
     TaskCardName,
+    TaskPriorityImage,
     UnselectedResponsible,
 } from "./styles";
 import UserImage from "src/views/components/UserImage/UserImage";
@@ -52,13 +53,13 @@ const TaskCard = ({
                     <DateText>{deadline !== -1 && dayMonthFormat(deadline)}</DateText>
                 </FlexFlow>
                 {priorityId ? (
-                    <BackendImage
+                    <TaskPriorityImage
                         path={TASK_PRIORITY[priorityId]}
                         isDynamic={false}
                         className="big"
                     />
                 ) : (
-                    <StateSwordTag src={emptyTaskPriorityImg} />
+                    <EmptyTaskPriority src={emptyTaskPriorityImg} />
                 )}
             </FlexFlow>
         </Container>

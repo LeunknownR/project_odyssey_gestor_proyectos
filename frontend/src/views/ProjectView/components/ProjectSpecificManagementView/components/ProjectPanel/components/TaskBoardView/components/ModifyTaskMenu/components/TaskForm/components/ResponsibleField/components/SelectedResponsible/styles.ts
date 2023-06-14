@@ -13,11 +13,3 @@ export const Container = styled(FlexFlow)`
         font-weight: 700;
     }
 `;
-export const IconContainer = styled.span`
-    display: flex;
-    cursor: pointer;
-    color: var(--gray-1);
-    .iconify {
-        font-size: 26px;
-    }
-`;
