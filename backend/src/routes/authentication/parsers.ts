@@ -1,13 +1,10 @@
 import { Credentials } from "../../entities/user/types";
+import { checkLength } from "../../utils/strings";
 
 export const parseToCredentials = (body: any): Credentials => {
     const { username, password } = body;
-    if (typeof username !== "string" ||
-        typeof password !== "string" ||
-        username?.length === 0 || 
-        password?.length === 0 || 
-        username?.length > 20 || 
-        password?.length > 100)
-        throw new Error();
+    if (!checkLength(username, 1, 20) ||
+        !checkLength(password, 1, 100))
+        throw new Error("Invalid params to login");
     return { username, password };
 }

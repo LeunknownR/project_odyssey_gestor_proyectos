@@ -1,3 +1,5 @@
+
 export type SidebarMenuProps = {
-    openNewProjectModal: () => void;
+    // currentViewModule: ViewModule
+    mainMenuButton?: JSX.Element
 }

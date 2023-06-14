@@ -1,19 +1,27 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Sidebar, NewProjectButton, MenuList, MenuButton } from "./styles";
+import { Sidebar, MenuList, MenuButton } from "./styles";
 import { SidebarMenuProps } from "./types";
+import { AbsolutePaths } from "src/config/absolutePaths";
+import UserAdministration from "../Header/components/UserAdministration/UserAdministration";
 
-const SidebarMenu = ({openNewProjectModal}: SidebarMenuProps) => {
+const SidebarMenu = ({
+    mainMenuButton
+}: SidebarMenuProps) => {
     return (
         <Sidebar>
-            <NewProjectButton onClick={openNewProjectModal}><span><Icon icon="mdi:layers-plus"/></span></NewProjectButton>
+            {mainMenuButton}
             <MenuList>
-                <MenuButton to="/ralf" activeclassname="active">
+                <MenuButton 
+                    to={AbsolutePaths.Projects} activeclassname="active">
                     <span><Icon icon="material-symbols:home-outline-rounded" /></span>
                 </MenuButton>
-                <MenuButton to="/alexis" activeclassname="active">
+                <MenuButton 
+                    to={AbsolutePaths.Settings}
+                    activeclassname="active">
                     <span><Icon icon="uiw:setting" /></span>
                 </MenuButton>
             </MenuList>
+            <UserAdministration isInSidebar/>
         </Sidebar>
     );
 };

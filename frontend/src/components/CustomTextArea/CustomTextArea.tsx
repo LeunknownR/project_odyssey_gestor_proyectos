@@ -1,37 +1,37 @@
-import { Container, Content, LabelContent, TextArea } from "./styles";
+import { Container, Content, LabelContent, MaxLength, TextArea } from "./styles";
 import { CustomTextAreaProps } from "./types";
 
 const CustomTextArea = ({
-    placeholder,
-    label,
-    variant,
-    maxLength,
-    size,
-    width,
-    maxWidth,
-    value,
-    onChange,
+    className, placeholder,
+    label, variant,
+    maxLength, size,
+    width, maxWidth,
+    value, onChange,
+    characterCounter = true,
+    onKeyDown
 }: CustomTextAreaProps) => {
     const getClassName = () => {
         const classList: string[] = [];
+        className && classList.push(className)
         size && classList.push(size);
         variant && classList.push(variant);
         return classList.join(" ");
     };
-    const className: string = getClassName();
     return (
-        <Container width={width} maxWidth={maxWidth} className={className}>
+        <Container width={width} maxWidth={maxWidth} className={getClassName()}>
             {label && (
-                <LabelContent className={className}>{label}</LabelContent>
+                <LabelContent className={getClassName()}>{label}</LabelContent>
             )}
-            <Content className={className}>
+            <Content className={getClassName()}>
                 <TextArea
-                    className={className}
+                    className={getClassName()}
                     maxLength={maxLength}
                     placeholder={placeholder}
                     value={value}
                     onChange={onChange}
+                    onKeyDown={onKeyDown}
                 />
+                {characterCounter && <MaxLength>{value.length} / {maxLength}</MaxLength>}
             </Content>
         </Container>
     );

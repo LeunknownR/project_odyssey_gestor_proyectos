@@ -1,4 +1,5 @@
 //#region Libraries
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 //#endregion
 type ContainerProps = {
@@ -18,7 +19,7 @@ export const Container = styled.div<ContainerProps>`
     &.secondary {
         gap: 14px;
     }
-    &.primdary-search,
+    &.primary-search,
     &.secondary-search {
         gap: 7px;
     }
@@ -37,11 +38,17 @@ export const LabelContent = styled.label`
         font-weight: 700;
         color: var(--white-1);
         font-size: 20px;
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            font-size: 16px;
+        }
     }
     &.secondary {
         font-weight: 700;
         color: var(--darkblue-1);
         font-size: 20px;
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            font-size: 16px;
+        }
     }
     &.primary-search {
         color: var(--darkblue-1);
@@ -52,12 +59,32 @@ export const LabelContent = styled.label`
         font-size: 17px;
     }
 `;
+export const PasswordRevealer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 4px;
+    user-select: none;
+    margin-right: 5px;
+    transition: 0.3s;
+    :hover {
+        background-color: var(--dark-0);
+    }
+    :active {
+        background-color: #d8d9d8;
+    }
+    .iconify {
+        color: var(--white-1);
+        font-size: 20px;
+    }
+`;
 export const Content = styled.div`
     display: flex;
     align-items: center;
     border-radius: 3px;
     transition: 0.3s;
-    padding: 12px 10px;
     &.login {
         background-color: var(--white-1-12);
         border: 1px solid var(--white-1);
@@ -76,9 +103,9 @@ export const Content = styled.div`
     &.primary {
         background-color: var(--white-1-12);
         border: 1px solid var(--white-1);
-        color: var(--white-2);
+        color: var(--white-1);
         border-radius: 5px;
-        padding: 9px 16px;
+        font-size: 16px;
         ::placeholder {
             color: var(--gray-3);
         }
@@ -88,7 +115,6 @@ export const Content = styled.div`
         border: 1px solid var(--darkblue-1);
         color: var(--darkblue-1);
         border-radius: 5px;
-        padding: 9px 16px;
         ::placeholder {
             color: var(--gray-2);
         }
@@ -97,7 +123,6 @@ export const Content = styled.div`
         border-radius: 5px;
         border: 1px solid var(--darkblue-1);
         color: var(--darkblue-1);
-        padding: 10px 15px;
         :focus-within {
             background-color: rgba(45, 90, 119, 0.2);
         }
@@ -109,14 +134,12 @@ export const Content = styled.div`
         border-radius: 5px;
         border: 1px solid var(--white-1);
         color: var(--white-1);
-        padding: 10px 15px;
         background-color: rgba(45, 90, 119, 0.2);
     }
     &.header-search {
         border-radius: 8px;
         background-color: var(--darkblue-4);
         border: 1px solid var(--white-1-50);
-        padding: 8px 10px;
         color: var(--white-1);
     }
     /* &.disabled {
@@ -132,16 +155,22 @@ export const TextField = styled.input`
     border: 0;
     background-color: transparent;
     color: inherit;
+    padding: 12px 10px;
     ::-ms-reveal {
         display: none;
     }
     ::placeholder {
         user-select: none;
     }
+    &.primary,
+    &.secondary {
+        padding: 9px 16px;
+    }
     &.primary-search {
         font-weight: 700;
+        padding: 10px 15px;
         ::placeholder {
-            color: var(--darkblue-1);
+            color: var(--darkblue-0);
             font-weight: 400;
         }
     }
@@ -152,29 +181,13 @@ export const TextField = styled.input`
             font-weight: 400;
         }
     }
-`;
-export const PasswordRevealer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    border-radius: 50%;
-    padding: 4px;
-    user-select: none;
-    :hover {
-        background-color: #f3f2f3;
-    }
-    :active {
-        background-color: #d8d9d8;
-    }
-    .iconify {
-        color: var(--dark-3);
-        font-size: 20px;
+    &.header-search {
+        padding: 12px 14px;
     }
 `;
 export const LensContainer = styled.span`
     display: flex;
-    margin: 0 10px;
+    margin: 0 30px 0 5px;
     .iconify {
         font-size: 20px;
     }

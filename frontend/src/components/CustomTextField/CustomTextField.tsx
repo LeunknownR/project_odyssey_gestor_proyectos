@@ -1,5 +1,8 @@
+//#region Libraries
 import { useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
+//#endregion
+//#region Styles
 import {
     Container,
     Content,
@@ -8,27 +11,31 @@ import {
     PasswordRevealer,
     TextField,
 } from "./styles";
+//#endregion
+//#region Components
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
+//#endregion
+//#region Types
 import { CustomTextFieldProps } from "./types";
+//#endregion
 // import { RESTRICTIONS } from "./utils/restrictions";
 
 const CustomTextField = ({
+    className,
     placeholder,
-    label,
-    type,
-    variant,
-    size,
-    width,
-    maxWidth,
-    maxLength,
-    disabled,
-    value,
-    // error = null,
+    name, label,
+    type, variant,
+    size, width, maxWidth,
+    maxLength, disabled,
+    value, error = null,
+    onFocus, onBlur,
     // restriction,
     onChange,
 }: CustomTextFieldProps) => {
     const [isPasswordRevealed, setIsPasswordRevealed] = useState(false);
     const getClassName = () => {
         const classList: string[] = [];
+        className && classList.push(className);
         size && classList.push(size);
         variant && classList.push(variant);
         disabled && classList.push("disabled");
@@ -40,7 +47,6 @@ const CustomTextField = ({
             return "text";
         return type ? type : "text";
     };
-    const className: string = getClassName();
     const togglePasswordRevealed = () => {
         setIsPasswordRevealed(prev => !prev);
     };
@@ -49,25 +55,24 @@ const CustomTextField = ({
     };
     return (
         <Container width={width} maxWidth={maxWidth} className={className}>
-            {label && <LabelContent className={className}>{label}</LabelContent>}
-            <Content className={className}>
+            {label && <LabelContent className={getClassName()}>{label}</LabelContent>}
+            <Content className={getClassName()}>
                 <TextField
                     disabled={disabled}
-                    className={className}
+                    className={getClassName()}
+                    name={name}
                     maxLength={maxLength}
                     type={getType()}
                     placeholder={type === "password" ? "********" : placeholder}
                     value={value}
                     onChange={onChange}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                     // onKeyPress={RESTRICTIONS[restriction ? restriction : ""]}
                 />
                 {showPasswordRevealer() && (
                     <PasswordRevealer onClick={togglePasswordRevealed}>
-                        <Icon
-                            icon={
-                                isPasswordRevealed ? "mdi:eye" : "mdi:eye-off"
-                            }
-                        />
+                        <Icon icon={isPasswordRevealed ? "mdi:eye" : "mdi:eye-off"}/>
                     </PasswordRevealer>
                 )}
                 {variant?.includes("search") && (
@@ -76,7 +81,7 @@ const CustomTextField = ({
                     </LensContainer>
                 )}
             </Content>
-            {/* <ErrorMessage text={error} /> */}
+            <ErrorMessage text={error} />
         </Container>
     );
 };

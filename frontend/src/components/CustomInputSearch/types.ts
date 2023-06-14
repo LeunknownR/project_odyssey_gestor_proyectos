@@ -1,15 +1,14 @@
-export type CustomInputSearchOption = {
-    id: number | string;
-    name: string;
-};
-export type CustomInputSearchProps = {
+import { SearchedItemToShow } from "./components/types";
+import { CustomInputSearchHook } from "./utils/hooks/types";
+
+export type CustomInputSearchProps<O> = {
     label?: string;
     placeholder?: string;
     maxLength?: number;
-    options: CustomInputSearchOption[];
-    value?: CustomInputSearchOption | null;
+    options: O[];
+    clearOptions: () => void;
+    fillOptions: (searchedText: string) => Promise<void>;
     variant: string;
-    onChange: (value: CustomInputSearchOption | null) => void;
-    fillOptions: (value: string) => void;
-    // clearOptions: () => void;
+    handler: CustomInputSearchHook<O>;
+    getSearchedItemToShow: (option: O) => SearchedItemToShow;
 };

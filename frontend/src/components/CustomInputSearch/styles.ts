@@ -4,7 +4,6 @@ import styled from "styled-components";
 export const Container = styled.div`
     display: flex;
     align-items: center;
-    align-self: center;
     position: relative;
     width: 100%;
 `;
@@ -13,30 +12,18 @@ export const List = styled.div`
     display: flex;
     flex-direction: column;
     background-color: #fff;
-    border: 1px solid var(--dark-3);
+    border: 1px solid var(--darkblue-1);
     border-radius: 5px;
     width: 100%;
-    top: 70px;
+    top: 45px;
+    max-height: 300px;
+    overflow-y: scroll;
+    z-index: 30;
+    ::-webkit-scrollbar {
+        display: none;
+    }
     @media (max-width: 500px) {
         top: 55px;
-    }
-`;
-export const Item = styled.div`
-    color: #858585;
-    padding: 10px 15px;
-    font-size: 14px;
-    cursor: pointer;
-    border-top: 1px solid var(--light-3);
-    user-select: none;
-    :first-child {
-        border-radius: 5px 5px 0 0;
-        border-top: 1px solid transparent;
-    }
-    :last-child {
-        border-radius: 0 0 5px 5px;
-    }
-    &.selected,
-    :hover {
     }
 `;
 // export const CleanBtn = styled.button`

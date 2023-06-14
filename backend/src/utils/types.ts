@@ -1,9 +1,11 @@
+import { ResponseCodes } from "./response/enums";
+
 export type TokenPayload = {
     username: string,
     roleId: string
 };
-export type ResponseBody = {
-    code: number,
-    message?: string,
-    data?: any
+export type ResponseBody<T = null> = {
+    code: ResponseCodes,
+    message: string | null,
+    data: T | null
 };

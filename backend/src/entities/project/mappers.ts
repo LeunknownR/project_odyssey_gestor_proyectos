@@ -1,48 +1,50 @@
 import { projectCollaboratorMapper } from "../collaborator/mappers";
-import { ProjectLeader } from "../collaborator/types";
+import { CollaboratorUser } from "../collaborator/entities";
 import { 
     Project, 
-    GroupedProjectListForGeneralAdmin, 
-    ProjectByCollaborator, 
-    GroupedProjectListForCollaborator, 
-    ProjectDetails 
-} from "./types";
+    GroupedProjectList,
+    ProjectPanelDetails, 
+    ProjectDetails
+} from "./entities";
 
-const projectLeaderMapper = (record: any): ProjectLeader => ({
-    name: record["user_name"],
-    surname: record["user_surname"],
-    email: record["email"],
-    urlPhoto: record["url_photo"]
+const projectLeaderMapper = (record: any): CollaboratorUser => ({
+    id: record["id_collaborator"],
+    name: record["collaborator_name"],
+    surname: record["collaborator_surname"],
+    email: record["collaborator_email"],
+    urlPhoto: record["collaborator_url_photo"]
 });
 const projectByGeneralAdminMapper = (record: any): Project => ({
-    id: record["id_project"],
-    name: record["project_name"],
-    description: record["description"],
-    startDate: record["start_date"].getTime(),
-    endDate: record["end_date"].getTime(),
-    state: record["state"],
-    leader: projectLeaderMapper(record)
-});
-export const projectListByGeneralAdminMapper = (resultset: any[]): GroupedProjectListForGeneralAdmin => {
-    const projectList: Project[] = resultset.map(projectByGeneralAdminMapper);
-    return {
-        recents: projectList.slice(0, 3),
-        all: projectList.slice(3)
-    };
-}
-const projectByCollaboratorMapper = (record: any): ProjectByCollaborator => ({
     id: record["id_project"],
     name: record["project_name"],
     description: record["project_description"],
     startDate: record["project_start_date"].getTime(),
     endDate: record["project_end_date"].getTime(),
     state: record["project_state"],
+    projectMemberCount: record["project_member_count"],
+    leader: projectLeaderMapper(record)
 });
-export const projectListByCollaboratorMapper = (resultset: any[]): GroupedProjectListForCollaborator => {
-    const projectByCollaborator: ProjectByCollaborator[] = resultset.map(projectByCollaboratorMapper);
+export const projectListByGeneralAdminMapper = (resultset: any[]): GroupedProjectList => {
+    const projectList: Project[] = resultset.map(projectByGeneralAdminMapper);
     return {
-        recents: projectByCollaborator.slice(0, 3),
-        all: projectByCollaborator.slice(3)
+        recents: projectList.slice(0, 3),
+        all: projectList
+    };
+}
+const projectByCollaboratorMapper = (record: any): Project => ({
+    id: record["id_project"],
+    name: record["project_name"],
+    description: record["project_description"],
+    startDate: record["project_start_date"].getTime(),
+    endDate: record["project_end_date"].getTime(),
+    state: record["project_state"],
+    projectMemberCount: record["project_member_count"]
+});
+export const projectListByCollaboratorMapper = (resultset: any[]): GroupedProjectList => {
+    const projectList: Project[] = resultset.map(projectByCollaboratorMapper);
+    return {
+        recents: projectList.slice(0, 3),
+        all: projectList
     };
 }
 export const projectDetailsMapper = (resultset: any[]): ProjectDetails => {
@@ -51,8 +53,18 @@ export const projectDetailsMapper = (resultset: any[]): ProjectDetails => {
         id: header["id_project"],
         name: header["project_name"],
         description: header["project_description"],
-        period: header["period_project"],// 10-05-2023 / 10-10-2023
-        endDate: header["project_end_date"],
+        period: header["period_project"],
+        endDate: header["project_end_date"].getTime(),
+        state: header["project_state"],
         collaborators: resultset.map(projectCollaboratorMapper)
+    };
+};
+export const projetPanelDetailsMapper = (resultset: any): ProjectPanelDetails => {
+    const [header] = resultset;
+    return {
+        id: header["id_project"],
+        name: header["project_name"],
+        state: header["project_state"],
+        projectRoleId: header["id_project_role"],
     };
 };

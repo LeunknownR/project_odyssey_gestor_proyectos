@@ -1,17 +1,18 @@
-import { ProjectForm } from "../../../entities/project/types";
+import { ProjectForm } from "../../../entities/project/entities";
 import { isPositiveNumber } from "../../../utils/numbers";
-import { checkLength } from "../../../utils/string";
+import { checkLength } from "../../../utils/strings";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "./types";
 
-export const parseToProjectName = (params: any): string => {
-    if (!checkLength(params.projectName, 0, 255))
+export const parseToProjectName = (params: any): string | null => {
+    const { projectName } = params;
+    if (projectName && !checkLength(params.projectName, 1, 255))
         throw new Error("Invalid project name");
-    return params.projectName;
+    return projectName || null;
 }
 export const parseToCollaboratorName = (params: any): string => {
-    if (!checkLength(params.collaboratorName, 0, 100))
+    if (!checkLength(params.collaboratorName, 1, 100))
         throw new Error("Invalid collaborator name");
-    return params.projectName;
+    return params.collaboratorName;
 }
 export const parseToProjectForm = (body: any, withId: boolean): ProjectForm => {
     const {

@@ -1,11 +1,25 @@
-/* eslint-disable no-constant-condition */
-import { Container, NameInitials, UserPhoto } from "./styles";
+import BackendImage from "./components/BackendImage/BackendImage";
+import NameInitials from "./components/NameInitials/NameInitials";
+import { Container } from "./styles";
 import { UserImageProps } from "./types";
 
-const UserImage = ({ isClickable, onClick }: UserImageProps) => {
+const UserImage = ({ 
+    clickable, 
+    className,
+    onClick, 
+    name, surname, 
+    urlPhoto 
+}: UserImageProps) => {
     return (
-        <Container className={isClickable && "clickable"} onMouseDown={onClick}>
-            {true ? <NameInitials>DC</NameInitials> : <UserPhoto />}
+        <Container 
+            className={clickable ? "clickable" : ""} 
+            onMouseDown={onClick}>
+            {urlPhoto 
+                ? <BackendImage className={className} path={urlPhoto}/>
+                : <NameInitials 
+                    name={name} 
+                    surname={surname} 
+                    className={className}/>} 
         </Container>
     );
 };

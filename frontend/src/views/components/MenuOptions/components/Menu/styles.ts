@@ -1,37 +1,68 @@
-import styled from 'styled-components';
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 type ContainerProps = {
     className?: any;
-    ref: any;
 };
 export const Container = styled.div<ContainerProps>`
-    display: none;
     position: absolute;
-    top: 0;
+    display: flex;
+    flex-direction: column;
+    top: 4px;
     right: 30px;
     background-color: var(--gray-1);
     border-radius: 2px;
     z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.25s;
+    transform: translateY(-100%);
     &.show {
-        display: flex;
-        flex-direction: column;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
     }
     &.right {
         right: unset;
         left: 30px;
     }
+    @media (max-width: 600px) {
+        &.right {
+            right: 105%;
+            left: unset;
+        }
+    }
 `;
 type OptionProps = {
     color?: string;
-}
+    onClick?: any;
+};
 export const Option = styled.div<OptionProps>`
-    color: ${({color}) => color};
+    color: ${({ color }) => color};
     font-weight: bold;
-    font-size: 12px;
-    cursor: pointer;
+    font-size: 13px;
     padding: 10px 15px;
     transition: 0.25s;
+    cursor: pointer;
     :hover {
         background-color: #cccccc;
+    }
+    @media (max-width: 600px) {
+        font-size: 10px;
+    }
+`;
+export const OptionLink = styled(Link)`
+    color: ${({ color }) => color};
+    font-weight: bold;
+    font-size: 13px;
+    padding: 10px 15px;
+    transition: 0.25s;
+    cursor: pointer;
+    text-decoration: none;
+    :hover {
+        background-color: #cccccc;
+    }
+    @media (max-width: 600px) {
+        font-size: 10px;
     }
 `;

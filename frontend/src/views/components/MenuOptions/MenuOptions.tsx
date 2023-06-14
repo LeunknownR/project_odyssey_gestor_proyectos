@@ -1,32 +1,28 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Container } from "./styles";
 import ThreeDots from "./components/ThreeDots/ThreeDots";
 import Menu from "./components/Menu/Menu";
+import { MenuOptionsProps } from "./types";
 
-const MenuOptions = ({menuPosition = "left"}) => {
+const MenuOptions = ({
+    menuPosition = "left",
+    onClickEdit,
+    onClickDelete,
+    onClickDetails
+}: MenuOptionsProps) => {
     const [showMenu, setShowMenu] = useState(false);
-    const $menuRef = useRef<HTMLDivElement | null>(null);
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (!($menuRef.current as HTMLDivElement).contains(event.target as Node))
-                setShowMenu(false);
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
-    const toggleMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation();
-        setShowMenu(prev => !prev);
-    };
+    const toggleMenu = () => setShowMenu(prev => !prev);
     return (
-        <>
-        <Container>
-            <ThreeDots onClick={toggleMenu}/>
-            <Menu show={showMenu} ref={$menuRef} menuPosition={menuPosition}/>
+        <Container tabIndex={0} onBlur={() => setShowMenu(false)}>
+            <ThreeDots onClick={toggleMenu} />
+            <Menu
+                show={showMenu}
+                menuPosition={menuPosition}
+                onClickEdit={onClickEdit}
+                onClickDelete={onClickDelete}
+                onClickDetails={onClickDetails}
+            />
         </Container>
-        </>
     );
 };
 

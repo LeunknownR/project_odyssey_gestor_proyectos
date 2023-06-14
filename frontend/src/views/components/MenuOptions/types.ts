@@ -1,3 +1,6 @@
 export type MenuOptionsProps = {
-    menuPosition: string;
+    menuPosition?: string;
+    onClickEdit: () => void;
+    onClickDelete: () => void;
+    onClickDetails: string;
 }

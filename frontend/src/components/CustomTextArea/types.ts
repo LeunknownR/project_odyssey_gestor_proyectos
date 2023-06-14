@@ -1,6 +1,5 @@
-import { ChangeEvent } from "react";
-
 export type CustomTextAreaProps = {
+    className?: string;
     placeholder?: string;
     label?: string;
     variant?: string;
@@ -8,6 +7,8 @@ export type CustomTextAreaProps = {
     size?: string;
     width?: string;
     maxWidth?: string;
-    value?: string;
-    onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-}
+    value: string;
+    onChange: any;
+    onKeyDown?: any;
+    characterCounter?: boolean;
+};
