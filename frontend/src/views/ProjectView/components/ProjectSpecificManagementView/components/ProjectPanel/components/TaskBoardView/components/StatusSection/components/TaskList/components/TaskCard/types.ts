@@ -5,3 +5,10 @@ export type TaskCardProps = {
     openTaskMenu: (taskInfo: ProjectTask) => void;
     status: string;
 }
+export type EmptyProps = {
+    height: string;
+};
+export type ContainerProps = {
+    top: string;
+    left: string;
+}

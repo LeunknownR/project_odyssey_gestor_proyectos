@@ -6,7 +6,7 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
-    background-color: var(--darkblue-3);
+    background-color: var(--darkblue-2);
     padding: 85px 0 70px;
 `;
 export const Column = styled(FlexFlow)`

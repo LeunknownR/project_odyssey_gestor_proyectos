@@ -10,7 +10,7 @@ import {
 import UserImage from "src/views/components/UserImage/UserImage";
 import NoResponsible from "src/images/no-responsible.svg";
 import { TaskCardProps } from "./types";
-import TaskPriorityNullImage from "src/images/test2.svg";
+import TaskPriorityNull from "src/images/no-priority.svg";
 import { ProjectState } from "src/entities/project/enums";
 import BackendImage from "src/views/components/UserImage/components/BackendImage/BackendImage";
 import { TASK_PRIORITY } from "./utils/constants";
@@ -54,7 +54,7 @@ const TaskCard = ({ taskInfo, openTaskMenu, status }: TaskCardProps) => {
                         className="big"
                     />
                 ) : (
-                    <StateSwordTag src={TaskPriorityNullImage} />
+                    <StateSwordTag src={TaskPriorityNull} />
                 )}
             </FlexFlow>
         </Container>

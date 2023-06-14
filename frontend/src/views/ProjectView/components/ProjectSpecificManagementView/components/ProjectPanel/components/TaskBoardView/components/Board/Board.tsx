@@ -1,7 +1,7 @@
 import { FlexFlow } from "src/components/styles";
-import StatusSection from "../StatusSection/StatusSection";
 import { BoardProps } from "./types";
 import { ProjectState } from "src/entities/project/enums";
+import StatusSection from "../StatusSection/StatusSection";
 
 const Board = ({ projectTaskBoard, openTaskMenu }: BoardProps) => {
     const statusSectionProps = [

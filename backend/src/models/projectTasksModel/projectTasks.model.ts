@@ -100,7 +100,6 @@ export default abstract class ProjectTasksModel {
         payload: subtask,
         collaboratorId
     }: WSSubtaskToBeUpdatedForm): Promise<any> {
-        return { message: 'SUCCESS' }
         const [[record]] = await DBConnection.query(
             StoredProcedures.UpdateProjectSubtask,
             [
@@ -117,7 +116,6 @@ export default abstract class ProjectTasksModel {
         payload: subtask,
         collaboratorId
     }: WSSubtaskToBeSwitchedCheckStatusForm): Promise<any> {
-        return { message: 'SUCCESS' }
         const [[record]] = await DBConnection.query(
             StoredProcedures.SwitchCheckStatusSubtask,
             [
@@ -134,7 +132,6 @@ export default abstract class ProjectTasksModel {
         payload: subtaskId,
         collaboratorId
     }: WSProjectSubtaskToBeDeletedForm): Promise<any> {
-        return { message: 'SUCCESS' }
         const [[record]] = await DBConnection.query(
             StoredProcedures.DeleteProjectSubtask,
             [

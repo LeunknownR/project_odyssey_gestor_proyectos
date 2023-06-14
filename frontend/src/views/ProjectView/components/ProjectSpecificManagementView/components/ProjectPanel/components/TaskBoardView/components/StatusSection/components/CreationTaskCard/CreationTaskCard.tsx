@@ -6,7 +6,7 @@ import {
     UnselectedResponsible,
 } from "./styles";
 import NoResponsible from "src/images/no-responsible.svg";
-import TaskPriorityNullImage from "src/images/test2.svg";
+import TaskPriorityNull from "src/images/no-priority.svg";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
 import { CreationTaskCardProps } from "./types";
 import useTaskBoardContext from "../../../../utils/contexts/useTaskBoardContext";
@@ -62,7 +62,7 @@ const CreationTaskCard = ({
             />
             <FlexFlow justify="space-between">
                 <UnselectedResponsible src={NoResponsible} />
-                <StateSwordTag src={TaskPriorityNullImage} />
+                <StateSwordTag src={TaskPriorityNull} />
             </FlexFlow>
         </Container>
     );
