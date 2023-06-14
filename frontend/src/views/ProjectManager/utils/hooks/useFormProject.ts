@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { INITIAL_FORM } from "../constants";
 import { ModalProps } from "src/components/Modal/types";
-import { Project, ProjectForm } from "src/entities/project/types";
 import { ProjectForStateForm } from "../../types";
 import { FormProjectHook } from "./types";
+import { Project, ProjectForm } from "src/entities/project/entities";
 
 const useFormProject = (
     modalPropsCreate: ModalProps,
@@ -67,7 +67,7 @@ const useFormProject = (
             description,
             startDate,
             endDate,
-            leaderId: leaderId || 4
+            leaderId: leaderId || 0,
         };
         return project;
     };

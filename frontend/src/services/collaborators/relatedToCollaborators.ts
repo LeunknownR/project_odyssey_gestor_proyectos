@@ -3,7 +3,8 @@ import { APIRequestFunction, ResponseBody } from "../types";
 import { ApiPathEndpoints } from "../apiPathEndpoints";
 import { APIHandler } from "src/config/api";
 import { getEndpointWithPathVariables } from "../utils/helpers";
-import { AddProjectMembersRequestBody, SearchCollaboratorRequestBody } from "./types";
+import { AddProjectMembersRequestBody } from "./types";
+import { SearchCollaboratorRequestBody } from "src/entities/project/entities";
 
 export const requestSearchCollaboratorForGeneralAdmin: APIRequestFunction<
     CollaboratorUser[],

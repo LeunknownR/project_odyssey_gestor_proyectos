@@ -15,7 +15,7 @@ export type WSProjectTaskMainInformation = {
     name: string;
     description: string | null;
     deadline: number;
-    priotityId: number | null;
+    priorityId: number | null;
 };
 export type WSNewProjectSubtask = {
 	taskId: number;

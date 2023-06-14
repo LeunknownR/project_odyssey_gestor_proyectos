@@ -6,15 +6,18 @@ import { Container, IconContainer } from "./styles";
 //#endregion
 //#region Types
 import { HeaderProps } from "./types";
+import { ProjectState } from "src/entities/project/enums";
 //#endregion
 
-const Header = ({ status }: HeaderProps) => {
+const Header = ({ sectionName, status }: HeaderProps) => {
     return (
         <Container align="center" justify="space-between">
-            <h2>{status}</h2>
-            <IconContainer>
-                <Icon icon="material-symbols:add" />
-            </IconContainer>
+            <h2>{sectionName}</h2>
+            {status !== ProjectState.Finalized && (
+                <IconContainer>
+                    <Icon icon="material-symbols:add" />
+                </IconContainer>
+            )}
         </Container>
     );
 };

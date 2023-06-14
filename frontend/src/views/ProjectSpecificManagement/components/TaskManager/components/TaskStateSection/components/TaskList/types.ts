@@ -1,7 +1,7 @@
 import { ProjectTask } from "src/entities/projectTasks/entities";
 
-export type StatusSectionProps = {
-    status: string;
+export type TaskListProps = {
     taskListInfo: ProjectTask[];
     openTaskMenu: (taskInfo: ProjectTask) => void;
+    status: string;
 };

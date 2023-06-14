@@ -1,45 +1,42 @@
 import { FlexFlow } from "src/components/styles";
-import StatusSection from "../StatusSection/StatusSection";
+import ProjectTaskStateSection from "../TaskStateSection/TaskStateSection";
 import { BoardProps } from "./types";
+import { ProjectState } from "src/entities/project/enums";
+import { ProjectTaskState } from "src/entities/projectTasks/entities";
 
 const Board = ({ projectTaskBoard, openTaskMenu }: BoardProps) => {
     const statusSectionProps = [
         {
-            status: "Pendientes",
-            taskListInfo: projectTaskBoard.pending,
+            sectionName: "Pendientes",
+            state: ProjectState.Pending,
+            taskListInfo: projectTaskBoard.pending
         },
         {
-            status: "En Curso",
-            taskListInfo: projectTaskBoard.onProgress,
+            sectionName: "En Curso",
+            state: ProjectState.OnProgress,
+            taskListInfo: projectTaskBoard.onProgress
         },
         {
-            status: "Finalizadas",
-            taskListInfo: projectTaskBoard.finalized,
+            sectionName: "Finalizadas",
+            state: ProjectState.Finalized,
+            taskListInfo: projectTaskBoard.finalized
         },
     ];
+    const changeProjectTaskState = (taskId: number, taskState: ProjectTaskState): void => {
+        // 
+    }
     return (
         <FlexFlow width="100%" gap="15px">
             {statusSectionProps.map((section, idx) => (
-                <StatusSection
+                <ProjectTaskStateSection
                     key={idx}
-                    status={section.status}
+                    sectionName={section.sectionName}
+                    status={section.state}
                     taskListInfo={section.taskListInfo}
+                    changeProjectTaskState={changeProjectTaskState}
                     openTaskMenu={openTaskMenu}
                 />
             ))}
-            {/* <StatusSection
-                status="Pendientes"
-                taskListInfo={projectTaskBoard.pending}
-                setCurrentProjectTask={setCurrentProjectTask}
-            />
-            <StatusSection
-                status="En Curso"
-                taskListInfo={projectTaskBoard.onProgress}
-            />
-            <StatusSection
-                status="Finalizadas"
-                taskListInfo={projectTaskBoard.finalized}
-            /> */}
         </FlexFlow>
     );
 };

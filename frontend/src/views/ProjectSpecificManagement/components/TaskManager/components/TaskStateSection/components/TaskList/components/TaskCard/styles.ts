@@ -1,17 +1,33 @@
 import styled from 'styled-components';
+import { ContainerProps, EmptyProps } from './types';
 
-export const Container = styled.li`
+export const Empty = styled.div<EmptyProps>`
+    border: 1px solid var(--gray-3);
+    border-radius: 10px;
+    width: 360px;
+    height: ${({ height = "unset" }) => height};
+    &.hidden {
+        display: none;        
+    }
+`;
+export const Container = styled.li<ContainerProps>`
     display: flex;
     flex-direction: column;
     gap: 22px;
     padding: 18px 8px 18px 18px;
     border: 1px solid var(--gray-3);
     border-radius: 10px;
-    max-width: 360px;
+    width: 360px;
     margin-right: 12px;
-    cursor: pointer;
     transition: 0.3s;
     user-select: none;
+    transition: 0.35s;
+    cursor: pointer;
+    &.dragged {
+        position: fixed;
+        top: ${({ top = "unset" }) => top};
+        left: ${({ left = "unset" }) => left};
+    }
     &.checked > * {
         opacity: 0.4;
     }
@@ -20,14 +36,6 @@ export const Container = styled.li`
     }
     :active {
         scale: 1.01;
-    }
-`;
-export const IconContainer = styled.span`
-    display: flex;
-    cursor: pointer;
-    .iconify {
-        color: var(--white-1);
-        font-size: 24px;
     }
 `;
 export const TaskCardName = styled.h3`

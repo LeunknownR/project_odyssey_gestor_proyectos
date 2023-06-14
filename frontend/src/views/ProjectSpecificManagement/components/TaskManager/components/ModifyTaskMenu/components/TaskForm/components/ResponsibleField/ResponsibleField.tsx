@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { useState, useEffect } from "react";
 import CustomInputSearch from "src/components/CustomInputSearch/CustomInputSearch";
 import useCustomInputSearch from "src/components/CustomInputSearch/utils/hooks/useCustomInputSearch";
@@ -6,23 +5,32 @@ import useSearchCollaborator from "src/views/ProjectManager/utils/hooks/useSearc
 import CustomInputSearchUserOption from "src/views/components/CustomInputSearchUserOption/CustomInputSearchUserOption";
 import { TASK_FIELD_PROPS } from "../../../../utils/constants";
 import { Container } from "./styles";
-import { CollaboratorUser } from "src/entities/collaborator/entities";
-import { requestSearchCollaboratorForGeneralAdmin } from "src/services/collaborators/relatedToCollaborators";
+import { requestSearchCollaboratorToBeMemberForCollaborator } from "src/services/collaborators/relatedToCollaborators";
 import { Label } from "../../styles";
+import useTaskBoardContext from "src/views/ProjectSpecificManagement/components/TaskManager/utils/contexts/useTaskBoardContext";
+import { ResponsibleFieldProps } from "./types";
+import { ProjectTaskCollaboratorUser } from "src/entities/projectTasks/entities";
+import SelectedResponsible from "./components/SelectedResponsible/SelectedResponsible";
 
-const ResponsibleField = () => {
+const ResponsibleField = ({
+    form,
+    currentResponsible,
+}: ResponsibleFieldProps) => {
     const [selectedResponsible, setSelectedResponsible] =
-        useState<CollaboratorUser | null>(null);
-    // useEffect(() => {
-    //     if (!currentLeader || !modalProps.isOpen) return;
-    //     setSelectedCollaborator(currentLeader);
-    // }, [modalProps.isOpen]);
+        useState<ProjectTaskCollaboratorUser | null>(null);
+    const { projectId } = useTaskBoardContext();
+    useEffect(() => {
+        if (!currentResponsible) return;
+        setSelectedResponsible(currentResponsible);
+    }, []);
     const selectTaskResponsibleHandler = useSearchCollaborator({
         requestSearchCollaborators: async (collaboratorName: string) => {
             // preloader.show("Buscando colaboradores...")
-            const { data } = await requestSearchCollaboratorForGeneralAdmin(
-                collaboratorName
-            );
+            const { data } =
+                await requestSearchCollaboratorToBeMemberForCollaborator({
+                    collaboratorName,
+                    projectId,
+                });
             // preloader.hide();
             return data;
         },
@@ -36,12 +44,12 @@ const ResponsibleField = () => {
     //     if (modalProps.isOpen) return;
     //     customSearchInputHandler.clear();
     // }, [modalProps.isOpen]);
-    // useEffect(() => {
-    //     form.change(
-    //         TEXT_FIELD_PROPS.PROJECT_LEADER.name,
-    //         selectedCollaborator?.id || 0
-    //     );
-    // }, [selectedCollaborator]);
+    useEffect(() => {
+        form.change(
+            TASK_FIELD_PROPS.TASK_RESPONSIBLE.name,
+            selectedResponsible?.id || 0
+        );
+    }, [selectedResponsible]);
     const eraseSelectedResponsible = () => {
         setSelectedResponsible(null);
         customSearchInputHandler.clear();
@@ -49,18 +57,25 @@ const ResponsibleField = () => {
     return (
         <Container align="center" width="100%">
             <Label>Responsable</Label>
-            <CustomInputSearch
-                {...TASK_FIELD_PROPS.TASK_RESPONSIBLE}
-                variant="primary-search"
-                handler={customSearchInputHandler}
-                clearOptions={selectTaskResponsibleHandler.clear}
-                fillOptions={selectTaskResponsibleHandler.fill}
-                options={selectTaskResponsibleHandler.collaboratorUserList}
-                getSearchedItemToShow={options => ({
-                    value: options.id,
-                    content: <CustomInputSearchUserOption {...options} />,
-                })}
-            />
+            {selectedResponsible ? (
+                <SelectedResponsible
+                    selectedResponsible={selectedResponsible}
+                    eraseSelectedResponsible={eraseSelectedResponsible}
+                />
+            ) : (
+                <CustomInputSearch
+                    {...TASK_FIELD_PROPS.TASK_RESPONSIBLE}
+                    variant="primary-search"
+                    handler={customSearchInputHandler}
+                    clearOptions={selectTaskResponsibleHandler.clear}
+                    fillOptions={selectTaskResponsibleHandler.fill}
+                    options={selectTaskResponsibleHandler.collaboratorUserList}
+                    getSearchedItemToShow={options => ({
+                        value: options.id,
+                        content: <CustomInputSearchUserOption {...options} />,
+                    })}
+                />
+            )}
         </Container>
     );
 };

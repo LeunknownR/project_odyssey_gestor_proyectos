@@ -2,12 +2,12 @@ import { useState } from "react";
 import Modal from "src/components/Modal/Modal";
 import { NewProjectModalProps } from "./types";
 import { requestCreateProject } from "src/services/projects/relatedToProjects";
-import { ProjectForm } from "src/entities/project/types";
 import { CardVariant } from "src/components/NotificationCard/types";
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
 import FormSection from "./components/FormSection/FormSection";
 import LeaderSelectionSection from "./components/LeaderSelectionSection/LeaderSelectionSection";
 import { FlexFlow } from "src/components/styles";
+import { ProjectForm } from "src/entities/project/entities";
 
 const MODAL_STYLES = {
     padding: "0",

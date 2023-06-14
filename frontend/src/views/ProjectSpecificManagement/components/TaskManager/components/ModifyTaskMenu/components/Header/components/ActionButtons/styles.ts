@@ -5,10 +5,7 @@ import styled from 'styled-components';
 export const Container = styled(FlexFlow)`
     translate: 77%;
 `;
-type ButtonProps = {
-    className: any;
-}
-export const SlideButton = styled(CustomButton)<ButtonProps>`
+export const SlideButton = styled(CustomButton)`
     background-color: var(--darkblue-1);
     color: var(--white-1);
     border-radius: 5px 0 0 5px;
@@ -21,7 +18,7 @@ export const SlideButton = styled(CustomButton)<ButtonProps>`
         translate: 100%;
     }
 `;
-export const Wrapper = styled(FlexFlow)<ButtonProps>`
+export const Wrapper = styled(FlexFlow)`
     transition: 0.4s;
     &.active {
         translate: -100%;
