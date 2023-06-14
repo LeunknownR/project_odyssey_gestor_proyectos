@@ -21,6 +21,7 @@ const ProjectTitle = ({ name, state }: ProjectTitleProps) => {
                 </IconContainer>
                 <ProjectName>{name}</ProjectName>
             </FlexFlow>
+            
             <ProjectState state={state} />
         </Container>
     );

@@ -11,7 +11,7 @@ export type WSProjectTaskToBeUpdated = {
     name: string;
     description: string | null;
     deadline: number;
-    priotityId: number | null;
+    priorityId: number | null;
     newSubTask: string[];
     subTaskIdsToBeDeleted: number[];
 };

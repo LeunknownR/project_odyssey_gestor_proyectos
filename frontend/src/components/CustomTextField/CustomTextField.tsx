@@ -1,5 +1,8 @@
+//#region Libraries
 import { useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
+//#endregion
+//#region Styles
 import {
     Container,
     Content,
@@ -8,8 +11,13 @@ import {
     PasswordRevealer,
     TextField,
 } from "./styles";
-import { CustomTextFieldProps } from "./types";
+//#endregion
+//#region Components
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+//#endregion
+//#region Types
+import { CustomTextFieldProps } from "./types";
+//#endregion
 // import { RESTRICTIONS } from "./utils/restrictions";
 
 const CustomTextField = ({
@@ -48,10 +56,10 @@ const CustomTextField = ({
     return (
         <Container width={width} maxWidth={maxWidth} className={className}>
             {label && <LabelContent className={getClassName()}>{label}</LabelContent>}
-            <Content className={className}>
+            <Content className={getClassName()}>
                 <TextField
                     disabled={disabled}
-                    className={className}
+                    className={getClassName()}
                     name={name}
                     maxLength={maxLength}
                     type={getType()}
@@ -64,11 +72,7 @@ const CustomTextField = ({
                 />
                 {showPasswordRevealer() && (
                     <PasswordRevealer onClick={togglePasswordRevealed}>
-                        <Icon
-                            icon={
-                                isPasswordRevealed ? "mdi:eye" : "mdi:eye-off"
-                            }
-                        />
+                        <Icon icon={isPasswordRevealed ? "mdi:eye" : "mdi:eye-off"}/>
                     </PasswordRevealer>
                 )}
                 {variant?.includes("search") && (

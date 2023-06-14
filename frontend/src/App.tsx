@@ -4,10 +4,10 @@ import useModal from "./components/Modal/utils/hooks/useModal";
 import { ModalProps } from "./components/Modal/types";
 import { ResponseCodes } from "./services/utils/enums";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./views/Login/Login";
 import MasterRouter from "./routes/MasterRouter";
 import MainContext from "./utils/contexts/main-context/MainContext";
 import useDeviceSize from "./utils/hooks/useDeviceSize";
+import LoginView from "./views/LoginView/LoginView";
 
 function App() {
     const modalUnexpectedError: ModalProps = useModal();
@@ -27,7 +27,7 @@ function App() {
         <MainContext.Provider value={{ isMobile }}>
             <BrowserRouter>
                 <Routes>
-                    <Route path="login" element={<Login />} />
+                    <Route path="login" element={<LoginView />} />
                     <Route path="*" element={<MasterRouter />} />
                 </Routes>
             </BrowserRouter>
