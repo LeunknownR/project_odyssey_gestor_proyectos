@@ -2,7 +2,7 @@ import { Ball, Container, State } from "./styles";
 import { ProjectStateProps } from "./types";
 import { PROJECT_STATE } from "./utils/constants";
 
-const ProjectState = ({ state }: ProjectStateProps) => {
+const ProjectStateLabel = ({ state }: ProjectStateProps) => {
     return (
         <Container color={PROJECT_STATE[state].background}>
             <Ball color={PROJECT_STATE[state].color} />
@@ -11,4 +11,4 @@ const ProjectState = ({ state }: ProjectStateProps) => {
     );
 };
 
-export default ProjectState;
+export default ProjectStateLabel;

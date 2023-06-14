@@ -1,7 +1,7 @@
 import CustomButton from 'src/components/CustomButton/CustomButton';
 import styled from 'styled-components';
 
-export const AddTaskButton = styled(CustomButton)`
+export const Container = styled(CustomButton)`
     background-color: transparent;
     border-radius: 10px;
     color: var(--white-1);

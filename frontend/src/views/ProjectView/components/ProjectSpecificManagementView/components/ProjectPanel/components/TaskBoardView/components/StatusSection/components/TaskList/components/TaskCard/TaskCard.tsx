@@ -10,16 +10,20 @@ import {
 import UserImage from "src/views/components/UserImage/UserImage";
 import NoResponsible from "src/images/no-responsible.svg";
 import { TaskCardProps } from "./types";
-import TaskPriorityNull from "src/images/no-priority.svg";
+import emptyTaskPriorityImg from "src/images/no-priority.svg";
 import { ProjectState } from "src/entities/project/enums";
 import BackendImage from "src/views/components/UserImage/components/BackendImage/BackendImage";
 import { TASK_PRIORITY } from "./utils/constants";
 import { dayMonthFormat } from "src/utils/dates";
 
-const TaskCard = ({ taskInfo, openTaskMenu, status }: TaskCardProps) => {
+const TaskCard = ({ 
+    taskInfo, 
+    openTaskMenu, 
+    state
+}: TaskCardProps) => {
     const { name, responsible, deadline, priorityId } = taskInfo;
     const [isFinalized, setIsFinalized] = useState(false);
-    useEffect(() => setIsFinalized(status === ProjectState.Finalized), []);
+    useEffect(() => setIsFinalized(state === ProjectState.Finalized), []);
     const getClassName = (): string => {
         const classList = [];
         isFinalized && classList.push("checked");
@@ -54,7 +58,7 @@ const TaskCard = ({ taskInfo, openTaskMenu, status }: TaskCardProps) => {
                         className="big"
                     />
                 ) : (
-                    <StateSwordTag src={TaskPriorityNull} />
+                    <StateSwordTag src={emptyTaskPriorityImg} />
                 )}
             </FlexFlow>
         </Container>

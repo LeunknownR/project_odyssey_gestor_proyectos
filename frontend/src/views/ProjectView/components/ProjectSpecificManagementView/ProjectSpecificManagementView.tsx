@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from "react";
 import { Navigate, Route, Routes, useNavigate, useParams } from "react-router-dom";
-import { SUBMODULES_VIEWS } from "./constants";
+import { SUBMODULES_VIEWS } from "./utils/constants";
 import { AbsolutePaths } from "src/config/absolutePaths";
 import { Container } from "./styles";
 import Preloader from "src/components/Preloader/Preloader";
