@@ -1,6 +1,12 @@
+export type MenuOption = {
+    text: string;
+    to?: string;
+    onClick?: () => void;
+    color?: string;
+    icon?: string;
+};
 export type MenuOptionsProps = {
-    menuPosition?: string;
-    onClickEdit: () => void;
-    onClickDelete: () => void;
-    onClickDetails: string;
+    className?: string;
+    options: MenuOption[];
+    menuPosition: "left" | "right";
 }

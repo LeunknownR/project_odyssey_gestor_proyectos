@@ -3,6 +3,7 @@ import styled from "styled-components";
 type FlexFlowProps = {
     justify?: string;
     direction?: string;
+    flexWrap?: string;
     align?: string;
     alignSelf?: string;
     justifySelf?: string;
@@ -17,6 +18,7 @@ type FlexFlowProps = {
 export const FlexFlow = styled.div<FlexFlowProps>`
     display: flex;
     flex-direction: ${({ direction = "row" }) => direction};
+    flex-wrap: ${({ flexWrap = "nowrap" }) => flexWrap};
     justify-content: ${({ justify = "normal" }) => justify};
     justify-self: ${({ justifySelf = "unset" }) => justifySelf};
     align-items: ${({ align = "normal" }) => align};

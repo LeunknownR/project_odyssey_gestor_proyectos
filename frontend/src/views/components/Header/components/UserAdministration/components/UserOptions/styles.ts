@@ -2,11 +2,7 @@ import { FlexFlow } from 'src/components/styles';
 import { MOBILE_WIDTH } from 'src/config/constants';
 import styled from 'styled-components';
 
-type ContainerProps = {
-    className?: any;
-    ref: any;
-}
-export const Container = styled.div<ContainerProps>`
+export const Container = styled.div`
     position: fixed;
     display: flex;
     flex-direction: column;

@@ -6,7 +6,7 @@ import { FlexFlow } from "src/components/styles";
 import { Container, IconContainer, ProjectName } from "./styles";
 //#endregion
 //#region Components
-import ProjectState from "../ProjectState/ProjectState";
+import ProjectStateLabel from "../ProjectState/ProjectStateLabel";
 //#endregion
 //#region Types
 import { ProjectTitleProps } from "./types";
@@ -21,7 +21,7 @@ const ProjectTitle = ({ name, state }: ProjectTitleProps) => {
                 </IconContainer>
                 <ProjectName>{name}</ProjectName>
             </FlexFlow>
-            <ProjectState state={state} />
+            <ProjectStateLabel state={state} />
         </Container>
     );
 };

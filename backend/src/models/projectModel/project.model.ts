@@ -128,12 +128,12 @@ export default abstract class ProjectModel {
         return record;
     }
     public static async deleteProjectMember({
-        userId, projectHasCollaboratorId
+        userId, projectTeamMemberId
     }: DeleteProjectMemberRequestBody): Promise<any> {
         const [[record]] = await DBConnection.query(
             StoredProcedures.DeleteProjectMember,
             [
-                projectHasCollaboratorId,
+                projectTeamMemberId,
                 userId
             ]);
         return record;

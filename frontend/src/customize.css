@@ -93,7 +93,9 @@ p {
     background-color: var(--white-1-50);
     border-radius: 20px;
 }
-
+*.custom-scrollbar::-webkit-scrollbar-corner {
+	background-color: transparent;
+}
 *.custom-scrollbar::-webkit-scrollbar {
     background-color: var(--white-1-12);
     width: 10px;
