@@ -20,15 +20,10 @@ import WSProjectTaskServiceEvents from "src/services/websockets/services/project
 import TaskBoardContext from "./utils/contexts/TaskBoardContext";
 //#endregion
 
-<<<<<<< HEAD
-const TaskBoard = ({ projectId }: PanelTabProps) => {
-    const modifyMenuRef = useRef<HTMLElement>(null);
-=======
 const TaskBoard = ({ 
     projectId, preloader
 }: PanelTabProps) => {
     const modifyMenuRef = useRef<HTMLDivElement>(null);
->>>>>>> aa42b7aa3719f58f00568b5af83fdebc1b27350f
     //#region States
     const socketHandler = useWebsocket<number>(wsProjectTasksServiceDataConnection, projectId);
     const [projectTaskBoard, setProjectTaskBoard] = useState<ProjectTaskBoard | null>(null);
@@ -48,15 +43,6 @@ const TaskBoard = ({
     //#endregion
     //#region Functions
     const fillCurrentProjectTask = (taskInfo: ProjectTask): void => {
-<<<<<<< HEAD
-        if(!modifyMenuRef.current) return;
-        modifyMenuRef.current.focus()
-        setCurrentProjectTask(taskInfo);
-    };
-    const openTaskMenu = (): void => setIsTaskMenuOpen(true);
-    const closeTaskMenu = (e: React.FocusEvent<HTMLDivElement>): void => {
-        if (e.currentTarget.contains(e.relatedTarget as Node)) return;
-=======
         if (!modifyMenuRef.current) return;
         modifyMenuRef.current.focus()
         openTaskMenu();
@@ -66,22 +52,17 @@ const TaskBoard = ({
         setIsTaskMenuOpen(true);
     }
     const hideTaskMenu = (): void => {
->>>>>>> aa42b7aa3719f58f00568b5af83fdebc1b27350f
         setIsTaskMenuOpen(false);
     }
     return (
         <>
         {projectTaskBoard ? (
-<<<<<<< HEAD
-            <TaskBoardContext.Provider value={{ socketIo: socketHandler.socketIo, projectId, isTaskMenuOpen, modifyMenuRef }}>
-=======
             <TaskBoardContext.Provider value={{ 
                 socketIo: socketHandler.socketIo, 
                 projectId, 
                 isTaskMenuOpen, modifyMenuRef,
                 preloader
             }}>
->>>>>>> aa42b7aa3719f58f00568b5af83fdebc1b27350f
                 <Board
                     projectTaskBoard={projectTaskBoard}
                     openTaskMenu={fillCurrentProjectTask}
@@ -89,12 +70,7 @@ const TaskBoard = ({
                 <ModifyTaskMenu
                     currentProjectTask={currentProjectTask}
                     isTaskMenuOpen={isTaskMenuOpen}
-<<<<<<< HEAD
-                    openTaskMenu={openTaskMenu}
-                    closeTaskMenu={closeTaskMenu}
-=======
                     hideTaskMenu={hideTaskMenu}
->>>>>>> aa42b7aa3719f58f00568b5af83fdebc1b27350f
                     ref={modifyMenuRef}
                 />
             </TaskBoardContext.Provider>

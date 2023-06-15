@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-=======
 import { useEffect } from "react";
 import useTaskBoardContext from "../../../../utils/contexts/useTaskBoardContext";
->>>>>>> aa42b7aa3719f58f00568b5af83fdebc1b27350f
 import DeadlineField from "./components/DeadlineField/DeadlineField";
 import DescriptionField from "./components/DescriptionField/DescriptionField";
 import PriorityField from "./components/PriorityField/PriorityField";
@@ -13,7 +10,7 @@ import WSProjectTaskServiceEvents from "src/services/websockets/services/project
 
 const TaskForm = ({ currentProjectTask, form }: TaskFormProps) => {
     const { socketIo } = useTaskBoardContext();
-    const { 
+    const {  
         id, name,
         description, responsibleId, 
         deadline, priorityId 
