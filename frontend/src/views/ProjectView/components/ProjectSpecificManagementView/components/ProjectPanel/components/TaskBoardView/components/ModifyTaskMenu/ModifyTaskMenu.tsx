@@ -13,7 +13,7 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
     currentProjectTask, projectTaskBoard,
     hideTaskMenu
 }, ref) => {
-    const { isTaskMenuOpen } = useTaskBoardContext();
+    const { isTaskMenuOpen } = useTaskBoardContext(); 
     const { form } = useTaskForm(
         currentProjectTask, 
         isTaskMenuOpen,
