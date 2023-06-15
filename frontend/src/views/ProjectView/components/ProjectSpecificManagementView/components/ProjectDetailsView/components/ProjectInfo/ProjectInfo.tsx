@@ -8,33 +8,32 @@ import ProjectTitle from "src/views/components/ProjectTitle/ProjectTitle";
 //#region types
 import { ProjectInfoProps } from "./types";
 //#endregion
-
+const MENU_OPTIONS = [
+    {
+        text: "Tareas",
+        to: "../tareas",
+        icon: "fluent:task-list-square-ltr-16-filled",
+    },
+    {
+        text: "Cronograma",
+        to: "../cronograma",
+        icon: "fluent:gantt-chart-16-regular",
+    },
+    {
+        text: "Salas de chat",
+        to: "../salas-chat",
+        icon: "grommet-icons:chat",
+    },
+];
 const ProjectInfo = ({
     projectDetails,
     openUpdateDateModal,
     currentUserIsProjectLeader,
 }: ProjectInfoProps) => {
-    const { name, description, period, state, id } = projectDetails;
-    const menuOptions = [
-        {
-            text: "Tareas",
-            to: `../tareas`,
-            icon: "fluent:task-list-square-ltr-16-filled",
-        },
-        {
-            text: "Cronograma",
-            to: "../cronograma",
-            icon: "fluent:gantt-chart-16-regular",
-        },
-        {
-            text: "Salas de chat",
-            to: "../salas-chat",
-            icon: "grommet-icons:chat",
-        },
-    ];
+    const { name, description, period, state } = projectDetails;
     return (
         <Container>
-            <ProjectTitle name={name} state={state} options={menuOptions}/>
+            <ProjectTitle name={name} state={state} options={MENU_OPTIONS}/>
             <DataPart>
                 <Description>{description}</Description>
                 <Period

@@ -8,6 +8,11 @@ import { ProjectDetailsForPanel } from "src/entities/project/entities";
 import { requestGetProjectDetailForPanel } from "src/services/projects/relatedToProjects";
 import ProjectTitle from "src/views/components/ProjectTitle/ProjectTitle";
 
+const MENU_OPTIONS = [{
+    text: "Detalles",
+    to: "detalles",
+    icon: "fa6-solid:diagram-project"
+}]
 const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
     //#region States
     const [projectDetails, setProjectDetails] = useState<ProjectDetailsForPanel | null>(null);
@@ -23,18 +28,13 @@ const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
         if (data === null) return;
         setProjectDetails(data);
     }
-    const menuOptions = [{
-        text: "Detalles",
-        to: "detalles",
-        icon: "fa6-solid:diagram-project"
-    }]
     //#endregion
     return (
         <FlexFlow 
             direction="column" 
             width="100%" gap="30px">
             {projectDetails && 
-            <ProjectTitle name={projectDetails.name} state={projectDetails.state} options={menuOptions}/>}
+            <ProjectTitle name={projectDetails.name} state={projectDetails.state} options={MENU_OPTIONS}/>}
             <FlexFlow  width="100%" direction="column">
                 <Tabs projectId={projectId} />
                 <Routes>
