@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { FlexFlow } from "src/components/styles";
 import {
     Container,
-    StateSwordTag,
+    EmptyTaskPriority,
     TransparentTextField,
     UnselectedResponsible,
 } from "./styles";
@@ -41,7 +41,6 @@ const CreationTaskCard = ({
         );
         hideCreateTaskCard();
     };
-    //GNOMO CAMBIAR NOMBRE DE ESTAS FUNCIONES DE ABAJO
     const isValidTaskName = (): boolean => {
         return newTaskName.trim().length > 0;
     }
@@ -77,7 +76,7 @@ const CreationTaskCard = ({
             />
             <FlexFlow justify="space-between">
                 <UnselectedResponsible src={NoResponsible} />
-                <StateSwordTag src={emptyTaskPriorityImg} />
+                <EmptyTaskPriority src={emptyTaskPriorityImg} />
             </FlexFlow>
         </Container>
     );

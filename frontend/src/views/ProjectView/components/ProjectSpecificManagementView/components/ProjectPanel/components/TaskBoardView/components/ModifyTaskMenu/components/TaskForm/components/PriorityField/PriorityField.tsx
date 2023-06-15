@@ -1,21 +1,20 @@
 import { FlexFlow } from "src/components/styles";
-import { Label } from "../../styles";
+import { DeleteSelectedDataField, Label } from "../../styles";
 import { useEffect, useState } from "react";
 import emptyTaskPriority from "src/images/no-priority.svg";
 import { PriorityFieldProps } from "./types";
 import {
-    DeletePriority,
+    Content,
     ListWrapper,
-    PriorityImage,
+    EmptyTaskPriority,
     PriorityList,
-    PrioritySelector,
-    SelectedPriorityWrapper,
+    PrioritySelector
 } from "./styles";
-import BackendImage from "src/views/components/UserImage/components/BackendImage/BackendImage";
 import { requestGetTaskPriority } from "src/services/projectTasks/aboutProjectTasks";
 import { ProjectTaskPriority } from "src/entities/projectTasks/entities";
 import { TASK_PRIORITY } from "../../../../../StatusSection/components/TaskList/components/TaskCard/utils/constants";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { TaskPriorityImage } from "../../../../../StatusSection/components/TaskList/components/TaskCard/styles";
 
 const PriorityField = ({ form }: PriorityFieldProps) => {
     const [isListOpened, setIsListOpened] = useState<boolean>(false);
@@ -31,50 +30,42 @@ const PriorityField = ({ form }: PriorityFieldProps) => {
         if (data === null) return;
         setTaskPriorityList(data);
     };
-    const toggleShowList = () => setIsListOpened(prev => !prev);
-    const changeTaskPriorityField = (priorityId: number): void => {
+    const changeTaskPriorityField = (priorityId: number | null): void => {
         form.change("priorityId", priorityId);
+        setIsListOpened(false);
     };
     return (
-        <FlexFlow gap="45px">
+        <FlexFlow gap="45px" align="center">
             <Label>Prioridad</Label>
-            <FlexFlow
-                direction="column"
-                gap="10px"
+            <Content
                 tabIndex={0}
-                onBlur={() => setIsListOpened(false)}
-            >
+                onBlur={() => setIsListOpened(false)}>
                 {!priorityId ? (
-                    <PriorityImage
+                    <EmptyTaskPriority
                         src={emptyTaskPriority}
-                        onClick={toggleShowList}
-                    ></PriorityImage>
+                        onClick={() => setIsListOpened(true)}/>
                 ) : (
                     <FlexFlow align="center" gap="10px">
-                        <SelectedPriorityWrapper onClick={toggleShowList}>
-                            <BackendImage
-                                path={TASK_PRIORITY[priorityId]}
-                                isDynamic={false}
-                            />
-                        </SelectedPriorityWrapper>
-                        <DeletePriority
-                            onClick={() => changeTaskPriorityField(0)}
-                        >
+                        <TaskPriorityImage
+                            path={TASK_PRIORITY[priorityId]}
+                            isDynamic={false}
+                            onClick={() => setIsListOpened(true)}
+                        />
+                        <DeleteSelectedDataField
+                            onClick={() => changeTaskPriorityField(null)}>
                             <Icon icon="material-symbols:close" />
-                        </DeletePriority>
+                        </DeleteSelectedDataField>
                     </FlexFlow>
                 )}
-                <ListWrapper>
+                <ListWrapper className={isListOpened ? "show" : ""}>
                     <PriorityList
-                        direction="column"
-                        className={isListOpened ? "show" : ""}
-                    >
+                        direction="column">
                         {taskPriorityList.map(({ id, urlPhoto }) => (
                             <PrioritySelector
                                 key={id}
                                 onClick={() => changeTaskPriorityField(id)}
                             >
-                                <BackendImage
+                                <TaskPriorityImage
                                     path={urlPhoto}
                                     isDynamic={false}
                                 />
@@ -82,7 +73,7 @@ const PriorityField = ({ form }: PriorityFieldProps) => {
                         ))}
                     </PriorityList>
                 </ListWrapper>
-            </FlexFlow>
+            </Content>
         </FlexFlow>
     );
 };

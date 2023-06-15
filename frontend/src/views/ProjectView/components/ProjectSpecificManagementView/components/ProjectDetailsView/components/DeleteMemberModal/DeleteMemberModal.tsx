@@ -22,7 +22,7 @@ const DeleteMemberModal = ({
         if (!projectMemberToDelete) return;
         modalProps.open(false);
         preloader.show("Eliminando colaborador...");
-        const { message } = await requestDeleteMember(projectMemberToDelete.projectHasCollaboratorId);
+        const { message } = await requestDeleteMember(projectMemberToDelete.projectTeamMemberId);
         preloader.hide();
         if (message !== "SUCCESS") return;
         await fillProjectDetails();

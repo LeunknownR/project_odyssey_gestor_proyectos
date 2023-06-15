@@ -43,7 +43,6 @@ const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
                     ))}
                     <Route path="*" element={<Navigate to={`/proyectos/${projectId}/detalles`} replace/>} />
                 </Routes>
-                {/* <Preloader {...preloader.value} /> */}
             </FlexFlow>
         </FlexFlow>
     );

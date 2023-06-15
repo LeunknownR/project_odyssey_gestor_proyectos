@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { ContainerProps, EmptyProps } from './types';
+import BackendImage from 'src/views/components/UserImage/components/BackendImage/BackendImage';
 
 export const Empty = styled.div<EmptyProps>`
     border: 1px solid var(--gray-3);
@@ -14,19 +15,16 @@ export const Container = styled.li`
     display: flex;
     flex-direction: column;
     gap: 22px;
-    padding: 18px 8px 18px 18px;
+    padding: 18px;
     border: 1px solid var(--gray-3);
     border-radius: 10px;
-    width: 360px;
-    margin-right: 12px;
+    width: 100%;
     transition: 0.3s;
     user-select: none;
     transition: 0.35s;
     cursor: pointer;
     &.dragged {
         position: fixed;
-        top: ${({ top = "unset" }) => top};
-        left: ${({ left = "unset" }) => left};
     }
     &.checked > * {
         opacity: 0.4;
@@ -53,6 +51,11 @@ export const DateText = styled.div`
     font-weight: 700;
     color: var(--white-1);
 `;
-export const StateSwordTag = styled.img`
+export const TaskPriorityImage = styled(BackendImage)`
+    width: 100px;
+    height: unset;
+    border-radius: 0;
+`;
+export const EmptyTaskPriority = styled.img`
     width: 100px;
 `;

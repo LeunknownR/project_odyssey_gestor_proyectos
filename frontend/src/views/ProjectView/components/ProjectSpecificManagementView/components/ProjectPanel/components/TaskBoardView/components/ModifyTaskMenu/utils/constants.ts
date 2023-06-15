@@ -2,7 +2,7 @@ import { ProjectTaskForm } from "../types";
 
 export const TASK_FIELD_PROPS = {
     TASK_RESPONSIBLE: {
-        placeholder: "Ingresa el nombre del colaborador",
+        placeholder: "Busca el colaborador...",
         name: "responsible"
     },
     TASK_DEADLINE: {

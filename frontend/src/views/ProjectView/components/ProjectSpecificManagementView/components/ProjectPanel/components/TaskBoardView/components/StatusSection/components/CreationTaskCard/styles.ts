@@ -32,6 +32,6 @@ export const TaskCardName = styled.h3`
     color: var(--white-1);
 `;
 export const UnselectedResponsible = styled.img``;
-export const StateSwordTag = styled.img`
+export const EmptyTaskPriority = styled.img`
     width: 100px;
 `;
