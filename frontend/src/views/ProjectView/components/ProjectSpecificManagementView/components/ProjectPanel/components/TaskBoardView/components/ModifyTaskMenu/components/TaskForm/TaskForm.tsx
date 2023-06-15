@@ -6,13 +6,23 @@ import PriorityField from "./components/PriorityField/PriorityField";
 import ResponsibleField from "./components/ResponsibleField/ResponsibleField";
 import { Container } from "./styles";
 import { TaskFormProps } from "./types";
+import WSProjectTaskServiceEvents from "src/services/websockets/services/projectTasks/events";
 
 const TaskForm = ({ currentProjectTask, form }: TaskFormProps) => {
     const { socketIo } = useTaskBoardContext();
-    const { responsibleId, deadline, priorityId } = form.value;
-    useEffect(() => {
-        
-    }, [responsibleId, deadline, priorityId]);
+    const { 
+        id, name,
+        description, responsibleId, 
+        deadline, priorityId 
+    } = form.value;
+    const getUpdateTaskMainInfo = (): any => { 
+        return {
+            taskId: id,
+            responsibleId,
+            name, description,
+            deadline, priorityId
+        }; 
+    }
     return (
         <Container direction="column" gap="20px">
             <ResponsibleField form={form} currentResponsible={currentProjectTask.responsible}/>
