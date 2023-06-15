@@ -19,7 +19,7 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
         const $container = ref.current;
         if (!$container) return;
         const handler = (e: MouseEvent): void => {
-            if ($container.contains(e.target)) return;
+            if ($container.contains(e.target) || !document.body.contains(e.target as Node)) return;
             hideTaskMenu();
         };
         document.addEventListener("mousedown", handler);

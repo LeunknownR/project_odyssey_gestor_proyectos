@@ -6,9 +6,9 @@ import { DescriptionFieldProps } from "./types";
 
 const DescriptionField = ({ form }: DescriptionFieldProps) => {
     const { description } = form.value;
-    const changeEndDateProjectField = ({
+    const changeEndDateProjectField: React.ChangeEventHandler<HTMLTextAreaElement> = ({
         target: { value },
-    }: ChangeEvent<HTMLInputElement>) => {
+    }) => {
         form.change(TASK_FIELD_PROPS.TASK_DESCRIPTION.name, value);
     };
     return (

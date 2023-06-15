@@ -5,3 +5,6 @@ export type TaskFormProps = {
     currentProjectTask: ProjectTask;
     form: TaskForm;
 }
+export type FieldProps = {
+    updateTaskMainInfo: () => void;
+};

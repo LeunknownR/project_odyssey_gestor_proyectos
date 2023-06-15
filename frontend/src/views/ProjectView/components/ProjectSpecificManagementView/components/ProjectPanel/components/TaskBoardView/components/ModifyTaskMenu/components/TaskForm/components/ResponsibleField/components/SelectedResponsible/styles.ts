@@ -6,6 +6,7 @@ export const Container = styled(FlexFlow)`
     align-items: center;
     gap: 10px;
     padding: 4px 10px;
+    padding-right: 14px;
     border-radius: 10px;
     width: max-content;
     position: relative;
