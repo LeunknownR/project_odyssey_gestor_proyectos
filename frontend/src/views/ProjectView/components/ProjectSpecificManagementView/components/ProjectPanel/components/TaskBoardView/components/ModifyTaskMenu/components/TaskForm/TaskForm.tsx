@@ -10,7 +10,7 @@ import WSProjectTaskServiceEvents from "src/services/websockets/services/project
 
 const TaskForm = ({ currentProjectTask, form }: TaskFormProps) => {
     const { socketIo } = useTaskBoardContext();
-    const { 
+    const {  
         id, name,
         description, responsibleId, 
         deadline, priorityId 
