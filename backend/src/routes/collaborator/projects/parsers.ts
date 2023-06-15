@@ -59,13 +59,13 @@ export const parseToAddProjectMembersRequestBody = (body: any): AddProjectMember
 export const parseToDeleteProjectMemberRequestBody = (params: any): DeleteProjectMemberRequestBody => {
     const {
         userId,
-        projectHasCollaboratorId
+        projectTeamMemberId
     } = params;
     if (!isPositiveNumber(userId) ||
-        !isPositiveNumber(projectHasCollaboratorId))
+        !isPositiveNumber(projectTeamMemberId))
         throw new Error("Invalid form to delete a project member");
     return {
         userId: parseInt(userId),
-        projectHasCollaboratorId: parseInt(projectHasCollaboratorId)
+        projectTeamMemberId: parseInt(projectTeamMemberId)
     };
 }

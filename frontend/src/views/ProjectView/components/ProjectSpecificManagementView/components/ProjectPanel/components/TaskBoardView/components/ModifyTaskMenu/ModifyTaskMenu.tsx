@@ -1,4 +1,4 @@
-import {forwardRef} from "react";
+import { forwardRef, useEffect } from "react";
 import CommentList from "./components/CommentList/CommentList";
 import CommentBox from "./components/CommentBox/CommentBox";
 import Header from "./components/Header/Header";
@@ -9,14 +9,23 @@ import SubtaskSection from "./components/SubtaskSection/SubtaskSection";
 import useTaskForm from "./utils/hooks/useTaskForm";
 import useTaskBoardContext from "../../utils/contexts/useTaskBoardContext";
 
-const ModifyTaskMenu = forwardRef<HTMLElement, ModifyTaskMenuProps>(({
+const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
     currentProjectTask,
-    openTaskMenu,
-    closeTaskMenu,
+    hideTaskMenu
 }, ref) => {
-    const {isTaskMenuOpen} = useTaskBoardContext();
-    const {form} = useTaskForm(currentProjectTask, isTaskMenuOpen)
-    const renderContent = () => {
+    const { isTaskMenuOpen } = useTaskBoardContext();
+    const { form } = useTaskForm(currentProjectTask, isTaskMenuOpen);
+    useEffect(() => {
+        const $container = ref.current;
+        if (!$container) return;
+        const handler = (e: MouseEvent): void => {
+            if ($container.contains(e.target)) return;
+            hideTaskMenu();
+        };
+        document.addEventListener("mousedown", handler);
+        return () => document.removeEventListener("mousedown", handler);
+    }, [ref.current]);
+    const renderContent = (): React.ReactNode => {
         if (!currentProjectTask) return null;
         const { name, comments } = currentProjectTask;
         return (
@@ -35,10 +44,7 @@ const ModifyTaskMenu = forwardRef<HTMLElement, ModifyTaskMenuProps>(({
         <Container
             className={isTaskMenuOpen ? "show" : ""}
             tabIndex={0}
-            onFocus={openTaskMenu}
-            onBlur={closeTaskMenu}
-            ref={ref}
-        >
+            ref={ref}>
             {renderContent()}
         </Container>
     );
