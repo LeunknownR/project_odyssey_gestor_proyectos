@@ -5,5 +5,5 @@ export type StatusSectionProps = {
     sectionName: string;
     state: ProjectState;
     taskListInfo: ProjectTask[];
-    openTaskMenu: (taskInfo: ProjectTask) => void;
+    openTaskMenu: (taskInfo: ProjectTask, state: ProjectState) => void;
 };

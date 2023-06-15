@@ -13,7 +13,7 @@ const TaskList = ({
 }: TaskListProps) => {
     const taskListRef = useRef<HTMLUListElement>(null);
     const [createTaskCard, setCreateTaskCard] = useState<boolean>(false);
-    const scrollToHistoryBottom = (): void => {
+    const scrollToListBottom = (): void => {
         setTimeout(() => {
             taskListRef.current?.scrollTo({
                 behavior: "smooth",
@@ -23,7 +23,7 @@ const TaskList = ({
     };
     const showCreateTaskCard = (): void => {
         setCreateTaskCard(true);
-        scrollToHistoryBottom();
+        scrollToListBottom();
     };
     const hideCreateTaskCard = (): void => {
         setCreateTaskCard(false);

@@ -5,9 +5,9 @@ import Header from "./components/Header/Header";
 import TaskForm from "./components/TaskForm/TaskForm";
 import { Container, Content } from "./styles";
 import { ModifyTaskMenuProps } from "./types";
-import SubtaskSection from "./components/SubtaskSection/SubtaskSection";
 import useTaskForm from "./utils/hooks/useTaskForm";
 import useTaskBoardContext from "../../utils/contexts/useTaskBoardContext";
+import SubtaskList from "./components/SubtaskList/SubtaskList";
 
 const ModifyTaskMenu = forwardRef<HTMLElement, ModifyTaskMenuProps>(({
     currentProjectTask,
@@ -24,7 +24,8 @@ const ModifyTaskMenu = forwardRef<HTMLElement, ModifyTaskMenuProps>(({
             <Header name={name} />
             <Content className="custom-scrollbar">
                 <TaskForm currentProjectTask={currentProjectTask} form={form}/>
-                <SubtaskSection currentProjectTask={currentProjectTask} />
+                {/* <SubtaskSection currentProjectTask={currentProjectTask} /> */}
+                <SubtaskList currentProjectTask={currentProjectTask} />
                 {comments.length > 0 && <CommentList comments={comments} />}
             </Content>
             <CommentBox taskId={currentProjectTask.id} />

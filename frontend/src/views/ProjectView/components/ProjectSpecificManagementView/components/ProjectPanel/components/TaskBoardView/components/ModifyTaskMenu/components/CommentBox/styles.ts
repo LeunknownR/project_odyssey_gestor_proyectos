@@ -3,6 +3,9 @@ import { FlexFlow } from 'src/components/styles';
 import { Content as TextAreaContent } from 'src/components/CustomTextArea/styles';
 
 export const Container = styled(FlexFlow.withComponent("footer"))`
+    position: fixed;
+    bottom: 0;
+    width: 100%;
     gap: 12px;
     background-color: #051E2F;
     padding: 20px 30px;

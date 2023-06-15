@@ -30,7 +30,7 @@ const CustomTextField = ({
     value, error = null,
     onFocus, onBlur,
     // restriction,
-    onChange,
+    onChange, onKeyDown
 }: CustomTextFieldProps) => {
     const [isPasswordRevealed, setIsPasswordRevealed] = useState(false);
     const getClassName = () => {
@@ -68,6 +68,7 @@ const CustomTextField = ({
                     onChange={onChange}
                     onFocus={onFocus}
                     onBlur={onBlur}
+                    onKeyDown={onKeyDown}
                     // onKeyPress={RESTRICTIONS[restriction ? restriction : ""]}
                 />
                 {showPasswordRevealer() && (
