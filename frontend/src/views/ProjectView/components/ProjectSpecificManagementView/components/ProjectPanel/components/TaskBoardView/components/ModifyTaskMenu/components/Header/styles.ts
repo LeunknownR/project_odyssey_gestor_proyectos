@@ -14,8 +14,8 @@ export const DeleteButton = styled(CustomButton)`
     border-radius: 5px 0 0 5px;
     background-color: var(--red-2);
     color: var(--white-1);
-    padding: 5px 20px;
+    padding: 8px 10px;
     .iconify {
-        font-size: 24px;
+        font-size: 25px;
     }
 `;
