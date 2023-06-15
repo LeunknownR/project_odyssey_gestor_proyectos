@@ -273,7 +273,7 @@ INSERT INTO `task_comment`(id_task_comment, comment_content, comment_date, id_ta
 VALUES 
     (1, "oe mano esta mal la subtarea", NOW(), 1, 2),
     (2, "skueretriste mano", NOW(), 1, 3);
-
+ 
 
 -- --- [ FUNCTIONs ] ------------------------------------------------------------
 
