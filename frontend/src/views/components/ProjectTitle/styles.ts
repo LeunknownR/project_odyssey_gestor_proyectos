@@ -27,3 +27,6 @@ export const ProjectName = styled.h1`
         font-size: 20px;
     }
 `;
+export const OptionsWrapper = styled.div`
+    position: relative;
+`;

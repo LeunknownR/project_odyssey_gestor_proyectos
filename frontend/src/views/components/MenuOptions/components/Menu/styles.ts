@@ -39,10 +39,12 @@ type OptionStyleProps = {
     color?: string;
 };
 export const Option = styled(FlexFlow)<OptionStyleProps>`
+    align-items: center;
     gap: 10px;
     padding: 10px 15px;
     transition: 0.25s;
     cursor: pointer;
+    white-space: nowrap;
     &:hover {
         background-color: var(--gray-5);
     }

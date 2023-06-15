@@ -35,7 +35,11 @@ export const Skull = styled.p`
     display: flex;
     color: var(--gray-3);
     cursor: pointer;
+    transition: 0.3s;
     .iconify {
         font-size: 19px;
+    }
+    :hover {
+        color: var(--red-3);
     }
 `;
