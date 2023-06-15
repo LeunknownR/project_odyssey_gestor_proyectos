@@ -12,10 +12,6 @@ import { TaskFormProps } from "./types";
 import WSProjectTaskServiceEvents from "src/services/websockets/services/projectTasks/events";
 
 const TaskForm = ({ currentProjectTask, form }: TaskFormProps) => {
-<<<<<<< HEAD
-    return (
-        <Container direction="column" gap="20px" margin="0 30px 20px 0">
-=======
     const { socketIo } = useTaskBoardContext();
     const { 
         id, name,
@@ -32,7 +28,6 @@ const TaskForm = ({ currentProjectTask, form }: TaskFormProps) => {
     }
     return (
         <Container direction="column" gap="20px">
->>>>>>> aa42b7aa3719f58f00568b5af83fdebc1b27350f
             <ResponsibleField form={form} currentResponsible={currentProjectTask.responsible}/>
             <DeadlineField form={form}/>
             <PriorityField form={form}/>
