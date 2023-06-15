@@ -4,19 +4,18 @@ import { useState } from "react";
 //#endregion
 //#region Styles
 import { FlexFlow } from "src/components/styles";
-import { Check, Container, Skull, Text } from "./styles";
+import { Check, Container, Skull, SubtaskTextField } from "./styles";
 //#endregion
 //#region Types
 import { SubtaskProps } from "./types";
-import CustomTextField from "src/components/CustomTextField/CustomTextField";
 //#endregion
 
 const Subtask = ({ subtask }: SubtaskProps) => {
     const { name, checked } = subtask;
-    const [isChecked, setIsChecked] = useState(checked);
+    const [isChecked, setIsChecked] = useState<boolean>(checked);
     //GNOMO TEST
-    const [subtaskText, setSubtaskText] = useState(name);
-    const getClassName = () => {
+    const [subtaskText, setSubtaskText] = useState<string>(name);
+    const getClassName = (): string => {
         const classList = [];
         isChecked && classList.push("checked");
         return classList.join(" ");
@@ -27,7 +26,12 @@ const Subtask = ({ subtask }: SubtaskProps) => {
                 <Check className={getClassName()} onClick={() => setIsChecked(prev => !prev)}>
                     <Icon icon={isChecked ? "material-symbols:check-circle" : "gg:check-o"} />
                 </Check>
-                <CustomTextField value={subtaskText}/>
+                <SubtaskTextField 
+                    value={subtaskText}
+                    onChange={() => {
+                        // GNOMO termina pe ctmre el actualizar subtarea
+                        console.log("ESCRIBIENDO");
+                    }}/>
             </FlexFlow>
             <Skull>
                 <Icon icon="ion:skull" />

@@ -10,7 +10,7 @@ const StatusSection = ({
 }: StatusSectionProps) => {
     return (
         <Container>
-            <Header sectionName={sectionName} status={state} />
+            <Header sectionName={sectionName} />
             <TaskList
                 taskListInfo={taskListInfo}
                 openTaskMenu={openTaskMenu}
