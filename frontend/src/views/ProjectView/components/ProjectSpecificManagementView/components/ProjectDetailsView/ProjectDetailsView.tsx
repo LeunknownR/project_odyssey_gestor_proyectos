@@ -68,10 +68,7 @@ const ProjectDetailsView = ({ projectId }: PanelTabProps) => {
                 {projectDetails && (
                     <FlexFlow direction="column" gap="35px">
                         <ProjectInfo
-                            name={projectDetails.name}
-                            description={projectDetails.description}
-                            period={projectDetails.period}
-                            state={projectDetails.state}
+                            projectDetails={projectDetails}
                             openUpdateDateModal={openUpdateDateModal}
                             currentUserIsProjectLeader={currentUserIsProjectLeader}
                         />

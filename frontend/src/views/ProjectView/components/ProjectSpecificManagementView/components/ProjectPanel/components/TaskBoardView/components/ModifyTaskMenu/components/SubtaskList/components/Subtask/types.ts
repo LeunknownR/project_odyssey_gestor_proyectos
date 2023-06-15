@@ -1,5 +1,5 @@
-import { SubtaskTypes } from "../types";
+import { ProjectSubtask } from "src/entities/projectTasks/entities";
 
 export type SubtaskProps = {
-    subtask: SubtaskTypes;
+    subtask: ProjectSubtask;
 };
