@@ -14,7 +14,6 @@ import {
     DeleteProjectRequestBody,
     UpdateProjectEndDateRequestBody,
 } from "./types";
-import { getProjectId } from "src/storage/project.session";
 
 export const requestGetProjectsForGeneralAdmin: APIRequestFunction<
     GroupedProjectList,

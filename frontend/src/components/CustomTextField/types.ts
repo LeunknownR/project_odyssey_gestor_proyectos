@@ -1,6 +1,7 @@
 import { ChangeEvent, FocusEventHandler } from "react";
 
 export type CustomTextFieldProps = {
+    className?: string;
     placeholder?: string;
     label?: string;
     type?: string;

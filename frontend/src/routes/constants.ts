@@ -1,4 +1,3 @@
-import ProjectManagerView from "src/views/ProjectManager/ProjectManagerView";
 import { ViewModulesRouteByViewModule } from "./types";
 import { ViewModule } from "src/config/roles";
 import { AbsolutePaths } from "src/config/absolutePaths";
