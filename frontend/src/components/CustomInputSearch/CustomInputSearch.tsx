@@ -45,7 +45,6 @@ function CustomInputSearch<O>({
                     })}
                 </List>
             )}
-            {/* {value && <CleanBtn onClick={clearInput}>Limpiar</CleanBtn>} */}
         </Container>
     );
 }

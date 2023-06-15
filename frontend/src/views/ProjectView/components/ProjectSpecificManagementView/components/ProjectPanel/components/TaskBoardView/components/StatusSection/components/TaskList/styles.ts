@@ -6,5 +6,6 @@ export const Container = styled(FlexFlow.withComponent("ul"))`
     flex-direction: column;
     gap: 12px;
     max-height: 60vh;
+    padding: 0 20px;
     overflow-y: scroll;
 `;

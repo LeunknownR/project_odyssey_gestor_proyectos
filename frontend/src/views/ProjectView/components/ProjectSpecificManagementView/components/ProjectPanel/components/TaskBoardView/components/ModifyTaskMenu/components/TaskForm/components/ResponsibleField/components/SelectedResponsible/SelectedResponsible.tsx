@@ -11,8 +11,8 @@ const SelectedResponsible = ({
 }: SelectedResponsibleProps) => {
     const { name, surname, urlPhoto } = selectedResponsible;
     return (
-        <FlexFlow align="center" gap="5px">
-            <Container align="center" gap="10px" padding="4px 10px">
+        <FlexFlow width="100%" align="center" gap="5px">
+            <Container>
                 <UserImage
                     name={name}
                     surname={surname}
