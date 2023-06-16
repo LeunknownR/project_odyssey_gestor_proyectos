@@ -55,6 +55,7 @@ export const TaskPriorityImage = styled(BackendImage)`
     width: 100px;
     height: unset;
     border-radius: 0;
+    cursor: pointer;
 `;
 export const EmptyTaskPriority = styled.img`
     width: 100px;

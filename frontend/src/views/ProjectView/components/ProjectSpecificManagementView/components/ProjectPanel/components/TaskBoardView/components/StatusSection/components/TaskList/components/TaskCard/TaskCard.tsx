@@ -13,7 +13,6 @@ import NoResponsible from "src/images/no-responsible.svg";
 import { TaskCardProps } from "./types";
 import emptyTaskPriorityImg from "src/images/no-priority.svg";
 import { ProjectState } from "src/entities/project/enums";
-import BackendImage from "src/views/components/UserImage/components/BackendImage/BackendImage";
 import { TASK_PRIORITY } from "./utils/constants";
 import { dayMonthFormat } from "src/utils/dates";
 
@@ -33,7 +32,7 @@ const TaskCard = ({
     return (
         <Container
             className={getClassName()}
-            onClick={() => openTaskMenu(taskInfo)}
+            onClick={() => openTaskMenu(taskInfo, state)}
         >
             <FlexFlow align="center" gap="10px">
                 <TaskCardName>{name}</TaskCardName>

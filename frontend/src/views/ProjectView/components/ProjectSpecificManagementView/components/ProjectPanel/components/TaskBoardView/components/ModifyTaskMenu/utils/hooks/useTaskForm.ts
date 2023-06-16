@@ -10,28 +10,27 @@ const useTaskForm = (
 ): TaskFormHook => {
     const [form, setForm] = useState<ProjectTaskForm>({ ...INITIAL_FORM });
     useEffect(() => {
-        initForm();
-    }, [isTaskMenuOpen]);
-    const initForm = () => {
-        if (!currentProjectTask) {
-            setForm(INITIAL_FORM);
+        if (isTaskMenuOpen) {
+            initForm();
             return;
         }
+        setForm({ ...INITIAL_FORM });
+    }, [isTaskMenuOpen]);
+    useEffect(() => {
+        if (!isTaskMenuOpen) return;
+        initForm();
+    }, [currentProjectTask]);
+    const initForm = () => {
+        if (!currentProjectTask) return;
         setForm({
             id: currentProjectTask.id,
-            responsibleId: currentProjectTask.responsible?.id,
+            responsibleId: currentProjectTask.responsible?.id || null,
             name: currentProjectTask.name,
             description: currentProjectTask.description,
             deadline: currentProjectTask.deadline,
-            priorityId: currentProjectTask.priorityId,
+            priorityId: currentProjectTask.priorityId
         });
     };
-    // const isCompletedForm = (): boolean => {
-    //     const { name, description, startDate, endDate, priorityId } = form;
-    //     return Boolean(
-    //         name && description && startDate > -1 && endDate > -1 && leaderId
-    //     );
-    // };
     const formHaveChanges = (): boolean => {
         if (!currentProjectTask) return true;
         const { name, responsibleId, description, deadline, priorityId } = form;

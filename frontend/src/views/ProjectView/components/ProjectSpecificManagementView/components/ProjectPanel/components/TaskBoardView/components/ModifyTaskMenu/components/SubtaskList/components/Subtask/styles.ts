@@ -1,4 +1,4 @@
-import { TextField } from "src/components/CustomTextField/styles";
+import CustomTextField from "src/components/CustomTextField/CustomTextField";
 import { FlexFlow } from "src/components/styles";
 import styled from "styled-components";
 
@@ -9,13 +9,13 @@ export const Container = styled(FlexFlow.withComponent("li"))`
     &.checked {
         opacity: 0.4;
     }
-    ${TextField} {
-        padding: 0;
-        color: var(--white-2);
-        font-weight: 300;
-        font-size: 16px;
-        width: 300px;
-    }
+`;
+export const SubtaskTextField = styled(CustomTextField)`
+    padding: 0;
+    color: var(--white-2);
+    font-weight: 300;
+    font-size: 16px;
+    width: 300px;
 `;
 export const Check = styled.span`
     display: flex;
@@ -35,7 +35,11 @@ export const Skull = styled.p`
     display: flex;
     color: var(--gray-3);
     cursor: pointer;
+    transition: 0.3s;
     .iconify {
         font-size: 19px;
+    }
+    :hover {
+        color: var(--red-3);
     }
 `;
