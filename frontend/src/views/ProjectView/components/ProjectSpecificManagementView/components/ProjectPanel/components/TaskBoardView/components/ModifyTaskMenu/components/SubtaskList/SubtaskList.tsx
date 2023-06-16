@@ -13,11 +13,13 @@ import CreationSubtask from "./components/CreationSubtask/CreationSubtask";
 //#endregion
 //#region Types
 import { SubtaskListProps } from "./types";
+import useTaskBoardContext from "../../../../utils/contexts/useTaskBoardContext";
 //#endregion
 
 const SubtaskList = ({ currentProjectTask }: SubtaskListProps) => {
     const [createTaskCard, setCreateTaskCard] = useState<boolean>(false);
     const { subtasks } = currentProjectTask;
+    const { isTaskResponsible } = useTaskBoardContext();
     const hideCreateSubtask = (): void => setCreateTaskCard(false);
     return (
         <FlexFlow direction="column" margin="0 30px 0 0">
@@ -37,11 +39,11 @@ const SubtaskList = ({ currentProjectTask }: SubtaskListProps) => {
                 </List>
                 </>
             )}
-            <AddSubtaskButton
+            {isTaskResponsible && <AddSubtaskButton
                 content="Agregar subtarea"
                 icon="material-symbols:add-circle"
                 onClick={() => setCreateTaskCard(true)}
-            />
+            />}
         </FlexFlow>
     );
 };

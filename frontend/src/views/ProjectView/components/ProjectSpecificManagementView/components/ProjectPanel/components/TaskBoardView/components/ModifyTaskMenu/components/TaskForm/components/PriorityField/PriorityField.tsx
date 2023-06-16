@@ -16,6 +16,7 @@ import { TASK_PRIORITY } from "../../../../../StatusSection/components/TaskList/
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { TaskPriorityImage } from "../../../../../StatusSection/components/TaskList/components/TaskCard/styles";
 import { TaskUpdateType } from "../../../../utils/enums";
+import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
 
 const PriorityField = ({ 
     form, changeTaskUpdateType
@@ -24,6 +25,7 @@ const PriorityField = ({
     const [taskPriorityList, setTaskPriorityList] = useState<
         ProjectTaskPriority[]
     >([]);
+    const { isTaskResponsible } = useTaskBoardContext();
     const { priorityId } = form.value;
     useEffect(() => {
         fillTaskPriorities();
@@ -51,14 +53,15 @@ const PriorityField = ({
                 ) : (
                     <FlexFlow align="center" gap="10px">
                         <TaskPriorityImage
+                            className={!isTaskResponsible ? "disabled" : ""}
                             path={TASK_PRIORITY[priorityId]}
                             isDynamic={false}
                             onClick={() => setIsListOpened(true)}
                         />
-                        <DeleteSelectedDataField
+                        {isTaskResponsible && <DeleteSelectedDataField
                             onClick={() => changeTaskPriorityField(null)}>
                             <Icon icon="material-symbols:close" />
-                        </DeleteSelectedDataField>
+                        </DeleteSelectedDataField>}
                     </FlexFlow>
                 )}
                 <ListWrapper className={isListOpened ? "show" : ""}>

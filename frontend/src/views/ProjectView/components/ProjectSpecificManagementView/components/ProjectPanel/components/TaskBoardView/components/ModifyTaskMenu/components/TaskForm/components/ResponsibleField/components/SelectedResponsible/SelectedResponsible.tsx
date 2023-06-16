@@ -4,12 +4,14 @@ import { Container } from "./styles";
 import { FlexFlow } from "src/components/styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { DeleteSelectedDataField } from "../../../../styles";
+import useTaskBoardContext from "../../../../../../../../utils/contexts/useTaskBoardContext";
 
 const SelectedResponsible = ({
     selectedResponsible,
     eraseSelectedResponsible
 }: SelectedResponsibleProps) => {
     const { name, surname, urlPhoto } = selectedResponsible;
+    const { isTaskResponsible } = useTaskBoardContext();
     return (
         <FlexFlow width="100%" align="center" gap="5px">
             <Container>
@@ -23,9 +25,9 @@ const SelectedResponsible = ({
                     {name} {surname}
                 </span>
             </Container>
-            <DeleteSelectedDataField onClick={eraseSelectedResponsible}>
+            {isTaskResponsible && <DeleteSelectedDataField onClick={eraseSelectedResponsible}>
                 <Icon icon="material-symbols:close" />
-            </DeleteSelectedDataField>
+            </DeleteSelectedDataField>}
         </FlexFlow>
     );
 };

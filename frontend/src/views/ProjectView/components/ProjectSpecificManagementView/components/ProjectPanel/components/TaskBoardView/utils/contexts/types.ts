@@ -8,4 +8,5 @@ export type InitTaskBoardContext = {
     isTaskMenuOpen: boolean;
     modifyMenuRef: RefObject<HTMLElement> | null;
     preloader: PreloaderHook;
+    isTaskResponsible: boolean;
 };

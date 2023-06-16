@@ -80,6 +80,9 @@ export const TextArea = styled.textarea`
     min-height: 80px;
     padding: 10px 10px 0;
     overflow-y: scroll;
+    :disabled {
+        pointer-events: none;
+    }
     ::placeholder {
         user-select: none;
     }

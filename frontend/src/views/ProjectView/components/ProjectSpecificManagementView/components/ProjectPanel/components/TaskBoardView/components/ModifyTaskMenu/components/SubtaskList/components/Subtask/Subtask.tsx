@@ -19,13 +19,16 @@ const Subtask = ({ subtask }: SubtaskProps) => {
     const [isChecked, setIsChecked] = useState<boolean>(checked);
     const [subtaskText, setSubtaskText] = useState<string>(name);
     const [timeoutToTaskUpdateId, setTimeoutToTaskUpdateId] = useState<
-    NodeJS.Timeout | undefined
+        NodeJS.Timeout | undefined
     >();
     //#endregion
     //#region Effects
     useEffect(() => {
         updateSubtask();
     }, [subtaskText]);
+    useEffect(() => {
+        switchCheckStatus();
+    }, [isChecked]);
     //#endregion
     //#region Functions
     const getClassName = (): string => {
@@ -59,6 +62,16 @@ const Subtask = ({ subtask }: SubtaskProps) => {
     }: ChangeEvent<HTMLInputElement>) => {
         setSubtaskText(value);
     };
+    const switchCheckStatus = () => {
+        const subtaskToBeSwitchedCheckStatus = {
+            subtaskId: id,
+            checked: isChecked,
+        };
+        socketIo?.emit(
+            WSProjectTaskServiceEvents.Collaborator.SwitchCheckStatusSubtask,
+            subtaskToBeSwitchedCheckStatus
+        );
+    };
     //#endregion
     return (
         <Container
@@ -72,13 +85,9 @@ const Subtask = ({ subtask }: SubtaskProps) => {
                     className={getClassName()}
                     onClick={() => setIsChecked(prev => !prev)}
                 >
-                    <Icon
-                        icon={
-                            isChecked
+                    <Icon icon={isChecked
                                 ? "material-symbols:check-circle"
-                                : "gg:check-o"
-                        }
-                    />
+                                : "gg:check-o"}/>
                 </Check>
                 <SubtaskTextField
                     value={subtaskText}
