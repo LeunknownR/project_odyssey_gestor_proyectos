@@ -1,11 +1,6 @@
 import CustomButton from "src/components/CustomButton/CustomButton";
 import styled from "styled-components";
 
-export const Container = styled.footer`
-    display: flex;
-    justify-self: flex-end;
-    gap: 20px;
-`;
 export const CancelRedModalButton = styled(CustomButton)`
     background-color: transparent;
     color: var(--dark-2);

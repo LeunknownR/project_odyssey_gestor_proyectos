@@ -11,7 +11,8 @@ import SubtaskList from "./components/SubtaskList/SubtaskList";
 import useUpdateMainInformationTask from "./utils/hooks/useUpdateMainInformationTask";
 
 const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
-    currentProjectTask, hideTaskMenu
+    currentProjectTask, hideTaskMenu,
+    openModalDeleteTask
 }, ref) => {
     //#region Custom hooks
     const { isTaskMenuOpen, socketIo } = useTaskBoardContext(); 
@@ -25,8 +26,13 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
         const $container = ref.current;
         if (!$container) return;
         const handler = (e: MouseEvent): void => {
-            if ($container.contains(e.target) || !document.body.contains(e.target as Node)) return;
-            hideTaskMenu();
+            const $elementClicked = e.target as HTMLElement;
+            if (
+                $container.contains($elementClicked) || 
+                !document.body.contains($elementClicked) ||
+                $elementClicked.classList.contains("modal")
+            ) return;
+           hideTaskMenu();
         };
         document.addEventListener("mousedown", handler);
         return () => document.removeEventListener("mousedown", handler);
@@ -39,8 +45,9 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
             <>
             <Header 
                 name={name} 
+                form={form}
                 changeTaskUpdateType={changeTaskUpdateType}
-                form={form}/>
+                openModalDeleteTask={openModalDeleteTask}/>
             <Content className="custom-scrollbar">
                 <TaskForm 
                     currentProjectTask={currentProjectTask} 

@@ -5,10 +5,17 @@ import { TaskUpdateType } from "../../utils/enums";
 
 const Header = ({
     form, name, 
-    changeTaskUpdateType
+    changeTaskUpdateType,
+    openModalDeleteTask
 }: HeaderProps) => {
-    const [editingTaskName, setEditingTaskName] = useState<string | null>(null);
+    //#region Refs
     const editingTaskNameInputRef = useRef<HTMLInputElement>(null);
+    //#endregion
+    //#region States
+    const [editingTaskName, setEditingTaskName] = useState<string | null>(null);
+    //#endregion
+    //#region Functions
+
     const enableEditingTaskNameInput = (): void => {
         setEditingTaskName(name);
         setTimeout(() => editingTaskNameInputRef.current?.focus(), 200);
@@ -26,6 +33,7 @@ const Header = ({
         form.change("name", editingTaskName);
         changeTaskUpdateType(TaskUpdateType.Immediate);
     };
+    //#endregion
     return (
         <Container justify="space-between" align="center" gap="15px">
             {editingTaskName ?
@@ -38,7 +46,9 @@ const Header = ({
             : <TaskName onDoubleClick={enableEditingTaskNameInput}>
                 {name}
             </TaskName>}
-            <DeleteButton icon="ion:skull" onClick={() => console.log("GNOMO BORRAR")}/>
+            <DeleteButton 
+                icon="ion:skull" 
+                onClick={openModalDeleteTask}/>
         </Container>
     );
 };
