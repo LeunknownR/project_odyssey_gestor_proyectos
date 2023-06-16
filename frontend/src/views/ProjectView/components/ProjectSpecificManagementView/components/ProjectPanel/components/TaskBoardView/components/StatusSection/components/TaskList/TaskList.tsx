@@ -30,7 +30,7 @@ const TaskList = ({
     };
     return (
         <>
-        <Container ref={taskListRef} className="custom-scrollbar">
+        <Container ref={taskListRef} className="custom-scrollbar task-state-section">
             {taskListInfo.map(taskInfo => (
                 <TaskCard
                     key={taskInfo.id}
