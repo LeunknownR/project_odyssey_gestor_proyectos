@@ -1,12 +1,12 @@
 import { SubmoduleView } from "src/config/types";
-import TaskBoard from "./components/TaskBoardView/TaskBoardView";
+import TaskBoardView from "./components/TaskBoardView/TaskBoardView";
 import Timeline from "./components/TimelineView/TimelineView";
 import ChatRooms from "./components/ChatRoomsView/ChatRoomsView";
 
 export const SUBMODULES_VIEWS: SubmoduleView[] = [
     {
         key: "TASK_MANAGER",
-        View: TaskBoard,
+        View: TaskBoardView,
         path: "tareas",
     },
     {

@@ -1,68 +1,82 @@
+import { useEffect, useRef } from "react";
 import { FlexFlow } from "src/components/styles";
 import {
     Container,
-    StateSwordTag,
+    EmptyTaskPriority,
     TransparentTextField,
     UnselectedResponsible,
 } from "./styles";
 import NoResponsible from "src/images/no-responsible.svg";
-import TaskPriorityNull from "src/images/no-priority.svg";
+import emptyTaskPriorityImg from "src/images/no-priority.svg";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
 import { CreationTaskCardProps } from "./types";
 import useTaskBoardContext from "../../../../utils/contexts/useTaskBoardContext";
 import WSProjectTaskServiceEvents from "src/services/websockets/services/projectTasks/events";
-import { Socket } from "socket.io-client";
 
 const CreationTaskCard = ({
-    status,
+    state,
     hideCreateTaskCard,
 }: CreationTaskCardProps) => {
     const [newTaskName, setNewTaskName] = useState<string>("");
     const { socketIo } = useTaskBoardContext();
+    const containerRef = useRef<HTMLLIElement>(null);
+    useEffect(() => {
+        if (!containerRef.current) return;
+        containerRef.current.querySelector("textarea")?.focus();
+    }, [containerRef.current]);
     const changeNewTaskName = ({
         target: { value },
-    }: ChangeEvent<HTMLInputElement>) => {
+    }: ChangeEvent<HTMLTextAreaElement>) => {
         setNewTaskName(value);
-    };
-    const createTask = () => {
+    }
+    const createTask = (): void => {
         if (!socketIo) return;
         const newTask: any = {
             name: newTaskName,
-            state: status,
+            state: state,
         };
-        const socketIoValue: Socket = socketIo.connect();
-        socketIoValue.emit(
+        socketIo.emit(
             WSProjectTaskServiceEvents.Collaborator.CreateTask,
             newTask
         );
         hideCreateTaskCard();
     };
-    //GNOMO CAMBIAR NOMBRE DE ESTAS FUNCIONES DE ABAJO
-    const onKeyDownHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-        if (!newTaskName.trim() && e.key === "Enter") {
+    const isValidTaskName = (): boolean => {
+        return newTaskName.trim().length > 0;
+    }
+    const onKeyDownHandler = (e: KeyboardEvent<HTMLTextAreaElement>): void => {
+        if (e.key === "Enter") {
             e.preventDefault();
+            if (isValidTaskName()) 
+                createTask();
             return;
         }
-        if (!newTaskName.trim() && e.key === "Backspace") hideCreateTaskCard();
-        if (e.key === "Enter") createTask();
+        if (!isValidTaskName() && e.key === "Backspace") 
+            hideCreateTaskCard();
     };
-    const onBlurHandler = () => {
-        if (!newTaskName) hideCreateTaskCard();
-        createTask();
+    const onBlur = () => {
+        if (isValidTaskName()) {
+            createTask();
+            return;
+        }
+        hideCreateTaskCard();
     };
     return (
-        <Container tabIndex={0} onBlur={onBlurHandler}>
+        <Container 
+            ref={containerRef}
+            tabIndex={0}>
             <TransparentTextField
                 placeholder="Nombre de la tarea"
                 value={newTaskName}
                 onChange={changeNewTaskName}
                 characterCounter={false}
-                maxLength={200}
+                maxLength={50}
+                onBlur={onBlur}
                 onKeyDown={onKeyDownHandler}
             />
             <FlexFlow justify="space-between">
                 <UnselectedResponsible src={NoResponsible} />
-                <StateSwordTag src={TaskPriorityNull} />
+                <EmptyTaskPriority src={emptyTaskPriorityImg} />
             </FlexFlow>
         </Container>
     );

@@ -2,9 +2,10 @@ import { FlexFlow } from "src/components/styles";
 import UserImage from "src/views/components/UserImage/UserImage";
 import { Collaborator, Container, Content, Date } from "./styles";
 import { CommentProps } from "./types";
+import { dayMonthFormat } from "src/utils/dates";
 
 const Comment = ({ comment }: CommentProps) => {
-    const { content, dateTime, collaborator } = comment;
+    const { content, datetime, collaborator } = comment;
     return (
         <Container align="center" gap="12px">
             <UserImage
@@ -17,7 +18,7 @@ const Comment = ({ comment }: CommentProps) => {
                     <Collaborator>
                         {collaborator.name} {collaborator.surname}
                     </Collaborator>
-                    <Date>{dateTime}</Date>
+                    <Date>{dayMonthFormat(datetime)}</Date>
                 </FlexFlow>
                 <Content>{content}</Content>
             </FlexFlow>

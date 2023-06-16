@@ -3,8 +3,8 @@ import { ProjectTask } from "src/entities/projectTasks/entities";
 export type ModifyTaskMenuProps = {
     currentProjectTask: ProjectTask | null;
     isTaskMenuOpen: boolean;
-    openTaskMenu: (e: React.FocusEvent<HTMLDivElement>) => void;
-    closeTaskMenu: (e: React.FocusEvent<HTMLDivElement>) => void;
+    hideTaskMenu: () => void;
+    openModalDeleteTask: () => void;
 }
 export type ProjectTaskForm = {
     id?: number;

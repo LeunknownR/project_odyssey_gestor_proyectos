@@ -7,8 +7,12 @@ import { FlexFlow } from "src/components/styles";
 import { ProjectDetailsForPanel } from "src/entities/project/entities";
 import { requestGetProjectDetailForPanel } from "src/services/projects/relatedToProjects";
 import ProjectTitle from "src/views/components/ProjectTitle/ProjectTitle";
-import { AbsolutePaths } from "src/config/absolutePaths";
 
+const MENU_OPTIONS = [{
+    text: "Detalles",
+    to: "detalles",
+    icon: "fa6-solid:diagram-project"
+}]
 const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
     //#region States
     const [projectDetails, setProjectDetails] = useState<ProjectDetailsForPanel | null>(null);
@@ -30,7 +34,7 @@ const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
             direction="column" 
             width="100%" gap="30px">
             {projectDetails && 
-            <ProjectTitle name={projectDetails.name} state={projectDetails.state}/>}
+            <ProjectTitle name={projectDetails.name} state={projectDetails.state} options={MENU_OPTIONS}/>}
             <FlexFlow  width="100%" direction="column">
                 <Tabs projectId={projectId} />
                 <Routes>
@@ -38,12 +42,14 @@ const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
                         <Route
                             key={key}
                             path={path}
-                            element={<View preloader={preloader} projectId={projectId} />}
+                            element={
+                                <View preloader={preloader} 
+                                    projectId={projectId} 
+                                    projectRoleId={projectDetails?.projectRoleId} />}
                         />
                     ))}
                     <Route path="*" element={<Navigate to={`/proyectos/${projectId}/detalles`} replace/>} />
                 </Routes>
-                {/* <Preloader {...preloader.value} /> */}
             </FlexFlow>
         </FlexFlow>
     );

@@ -24,6 +24,7 @@ function useWebsocket<P>(
             },
             closeOnBeforeunload: false,
         });
+        setSocketIo(socket);
         return socket;
     };
     const disconnect = () => {

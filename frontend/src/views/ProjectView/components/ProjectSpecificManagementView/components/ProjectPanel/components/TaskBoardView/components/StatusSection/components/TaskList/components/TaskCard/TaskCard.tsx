@@ -1,63 +1,30 @@
-import { useState, useEffect } from "react";
-import { FlexFlow } from "src/components/styles";
+import { useRef } from "react";
 import {
-    Container,
-    DateText,
-    StateSwordTag,
-    TaskCardName,
-    UnselectedResponsible,
+    Shadow
 } from "./styles";
-import UserImage from "src/views/components/UserImage/UserImage";
-import NoResponsible from "src/images/no-responsible.svg";
 import { TaskCardProps } from "./types";
-import TaskPriorityNull from "src/images/no-priority.svg";
-import { ProjectState } from "src/entities/project/enums";
-import BackendImage from "src/views/components/UserImage/components/BackendImage/BackendImage";
-import { TASK_PRIORITY } from "./utils/constants";
-import { dayMonthFormat } from "src/utils/dates";
+import TaskCardContent from "./compontent/TaskCardContent";
+import useDraggingTaskCard from "./utils/hooks/useDraggingTaskCard";
 
-const TaskCard = ({ taskInfo, openTaskMenu, status }: TaskCardProps) => {
-    const { name, responsible, deadline, priorityId } = taskInfo;
-    const [isFinalized, setIsFinalized] = useState(false);
-    useEffect(() => setIsFinalized(status === ProjectState.Finalized), []);
-    const getClassName = (): string => {
-        const classList = [];
-        isFinalized && classList.push("checked");
-        return classList.join(" ");
-    };
+const TaskCard = ({ 
+    taskInfo, 
+    openTaskMenu, 
+    state
+}: TaskCardProps) => {
+    const containerRef = useRef<HTMLLIElement>(null);
+    const draggingTaskCard = useDraggingTaskCard(containerRef);
     return (
-        <Container
-            className={getClassName()}
-            onClick={() => openTaskMenu(taskInfo)}
-        >
-            <FlexFlow align="center" gap="10px">
-                <TaskCardName>{name}</TaskCardName>
-            </FlexFlow>
-            <FlexFlow justify="space-between">
-                <FlexFlow gap="12px" align="center">
-                    {responsible ? (
-                        <UserImage
-                            name={responsible.name}
-                            surname={responsible.surname}
-                            urlPhoto={responsible.urlPhoto}
-                            className="small"
-                        />
-                    ) : (
-                        <UnselectedResponsible src={NoResponsible} />
-                    )}
-                    <DateText>{deadline !== -1 && dayMonthFormat(deadline)}</DateText>
-                </FlexFlow>
-                {priorityId ? (
-                    <BackendImage
-                        path={TASK_PRIORITY[priorityId]}
-                        isDynamic={false}
-                        className="big"
-                    />
-                ) : (
-                    <StateSwordTag src={TaskPriorityNull} />
-                )}
-            </FlexFlow>
-        </Container>
+        <>
+        {draggingTaskCard.dataDraggingCard &&
+        <Shadow
+            height={draggingTaskCard.dataDraggingCard?.height}/>}
+        <TaskCardContent
+            ref={containerRef}
+            draggingTaskCard={draggingTaskCard}
+            openTaskMenu={openTaskMenu}
+            state={state}
+            taskInfo={taskInfo}/>
+        </>
     );
 };
 

@@ -17,6 +17,12 @@ import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
 import Preloader from "src/components/Preloader/Preloader";
 import EmptyProjects from "./components/EmptyProjects/EmptyProjects";
 import SidebarMenu from "src/views/components/SidebarMenu/SidebarMenu";
+import { DBRoles } from "src/config/roles";
+import { MenuOption } from "src/views/components/MenuOptions/types";
+import useUserRole from "src/storage/hooks/useUserRole";
+import { CardVariant } from "src/components/NotificationCard/types";
+import { requestDeleteProject } from "src/services/projects/relatedToProjects";
+import ConfirmationModal from "src/components/ConfirmationModal";
 
 const ProjectManagerView = () => {
     const [currentProject, setCurrentProject] = useState<Project | null>(null);
@@ -25,6 +31,7 @@ const ProjectManagerView = () => {
     const updateProjectModal = useModal();
     const deleteProjectModal = useModal();
     const preloader = usePreloader();
+    const userRole = useUserRole();
     const { form, getProjectFromForm } = useFormProject(
         newProjectModal,
         updateProjectModal,
@@ -37,14 +44,53 @@ const ProjectManagerView = () => {
         setCurrentProject(null);
         newProjectModal.open(true);
     };
-    const openUpdateProjectModal = () => {
+    const openUpdateProjectModal = (project: Project) => {
         notificationCard.hide();
-        setCurrentProject(currentProject);
+        setCurrentProject(project);
         updateProjectModal.open(true);
     };
-    const openDeleteProjectModal = () => {
+    const openDeleteProjectModal = (project: Project) => {
         notificationCard.hide();
+        setCurrentProject(project);
         deleteProjectModal.open(true);
+    };
+    const getMenuOptions = (project: Project): MenuOption[] => {
+        if (!userRole)
+            return [];
+        const menuOptionsByUserRole: Record<DBRoles, MenuOption[]> = {
+            [DBRoles.GeneralAdmin]: [
+                {
+                    text: "Editar",
+                    onClick: () => openUpdateProjectModal(project),
+                    icon: "mingcute:edit-2-fill"
+                },
+                {
+                    text: "Eliminar",
+                    onClick: () => openDeleteProjectModal(project),
+                    color: "--red-2",
+                    icon: "ic:baseline-delete"
+                }
+            ],
+            [DBRoles.Collaborator]: [
+                {
+                    text: "Detalles",
+                    to: `${project.id}/detalles`,
+                    icon: "fa6-solid:diagram-project"
+                }
+            ]
+        };
+        return menuOptionsByUserRole[userRole] || [];
+    };
+    const deleteProject = async (): Promise<void> => {
+        if (!currentProject?.id) return;
+        deleteProjectModal.open(false);
+        preloader.show("Eliminando proyecto...");
+        const { message } = await requestDeleteProject(currentProject.id);
+        preloader.hide();
+        if (message !== "SUCCESS") return;
+        fillProjects();
+        notificationCard.changeVariant(CardVariant.DeleteProject);
+        notificationCard.show();
     };
     return (
         <>
@@ -73,16 +119,10 @@ const ProjectManagerView = () => {
                 <>
                 <RecentProjects
                     recentProjects={recentProjects}
-                    setCurrentProject={setCurrentProject}
-                    openUpdateProjectModal={openUpdateProjectModal}
-                    openDeleteProjectModal={openDeleteProjectModal}
-                />
+                    getMenuOptions={getMenuOptions}/>
                 <AllProjects
                     allProjects={allProjects}
-                    setCurrentProject={setCurrentProject}
-                    openUpdateProjectModal={openUpdateProjectModal}
-                    openDeleteProjectModal={openDeleteProjectModal}
-                />
+                    getMenuOptions={getMenuOptions}/>
                 </> : <EmptyProjects />}
             </Content>
             {/* GNOMO {isMobile && <NewProjectButton openCreateProjectModal={openCreateProjectModal}/>} */}
@@ -97,11 +137,8 @@ const ProjectManagerView = () => {
             notificationCard={notificationCard}
         />
         <DeleteProjectModal
-            preloader={preloader}
             modalProps={deleteProjectModal}
-            projectId={currentProject?.id}
-            fillProjects={fillProjects}
-            notificationCard={notificationCard}
+            deleteProject={deleteProject}
         />
         <NotificationCard
             handler={notificationCard}

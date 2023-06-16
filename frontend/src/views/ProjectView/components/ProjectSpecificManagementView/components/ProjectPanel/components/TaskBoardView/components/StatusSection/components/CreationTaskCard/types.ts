@@ -1,4 +1,4 @@
 export type CreationTaskCardProps = {
-    status: string;
+    state: string;
     hideCreateTaskCard: () => void;
 }

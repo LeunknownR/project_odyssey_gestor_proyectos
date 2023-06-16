@@ -28,7 +28,6 @@ export const Container = styled.section`
         translate: 0 -20px;
     }
 `;
-
 const spinnerAnimation = keyframes`
     from {
         transform: rotate(0);
@@ -45,5 +44,5 @@ export const Spinner = styled.div`
     color: var(--white-1);
 `;
 export const Blades = styled.img`
-    animation: linear ${spinnerAnimation} 1.2s infinite;
+    animation: linear ${spinnerAnimation} 0.9s infinite;
 `;

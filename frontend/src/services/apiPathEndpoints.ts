@@ -13,4 +13,5 @@ export enum ApiPathEndpoints {
     DeleteProjectMember = "/collaborator/projects/delete-member",
     GetProjectDetailsForPanel = "/collaborator/project-panel/details",
     SearchProjectTeamMembers = "/collaborator/project-tasks/team-members",
+    SearchTaskPriorities = "/collaborator/project-tasks/priorities",
 }

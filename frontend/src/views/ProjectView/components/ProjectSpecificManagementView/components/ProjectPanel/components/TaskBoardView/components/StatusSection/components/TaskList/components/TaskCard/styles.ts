@@ -1,32 +1,33 @@
 import styled from 'styled-components';
-import { ContainerProps, EmptyProps } from './types';
+import { ContainerProps, ShadowProps } from './types';
+import BackendImage from 'src/views/components/UserImage/components/BackendImage/BackendImage';
 
-export const Empty = styled.div<EmptyProps>`
+export const Shadow = styled.div<ShadowProps>`
+    gap: 22px;
+    padding: 18px;
     border: 1px solid var(--gray-3);
     border-radius: 10px;
-    width: 360px;
-    height: ${({ height = "unset" }) => height};
-    &.hidden {
-        display: none;        
-    }
+    width: 100%;
+    height: ${({ height = 0 }) => height + 2}px;
+    transition: 0.35s border-color, 0.35s scale, top 0.05s, left 0.05s;
 `;
-export const Container = styled.li`
+export const Container = styled.li<ContainerProps>`
     display: flex;
     flex-direction: column;
     gap: 22px;
-    padding: 18px 8px 18px 18px;
+    padding: 18px;
     border: 1px solid var(--gray-3);
     border-radius: 10px;
-    width: 360px;
-    margin-right: 12px;
-    transition: 0.3s;
+    width: 100%;
+    transition: 0.35s border-color, 0.35s scale, top 0.05s, left 0.05s;
     user-select: none;
-    transition: 0.35s;
     cursor: pointer;
     &.dragged {
+        background-color: var(--darkblue-4);
+        width: ${({ width = 0 }) => width}px;
         position: fixed;
-        top: ${({ top = "unset" }) => top};
-        left: ${({ left = "unset" }) => left};
+        top: ${({ top = 0 }) => top}px;
+        left: ${({ left = 0 }) => left}px;
     }
     &.checked > * {
         opacity: 0.4;
@@ -53,6 +54,17 @@ export const DateText = styled.div`
     font-weight: 700;
     color: var(--white-1);
 `;
-export const StateSwordTag = styled.img`
+export const TaskPriorityImage = styled(BackendImage)`
+    width: 100px;
+    height: unset;
+    border-radius: 0;
+    user-select: none;
+    cursor: pointer;
+    &.disabled {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+`;
+export const EmptyTaskPriority = styled.img`
     width: 100px;
 `;

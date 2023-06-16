@@ -1,17 +1,20 @@
 import UserImage from "src/views/components/UserImage/UserImage";
 import { SelectedResponsibleProps } from "./types";
-import { Container, IconContainer } from "./styles";
+import { Container } from "./styles";
 import { FlexFlow } from "src/components/styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { DeleteSelectedDataField } from "../../../../styles";
+import useTaskBoardContext from "../../../../../../../../utils/contexts/useTaskBoardContext";
 
 const SelectedResponsible = ({
     selectedResponsible,
     eraseSelectedResponsible
 }: SelectedResponsibleProps) => {
     const { name, surname, urlPhoto } = selectedResponsible;
+    const { isTaskResponsible } = useTaskBoardContext();
     return (
-        <FlexFlow align="center" gap="3px">
-            <Container align="center" gap="10px" padding="4px 10px">
+        <FlexFlow width="100%" align="center" gap="5px">
+            <Container>
                 <UserImage
                     name={name}
                     surname={surname}
@@ -22,9 +25,9 @@ const SelectedResponsible = ({
                     {name} {surname}
                 </span>
             </Container>
-            <IconContainer onClick={eraseSelectedResponsible}>
+            {isTaskResponsible && <DeleteSelectedDataField onClick={eraseSelectedResponsible}>
                 <Icon icon="material-symbols:close" />
-            </IconContainer>
+            </DeleteSelectedDataField>}
         </FlexFlow>
     );
 };

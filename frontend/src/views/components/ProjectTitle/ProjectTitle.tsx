@@ -3,16 +3,17 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 //#endregion
 //#region Styles
 import { FlexFlow } from "src/components/styles";
-import { Container, IconContainer, ProjectName } from "./styles";
+import { Container, IconContainer, OptionsWrapper, ProjectName } from "./styles";
 //#endregion
 //#region Components
-import ProjectState from "../ProjectState/ProjectState";
+import ProjectStateLabel from "../ProjectState/ProjectStateLabel";
 //#endregion
 //#region Types
 import { ProjectTitleProps } from "./types";
+import MenuOptions from "../MenuOptions/MenuOptions";
 //#endregion
 
-const ProjectTitle = ({ name, state }: ProjectTitleProps) => {
+const ProjectTitle = ({ name, state, options }: ProjectTitleProps) => {
     return (
         <Container>
             <FlexFlow gap="14px" align="center">
@@ -21,8 +22,10 @@ const ProjectTitle = ({ name, state }: ProjectTitleProps) => {
                 </IconContainer>
                 <ProjectName>{name}</ProjectName>
             </FlexFlow>
-            
-            <ProjectState state={state} />
+            <OptionsWrapper>
+                <MenuOptions menuPosition="left" options={options} />
+            </OptionsWrapper>
+            <ProjectStateLabel state={state} />
         </Container>
     );
 };

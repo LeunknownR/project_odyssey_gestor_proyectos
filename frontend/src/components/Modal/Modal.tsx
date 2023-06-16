@@ -11,7 +11,7 @@ const Modal = ({
     isOpen = false,
     sizeProps,
     handleClose,
-    open: handleOpen,
+    open
 }: ModalProps) => {
     useEffect(() => {
         if (isOpen) {
@@ -20,11 +20,16 @@ const Modal = ({
         }
         document.body.classList.remove("no-scroll");
     }, [isOpen]);
+    const getClassName = () => {
+        const classList: string[] = ["modal"];
+        isOpen && classList.push("open");
+        return classList.join(" ");
+    }
     return (
         <Container
-            className={isOpen && "open"}
+            className={getClassName()}
             onMouseDown={() => {
-                handleClose ? handleClose() : handleOpen(false);
+                handleClose ? handleClose() : open(false);
             }}
         >
             <Content

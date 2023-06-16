@@ -10,17 +10,12 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import MenuOptions from "src/views/components/MenuOptions/MenuOptions";
 import ProjectDeadline from "./components/ProjectDeadline/ProjectDeadline";
 import { AllProjectCardProps } from "./types";
-import { useNavigate } from "react-router-dom";
-import { AbsolutePaths } from "src/config/absolutePaths";
-import { setProjectId } from "src/storage/project.session";
 import ProjectCollaborators from "../../../RecentProjects/components/RecentProjectCard/components/ProjectCollaborators/ProjectCollaborators";
 import { FlexFlow } from "src/components/styles";
 
 const AllProjectCard = ({
     project,
-    setCurrentProject,
-    openUpdateProjectModal,
-    openDeleteProjectModal,
+    options
 }: AllProjectCardProps) => {
     const { name, startDate, endDate, state, leader, projectMemberCount } = project;
     return (
@@ -43,12 +38,10 @@ const AllProjectCard = ({
                         endDate={endDate}
                         variant="short"/>
                 </FlexFlow>
-                <OptionsWrapper onClick={() => setCurrentProject(project)}>
+                <OptionsWrapper>
                     <MenuOptions
                         menuPosition="right"
-                        onClickEdit={openUpdateProjectModal}
-                        onClickDelete={openDeleteProjectModal}
-                        onClickDetails={`${project.id}/detalles`}
+                        options={options}
                     />
                 </OptionsWrapper>
             </EndContent>

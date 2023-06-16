@@ -9,9 +9,7 @@ import TitleHeader from "src/views/components/TitleHeader/TitleHeader";
 
 const RecentProjects = ({
     recentProjects,
-    setCurrentProject,
-    openUpdateProjectModal,
-    openDeleteProjectModal,
+    getMenuOptions
 }: RecentProjectsProps) => {
     const $list = useRef<HTMLDivElement>();
     const { isMobile } = useMainContext();
@@ -38,13 +36,7 @@ const RecentProjects = ({
                                 <RecentProjectCard
                                     key={project.id}
                                     project={project}
-                                    setCurrentProject={setCurrentProject}
-                                    openUpdateProjectModal={
-                                        openUpdateProjectModal
-                                    }
-                                    openDeleteProjectModal={
-                                        openDeleteProjectModal
-                                    }
+                                    options={getMenuOptions(project)}
                                 />
                             );
                         })}
