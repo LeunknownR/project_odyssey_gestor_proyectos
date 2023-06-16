@@ -1,6 +1,6 @@
 import { ModalProps } from "src/components/Modal/types";
 
-export type DeleteCollaboratorModalProps = {
+export type DeleteTaskModalProps = {
     modalProps: ModalProps;
-    deleteMember: () => Promise<void>;
+    deleteTask: () => void;
 };

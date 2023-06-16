@@ -4,4 +4,5 @@ export type HeaderProps = {
     form: TaskForm;
     name: string;
     changeTaskUpdateType: UpdateMainInformationTaskHook;
+    openModalDeleteTask: () => void;
 };
