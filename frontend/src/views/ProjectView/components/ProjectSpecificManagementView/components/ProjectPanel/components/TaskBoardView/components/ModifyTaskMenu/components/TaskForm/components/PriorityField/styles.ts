@@ -17,7 +17,6 @@ export const PriorityList = styled(FlexFlow.withComponent("ul"))`
     border-radius: 5px;
     translate: 0 -105%;
     transition: 0.15s;
-
 `;
 export const ListWrapper = styled.div`
     overflow: hidden;

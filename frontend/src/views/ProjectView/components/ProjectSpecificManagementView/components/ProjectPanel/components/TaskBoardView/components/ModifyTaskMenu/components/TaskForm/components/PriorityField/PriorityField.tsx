@@ -15,8 +15,11 @@ import { ProjectTaskPriority } from "src/entities/projectTasks/entities";
 import { TASK_PRIORITY } from "../../../../../StatusSection/components/TaskList/components/TaskCard/utils/constants";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { TaskPriorityImage } from "../../../../../StatusSection/components/TaskList/components/TaskCard/styles";
+import { TaskUpdateType } from "../../../../utils/enums";
 
-const PriorityField = ({ form }: PriorityFieldProps) => {
+const PriorityField = ({ 
+    form, changeTaskUpdateType
+}: PriorityFieldProps) => {
     const [isListOpened, setIsListOpened] = useState<boolean>(false);
     const [taskPriorityList, setTaskPriorityList] = useState<
         ProjectTaskPriority[]
@@ -33,6 +36,7 @@ const PriorityField = ({ form }: PriorityFieldProps) => {
     const changeTaskPriorityField = (priorityId: number | null): void => {
         form.change("priorityId", priorityId);
         setIsListOpened(false);
+        changeTaskUpdateType(TaskUpdateType.Immediate);
     };
     return (
         <FlexFlow gap="45px" align="center">

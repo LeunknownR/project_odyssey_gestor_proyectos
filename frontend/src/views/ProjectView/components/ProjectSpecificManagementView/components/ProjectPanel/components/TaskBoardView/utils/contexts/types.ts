@@ -7,5 +7,5 @@ export type InitTaskBoardContext = {
     projectId: number;
     isTaskMenuOpen: boolean;
     modifyMenuRef: RefObject<HTMLElement> | null;
-    preloader: PreloaderHook | null;
+    preloader: PreloaderHook;
 };

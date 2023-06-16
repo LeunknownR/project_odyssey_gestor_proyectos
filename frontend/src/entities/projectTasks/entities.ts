@@ -20,8 +20,8 @@ export type ProjectCommentTask = {
 export type ProjectTask = {
     id: number;
     name: string;
-    description: string | null;
-    responsible?: ProjectTaskCollaboratorUser | null;
+    description: string;
+    responsible: ProjectTaskCollaboratorUser | null;
     priorityId: number | null;
     deadline: number;
     subtasks: ProjectSubtask[];

@@ -5,12 +5,11 @@ export const Container = styled.li`
     display: flex;
     flex-direction: column;
     gap: 22px;
-    padding: 18px 8px 18px 18px;
+    padding: 18px;
     background-color: rgba(112, 112, 112, 0.3373);
     border: 1px solid var(--gray-1);
     border-radius: 10px;
-    max-width: 360px;
-    margin-right: 12px;
+    width: 100%;
     cursor: pointer;
     transition: 0.3s;
     user-select: none;

@@ -8,27 +8,42 @@ import { ModifyTaskMenuProps } from "./types";
 import useTaskForm from "./utils/hooks/useTaskForm";
 import useTaskBoardContext from "../../utils/contexts/useTaskBoardContext";
 import SubtaskList from "./components/SubtaskList/SubtaskList";
+import useUpdateMainInformationTask from "./utils/hooks/useUpdateMainInformationTask";
+import { DBProjectRoles } from "src/config/roles";
+import { getUserId } from "src/storage/user.local";
 
 const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
-    currentProjectTask,
-    hideTaskMenu
+    currentProjectTask, hideTaskMenu, projectRoleId
 }, ref) => {
-    const { isTaskMenuOpen } = useTaskBoardContext();
-    const { form } = useTaskForm(currentProjectTask, isTaskMenuOpen);
+    //#region Custom hooks
+    const { isTaskMenuOpen, socketIo } = useTaskBoardContext(); 
+    const { form } = useTaskForm(
+        currentProjectTask, 
+        isTaskMenuOpen
+    );
+    const changeTaskUpdateType = useUpdateMainInformationTask(form.value, socketIo);
+    //#endregion
     useEffect(() => {
         const $container = ref.current;
         if (!$container) return;
         const handler = (e: MouseEvent): void => {
-            if ($container.contains(e.target)) return;
+            if ($container.contains(e.target) || !document.body.contains(e.target as Node)) return;
             hideTaskMenu();
         };
         document.addEventListener("mousedown", handler);
         return () => document.removeEventListener("mousedown", handler);
     }, [ref.current]);
+    const getUserCanModifyTask = (): boolean => {
+        if (!currentProjectTask || !currentProjectTask.responsible) return false;
+        return (
+            projectRoleId === DBProjectRoles.ProjectMember && 
+            currentProjectTask.responsible.id !== getUserId()
+        );
+    }
     const getClassName = (): string => {
         const classList: string[] = [];
         isTaskMenuOpen && classList.push("show");
-        true && classList.push("disabled");
+        getUserCanModifyTask() && classList.push("disabled");
         return classList.join(" ");
     }
     const renderContent = (): React.ReactNode => {
@@ -36,9 +51,15 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
         const { name, comments } = currentProjectTask;
         return (
             <>
-            <Header name={name} />
+            <Header 
+                name={name} 
+                changeTaskUpdateType={changeTaskUpdateType}
+                form={form}/>
             <Content className="custom-scrollbar">
-                <TaskForm currentProjectTask={currentProjectTask} form={form}/>
+                <TaskForm 
+                    currentProjectTask={currentProjectTask} 
+                    form={form}
+                    changeTaskUpdateType={changeTaskUpdateType}/>
                 <SubtaskList currentProjectTask={currentProjectTask} />
                 {comments.length > 0 && <CommentList comments={comments} />}
             </Content>
@@ -46,6 +67,7 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
             </>
         );
     };
+    //#endregion
     return (
         <Container
             className={getClassName()}

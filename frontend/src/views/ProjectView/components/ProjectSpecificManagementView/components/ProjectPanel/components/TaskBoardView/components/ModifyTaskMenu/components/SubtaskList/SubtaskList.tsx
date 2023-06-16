@@ -1,11 +1,19 @@
+//#region Libraries
 import { useState } from "react";
+//#endregion
+//#region Styles
 import { FlexFlow } from "src/components/styles";
 import { Label } from "../TaskForm/styles";
 import { List } from "./styles";
-import { SubtaskListProps } from "./types";
+import { AddSubtaskButton } from "../SubtaskSection/styles";
+//#endregion
+//#region Components
 import Subtask from "./components/Subtask/Subtask";
 import CreationSubtask from "./components/CreationSubtask/CreationSubtask";
-import { AddSubtaskButton } from "../SubtaskSection/styles";
+//#endregion
+//#region Types
+import { SubtaskListProps } from "./types";
+//#endregion
 
 const SubtaskList = ({ currentProjectTask }: SubtaskListProps) => {
     const [createTaskCard, setCreateTaskCard] = useState<boolean>(false);

@@ -42,7 +42,10 @@ const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
                         <Route
                             key={key}
                             path={path}
-                            element={<View preloader={preloader} projectId={projectId} />}
+                            element={
+                                <View preloader={preloader} 
+                                    projectId={projectId} 
+                                    projectRoleId={projectDetails?.projectRoleId} />}
                         />
                     ))}
                     <Route path="*" element={<Navigate to={`/proyectos/${projectId}/detalles`} replace/>} />

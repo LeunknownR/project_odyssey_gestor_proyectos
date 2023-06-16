@@ -6,7 +6,14 @@ const initTaskBoardContext: InitTaskBoardContext = {
     projectId: 0,
     isTaskMenuOpen: false,
     modifyMenuRef: null,
-    preloader: null,
+    preloader: {
+        hide: () => {},
+        show: () => {},
+        value: {
+            hidden: true,
+            message: ""
+        }
+    },
     // checkExpirationTimeToken: {
     //     init: () => undefined,
     //     clear: () => {}

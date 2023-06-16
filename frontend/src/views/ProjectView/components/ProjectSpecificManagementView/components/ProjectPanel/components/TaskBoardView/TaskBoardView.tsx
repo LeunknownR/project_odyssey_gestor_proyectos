@@ -20,11 +20,12 @@ import WSProjectTaskServiceEvents from "src/services/websockets/services/project
 import TaskBoardContext from "./utils/contexts/TaskBoardContext";
 import { ProjectState } from "src/entities/project/enums";
 import { projectTaskBoardStateByTaskState } from "src/entities/projectTasks/mappers";
+import { TaskBoardViewProps } from "./types";
 //#endregion
 
-const TaskBoard = ({ 
-    projectId, preloader
-}: PanelTabProps) => {
+const TaskBoardView = ({ 
+    projectId, preloader, projectRoleId
+}: TaskBoardViewProps) => {
     const modifyMenuRef = useRef<HTMLDivElement>(null);
     //#region States
     const socketHandler = useWebsocket<number>(
@@ -49,8 +50,8 @@ const TaskBoard = ({
     }, []);
     useEffect(() => {
         if (!currentProjectTask) return;
-        getCurrentProjectTaskWhenBoardChange();
-        setCurrentProjectTask(getCurrentProjectTaskWhenBoardChange())
+        const newCurrentProjectTask = getCurrentProjectTaskWhenBoardChange();
+        setCurrentProjectTask(newCurrentProjectTask);
     }, [projectTaskBoard]);
     //#endregion
     //#region Functions
@@ -108,6 +109,7 @@ const TaskBoard = ({
                     isTaskMenuOpen={isTaskMenuOpen}
                     hideTaskMenu={hideTaskMenu}
                     ref={modifyMenuRef}
+                    projectRoleId={projectRoleId}
                 />
             </TaskBoardContext.Provider>
         ) : null}
@@ -115,4 +117,4 @@ const TaskBoard = ({
     );
 };
 
-export default TaskBoard;
+export default TaskBoardView;

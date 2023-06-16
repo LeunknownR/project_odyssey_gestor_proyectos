@@ -4,6 +4,7 @@ export type ModifyTaskMenuProps = {
     currentProjectTask: ProjectTask | null;
     isTaskMenuOpen: boolean;
     hideTaskMenu: () => void;
+    projectRoleId: string;
 }
 export type ProjectTaskForm = {
     id?: number;

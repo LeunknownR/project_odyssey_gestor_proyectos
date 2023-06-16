@@ -25,7 +25,7 @@ export const projectCollaboratorMapper = (record: any): ProjectCollaborator => (
     surname: record["collaborator_surname"],
     urlPhoto: record["collaborator_url_photo"],
     email: record["collaborator_email"],
-    projectTeamMemberId: record["collaborator_id_project_has_collaborator"],
+    projectTeamMemberId: record["id_project_team_member"],
     projectRole: projectRoleMapper(record)
 });
 export const projecTaskPriorityMapper = (record: any): ProjectTaskPriority => ({
