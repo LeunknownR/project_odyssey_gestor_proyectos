@@ -12,7 +12,7 @@ import SelectedResponsible from "./components/SelectedResponsible/SelectedRespon
 import useSearchCollaborator from "src/views/ProjectView/components/ProjectManagerView/utils/hooks/useSearchCollaborator";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
 import { TaskUpdateType } from "../../../../utils/enums";
-import { currentUserLocalStorage, getUserId } from "src/storage/user.local";
+import { currentUserLocalStorage } from "src/storage/user.local";
 import { User } from "src/entities/user/types";
 
 const ResponsibleField = ({
