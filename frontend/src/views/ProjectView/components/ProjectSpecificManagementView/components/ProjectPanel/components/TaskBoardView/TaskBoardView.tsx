@@ -7,7 +7,6 @@ import Board from "./components/Board/Board";
 import ModifyTaskMenu from "./components/ModifyTaskMenu/ModifyTaskMenu";
 //#endregion
 //#region Types
-import { PanelTabProps } from "../../../../types";
 import {
     ProjectTask,
     ProjectTaskBoard,
@@ -20,13 +19,14 @@ import WSProjectTaskServiceEvents from "src/services/websockets/services/project
 import TaskBoardContext from "./utils/contexts/TaskBoardContext";
 import { ProjectState } from "src/entities/project/enums";
 import { projectTaskBoardStateByTaskState } from "src/entities/projectTasks/mappers";
+import { TaskBoardViewProps } from "./types";
 import useModal from "src/components/Modal/utils/hooks/useModal";
 import DeleteTaskModal from "./components/DeleteTaskModal";
 //#endregion
 
-const TaskBoard = ({ 
-    projectId, preloader
-}: PanelTabProps) => {
+const TaskBoardView = ({ 
+    projectId, preloader, projectRoleId
+}: TaskBoardViewProps) => {
     //#region Custom Hooks
     const modifyMenuRef = useRef<HTMLDivElement>(null);
     const modalDeleteTask = useModal();
@@ -38,6 +38,7 @@ const TaskBoard = ({
     );
     const [projectTaskBoard, setProjectTaskBoard] = useState<ProjectTaskBoard | null>(null);
     const [currentProjectTask, setCurrentProjectTask] = useState<ProjectTask | null>(null);
+    // const [currentProjectToChangeState, setCurrentProjectToChangeState] = useState<>(null);
     const [isTaskMenuOpen, setIsTaskMenuOpen] = useState<boolean>(false);
     const [currentProjectStateToUpdate, setCurrentProjectStateToUpdate] =
         useState<ProjectState | null>(null);
@@ -123,6 +124,7 @@ const TaskBoard = ({
                     currentProjectTask={currentProjectTask}
                     isTaskMenuOpen={isTaskMenuOpen}
                     hideTaskMenu={hideTaskMenu}
+                    projectRoleId={projectRoleId}
                     openModalDeleteTask={() => modalDeleteTask.open(true)}
                 />
                 <DeleteTaskModal
@@ -134,4 +136,4 @@ const TaskBoard = ({
     );
 };
 
-export default TaskBoard;
+export default TaskBoardView;

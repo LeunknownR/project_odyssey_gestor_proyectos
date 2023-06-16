@@ -42,7 +42,6 @@ const ProjectDetailsView = ({ projectId }: PanelTabProps) => {
     }, [projectDetails]);
     const fillProjectDetails = async (): Promise<void> => {
         preloader.show("Cargando detalles del proyecto...");
-        console.log(projectId)
         const { data } = await requestGetProjectDetails(projectId);
         preloader.hide();
         if (data === null) return;

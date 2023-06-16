@@ -1,4 +1,3 @@
-import { ChangeEvent } from "react";
 import CustomTextArea from "src/components/CustomTextArea/CustomTextArea";
 import { TASK_FIELD_PROPS } from "../../../../utils/constants";
 import { Wrapper } from "./styles";
