@@ -62,7 +62,7 @@ CREATE TABLE `project` (
     `description` VARCHAR(200),
     `creation_date` DATE NOT NULL,
     `state` ENUM('P', 'O', 'F') NOT NULL,  -- Pending - OnProgress - Finalized
-    `checked` BIT NOT NULL,
+    `checked` BIT NOT NULL DEFAULT 0,
     `start_date` DATE NOT NULL,
     `end_date` DATE NOT NULL,
     `active` BIT NOT NULL DEFAULT 1,
@@ -123,7 +123,6 @@ CREATE TABLE `task` (
     `description` VARCHAR(200),  -- task_description 
     `deadline` DATE,
     `state` ENUM('P', 'O', 'F') NOT NULL,  -- Pending - OnProgress - Finalized
-    `checked` BIT NOT NULL DEFAULT 0,
     `id_task_priority` INT UNSIGNED NULL,
     `id_project` INT UNSIGNED NOT NULL,
     `id_responsible` INT UNSIGNED NULL,
@@ -254,14 +253,14 @@ VALUES
     (23, 13, 18, 'PLD'),
     (24, 14, 19, 'PLD');
 
-INSERT INTO `task`(id_task, task_name, description, deadline, state, checked, id_task_priority, id_project, id_responsible)
+INSERT INTO `task`(id_task, task_name, description, deadline, state, id_task_priority, id_project, id_responsible)
 VALUES 
-    (1, "db | Stored procedures 'sprint-2'", "Desarrollo de Sotored procedures por parte del DBA, 'osea yo',  para los servicios REST del sprint 2", "2023-05-17", "F", 0, 3, 1, 3),
-    (2, "backend | new logict with POO 'sprint-2'", "Description example backend", "2023-05-12", "O", 0, 1, 1, 2),
-    (3, "frontend | dev responsive design to mobile 'sprint-2'", "Description example frontend", "2023-05-15", "O", 0, 1, 1, 5),
-    (4, "frontend | task example 'sprint-2'", "Description example frontend", "2023-05-20", "P", 0, 1, 1, 5),
-    (5, "backend | task example 'sprint-2'", "Description example backend", "2023-05-21", "P", 0, 1, 1, 2),
-    (6, "db | task example 'sprint-2'", "Description example db", "2023-05-23", "O", 0, 1, 1, 2);
+    (1, "db | Stored procedures 'sprint-2'", "Desarrollo de Sotored procedures por parte del DBA, 'osea yo',  para los servicios REST del sprint 2", "2023-05-17", "F", 3, 1, 3),
+    (2, "backend | new logict with POO 'sprint-2'", "Description example backend", "2023-05-12", "O", 1, 1, 2),
+    (3, "frontend | dev responsive design to mobile 'sprint-2'", "Description example frontend", "2023-05-15", "O", 1, 1, 5),
+    (4, "frontend | task example 'sprint-2'", "Description example frontend", "2023-05-20", "P", 1, 1, 5),
+    (5, "backend | task example 'sprint-2'", "Description example backend", "2023-05-21", "P", 1, 1, 2),
+    (6, "db | task example 'sprint-2'", "Description example db", "2023-05-23", "O", 1, 1, 2);
 
 INSERT INTO `subtask`(id_subtask, subtask_name, checked, id_task)
 VALUES 
@@ -274,6 +273,53 @@ INSERT INTO `task_comment`(id_task_comment, comment_content, comment_date, id_ta
 VALUES 
     (1, "oe mano esta mal la subtarea", NOW(), 1, 2),
     (2, "skueretriste mano", NOW(), 1, 3);
+
+
+-- --- [ FUNCTIONs ] ------------------------------------------------------------
+
+-- Funcion para validar si el id_collabortor existe en el project
+DELIMITER //
+CREATE FUNCTION check_collaborator_exists(
+    p_id_project INT,
+    p_id_collaborator INT
+) RETURNS BOOLEAN
+BEGIN
+    DECLARE result BOOLEAN;
+    
+    SET result = EXISTS (
+        SELECT id_collaborator
+        FROM project_has_collaborator
+        WHERE id_project = p_id_project
+        AND id_collaborator = p_id_collaborator
+    );
+    
+    RETURN result;
+END //
+DELIMITER ;
+
+-- Función para
+DELIMITER //
+CREATE FUNCTION check_task_is_not_him(
+    p_id_task INT,
+    p_id_collaborator INT
+) RETURNS BOOLEAN
+BEGIN
+    DECLARE task_is_not_him BOOLEAN;
+
+    SET task_is_not_him = EXISTS (
+        SELECT *
+        FROM project_has_collaborator phc
+        INNER JOIN task t ON phc.id_project = t.id_project
+        WHERE t.id_task = p_id_task
+        AND phc.id_collaborator = p_id_collaborator
+        AND phc.id_project_role = 'PMB'
+        AND (t.id_responsible != p_id_collaborator OR t.id_responsible IS NULL)
+    );
+
+    RETURN task_is_not_him;
+END //
+DELIMITER ;
+
 
 
 -- --- [ STORED PROCEDUREs ] ------------------------------------------------------------
@@ -643,7 +689,7 @@ BEGIN
         SELECT id
         FROM temporary_table_user_ids
     )
-    AND u.user_name LIKE @search_collaborator_name
+    AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @search_collaborator_name
     ORDER BY u.user_name ASC, u.user_surname ASC;
 
     DROP TEMPORARY TABLE IF EXISTS temporary_table_user_ids;
@@ -765,40 +811,72 @@ BEGIN
 END //
 DELIMITER ;
 
+-- SP para buscar miembros del equipo de un proyecto
+DELIMITER //
+CREATE PROCEDURE `sp_search_project_team_member`(
+    IN p_id_project INT,
+    IN p_team_member_name VARCHAR(50)
+)
+BEGIN
+    -- Seteando lo que se desea buscar con el formato más optimo
+    SET @search_team_member_name = UPPER(CONCAT('%', p_team_member_name, '%'));
+    -- Trayendo datos
+    SELECT 
+        u.id_user AS "id_collaborator",
+        u.user_name AS "name",
+        u.user_surname AS "surname",
+        u.url_photo AS "url_photo",
+        u.email
+    FROM project_has_collaborator phc
+    INNER JOIN user u ON phc.id_collaborator = u.id_user
+    WHERE phc.id_project = p_id_project
+    AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @search_team_member_name
+    ORDER BY u.user_name ASC, u.user_surname ASC;
+END //
+DELIMITER ;
+
 -- Sp para listar la información de la task_board
 DELIMITER //
 CREATE PROCEDURE `sp_get_project_task_board`(
-    IN p_id_project INT
+    IN p_id_project INT,
+    IN p_id_collaborator INT
 )
 BEGIN
-    SELECT 
-        t.id_task,
-        t.task_name,
-        t.description AS "task_description",
-        t.state AS "task_state",
-        t.checked AS "task_checked",
-        t.id_responsible,
-        urt.user_name AS "responsible_name",
-        urt.user_surname AS "responsible_name",
-        urt.url_photo AS "responsible_url_photo",
-        t.id_task_priority,
-        t.deadline AS "task_deadline",
-        st.id_subtask,
-        st.subtask_name,
-        st.checked AS "subtask_checked",
-        tc.id_task_comment,
-        tc.comment_content AS "task_comment_content",
-        tc.comment_date AS "task_comment_datetime",
-        tc.id_collaborator AS "id_task_comment_collaborator",
-        utc.user_name AS "task_comment_collaborator_name",
-        utc.user_surname AS "task_comment_collaborator_surname",
-        utc.url_photo AS "task_comment_collaborator_url_photo"
-    FROM task t
-    LEFT JOIN user urt ON t.id_responsible = urt.id_user
-    LEFT JOIN subtask st ON t.id_task = st.id_task
-    LEFT JOIN task_comment tc ON t.id_task = tc.id_task
-    LEFT JOIN user utc ON tc.id_collaborator = utc.id_user
-    WHERE t.id_project = p_id_project;
+    -- Validando si el collab existe en el proyecto
+    IF (
+        SELECT check_collaborator_exists(p_id_project, p_id_collaborator)
+    ) = 0 THEN
+        -- Cuando el colaborador no está dentro del proyecto.
+        SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
+    ELSE
+        SELECT 
+            t.id_task,
+            t.task_name,
+            t.description AS "task_description",
+            t.state AS "task_state",
+            t.id_responsible,
+            urt.user_name AS "responsible_name",
+            urt.user_surname AS "responsible_surname",
+            urt.url_photo AS "responsible_url_photo",
+            t.id_task_priority,
+            t.deadline AS "task_deadline",
+            st.id_subtask,
+            st.subtask_name,
+            st.checked AS "subtask_checked",
+            tc.id_task_comment,
+            tc.comment_content AS "task_comment_content",
+            tc.comment_date AS "task_comment_datetime",
+            tc.id_collaborator AS "id_task_comment_collaborator",
+            utc.user_name AS "task_comment_collaborator_name",
+            utc.user_surname AS "task_comment_collaborator_surname",
+            utc.url_photo AS "task_comment_collaborator_url_photo"
+        FROM task t
+        LEFT JOIN user urt ON t.id_responsible = urt.id_user
+        LEFT JOIN subtask st ON t.id_task = st.id_task
+        LEFT JOIN task_comment tc ON t.id_task = tc.id_task
+        LEFT JOIN user utc ON tc.id_collaborator = utc.id_user
+        WHERE t.id_project = p_id_project;
+    END IF;
 END //
 DELIMITER ;
 
@@ -806,37 +884,26 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `sp_create_task`(
     IN p_id_project INT,
+    IN p_id_collaborator INT,
     IN p_task_name VARCHAR(40),
-    IN p_task_state CHAR(1),
-    IN p_id_collaborator INT
+    IN p_task_state CHAR(1)
 )
 BEGIN
     -- Validando si el collab existe en el proyecto
-    IF NOT EXISTS(
-        SELECT id_collaborator
-        FROM project_has_collaborator
-        WHERE id_project = p_id_project
-        AND id_collaborator = p_id_collaborator
-    ) THEN
+    IF (
+        SELECT check_collaborator_exists(p_id_project, p_id_collaborator)
+    ) = 0 THEN
         -- Cuando el colaborador no está dentro del proyecto.
         SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
     ELSE
-        IF (UPPER(p_task_state) = "F") THEN
-            SET @checked = 1;
-        ELSE
-            SET @checked = 0;
-        END IF;
-
         -- Creando tarea basica
         INSERT INTO task(
             task_name,
             state,
-            checked,
             id_project
         ) VALUES (
             p_task_name,
             p_task_state,
-            @checked,
             p_id_project
         );
         SET @id_task = LAST_INSERT_ID();
@@ -861,129 +928,24 @@ BEGIN
 END //
 DELIMITER ;
 
--- sp_update_task(
--- 		p_id_project,
--- 		p_id_responsible,
--- 		p_task_name,
--- 		p_description,
--- 		p_deadline,
--- 		p_id_priority,
--- 		p_new_subtask_list,
--- 		p_subtask_id_list_to_be_deleted,
---      p_id_collaborator
--- );
-
--- SP para actualizar una tarea
--- DELIMITER //
--- CREATE PROCEDURE `sp_update_task`(
---     IN p_id_task INT,
---     IN p_id_responsible INT,
---     IN p_task_name VARCHAR(40),
---     IN p_description VARCHAR(200),
---     IN p_deadline DATE,
---     IN p_id_task_priority INT,
---     IN p_new_subtask_list VARCHAR(100),
---     IN p_subtask_id_list_to_be_deleted VARCHAR(100),
---     IN p_id_collaborator INT
--- )
--- BEGIN
---     -- Validando si el collab existe en el proyecto
---     IF NOT EXISTS(
---         SELECT id_collaborator
---         FROM project_has_collaborator
---         WHERE id_project = p_id_project
---         AND id_collaborator = p_id_collaborator
---     ) THEN
---         -- Cuando el colaborador no está dentro del proyecto.
---         SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
---     ELSE
---         IF NOT EXISTS (
---             SELECT id_responsible
---             FROM task
---             WHERE id_task = p_id_task
---             AND id_responsible = p_id_collaborator
---         ) THEN
---             -- Cuando el colaborador es miembro del proyecto y no es su tarea.
---             SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
---         ELSE
---             -- Actualizando la tarea
---             UPDATE task
---             SET id_responsible = p_id_responsible,
---                 task_name = p_task_name,
---                 description = p_description,
---                 deadline = p_deadline,
---                 id_task_priority = p_id_task_priority,
---                 id_responsible = p_id_collaborator
---             WHERE id_project = p_id_project
---             AND id_task = @id_task;
-
---             -- nuevas subtasks
---             IF NOT EXISTS(
---                 SELECT id_subtask
---                 FROM subtask
---                 WHERE id_task = p_id_task
---                 AND FIND_IN_SET(id_subtask, p_new_subtask_list)
---             ) THEN
---                 -- nuevas subtasks
---                 CREATE TEMPORARY TABLE temporary_new_subtask_list (
---                     id INT
---                 );
---                 -- INSERTANDO LAS IDs en una tabla temporal
---                 INSERT INTO temporary_new_subtask_list (id)
---                 SELECT id_subtask
---                 FROM subtask
---                 WHERE id_task = p_id_task
---                 AND FIND_IN_SET(id_subtask, p_new_subtask_list)
---             END IF;
-
---             -- eliminando subtasks
---             IF EXISTS(
---                 SELECT id_subtask
---                 FROM subtask
---                 WHERE id_task = p_id_task
---                 AND FIND_IN_SET(id_subtask, p_subtask_id_list_to_be_deleted)
---             ) THEN
---                 -- Eliminando la tarea
---                 DELETE FROM subtask
---                 WHERE id_task = p_id_task
---                 AND FIND_IN_SET(id_subtask, p_subtask_id_list_to_be_deleted);
---             END IF;
-
---             -- Eliminando la tabla temporal
---             DROP TEMPORARY TABLE IF EXISTS temporary_new_subtask_list;
-
---             -- Cuando la creación de la tarea es exitosa.
---             SELECT 'SUCCESS' AS 'message';
---         END IF;
---     END IF;
--- END //
--- DELIMITER ;
-
-
 -- SP para eliminar una tarea
 DELIMITER //
 CREATE PROCEDURE `sp_delete_task`(
     IN p_id_project INT,
-    IN p_id_task_to_be_deleted INT,
-    IN p_id_collaborator INT
+    IN p_id_collaborator INT,
+    IN p_id_task_to_be_deleted INT
 )
 BEGIN
     -- Validando si el collab existe en el proyecto
-    IF NOT EXISTS(
-        SELECT id_collaborator
-        FROM project_has_collaborator
-        WHERE id_project = p_id_project
-        AND id_collaborator = p_id_collaborator
-    ) THEN
+    IF (
+        SELECT check_collaborator_exists(p_id_project, p_id_collaborator)
+    ) = 0 THEN
         -- Cuando el colaborador no está dentro del proyecto.
         SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
     ELSE
-        IF NOT EXISTS (
-            SELECT id_responsible
-            FROM task
-            WHERE id_task = p_id_task_to_be_deleted
-            AND id_responsible = p_id_collaborator
-        ) THEN
+        IF (
+            SELECT check_task_is_not_him(p_id_task_to_be_deleted, p_id_collaborator)
+        ) = 1 THEN
             -- Cuando el colaborador es miembro del proyecto y no es su tarea.
             SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
         ELSE
@@ -1001,18 +963,15 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `sp_comment_in_task`(
     IN p_id_project INT,
+    IN p_id_collaborator INT,
     IN p_id_task INT,
-    IN p_comment VARCHAR(200),
-    IN p_id_collaborator INT
+    IN p_comment VARCHAR(200)
 )
 BEGIN
     -- Validando si el collab existe en el proyecto
-    IF NOT EXISTS(
-        SELECT id_collaborator
-        FROM project_has_collaborator
-        WHERE id_project = p_id_project
-        AND id_collaborator = p_id_collaborator
-    ) THEN
+    IF (
+        SELECT check_collaborator_exists(p_id_project, p_id_collaborator)
+    ) = 0 THEN
         -- Cuando el colaborador no está dentro del proyecto.
         SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
     ELSE
@@ -1030,6 +989,252 @@ BEGIN
         );
         -- Cuando la creación de la tarea es exitosa.
         SELECT 'SUCCESS' AS 'message';
+    END IF;
+END //
+DELIMITER ;
+
+-- SP para cambiar el estado de la subtarea
+DELIMITER //
+CREATE PROCEDURE `sp_change_task_state`(
+    IN p_id_project INT,
+    IN p_id_collaborator INT,
+    IN p_id_task INT,
+    IN p_task_state CHAR(1)
+)
+BEGIN
+    -- Validando si el collab existe en el proyecto
+    IF (
+        SELECT check_collaborator_exists(p_id_project, p_id_collaborator)
+    ) = 0 THEN
+        -- Cuando el colaborador no está dentro del proyecto.
+        SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
+    ELSE
+        IF (
+            SELECT check_task_is_not_him(p_id_task, p_id_collaborator)
+        ) = 1 THEN
+            -- Cuando el colaborador es miembro del proyecto y no es su tarea.
+            SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
+        ELSE
+            -- Cambiar de estado a la tarea
+            UPDATE task
+            SET state = p_task_state
+            WHERE id_task = p_id_task;
+            -- Cuando la creación de la tarea es exitosa.
+            SELECT 'SUCCESS' AS 'message';
+        END IF;
+    END IF;
+END //
+DELIMITER ;
+
+-- SP para actualizar una tarea de la información principal
+DELIMITER //
+CREATE PROCEDURE `sp_update_task_main_info`(
+    IN p_id_project INT,
+    IN p_id_collaborator INT,
+    IN p_id_task INT,
+    IN p_id_responsible INT,
+    IN p_task_name VARCHAR(40),
+    IN p_description VARCHAR(200),
+    IN p_deadline DATE,
+    IN p_id_task_priority INT
+)
+BEGIN
+    -- Validando si el collab existe en el proyecto
+    IF (
+        SELECT check_collaborator_exists(p_id_project, p_id_collaborator)
+    ) = 0 THEN
+        -- Cuando el colaborador no está dentro del proyecto.
+        SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
+    ELSE
+        IF (
+            SELECT check_task_is_not_him(p_id_task, p_id_collaborator)
+        ) = 1 THEN
+            -- Cuando el colaborador es miembro del proyecto y no es su tarea.
+            SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
+        ELSE
+            IF EXISTS (
+                SELECT id_collaborator
+                FROM project_has_collaborator
+                WHERE id_collaborator = p_id_collaborator
+                AND id_project = p_id_project
+                AND id_project_role = "PLD"
+            ) THEN
+                SET @id_responsible = p_id_responsible;
+            ELSE
+                SET @id_responsible = p_id_collaborator;
+            END IF;
+
+            -- Actualizando la tarea
+            UPDATE task
+            SET id_responsible = @id_responsible,
+                task_name = p_task_name,
+                description = p_description,
+                deadline = p_deadline,
+                id_task_priority = p_id_task_priority
+            WHERE id_project = p_id_project
+            AND id_task = p_id_task;
+
+            -- Cuando la creación de la tarea es exitosa.
+            SELECT 'SUCCESS' AS 'message';
+        END IF;
+    END IF;
+END //
+DELIMITER ;
+
+-- SP para crear una subtarea
+DELIMITER //
+CREATE PROCEDURE `sp_create_subtask`(
+    IN p_id_project INT,
+    IN p_id_collaborator INT,
+    IN p_id_task INT,
+    IN p_subtask_name VARCHAR(50)
+)
+BEGIN
+    -- Validando si el collab existe en el proyecto
+    IF (
+        SELECT check_collaborator_exists(p_id_project, p_id_collaborator)
+    ) = 0 THEN
+        -- Cuando el colaborador no está dentro del proyecto.
+        SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
+    ELSE
+        IF (
+            SELECT check_task_is_not_him(p_id_task, p_id_collaborator)
+        ) = 1 THEN
+            -- Cuando el colaborador es miembro del proyecto y no es su tarea.
+            SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
+        ELSE
+            -- Insertando la nueva subtarea
+            INSERT INTO subtask(
+                subtask_name,
+                id_task
+            ) VALUES (
+                p_subtask_name,
+                p_id_task
+            );
+            -- Cuando la creación de la tarea es exitosa.
+            SELECT 'SUCCESS' AS 'message';
+        END IF;
+    END IF;
+END //
+DELIMITER ;
+
+-- SP para actualizar una tarea de la información principal
+DELIMITER //
+CREATE PROCEDURE `sp_update_subtask`(
+    IN p_id_project INT,
+    IN p_id_collaborator INT,
+    IN p_id_subtask INT,
+    IN p_subtask_name VARCHAR(50)
+)
+BEGIN
+    -- extrayendo el id_task
+    SET @id_task = (
+        SELECT st.id_task
+        FROM task t
+        INNER JOIN subtask st ON t.id_task = st.id_task
+        WHERE st.id_subtask = p_id_subtask
+    );
+    -- Validando si el collab existe en el proyecto
+    IF (
+        SELECT check_collaborator_exists(p_id_project, p_id_collaborator)
+    ) = 0 THEN
+        -- Cuando el colaborador no está dentro del proyecto.
+        SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
+    ELSE
+        IF (
+            SELECT check_task_is_not_him(@id_task, p_id_collaborator)
+        ) = 1 THEN
+            -- Cuando el colaborador es miembro del proyecto y no es su tarea.
+            SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
+        ELSE
+            -- Actualizando la subtarea
+            UPDATE subtask
+            SET subtask_name = p_subtask_name
+            WHERE id_subtask = p_id_subtask;
+
+            -- Cuando la creación de la tarea es exitosa.
+            SELECT 'SUCCESS' AS 'message';
+        END IF;
+    END IF;
+END //
+DELIMITER ;
+
+-- SP para cambiar el estado de la subtarea
+DELIMITER //
+CREATE PROCEDURE `sp_switch_check_status_subtask`(
+    IN p_id_project INT,
+    IN p_id_collaborator INT,
+    IN p_id_subtask INT,
+    IN p_subtask_checked BIT
+)
+BEGIN
+    -- extrayendo el id_task
+    SET @id_task = (
+        SELECT st.id_task
+        FROM task t
+        INNER JOIN subtask st ON t.id_task = st.id_task
+        WHERE st.id_subtask = p_id_subtask
+    );
+    -- Validando si el collab existe en el proyecto
+    IF (
+        SELECT check_collaborator_exists(p_id_project, p_id_collaborator)
+    ) = 0 THEN
+        -- Cuando el colaborador no está dentro del proyecto.
+        SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
+    ELSE
+        IF (
+            SELECT check_task_is_not_him(@id_task, p_id_collaborator)
+        ) = 1 THEN
+            -- Cuando el colaborador es miembro del proyecto y no es su tarea.
+            SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
+        ELSE
+            -- Actualizando el checked de la subtarea
+            UPDATE subtask
+            SET checked = p_subtask_checked
+            WHERE id_subtask = p_id_subtask;
+
+            -- Cuando la creación de la tarea es exitosa.
+            SELECT 'SUCCESS' AS 'message';
+        END IF;
+    END IF;
+END //
+DELIMITER ;
+
+-- SP para elimiar una subtarea
+DELIMITER //
+CREATE PROCEDURE `sp_delete_subtask`(
+    IN p_id_project INT,
+    IN p_id_collaborator INT,
+    IN p_id_subtask INT
+)
+BEGIN
+    -- extrayendo el id_task
+    SET @id_task = (
+        SELECT st.id_task
+        FROM task t
+        INNER JOIN subtask st ON t.id_task = st.id_task
+        WHERE st.id_subtask = p_id_subtask
+    );
+    -- Validando si el collab existe en el proyecto
+    IF (
+        SELECT check_collaborator_exists(p_id_project, p_id_collaborator)
+    ) = 0 THEN
+        -- Cuando el colaborador no está dentro del proyecto.
+        SELECT 'COLLAB_IS_NOT_IN_PROJECT' AS 'message';
+    ELSE
+        IF (
+            SELECT check_task_is_not_him(@id_task, p_id_collaborator)
+        ) = 1 THEN
+            -- Cuando el colaborador es miembro del proyecto y no es su tarea.
+            SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
+        ELSE
+            -- Actualizando el checked de la subtarea
+            DELETE FROM subtask
+            WHERE id_subtask = p_id_subtask;
+
+            -- Cuando la creación de la tarea es exitosa.
+            SELECT 'SUCCESS' AS 'message';
+        END IF;
     END IF;
 END //
 DELIMITER ;

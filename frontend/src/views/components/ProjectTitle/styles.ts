@@ -52,3 +52,6 @@ export const ProjectName = styled.h1`
 >>>>>>>> c90fc6259ac0d94fcffed729c3e7230cbbff66ab:frontend/src/views/components/ProjectTitle/styles.ts
     }
 `;
+export const OptionsWrapper = styled.div`
+    position: relative;
+`;

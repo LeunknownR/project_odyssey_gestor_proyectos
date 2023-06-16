@@ -5,10 +5,16 @@ export type DeviceSizeHook = {
 };
 export type WebsocketHook = {
     socketIo: Socket | null;
-    connect: () => Promise<Socket>;
+    connect: () => Socket;
     disconnect: () => void;
 };
 export type CheckExpirationTimeTokenHook = {
     clear: () => void;
     init: () => NodeJS.Timeout | undefined;
+};
+export type ClassNameHook = {
+    value: string;
+    add: (className: string) => void;
+    remove: (className: string) => void;
+    contains: (className: string) => boolean;
 };

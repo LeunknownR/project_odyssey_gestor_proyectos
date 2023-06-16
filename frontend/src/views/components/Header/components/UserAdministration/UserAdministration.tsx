@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import UserImage from "../../../UserImage/UserImage";
 import UserOptions from "./components/UserOptions/UserOptions";
 import { Container } from "./styles";
@@ -11,7 +11,6 @@ const UserAdministration = ({
 }: UserAdministrationProps) => {
     const [areOptionsOpen, setAreOptionsOpen] = useState(false);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
-    const $optionsRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
         const currentUser = currentUserLocalStorage.get();
         setCurrentUser(currentUser);
@@ -39,7 +38,6 @@ const UserAdministration = ({
             <UserOptions
                 isOpen={areOptionsOpen}
                 currentUser={currentUser}
-                ref={$optionsRef}
             />
         </Container>
     );

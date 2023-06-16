@@ -9,17 +9,26 @@ export type WSNewProjectTask = {
     name: string;
     state: ProjectTaskState;
 };
-export type WSProjectTaskToBeUpdated = {
+export type WSProjectTaskMainInformation = {
     taskId: number;
     responsibleId: number | null;
     name: string;
     description: string | null;
     deadline: number;
-    priotityId: number | null;
-    newSubTask: string[];
-    subTaskIdsToBeDeleted: number[];
+    priorityId: number | null;
 };
-
+export type WSNewProjectSubtask = {
+	taskId: number;
+	name: string;
+};
+export type WSProjectSubtaskToBeUpdated = {
+	subtaskId: number;
+	name: string;
+};
+export type WSProjectSubtaskToBeSwitchedCheckStatus = {
+	subtaskId: number;
+    checked: boolean;
+};
 export type WSProjectTaskToBeChangedState = {
     taskId: number;
     state: ProjectState;
@@ -28,13 +37,17 @@ export type WSProjectTaskComment = {
     taskId: number;
     content: string;
 };
-export type WSProjectTaskForm<T> = {
+export type WSProjectTaskForm<T = null> = {
     collaboratorId: number;
     projectId: number;
     payload: T;
 };
 export type WSNewProjectTaskForm = WSProjectTaskForm<WSNewProjectTask>;
-export type WSProjectTaskToBeUpdatedForm = WSProjectTaskForm<WSProjectTaskToBeUpdated>;
+export type WSProjectTaskMainInformationForm = WSProjectTaskForm<WSProjectTaskMainInformation>;
+export type WSSubtaskToBeUpdatedForm = WSProjectTaskForm<WSProjectSubtaskToBeUpdated>;
+export type WSSubtaskToBeSwitchedCheckStatusForm = WSProjectTaskForm<WSProjectSubtaskToBeSwitchedCheckStatus>;
+export type WSNewProjectSubtaskForm = WSProjectTaskForm<WSNewProjectSubtask>;
 export type WSProjectTaskToBeChangedStateForm = WSProjectTaskForm<WSProjectTaskToBeChangedState>;
+export type WSProjectSubtaskToBeDeletedForm = WSProjectTaskForm<number>;
 export type WSProjectTaskToBeDeletedForm = WSProjectTaskForm<number>;
 export type WSProjectTaskCommentForm = WSProjectTaskForm<WSProjectTaskComment>;

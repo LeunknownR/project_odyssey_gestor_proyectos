@@ -1,9 +1,9 @@
 import { ReactElement, useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { currentUserLocalStorage } from "src/storage/user.local";
-import ProjectManagerView from "../ProjectManager/ProjectManagerView";
 import { DBRoles } from "src/config/roles";
-import ProjectSpecificManagerView from "../ProjectSpecificManagement/ProjectSpecificManagerView";
+import ProjectManagerView from "./components/ProjectManagerView/ProjectManagerView";
+import ProjectSpecificManagementView from "./components/ProjectSpecificManagementView/ProjectSpecificManagementView";
 
 const ProjectView = () => {
     const [routes, setRoutes] = useState<ReactElement[] | null>(null);
@@ -23,7 +23,7 @@ const ProjectView = () => {
                 <Route
                     key={1}
                     path=":projectId/*"
-                    element={<ProjectSpecificManagerView/>}/>
+                    element={<ProjectSpecificManagementView/>}/>
             );
         setRoutes(routes);
     };

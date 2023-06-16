@@ -1,8 +1,12 @@
-import { Project } from "src/entities/project/types";
-
+export type MenuOption = {
+    text: string;
+    to?: string;
+    onClick?: () => void;
+    color?: string;
+    icon?: string;
+};
 export type MenuOptionsProps = {
-    menuPosition?: string;
-    onClickEdit: () => void;
-    onClickDelete: () => void;
-    onClickDetails: (project: Project) => void;
+    className?: string;
+    options: MenuOption[];
+    menuPosition: "left" | "right";
 }

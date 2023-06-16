@@ -11,7 +11,7 @@ const Modal = ({
     isOpen = false,
     sizeProps,
     handleClose,
-    open: handleOpen,
+    open
 }: ModalProps) => {
     useEffect(() => {
         if (isOpen) {
@@ -24,7 +24,7 @@ const Modal = ({
         <Container
             className={isOpen && "open"}
             onMouseDown={() => {
-                handleClose ? handleClose() : handleOpen(false);
+                handleClose ? handleClose() : open(false);
             }}
         >
             <Content

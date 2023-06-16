@@ -1,7 +1,6 @@
 import { 
     AddProjectMembersRequestBody, 
     DeleteProjectMemberRequestBody, 
-    SearchCollaboratorRequestBody, 
     UpdateEndDateProjectRequestBody 
 } from "./types";
 import { isPast } from "../../../utils/datetime";
@@ -19,13 +18,6 @@ export const parseToGetProjectListForCollaboratorRequestBody = (params: any): Ge
         projectName: projectName || null,
         collaboratorId
     };
-}
-export const parseToSearchCollaboratorRequestBody = (params: any): SearchCollaboratorRequestBody => {
-    const { projectId, collaboratorName } = params;
-    if (!isPositiveNumber(projectId) ||
-        !checkLength(collaboratorName, 0, 100))
-        throw new Error("Invalid request body to search collaborator");
-    return { projectId, collaboratorName };
 }
 export const parseToProjectId = (params: any): number => {
     if (!isPositiveNumber(params.projectId))
@@ -67,13 +59,13 @@ export const parseToAddProjectMembersRequestBody = (body: any): AddProjectMember
 export const parseToDeleteProjectMemberRequestBody = (params: any): DeleteProjectMemberRequestBody => {
     const {
         userId,
-        projectHasCollaboratorId
+        projectTeamMemberId
     } = params;
     if (!isPositiveNumber(userId) ||
-        !isPositiveNumber(projectHasCollaboratorId))
+        !isPositiveNumber(projectTeamMemberId))
         throw new Error("Invalid form to delete a project member");
     return {
         userId: parseInt(userId),
-        projectHasCollaboratorId: parseInt(projectHasCollaboratorId)
+        projectTeamMemberId: parseInt(projectTeamMemberId)
     };
 }

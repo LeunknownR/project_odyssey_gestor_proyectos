@@ -8,8 +8,8 @@ import {
     AddProjectMembersRequestBody, 
     DeleteProjectMemberRequestBody, 
     GetProjectListForCollaboratorRequestBody, 
-    SearchCollaboratorRequestBody, 
     UpdateEndDateProjectRequestBody } from "../../routes/collaborator/projects/types";
+import { SearchCollaboratorRequestBody } from "../../routes/collaborator/types";
 import { 
     CreateProjectRequestBody, 
     DeleteProjectRequestBody 
@@ -104,12 +104,12 @@ export default abstract class ProjectModel {
         );
         return resultset;
     }
-    public static async searchCollaboratorsForProjectMember({
+    public static async searchCollaboratorForProjectTeamMember({
         projectId,
         collaboratorName
     }: SearchCollaboratorRequestBody): Promise<any[]> {
         const [resultset] = await DBConnection.query(
-            StoredProcedures.SearchCollaboratorForProjectMember,
+            StoredProcedures.SearchCollaboratorForProjectTeamMember,
             [
                 projectId,
                 collaboratorName
@@ -128,12 +128,12 @@ export default abstract class ProjectModel {
         return record;
     }
     public static async deleteProjectMember({
-        userId, projectHasCollaboratorId
+        userId, projectTeamMemberId
     }: DeleteProjectMemberRequestBody): Promise<any> {
         const [[record]] = await DBConnection.query(
             StoredProcedures.DeleteProjectMember,
             [
-                projectHasCollaboratorId,
+                projectTeamMemberId,
                 userId
             ]);
         return record;
@@ -142,7 +142,7 @@ export default abstract class ProjectModel {
         projectId, userId
     }: GetProjectPanelDetailRequestBody): Promise<any> {
         const [resultset] = await DBConnection.query(
-            StoredProcedures.GetProjectTableDetail,
+            StoredProcedures.GetProjectPanelDetails,
             [
                 projectId,
                 userId
