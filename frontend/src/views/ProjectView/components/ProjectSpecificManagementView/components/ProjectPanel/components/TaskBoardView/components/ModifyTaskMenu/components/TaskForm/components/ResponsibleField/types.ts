@@ -4,5 +4,5 @@ import { FieldProps } from "../../types";
 
 export type ResponsibleFieldProps = FieldProps & {
     form: TaskForm;
-    currentResponsible?: ProjectTaskCollaboratorUser | null;
+    currentResponsible: ProjectTaskCollaboratorUser | null;
 }

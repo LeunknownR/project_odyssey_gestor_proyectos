@@ -3,7 +3,6 @@ import { ProjectTaskForm } from "../../types";
 import { TaskUpdateType } from "../enums";
 import { WSProjectTaskMainInformation } from "src/services/websockets/services/projectTasks/utils/entities";
 import { Socket } from "socket.io-client";
-import { sleep } from "src/services/utils/helpers";
 import { UpdateMainInformationTaskHook } from "./types";
 import WSProjectTaskServiceEvents from "src/services/websockets/services/projectTasks/events";
 
@@ -16,6 +15,7 @@ const useUpdateMainInformationTask = (form: ProjectTaskForm, socketIo: Socket | 
     const [taskUpdateType, setTaskUpdateType] = useState<TaskUpdateType | null>(null);
     const [timeoutToTaskUpdateId, setTimeoutToTaskUpdateId] = useState<NodeJS.Timeout | undefined>(); 
     useEffect(() => {
+        if (!taskUpdateType) return;
         checkUpdateType();
     }, [taskUpdateType]);
     const getUpdateTaskMainInfo = (): WSProjectTaskMainInformation => { 
@@ -37,7 +37,6 @@ const useUpdateMainInformationTask = (form: ProjectTaskForm, socketIo: Socket | 
                 clearTimeout(timeoutToTaskUpdateId);
                 const newTimeoutToTaskUpdateId: NodeJS.Timeout = setTimeout(() => {
                     updateTaskMainInfo();
-                    console.log("Actualizando...");
                 }, 350);
                 setTimeoutToTaskUpdateId(newTimeoutToTaskUpdateId);
                 break;
@@ -51,6 +50,10 @@ const useUpdateMainInformationTask = (form: ProjectTaskForm, socketIo: Socket | 
         setTaskUpdateType(taskUpdateType);
     }
     return changeTaskUpdateType;
+    // return {
+    //     changeTaskUpdateType,
+    //     taskUpdateType
+    // };
 }
 
 export default useUpdateMainInformationTask;

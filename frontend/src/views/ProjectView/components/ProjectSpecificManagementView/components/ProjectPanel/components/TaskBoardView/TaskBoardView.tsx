@@ -49,7 +49,7 @@ const TaskBoard = ({
     }, []);
     useEffect(() => {
         if (!currentProjectTask) return;
-        const newCurrentProjectTask =getCurrentProjectTaskWhenBoardChange();
+        const newCurrentProjectTask = getCurrentProjectTaskWhenBoardChange();
         setCurrentProjectTask(newCurrentProjectTask);
     }, [projectTaskBoard]);
     //#endregion
@@ -104,7 +104,6 @@ const TaskBoard = ({
                     openTaskMenu={fillCurrentProjectTask}
                 />
                 <ModifyTaskMenu
-                    projectTaskBoard={projectTaskBoard}
                     currentProjectTask={currentProjectTask}
                     isTaskMenuOpen={isTaskMenuOpen}
                     hideTaskMenu={hideTaskMenu}

@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { INITIAL_FORM } from "../constants";
 import { ProjectTaskForm } from "../../types";
-import { ProjectTask, ProjectTaskBoard } from "src/entities/projectTasks/entities";
+import { ProjectTask } from "src/entities/projectTasks/entities";
 import { TaskFormHook } from "./types";
 
 const useTaskForm = (
     currentProjectTask: ProjectTask | null,
-    isTaskMenuOpen: boolean,
-    projectTaskBoard: ProjectTaskBoard
+    isTaskMenuOpen: boolean
 ): TaskFormHook => {
     const [form, setForm] = useState<ProjectTaskForm>({ ...INITIAL_FORM });
     useEffect(() => {
@@ -17,6 +16,10 @@ const useTaskForm = (
         }
         setForm({ ...INITIAL_FORM });
     }, [isTaskMenuOpen]);
+    useEffect(() => {
+        if (!isTaskMenuOpen) return;
+        initForm();
+    }, [currentProjectTask]);
     const initForm = () => {
         if (!currentProjectTask) return;
         setForm({
@@ -28,12 +31,6 @@ const useTaskForm = (
             priorityId: currentProjectTask.priorityId
         });
     };
-    // const isCompletedForm = (): boolean => {
-    //     const { name, description, startDate, endDate, priorityId } = form;
-    //     return Boolean(
-    //         name && description && startDate > -1 && endDate > -1 && leaderId
-    //     );
-    // };
     const formHaveChanges = (): boolean => {
         if (!currentProjectTask) return true;
         const { name, responsibleId, description, deadline, priorityId } = form;

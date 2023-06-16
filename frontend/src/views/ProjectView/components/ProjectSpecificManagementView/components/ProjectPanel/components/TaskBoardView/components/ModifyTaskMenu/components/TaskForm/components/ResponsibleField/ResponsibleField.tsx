@@ -35,6 +35,9 @@ const ResponsibleField = ({
             return;
         }
     }, [isTaskMenuOpen]);
+    useEffect(() => {
+        setSelectedResponsible(currentResponsible);
+    }, [currentResponsible]);
     const selectTaskResponsibleHandler = useSearchCollaborator({
         requestSearchCollaborators: async (collaboratorName: string) => {
             preloader.show("Buscando colaboradores...")
@@ -49,24 +52,13 @@ const ResponsibleField = ({
     const changeSelectedResponsible = (newResponsible: ProjectTaskCollaboratorUser | null) => {
         setSelectedResponsible(newResponsible);
         form.change(TASK_FIELD_PROPS.TASK_RESPONSIBLE.name, newResponsible?.id || null);
-        changeTaskUpdateType(TaskUpdateType.Immediate)
+        changeTaskUpdateType(TaskUpdateType.Immediate);
     }
-    console.log();
     const customSearchInputHandler = useCustomInputSearch<ProjectTaskCollaboratorUser>({
         clearOptions: selectTaskResponsibleHandler.clear,
         fillOptions: selectTaskResponsibleHandler.fill,
         onChange: changeSelectedResponsible
     });
-    // useEffect(() => {
-    //     if (modalProps.isOpen) return;
-    //     customSearchInputHandler.clear();
-    // }, [modalProps.isOpen]);
-    // useEffect(() => {
-    //     form.change(
-    //         TASK_FIELD_PROPS.TASK_RESPONSIBLE.name,
-    //         selectedResponsible?.id || 0
-    //     );
-    // }, [selectedResponsible]);
     const removeSelectedResponsible = () => {
         changeSelectedResponsible(null);
         customSearchInputHandler.clear();

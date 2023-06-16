@@ -8,17 +8,19 @@ import { ModifyTaskMenuProps } from "./types";
 import useTaskForm from "./utils/hooks/useTaskForm";
 import useTaskBoardContext from "../../utils/contexts/useTaskBoardContext";
 import SubtaskList from "./components/SubtaskList/SubtaskList";
+import useUpdateMainInformationTask from "./utils/hooks/useUpdateMainInformationTask";
 
 const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
-    currentProjectTask, projectTaskBoard,
-    hideTaskMenu
+    currentProjectTask, hideTaskMenu
 }, ref) => {
-    const { isTaskMenuOpen } = useTaskBoardContext(); 
+    //#region Custom hooks
+    const { isTaskMenuOpen, socketIo } = useTaskBoardContext(); 
     const { form } = useTaskForm(
         currentProjectTask, 
-        isTaskMenuOpen,
-        projectTaskBoard
+        isTaskMenuOpen
     );
+    const changeTaskUpdateType = useUpdateMainInformationTask(form.value, socketIo);
+    //#endregion
     useEffect(() => {
         const $container = ref.current;
         if (!$container) return;
@@ -35,9 +37,15 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
         const { name, comments } = currentProjectTask;
         return (
             <>
-            <Header name={name} />
+            <Header 
+                name={name} 
+                changeTaskUpdateType={changeTaskUpdateType}
+                form={form}/>
             <Content className="custom-scrollbar">
-                <TaskForm currentProjectTask={currentProjectTask} form={form}/>
+                <TaskForm 
+                    currentProjectTask={currentProjectTask} 
+                    form={form}
+                    changeTaskUpdateType={changeTaskUpdateType}/>
                 {/* <SubtaskSection currentProjectTask={currentProjectTask} /> */}
                 <SubtaskList currentProjectTask={currentProjectTask} />
                 {comments.length > 0 && <CommentList comments={comments} />}
