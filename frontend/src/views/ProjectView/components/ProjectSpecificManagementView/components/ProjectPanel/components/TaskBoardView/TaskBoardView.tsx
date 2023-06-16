@@ -38,6 +38,7 @@ const TaskBoardView = ({
     );
     const [projectTaskBoard, setProjectTaskBoard] = useState<ProjectTaskBoard | null>(null);
     const [currentProjectTask, setCurrentProjectTask] = useState<ProjectTask | null>(null);
+    // const [currentProjectToChangeState, setCurrentProjectToChangeState] = useState<>(null);
     const [isTaskMenuOpen, setIsTaskMenuOpen] = useState<boolean>(false);
     const [currentProjectStateToUpdate, setCurrentProjectStateToUpdate] =
         useState<ProjectState | null>(null);
