@@ -25,6 +25,12 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
         document.addEventListener("mousedown", handler);
         return () => document.removeEventListener("mousedown", handler);
     }, [ref.current]);
+    const getClassName = (): string => {
+        const classList: string[] = [];
+        isTaskMenuOpen && classList.push("show");
+        true && classList.push("disabled");
+        return classList.join(" ");
+    }
     const renderContent = (): React.ReactNode => {
         if (!currentProjectTask) return null;
         const { name, comments } = currentProjectTask;
@@ -33,7 +39,6 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
             <Header name={name} />
             <Content className="custom-scrollbar">
                 <TaskForm currentProjectTask={currentProjectTask} form={form}/>
-                {/* <SubtaskSection currentProjectTask={currentProjectTask} /> */}
                 <SubtaskList currentProjectTask={currentProjectTask} />
                 {comments.length > 0 && <CommentList comments={comments} />}
             </Content>
@@ -43,7 +48,7 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
     };
     return (
         <Container
-            className={isTaskMenuOpen ? "show" : ""}
+            className={getClassName()}
             tabIndex={0}
             ref={ref}>
             {renderContent()}

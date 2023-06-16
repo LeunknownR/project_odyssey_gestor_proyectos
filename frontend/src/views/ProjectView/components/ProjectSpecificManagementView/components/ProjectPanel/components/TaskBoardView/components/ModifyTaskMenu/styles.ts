@@ -19,6 +19,11 @@ export const Container = styled(FlexFlow.withComponent("section"))`
     &.show {
         translate: 0;
     }
+    &.disabled > * {
+        opacity: 0.3;
+        user-select: none;
+        pointer-events: none;
+    }
     @media (max-width: ${MOBILE_WIDTH}px) {
         height: calc(100vh - var(--main-sidebar-height-mobile));
     }

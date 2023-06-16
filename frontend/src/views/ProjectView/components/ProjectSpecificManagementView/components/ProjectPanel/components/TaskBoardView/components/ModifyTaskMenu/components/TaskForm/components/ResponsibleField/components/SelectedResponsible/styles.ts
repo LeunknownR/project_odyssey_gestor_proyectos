@@ -7,7 +7,7 @@ export const Container = styled(FlexFlow)`
     gap: 10px;
     padding: 4px 10px;
     border-radius: 10px;
-    width: 100%;
+    width: max-content;
     position: relative;
     & > span {
         display: block;

@@ -3,7 +3,7 @@ import { CollaboratorUser } from "../collaborator/entities";
 export enum ProjectTaskState {
     Pending = "P",
     OnProgress = "O",
-    Finalized = "F"
+    Finalized = "F",
 }
 export type ProjectTaskCollaboratorUser = Omit<CollaboratorUser, "email">;
 export type ProjectSubtask = {
@@ -15,8 +15,8 @@ export type ProjectCommentTask = {
     id: number;
     content: string;
     datetime: number;
-    collaborator: ProjectTaskCollaboratorUser
-}
+    collaborator: ProjectTaskCollaboratorUser;
+};
 export type ProjectTask = {
     id: number;
     name: string;
@@ -33,9 +33,9 @@ export type ProjectTaskBoard = {
     finalized: ProjectTask[];
     [projectTaskState: string]: ProjectTask[];
 };
-export type ProjectTaskPriority =  {
-    id: number,
-	urlPhoto: string,
+export type ProjectTaskPriority = {
+    id: number;
+    urlPhoto: string;
 };
 export type ProjectTaskForm = {
     id: number;
@@ -45,4 +45,4 @@ export type ProjectTaskForm = {
     deadline: number;
     priorityId: number | null;
     [key: string]: any;
-}
+};
