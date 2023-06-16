@@ -1,25 +1,24 @@
 import ConfirmationModal from "src/components/ConfirmationModal";
-import { DeleteCollaboratorModalProps } from "./types";
+import { DeleteTaskModalProps } from "./types";
 import { CancelRedModalButton, ConfirmRedModalButton } from "src/views/ProjectView/components/styles";
 
-const DeleteMemberModal = ({
-    modalProps,
-    deleteMember
-}: DeleteCollaboratorModalProps) => {
+const DeleteTaskModal = ({
+    modalProps, deleteTask
+}: DeleteTaskModalProps) => {
     return (
         <ConfirmationModal
             modalProps={modalProps}
-            title="ELIMINAR MIEMBRO"
-            description="Esta acción eliminará al miembro del proyecto.">
+            title="ELIMINAR TAREA"
+            description="Esta acción eliminará permanentemente la tarea.">
             <CancelRedModalButton
                 content="Cancelar"
                 onClick={() => modalProps.open(false)}
             />
             <ConfirmRedModalButton 
                 content="Eliminar" 
-                onClick={deleteMember} />
+                onClick={deleteTask} />
         </ConfirmationModal>
     );
 };
 
-export default DeleteMemberModal;
+export default DeleteTaskModal;

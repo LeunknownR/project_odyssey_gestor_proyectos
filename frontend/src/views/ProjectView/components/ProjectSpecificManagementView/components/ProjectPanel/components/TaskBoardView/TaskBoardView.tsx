@@ -7,7 +7,6 @@ import Board from "./components/Board/Board";
 import ModifyTaskMenu from "./components/ModifyTaskMenu/ModifyTaskMenu";
 //#endregion
 //#region Types
-import { PanelTabProps } from "../../../../types";
 import {
     ProjectTask,
     ProjectTaskBoard,
@@ -21,12 +20,17 @@ import TaskBoardContext from "./utils/contexts/TaskBoardContext";
 import { ProjectState } from "src/entities/project/enums";
 import { projectTaskBoardStateByTaskState } from "src/entities/projectTasks/mappers";
 import { TaskBoardViewProps } from "./types";
+import useModal from "src/components/Modal/utils/hooks/useModal";
+import DeleteTaskModal from "./components/DeleteTaskModal";
 //#endregion
 
 const TaskBoardView = ({ 
     projectId, preloader, projectRoleId
 }: TaskBoardViewProps) => {
+    //#region Custom Hooks
     const modifyMenuRef = useRef<HTMLDivElement>(null);
+    const modalDeleteTask = useModal();
+    //#endregion
     //#region States
     const socketHandler = useWebsocket<number>(
         wsProjectTasksServiceDataConnection,
@@ -90,6 +94,16 @@ const TaskBoardView = ({
     const hideTaskMenu = (): void => {
         setIsTaskMenuOpen(false);
     };
+    const deleteTask = (): void => {
+        if (!currentProjectTask) return;
+        const { socketIo } = socketHandler;
+        if (!socketIo) return;
+        const { id: taskIdToBeDeleted } = currentProjectTask;
+        hideTaskMenu();
+        modalDeleteTask.open(false);
+        setCurrentProjectTask(null);
+        socketIo.emit(WSProjectTaskServiceEvents.Collaborator.DeleteTask, taskIdToBeDeleted);
+    }
     //#endregion
     return (
         <>
@@ -105,12 +119,16 @@ const TaskBoardView = ({
                     openTaskMenu={fillCurrentProjectTask}
                 />
                 <ModifyTaskMenu
+                    ref={modifyMenuRef}
                     currentProjectTask={currentProjectTask}
                     isTaskMenuOpen={isTaskMenuOpen}
                     hideTaskMenu={hideTaskMenu}
-                    ref={modifyMenuRef}
                     projectRoleId={projectRoleId}
+                    openModalDeleteTask={() => modalDeleteTask.open(true)}
                 />
+                <DeleteTaskModal
+                    modalProps={modalDeleteTask}
+                    deleteTask={deleteTask}/>
             </TaskBoardContext.Provider>
         ) : null}
         </>

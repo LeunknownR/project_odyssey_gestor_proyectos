@@ -20,6 +20,9 @@ import SidebarMenu from "src/views/components/SidebarMenu/SidebarMenu";
 import { DBRoles } from "src/config/roles";
 import { MenuOption } from "src/views/components/MenuOptions/types";
 import useUserRole from "src/storage/hooks/useUserRole";
+import { CardVariant } from "src/components/NotificationCard/types";
+import { requestDeleteProject } from "src/services/projects/relatedToProjects";
+import ConfirmationModal from "src/components/ConfirmationModal";
 
 const ProjectManagerView = () => {
     const [currentProject, setCurrentProject] = useState<Project | null>(null);
@@ -78,6 +81,17 @@ const ProjectManagerView = () => {
         };
         return menuOptionsByUserRole[userRole] || [];
     };
+    const deleteProject = async (): Promise<void> => {
+        if (!currentProject?.id) return;
+        deleteProjectModal.open(false);
+        preloader.show("Eliminando proyecto...");
+        const { message } = await requestDeleteProject(currentProject.id);
+        preloader.hide();
+        if (message !== "SUCCESS") return;
+        fillProjects();
+        notificationCard.changeVariant(CardVariant.DeleteProject);
+        notificationCard.show();
+    };
     return (
         <>
         <SidebarMenu
@@ -123,11 +137,8 @@ const ProjectManagerView = () => {
             notificationCard={notificationCard}
         />
         <DeleteProjectModal
-            preloader={preloader}
             modalProps={deleteProjectModal}
-            projectId={currentProject?.id}
-            fillProjects={fillProjects}
-            notificationCard={notificationCard}
+            deleteProject={deleteProject}
         />
         <NotificationCard
             handler={notificationCard}

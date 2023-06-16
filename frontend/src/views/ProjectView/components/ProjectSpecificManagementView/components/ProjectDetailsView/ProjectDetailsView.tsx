@@ -5,7 +5,7 @@ import ProjectInfo from "./components/ProjectInfo/ProjectInfo";
 import ProjectTeam from "./components/ProjectTeam/ProjectTeam";
 import Footer from "./components/Footer/Footer";
 import { ProjectDetails } from "src/entities/project/entities";
-import { requestGetProjectDetails } from "src/services/projects/relatedToProjects";
+import { requestDeleteMember, requestGetProjectDetails } from "src/services/projects/relatedToProjects";
 import AddMembersModal from "./components/AddMembersModal/AddMembersModal";
 import useModal from "src/components/Modal/utils/hooks/useModal";
 import UpdateEndDateModal from "./components/UpdateEndDateModal/UpdateEndDateModal";
@@ -19,6 +19,7 @@ import { DBProjectRoles } from "src/config/roles";
 import { getUserId } from "src/storage/user.local";
 import { FlexFlow } from "src/components/styles";
 import { PanelTabProps } from "../../types";
+import { CardVariant } from "src/components/NotificationCard/types";
 
 const ProjectDetailsView = ({ projectId }: PanelTabProps) => {
     const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(null);
@@ -45,6 +46,17 @@ const ProjectDetailsView = ({ projectId }: PanelTabProps) => {
         preloader.hide();
         if (data === null) return;
         setProjectDetails(data);
+    };
+    const deleteMember = async () => {
+        if (!currentProjectMember) return;
+        deleteMemberModal.open(false);
+        preloader.show("Eliminando colaborador...");
+        const { message } = await requestDeleteMember(currentProjectMember.projectTeamMemberId);
+        preloader.hide();
+        if (message !== "SUCCESS") return;
+        await fillProjectDetails();
+        notificationCard.changeVariant(CardVariant.DeleteMember);
+        notificationCard.show();
     };
     const openAddMemberModal = (): void => {
         notificationCard.hide();
@@ -101,10 +113,7 @@ const ProjectDetailsView = ({ projectId }: PanelTabProps) => {
             />
             <DeleteMemberModal
                 modalProps={deleteMemberModal}
-                preloader={preloader}
-                fillProjectDetails={fillProjectDetails}
-                projectMemberToDelete={currentProjectMember}
-                notificationCard={notificationCard}
+                deleteMember={deleteMember}
             />
             </>
         )}
