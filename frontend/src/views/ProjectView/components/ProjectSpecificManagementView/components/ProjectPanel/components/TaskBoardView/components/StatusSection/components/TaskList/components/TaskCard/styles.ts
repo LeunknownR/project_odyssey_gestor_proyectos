@@ -8,8 +8,7 @@ export const Shadow = styled.div<ShadowProps>`
     border: 1px solid var(--gray-3);
     border-radius: 10px;
     width: 100%;
-    height: ${({ height = 0 }) => height + 2}px;
-    transition: 0.35s border-color, 0.35s scale, top 0.05s, left 0.05s;
+    height: ${({ height = 0 }) => height}px;
 `;
 export const Container = styled.li<ContainerProps>`
     display: flex;

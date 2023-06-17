@@ -15,29 +15,25 @@ import { dayMonthFormat } from "src/utils/dates";
 
 const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
     taskInfo, openTaskMenu,
-    state, draggingTaskCard: {
-        dataDraggingCard,
-        isDragging,
-        events
-    }
+    state, draggingTaskCard
 }, ref) => {
     const { name, responsible, deadline, priorityId } = taskInfo;
     const isFinalized: boolean = state === ProjectState.Finalized;
     const getClassName = (): string => {
         const classList = ["task-card"];
         isFinalized && classList.push("checked");
-        dataDraggingCard && classList.push("dragged");
+        draggingTaskCard.isDragging() && classList.push("dragged");
         return classList.join(" ");
     };
     return (
         <Container
             ref={ref}
             className={getClassName()}
-            width={dataDraggingCard?.width}
-            top={dataDraggingCard?.top}
-            left={dataDraggingCard?.left}
-            {...events}
-            onClick={() => !isDragging && openTaskMenu(taskInfo, state)}>
+            width={draggingTaskCard.data?.width}
+            top={draggingTaskCard.data?.top}
+            left={draggingTaskCard.data?.left}
+            {...draggingTaskCard.events}
+            onClick={() => !draggingTaskCard.isDragging() && openTaskMenu(taskInfo, state)}>
             <FlexFlow align="center" gap="10px">
                 <TaskCardName>{name}</TaskCardName>
             </FlexFlow>

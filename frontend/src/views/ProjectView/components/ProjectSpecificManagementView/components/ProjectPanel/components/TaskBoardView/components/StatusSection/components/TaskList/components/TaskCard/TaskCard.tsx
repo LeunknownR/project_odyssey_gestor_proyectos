@@ -13,11 +13,11 @@ const TaskCard = ({
 }: TaskCardProps) => {
     const containerRef = useRef<HTMLLIElement>(null);
     const draggingTaskCard = useDraggingTaskCard(containerRef);
+    console.log(draggingTaskCard.data?.height);
     return (
         <>
-        {draggingTaskCard.dataDraggingCard &&
-        <Shadow
-            height={draggingTaskCard.dataDraggingCard?.height}/>}
+        {(draggingTaskCard.isDragging()) &&
+        <Shadow height={draggingTaskCard.data?.height}/>}
         <TaskCardContent
             ref={containerRef}
             draggingTaskCard={draggingTaskCard}

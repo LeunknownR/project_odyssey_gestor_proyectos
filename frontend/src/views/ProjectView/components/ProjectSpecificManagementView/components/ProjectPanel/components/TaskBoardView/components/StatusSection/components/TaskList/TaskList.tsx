@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import CreationTaskCard from "../CreationTaskCard/CreationTaskCard";
 import TaskCard from "./components/TaskCard/TaskCard";
-import { Container } from "./styles";
+import { Container, Content } from "./styles";
 import { TaskListProps } from "./types";
 import AddTaskButton from "./components/AddTaskButton/AddTaskButton";
 import { ProjectState } from "src/entities/project/enums";
@@ -30,19 +30,21 @@ const TaskList = ({
     };
     return (
         <>
-        <Container ref={taskListRef} className="custom-scrollbar task-state-section">
-            {taskListInfo.map(taskInfo => (
-                <TaskCard
-                    key={taskInfo.id}
-                    taskInfo={taskInfo}
-                    openTaskMenu={openTaskMenu}
-                    state={state}
-                />
-            ))}
-        {createTaskCard &&
-        <CreationTaskCard 
-            state={state} 
-            hideCreateTaskCard={hideCreateTaskCard} />}
+        <Container className="custom-scrollbar">            
+            <Content ref={taskListRef} className="task-state-section">
+                {taskListInfo.map(taskInfo => (
+                    <TaskCard
+                        key={taskInfo.id}
+                        taskInfo={taskInfo}
+                        openTaskMenu={openTaskMenu}
+                        state={state}
+                    />
+                ))}
+                {createTaskCard &&
+                <CreationTaskCard 
+                    state={state} 
+                    hideCreateTaskCard={hideCreateTaskCard} />}
+            </Content>
         </Container>
         {state !== ProjectState.Finalized && (
             <AddTaskButton showCreateTaskCard={showCreateTaskCard} />

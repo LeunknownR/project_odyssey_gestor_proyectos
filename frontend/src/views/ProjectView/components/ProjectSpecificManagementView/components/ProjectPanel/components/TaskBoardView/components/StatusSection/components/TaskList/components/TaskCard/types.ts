@@ -1,5 +1,6 @@
 import { ProjectState } from "src/entities/project/enums";
 import { ProjectTask } from "src/entities/projectTasks/entities";
+import { DraggingTaskCardHook } from "./utils/hooks/types";
 
 export type TaskCardProps = {
     taskInfo: ProjectTask;
@@ -13,4 +14,7 @@ export type ContainerProps = {
     top?: number;
     left?: number;
     width?: number;
-}
+};
+export type TaskCardContentProps = TaskCardProps & {
+    draggingTaskCard: DraggingTaskCardHook;
+};

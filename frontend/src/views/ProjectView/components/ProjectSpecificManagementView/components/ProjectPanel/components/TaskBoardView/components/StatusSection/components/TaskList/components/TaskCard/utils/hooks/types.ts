@@ -10,7 +10,8 @@ export type TaskCardEventDragginHandler = {
     onMouseUp: () => void;
 }
 export type DraggingTaskCardHook = {
-    dataDraggingCard: DataDraggingTaskCard | null;
+    data: DataDraggingTaskCard | null;
     events: TaskCardEventDragginHandler;
-    isDragging: boolean;
+    hasClicked: boolean;
+    isDragging: () => boolean;
 };

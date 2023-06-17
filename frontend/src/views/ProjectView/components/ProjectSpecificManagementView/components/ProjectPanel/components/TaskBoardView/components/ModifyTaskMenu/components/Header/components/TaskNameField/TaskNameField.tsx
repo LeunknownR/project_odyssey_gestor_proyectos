@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { EditTaskNameInput, TaskName } from "./styles";
 import { TaskNameFieldProps } from "./types";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
@@ -10,7 +10,11 @@ const TaskNameField = ({ form, name, doUpdateTask }: TaskNameFieldProps) => {
     //#region States
     const [editingTaskName, setEditingTaskName] = useState<string | null>(null);
     //#endregion
-    const { isTaskResponsible } = useTaskBoardContext();
+    const { isTaskMenuOpen, isTaskResponsible } = useTaskBoardContext();
+    useEffect(() => {
+        if (isTaskMenuOpen) return;
+        setEditingTaskName(null);
+    }, [isTaskMenuOpen]);
     //#region Functions
     const enableEditingTaskNameInput = (): void => {
         if (!isTaskResponsible) return;
@@ -20,10 +24,6 @@ const TaskNameField = ({ form, name, doUpdateTask }: TaskNameFieldProps) => {
     const changeEditTaskNameInput: React.ChangeEventHandler<
         HTMLInputElement
     > = ({ target: { value } }) => {
-        if (value.length === 0) {
-            editingTaskNameInputRef.current?.blur();
-            return;
-        }
         setEditingTaskName(value);
     };
     const checkEnterForUpdateName: React.KeyboardEventHandler<
@@ -37,7 +37,7 @@ const TaskNameField = ({ form, name, doUpdateTask }: TaskNameFieldProps) => {
     //#endregion
     return (
         <>
-        {editingTaskName ? (
+        {editingTaskName !== null ? (
             <EditTaskNameInput
                 ref={editingTaskNameInputRef}
                 value={editingTaskName}

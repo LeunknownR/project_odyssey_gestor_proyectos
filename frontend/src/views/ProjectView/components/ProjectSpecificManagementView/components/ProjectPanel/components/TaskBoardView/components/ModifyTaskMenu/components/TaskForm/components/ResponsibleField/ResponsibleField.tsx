@@ -23,18 +23,8 @@ const ResponsibleField = ({
         useState<ProjectTaskCollaboratorUser | null>(null);
     const { projectId, isTaskMenuOpen, preloader, isTaskResponsible } = useTaskBoardContext();
     useEffect(() => {
-        if (currentResponsible) {
-            changeSelectedResponsible(currentResponsible);
-            return;
-        }
-        if (!isTaskMenuOpen) {
-            changeSelectedResponsible(null);
-            return;
-        }
-    }, [isTaskMenuOpen]);
-    useEffect(() => {
-        setSelectedResponsible(currentResponsible);
-    }, [currentResponsible]);
+        setSelectedResponsible(isTaskMenuOpen ? currentResponsible : null);
+    }, [isTaskMenuOpen, currentResponsible]);
     const selectTaskResponsibleHandler = useSearchCollaborator({
         requestSearchCollaborators: async (collaboratorName: string) => {
             preloader.show("Buscando colaboradores...");

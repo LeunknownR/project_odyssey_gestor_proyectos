@@ -92,7 +92,6 @@ const TaskBoardView = ({
         taskInfo: ProjectTask,
         state: ProjectState
     ): void => {
-        // if (!modifyMenuRef.current) return;
         openTaskMenu();
         setCurrentProjectTask(taskInfo);
         setCurrentProjectStateToUpdate(state);

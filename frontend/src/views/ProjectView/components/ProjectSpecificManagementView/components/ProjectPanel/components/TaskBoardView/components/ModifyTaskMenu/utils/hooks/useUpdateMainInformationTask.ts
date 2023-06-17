@@ -13,7 +13,6 @@ const useUpdateMainInformationTask = (form: ProjectTaskForm, socketIo: Socket | 
     const [triggerUpdateTask, setTriggerUpdateTask] = useState<boolean>(false);
     useEffect(() => {
         if (!triggerUpdateTask) return;
-        console.log("Trigger");
         updateTask();
         setTriggerUpdateTask(false);
     }, [triggerUpdateTask]);
