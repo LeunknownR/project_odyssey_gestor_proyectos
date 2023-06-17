@@ -7,23 +7,23 @@ import { TaskFormProps } from "./types";
 
 const TaskForm = ({ 
     currentProjectTask, 
-    form, changeTaskUpdateType
+    form, doUpdateTask
 }: TaskFormProps) => {
     return (
         <Container direction="column" gap="20px">
             <ResponsibleField 
                 form={form}
-                changeTaskUpdateType={changeTaskUpdateType} 
+                doUpdateTask={doUpdateTask} 
                 currentResponsible={currentProjectTask.responsible}/>
             <DeadlineField 
                 form={form}
-                changeTaskUpdateType={changeTaskUpdateType}/>
+                doUpdateTask={doUpdateTask}/>
             <PriorityField 
                 form={form}
-                changeTaskUpdateType={changeTaskUpdateType}/>
+                doUpdateTask={doUpdateTask}/>
             <DescriptionField 
                 form={form}
-                changeTaskUpdateType={changeTaskUpdateType}/>
+                doUpdateTask={doUpdateTask}/>
         </Container>
     );
 };

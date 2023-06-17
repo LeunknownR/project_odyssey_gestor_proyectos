@@ -1,10 +1,9 @@
 import { useState, useRef } from "react";
 import { EditTaskNameInput, TaskName } from "./styles";
-import { TaskUpdateType } from "../../../../utils/enums";
 import { TaskNameFieldProps } from "./types";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
 
-const TaskNameField = ({ form, name, changeTaskUpdateType }: TaskNameFieldProps) => {
+const TaskNameField = ({ form, name, doUpdateTask }: TaskNameFieldProps) => {
     //#region Refs
     const editingTaskNameInputRef = useRef<HTMLInputElement>(null);
     //#endregion
@@ -33,7 +32,7 @@ const TaskNameField = ({ form, name, changeTaskUpdateType }: TaskNameFieldProps)
         if (key !== "Enter" || !editingTaskName) return;
         editingTaskNameInputRef.current?.blur();
         form.change("name", editingTaskName);
-        changeTaskUpdateType(TaskUpdateType.Immediate);
+        doUpdateTask();
     };
     //#endregion
     return (

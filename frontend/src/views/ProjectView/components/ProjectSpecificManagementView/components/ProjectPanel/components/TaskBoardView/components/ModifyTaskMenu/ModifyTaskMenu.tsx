@@ -20,7 +20,7 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
         currentProjectTask, 
         isTaskMenuOpen
     );
-    const changeTaskUpdateType = useUpdateMainInformationTask(form.value, socketIo);
+    const doUpdateTask = useUpdateMainInformationTask(form.value, socketIo);
     //#endregion
     useEffect(() => {
         const $container = ref.current;
@@ -30,6 +30,7 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
             if (
                 $container.contains($elementClicked) || 
                 !document.body.contains($elementClicked) ||
+                // !$elementClicked.querySelector("modal") ||
                 $elementClicked.classList.contains("modal")
             ) return;
            hideTaskMenu();
@@ -50,13 +51,13 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
             <Header 
                 name={name} 
                 form={form}
-                changeTaskUpdateType={changeTaskUpdateType}
+                doUpdateTask={doUpdateTask}
                 openModalDeleteTask={openModalDeleteTask}/>
             <Content className="custom-scrollbar">
                 <TaskForm 
                     currentProjectTask={currentProjectTask} 
                     form={form}
-                    changeTaskUpdateType={changeTaskUpdateType}/>
+                    doUpdateTask={doUpdateTask}/>
                 <SubtaskList currentProjectTask={currentProjectTask} />
                 {comments.length > 0 && <CommentList comments={comments} />}
             </Content>

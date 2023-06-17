@@ -6,7 +6,7 @@ import useTaskBoardContext from "../../../../utils/contexts/useTaskBoardContext"
 const Header = ({
     form,
     name,
-    changeTaskUpdateType,
+    doUpdateTask,
     openModalDeleteTask,
 }: HeaderProps) => {
     const { isTaskResponsible } = useTaskBoardContext();
@@ -15,7 +15,7 @@ const Header = ({
             <TaskNameField
                 form={form}
                 name={name}
-                changeTaskUpdateType={changeTaskUpdateType}
+                doUpdateTask={doUpdateTask}
             />
             {isTaskResponsible && (
                 <DeleteButton icon="ion:skull" onClick={openModalDeleteTask} />

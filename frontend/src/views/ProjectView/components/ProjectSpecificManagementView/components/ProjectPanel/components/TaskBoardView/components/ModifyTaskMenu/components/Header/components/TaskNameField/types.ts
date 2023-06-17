@@ -1,7 +1,7 @@
-import { TaskForm, UpdateMainInformationTaskHook } from "../../../../utils/hooks/types";
+import { TaskForm } from "../../../../utils/hooks/types";
 
 export type TaskNameFieldProps = {
     form: TaskForm;
     name: string;
-    changeTaskUpdateType: UpdateMainInformationTaskHook;
+    doUpdateTask: () => void;
 };

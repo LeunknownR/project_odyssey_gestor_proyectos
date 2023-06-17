@@ -62,7 +62,6 @@ const TaskBoardView = ({
         setCurrentProjectTask(newCurrentProjectTask);
     }, [projectTaskBoard]);
     useEffect(() => {
-        // if (!currentProjectTask || !currentProjectTask.responsible) return;
         setIsTaskResponsible(
             projectRoleId === DBProjectRoles.ProjectLeader || 
             currentProjectTask?.responsible?.id === getUserId()
@@ -93,8 +92,7 @@ const TaskBoardView = ({
         taskInfo: ProjectTask,
         state: ProjectState
     ): void => {
-        if (!modifyMenuRef.current) return;
-        modifyMenuRef.current.focus();
+        // if (!modifyMenuRef.current) return;
         openTaskMenu();
         setCurrentProjectTask(taskInfo);
         setCurrentProjectStateToUpdate(state);

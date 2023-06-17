@@ -1,12 +1,16 @@
 import { forwardRef } from "react";
-import { Container, DateText, EmptyTaskPriority, TaskCardName, TaskPriorityImage, UnselectedResponsible } from "../../styles";
-import { TaskCardContentProps } from "../../types";
+import { 
+    Container, DateText, 
+    EmptyTaskPriority, TaskCardName, 
+    TaskPriorityImage, UnselectedResponsible 
+} from "../styles";
+import { TaskCardContentProps } from "../types";
 import { ProjectState } from "src/entities/project/enums";
 import emptyTaskPriorityImg from "src/images/no-priority.svg";
 import { FlexFlow } from "src/components/styles";
 import UserImage from "src/views/components/UserImage/UserImage";
 import NoResponsible from "src/images/no-responsible.svg";
-import { TASK_PRIORITY } from "../../utils/constants";
+import { TASK_PRIORITY } from "../utils/constants";
 import { dayMonthFormat } from "src/utils/dates";
 
 const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({

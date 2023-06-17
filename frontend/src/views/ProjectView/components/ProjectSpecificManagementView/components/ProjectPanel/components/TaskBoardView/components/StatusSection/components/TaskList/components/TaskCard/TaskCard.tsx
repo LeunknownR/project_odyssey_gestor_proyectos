@@ -3,7 +3,7 @@ import {
     Shadow
 } from "./styles";
 import { TaskCardProps } from "./types";
-import TaskCardContent from "./compontent/TaskCardContent";
+import TaskCardContent from "./TaskCardContent";
 import useDraggingTaskCard from "./utils/hooks/useDraggingTaskCard";
 
 const TaskCard = ({ 
