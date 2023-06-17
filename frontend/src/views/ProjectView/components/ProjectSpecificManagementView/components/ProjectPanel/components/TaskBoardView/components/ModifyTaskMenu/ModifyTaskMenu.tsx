@@ -30,9 +30,13 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
             if (
                 $container.contains($elementClicked) || 
                 !document.body.contains($elementClicked) ||
-                // !$elementClicked.querySelector("modal") ||
+                $elementClicked.querySelector("modal") ||
                 $elementClicked.classList.contains("modal")
             ) return;
+            console.log([...document.querySelectorAll("task-card")].some($taskCard => {
+                console.log($taskCard, $elementClicked);
+                return $taskCard.contains($elementClicked);
+            }));
            hideTaskMenu();
         };
         document.addEventListener("mousedown", handler);

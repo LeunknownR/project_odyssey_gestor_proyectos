@@ -24,7 +24,7 @@ const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
     const { name, responsible, deadline, priorityId } = taskInfo;
     const isFinalized: boolean = state === ProjectState.Finalized;
     const getClassName = (): string => {
-        const classList = [];
+        const classList = ["task-card"];
         isFinalized && classList.push("checked");
         dataDraggingCard && classList.push("dragged");
         return classList.join(" ");
