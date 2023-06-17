@@ -1,11 +1,9 @@
-import { ProjectState } from "src/entities/project/enums";
-import { ProjectTask } from "src/entities/projectTasks/entities";
+import { ProjectTask, ProjectTaskState } from "src/entities/projectTasks/entities";
 import { DraggingTaskCardHook } from "./utils/hooks/types";
 
 export type TaskCardProps = {
     taskInfo: ProjectTask;
-    openTaskMenu: (taskInfo: ProjectTask, state: ProjectState) => void;
-    state: ProjectState;
+    state: ProjectTaskState;
 };
 export type ShadowProps = {
     height?: number;

@@ -8,12 +8,10 @@ import useDraggingTaskCard from "./utils/hooks/useDraggingTaskCard";
 
 const TaskCard = ({ 
     taskInfo, 
-    openTaskMenu, 
     state
 }: TaskCardProps) => {
     const containerRef = useRef<HTMLLIElement>(null);
     const draggingTaskCard = useDraggingTaskCard(containerRef);
-    console.log(draggingTaskCard.data?.height);
     return (
         <>
         {(draggingTaskCard.isDragging()) &&
@@ -21,7 +19,6 @@ const TaskCard = ({
         <TaskCardContent
             ref={containerRef}
             draggingTaskCard={draggingTaskCard}
-            openTaskMenu={openTaskMenu}
             state={state}
             taskInfo={taskInfo}/>
         </>

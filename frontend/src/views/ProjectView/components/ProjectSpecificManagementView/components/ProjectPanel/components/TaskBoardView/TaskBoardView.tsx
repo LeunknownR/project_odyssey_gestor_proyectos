@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Socket } from "socket.io-client";
 //#endregion
 //#region Components
-import Board from "./components/Board/Board";
+import TaskBoard from "./components/TaskBoard";
 import ModifyTaskMenu from "./components/ModifyTaskMenu/ModifyTaskMenu";
 import DeleteTaskModal from "./components/DeleteTaskModal";
 //#endregion
@@ -11,19 +11,21 @@ import DeleteTaskModal from "./components/DeleteTaskModal";
 import {
     ProjectTask,
     ProjectTaskBoard,
+    ProjectTaskState,
 } from "src/entities/projectTasks/entities";
 //#endregion
 //#region Utils
 import useWebsocket from "src/utils/hooks/useWebsocket";
 import { wsProjectTasksServiceDataConnection } from "src/services/websockets/connections";
 import WSProjectTaskServiceEvents from "src/services/websockets/services/projectTasks/events";
-import TaskBoardContext from "./utils/contexts/TaskBoardContext";
 import { ProjectState } from "src/entities/project/enums";
 import { projectTaskBoardStateByTaskState } from "src/entities/projectTasks/mappers";
 import { TaskBoardViewProps } from "./types";
 import useModal from "src/components/Modal/utils/hooks/useModal";
 import { DBProjectRoles } from "src/config/roles";
 import { getUserId } from "src/storage/user.local";
+import { WSProjectTaskToBeChangedState } from "src/services/websockets/services/projectTasks/utils/entities";
+import TaskBoardContext from "./utils/contexts/TaskBoardContext";
 //#endregion
 
 const TaskBoardView = ({ 
@@ -40,10 +42,8 @@ const TaskBoardView = ({
     );
     const [projectTaskBoard, setProjectTaskBoard] = useState<ProjectTaskBoard | null>(null);
     const [currentProjectTask, setCurrentProjectTask] = useState<ProjectTask | null>(null);
-    // const [currentProjectToChangeState, setCurrentProjectToChangeState] = useState<>(null);
+    const [taskToBeChangedState, setProjectTaskToBeChangedState] = useState<WSProjectTaskToBeChangedState | null>(null);
     const [isTaskMenuOpen, setIsTaskMenuOpen] = useState<boolean>(false);
-    const [currentProjectStateToUpdate, setCurrentProjectStateToUpdate] =
-        useState<ProjectState | null>(null);
     const [isTaskResponsible, setIsTaskResponsible] = useState<boolean>(false);
     //#endregion
     //#region Effects
@@ -72,11 +72,11 @@ const TaskBoardView = ({
     const getCurrentProjectTaskWhenBoardChange = (): ProjectTask | null => {
         if (
             !projectTaskBoard ||
-            !currentProjectStateToUpdate ||
+            !taskToBeChangedState ||
             !currentProjectTask
         ) return null;
         //Buscando el proyecto actual
-        const currentState: string = projectTaskBoardStateByTaskState[currentProjectStateToUpdate]
+        const currentState: string = projectTaskBoardStateByTaskState[taskToBeChangedState.state];
         let foundProjectTask: ProjectTask | undefined = projectTaskBoard[currentState].find(({ id }) => id === currentProjectTask.id);
         //Buscando si se encontró en el estado previo
         if (foundProjectTask) return foundProjectTask;
@@ -89,12 +89,15 @@ const TaskBoardView = ({
         return null;
     };
     const fillCurrentProjectTask = (
-        taskInfo: ProjectTask,
-        state: ProjectState
+        task: ProjectTask,
+        state: ProjectTaskState
     ): void => {
         openTaskMenu();
-        setCurrentProjectTask(taskInfo);
-        setCurrentProjectStateToUpdate(state);
+        setCurrentProjectTask(task);
+        fillTaskToBeChangedState({
+            taskId: task.id,
+            state
+        });
     };
     const openTaskMenu = (): void => {
         setIsTaskMenuOpen(true);
@@ -112,20 +115,24 @@ const TaskBoardView = ({
         setCurrentProjectTask(null);
         socketIo.emit(WSProjectTaskServiceEvents.Collaborator.DeleteTask, taskIdToBeDeleted);
     }
+    const fillTaskToBeChangedState = (value: WSProjectTaskToBeChangedState): void => {
+        setProjectTaskToBeChangedState(value);
+    }
     //#endregion
     return (
         <>
         {projectTaskBoard ? (
             <TaskBoardContext.Provider value={{ 
                 socketIo: socketHandler.socketIo, 
-                projectId, 
-                isTaskMenuOpen, modifyMenuRef,
-                preloader, isTaskResponsible
+                projectId, isTaskMenuOpen, 
+                modifyMenuRef, preloader, isTaskResponsible,
+                fillCurrentProjectTask,
+                taskBoardToBeChanged: {
+                    fill: fillTaskToBeChangedState,
+                    value: taskToBeChangedState
+                }
             }}>
-                <Board
-                    projectTaskBoard={projectTaskBoard}
-                    openTaskMenu={fillCurrentProjectTask}
-                />
+                <TaskBoard taskBoard={projectTaskBoard}/>
                 <ModifyTaskMenu
                     ref={modifyMenuRef}
                     currentProjectTask={currentProjectTask}

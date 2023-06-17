@@ -1,6 +1,5 @@
-import { ProjectState } from "../../../../entities/project/enums";
-import { ProjectTaskState } from "../../../../entities/projectTasks/entities";
-import { WSUserData } from "../../../utils/common";
+import { ProjectTaskState } from "src/entities/projectTasks/entities";
+import { WSUserData } from "src/services/websockets/types";
 
 export type WSUserDataProjectTaskService = WSUserData & {
     projectId: number;
@@ -31,7 +30,7 @@ export type WSProjectSubtaskToBeSwitchedCheckStatus = {
 };
 export type WSProjectTaskToBeChangedState = {
     taskId: number;
-    state: ProjectState;
+    state: ProjectTaskState;
 };
 export type WSProjectTaskComment = {
     taskId: number;
