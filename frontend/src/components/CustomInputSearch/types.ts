@@ -5,6 +5,7 @@ export type CustomInputSearchProps<O> = {
     label?: string;
     placeholder?: string;
     maxLength?: number;
+    disabled?: boolean;
     options: O[];
     clearOptions: () => void;
     fillOptions: (searchedText: string) => Promise<void>;

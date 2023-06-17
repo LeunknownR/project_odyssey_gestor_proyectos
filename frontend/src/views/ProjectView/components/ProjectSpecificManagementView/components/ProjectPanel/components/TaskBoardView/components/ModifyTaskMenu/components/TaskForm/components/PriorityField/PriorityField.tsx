@@ -48,6 +48,7 @@ const PriorityField = ({
                 onBlur={() => setIsListOpened(false)}>
                 {!priorityId ? (
                     <EmptyTaskPriority
+                        className={!isTaskResponsible ? "disabled" : ""}
                         src={emptyTaskPriority}
                         onClick={() => setIsListOpened(true)}/>
                 ) : (

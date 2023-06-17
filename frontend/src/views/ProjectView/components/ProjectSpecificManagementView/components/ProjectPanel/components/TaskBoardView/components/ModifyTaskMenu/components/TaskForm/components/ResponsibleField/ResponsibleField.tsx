@@ -22,7 +22,7 @@ const ResponsibleField = ({
 }: ResponsibleFieldProps) => {
     const [selectedResponsible, setSelectedResponsible] =
         useState<ProjectTaskCollaboratorUser | null>(null);
-    const { projectId, isTaskMenuOpen, preloader } = useTaskBoardContext();
+    const { projectId, isTaskMenuOpen, preloader, isTaskResponsible } = useTaskBoardContext();
     useEffect(() => {
         if (currentResponsible) {
             changeSelectedResponsible(currentResponsible);
@@ -96,6 +96,7 @@ const ResponsibleField = ({
                     clearOptions={selectTaskResponsibleHandler.clear}
                     fillOptions={selectTaskResponsibleHandler.fill}
                     options={selectTaskResponsibleHandler.collaboratorUserList}
+                    disabled={!isTaskResponsible}
                     getSearchedItemToShow={options => ({
                         value: options.id,
                         content: (
@@ -103,10 +104,11 @@ const ResponsibleField = ({
                         ),
                     })}
                 />
-                <SelfAssignmentButton
-                    content="Asígnamela"
-                    onClick={autoAssignmentResponsible}
-                />
+                {isTaskResponsible && 
+                    <SelfAssignmentButton
+                        content="Asígnamela"
+                        onClick={autoAssignmentResponsible}
+                    />}
                 </>
             )}
         </Container>
