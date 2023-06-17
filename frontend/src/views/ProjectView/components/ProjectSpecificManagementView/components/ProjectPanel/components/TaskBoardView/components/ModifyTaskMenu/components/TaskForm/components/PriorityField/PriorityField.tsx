@@ -12,10 +12,10 @@ import {
 } from "./styles";
 import { requestGetTaskPriority } from "src/services/projectTasks/aboutProjectTasks";
 import { ProjectTaskPriority } from "src/entities/projectTasks/entities";
-import { TASK_PRIORITY } from "../../../../../StatusSection/components/TaskList/components/TaskCard/utils/constants";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { TaskPriorityImage } from "../../../../../StatusSection/components/TaskList/components/TaskCard/styles";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
+import { TaskPriorityImage } from "../../../../../TaskListOfState/components/TaskList/components/TaskCard/styles";
+import { TASK_PRIORITY } from "../../../../../TaskListOfState/components/TaskList/components/TaskCard/utils/constants";
 
 const PriorityField = ({ 
     form, doUpdateTask

@@ -1,22 +1,20 @@
 import Header from "./components/Header/Header";
 import TaskList from "./components/TaskList/TaskList";
 import { Container } from "./styles";
-import { StatusSectionProps } from "./types";
+import { TaskListOfStateProps } from "./types";
 
-const StatusSection = ({
+const TaskListOfState = ({
     sectionName,
-    state, taskListInfo,
-    openTaskMenu,
-}: StatusSectionProps) => {
+    state, taskListInfo
+}: TaskListOfStateProps) => {
     return (
         <Container>
             <Header sectionName={sectionName} />
             <TaskList
                 taskListInfo={taskListInfo}
-                openTaskMenu={openTaskMenu}
                 state={state}/>
         </Container>
     );
 };
 
-export default StatusSection;
+export default TaskListOfState;

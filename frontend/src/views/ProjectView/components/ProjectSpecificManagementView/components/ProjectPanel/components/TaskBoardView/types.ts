@@ -5,4 +5,4 @@ export type TaskBoardViewProps = {
     preloader: PreloaderHook;
     projectId: number;
     projectRoleId: DBProjectRoles;
-}
+};

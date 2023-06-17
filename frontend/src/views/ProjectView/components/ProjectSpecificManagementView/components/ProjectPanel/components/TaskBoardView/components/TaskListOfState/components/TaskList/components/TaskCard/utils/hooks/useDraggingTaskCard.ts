@@ -1,8 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { 
+    RefObject, 
+    useState, 
+    useEffect,
+    useRef 
+} from "react";
 import { DataDraggingTaskCard, DraggingTaskCardHook } from "./types";
 
 const useDraggingTaskCard = (
-    containerRef: React.MutableRefObject<HTMLLIElement | null | undefined>
+    containerRef: RefObject<HTMLLIElement | null | undefined>
 ): DraggingTaskCardHook => {
     const dataRef = useRef<DataDraggingTaskCard | null>();
     //#region States
@@ -11,7 +16,7 @@ const useDraggingTaskCard = (
     //#endregion
     //#region Effects
     useEffect(() => {
-        const onMouseMove = (e: MouseEvent) => {
+        const onMouseMove = (e: MouseEvent): void => {
             if (!containerRef.current || 
                 containerRef.current === e.target ||
                 containerRef.current.contains(e.target as Node) ||
@@ -24,7 +29,7 @@ const useDraggingTaskCard = (
                 top: e.clientY - dataRef.current.height/2
             });
         };
-        const onMouseUp = (e: MouseEvent) => {
+        const onMouseUp = (e: MouseEvent): void => {
             if (!containerRef.current || 
                 !e.target ||
                 containerRef.current === e.target ||
