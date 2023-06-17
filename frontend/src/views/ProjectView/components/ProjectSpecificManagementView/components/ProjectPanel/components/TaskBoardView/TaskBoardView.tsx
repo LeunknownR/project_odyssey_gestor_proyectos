@@ -5,6 +5,7 @@ import { Socket } from "socket.io-client";
 //#region Components
 import Board from "./components/Board/Board";
 import ModifyTaskMenu from "./components/ModifyTaskMenu/ModifyTaskMenu";
+import DeleteTaskModal from "./components/DeleteTaskModal";
 //#endregion
 //#region Types
 import {
@@ -21,7 +22,8 @@ import { ProjectState } from "src/entities/project/enums";
 import { projectTaskBoardStateByTaskState } from "src/entities/projectTasks/mappers";
 import { TaskBoardViewProps } from "./types";
 import useModal from "src/components/Modal/utils/hooks/useModal";
-import DeleteTaskModal from "./components/DeleteTaskModal";
+import { DBProjectRoles } from "src/config/roles";
+import { getUserId } from "src/storage/user.local";
 //#endregion
 
 const TaskBoardView = ({ 
@@ -42,6 +44,7 @@ const TaskBoardView = ({
     const [isTaskMenuOpen, setIsTaskMenuOpen] = useState<boolean>(false);
     const [currentProjectStateToUpdate, setCurrentProjectStateToUpdate] =
         useState<ProjectState | null>(null);
+    const [isTaskResponsible, setIsTaskResponsible] = useState<boolean>(false);
     //#endregion
     //#region Effects
     useEffect(() => {
@@ -58,6 +61,12 @@ const TaskBoardView = ({
         const newCurrentProjectTask = getCurrentProjectTaskWhenBoardChange();
         setCurrentProjectTask(newCurrentProjectTask);
     }, [projectTaskBoard]);
+    useEffect(() => {
+        setIsTaskResponsible(
+            projectRoleId === DBProjectRoles.ProjectLeader || 
+            currentProjectTask?.responsible?.id === getUserId()
+        );
+    }, [currentProjectTask]);
     //#endregion
     //#region Functions
     const getCurrentProjectTaskWhenBoardChange = (): ProjectTask | null => {
@@ -83,8 +92,6 @@ const TaskBoardView = ({
         taskInfo: ProjectTask,
         state: ProjectState
     ): void => {
-        if (!modifyMenuRef.current) return;
-        modifyMenuRef.current.focus();
         openTaskMenu();
         setCurrentProjectTask(taskInfo);
         setCurrentProjectStateToUpdate(state);
@@ -113,7 +120,7 @@ const TaskBoardView = ({
                 socketIo: socketHandler.socketIo, 
                 projectId, 
                 isTaskMenuOpen, modifyMenuRef,
-                preloader
+                preloader, isTaskResponsible
             }}>
                 <Board
                     projectTaskBoard={projectTaskBoard}
@@ -124,7 +131,6 @@ const TaskBoardView = ({
                     currentProjectTask={currentProjectTask}
                     isTaskMenuOpen={isTaskMenuOpen}
                     hideTaskMenu={hideTaskMenu}
-                    projectRoleId={projectRoleId}
                     openModalDeleteTask={() => modalDeleteTask.open(true)}
                 />
                 <DeleteTaskModal

@@ -3,7 +3,7 @@ import CustomInputSearch from "src/components/CustomInputSearch/CustomInputSearc
 import useCustomInputSearch from "src/components/CustomInputSearch/utils/hooks/useCustomInputSearch";
 import CustomInputSearchUserOption from "src/views/components/CustomInputSearchUserOption/CustomInputSearchUserOption";
 import { TASK_FIELD_PROPS } from "../../../../utils/constants";
-import { Container } from "./styles";
+import { Container, SelfAssignmentButton } from "./styles";
 import { requestSearchCollaboratorToBeMemberForCollaborator } from "src/services/collaborators/relatedToCollaborators";
 import { Label } from "../../styles";
 import { ResponsibleFieldProps } from "./types";
@@ -11,58 +11,62 @@ import { ProjectTaskCollaboratorUser } from "src/entities/projectTasks/entities"
 import SelectedResponsible from "./components/SelectedResponsible/SelectedResponsible";
 import useSearchCollaborator from "src/views/ProjectView/components/ProjectManagerView/utils/hooks/useSearchCollaborator";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
-import { TaskUpdateType } from "../../../../utils/enums";
+import { currentUserLocalStorage } from "src/storage/user.local";
+import { User } from "src/entities/user/types";
 
 const ResponsibleField = ({
     form,
     currentResponsible,
-    changeTaskUpdateType
+    doUpdateTask
 }: ResponsibleFieldProps) => {
     const [selectedResponsible, setSelectedResponsible] =
         useState<ProjectTaskCollaboratorUser | null>(null);
-    const { 
-        projectId, 
-        isTaskMenuOpen,
-        preloader
-    } = useTaskBoardContext();
+    const { projectId, isTaskMenuOpen, preloader, isTaskResponsible } = useTaskBoardContext();
     useEffect(() => {
-        if (currentResponsible) {
-            changeSelectedResponsible(currentResponsible);
-            return;
-        }
-        if (!isTaskMenuOpen) {
-            changeSelectedResponsible(null);
-            return;
-        }
-    }, [isTaskMenuOpen]);
-    useEffect(() => {
-        setSelectedResponsible(currentResponsible);
-    }, [currentResponsible]);
+        setSelectedResponsible(isTaskMenuOpen ? currentResponsible : null);
+    }, [isTaskMenuOpen, currentResponsible]);
     const selectTaskResponsibleHandler = useSearchCollaborator({
         requestSearchCollaborators: async (collaboratorName: string) => {
-            preloader.show("Buscando colaboradores...")
-            const { data } = await requestSearchCollaboratorToBeMemberForCollaborator({
-                collaboratorName,
-                projectId,
-            });
+            preloader.show("Buscando colaboradores...");
+            const { data } =
+                await requestSearchCollaboratorToBeMemberForCollaborator({
+                    collaboratorName,
+                    projectId,
+                });
             preloader.hide();
             return data;
         },
     });
-    const changeSelectedResponsible = (newResponsible: ProjectTaskCollaboratorUser | null) => {
+    const changeSelectedResponsible = (
+        newResponsible: ProjectTaskCollaboratorUser | null
+    ): void => {
         setSelectedResponsible(newResponsible);
-        form.change(TASK_FIELD_PROPS.TASK_RESPONSIBLE.name, newResponsible?.id || null);
-        changeTaskUpdateType(TaskUpdateType.Immediate);
-    }
-    const customSearchInputHandler = useCustomInputSearch<ProjectTaskCollaboratorUser>({
-        clearOptions: selectTaskResponsibleHandler.clear,
-        fillOptions: selectTaskResponsibleHandler.fill,
-        onChange: changeSelectedResponsible
-    });
-    const removeSelectedResponsible = () => {
+        form.change(
+            TASK_FIELD_PROPS.TASK_RESPONSIBLE.name,
+            newResponsible?.id || null
+        );
+        doUpdateTask();
+    };
+    const customSearchInputHandler =
+        useCustomInputSearch<ProjectTaskCollaboratorUser>({
+            clearOptions: selectTaskResponsibleHandler.clear,
+            fillOptions: selectTaskResponsibleHandler.fill,
+            onChange: changeSelectedResponsible,
+        });
+    const removeSelectedResponsible = (): void => {
         changeSelectedResponsible(null);
         customSearchInputHandler.clear();
     };
+    const autoAssignmentResponsible = (): void => {
+        const currentUser: User = currentUserLocalStorage.get();
+        const newResponsible: ProjectTaskCollaboratorUser = {
+            id: currentUser.id,
+            name: currentUser.name,
+            surname: currentUser.surname,
+            urlPhoto: currentUser.urlPhoto
+        }
+        changeSelectedResponsible(newResponsible);
+    }
     return (
         <>
         <Container align="center" width="100%">
@@ -73,6 +77,7 @@ const ResponsibleField = ({
                     eraseSelectedResponsible={removeSelectedResponsible}
                 />
             ) : (
+                <>
                 <CustomInputSearch
                     {...TASK_FIELD_PROPS.TASK_RESPONSIBLE}
                     variant="primary-search"
@@ -80,11 +85,20 @@ const ResponsibleField = ({
                     clearOptions={selectTaskResponsibleHandler.clear}
                     fillOptions={selectTaskResponsibleHandler.fill}
                     options={selectTaskResponsibleHandler.collaboratorUserList}
+                    disabled={!isTaskResponsible}
                     getSearchedItemToShow={options => ({
                         value: options.id,
-                        content: <CustomInputSearchUserOption {...options} />,
+                        content: (
+                            <CustomInputSearchUserOption {...options} />
+                        ),
                     })}
                 />
+                {isTaskResponsible && 
+                    <SelfAssignmentButton
+                        content="Asígnamela"
+                        onClick={autoAssignmentResponsible}
+                    />}
+                </>
             )}
         </Container>
         </>

@@ -14,6 +14,7 @@ const initTaskBoardContext: InitTaskBoardContext = {
             message: ""
         }
     },
+    isTaskResponsible: false,
     // checkExpirationTimeToken: {
     //     init: () => undefined,
     //     clear: () => {}

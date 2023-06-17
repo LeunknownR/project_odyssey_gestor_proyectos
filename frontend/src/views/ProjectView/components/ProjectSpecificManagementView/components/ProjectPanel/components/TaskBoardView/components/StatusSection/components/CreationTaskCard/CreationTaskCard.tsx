@@ -70,7 +70,7 @@ const CreationTaskCard = ({
                 value={newTaskName}
                 onChange={changeNewTaskName}
                 characterCounter={false}
-                maxLength={40}
+                maxLength={50}
                 onBlur={onBlur}
                 onKeyDown={onKeyDownHandler}
             />

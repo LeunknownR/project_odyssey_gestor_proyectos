@@ -9,8 +9,7 @@ export const Container = styled.section`
     display: flex;
     justify-content: center;
     min-height: calc(100vh - var(--main-header-height));;
-    padding: 5vw 8vw; 
-    padding-top: 3vw;
+    padding: 3vw 8vw; 
     width: 100%;
     @media (max-width: ${MOBILE_WIDTH}px) {
         padding: 5vh 10vw;

@@ -7,9 +7,6 @@ export type TaskCardProps = {
     openTaskMenu: (taskInfo: ProjectTask, state: ProjectState) => void;
     state: ProjectState;
 };
-export type TaskCardContentProps = TaskCardProps & {
-    draggingTaskCard: DraggingTaskCardHook;
-};
 export type ShadowProps = {
     height?: number;
 };
@@ -17,4 +14,7 @@ export type ContainerProps = {
     top?: number;
     left?: number;
     width?: number;
-}
+};
+export type TaskCardContentProps = TaskCardProps & {
+    draggingTaskCard: DraggingTaskCardHook;
+};
