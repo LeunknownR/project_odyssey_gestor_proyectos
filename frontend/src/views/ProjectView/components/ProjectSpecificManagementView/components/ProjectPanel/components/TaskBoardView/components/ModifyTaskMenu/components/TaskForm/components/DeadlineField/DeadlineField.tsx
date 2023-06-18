@@ -5,6 +5,7 @@ import { DeleteSelectedDataField, Label } from "../../styles";
 import { TASK_FIELD_PROPS } from "../../../../utils/constants";
 import { DeadlineFieldProps } from "./types";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
+import { isDateBeforeToday } from "src/utils/dates";
 
 const DeadlineField = ({ form, doUpdateTask }: DeadlineFieldProps) => {
     const { deadline } = form.value;
@@ -22,6 +23,7 @@ const DeadlineField = ({ form, doUpdateTask }: DeadlineFieldProps) => {
                     value={deadline}
                     onChange={changeEndDateProjectField}
                     disabled={!isTaskResponsible}
+                    error={isDateBeforeToday(deadline)}
                 />
                 {(isTaskResponsible && deadline !== -1) && <DeleteSelectedDataField
                     onClick={() => changeEndDateProjectField(-1)}>

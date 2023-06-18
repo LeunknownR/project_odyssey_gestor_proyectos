@@ -1,6 +1,3 @@
-//#region Libraries
-
-//#endregion
 //#region Styles
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Container, IconContainer } from "./styles";

@@ -11,7 +11,7 @@ import SubtaskList from "./components/SubtaskList/SubtaskList";
 import useUpdateMainInformationTask from "./utils/hooks/useUpdateMainInformationTask";
 
 const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
-    currentProjectTask,
+    currentProjectTask, hideTaskMenu,
     openModalDeleteTask
 }, ref) => {
     //#region Custom hooks
@@ -38,6 +38,7 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
                 $elementClicked.classList.contains("modal") ||
                 $elementClicked.closest(".task-card")
             ) return;
+            hideTaskMenu();
         };
         document.addEventListener("mousedown", handler);
         return () => document.removeEventListener("mousedown", handler);

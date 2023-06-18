@@ -11,6 +11,7 @@ export const Container = styled.div`
     border-radius: 5px;
     color: var(--white-1);
     background-color: var(--darkblue-1);
+    border: 1px solid transparent;
     transition: 0.35s;
     user-select: none;
     cursor: pointer;
@@ -18,19 +19,20 @@ export const Container = styled.div`
     & span {
         color: var(--white-1);
         font-size: 14px;
-        font-weight: 400;
-    }
-    &.error {
-        border-color: var(--red-2);
+        font-weight: 700;
     }
     &.disabled {
         pointer-events: none;
         background-color: #4f6b7d;
-        & .iconify {
-            color: var(--white-1-50);
-        }
         span {
             color: var(--white-1-50);
+        }
+    }
+    &.error {
+        border: 1px solid var(--red-3);
+        background-color: transparent;
+        span {
+            color: var(--red-3);
         }
     }
     @media (max-width: ${MOBILE_WIDTH}px) {

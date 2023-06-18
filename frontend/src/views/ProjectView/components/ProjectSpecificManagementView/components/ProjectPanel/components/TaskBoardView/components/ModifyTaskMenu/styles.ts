@@ -32,7 +32,7 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin: 30px 20px 20px 40px;
+    margin: 30px 15px 20px 30px;
     height: 100%;
     overflow-y: scroll;
 `;
