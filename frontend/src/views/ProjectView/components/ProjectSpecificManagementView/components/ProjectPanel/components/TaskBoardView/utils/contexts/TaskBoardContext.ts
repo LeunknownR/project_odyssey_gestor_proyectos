@@ -1,10 +1,12 @@
 import { createContext } from "react";
 import { TaskBoardContextType } from "./types";
+import { DBProjectRoles } from "src/config/roles";
 
 const INIT_TASK_BOARD_CONTEXT: TaskBoardContextType = {
     socketIo: null,
     projectId: 0,
     isTaskMenuOpen: false,
+    projectRoleId: DBProjectRoles.ProjectMember,
     fillCurrentProjectTask: () => {},
     modifyMenuRef: null,
     preloader: {
@@ -15,11 +17,11 @@ const INIT_TASK_BOARD_CONTEXT: TaskBoardContextType = {
             message: ""
         }
     },
-    taskBoardToBeChanged: {
+    taskToBeChangedStateHandler: {
         value: null,
         fill: () => {}
     },
-    isTaskLeaderOrResponsible: false,
+    canEditTask: false,
     // checkExpirationTimeToken: {
     //     init: () => undefined,
     //     clear: () => {}

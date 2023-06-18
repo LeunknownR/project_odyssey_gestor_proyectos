@@ -6,8 +6,8 @@ export const Container = styled.li`
     flex-direction: column;
     gap: 22px;
     padding: 18px;
-    background-color: rgba(112, 112, 112, 0.3373);
-    border: 1px solid var(--gray-1);
+    background-color: var(--white-opacity-bg-card);
+    border: 2px solid var(--gray-1);
     border-radius: 10px;
     width: 100%;
     cursor: pointer;
@@ -23,6 +23,9 @@ export const TransparentTextField = styled(CustomTextArea)`
     font-weight: 700;
     font-size: 17px;
     min-height: min-content;
+    ::placeholder {
+        color: var(--gray-2);
+    }
 `;
 export const TaskCardName = styled.h3`
     font-size: 17px;

@@ -7,7 +7,7 @@ const StateTaskList = ({
     stateName, state, taskList
 }: StateTaskListProps) => {
     return (
-        <Container>
+        <Container className={`task-state-section ${state}`}>
             <Header stateName={stateName} />
             <TaskList
                 taskList={taskList}

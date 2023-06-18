@@ -9,7 +9,7 @@ const DescriptionField = ({
     form, doUpdateTask
 }: DescriptionFieldProps) => {
     const { description } = form.value;
-    const { isTaskLeaderOrResponsible } = useTaskBoardContext();
+    const { canEditTask } = useTaskBoardContext();
     const updateTaskWithTimeout = useTimeoutFunction(doUpdateTask);
     const changeDescriptionField: React.ChangeEventHandler<HTMLTextAreaElement> = ({
         target: { value },
@@ -23,7 +23,7 @@ const DescriptionField = ({
                 {...TASK_FIELD_PROPS.TASK_DESCRIPTION}
                 value={description ? description : ""}
                 onChange={changeDescriptionField}
-                disabled={!isTaskLeaderOrResponsible}
+                disabled={!canEditTask}
             />
         </Wrapper>
     );

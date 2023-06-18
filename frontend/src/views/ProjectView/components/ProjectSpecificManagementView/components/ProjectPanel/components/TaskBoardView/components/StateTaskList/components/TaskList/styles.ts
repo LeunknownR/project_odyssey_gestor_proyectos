@@ -2,7 +2,6 @@ import { FlexFlow } from 'src/components/styles';
 import styled from 'styled-components';
 
 export const Container = styled(FlexFlow.withComponent("section"))`
-    max-height: 60vh;
     width: 100%;
 `;
 export const Content = styled(FlexFlow.withComponent("ul"))`

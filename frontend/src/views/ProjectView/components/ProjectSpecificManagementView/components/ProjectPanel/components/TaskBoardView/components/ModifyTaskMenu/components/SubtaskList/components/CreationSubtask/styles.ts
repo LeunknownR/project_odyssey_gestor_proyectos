@@ -9,12 +9,3 @@ export const Container = styled(FlexFlow.withComponent("li"))`
         opacity: 0.4;
     }
 `;
-export const Check = styled.span`
-    display: flex;
-    cursor: pointer;
-    .iconify {
-        border-radius: 50%;
-        color: var(--white-1);
-        font-size: 20px;
-    }
-`;

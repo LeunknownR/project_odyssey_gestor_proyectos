@@ -18,14 +18,16 @@ import {
 import useWebsocket from "src/utils/hooks/useWebsocket";
 import { wsProjectTasksServiceDataConnection } from "src/services/websockets/connections";
 import WSProjectTaskServiceEvents from "src/services/websockets/services/projectTasks/events";
-import { ProjectState } from "src/entities/project/enums";
 import { projectTaskBoardStateByTaskState } from "src/entities/projectTasks/mappers";
 import { TaskBoardViewProps } from "./types";
 import useModal from "src/components/Modal/utils/hooks/useModal";
 import { DBProjectRoles } from "src/config/roles";
 import { getUserId } from "src/storage/user.local";
-import { WSProjectTaskToBeChangedState } from "src/services/websockets/services/projectTasks/utils/entities";
 import TaskBoardContext from "./utils/contexts/TaskBoardContext";
+import { TaskToBeChangedState } from "./utils/contexts/types";
+import NotificationCard from "src/components/NotificationCard/NotificationCard";
+import useNotificationCard from "src/components/NotificationCard/utils/hooks/useNotificationCard";
+import { CardVariant } from "src/components/NotificationCard/types";
 //#endregion
 
 const TaskBoardView = ({ 
@@ -34,6 +36,7 @@ const TaskBoardView = ({
     //#region Custom Hooks
     const modifyMenuRef = useRef<HTMLDivElement>(null);
     const modalDeleteTask = useModal();
+    const notificationCard = useNotificationCard();
     //#endregion
     //#region States
     const socketHandler = useWebsocket<number>(
@@ -42,9 +45,9 @@ const TaskBoardView = ({
     );
     const [projectTaskBoard, setProjectTaskBoard] = useState<ProjectTaskBoard | null>(null);
     const [currentProjectTask, setCurrentProjectTask] = useState<ProjectTask | null>(null);
-    const [taskToBeChangedState, setProjectTaskToBeChangedState] = useState<WSProjectTaskToBeChangedState | null>(null);
+    const [currentTaskToBeChangedState, setCurrentTaskToBeChangedState] = useState<TaskToBeChangedState | null>(null);
     const [isTaskMenuOpen, setIsTaskMenuOpen] = useState<boolean>(false);
-    const [isTaskLeaderOrResponsible, setIsTaskLeaderOrResponsible] = useState<boolean>(false);
+    const [canEditTask, setCanEditTask] = useState<boolean>(false);
     //#endregion
     //#region Effects
     useEffect(() => {
@@ -62,28 +65,32 @@ const TaskBoardView = ({
         setCurrentProjectTask(newCurrentProjectTask);
     }, [projectTaskBoard]);
     useEffect(() => {
-        setIsTaskLeaderOrResponsible(
+        setCanEditTask(
             projectRoleId === DBProjectRoles.ProjectLeader || 
             currentProjectTask?.responsible?.id === getUserId()
         );
     }, [currentProjectTask]);
     //#endregion
     //#region Functions
+    const getProjectTaskByState = (state: ProjectTaskState): ProjectTask | undefined => {
+        if (!projectTaskBoard || !currentProjectTask) return;
+        const stateField: string = projectTaskBoardStateByTaskState[state];
+        return projectTaskBoard[stateField].find(({ id }) => id === currentProjectTask.id);
+    }
     const getCurrentProjectTaskWhenBoardChange = (): ProjectTask | null => {
         if (
             !projectTaskBoard ||
-            !taskToBeChangedState ||
+            !currentTaskToBeChangedState ||
             !currentProjectTask
         ) return null;
         //Buscando el proyecto actual
-        const currentState: string = projectTaskBoardStateByTaskState[taskToBeChangedState.state];
-        let foundProjectTask: ProjectTask | undefined = projectTaskBoard[currentState].find(({ id }) => id === currentProjectTask.id);
+        let foundProjectTask: ProjectTask | undefined = getProjectTaskByState(currentTaskToBeChangedState.state);
         //Buscando si se encontró en el estado previo
         if (foundProjectTask) return foundProjectTask;
         //Buscando en los demás estados
-        const notCheckedStates = Object.values(ProjectState).filter(state => state !== currentState);
-        for (const statesNotChecked of notCheckedStates) {
-            foundProjectTask = projectTaskBoard[statesNotChecked].find(({ id }) => id === currentProjectTask.id);
+        const notCheckedStates = Object.values(ProjectTaskState).filter(state => state !== currentTaskToBeChangedState.state);
+        for (const notCheckedState of notCheckedStates) {
+            foundProjectTask = getProjectTaskByState(notCheckedState);
             if (foundProjectTask) return foundProjectTask;
         }
         return null;
@@ -94,7 +101,7 @@ const TaskBoardView = ({
     ): void => {
         openTaskMenu();
         setCurrentProjectTask(task);
-        fillTaskToBeChangedState({
+        setCurrentTaskToBeChangedState({
             taskId: task.id,
             state
         });
@@ -114,9 +121,11 @@ const TaskBoardView = ({
         modalDeleteTask.open(false);
         setCurrentProjectTask(null);
         socketIo.emit(WSProjectTaskServiceEvents.Collaborator.DeleteTask, taskIdToBeDeleted);
+        notificationCard.changeVariant(CardVariant.DeleteTask);
+        notificationCard.show();
     }
-    const fillTaskToBeChangedState = (value: WSProjectTaskToBeChangedState): void => {
-        setProjectTaskToBeChangedState(value);
+    const fillCurrentTaskToBeChangedState = (value: TaskToBeChangedState | null) => {
+        setCurrentTaskToBeChangedState(value);
     }
     //#endregion
     return (
@@ -124,12 +133,12 @@ const TaskBoardView = ({
         {projectTaskBoard ? (
             <TaskBoardContext.Provider value={{ 
                 socketIo: socketHandler.socketIo, 
-                projectId, isTaskMenuOpen, 
-                modifyMenuRef, preloader, isTaskLeaderOrResponsible,
+                projectId, isTaskMenuOpen, projectRoleId,
+                modifyMenuRef, preloader, canEditTask,
                 fillCurrentProjectTask,
-                taskBoardToBeChanged: {
-                    fill: fillTaskToBeChangedState,
-                    value: taskToBeChangedState
+                taskToBeChangedStateHandler: {
+                    fill: fillCurrentTaskToBeChangedState,
+                    value: currentTaskToBeChangedState
                 }
             }}>
                 <TaskBoard taskBoard={projectTaskBoard}/>
@@ -143,6 +152,7 @@ const TaskBoardView = ({
                 <DeleteTaskModal
                     modalProps={modalDeleteTask}
                     deleteTask={deleteTask}/>
+                <NotificationCard handler={notificationCard} variant={notificationCard.cardVariant}/>
             </TaskBoardContext.Provider>
         ) : null}
         </>

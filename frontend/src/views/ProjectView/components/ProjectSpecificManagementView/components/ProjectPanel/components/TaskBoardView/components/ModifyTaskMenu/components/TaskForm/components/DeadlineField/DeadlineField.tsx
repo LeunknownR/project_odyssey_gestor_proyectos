@@ -9,7 +9,7 @@ import { isDateBeforeToday } from "src/utils/dates";
 
 const DeadlineField = ({ form, doUpdateTask }: DeadlineFieldProps) => {
     const { deadline } = form.value;
-    const { isTaskLeaderOrResponsible } = useTaskBoardContext();
+    const { canEditTask } = useTaskBoardContext();
     const changeEndDateProjectField = (value: number) => {
         form.change(TASK_FIELD_PROPS.TASK_DEADLINE.name, value);
         doUpdateTask();
@@ -22,10 +22,10 @@ const DeadlineField = ({ form, doUpdateTask }: DeadlineFieldProps) => {
                     {...TASK_FIELD_PROPS.TASK_DEADLINE}
                     value={deadline}
                     onChange={changeEndDateProjectField}
-                    disabled={!isTaskLeaderOrResponsible}
+                    disabled={!canEditTask}
                     error={isDateBeforeToday(deadline)}
                 />
-                {(isTaskLeaderOrResponsible && deadline !== -1) && <DeleteSelectedDataField
+                {(canEditTask && deadline !== -1) && <DeleteSelectedDataField
                     onClick={() => changeEndDateProjectField(-1)}>
                     <Icon icon="material-symbols:close" />
                 </DeleteSelectedDataField>}

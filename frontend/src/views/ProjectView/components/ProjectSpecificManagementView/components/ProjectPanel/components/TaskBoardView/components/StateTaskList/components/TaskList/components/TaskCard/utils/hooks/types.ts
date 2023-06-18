@@ -5,13 +5,11 @@ export type DataDraggingTaskCard = {
     height: number;
 };
 export type TaskCardEventDragginHandler = {
-    onMouseDown: React.DragEventHandler<HTMLLIElement>;
-    onMouseMove: React.DragEventHandler<HTMLLIElement>;
-    onMouseUp: () => void;
+    onMouseDown: React.MouseEventHandler<HTMLLIElement>;
+    onMouseMove: React.MouseEventHandler<HTMLLIElement>;
+    onMouseUp: React.MouseEventHandler<HTMLLIElement>;
 }
 export type DraggingTaskCardHook = {
     data: DataDraggingTaskCard | null;
     events: TaskCardEventDragginHandler;
-    hasClicked: boolean;
-    isDragging: () => boolean;
 };

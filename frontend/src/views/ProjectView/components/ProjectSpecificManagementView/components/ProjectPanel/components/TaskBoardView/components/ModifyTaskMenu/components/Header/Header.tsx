@@ -9,7 +9,7 @@ const Header = ({
     doUpdateTask,
     openModalDeleteTask,
 }: HeaderProps) => {
-    const { isTaskLeaderOrResponsible } = useTaskBoardContext();
+    const { canEditTask } = useTaskBoardContext();
     return (
         <Container justify="space-between" align="center" gap="15px">
             <TaskNameField
@@ -17,7 +17,7 @@ const Header = ({
                 name={name}
                 doUpdateTask={doUpdateTask}
             />
-            {isTaskLeaderOrResponsible && (
+            {canEditTask && (
                 <DeleteButton icon="ion:skull" onClick={openModalDeleteTask} />
             )}
         </Container>

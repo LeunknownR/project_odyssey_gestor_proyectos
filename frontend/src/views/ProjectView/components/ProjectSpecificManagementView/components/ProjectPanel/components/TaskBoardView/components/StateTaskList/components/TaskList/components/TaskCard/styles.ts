@@ -8,7 +8,12 @@ export const Shadow = styled.div<ShadowProps>`
     border: 1px solid var(--gray-3);
     border-radius: 10px;
     width: 100%;
-    height: ${({ height = 0 }) => height + 2}px;
+    height: ${({ height = 0 }) => height + 1.5}px;
+    &.dragging {
+        background-color: var(--white-opacity-bg-card);
+        border-color: var(--gray-1);
+        opacity: 0.4;
+    }
 `;
 export const Container = styled.li<ContainerProps>`
     display: flex;
@@ -18,15 +23,20 @@ export const Container = styled.li<ContainerProps>`
     border: 1px solid var(--gray-3);
     border-radius: 10px;
     width: 100%;
-    transition: 0.35s border-color, 0.35s scale, top 0.05s, left 0.05s;
+    transition: 0.35s border-color, 0.35s scale, top 0.08s, left 0.08s;
     user-select: none;
     cursor: pointer;
-    &.dragged {
-        background-color: var(--darkblue-4);
-        width: ${({ width = 0 }) => width}px;
+    &.dragging {
         position: fixed;
-        top: ${({ top = 0 }) => top}px;
-        left: ${({ left = 0 }) => left}px;
+        background-color: var(--darkblue-7);
+        width: ${({ width = 0 }) => width}px;
+        top: ${({ top }) => top}px;
+        left: ${({ left }) => left}px;
+        z-index: 1;
+        border: 2px solid var(--gray-1);
+        &:active {
+            cursor: url("/custom-cursor.png"), move;
+        }
     }
     &.checked > * {
         opacity: 0.4;
