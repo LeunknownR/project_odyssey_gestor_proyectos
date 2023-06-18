@@ -3,7 +3,7 @@ import { CollaboratorUser } from "../collaborator/entities";
 export enum ProjectTaskState {
     Pending = "P",
     OnProgress = "O",
-    Finalized = "F",
+    Finalized = "F"
 }
 export type ProjectTaskCollaboratorUser = Omit<CollaboratorUser, "email">;
 export type ProjectSubtask = {

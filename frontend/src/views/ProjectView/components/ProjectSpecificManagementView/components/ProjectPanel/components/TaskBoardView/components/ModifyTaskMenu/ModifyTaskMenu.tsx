@@ -1,4 +1,4 @@
-import { forwardRef, useEffect } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import CommentList from "./components/CommentList/CommentList";
 import CommentBox from "./components/CommentBox/CommentBox";
 import Header from "./components/Header/Header";
@@ -16,21 +16,27 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
 }, ref) => {
     //#region Custom hooks
     const { isTaskMenuOpen, socketIo } = useTaskBoardContext(); 
+    const isTaskMenuOpenRef = useRef<boolean>(false);
     const { form } = useTaskForm(
         currentProjectTask, 
         isTaskMenuOpen
     );
-    const changeTaskUpdateType = useUpdateMainInformationTask(form.value, socketIo);
+    const doUpdateTask = useUpdateMainInformationTask(form.value, socketIo);
     //#endregion
+    useEffect(() => {
+        isTaskMenuOpenRef.current = isTaskMenuOpen;
+    }, [isTaskMenuOpen]);
     useEffect(() => {
         const $container = ref.current;
         if (!$container) return;
         const handler = (e: MouseEvent): void => {
             const $elementClicked = e.target as HTMLElement;
             if (
+                !isTaskMenuOpenRef.current || 
                 $container.contains($elementClicked) || 
                 !document.body.contains($elementClicked) ||
-                $elementClicked.classList.contains("modal")
+                $elementClicked.classList.contains("modal") ||
+                $elementClicked.closest(".task-card")
             ) return;
         };
         document.addEventListener("mousedown", handler);
@@ -49,13 +55,13 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
             <Header 
                 name={name} 
                 form={form}
-                changeTaskUpdateType={changeTaskUpdateType}
+                doUpdateTask={doUpdateTask}
                 openModalDeleteTask={openModalDeleteTask}/>
             <Content className="custom-scrollbar">
                 <TaskForm 
                     currentProjectTask={currentProjectTask} 
                     form={form}
-                    changeTaskUpdateType={changeTaskUpdateType}/>
+                    doUpdateTask={doUpdateTask}/>
                 <SubtaskList currentProjectTask={currentProjectTask} />
                 {comments.length > 0 && <CommentList comments={comments} />}
             </Content>

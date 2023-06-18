@@ -11,31 +11,20 @@ import { ProjectTaskCollaboratorUser } from "src/entities/projectTasks/entities"
 import SelectedResponsible from "./components/SelectedResponsible/SelectedResponsible";
 import useSearchCollaborator from "src/views/ProjectView/components/ProjectManagerView/utils/hooks/useSearchCollaborator";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
-import { TaskUpdateType } from "../../../../utils/enums";
 import { currentUserLocalStorage } from "src/storage/user.local";
 import { User } from "src/entities/user/types";
 
 const ResponsibleField = ({
     form,
     currentResponsible,
-    changeTaskUpdateType,
+    doUpdateTask
 }: ResponsibleFieldProps) => {
     const [selectedResponsible, setSelectedResponsible] =
         useState<ProjectTaskCollaboratorUser | null>(null);
     const { projectId, isTaskMenuOpen, preloader, isTaskResponsible } = useTaskBoardContext();
     useEffect(() => {
-        if (currentResponsible) {
-            changeSelectedResponsible(currentResponsible);
-            return;
-        }
-        if (!isTaskMenuOpen) {
-            changeSelectedResponsible(null);
-            return;
-        }
-    }, [isTaskMenuOpen]);
-    useEffect(() => {
-        setSelectedResponsible(currentResponsible);
-    }, [currentResponsible]);
+        setSelectedResponsible(isTaskMenuOpen ? currentResponsible : null);
+    }, [isTaskMenuOpen, currentResponsible]);
     const selectTaskResponsibleHandler = useSearchCollaborator({
         requestSearchCollaborators: async (collaboratorName: string) => {
             preloader.show("Buscando colaboradores...");
@@ -56,7 +45,7 @@ const ResponsibleField = ({
             TASK_FIELD_PROPS.TASK_RESPONSIBLE.name,
             newResponsible?.id || null
         );
-        changeTaskUpdateType(TaskUpdateType.Immediate);
+        doUpdateTask();
     };
     const customSearchInputHandler =
         useCustomInputSearch<ProjectTaskCollaboratorUser>({

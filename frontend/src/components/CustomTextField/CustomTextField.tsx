@@ -1,5 +1,5 @@
 //#region Libraries
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 //#endregion
 //#region Styles
@@ -20,7 +20,7 @@ import { CustomTextFieldProps } from "./types";
 //#endregion
 // import { RESTRICTIONS } from "./utils/restrictions";
 
-const CustomTextField = ({
+const CustomTextField = forwardRef<HTMLInputElement, CustomTextFieldProps>(({
     className,
     placeholder,
     name, label,
@@ -31,7 +31,7 @@ const CustomTextField = ({
     onFocus, onBlur,
     // restriction,
     onChange, onKeyDown
-}: CustomTextFieldProps) => {
+}, ref) => {
     const [isPasswordRevealed, setIsPasswordRevealed] = useState(false);
     const getClassName = () => {
         const classList: string[] = [];
@@ -58,6 +58,7 @@ const CustomTextField = ({
             {label && <LabelContent className={getClassName()}>{label}</LabelContent>}
             <Content className={getClassName()}>
                 <TextField
+                    ref={ref}
                     disabled={disabled}
                     className={getClassName()}
                     name={name}
@@ -85,6 +86,6 @@ const CustomTextField = ({
             <ErrorMessage text={error} />
         </Container>
     );
-};
+});
 
 export default CustomTextField;

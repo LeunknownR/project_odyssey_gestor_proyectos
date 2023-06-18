@@ -1,17 +1,20 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { EditTaskNameInput, TaskName } from "./styles";
-import { TaskUpdateType } from "../../../../utils/enums";
 import { TaskNameFieldProps } from "./types";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
 
-const TaskNameField = ({ form, name, changeTaskUpdateType }: TaskNameFieldProps) => {
+const TaskNameField = ({ form, name, doUpdateTask }: TaskNameFieldProps) => {
     //#region Refs
     const editingTaskNameInputRef = useRef<HTMLInputElement>(null);
     //#endregion
     //#region States
     const [editingTaskName, setEditingTaskName] = useState<string | null>(null);
     //#endregion
-    const { isTaskResponsible } = useTaskBoardContext();
+    const { isTaskMenuOpen, isTaskResponsible } = useTaskBoardContext();
+    useEffect(() => {
+        if (isTaskMenuOpen) return;
+        setEditingTaskName(null);
+    }, [isTaskMenuOpen]);
     //#region Functions
     const enableEditingTaskNameInput = (): void => {
         if (!isTaskResponsible) return;
@@ -21,10 +24,6 @@ const TaskNameField = ({ form, name, changeTaskUpdateType }: TaskNameFieldProps)
     const changeEditTaskNameInput: React.ChangeEventHandler<
         HTMLInputElement
     > = ({ target: { value } }) => {
-        if (value.length === 0) {
-            editingTaskNameInputRef.current?.blur();
-            return;
-        }
         setEditingTaskName(value);
     };
     const checkEnterForUpdateName: React.KeyboardEventHandler<
@@ -33,12 +32,12 @@ const TaskNameField = ({ form, name, changeTaskUpdateType }: TaskNameFieldProps)
         if (key !== "Enter" || !editingTaskName) return;
         editingTaskNameInputRef.current?.blur();
         form.change("name", editingTaskName);
-        changeTaskUpdateType(TaskUpdateType.Immediate);
+        doUpdateTask();
     };
     //#endregion
     return (
         <>
-        {editingTaskName ? (
+        {editingTaskName !== null ? (
             <EditTaskNameInput
                 ref={editingTaskNameInputRef}
                 value={editingTaskName}

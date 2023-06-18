@@ -1,37 +1,42 @@
-import { useState, useEffect, useRef } from "react";
+import { 
+    RefObject, 
+    useState, 
+    useEffect,
+    useRef 
+} from "react";
 import { DataDraggingTaskCard, DraggingTaskCardHook } from "./types";
 
 const useDraggingTaskCard = (
-    containerRef: React.MutableRefObject<HTMLLIElement | null | undefined>
+    containerRef: RefObject<HTMLLIElement | null | undefined>
 ): DraggingTaskCardHook => {
-    const dataDraggingCardRef = useRef<DataDraggingTaskCard | null>();
+    const dataRef = useRef<DataDraggingTaskCard | null>();
     //#region States
-    const [dataDraggingCard, setDataDraggingCard] = useState<DataDraggingTaskCard | null>(null);
-    const [isDragging, setIsDragging] = useState<boolean>(false);
+    const [data, setData] = useState<DataDraggingTaskCard | null>(null);
+    const [hasClicked, setHasClicked] = useState<boolean>(false);
     //#endregion
     //#region Effects
     useEffect(() => {
-        const onMouseMove = (e: MouseEvent) => {
+        const onMouseMove = (e: MouseEvent): void => {
             if (!containerRef.current || 
                 containerRef.current === e.target ||
                 containerRef.current.contains(e.target as Node) ||
-                !dataDraggingCardRef.current) {
+                !dataRef.current) {
                 return;
             }
-            setDataDraggingCard({
-                ...dataDraggingCardRef.current,
-                left: e.clientX - dataDraggingCardRef.current.width/2,
-                top: e.clientY - dataDraggingCardRef.current.height/2
+            setData({
+                ...dataRef.current,
+                left: e.clientX - dataRef.current.width/2,
+                top: e.clientY - dataRef.current.height/2
             });
         };
-        const onMouseUp = (e: MouseEvent) => {
+        const onMouseUp = (e: MouseEvent): void => {
             if (!containerRef.current || 
                 !e.target ||
                 containerRef.current === e.target ||
                 containerRef.current.contains(e.target as Node) ||
-                !dataDraggingCardRef.current) 
+                !dataRef.current) 
                 return;
-            setDataDraggingCard(null); 
+            setData(null); 
         };
         document.addEventListener("mousemove", onMouseMove);
         document.addEventListener("mouseup", onMouseUp);
@@ -41,8 +46,8 @@ const useDraggingTaskCard = (
         };
     }, []);
     useEffect(() => {
-        dataDraggingCardRef.current = dataDraggingCard;
-    }, [dataDraggingCard]);
+        dataRef.current = data;
+    }, [data]);
     //#endregion
     //#region Functions
     const onMouseDown: React.DragEventHandler<HTMLLIElement> = e => {
@@ -54,31 +59,33 @@ const useDraggingTaskCard = (
             clientWidth, 
             clientHeight 
         } = containerRef.current;
-        setDataDraggingCard({
+        setData({
             left: offsetLeft, top: offsetTop, 
             width: clientWidth, height: clientHeight
         });
-        setIsDragging(false);
+        setHasClicked(false);
     }
     const onMouseMove: React.DragEventHandler<HTMLLIElement> = e => {
         e.preventDefault();
-        if (!containerRef.current || !dataDraggingCard) return;
-        if (!isDragging) setIsDragging(true);
-        setDataDraggingCard(prev => (prev && {
+        if (!containerRef.current || !data) return;
+        if (!hasClicked) setHasClicked(true);
+        setData(prev => (prev && {
             ...prev,
             left: e.clientX - prev.width/2,
             top: e.clientY - prev.height/2
         }));
     }
     const onMouseUp = (): void => {
-        if (!dataDraggingCard) return;
-        setDataDraggingCard(null);
+        if (!data) return;
+        setData(null);
+    }
+    const isDragging = (): boolean => {
+        return Boolean(hasClicked && data);
     }
     //#endregion
     return {
-        dataDraggingCard,
-        isDragging,
-        events: {
+        data, hasClicked, 
+        isDragging, events: {
             onMouseDown,
             onMouseMove,
             onMouseUp

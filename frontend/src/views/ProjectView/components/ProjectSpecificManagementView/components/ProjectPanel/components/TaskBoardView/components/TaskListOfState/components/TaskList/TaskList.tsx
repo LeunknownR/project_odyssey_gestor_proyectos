@@ -1,15 +1,14 @@
 import { useState, useRef } from "react";
 import CreationTaskCard from "../CreationTaskCard/CreationTaskCard";
 import TaskCard from "./components/TaskCard/TaskCard";
-import { Container } from "./styles";
+import { Container, Content } from "./styles";
 import { TaskListProps } from "./types";
 import AddTaskButton from "./components/AddTaskButton/AddTaskButton";
-import { ProjectState } from "src/entities/project/enums";
+import { ProjectTaskState } from "src/entities/projectTasks/entities";
 
 const TaskList = ({
     taskListInfo, 
-    state, 
-    openTaskMenu
+    state
 }: TaskListProps) => {
     const taskListRef = useRef<HTMLUListElement>(null);
     const [createTaskCard, setCreateTaskCard] = useState<boolean>(false);
@@ -30,21 +29,22 @@ const TaskList = ({
     };
     return (
         <>
-        <Container ref={taskListRef} className="custom-scrollbar task-state-section">
-            {taskListInfo.map(taskInfo => (
-                <TaskCard
-                    key={taskInfo.id}
-                    taskInfo={taskInfo}
-                    openTaskMenu={openTaskMenu}
-                    state={state}
-                />
-            ))}
-        {createTaskCard &&
-        <CreationTaskCard 
-            state={state} 
-            hideCreateTaskCard={hideCreateTaskCard} />}
+        <Container className="custom-scrollbar">            
+            <Content ref={taskListRef} className="task-state-section">
+                {taskListInfo.map(taskInfo => (
+                    <TaskCard
+                        key={taskInfo.id}
+                        taskInfo={taskInfo}
+                        state={state}
+                    />
+                ))}
+                {createTaskCard &&
+                <CreationTaskCard 
+                    state={state} 
+                    hideCreateTaskCard={hideCreateTaskCard} />}
+            </Content>
         </Container>
-        {state !== ProjectState.Finalized && (
+        {state !== ProjectTaskState.Finalized && (
             <AddTaskButton showCreateTaskCard={showCreateTaskCard} />
         )}
         </>
