@@ -15,9 +15,9 @@ import useTaskBoardContext from "../../../../../../../utils/contexts/useTaskBoar
 import { ProjectTaskState } from "src/entities/projectTasks/entities";
 
 const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
-    taskInfo, state, draggingTaskCard
+    task, state, draggingTaskCard
 }, ref) => {
-    const { name, responsible, deadline, priorityId } = taskInfo;
+    const { name, responsible, deadline, priorityId } = task;
     const { fillCurrentProjectTask } = useTaskBoardContext();
     const isFinalized: boolean = state === ProjectTaskState.Finalized;
     const getClassName = (): string => {
@@ -34,7 +34,7 @@ const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
             top={draggingTaskCard.data?.top}
             left={draggingTaskCard.data?.left}
             {...draggingTaskCard.events}
-            onClick={() => !draggingTaskCard.isDragging() && fillCurrentProjectTask(taskInfo, state)}>
+            onClick={() => !draggingTaskCard.isDragging() && fillCurrentProjectTask(task, state)}>
             <FlexFlow align="center" gap="10px">
                 <TaskCardName>{name}</TaskCardName>
             </FlexFlow>

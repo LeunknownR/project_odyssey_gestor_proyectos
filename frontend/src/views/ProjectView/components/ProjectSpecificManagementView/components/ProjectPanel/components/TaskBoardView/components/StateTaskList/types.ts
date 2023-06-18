@@ -3,8 +3,8 @@ import {
     ProjectTaskState 
 } from "src/entities/projectTasks/entities";
 
-export type TaskListOfStateProps = {
-    sectionName: string;
+export type StateTaskListProps = {
+    stateName: string;
     state: ProjectTaskState;
-    taskListInfo: ProjectTask[];
+    taskList: ProjectTask[];
 };

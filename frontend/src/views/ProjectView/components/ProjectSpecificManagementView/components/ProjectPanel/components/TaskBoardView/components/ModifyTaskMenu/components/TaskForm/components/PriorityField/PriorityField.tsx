@@ -14,8 +14,8 @@ import { requestGetTaskPriority } from "src/services/projectTasks/aboutProjectTa
 import { ProjectTaskPriority } from "src/entities/projectTasks/entities";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
-import { TaskPriorityImage } from "../../../../../TaskListOfState/components/TaskList/components/TaskCard/styles";
-import { TASK_PRIORITY } from "../../../../../TaskListOfState/components/TaskList/components/TaskCard/utils/constants";
+import { TASK_PRIORITY } from "../../../../../StateTaskList/components/TaskList/components/TaskCard/utils/constants";
+import { TaskPriorityImage } from "../../../../../StateTaskList/components/TaskList/components/TaskCard/styles";
 
 const PriorityField = ({ 
     form, doUpdateTask

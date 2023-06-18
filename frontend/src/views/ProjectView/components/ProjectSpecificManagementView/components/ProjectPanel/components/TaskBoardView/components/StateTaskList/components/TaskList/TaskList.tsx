@@ -7,7 +7,7 @@ import AddTaskButton from "./components/AddTaskButton/AddTaskButton";
 import { ProjectTaskState } from "src/entities/projectTasks/entities";
 
 const TaskList = ({
-    taskListInfo, 
+    taskList, 
     state
 }: TaskListProps) => {
     const taskListRef = useRef<HTMLUListElement>(null);
@@ -31,10 +31,10 @@ const TaskList = ({
         <>
         <Container className="custom-scrollbar">            
             <Content ref={taskListRef} className="task-state-section">
-                {taskListInfo.map(taskInfo => (
+                {taskList.map(task => (
                     <TaskCard
-                        key={taskInfo.id}
-                        taskInfo={taskInfo}
+                        key={task.id}
+                        task={task}
                         state={state}
                     />
                 ))}
