@@ -91,6 +91,7 @@ p {
 }
 *.custom-scrollbar {
     overflow-y: scroll;
+	overflow-x: hidden;
 }
 *.custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: var(--white-1-50);

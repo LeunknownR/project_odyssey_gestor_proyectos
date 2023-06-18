@@ -18,8 +18,22 @@ const TaskList = ({
         socketIo,
         taskToBeChangedStateHandler 
     } = useTaskBoardContext();
+    //#region States
     const taskListRef = useRef<HTMLUListElement>(null);
+    const taskToBeChangedStateRef = useRef<TaskToBeChangedState | null>();
     const [createTaskCard, setCreateTaskCard] = useState<boolean>(false);
+    //#endregion
+    //#region Effects
+    useEffect(() => {
+        taskToBeChangedStateRef.current = taskToBeChangedStateHandler.value;
+    }, [taskToBeChangedStateHandler]);
+    useEffect(() => {
+        const onMouseUp = (e: MouseEvent): void => mouseUpDocument(e);
+        document.addEventListener("mouseup", onMouseUp);
+        return () => document.addEventListener("mouseup", onMouseUp);
+    }, []);
+    //#endregion
+    //#region Functions
     const scrollToListBottom = (): void => {
         setTimeout(() => {
             taskListRef.current?.scrollTo({
@@ -35,34 +49,26 @@ const TaskList = ({
     const hideCreateTaskCard = (): void => {
         setCreateTaskCard(false);
     };
-    const taskToBeChangedStateRef = useRef<TaskToBeChangedState | null>();
-    useEffect(() => {
-        taskToBeChangedStateRef.current = taskToBeChangedStateHandler.value;
-    }, [taskToBeChangedStateHandler]);
-    useEffect(() => {
-        const onMouseUp = (e: MouseEvent): void => {
-            const {
-                clientX, 
-                clientY, 
-                button
-            } = e;
-            if (button !== 0) return;
-            const $elementWhereDropCard = document.elementFromPoint(clientX, clientY);
+    const mouseUpDocument = (e: MouseEvent): void => {
+        const {
+            clientX, 
+            clientY, 
+            button
+        } = e;
+        if (button !== 0) return;
+        const $elementWhereDropCard = document.elementFromPoint(clientX, clientY);
+        if (
+            !$elementWhereDropCard ||
+            !taskToBeChangedStateRef.current
+        ) return;
+        const $taskStateSection: HTMLElement = $elementWhereDropCard?.closest(".task-state-section") as HTMLElement || $elementWhereDropCard;
+        if ($taskStateSection) {
             if (
-                !$elementWhereDropCard ||
-                !taskToBeChangedStateRef.current
-            ) return;
-            const $taskStateSection: HTMLElement = $elementWhereDropCard?.closest(".task-state-section") as HTMLElement || $elementWhereDropCard;
-            if ($taskStateSection) {
-                if (
-                    $taskStateSection.classList.contains(state) &&
-                    state !== taskToBeChangedStateRef.current.state) 
-                    changeTaskState();
-            }
-        };
-        document.addEventListener("mouseup", onMouseUp);
-        return () => document.addEventListener("mouseup", onMouseUp);
-    }, []);
+                $taskStateSection.classList.contains(state) &&
+                state !== taskToBeChangedStateRef.current.state) 
+                changeTaskState();
+        }
+    }
     const changeTaskState = (): void => {
         if (!taskToBeChangedStateRef.current) return;
         const projectTaskWithNewState: WSProjectTaskWithNewState = {
@@ -74,6 +80,7 @@ const TaskList = ({
         );
         taskToBeChangedStateHandler.fill(null);
     }
+    //#endregion
     return (
         <>
         <Container className="custom-scrollbar">            
