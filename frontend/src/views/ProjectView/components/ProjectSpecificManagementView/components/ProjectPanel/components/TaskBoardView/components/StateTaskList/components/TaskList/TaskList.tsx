@@ -12,21 +12,22 @@ import WSProjectTaskServiceEvents from "src/services/websockets/services/project
 
 const TaskList = ({
     taskList, 
-    state
+    state, wasDraggingTaskCardRef
 }: TaskListProps) => {
     const { 
         socketIo,
+        // hideTaskMenu,
         taskToBeChangedStateHandler 
     } = useTaskBoardContext();
-    //#region States
     const taskListRef = useRef<HTMLUListElement>(null);
-    const taskToBeChangedStateRef = useRef<TaskToBeChangedState | null>();
-    const [createTaskCard, setCreateTaskCard] = useState<boolean>(false);
+    const taskToBeChangedStateRef = useRef<TaskToBeChangedState | null>(null);
+    //#region States
+    const [isCreatingTaskCard, setIsCreatingTaskCard] = useState<boolean>(false);
     //#endregion
     //#region Effects
     useEffect(() => {
         taskToBeChangedStateRef.current = taskToBeChangedStateHandler.value;
-    }, [taskToBeChangedStateHandler]);
+    }, [taskToBeChangedStateHandler.value]);
     useEffect(() => {
         const onMouseUp = (e: MouseEvent): void => mouseUpDocument(e);
         document.addEventListener("mouseup", onMouseUp);
@@ -43,11 +44,11 @@ const TaskList = ({
         }, 100);
     };
     const showCreateTaskCard = (): void => {
-        setCreateTaskCard(true);
+        setIsCreatingTaskCard(true);
         scrollToListBottom();
     };
     const hideCreateTaskCard = (): void => {
-        setCreateTaskCard(false);
+        setIsCreatingTaskCard(false);
     };
     const mouseUpDocument = (e: MouseEvent): void => {
         const {
@@ -55,19 +56,22 @@ const TaskList = ({
             clientY, 
             button
         } = e;
-        if (button !== 0) return;
-        const $elementWhereDropCard = document.elementFromPoint(clientX, clientY);
-        if (
-            !$elementWhereDropCard ||
-            !taskToBeChangedStateRef.current
-        ) return;
-        const $taskStateSection: HTMLElement = $elementWhereDropCard?.closest(".task-state-section") as HTMLElement || $elementWhereDropCard;
-        if ($taskStateSection) {
-            if (
-                $taskStateSection.classList.contains(state) &&
-                state !== taskToBeChangedStateRef.current.state) 
-                changeTaskState();
-        }
+        // Revisando si se dio click derecho
+        if (button !== 0 || !taskToBeChangedStateRef.current) return;
+        // Obteniendo a que elemento estaba apuntando el cursor cuando soltó el botón
+        const $elementWhereDropCard: Element | null = document.elementFromPoint(clientX, clientY);
+        // Verificando si el elemento existe y si es que hay una tarea que quiere cambiarse de estado
+        if (!$elementWhereDropCard) return;
+        // Obteniendo la sección de estado donde se soltó
+        const $taskStateSection: HTMLElement = 
+            $elementWhereDropCard?.closest(".task-state-section") as HTMLElement || 
+            $elementWhereDropCard;
+        // Revisando si se estuvo arrastrando la task card y si el estado de la lista actual es igual al estado donde se la soltó
+        if (!wasDraggingTaskCardRef.current || !$taskStateSection.classList.contains(state)) return;
+        wasDraggingTaskCardRef.current = false;
+        // Revisando si fue un estado diferente al estado de la tarea que se quiere cambiar
+        if (state === taskToBeChangedStateRef.current.state) return;
+        changeTaskState();
     }
     const changeTaskState = (): void => {
         if (!taskToBeChangedStateRef.current) return;
@@ -76,9 +80,13 @@ const TaskList = ({
             state
         };
         socketIo?.emit(
-            WSProjectTaskServiceEvents.Collaborator.ChangeTaskState, projectTaskWithNewState
+            WSProjectTaskServiceEvents.Collaborator.ChangeTaskState, 
+            projectTaskWithNewState
         );
         taskToBeChangedStateHandler.fill(null);
+    }
+    const confirmWasDraggingTaskCard = (): void => {
+        wasDraggingTaskCardRef.current = true;
     }
     //#endregion
     return (
@@ -90,9 +98,10 @@ const TaskList = ({
                         key={task.id}
                         task={task}
                         state={state}
+                        confirmWasDraggingTaskCard={confirmWasDraggingTaskCard}
                     />
                 ))}
-                {createTaskCard &&
+                {isCreatingTaskCard &&
                 <CreationTaskCard 
                     state={state} 
                     hideCreateTaskCard={hideCreateTaskCard} />}

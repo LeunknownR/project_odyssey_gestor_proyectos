@@ -4,6 +4,7 @@ import { DraggingTaskCardHook } from "./utils/hooks/types";
 export type TaskCardProps = {
     task: ProjectTask;
     state: ProjectTaskState;
+    confirmWasDraggingTaskCard: () => void;
 };
 export type ShadowProps = {
     height?: number;

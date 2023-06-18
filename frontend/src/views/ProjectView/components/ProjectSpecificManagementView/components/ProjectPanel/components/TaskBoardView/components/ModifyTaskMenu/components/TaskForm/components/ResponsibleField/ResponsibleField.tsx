@@ -4,7 +4,6 @@ import useCustomInputSearch from "src/components/CustomInputSearch/utils/hooks/u
 import CustomInputSearchUserOption from "src/views/components/CustomInputSearchUserOption/CustomInputSearchUserOption";
 import { TASK_FIELD_PROPS } from "../../../../utils/constants";
 import { Container, SelfAssignmentButton } from "./styles";
-import { requestSearchCollaboratorToBeMemberForCollaborator } from "src/services/collaborators/relatedToCollaborators";
 import { Label } from "../../styles";
 import { ResponsibleFieldProps } from "./types";
 import { ProjectTaskCollaboratorUser } from "src/entities/projectTasks/entities";
@@ -14,6 +13,7 @@ import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardCo
 import { currentUserLocalStorage } from "src/storage/user.local";
 import { User } from "src/entities/user/types";
 import { FlexFlow } from "src/components/styles";
+import { requestGetTeamMembers } from "src/services/projectTasks/aboutProjectTasks";
 
 const ResponsibleField = ({
     form,
@@ -29,11 +29,10 @@ const ResponsibleField = ({
     const selectTaskResponsibleHandler = useSearchCollaborator({
         requestSearchCollaborators: async (collaboratorName: string) => {
             preloader.show("Buscando colaboradores...");
-            const { data } =
-                await requestSearchCollaboratorToBeMemberForCollaborator({
-                    collaboratorName,
-                    projectId,
-                });
+            const { data } = await requestGetTeamMembers({
+                collaboratorName,
+                projectId,
+            });
             preloader.hide();
             return data;
         },

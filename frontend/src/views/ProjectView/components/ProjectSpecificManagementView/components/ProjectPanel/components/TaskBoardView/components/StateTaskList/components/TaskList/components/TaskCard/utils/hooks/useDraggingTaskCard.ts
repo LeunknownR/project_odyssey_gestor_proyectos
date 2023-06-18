@@ -12,7 +12,7 @@ const useDraggingTaskCard = (
     containerRef: RefObject<HTMLLIElement | null | undefined>,
     taskCardProps: TaskCardProps
 ): DraggingTaskCardHook => {
-    const { task, state } = taskCardProps;
+    const { task, state, confirmWasDraggingTaskCard } = taskCardProps;
     const dataRef = useRef<DataDraggingTaskCard | null>();
     const { 
         fillCurrentProjectTask,
@@ -77,12 +77,14 @@ const useDraggingTaskCard = (
             clientWidth, 
             clientHeight
         } = containerRef.current;
-        setData(prev => (prev && {
-            ...prev,
-            left: e.clientX - clientWidth/2,
-            top: e.clientY - clientHeight/2
-        }));
-        if (wantsDrag) return;
+        if (wantsDrag) {
+            setData(prev => (prev && {
+                ...prev,
+                left: e.clientX - clientWidth/2,
+                top: e.clientY - clientHeight/2
+            }));
+            return;
+        }
         // Empezando dragging
         setData({
             width: clientWidth, height: clientHeight,
@@ -94,6 +96,7 @@ const useDraggingTaskCard = (
             state
         });
         setWantsDrag(true);
+        confirmWasDraggingTaskCard();
     }
     const onMouseUp: React.MouseEventHandler<HTMLLIElement> = e => {
         if (e.button !== 0) return;

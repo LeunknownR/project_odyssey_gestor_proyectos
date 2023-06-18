@@ -41,6 +41,7 @@ const TaskBoardView = ({
     );
     const [projectTaskBoard, setProjectTaskBoard] = useState<ProjectTaskBoard | null>(null);
     const [currentProjectTask, setCurrentProjectTask] = useState<ProjectTask | null>(null);
+    const [currentProjectTaskState, setCurrentProjectTaskState] = useState<ProjectTaskState | null>(null);
     const [currentTaskToBeChangedState, setCurrentTaskToBeChangedState] = useState<TaskToBeChangedState | null>(null);
     const [isTaskMenuOpen, setIsTaskMenuOpen] = useState<boolean>(false);
     const [isTaskResponsible, setIsTaskResponsible] = useState<boolean>(false);
@@ -56,7 +57,6 @@ const TaskBoardView = ({
         );
     }, []);
     useEffect(() => {
-        if (!currentProjectTask) return;
         const newCurrentProjectTask = getCurrentProjectTaskWhenBoardChange();
         setCurrentProjectTask(newCurrentProjectTask);
     }, [projectTaskBoard]);
@@ -68,28 +68,20 @@ const TaskBoardView = ({
     }, [currentProjectTask]);
     //#endregion
     //#region Functions
-    const getProjectTaskByState = (state: ProjectTaskState): ProjectTask | undefined => {
-        if (!projectTaskBoard || !currentProjectTask) return;
-        const stateField: string = projectTaskBoardStateByTaskState[state];
-        return projectTaskBoard[stateField].find(({ id }) => id === currentProjectTask.id);
-    }
     const getCurrentProjectTaskWhenBoardChange = (): ProjectTask | null => {
         if (
+            !currentProjectTask || 
             !projectTaskBoard ||
-            !currentTaskToBeChangedState ||
-            !currentProjectTask
+            !currentProjectTaskState
         ) return null;
-        //Buscando el proyecto actual
-        let foundProjectTask: ProjectTask | undefined = getProjectTaskByState(currentTaskToBeChangedState.state);
-        //Buscando si se encontró en el estado previo
+        // Buscando el proyecto actual
+        const taskStateField: string = projectTaskBoardStateByTaskState[currentProjectTaskState];
+        const foundProjectTask: ProjectTask | undefined = projectTaskBoard[taskStateField]
+            .find(({ id }) => id === currentProjectTask.id);
+        // Buscando si se encontró en el estado previo
         if (foundProjectTask) return foundProjectTask;
-        //Buscando en los demás estados
-        const notCheckedStates = Object.values(ProjectTaskState).filter(state => state !== currentTaskToBeChangedState.state);
-        for (const notCheckedState of notCheckedStates) {
-            foundProjectTask = getProjectTaskByState(notCheckedState);
-            if (foundProjectTask) return foundProjectTask;
-        }
-        return null;
+        // Solo se hizo cambio de estado -> mismo valor de estado
+        return currentProjectTask;
     };
     const fillCurrentProjectTask = (
         task: ProjectTask,
@@ -97,6 +89,7 @@ const TaskBoardView = ({
     ): void => {
         openTaskMenu();
         setCurrentProjectTask(task);
+        setCurrentProjectTaskState(state);
         setCurrentTaskToBeChangedState({
             taskId: task.id,
             state
@@ -129,6 +122,7 @@ const TaskBoardView = ({
                 socketIo: socketHandler.socketIo, 
                 projectId, isTaskMenuOpen, 
                 modifyMenuRef, preloader, isTaskResponsible,
+                hideTaskMenu,
                 fillCurrentProjectTask,
                 taskToBeChangedStateHandler: {
                     fill: fillCurrentTaskToBeChangedState,
@@ -140,7 +134,6 @@ const TaskBoardView = ({
                     ref={modifyMenuRef}
                     currentProjectTask={currentProjectTask}
                     isTaskMenuOpen={isTaskMenuOpen}
-                    hideTaskMenu={hideTaskMenu}
                     openModalDeleteTask={() => modalDeleteTask.open(true)}
                 />
                 <DeleteTaskModal

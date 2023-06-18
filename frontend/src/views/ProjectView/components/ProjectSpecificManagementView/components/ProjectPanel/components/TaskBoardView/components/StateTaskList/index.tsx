@@ -4,14 +4,17 @@ import { Container } from "./styles";
 import { StateTaskListProps } from "./types";
 
 const StateTaskList = ({
-    stateName, state, taskList
+    data: {
+        stateName, state, taskList
+    }, wasDraggingTaskCardRef
 }: StateTaskListProps) => {
     return (
         <Container className={`task-state-section ${state}`}>
             <Header stateName={stateName} />
             <TaskList
                 taskList={taskList}
-                state={state}/>
+                state={state}
+                wasDraggingTaskCardRef={wasDraggingTaskCardRef}/>
         </Container>
     );
 };

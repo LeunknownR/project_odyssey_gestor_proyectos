@@ -6,6 +6,7 @@ const INIT_TASK_BOARD_CONTEXT: TaskBoardContextType = {
     projectId: 0,
     isTaskMenuOpen: false,
     fillCurrentProjectTask: () => {},
+    hideTaskMenu: () => {},
     modifyMenuRef: null,
     preloader: {
         hide: () => {},

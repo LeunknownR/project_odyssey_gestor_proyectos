@@ -1,11 +1,13 @@
+import { useRef } from "react";
 import { FlexFlow } from "src/components/styles";
 import { TaskBoardProps } from "./types";
 import StateTaskList from "../StateTaskList";
 import { ProjectTaskState } from "src/entities/projectTasks/entities";
-import { StateTaskListProps } from "../StateTaskList/types";
+import { StateTaskListData } from "../StateTaskList/types";
 
 const TaskBoard = ({ taskBoard }: TaskBoardProps) => {
-    const allStateTaskList: StateTaskListProps[] = [
+    const wasDraggingTaskCardRef = useRef<boolean>(false);
+    const allStateTaskListData: StateTaskListData[] = [
         {
             stateName: "Pendientes",
             state: ProjectTaskState.Pending,
@@ -24,10 +26,11 @@ const TaskBoard = ({ taskBoard }: TaskBoardProps) => {
     ];
     return (
         <FlexFlow width="100%" gap="15px">
-            {allStateTaskList.map((stateTaskList) => (
+            {allStateTaskListData.map(stateTaskListData => (
                 <StateTaskList
-                    key={stateTaskList.state}
-                    {...stateTaskList}/>
+                    key={stateTaskListData.state}
+                    data={stateTaskListData}
+                    wasDraggingTaskCardRef={wasDraggingTaskCardRef}/>
             ))}
         </FlexFlow>
     );

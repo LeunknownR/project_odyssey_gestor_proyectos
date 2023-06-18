@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import { RefObject, MutableRefObject } from "react";
 import { Socket } from "socket.io-client";
 import { PreloaderHook } from "src/components/Preloader/types";
 import { ProjectTask, ProjectTaskState } from "src/entities/projectTasks/entities";
@@ -14,6 +14,7 @@ export type TaskBoardContextType = {
     projectId: number;
     isTaskMenuOpen: boolean;
     fillCurrentProjectTask: (task: ProjectTask, state: ProjectTaskState) => void;
+    hideTaskMenu: () => void;
     modifyMenuRef: RefObject<HTMLElement> | null;
     preloader: PreloaderHook;
     isTaskResponsible: boolean;
