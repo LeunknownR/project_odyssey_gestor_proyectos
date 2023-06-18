@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import { 
     Container, DateText, 
     EmptyTaskPriority, TaskCardName, 
-    TaskPriorityImage, UnselectedResponsible 
+    TaskPriorityImage
 } from "../styles";
 import { TaskCardContentProps } from "../types";
 import emptyTaskPriorityImg from "src/images/no-priority.svg";
@@ -10,7 +10,7 @@ import { FlexFlow } from "src/components/styles";
 import UserImage from "src/views/components/UserImage/UserImage";
 import NoResponsible from "src/images/no-responsible.svg";
 import { TASK_PRIORITY } from "../utils/constants";
-import { dayMonthFormat } from "src/utils/dates";
+import { dayMonthFormat, isDateBeforeToday } from "src/utils/dates";
 import { ProjectTaskState } from "src/entities/projectTasks/entities";
 
 const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
@@ -45,9 +45,11 @@ const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
                             className="small"
                         />
                     ) : (
-                        <UnselectedResponsible src={NoResponsible} />
+                        <img src={NoResponsible} />
                     )}
-                    <DateText>{deadline !== -1 && dayMonthFormat(deadline)}</DateText>
+                    <DateText className={isDateBeforeToday(deadline) ? "late" : ""}>
+                        {deadline !== -1 && dayMonthFormat(deadline)}
+                    </DateText>
                 </FlexFlow>
                 {priorityId ? (
                     <TaskPriorityImage

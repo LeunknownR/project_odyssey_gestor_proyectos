@@ -13,6 +13,7 @@ import useSearchCollaborator from "src/views/ProjectView/components/ProjectManag
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
 import { currentUserLocalStorage } from "src/storage/user.local";
 import { User } from "src/entities/user/types";
+import { FlexFlow } from "src/components/styles";
 
 const ResponsibleField = ({
     form,
@@ -77,7 +78,7 @@ const ResponsibleField = ({
                     eraseSelectedResponsible={removeSelectedResponsible}
                 />
             ) : (
-                <>
+                <FlexFlow gap="10px">
                 <CustomInputSearch
                     {...TASK_FIELD_PROPS.TASK_RESPONSIBLE}
                     variant="primary-search"
@@ -98,7 +99,7 @@ const ResponsibleField = ({
                         content="Asígnamela"
                         onClick={autoAssignmentResponsible}
                     />}
-                </>
+                </FlexFlow>
             )}
         </Container>
         </>

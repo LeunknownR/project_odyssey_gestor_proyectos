@@ -20,17 +20,17 @@ export const Container = styled.li<ContainerProps>`
     width: 100%;
     transition: 0.35s border-color, 0.35s scale, top 0.08s, left 0.08s;
     user-select: none;
-    /* cursor: pointer; */
-    cursor: url("custom-cursor.png"), auto;
+    cursor: pointer;
     &.dragging {
         position: fixed;
         background-color: var(--darkblue-4);
         width: ${({ width = 0 }) => width}px;
         top: ${({ top }) => top}px;
         left: ${({ left }) => left}px;
-        /* &:active {
-            cursor: url("custom-cursor.png") move;
-        } */
+        z-index: 1;
+        &:active {
+            cursor: url("/custom-cursor.png"), move;
+        }
     }
     &.checked > * {
         opacity: 0.4;
@@ -48,7 +48,6 @@ export const TaskCardName = styled.h3`
     align-self: center;
     color: var(--white-1);
 `;
-export const UnselectedResponsible = styled.img``;
 export const DateText = styled.div`
     display: flex;
     justify-content: center;
@@ -56,6 +55,9 @@ export const DateText = styled.div`
     font-size: 14px;
     font-weight: 700;
     color: var(--white-1);
+    &.late {
+        color: var(--red-2);
+    }
 `;
 export const TaskPriorityImage = styled(BackendImage)`
     width: 100px;

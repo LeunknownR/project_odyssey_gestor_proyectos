@@ -15,7 +15,7 @@ const INIT_TASK_BOARD_CONTEXT: TaskBoardContextType = {
             message: ""
         }
     },
-    taskToBeChanged: {
+    taskToBeChangedStateHandler: {
         value: null,
         fill: () => {}
     },

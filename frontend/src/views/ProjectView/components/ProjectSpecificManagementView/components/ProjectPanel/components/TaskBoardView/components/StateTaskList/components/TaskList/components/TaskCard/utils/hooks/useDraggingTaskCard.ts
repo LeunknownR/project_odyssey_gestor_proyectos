@@ -16,7 +16,7 @@ const useDraggingTaskCard = (
     const dataRef = useRef<DataDraggingTaskCard | null>();
     const { 
         fillCurrentProjectTask,
-        taskToBeChanged 
+        taskToBeChangedStateHandler 
     } = useTaskBoardContext();
     //#region States
     const [data, setData] = useState<DataDraggingTaskCard | null>(null);
@@ -83,12 +83,13 @@ const useDraggingTaskCard = (
             top: e.clientY - clientHeight/2
         }));
         if (wantsDrag) return;
+        // Empezando dragging
         setData({
             width: clientWidth, height: clientHeight,
             left: e.clientX - clientWidth/2,
             top: e.clientY - clientHeight/2
         });
-        taskToBeChanged.fill({
+        taskToBeChangedStateHandler.fill({
             taskId: task.id,
             state
         });

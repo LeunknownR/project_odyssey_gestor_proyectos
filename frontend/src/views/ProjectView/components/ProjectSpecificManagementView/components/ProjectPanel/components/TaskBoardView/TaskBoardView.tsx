@@ -130,7 +130,7 @@ const TaskBoardView = ({
                 projectId, isTaskMenuOpen, 
                 modifyMenuRef, preloader, isTaskResponsible,
                 fillCurrentProjectTask,
-                taskToBeChanged: {
+                taskToBeChangedStateHandler: {
                     fill: fillCurrentTaskToBeChangedState,
                     value: currentTaskToBeChangedState
                 }

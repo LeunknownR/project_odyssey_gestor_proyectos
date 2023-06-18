@@ -5,7 +5,7 @@ import { ProjectTask, ProjectTaskState } from "src/entities/projectTasks/entitie
 import { WSProjectTaskWithNewState } from "src/services/websockets/services/projectTasks/utils/entities";
 
 export type TaskToBeChangedState = WSProjectTaskWithNewState;
-export type TaskToBeChanged = {
+export type TaskToBeChangedStateHandler = {
     value: TaskToBeChangedState | null;
     fill: (value: TaskToBeChangedState | null) => void;
 };
@@ -17,5 +17,5 @@ export type TaskBoardContextType = {
     modifyMenuRef: RefObject<HTMLElement> | null;
     preloader: PreloaderHook;
     isTaskResponsible: boolean;
-    taskToBeChanged: TaskToBeChanged;
+    taskToBeChangedStateHandler: TaskToBeChangedStateHandler;
 };
