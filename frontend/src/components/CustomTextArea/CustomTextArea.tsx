@@ -32,7 +32,7 @@ const CustomTextArea = ({
                     onChange={onChange}
                     onKeyDown={onKeyDown}
                     onBlur={onBlur}/>
-                {characterCounter && <MaxLength>{value.length} / {maxLength}</MaxLength>}
+                {(characterCounter && !disabled) && <MaxLength>{value.length} / {maxLength}</MaxLength>}
             </Content>
         </Container>
     );

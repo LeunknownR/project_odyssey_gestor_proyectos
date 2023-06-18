@@ -26,3 +26,12 @@ export const commentDateFormat = (milliseconds: number): string => {
 
     return `${day} ${month}`;
 };
+export const isDateBeforeToday = (milliseconds: number): boolean => {
+    if (milliseconds === -1) return false;
+    const date = new Date(milliseconds);
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    return date.getTime() < yesterday.getTime();
+}

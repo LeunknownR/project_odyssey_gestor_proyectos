@@ -14,8 +14,7 @@ import useTaskBoardContext from "../../../../utils/contexts/useTaskBoardContext"
 import WSProjectTaskServiceEvents from "src/services/websockets/services/projectTasks/events";
 
 const CreationTaskCard = ({
-    state,
-    hideCreateTaskCard,
+    state, hideCreateTaskCard
 }: CreationTaskCardProps) => {
     const [newTaskName, setNewTaskName] = useState<string>("");
     const { socketIo } = useTaskBoardContext();

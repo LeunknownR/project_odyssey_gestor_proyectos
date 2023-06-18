@@ -9,7 +9,7 @@ import { DBProjectRoles } from "src/config/roles";
 const ProjectTeamMember = ({
     collaborator,
     currentUserIsProjectLeader,
-    openDeleteModal,
+    openDeleteModal
 }: MemberDetailsProps) => {
     const { email, name, projectRole, surname, urlPhoto } = collaborator;
     return (

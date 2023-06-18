@@ -2,8 +2,9 @@ import { ProjectTask, ProjectTaskState } from "src/entities/projectTasks/entitie
 import { DraggingTaskCardHook } from "./utils/hooks/types";
 
 export type TaskCardProps = {
-    taskInfo: ProjectTask;
+    task: ProjectTask;
     state: ProjectTaskState;
+    confirmWasDraggingTaskCard: () => void;
 };
 export type ShadowProps = {
     height?: number;

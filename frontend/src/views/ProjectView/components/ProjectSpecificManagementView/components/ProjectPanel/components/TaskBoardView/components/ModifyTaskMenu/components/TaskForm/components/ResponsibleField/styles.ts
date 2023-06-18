@@ -19,10 +19,9 @@ export const Container = styled(FlexFlow)`
     }
 `;
 export const SelfAssignmentButton = styled(CustomButton)`
-    font-size: 12px;
+    font-size: 14px;
     color: var(--white-1);
-    background: linear-gradient(180deg, #1c3241 0%, #acacac 100%);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    padding: 5px 10px;
-    border-radius: 7px;
+    text-decoration: underline;
+    background: none;
+    font-weight: 700;
 `;

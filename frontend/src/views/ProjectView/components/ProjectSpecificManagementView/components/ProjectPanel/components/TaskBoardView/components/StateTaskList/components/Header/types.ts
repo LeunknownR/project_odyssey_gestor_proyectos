@@ -1,3 +1,3 @@
 export type HeaderProps = {
-    sectionName: string;
-}
+    stateName: string;
+};

@@ -4,7 +4,6 @@ import useCustomInputSearch from "src/components/CustomInputSearch/utils/hooks/u
 import CustomInputSearchUserOption from "src/views/components/CustomInputSearchUserOption/CustomInputSearchUserOption";
 import { TASK_FIELD_PROPS } from "../../../../utils/constants";
 import { Container, SelfAssignmentButton } from "./styles";
-import { requestSearchCollaboratorToBeMemberForCollaborator } from "src/services/collaborators/relatedToCollaborators";
 import { Label } from "../../styles";
 import { ResponsibleFieldProps } from "./types";
 import { ProjectTaskCollaboratorUser } from "src/entities/projectTasks/entities";
@@ -13,6 +12,8 @@ import useSearchCollaborator from "src/views/ProjectView/components/ProjectManag
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
 import { currentUserLocalStorage } from "src/storage/user.local";
 import { User } from "src/entities/user/types";
+import { FlexFlow } from "src/components/styles";
+import { requestGetTeamMembers } from "src/services/projectTasks/aboutProjectTasks";
 
 const ResponsibleField = ({
     form,
@@ -21,18 +22,17 @@ const ResponsibleField = ({
 }: ResponsibleFieldProps) => {
     const [selectedResponsible, setSelectedResponsible] =
         useState<ProjectTaskCollaboratorUser | null>(null);
-    const { projectId, isTaskMenuOpen, preloader, isTaskResponsible } = useTaskBoardContext();
+    const { projectId, isTaskMenuOpen, preloader, canEditTask } = useTaskBoardContext();
     useEffect(() => {
         setSelectedResponsible(isTaskMenuOpen ? currentResponsible : null);
     }, [isTaskMenuOpen, currentResponsible]);
     const selectTaskResponsibleHandler = useSearchCollaborator({
         requestSearchCollaborators: async (collaboratorName: string) => {
             preloader.show("Buscando colaboradores...");
-            const { data } =
-                await requestSearchCollaboratorToBeMemberForCollaborator({
-                    collaboratorName,
-                    projectId,
-                });
+            const { data } = await requestGetTeamMembers({
+                collaboratorName,
+                projectId,
+            });
             preloader.hide();
             return data;
         },
@@ -77,7 +77,7 @@ const ResponsibleField = ({
                     eraseSelectedResponsible={removeSelectedResponsible}
                 />
             ) : (
-                <>
+                <FlexFlow gap="10px">
                 <CustomInputSearch
                     {...TASK_FIELD_PROPS.TASK_RESPONSIBLE}
                     variant="primary-search"
@@ -85,7 +85,7 @@ const ResponsibleField = ({
                     clearOptions={selectTaskResponsibleHandler.clear}
                     fillOptions={selectTaskResponsibleHandler.fill}
                     options={selectTaskResponsibleHandler.collaboratorUserList}
-                    disabled={!isTaskResponsible}
+                    disabled={!canEditTask}
                     getSearchedItemToShow={options => ({
                         value: options.id,
                         content: (
@@ -93,12 +93,12 @@ const ResponsibleField = ({
                         ),
                     })}
                 />
-                {isTaskResponsible && 
+                {canEditTask && 
                     <SelfAssignmentButton
                         content="Asígnamela"
                         onClick={autoAssignmentResponsible}
                     />}
-                </>
+                </FlexFlow>
             )}
         </Container>
         </>

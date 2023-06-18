@@ -12,7 +12,8 @@ const MENU_OPTIONS = [{
     text: "Detalles",
     to: "detalles",
     icon: "fa6-solid:diagram-project"
-}]
+}];
+
 const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
     //#region States
     const [projectDetails, setProjectDetails] = useState<ProjectDetailsForPanel | null>(null);

@@ -14,8 +14,8 @@ import { requestGetTaskPriority } from "src/services/projectTasks/aboutProjectTa
 import { ProjectTaskPriority } from "src/entities/projectTasks/entities";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
-import { TaskPriorityImage } from "../../../../../TaskListOfState/components/TaskList/components/TaskCard/styles";
-import { TASK_PRIORITY } from "../../../../../TaskListOfState/components/TaskList/components/TaskCard/utils/constants";
+import { TASK_PRIORITY } from "../../../../../StateTaskList/components/TaskList/components/TaskCard/utils/constants";
+import { TaskPriorityImage } from "../../../../../StateTaskList/components/TaskList/components/TaskCard/styles";
 
 const PriorityField = ({ 
     form, doUpdateTask
@@ -24,7 +24,7 @@ const PriorityField = ({
     const [taskPriorityList, setTaskPriorityList] = useState<
         ProjectTaskPriority[]
     >([]);
-    const { isTaskResponsible } = useTaskBoardContext();
+    const { canEditTask } = useTaskBoardContext();
     const { priorityId } = form.value;
     useEffect(() => {
         fillTaskPriorities();
@@ -47,18 +47,18 @@ const PriorityField = ({
                 onBlur={() => setIsListOpened(false)}>
                 {!priorityId ? (
                     <EmptyTaskPriority
-                        className={!isTaskResponsible ? "disabled" : ""}
+                        className={!canEditTask ? "disabled" : ""}
                         src={emptyTaskPriority}
                         onClick={() => setIsListOpened(true)}/>
                 ) : (
                     <FlexFlow align="center" gap="10px">
                         <TaskPriorityImage
-                            className={!isTaskResponsible ? "disabled" : ""}
+                            className={!canEditTask ? "disabled" : ""}
                             path={TASK_PRIORITY[priorityId]}
                             isDynamic={false}
                             onClick={() => setIsListOpened(true)}
                         />
-                        {isTaskResponsible && <DeleteSelectedDataField
+                        {canEditTask && <DeleteSelectedDataField
                             onClick={() => changeTaskPriorityField(null)}>
                             <Icon icon="material-symbols:close" />
                         </DeleteSelectedDataField>}

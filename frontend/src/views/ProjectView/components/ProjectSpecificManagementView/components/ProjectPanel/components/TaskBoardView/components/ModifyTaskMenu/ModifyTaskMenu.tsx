@@ -11,11 +11,15 @@ import SubtaskList from "./components/SubtaskList/SubtaskList";
 import useUpdateMainInformationTask from "./utils/hooks/useUpdateMainInformationTask";
 
 const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
-    currentProjectTask, hideTaskMenu,
+    currentProjectTask,
     openModalDeleteTask
 }, ref) => {
     //#region Custom hooks
-    const { isTaskMenuOpen, socketIo } = useTaskBoardContext(); 
+    const { 
+        socketIo,
+        isTaskMenuOpen, 
+        hideTaskMenu
+    } = useTaskBoardContext(); 
     const isTaskMenuOpenRef = useRef<boolean>(false);
     const { form } = useTaskForm(
         currentProjectTask, 
@@ -27,7 +31,7 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
         isTaskMenuOpenRef.current = isTaskMenuOpen;
     }, [isTaskMenuOpen]);
     useEffect(() => {
-        const $container = ref.current;
+        const $container: HTMLDivElement = ref?.current;
         if (!$container) return;
         const handler = (e: MouseEvent): void => {
             const $elementClicked = e.target as HTMLElement;
@@ -38,11 +42,11 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
                 $elementClicked.classList.contains("modal") ||
                 $elementClicked.closest(".task-card")
             ) return;
-           hideTaskMenu();
+            hideTaskMenu();
         };
         document.addEventListener("mousedown", handler);
         return () => document.removeEventListener("mousedown", handler);
-    }, [ref.current]);
+    }, [ref?.current]);
     const getClassName = (): string => {
         const classList: string[] = [];
         isTaskMenuOpen && classList.push("show");

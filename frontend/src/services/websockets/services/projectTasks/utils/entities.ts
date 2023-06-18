@@ -28,7 +28,7 @@ export type WSProjectSubtaskToBeSwitchedCheckStatus = {
 	subtaskId: number;
     checked: boolean;
 };
-export type WSProjectTaskToBeChangedState = {
+export type WSProjectTaskWithNewState = {
     taskId: number;
     state: ProjectTaskState;
 };

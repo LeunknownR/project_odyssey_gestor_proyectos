@@ -1,11 +1,5 @@
 import styled from 'styled-components';
 
-export const List = styled.ul`
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 0;
-`;
 export const Check = styled.span`
     display: flex;
     cursor: pointer;
@@ -13,7 +7,7 @@ export const Check = styled.span`
     .iconify {
         border-radius: 50%;
         color: var(--white-1);
-        font-size: 20px;
+        font-size: 24px;
         transition: 0.35s;
     }
 `;

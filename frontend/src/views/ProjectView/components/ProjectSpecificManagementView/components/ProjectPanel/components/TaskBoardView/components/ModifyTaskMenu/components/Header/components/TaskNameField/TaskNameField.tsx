@@ -10,14 +10,14 @@ const TaskNameField = ({ form, name, doUpdateTask }: TaskNameFieldProps) => {
     //#region States
     const [editingTaskName, setEditingTaskName] = useState<string | null>(null);
     //#endregion
-    const { isTaskMenuOpen, isTaskResponsible } = useTaskBoardContext();
+    const { isTaskMenuOpen, canEditTask } = useTaskBoardContext();
     useEffect(() => {
         if (isTaskMenuOpen) return;
         setEditingTaskName(null);
     }, [isTaskMenuOpen]);
     //#region Functions
     const enableEditingTaskNameInput = (): void => {
-        if (!isTaskResponsible) return;
+        if (!canEditTask) return;
         setEditingTaskName(name);
         setTimeout(() => editingTaskNameInputRef.current?.focus(), 200);
     };

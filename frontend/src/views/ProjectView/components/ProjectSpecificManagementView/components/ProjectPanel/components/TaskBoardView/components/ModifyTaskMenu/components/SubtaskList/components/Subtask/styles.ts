@@ -10,17 +10,6 @@ export const SubtaskTextField = styled(CustomTextField)`
     width: 300px;
     transition: 0.35s;
 `;
-export const Check = styled.span`
-    display: flex;
-    cursor: pointer;
-    transition: 0.35s;
-    .iconify {
-        border-radius: 50%;
-        color: var(--white-1);
-        font-size: 20px;
-        transition: 0.35s;
-    }
-`;
 export const Text = styled.p`
     color: var(--white-2);
     font-weight: 300;
