@@ -11,7 +11,7 @@ import SubtaskList from "./components/SubtaskList/SubtaskList";
 import useUpdateMainInformationTask from "./utils/hooks/useUpdateMainInformationTask";
 
 const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
-    currentProjectTask, hideTaskMenu,
+    currentProjectTask,
     openModalDeleteTask
 }, ref) => {
     //#region Custom hooks
