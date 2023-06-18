@@ -5,10 +5,10 @@ import { Container } from "./styles";
 import { HeaderProps } from "./types";
 //#endregion
 
-const Header = ({ sectionName }: HeaderProps) => {
+const Header = ({ stateName }: HeaderProps) => {
     return (
         <Container align="center" justify="space-between">
-            <h2>{sectionName}</h2>
+            <h2>{stateName}</h2>
         </Container>
     );
 };

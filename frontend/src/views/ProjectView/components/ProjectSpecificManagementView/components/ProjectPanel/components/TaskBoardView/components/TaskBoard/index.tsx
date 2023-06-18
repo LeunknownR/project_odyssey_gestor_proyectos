@@ -1,34 +1,33 @@
 import { FlexFlow } from "src/components/styles";
 import { TaskBoardProps } from "./types";
-import TaskListOfState from "../TaskListOfState";
+import StateTaskList from "../StateTaskList";
 import { ProjectTaskState } from "src/entities/projectTasks/entities";
-import { TaskListOfStateProps } from "../TaskListOfState/types";
+import { StateTaskListProps } from "../StateTaskList/types";
 
 const TaskBoard = ({ taskBoard }: TaskBoardProps) => {
-    const allTaskListOfStateProps: TaskListOfStateProps[] = [
+    const allStateTaskList: StateTaskListProps[] = [
         {
-            sectionName: "Pendientes",
+            stateName: "Pendientes",
             state: ProjectTaskState.Pending,
-            taskListInfo: taskBoard.pending,
+            taskList: taskBoard.pending,
         },
         {
-            sectionName: "En Curso",
+            stateName: "En Curso",
             state: ProjectTaskState.OnProgress,
-            taskListInfo: taskBoard.onProgress,
+            taskList: taskBoard.onProgress,
         },
         {
-            sectionName: "Finalizadas",
+            stateName: "Finalizadas",
             state: ProjectTaskState.Finalized,
-            taskListInfo: taskBoard.finalized,
+            taskList: taskBoard.finalized,
         },
     ];
     return (
         <FlexFlow width="100%" gap="15px">
-            {allTaskListOfStateProps.map((taskListOfState, idx) => (
-                <TaskListOfState
-                    key={idx}
-                    {...taskListOfState}
-                />
+            {allStateTaskList.map((stateTaskList) => (
+                <StateTaskList
+                    key={stateTaskList.state}
+                    {...stateTaskList}/>
             ))}
         </FlexFlow>
     );
