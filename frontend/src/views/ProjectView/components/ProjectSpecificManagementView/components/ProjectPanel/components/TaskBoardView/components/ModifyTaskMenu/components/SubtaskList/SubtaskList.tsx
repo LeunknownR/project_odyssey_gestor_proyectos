@@ -19,7 +19,7 @@ import useTaskBoardContext from "../../../../utils/contexts/useTaskBoardContext"
 const SubtaskList = ({ currentProjectTask }: SubtaskListProps) => {
     const [createTaskCard, setCreateTaskCard] = useState<boolean>(false);
     const { subtasks } = currentProjectTask;
-    const { isTaskResponsible } = useTaskBoardContext();
+    const { canEditTask } = useTaskBoardContext();
     const hideCreateSubtask = (): void => setCreateTaskCard(false);
     return (
         <FlexFlow direction="column" margin="0 30px 0 0">
@@ -39,7 +39,7 @@ const SubtaskList = ({ currentProjectTask }: SubtaskListProps) => {
                 </List>
                 </>
             )}
-            {isTaskResponsible && <AddSubtaskButton
+            {canEditTask && <AddSubtaskButton
                 content="Agregar subtarea"
                 icon="material-symbols:add-circle"
                 onClick={() => setCreateTaskCard(true)}

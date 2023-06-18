@@ -34,5 +34,4 @@ export const Content = styled.div`
     gap: 15px;
     margin: 30px 15px 20px 30px;
     height: 100%;
-    overflow-y: scroll;
 `;

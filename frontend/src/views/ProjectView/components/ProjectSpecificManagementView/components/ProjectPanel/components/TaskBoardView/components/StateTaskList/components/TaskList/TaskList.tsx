@@ -9,6 +9,7 @@ import useTaskBoardContext from "../../../../utils/contexts/useTaskBoardContext"
 import { TaskToBeChangedState } from "../../../../utils/contexts/types";
 import { WSProjectTaskWithNewState } from "src/services/websockets/services/projectTasks/utils/entities";
 import WSProjectTaskServiceEvents from "src/services/websockets/services/projectTasks/events";
+import usePrevious from "src/utils/hooks/usePrevious";
 
 const TaskList = ({
     taskList, 
@@ -19,7 +20,7 @@ const TaskList = ({
         // hideTaskMenu,
         taskToBeChangedStateHandler 
     } = useTaskBoardContext();
-    const taskListRef = useRef<HTMLUListElement>(null);
+    const containerRef = useRef<HTMLUListElement>(null);
     const taskToBeChangedStateRef = useRef<TaskToBeChangedState | null>(null);
     //#region States
     const [isCreatingTaskCard, setIsCreatingTaskCard] = useState<boolean>(false);
@@ -33,15 +34,18 @@ const TaskList = ({
         document.addEventListener("mouseup", onMouseUp);
         return () => document.addEventListener("mouseup", onMouseUp);
     }, []);
+    const taskListPrev = usePrevious(taskList);
+    useEffect(() => {
+        checkIfTaskListLenghtChanged();
+    }, [taskList]);
     //#endregion
     //#region Functions
+    const checkIfTaskListLenghtChanged = (): void => {
+        if (!taskListPrev || taskList.length === taskListPrev.length) return;
+        scrollToListBottom();
+    }
     const scrollToListBottom = (): void => {
-        setTimeout(() => {
-            taskListRef.current?.scrollTo({
-                behavior: "smooth",
-                top: taskListRef.current.scrollHeight,
-            });
-        }, 100);
+        containerRef.current?.scrollTo({ top: containerRef.current.scrollHeight });
     };
     const showCreateTaskCard = (): void => {
         setIsCreatingTaskCard(true);
@@ -91,8 +95,8 @@ const TaskList = ({
     //#endregion
     return (
         <>
-        <Container className="custom-scrollbar">            
-            <Content ref={taskListRef}>
+        <Container ref={containerRef} className="custom-scrollbar">            
+            <Content>
                 {taskList.map(task => (
                     <TaskCard
                         key={task.id}
@@ -104,7 +108,7 @@ const TaskList = ({
                 {isCreatingTaskCard &&
                 <CreationTaskCard 
                     state={state} 
-                    hideCreateTaskCard={hideCreateTaskCard} />}
+                    hideCreateTaskCard={hideCreateTaskCard}/>}
             </Content>
         </Container>
         {state !== ProjectTaskState.Finalized && (

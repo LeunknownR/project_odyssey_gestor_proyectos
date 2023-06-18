@@ -54,6 +54,7 @@
 	--darkblue-4: #041825;
 	--darkblue-5: #8DA3B1;
 	--darkblue-6: #536571;
+	--darkblue-7: #28363E;
 	--dark-0: #000000;
 	--dark-1: #4B4B4B;
 	--dark-2: #252525;
@@ -65,6 +66,7 @@
 	--green-3: #5DA283;
 	--green-4: #1D3733;
 	--cream-1: #FFE0B2;
+	--white-opacity-bg-card: rgba(112, 112, 112, 0.3373);
 	--main-header-height: 89.38px;
 	--main-sidebar-width: 75px;
 	--main-sidebar-height-mobile: 65px;
@@ -90,7 +92,7 @@ p {
     margin: 0;
 }
 *.custom-scrollbar {
-    overflow-y: scroll;
+    overflow-y: auto;
 	overflow-x: hidden;
 }
 *.custom-scrollbar::-webkit-scrollbar-thumb {

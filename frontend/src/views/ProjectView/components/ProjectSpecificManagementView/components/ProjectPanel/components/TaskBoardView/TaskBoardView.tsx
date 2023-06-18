@@ -25,6 +25,9 @@ import { DBProjectRoles } from "src/config/roles";
 import { getUserId } from "src/storage/user.local";
 import TaskBoardContext from "./utils/contexts/TaskBoardContext";
 import { TaskToBeChangedState } from "./utils/contexts/types";
+import NotificationCard from "src/components/NotificationCard/NotificationCard";
+import useNotificationCard from "src/components/NotificationCard/utils/hooks/useNotificationCard";
+import { CardVariant } from "src/components/NotificationCard/types";
 //#endregion
 
 const TaskBoardView = ({ 
@@ -33,6 +36,7 @@ const TaskBoardView = ({
     //#region Custom Hooks
     const modifyMenuRef = useRef<HTMLDivElement>(null);
     const modalDeleteTask = useModal();
+    const notificationCard = useNotificationCard();
     //#endregion
     //#region States
     const socketHandler = useWebsocket<number>(
@@ -44,7 +48,7 @@ const TaskBoardView = ({
     const [currentProjectTaskState, setCurrentProjectTaskState] = useState<ProjectTaskState | null>(null);
     const [currentTaskToBeChangedState, setCurrentTaskToBeChangedState] = useState<TaskToBeChangedState | null>(null);
     const [isTaskMenuOpen, setIsTaskMenuOpen] = useState<boolean>(false);
-    const [isTaskResponsible, setIsTaskResponsible] = useState<boolean>(false);
+    const [canEditTask, setCanEditTask] = useState<boolean>(false);
     //#endregion
     //#region Effects
     useEffect(() => {
@@ -61,7 +65,7 @@ const TaskBoardView = ({
         setCurrentProjectTask(newCurrentProjectTask);
     }, [projectTaskBoard]);
     useEffect(() => {
-        setIsTaskResponsible(
+        setCanEditTask(
             projectRoleId === DBProjectRoles.ProjectLeader || 
             currentProjectTask?.responsible?.id === getUserId()
         );
@@ -110,6 +114,8 @@ const TaskBoardView = ({
         modalDeleteTask.open(false);
         setCurrentProjectTask(null);
         socketIo.emit(WSProjectTaskServiceEvents.Collaborator.DeleteTask, taskIdToBeDeleted);
+        notificationCard.changeVariant(CardVariant.DeleteTask);
+        notificationCard.show();
     }
     const fillCurrentTaskToBeChangedState = (value: TaskToBeChangedState | null) => {
         setCurrentTaskToBeChangedState(value);
@@ -120,10 +126,9 @@ const TaskBoardView = ({
         {projectTaskBoard ? (
             <TaskBoardContext.Provider value={{ 
                 socketIo: socketHandler.socketIo, 
-                projectId, isTaskMenuOpen, 
-                modifyMenuRef, preloader, isTaskResponsible,
-                hideTaskMenu,
-                fillCurrentProjectTask,
+                projectId, isTaskMenuOpen, projectRoleId,
+                modifyMenuRef, preloader, canEditTask,
+                fillCurrentProjectTask, hideTaskMenu,
                 taskToBeChangedStateHandler: {
                     fill: fillCurrentTaskToBeChangedState,
                     value: currentTaskToBeChangedState
@@ -139,6 +144,7 @@ const TaskBoardView = ({
                 <DeleteTaskModal
                     modalProps={modalDeleteTask}
                     deleteTask={deleteTask}/>
+                <NotificationCard handler={notificationCard} variant={notificationCard.cardVariant}/>
             </TaskBoardContext.Provider>
         ) : null}
         </>

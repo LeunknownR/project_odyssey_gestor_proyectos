@@ -31,7 +31,7 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
         isTaskMenuOpenRef.current = isTaskMenuOpen;
     }, [isTaskMenuOpen]);
     useEffect(() => {
-        const $container = ref.current;
+        const $container: HTMLDivElement = ref?.current;
         if (!$container) return;
         const handler = (e: MouseEvent): void => {
             const $elementClicked = e.target as HTMLElement;
@@ -46,7 +46,7 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
         };
         document.addEventListener("mousedown", handler);
         return () => document.removeEventListener("mousedown", handler);
-    }, [ref.current]);
+    }, [ref?.current]);
     const getClassName = (): string => {
         const classList: string[] = [];
         isTaskMenuOpen && classList.push("show");

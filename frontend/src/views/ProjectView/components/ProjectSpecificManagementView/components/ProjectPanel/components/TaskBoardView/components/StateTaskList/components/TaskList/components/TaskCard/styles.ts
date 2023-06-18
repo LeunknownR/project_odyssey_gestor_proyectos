@@ -9,6 +9,11 @@ export const Shadow = styled.div<ShadowProps>`
     border-radius: 10px;
     width: 100%;
     height: ${({ height = 0 }) => height + 1.5}px;
+    &.dragging {
+        background-color: var(--white-opacity-bg-card);
+        border-color: var(--gray-1);
+        opacity: 0.4;
+    }
 `;
 export const Container = styled.li<ContainerProps>`
     display: flex;
@@ -23,11 +28,12 @@ export const Container = styled.li<ContainerProps>`
     cursor: pointer;
     &.dragging {
         position: fixed;
-        background-color: var(--darkblue-4);
+        background-color: var(--darkblue-7);
         width: ${({ width = 0 }) => width}px;
         top: ${({ top }) => top}px;
         left: ${({ left }) => left}px;
         z-index: 1;
+        border: 2px solid var(--gray-1);
         &:active {
             cursor: url("/custom-cursor.png"), move;
         }

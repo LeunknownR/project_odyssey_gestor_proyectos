@@ -17,7 +17,8 @@ export enum CardVariant {
     DeleteProject = "delete-project",
     DeleteMember = "delete-member",
     AddMember = "add-member",
-    UpdateDate = "update-date"
+    UpdateDate = "update-date",
+    DeleteTask = "delete-task"
 }
 export type CardTypeVisual = {
     title: string;

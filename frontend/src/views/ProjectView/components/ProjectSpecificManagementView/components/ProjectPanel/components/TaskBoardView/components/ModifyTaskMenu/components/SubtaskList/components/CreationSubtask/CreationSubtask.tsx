@@ -6,11 +6,12 @@ import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { FlexFlow } from "src/components/styles";
 //#endregion
 //#region Types
-import { Check, Container } from "./styles";
+import { Container } from "./styles";
 import { SubtaskTextField } from "../Subtask/styles";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
 import WSProjectTaskServiceEvents from "src/services/websockets/services/projectTasks/events";
 import { CreationSubtaskProps } from "./types";
+import { Check } from "../../styles";
 //#endregion
 
 const CreationSubtask = ({ taskId, hideCreateSubtask }: CreationSubtaskProps) => {
@@ -69,10 +70,7 @@ const CreationSubtask = ({ taskId, hideCreateSubtask }: CreationSubtaskProps) =>
             tabIndex={0}
         >
             <FlexFlow gap="12px" align="center">
-                <Check
-                    className={isChecked ? "checked" : ""}
-                    onClick={() => setIsChecked(prev => !prev)}
-                >
+                <Check onClick={() => setIsChecked(prev => !prev)}>
                     <Icon icon={isChecked ? "material-symbols:check-circle" : "gg:check-o"}/>
                 </Check>
                 <SubtaskTextField
