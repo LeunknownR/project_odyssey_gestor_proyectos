@@ -19,7 +19,7 @@ const INIT_TASK_BOARD_CONTEXT: TaskBoardContextType = {
         value: null,
         fill: () => {}
     },
-    isTaskResponsible: false,
+    isTaskLeaderOrResponsible: false,
     // checkExpirationTimeToken: {
     //     init: () => undefined,
     //     clear: () => {}

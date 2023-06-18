@@ -44,7 +44,7 @@ const TaskBoardView = ({
     const [currentProjectTask, setCurrentProjectTask] = useState<ProjectTask | null>(null);
     const [taskToBeChangedState, setProjectTaskToBeChangedState] = useState<WSProjectTaskToBeChangedState | null>(null);
     const [isTaskMenuOpen, setIsTaskMenuOpen] = useState<boolean>(false);
-    const [isTaskResponsible, setIsTaskResponsible] = useState<boolean>(false);
+    const [isTaskLeaderOrResponsible, setIsTaskLeaderOrResponsible] = useState<boolean>(false);
     //#endregion
     //#region Effects
     useEffect(() => {
@@ -62,7 +62,7 @@ const TaskBoardView = ({
         setCurrentProjectTask(newCurrentProjectTask);
     }, [projectTaskBoard]);
     useEffect(() => {
-        setIsTaskResponsible(
+        setIsTaskLeaderOrResponsible(
             projectRoleId === DBProjectRoles.ProjectLeader || 
             currentProjectTask?.responsible?.id === getUserId()
         );
@@ -125,7 +125,7 @@ const TaskBoardView = ({
             <TaskBoardContext.Provider value={{ 
                 socketIo: socketHandler.socketIo, 
                 projectId, isTaskMenuOpen, 
-                modifyMenuRef, preloader, isTaskResponsible,
+                modifyMenuRef, preloader, isTaskLeaderOrResponsible,
                 fillCurrentProjectTask,
                 taskBoardToBeChanged: {
                     fill: fillTaskToBeChangedState,

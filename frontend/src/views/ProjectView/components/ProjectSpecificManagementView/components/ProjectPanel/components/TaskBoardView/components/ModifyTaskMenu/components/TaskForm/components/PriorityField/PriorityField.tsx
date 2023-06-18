@@ -24,7 +24,7 @@ const PriorityField = ({
     const [taskPriorityList, setTaskPriorityList] = useState<
         ProjectTaskPriority[]
     >([]);
-    const { isTaskResponsible } = useTaskBoardContext();
+    const { isTaskLeaderOrResponsible } = useTaskBoardContext();
     const { priorityId } = form.value;
     useEffect(() => {
         fillTaskPriorities();
@@ -47,18 +47,18 @@ const PriorityField = ({
                 onBlur={() => setIsListOpened(false)}>
                 {!priorityId ? (
                     <EmptyTaskPriority
-                        className={!isTaskResponsible ? "disabled" : ""}
+                        className={!isTaskLeaderOrResponsible ? "disabled" : ""}
                         src={emptyTaskPriority}
                         onClick={() => setIsListOpened(true)}/>
                 ) : (
                     <FlexFlow align="center" gap="10px">
                         <TaskPriorityImage
-                            className={!isTaskResponsible ? "disabled" : ""}
+                            className={!isTaskLeaderOrResponsible ? "disabled" : ""}
                             path={TASK_PRIORITY[priorityId]}
                             isDynamic={false}
                             onClick={() => setIsListOpened(true)}
                         />
-                        {isTaskResponsible && <DeleteSelectedDataField
+                        {isTaskLeaderOrResponsible && <DeleteSelectedDataField
                             onClick={() => changeTaskPriorityField(null)}>
                             <Icon icon="material-symbols:close" />
                         </DeleteSelectedDataField>}

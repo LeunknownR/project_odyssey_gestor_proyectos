@@ -11,7 +11,7 @@ const SelectedResponsible = ({
     eraseSelectedResponsible
 }: SelectedResponsibleProps) => {
     const { name, surname, urlPhoto } = selectedResponsible;
-    const { isTaskResponsible } = useTaskBoardContext();
+    const { isTaskLeaderOrResponsible } = useTaskBoardContext();
     return (
         <FlexFlow width="100%" align="center" gap="5px">
             <Container>
@@ -25,7 +25,7 @@ const SelectedResponsible = ({
                     {name} {surname}
                 </span>
             </Container>
-            {isTaskResponsible && <DeleteSelectedDataField onClick={eraseSelectedResponsible}>
+            {isTaskLeaderOrResponsible && <DeleteSelectedDataField onClick={eraseSelectedResponsible}>
                 <Icon icon="material-symbols:close" />
             </DeleteSelectedDataField>}
         </FlexFlow>

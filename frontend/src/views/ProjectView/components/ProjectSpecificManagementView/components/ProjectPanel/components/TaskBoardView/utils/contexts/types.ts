@@ -15,6 +15,6 @@ export type TaskBoardContextType = {
     fillCurrentProjectTask: (task: ProjectTask, state: ProjectTaskState) => void;
     modifyMenuRef: RefObject<HTMLElement> | null;
     preloader: PreloaderHook;
-    isTaskResponsible: boolean;
+    isTaskLeaderOrResponsible: boolean;
     taskBoardToBeChanged: TaskBoardToBeChanged;
 };
