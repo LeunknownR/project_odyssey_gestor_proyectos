@@ -11,19 +11,17 @@ import UserImage from "src/views/components/UserImage/UserImage";
 import NoResponsible from "src/images/no-responsible.svg";
 import { TASK_PRIORITY } from "../utils/constants";
 import { dayMonthFormat } from "src/utils/dates";
-import useTaskBoardContext from "../../../../../../../utils/contexts/useTaskBoardContext";
 import { ProjectTaskState } from "src/entities/projectTasks/entities";
 
 const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
     task, state, draggingTaskCard
 }, ref) => {
     const { name, responsible, deadline, priorityId } = task;
-    const { fillCurrentProjectTask } = useTaskBoardContext();
     const isFinalized: boolean = state === ProjectTaskState.Finalized;
     const getClassName = (): string => {
         const classList = ["task-card"];
         isFinalized && classList.push("checked");
-        draggingTaskCard.isDragging() && classList.push("dragged");
+        draggingTaskCard.data && classList.push("dragging");
         return classList.join(" ");
     };
     return (
@@ -33,8 +31,7 @@ const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
             width={draggingTaskCard.data?.width}
             top={draggingTaskCard.data?.top}
             left={draggingTaskCard.data?.left}
-            {...draggingTaskCard.events}
-            onClick={() => !draggingTaskCard.isDragging() && fillCurrentProjectTask(task, state)}>
+            {...draggingTaskCard.events}>
             <FlexFlow align="center" gap="10px">
                 <TaskCardName>{name}</TaskCardName>
             </FlexFlow>

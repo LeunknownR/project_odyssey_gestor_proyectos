@@ -6,20 +6,17 @@ import { TaskCardProps } from "./types";
 import TaskCardContent from "./TaskCardContent";
 import useDraggingTaskCard from "./utils/hooks/useDraggingTaskCard";
 
-const TaskCard = ({ 
-    task, state
-}: TaskCardProps) => {
+const TaskCard = (props: TaskCardProps) => {
     const containerRef = useRef<HTMLLIElement>(null);
-    const draggingTaskCard = useDraggingTaskCard(containerRef);
+    const draggingTaskCard = useDraggingTaskCard(containerRef, props);
     return (
         <>
-        {draggingTaskCard.isDragging() &&
-        <Shadow height={draggingTaskCard.data?.height}/>}
+        {draggingTaskCard.data &&
+        <Shadow height={draggingTaskCard.data.height}/>}
         <TaskCardContent
             ref={containerRef}
             draggingTaskCard={draggingTaskCard}
-            state={state}
-            task={task}/>
+            {...props}/>
         </>
     );
 };
