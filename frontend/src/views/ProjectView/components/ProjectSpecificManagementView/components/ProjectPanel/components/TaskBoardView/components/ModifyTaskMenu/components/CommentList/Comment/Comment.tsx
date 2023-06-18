@@ -3,6 +3,7 @@ import UserImage from "src/views/components/UserImage/UserImage";
 import { Collaborator, Container, Content, Date } from "./styles";
 import { CommentProps } from "./types";
 import { commentDateFormat } from "src/utils/dates";
+import { getUserId } from "src/storage/user.local";
 
 const Comment = ({ comment }: CommentProps) => {
     const { content, datetime, collaborator } = comment;
@@ -16,7 +17,9 @@ const Comment = ({ comment }: CommentProps) => {
             <FlexFlow direction="column" gap="4px">
                 <FlexFlow gap="8px">
                     <Collaborator>
-                        {collaborator.name} {collaborator.surname}
+                        {collaborator.id === getUserId() 
+                            ? "Tú" 
+                            : `${collaborator.name} ${collaborator.surname}`}
                     </Collaborator>
                     <Date>{commentDateFormat(datetime)}</Date>
                 </FlexFlow>

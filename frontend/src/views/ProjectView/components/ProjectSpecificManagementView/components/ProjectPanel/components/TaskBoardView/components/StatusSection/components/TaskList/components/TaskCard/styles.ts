@@ -45,7 +45,6 @@ export const TaskCardName = styled.h3`
     align-self: center;
     color: var(--white-1);
 `;
-export const UnselectedResponsible = styled.img``;
 export const DateText = styled.div`
     display: flex;
     justify-content: center;
@@ -53,6 +52,9 @@ export const DateText = styled.div`
     font-size: 14px;
     font-weight: 700;
     color: var(--white-1);
+    &.late {
+        color: var(--red-2);
+    }
 `;
 export const TaskPriorityImage = styled(BackendImage)`
     width: 100px;
