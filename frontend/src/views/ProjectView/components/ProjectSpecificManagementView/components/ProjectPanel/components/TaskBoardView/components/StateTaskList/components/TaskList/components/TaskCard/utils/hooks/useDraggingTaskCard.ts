@@ -109,8 +109,7 @@ const useDraggingTaskCard = (
         if (!wantsDrag) {
             // Si se quiere abrir el formulario de actualización
             // Revisisando si puede editarse y también si se puede pero se le ha dado al check para finalizarla
-            if (!canEditing || 
-                (e.target as HTMLElement).closest(".check-task-button")) return;
+            if ((e.target as HTMLElement).closest(".check-task-button")) return;
             fillCurrentProjectTask(task, state);
             return;
         }
