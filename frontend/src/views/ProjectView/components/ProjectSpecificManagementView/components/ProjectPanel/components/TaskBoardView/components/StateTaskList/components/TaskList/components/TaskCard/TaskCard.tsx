@@ -1,12 +1,26 @@
-import { useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Shadow } from "./styles";
 import { TaskCardProps } from "./types";
 import TaskCardContent from "./TaskCardContent";
 import useDraggingTaskCard from "./utils/hooks/useDraggingTaskCard";
+import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
+import { getUserId } from "src/storage/user.local";
+import { DBProjectRoles } from "src/config/roles";
 
 const TaskCard = (props: TaskCardProps) => {
     const containerRef = useRef<HTMLLIElement>(null);
-    const draggingTaskCard = useDraggingTaskCard(containerRef, props);
+    const { 
+        projectRoleId
+    } = useTaskBoardContext();
+    const [canEditing, setCanEditing] = useState<boolean>(false);
+    const draggingTaskCard = useDraggingTaskCard(
+        containerRef, 
+        props, 
+        canEditing
+    );
+    useEffect(() => {
+        setCanEditing(projectRoleId === DBProjectRoles.ProjectLeader || props.task.responsible?.id === getUserId());
+    }, []);
     return (
         <>
         {draggingTaskCard.data && (
@@ -18,6 +32,7 @@ const TaskCard = (props: TaskCardProps) => {
         <TaskCardContent
             ref={containerRef}
             draggingTaskCard={draggingTaskCard}
+            canEditing={canEditing}
             {...props}
         />
         </>
