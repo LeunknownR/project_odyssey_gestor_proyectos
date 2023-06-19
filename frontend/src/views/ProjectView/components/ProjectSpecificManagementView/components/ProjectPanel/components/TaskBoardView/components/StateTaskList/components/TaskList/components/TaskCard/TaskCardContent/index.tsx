@@ -9,7 +9,7 @@ import {
     EmptyTaskPriority, TaskCardName, 
     TaskPriorityImage
 } from "../styles";
-import { Check, Container } from "./styles";
+import { Check, Container, LockedIcon } from "./styles";
 //#endregion
 //#region Utils
 import { TASK_PRIORITY } from "../utils/constants";
@@ -59,14 +59,17 @@ const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
             top={draggingTaskCard.data?.top}
             left={draggingTaskCard.data?.left}
             {...draggingTaskCard.events}>
-            <FlexFlow align="center" gap="10px">
-                <Check 
-                    className="check-task-button" 
-                    onClick={changeTaskStateToFinalized}>
-                    <Icon className="checked" icon="material-symbols:check-circle"/>
-                    <Icon className="unchecked" icon="gg:check-o"/>
-                </Check>
-                <TaskCardName>{name}</TaskCardName>
+            <FlexFlow justify="space-between" gap="8px">
+                <FlexFlow align="center" gap="10px">
+                    <Check 
+                        className="check-task-button" 
+                        onClick={changeTaskStateToFinalized}>
+                        <Icon className="checked" icon="material-symbols:check-circle"/>
+                        <Icon className="unchecked" icon="gg:check-o"/>
+                    </Check>
+                    <TaskCardName>{name}</TaskCardName>
+                </FlexFlow>
+                {!canEditing && <LockedIcon><Icon icon="uil:padlock" /></LockedIcon>}
             </FlexFlow>
             <FlexFlow justify="space-between">
                 <FlexFlow gap="12px" align="center">
