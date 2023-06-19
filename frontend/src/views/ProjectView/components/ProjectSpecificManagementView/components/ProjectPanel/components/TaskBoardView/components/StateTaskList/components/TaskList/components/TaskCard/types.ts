@@ -16,4 +16,5 @@ export type ContainerProps = {
 };
 export type TaskCardContentProps = TaskCardProps & {
     draggingTaskCard: DraggingTaskCardHook;
+    canEditing: boolean;
 };

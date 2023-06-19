@@ -10,13 +10,17 @@ import { TaskCardProps } from "../../types";
 
 const useDraggingTaskCard = (
     containerRef: RefObject<HTMLLIElement | null | undefined>,
-    taskCardProps: TaskCardProps
+    taskCardProps: TaskCardProps,
+    canEditing: boolean
 ): DraggingTaskCardHook => {
-    const { task, state, confirmWasDraggingTaskCard } = taskCardProps;
+    const { 
+        task, state, 
+        confirmWasDraggingTaskCard
+    } = taskCardProps;
     const dataRef = useRef<DataDraggingTaskCard | null>();
     const { 
         fillCurrentProjectTask,
-        taskToBeChangedStateHandler 
+        taskToBeChangedStateHandler
     } = useTaskBoardContext();
     //#region States
     const [data, setData] = useState<DataDraggingTaskCard | null>(null);
@@ -71,7 +75,8 @@ const useDraggingTaskCard = (
         if (
             e.button !== 0 || 
             !containerRef.current || 
-            !hasClicked
+            !hasClicked ||
+            !canEditing
         ) return;
         const {
             clientWidth, 
@@ -102,12 +107,15 @@ const useDraggingTaskCard = (
         if (e.button !== 0) return;
         setHasClicked(false);
         if (!wantsDrag) {
-            // Si quiere abrir el formulario de actualización
+            // Si se quiere abrir el formulario de actualización
+            // Revisisando si puede editarse y también si se puede pero se le ha dado al check para finalizarla
+            if (!canEditing || 
+                (e.target as HTMLElement).closest(".check-task-button")) return;
             fillCurrentProjectTask(task, state);
             return;
         }
         setWantsDrag(false);
-        // Si quiere terminar el drag
+        // Si se quiere terminar el drag
         setData(null);
     }
     //#endregion

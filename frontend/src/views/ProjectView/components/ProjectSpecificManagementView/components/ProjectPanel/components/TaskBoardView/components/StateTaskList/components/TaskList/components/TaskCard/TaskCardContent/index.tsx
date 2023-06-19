@@ -5,11 +5,11 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 //#region Styles
 import { FlexFlow } from "src/components/styles";
 import { 
-    Container, DateText, 
+    DateText, 
     EmptyTaskPriority, TaskCardName, 
     TaskPriorityImage
 } from "../styles";
-import { Check } from "./styles";
+import { Check, Container } from "./styles";
 //#endregion
 //#region Utils
 import { TASK_PRIORITY } from "../utils/constants";
@@ -29,14 +29,16 @@ import NoResponsible from "src/images/no-responsible.svg";
 //#endregion
 
 const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
-    task, state, draggingTaskCard
+    task, state, draggingTaskCard,
+    canEditing
 }, ref) => {
     const { name, responsible, deadline, priorityId, id } = task;
     const { socketIo } = useTaskBoardContext();
     const isFinalized: boolean = state === ProjectTaskState.Finalized;
     const getClassName = (): string => {
         const classList = ["task-card"];
-        isFinalized && classList.push("checked");
+        isFinalized && classList.push("finalized");
+        !canEditing && classList.push("cannot-editing");
         draggingTaskCard.data && classList.push("dragging");
         return classList.join(" ");
     };
@@ -58,8 +60,11 @@ const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
             left={draggingTaskCard.data?.left}
             {...draggingTaskCard.events}>
             <FlexFlow align="center" gap="10px">
-                <Check onClick={changeTaskStateToFinalized}>
-                    <Icon icon={isFinalized ? "material-symbols:check-circle" : "gg:check-o"}/>
+                <Check 
+                    className="check-task-button" 
+                    onClick={changeTaskStateToFinalized}>
+                    <Icon className="checked" icon="material-symbols:check-circle"/>
+                    <Icon className="unchecked" icon="gg:check-o"/>
                 </Check>
                 <TaskCardName>{name}</TaskCardName>
             </FlexFlow>
