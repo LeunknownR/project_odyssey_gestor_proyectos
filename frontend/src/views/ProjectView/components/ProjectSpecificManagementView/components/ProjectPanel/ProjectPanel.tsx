@@ -36,7 +36,7 @@ const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
             width="100%" gap="30px">
             {projectDetails && 
             <ProjectTitle name={projectDetails.name} state={projectDetails.state} options={MENU_OPTIONS}/>}
-            <FlexFlow  width="100%" direction="column">
+            <FlexFlow  width="100%" direction="column" gap="20px">
                 <Tabs projectId={projectId} />
                 <Routes>
                     {SUBMODULES_VIEWS.map(({ key, path, View }) => (

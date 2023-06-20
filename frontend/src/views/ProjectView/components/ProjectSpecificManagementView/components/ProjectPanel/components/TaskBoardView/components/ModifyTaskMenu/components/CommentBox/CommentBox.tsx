@@ -7,7 +7,7 @@ import { useState, ChangeEvent, KeyboardEvent } from "react";
 import useTaskBoardContext from "../../../../utils/contexts/useTaskBoardContext";
 import WSProjectTaskServiceEvents from "src/services/websockets/services/projectTasks/events";
 
-const CommentBox = ({ taskId }: CommentBoxProps) => {
+const CommentBox = ({ taskId, scrollToMenuBottom }: CommentBoxProps) => {
     const [commentText, setCommentText] = useState<string>("");
     const { socketIo } = useTaskBoardContext();
     const changeCommentText = ({
@@ -24,7 +24,8 @@ const CommentBox = ({ taskId }: CommentBoxProps) => {
             WSProjectTaskServiceEvents.Collaborator.CommentInTask,
             comment
         )
-        setCommentText("")
+        setCommentText("");
+        scrollToMenuBottom(0);
     };
     const isValidComment = (): boolean => {
         return commentText.trim().length > 0;

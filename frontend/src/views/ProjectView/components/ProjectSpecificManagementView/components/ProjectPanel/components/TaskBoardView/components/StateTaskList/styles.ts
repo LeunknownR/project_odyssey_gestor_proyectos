@@ -7,4 +7,5 @@ export const Container = styled.article`
     padding: 29px 25px;
     width: 100%;
     height: 78vh;
+    background-color: var(--darkblue-8);
 `;
