@@ -19,6 +19,11 @@ export const Container = styled(FlexFlow.withComponent("section"))`
     &.show {
         translate: 0;
     }
+    &.disabled > * {
+        opacity: 0.3;
+        user-select: none;
+        pointer-events: none;
+    }
     @media (max-width: ${MOBILE_WIDTH}px) {
         height: calc(100vh - var(--main-sidebar-height-mobile));
     }
@@ -27,7 +32,6 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin: 30px 20px 20px 40px;
-    height: 50vh;
-    overflow-y: scroll;
+    margin: 30px 15px 20px 30px;
+    height: 100%;
 `;

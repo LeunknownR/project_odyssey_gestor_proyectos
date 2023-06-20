@@ -3,13 +3,13 @@ import { ProjectTaskForm } from "../types";
 export const TASK_FIELD_PROPS = {
     TASK_RESPONSIBLE: {
         placeholder: "Busca el colaborador...",
-        name: "responsible"
+        name: "responsibleId"
     },
     TASK_DEADLINE: {
         placeholder: "Selecciona una fecha",
         maxLength: 200,
         width: "200px",
-        name: "deadline",
+        name: "deadline"
     },
     TASK_DESCRIPTION: {
         label: "Descripción",

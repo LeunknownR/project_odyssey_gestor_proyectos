@@ -6,16 +6,12 @@ export const Container = styled(FlexFlow.withComponent("header"))`
     background-color: #051E2F;
     padding: 30px 0 30px 30px;
 `;
-export const TaskName = styled.h2`
-    color: var(--white-2);
-    font-size: 24px;
-`;  
 export const DeleteButton = styled(CustomButton)`
     border-radius: 5px 0 0 5px;
     background-color: var(--red-2);
     color: var(--white-1);
-    padding: 5px 20px;
+    padding: 8px 10px;
     .iconify {
-        font-size: 24px;
+        font-size: 25px;
     }
 `;

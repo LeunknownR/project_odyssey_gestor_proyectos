@@ -11,7 +11,7 @@ namespace WSProjectTaskServiceEvents {
         SwitchCheckStatusSubtask = "collaboratorswitch-check-status-subtask",
         ChangeTaskState = "collaborator:change-task-state",
         DeleteTask = "collaborator:delete-task",
-        CommentInTask = "collaborator:comment-in-task",
+        CommentInTask = "collaborator:comment-in-task"
     }
 }
 

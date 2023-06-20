@@ -12,7 +12,8 @@ const MENU_OPTIONS = [{
     text: "Detalles",
     to: "detalles",
     icon: "fa6-solid:diagram-project"
-}]
+}];
+
 const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
     //#region States
     const [projectDetails, setProjectDetails] = useState<ProjectDetailsForPanel | null>(null);
@@ -42,7 +43,10 @@ const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
                         <Route
                             key={key}
                             path={path}
-                            element={<View preloader={preloader} projectId={projectId} />}
+                            element={
+                                <View preloader={preloader} 
+                                    projectId={projectId} 
+                                    projectRoleId={projectDetails?.projectRoleId} />}
                         />
                     ))}
                     <Route path="*" element={<Navigate to={`/proyectos/${projectId}/detalles`} replace/>} />

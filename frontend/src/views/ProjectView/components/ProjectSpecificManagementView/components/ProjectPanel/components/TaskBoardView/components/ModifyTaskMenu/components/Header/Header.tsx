@@ -1,11 +1,25 @@
-import { Container, DeleteButton, TaskName } from "./styles";
+import { Container, DeleteButton } from "./styles";
 import { HeaderProps } from "./types";
+import TaskNameField from "./components/TaskNameField/TaskNameField";
+import useTaskBoardContext from "../../../../utils/contexts/useTaskBoardContext";
 
-const Header = ({ name }: HeaderProps) => {
+const Header = ({
+    form,
+    name,
+    doUpdateTask,
+    openModalDeleteTask,
+}: HeaderProps) => {
+    const { canEditTask } = useTaskBoardContext();
     return (
         <Container justify="space-between" align="center" gap="15px">
-            <TaskName>{name}</TaskName>
-            <DeleteButton icon="ion:skull" onClick={() => console.log("GNOMO BORRAR")}/>
+            <TaskNameField
+                form={form}
+                name={name}
+                doUpdateTask={doUpdateTask}
+            />
+            {canEditTask && (
+                <DeleteButton icon="ion:skull" onClick={openModalDeleteTask} />
+            )}
         </Container>
     );
 };

@@ -5,6 +5,10 @@ export const EmptyTaskPriority = styled.img`
     cursor: pointer;
     width: 100px;
     height: 35px;
+    &.disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
 `;
 export const Content = styled(FlexFlow)`
     flex-direction: column;
@@ -17,7 +21,6 @@ export const PriorityList = styled(FlexFlow.withComponent("ul"))`
     border-radius: 5px;
     translate: 0 -105%;
     transition: 0.15s;
-
 `;
 export const ListWrapper = styled.div`
     overflow: hidden;

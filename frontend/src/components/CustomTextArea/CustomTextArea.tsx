@@ -5,7 +5,7 @@ const CustomTextArea = ({
     className, placeholder,
     label, variant,
     maxLength, size,
-    width, maxWidth,
+    width, maxWidth, disabled = false,
     value, onChange, onBlur,
     characterCounter = true,
     onKeyDown
@@ -28,10 +28,11 @@ const CustomTextArea = ({
                     maxLength={maxLength}
                     placeholder={placeholder}
                     value={value}
+                    disabled={disabled}
                     onChange={onChange}
                     onKeyDown={onKeyDown}
                     onBlur={onBlur}/>
-                {characterCounter && <MaxLength>{value.length} / {maxLength}</MaxLength>}
+                {(characterCounter && !disabled) && <MaxLength>{value.length} / {maxLength}</MaxLength>}
             </Content>
         </Container>
     );

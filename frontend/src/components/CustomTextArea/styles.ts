@@ -46,6 +46,7 @@ export const Content = styled.div`
     transition: 0.3s;
     font-size: 16px;
     gap: 7px;
+    min-height: 80px;
     &.primary {
         background-color: var(--white-1-12);
         border: 1px solid var(--white-1);
@@ -80,6 +81,9 @@ export const TextArea = styled.textarea`
     min-height: 80px;
     padding: 10px 10px 0;
     overflow-y: scroll;
+    :disabled {
+        pointer-events: none;
+    }
     ::placeholder {
         user-select: none;
     }

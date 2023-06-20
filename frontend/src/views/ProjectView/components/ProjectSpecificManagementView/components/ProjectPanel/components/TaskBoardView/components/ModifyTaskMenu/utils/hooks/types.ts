@@ -9,4 +9,4 @@ export type TaskForm = {
     // isCompleted: () => boolean,
     haveChanges: () => boolean,
     change: (field: string, value: any) => void,
-}
+};

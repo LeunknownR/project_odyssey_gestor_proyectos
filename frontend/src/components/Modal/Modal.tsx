@@ -20,9 +20,14 @@ const Modal = ({
         }
         document.body.classList.remove("no-scroll");
     }, [isOpen]);
+    const getClassName = () => {
+        const classList: string[] = ["modal"];
+        isOpen && classList.push("open");
+        return classList.join(" ");
+    }
     return (
         <Container
-            className={isOpen && "open"}
+            className={getClassName()}
             onMouseDown={() => {
                 handleClose ? handleClose() : open(false);
             }}

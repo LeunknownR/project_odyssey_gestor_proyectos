@@ -3,7 +3,7 @@ import { ProjectTask } from "src/entities/projectTasks/entities";
 export type ModifyTaskMenuProps = {
     currentProjectTask: ProjectTask | null;
     isTaskMenuOpen: boolean;
-    hideTaskMenu: () => void;
+    openModalDeleteTask: () => void;
 }
 export type ProjectTaskForm = {
     id?: number;

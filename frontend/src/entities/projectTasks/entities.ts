@@ -15,13 +15,13 @@ export type ProjectCommentTask = {
     id: number;
     content: string;
     datetime: number;
-    collaborator: ProjectTaskCollaboratorUser
-}
+    collaborator: ProjectTaskCollaboratorUser;
+};
 export type ProjectTask = {
     id: number;
     name: string;
-    description: string | null;
-    responsible?: ProjectTaskCollaboratorUser | null;
+    description: string;
+    responsible: ProjectTaskCollaboratorUser | null;
     priorityId: number | null;
     deadline: number;
     subtasks: ProjectSubtask[];
@@ -33,9 +33,9 @@ export type ProjectTaskBoard = {
     finalized: ProjectTask[];
     [projectTaskState: string]: ProjectTask[];
 };
-export type ProjectTaskPriority =  {
-    id: number,
-	urlPhoto: string,
+export type ProjectTaskPriority = {
+    id: number;
+    urlPhoto: string;
 };
 export type ProjectTaskForm = {
     id: number;
@@ -45,4 +45,4 @@ export type ProjectTaskForm = {
     deadline: number;
     priorityId: number | null;
     [key: string]: any;
-}
+};

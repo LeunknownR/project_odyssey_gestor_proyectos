@@ -12,15 +12,19 @@ import {
 } from "./styles";
 import { requestGetTaskPriority } from "src/services/projectTasks/aboutProjectTasks";
 import { ProjectTaskPriority } from "src/entities/projectTasks/entities";
-import { TASK_PRIORITY } from "../../../../../StatusSection/components/TaskList/components/TaskCard/utils/constants";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { TaskPriorityImage } from "../../../../../StatusSection/components/TaskList/components/TaskCard/styles";
+import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
+import { TASK_PRIORITY } from "../../../../../StateTaskList/components/TaskList/components/TaskCard/utils/constants";
+import { TaskPriorityImage } from "../../../../../StateTaskList/components/TaskList/components/TaskCard/styles";
 
-const PriorityField = ({ form }: PriorityFieldProps) => {
+const PriorityField = ({ 
+    form, doUpdateTask
+}: PriorityFieldProps) => {
     const [isListOpened, setIsListOpened] = useState<boolean>(false);
     const [taskPriorityList, setTaskPriorityList] = useState<
         ProjectTaskPriority[]
     >([]);
+    const { canEditTask } = useTaskBoardContext();
     const { priorityId } = form.value;
     useEffect(() => {
         fillTaskPriorities();
@@ -33,6 +37,7 @@ const PriorityField = ({ form }: PriorityFieldProps) => {
     const changeTaskPriorityField = (priorityId: number | null): void => {
         form.change("priorityId", priorityId);
         setIsListOpened(false);
+        doUpdateTask();
     };
     return (
         <FlexFlow gap="45px" align="center">
@@ -42,19 +47,21 @@ const PriorityField = ({ form }: PriorityFieldProps) => {
                 onBlur={() => setIsListOpened(false)}>
                 {!priorityId ? (
                     <EmptyTaskPriority
+                        className={!canEditTask ? "disabled" : ""}
                         src={emptyTaskPriority}
                         onClick={() => setIsListOpened(true)}/>
                 ) : (
                     <FlexFlow align="center" gap="10px">
                         <TaskPriorityImage
+                            className={!canEditTask ? "disabled" : ""}
                             path={TASK_PRIORITY[priorityId]}
                             isDynamic={false}
                             onClick={() => setIsListOpened(true)}
                         />
-                        <DeleteSelectedDataField
+                        {canEditTask && <DeleteSelectedDataField
                             onClick={() => changeTaskPriorityField(null)}>
                             <Icon icon="material-symbols:close" />
-                        </DeleteSelectedDataField>
+                        </DeleteSelectedDataField>}
                     </FlexFlow>
                 )}
                 <ListWrapper className={isListOpened ? "show" : ""}>
