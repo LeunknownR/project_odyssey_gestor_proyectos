@@ -25,8 +25,7 @@ export const Container = styled.li<ContainerProps>`
         0.35s border-color, 
         0.35s background-color, 
         0.35s scale, 
-        0.35s opacity, 
-        top 0.08s, left 0.08s;
+        0.35s opacity;
     user-select: none;
     cursor: pointer;
     &.open, &.dragging {
@@ -36,8 +35,6 @@ export const Container = styled.li<ContainerProps>`
     &.dragging {
         position: fixed;
         width: ${({ width = 0 }) => width}px;
-        top: ${({ top }) => top}px;
-        left: ${({ left }) => left}px;
         z-index: 1;
         &:active {
             cursor: url("/custom-cursor.png"), move;
