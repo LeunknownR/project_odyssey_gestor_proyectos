@@ -10,7 +10,7 @@ const TaskNameField = ({ form, name, doUpdateTask }: TaskNameFieldProps) => {
     //#region States
     const [editingTaskName, setEditingTaskName] = useState<string | null>(null);
     //#endregion
-    const { isTaskMenuOpen, canEditTask } = useTaskBoardContext();
+    const { isEditTaskFormOpen: isTaskMenuOpen, canEditTask } = useTaskBoardContext();
     useEffect(() => {
         if (isTaskMenuOpen) return;
         setEditingTaskName(null);

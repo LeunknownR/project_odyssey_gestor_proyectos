@@ -6,6 +6,7 @@ export const Container = styled.article`
     gap: 30px;
     padding: 29px 25px;
     width: 100%;
-    height: 78vh;
+    height: 70vh;
+    border-radius: 8px;
     background-color: var(--darkblue-8);
 `;

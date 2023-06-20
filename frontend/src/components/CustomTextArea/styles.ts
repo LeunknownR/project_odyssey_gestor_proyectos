@@ -81,7 +81,9 @@ export const TextArea = styled.textarea`
     min-height: 80px;
     padding: 10px 10px 0;
     overflow-y: scroll;
+    transition: 0.35s;
     :disabled {
+        opacity: 0.6;
         pointer-events: none;
     }
     ::placeholder {

@@ -33,11 +33,13 @@ const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
     canEditing
 }, ref) => {
     const { name, responsible, deadline, priorityId, id } = task;
-    const { socketIo } = useTaskBoardContext();
+    const { socketIo, currentProjectTask } = useTaskBoardContext();
     const isFinalized: boolean = state === ProjectTaskState.Finalized;
     const getClassName = (): string => {
         const classList = ["task-card"];
         isFinalized && classList.push("finalized");
+        // Verificando si el proyecto actual es el mismo que el de esta tarjeta
+        id === currentProjectTask?.id && classList.push("open");
         !canEditing && classList.push("cannot-editing");
         draggingTaskCard.data && classList.push("dragging");
         return classList.join(" ");

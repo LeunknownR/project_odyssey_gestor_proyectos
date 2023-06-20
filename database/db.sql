@@ -928,7 +928,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- SP para eliminar una tarea |||||||
+-- SP para eliminar una tarea
 DELIMITER //
 CREATE PROCEDURE `sp_delete_task`(
     IN p_id_project INT,

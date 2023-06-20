@@ -29,14 +29,16 @@ export const Container = styled.li<ContainerProps>`
         top 0.08s, left 0.08s;
     user-select: none;
     cursor: pointer;
+    &.open, &.dragging {
+        background-color: var(--darkblue-7);
+        border: 2px solid var(--gray-1);
+    }
     &.dragging {
         position: fixed;
-        background-color: var(--darkblue-7);
         width: ${({ width = 0 }) => width}px;
         top: ${({ top }) => top}px;
         left: ${({ left }) => left}px;
         z-index: 1;
-        border: 2px solid var(--gray-1);
         &:active {
             cursor: url("/custom-cursor.png"), move;
         }

@@ -1,9 +1,9 @@
 import { useRef } from "react";
-import { FlexFlow } from "src/components/styles";
 import { TaskBoardProps } from "./types";
 import StateTaskList from "../StateTaskList";
 import { ProjectTaskState } from "src/entities/projectTasks/entities";
 import { StateTaskListData } from "../StateTaskList/types";
+import { Container } from "./styles";
 
 const TaskBoard = ({ taskBoard }: TaskBoardProps) => {
     const wasDraggingTaskCardRef = useRef<boolean>(false);
@@ -25,14 +25,14 @@ const TaskBoard = ({ taskBoard }: TaskBoardProps) => {
         },
     ];
     return (
-        <FlexFlow width="100%" gap="15px">
+        <Container>
             {allStateTaskListData.map(stateTaskListData => (
                 <StateTaskList
                     key={stateTaskListData.state}
                     data={stateTaskListData}
                     wasDraggingTaskCardRef={wasDraggingTaskCardRef}/>
             ))}
-        </FlexFlow>
+        </Container>
     );
 };
 

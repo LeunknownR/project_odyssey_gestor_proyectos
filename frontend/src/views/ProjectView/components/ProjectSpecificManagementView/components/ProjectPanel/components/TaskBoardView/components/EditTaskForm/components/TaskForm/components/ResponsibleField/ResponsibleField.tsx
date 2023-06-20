@@ -17,15 +17,21 @@ import { requestGetTeamMembers } from "src/services/projectTasks/aboutProjectTas
 
 const ResponsibleField = ({
     form,
-    currentResponsible,
     doUpdateTask
 }: ResponsibleFieldProps) => {
     const [selectedResponsible, setSelectedResponsible] =
         useState<ProjectTaskCollaboratorUser | null>(null);
-    const { projectId, isTaskMenuOpen, preloader, canEditTask } = useTaskBoardContext();
+    const { 
+        projectId, 
+        isEditTaskFormOpen, 
+        preloader, 
+        canEditTask,
+        currentProjectTask 
+    } = useTaskBoardContext();
+    const currentResponsible: ProjectTask | null = currentProjectTask?.responsible || null;
     useEffect(() => {
-        setSelectedResponsible(isTaskMenuOpen ? currentResponsible : null);
-    }, [isTaskMenuOpen, currentResponsible]);
+        setSelectedResponsible(isEditTaskFormOpen ? currentResponsible : null);
+    }, [isEditTaskFormOpen, currentResponsible]);
     const selectTaskResponsibleHandler = useSearchCollaborator({
         requestSearchCollaborators: async (collaboratorName: string) => {
             preloader.show("Buscando colaboradores...");

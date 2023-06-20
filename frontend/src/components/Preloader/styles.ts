@@ -44,5 +44,5 @@ export const Spinner = styled.div`
     color: var(--white-1);
 `;
 export const Blades = styled.img`
-    animation: linear ${spinnerAnimation} 0.9s infinite;
+    animation: linear ${spinnerAnimation} 0.5s infinite;
 `;

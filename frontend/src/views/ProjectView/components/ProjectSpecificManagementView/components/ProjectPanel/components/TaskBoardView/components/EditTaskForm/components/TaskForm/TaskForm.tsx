@@ -6,15 +6,13 @@ import { Container } from "./styles";
 import { TaskFormProps } from "./types";
 
 const TaskForm = ({ 
-    currentProjectTask, 
     form, doUpdateTask
 }: TaskFormProps) => {
     return (
         <Container direction="column" gap="20px">
             <ResponsibleField 
                 form={form}
-                doUpdateTask={doUpdateTask} 
-                currentResponsible={currentProjectTask.responsible}/>
+                doUpdateTask={doUpdateTask}/>
             <DeadlineField 
                 form={form}
                 doUpdateTask={doUpdateTask}/>
