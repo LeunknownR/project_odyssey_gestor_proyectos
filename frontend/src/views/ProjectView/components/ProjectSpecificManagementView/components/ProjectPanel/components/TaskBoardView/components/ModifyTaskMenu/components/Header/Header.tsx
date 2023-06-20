@@ -6,18 +6,18 @@ import useTaskBoardContext from "../../../../utils/contexts/useTaskBoardContext"
 const Header = ({
     form,
     name,
-    changeTaskUpdateType,
+    doUpdateTask,
     openModalDeleteTask,
 }: HeaderProps) => {
-    const { isTaskResponsible } = useTaskBoardContext();
+    const { canEditTask } = useTaskBoardContext();
     return (
         <Container justify="space-between" align="center" gap="15px">
             <TaskNameField
                 form={form}
                 name={name}
-                changeTaskUpdateType={changeTaskUpdateType}
+                doUpdateTask={doUpdateTask}
             />
-            {isTaskResponsible && (
+            {canEditTask && (
                 <DeleteButton icon="ion:skull" onClick={openModalDeleteTask} />
             )}
         </Container>

@@ -16,7 +16,7 @@ export const TASK_FIELD_PROPS = {
         variant: "primary",
         placeholder: "Ejm: Modelar la base de datos del sistema",
         maxLength: 200,
-        name: "description"
+        name: "description",
     },
     TASK_COMMENT: {
         placeholder: "Redacte su comentario aquí...",

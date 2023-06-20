@@ -11,7 +11,7 @@ export const EditTaskNameInput = styled.input`
     width: 100%;
     border: 2px dashed #FFFFFF;
     border-radius: 5px;
-    padding: 5px 0;
+    padding: 5px 10px;
 `;
 export const TaskName = styled.h2`
     color: var(--white-2);

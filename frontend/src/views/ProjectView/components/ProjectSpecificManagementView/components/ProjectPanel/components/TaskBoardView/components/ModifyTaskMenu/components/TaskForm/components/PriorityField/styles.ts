@@ -5,6 +5,10 @@ export const EmptyTaskPriority = styled.img`
     cursor: pointer;
     width: 100px;
     height: 35px;
+    &.disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
 `;
 export const Content = styled(FlexFlow)`
     flex-direction: column;

@@ -2,19 +2,20 @@ import CustomTextArea from "src/components/CustomTextArea/CustomTextArea";
 import { TASK_FIELD_PROPS } from "../../../../utils/constants";
 import { Wrapper } from "./styles";
 import { DescriptionFieldProps } from "./types";
-import { TaskUpdateType } from "../../../../utils/enums";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
+import useTimeoutFunction from "src/utils/hooks/useTimeoutFunction";
 
 const DescriptionField = ({ 
-    form, changeTaskUpdateType
+    form, doUpdateTask
 }: DescriptionFieldProps) => {
     const { description } = form.value;
-    const { isTaskResponsible } = useTaskBoardContext();
+    const { canEditTask } = useTaskBoardContext();
+    const updateTaskWithTimeout = useTimeoutFunction(doUpdateTask);
     const changeDescriptionField: React.ChangeEventHandler<HTMLTextAreaElement> = ({
         target: { value },
     }) => {
         form.change(TASK_FIELD_PROPS.TASK_DESCRIPTION.name, value);
-        changeTaskUpdateType(TaskUpdateType.WithTimeout);
+        updateTaskWithTimeout();
     };
     return (
         <Wrapper>
@@ -22,7 +23,7 @@ const DescriptionField = ({
                 {...TASK_FIELD_PROPS.TASK_DESCRIPTION}
                 value={description ? description : ""}
                 onChange={changeDescriptionField}
-                disabled={!isTaskResponsible}
+                disabled={!canEditTask}
             />
         </Wrapper>
     );

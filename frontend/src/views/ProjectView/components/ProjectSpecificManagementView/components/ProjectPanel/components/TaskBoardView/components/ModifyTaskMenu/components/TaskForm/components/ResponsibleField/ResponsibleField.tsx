@@ -4,46 +4,35 @@ import useCustomInputSearch from "src/components/CustomInputSearch/utils/hooks/u
 import CustomInputSearchUserOption from "src/views/components/CustomInputSearchUserOption/CustomInputSearchUserOption";
 import { TASK_FIELD_PROPS } from "../../../../utils/constants";
 import { Container, SelfAssignmentButton } from "./styles";
-import { requestSearchCollaboratorToBeMemberForCollaborator } from "src/services/collaborators/relatedToCollaborators";
 import { Label } from "../../styles";
 import { ResponsibleFieldProps } from "./types";
 import { ProjectTaskCollaboratorUser } from "src/entities/projectTasks/entities";
 import SelectedResponsible from "./components/SelectedResponsible/SelectedResponsible";
 import useSearchCollaborator from "src/views/ProjectView/components/ProjectManagerView/utils/hooks/useSearchCollaborator";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
-import { TaskUpdateType } from "../../../../utils/enums";
 import { currentUserLocalStorage } from "src/storage/user.local";
 import { User } from "src/entities/user/types";
+import { FlexFlow } from "src/components/styles";
+import { requestGetTeamMembers } from "src/services/projectTasks/aboutProjectTasks";
 
 const ResponsibleField = ({
     form,
     currentResponsible,
-    changeTaskUpdateType,
+    doUpdateTask
 }: ResponsibleFieldProps) => {
     const [selectedResponsible, setSelectedResponsible] =
         useState<ProjectTaskCollaboratorUser | null>(null);
-    const { projectId, isTaskMenuOpen, preloader } = useTaskBoardContext();
+    const { projectId, isTaskMenuOpen, preloader, canEditTask } = useTaskBoardContext();
     useEffect(() => {
-        if (currentResponsible) {
-            changeSelectedResponsible(currentResponsible);
-            return;
-        }
-        if (!isTaskMenuOpen) {
-            changeSelectedResponsible(null);
-            return;
-        }
-    }, [isTaskMenuOpen]);
-    useEffect(() => {
-        setSelectedResponsible(currentResponsible);
-    }, [currentResponsible]);
+        setSelectedResponsible(isTaskMenuOpen ? currentResponsible : null);
+    }, [isTaskMenuOpen, currentResponsible]);
     const selectTaskResponsibleHandler = useSearchCollaborator({
         requestSearchCollaborators: async (collaboratorName: string) => {
             preloader.show("Buscando colaboradores...");
-            const { data } =
-                await requestSearchCollaboratorToBeMemberForCollaborator({
-                    collaboratorName,
-                    projectId,
-                });
+            const { data } = await requestGetTeamMembers({
+                collaboratorName,
+                projectId,
+            });
             preloader.hide();
             return data;
         },
@@ -56,7 +45,7 @@ const ResponsibleField = ({
             TASK_FIELD_PROPS.TASK_RESPONSIBLE.name,
             newResponsible?.id || null
         );
-        changeTaskUpdateType(TaskUpdateType.Immediate);
+        doUpdateTask();
     };
     const customSearchInputHandler =
         useCustomInputSearch<ProjectTaskCollaboratorUser>({
@@ -88,7 +77,7 @@ const ResponsibleField = ({
                     eraseSelectedResponsible={removeSelectedResponsible}
                 />
             ) : (
-                <>
+                <FlexFlow gap="10px">
                 <CustomInputSearch
                     {...TASK_FIELD_PROPS.TASK_RESPONSIBLE}
                     variant="primary-search"
@@ -96,6 +85,7 @@ const ResponsibleField = ({
                     clearOptions={selectTaskResponsibleHandler.clear}
                     fillOptions={selectTaskResponsibleHandler.fill}
                     options={selectTaskResponsibleHandler.collaboratorUserList}
+                    disabled={!canEditTask}
                     getSearchedItemToShow={options => ({
                         value: options.id,
                         content: (
@@ -103,11 +93,12 @@ const ResponsibleField = ({
                         ),
                     })}
                 />
-                <SelfAssignmentButton
-                    content="Asígnamela"
-                    onClick={autoAssignmentResponsible}
-                />
-                </>
+                {canEditTask && 
+                    <SelfAssignmentButton
+                        content="Asígnamela"
+                        onClick={autoAssignmentResponsible}
+                    />}
+                </FlexFlow>
             )}
         </Container>
         </>

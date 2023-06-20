@@ -46,6 +46,7 @@ export const Content = styled.div`
     transition: 0.3s;
     font-size: 16px;
     gap: 7px;
+    min-height: 80px;
     &.primary {
         background-color: var(--white-1-12);
         border: 1px solid var(--white-1);
