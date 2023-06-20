@@ -21,6 +21,7 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
         hideTaskMenu
     } = useTaskBoardContext(); 
     const isTaskMenuOpenRef = useRef<boolean>(false);
+    const taskMenuRef = useRef<HTMLDivElement | null>(null);
     const { form } = useTaskForm(
         currentProjectTask, 
         isTaskMenuOpen
@@ -51,26 +52,36 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
         const classList: string[] = [];
         isTaskMenuOpen && classList.push("show");
         return classList.join(" ");
-    }
+    };
+    const scrollToMenuBottom = (floor: number | undefined) => {
+        setTimeout(() => {
+            taskMenuRef.current?.scrollTo({
+                top: floor 
+                    ? taskMenuRef.current.scrollHeight - (taskMenuRef.current.scrollHeight - floor) 
+                    : taskMenuRef.current.scrollHeight, 
+                behavior: "smooth" 
+            });
+        }, 100);
+    };
     const renderContent = (): React.ReactNode => {
         if (!currentProjectTask) return null;
         const { name, comments } = currentProjectTask;
         return (
             <>
             <Header 
-                name={name} 
+                name={name}
                 form={form}
                 doUpdateTask={doUpdateTask}
                 openModalDeleteTask={openModalDeleteTask}/>
-            <Content className="custom-scrollbar">
+            <Content ref={taskMenuRef} className="custom-scrollbar">
                 <TaskForm 
                     currentProjectTask={currentProjectTask} 
                     form={form}
                     doUpdateTask={doUpdateTask}/>
-                <SubtaskList currentProjectTask={currentProjectTask} />
+                <SubtaskList currentProjectTask={currentProjectTask} scrollToMenuBottom={scrollToMenuBottom} />
                 {comments.length > 0 && <CommentList comments={comments} />}
             </Content>
-            <CommentBox taskId={currentProjectTask.id} />
+            <CommentBox taskId={currentProjectTask.id} scrollToMenuBottom={scrollToMenuBottom} />
             </>
         );
     };
