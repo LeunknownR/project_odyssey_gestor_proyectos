@@ -90,3 +90,10 @@ export const Container = styled.li<ContainerProps>`
         scale: 1.01;
     }
 `;
+export const LockedIcon = styled.span`
+    display: flex;
+    .iconify {
+        color: var(--white-1);
+        font-size: 25px;
+    }
+`;
