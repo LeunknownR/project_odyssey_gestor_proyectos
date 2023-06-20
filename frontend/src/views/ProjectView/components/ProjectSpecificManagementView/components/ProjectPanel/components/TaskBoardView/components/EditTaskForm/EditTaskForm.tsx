@@ -4,61 +4,61 @@ import CommentBox from "./components/CommentBox/CommentBox";
 import Header from "./components/Header/Header";
 import TaskForm from "./components/TaskForm/TaskForm";
 import { Container, Content } from "./styles";
-import { ModifyTaskMenuProps } from "./types";
+import { EditTaskFormProps } from "./types";
 import useTaskForm from "./utils/hooks/useTaskForm";
 import useTaskBoardContext from "../../utils/contexts/useTaskBoardContext";
 import SubtaskList from "./components/SubtaskList/SubtaskList";
 import useUpdateMainInformationTask from "./utils/hooks/useUpdateMainInformationTask";
 
-const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
-    currentProjectTask,
+const EditTaskForm = forwardRef<HTMLDivElement, EditTaskFormProps>(({
     openModalDeleteTask
 }, ref) => {
     //#region Custom hooks
     const { 
         socketIo,
-        isTaskMenuOpen, 
-        hideTaskMenu
+        currentProjectTask,
+        isEditTaskFormOpen, 
+        hideEditTaskForm
     } = useTaskBoardContext(); 
-    const isTaskMenuOpenRef = useRef<boolean>(false);
-    const taskMenuRef = useRef<HTMLDivElement | null>(null);
+    const isEditTaskFormOpenRef = useRef<boolean>(false);
+    const editTaskFormRef = useRef<HTMLDivElement | null>(null);
     const { form } = useTaskForm(
         currentProjectTask, 
-        isTaskMenuOpen
+        isEditTaskFormOpen
     );
     const doUpdateTask = useUpdateMainInformationTask(form.value, socketIo);
     //#endregion
     useEffect(() => {
-        isTaskMenuOpenRef.current = isTaskMenuOpen;
-    }, [isTaskMenuOpen]);
+        isEditTaskFormOpenRef.current = isEditTaskFormOpen;
+    }, [isEditTaskFormOpen]);
     useEffect(() => {
         const $container: HTMLDivElement = ref?.current;
         if (!$container) return;
         const handler = (e: MouseEvent): void => {
             const $elementClicked = e.target as HTMLElement;
             if (
-                !isTaskMenuOpenRef.current || 
+                !isEditTaskFormOpenRef.current || 
                 $container.contains($elementClicked) || 
                 !document.body.contains($elementClicked) ||
                 $elementClicked.classList.contains("modal") ||
                 $elementClicked.closest(".task-card")
             ) return;
-            hideTaskMenu();
+            hideEditTaskForm();
         };
         document.addEventListener("mousedown", handler);
         return () => document.removeEventListener("mousedown", handler);
     }, [ref?.current]);
     const getClassName = (): string => {
         const classList: string[] = [];
-        isTaskMenuOpen && classList.push("show");
+        isEditTaskFormOpen && classList.push("show");
         return classList.join(" ");
     };
     const scrollToMenuBottom = (floor: number | undefined) => {
         setTimeout(() => {
-            taskMenuRef.current?.scrollTo({
+            editTaskFormRef.current?.scrollTo({
                 top: floor 
-                    ? taskMenuRef.current.scrollHeight - (taskMenuRef.current.scrollHeight - floor) 
-                    : taskMenuRef.current.scrollHeight, 
+                    ? editTaskFormRef.current.scrollHeight - (editTaskFormRef.current.scrollHeight - floor) 
+                    : editTaskFormRef.current.scrollHeight, 
                 behavior: "smooth" 
             });
         }, 100);
@@ -73,12 +73,13 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
                 form={form}
                 doUpdateTask={doUpdateTask}
                 openModalDeleteTask={openModalDeleteTask}/>
-            <Content ref={taskMenuRef} className="custom-scrollbar">
+            <Content ref={editTaskFormRef} className="custom-scrollbar">
                 <TaskForm 
-                    currentProjectTask={currentProjectTask} 
                     form={form}
                     doUpdateTask={doUpdateTask}/>
-                <SubtaskList currentProjectTask={currentProjectTask} scrollToMenuBottom={scrollToMenuBottom} />
+                <SubtaskList 
+                    currentProjectTask={currentProjectTask} 
+                    scrollToMenuBottom={scrollToMenuBottom} />
                 {comments.length > 0 && <CommentList comments={comments} />}
             </Content>
             <CommentBox taskId={currentProjectTask.id} scrollToMenuBottom={scrollToMenuBottom} />
@@ -96,4 +97,4 @@ const ModifyTaskMenu = forwardRef<HTMLDivElement, ModifyTaskMenuProps>(({
     );
 });
 
-export default ModifyTaskMenu;
+export default EditTaskForm;
