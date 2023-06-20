@@ -1,5 +1,5 @@
 //#region Libraries
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 //#endregion
 //#region Styles
@@ -34,10 +34,22 @@ const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
 }, ref) => {
     const { name, responsible, deadline, priorityId, id } = task;
     const { socketIo, currentProjectTask } = useTaskBoardContext();
-    const isFinalized: boolean = state === ProjectTaskState.Finalized;
+    const [className, setClassName] = useState<string>("");
+    useEffect(() => {
+        setClassName(getClassName());
+    }, [state, id, currentProjectTask, canEditing, draggingTaskCard.data]);
+    useEffect(() => {
+        fillLocationCardWhenIsDragging();
+    }, [draggingTaskCard.data]);
+    const fillLocationCardWhenIsDragging = () => {
+        if (!draggingTaskCard.data || !ref.current) return;
+        const { top, left } = draggingTaskCard.data;
+        ref.current.style.left = `${left}px`;
+        ref.current.style.top = `${top}px`;
+    };
     const getClassName = (): string => {
         const classList = ["task-card"];
-        isFinalized && classList.push("finalized");
+        state === ProjectTaskState.Finalized && classList.push("finalized");
         // Verificando si el proyecto actual es el mismo que el de esta tarjeta
         id === currentProjectTask?.id && classList.push("open");
         !canEditing && classList.push("cannot-editing");
@@ -56,10 +68,8 @@ const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
     return (
         <Container
             ref={ref}
-            className={getClassName()}
+            className={className}
             width={draggingTaskCard.data?.width}
-            top={draggingTaskCard.data?.top}
-            left={draggingTaskCard.data?.left}
             {...draggingTaskCard.events}>
             <FlexFlow justify="space-between" gap="8px">
                 <FlexFlow align="center" gap="10px">
