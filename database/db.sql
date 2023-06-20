@@ -928,7 +928,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- SP para eliminar una tarea
+-- SP para eliminar una tarea |||||||
 DELIMITER //
 CREATE PROCEDURE `sp_delete_task`(
     IN p_id_project INT,
@@ -949,6 +949,14 @@ BEGIN
             -- Cuando el colaborador es miembro del proyecto y no es su tarea.
             SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
         ELSE
+            -- Eliminando la subtareas de la tarea
+            DELETE FROM task_comment
+            WHERE id_task = p_id_task_to_be_deleted;
+
+            -- Eliminando la comentarios de la tarea
+            DELETE FROM subtask
+            WHERE id_task = p_id_task_to_be_deleted;
+
             -- Eliminando la tarea
             DELETE FROM task
             WHERE id_task = p_id_task_to_be_deleted;
