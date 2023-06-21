@@ -9,8 +9,8 @@ export const Container = styled.span`
     color: var(--dark-1);
     background-color: var(--cream-1);
     border-radius: 50%;
-    width: 2em;
-    height: 2em;
+    width: 2.45em;
+    height: 2.45em;
     font-size: 24px;
     user-select: none;
     &.big {
