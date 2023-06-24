@@ -4,4 +4,6 @@ export type ProjectTitleProps = {
     name: string;
     state: string;
     options: MenuOption[];
+    isHeader?: boolean;
+    icon?: string;
 }

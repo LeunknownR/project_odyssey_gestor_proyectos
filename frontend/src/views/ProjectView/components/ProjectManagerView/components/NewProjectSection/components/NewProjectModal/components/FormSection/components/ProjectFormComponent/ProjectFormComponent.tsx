@@ -17,9 +17,9 @@ const ProjectFormComponent = ({ form, tabIdx, toPage }: ProjectFormComponentProp
     }: ChangeEvent<HTMLInputElement>) => {
         form.change(TEXT_FIELD_PROPS.PROJECT_NAME.name, value);
     };
-    const changeDescriptionProjectField = ({
+    const changeDescriptionProjectField: React.ChangeEventHandler<HTMLTextAreaElement> = ({
         target: { value },
-    }: ChangeEvent<HTMLInputElement>) => {
+    }) => {
         form.change(TEXT_FIELD_PROPS.PROJECT_DESCRIPTION.name, value);
     };
     return (

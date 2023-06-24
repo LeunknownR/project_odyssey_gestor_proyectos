@@ -6,6 +6,7 @@ export type SizeModalProps = {
     borderRadius?: string;
 };
 export type ModalProps = {
+    className?: string;
     children?: React.ReactNode;
     isOpen: boolean;
     sizeProps?: SizeModalProps;

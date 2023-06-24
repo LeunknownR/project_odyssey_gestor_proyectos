@@ -9,6 +9,8 @@ export const Container = styled.header`
     background-color: var(--darkblue-2);
     padding: 30px;
     width: 100%;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
     @media (max-width: ${MOBILE_WIDTH}px) {
         padding: 15px;
     }

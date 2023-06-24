@@ -4,7 +4,7 @@ import { Socket } from "socket.io-client";
 //#endregion
 //#region Components
 import TaskBoard from "./components/TaskBoard";
-import ModifyTaskMenu from "./components/ModifyTaskMenu/ModifyTaskMenu";
+import EditTaskForm from "./components/EditTaskForm/EditTaskForm";
 import DeleteTaskModal from "./components/DeleteTaskModal";
 //#endregion
 //#region Types
@@ -47,7 +47,7 @@ const TaskBoardView = ({
     const [currentProjectTask, setCurrentProjectTask] = useState<ProjectTask | null>(null);
     const [currentProjectTaskState, setCurrentProjectTaskState] = useState<ProjectTaskState | null>(null);
     const [currentTaskToBeChangedState, setCurrentTaskToBeChangedState] = useState<TaskToBeChangedState | null>(null);
-    const [isTaskMenuOpen, setIsTaskMenuOpen] = useState<boolean>(false);
+    const [isEditTaskFormOpen, setIsEditTaskFormOpen] = useState<boolean>(false);
     const [canEditTask, setCanEditTask] = useState<boolean>(false);
     //#endregion
     //#region Effects
@@ -63,6 +63,8 @@ const TaskBoardView = ({
     useEffect(() => {
         const newCurrentProjectTask = getCurrentProjectTaskWhenBoardChange();
         setCurrentProjectTask(newCurrentProjectTask);
+        if (newCurrentProjectTask) return;
+        setIsEditTaskFormOpen(false);
     }, [projectTaskBoard]);
     useEffect(() => {
         setCanEditTask(
@@ -79,19 +81,30 @@ const TaskBoardView = ({
             !currentProjectTaskState
         ) return null;
         // Buscando el proyecto actual
-        const taskStateField: string = projectTaskBoardStateByTaskState[currentProjectTaskState];
-        const foundProjectTask: ProjectTask | undefined = projectTaskBoard[taskStateField]
-            .find(({ id }) => id === currentProjectTask.id);
+        const foundProjectTask: ProjectTask | null = findProjectTask(currentProjectTaskState);
         // Buscando si se encontró en el estado previo
         if (foundProjectTask) return foundProjectTask;
-        // Solo se hizo cambio de estado -> mismo valor de estado
-        return currentProjectTask;
+        const statesNotChecked: ProjectTaskState[] = Object.values(ProjectTaskState);
+        for (const stateNotChecked of statesNotChecked) {
+            // Si se encuentra en otra columna, quiere decir que solo se hizo un cambio de estado
+            if (findProjectTask(stateNotChecked))
+                return currentProjectTask;
+        }
+        // Si no se encontró se eliminó
+        return null;
     };
+    const findProjectTask = (state: ProjectTaskState): ProjectTask | null => {
+        if (!projectTaskBoard || !currentProjectTask) return null;
+        const taskStateField: string = projectTaskBoardStateByTaskState[state];
+        const foundProjectTask: ProjectTask | undefined = projectTaskBoard[taskStateField]
+            .find(({ id }) => id === currentProjectTask.id);
+        return foundProjectTask || null;
+    }
     const fillCurrentProjectTask = (
         task: ProjectTask,
         state: ProjectTaskState
     ): void => {
-        openTaskMenu();
+        openEditTaskForm();
         setCurrentProjectTask(task);
         setCurrentProjectTaskState(state);
         setCurrentTaskToBeChangedState({
@@ -99,25 +112,25 @@ const TaskBoardView = ({
             state
         });
     };
-    const openTaskMenu = (): void => {
-        setIsTaskMenuOpen(true);
+    const openEditTaskForm = (): void => {
+        setIsEditTaskFormOpen(true);
     }
-    const hideTaskMenu = (): void => {
-        setIsTaskMenuOpen(false);
+    const hideEditTaskForm = (): void => {
+        setIsEditTaskFormOpen(false);
+        setCurrentProjectTask(null);
     };
     const deleteTask = (): void => {
         if (!currentProjectTask) return;
         const { socketIo } = socketHandler;
         if (!socketIo) return;
         const { id: taskIdToBeDeleted } = currentProjectTask;
-        hideTaskMenu();
         modalDeleteTask.open(false);
         setCurrentProjectTask(null);
         socketIo.emit(WSProjectTaskServiceEvents.Collaborator.DeleteTask, taskIdToBeDeleted);
         notificationCard.changeVariant(CardVariant.DeleteTask);
         notificationCard.show();
     }
-    const fillCurrentTaskToBeChangedState = (value: TaskToBeChangedState | null) => {
+    const fillCurrentTaskToBeChangedState = (value: TaskToBeChangedState | null): void => {
         setCurrentTaskToBeChangedState(value);
     }
     //#endregion
@@ -126,19 +139,17 @@ const TaskBoardView = ({
         {projectTaskBoard ? (
             <TaskBoardContext.Provider value={{ 
                 socketIo: socketHandler.socketIo, 
-                projectId, isTaskMenuOpen, projectRoleId,
+                projectId, isEditTaskFormOpen, projectRoleId,
                 modifyMenuRef, preloader, canEditTask,
-                fillCurrentProjectTask, hideTaskMenu,
+                currentProjectTask, fillCurrentProjectTask, hideEditTaskForm,
                 taskToBeChangedStateHandler: {
                     fill: fillCurrentTaskToBeChangedState,
                     value: currentTaskToBeChangedState
                 }
             }}>
                 <TaskBoard taskBoard={projectTaskBoard}/>
-                <ModifyTaskMenu
+                <EditTaskForm
                     ref={modifyMenuRef}
-                    currentProjectTask={currentProjectTask}
-                    isTaskMenuOpen={isTaskMenuOpen}
                     openModalDeleteTask={() => modalDeleteTask.open(true)}
                 />
                 <DeleteTaskModal

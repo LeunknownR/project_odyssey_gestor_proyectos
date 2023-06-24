@@ -25,18 +25,17 @@ export const Container = styled.li<ContainerProps>`
         0.35s border-color, 
         0.35s background-color, 
         0.35s scale, 
-        0.35s opacity, 
-        top 0.08s, left 0.08s;
+        0.35s opacity;
     user-select: none;
     cursor: pointer;
+    &.open, &.dragging {
+        background-color: var(--darkblue-7);
+        border: 2px solid var(--gray-1);
+    }
     &.dragging {
         position: fixed;
-        background-color: var(--darkblue-7);
         width: ${({ width = 0 }) => width}px;
-        top: ${({ top }) => top}px;
-        left: ${({ left }) => left}px;
         z-index: 1;
-        border: 2px solid var(--gray-1);
         &:active {
             cursor: url("/custom-cursor.png"), move;
         }
@@ -88,5 +87,12 @@ export const Container = styled.li<ContainerProps>`
     }
     :active {
         scale: 1.01;
+    }
+`;
+export const LockedIcon = styled.span`
+    display: flex;
+    .iconify {
+        color: var(--white-1);
+        font-size: 25px;
     }
 `;

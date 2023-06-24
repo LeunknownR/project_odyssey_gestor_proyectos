@@ -4,7 +4,7 @@ import { Footer, IconContainer, TextModal, TitleModal } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { FlexFlow } from "src/components/styles";
 
-const testModalStyles = {
+const MODAL_STYLES = {
     padding: "20px 30px",
     maxWidth: "630px"
 };
@@ -14,7 +14,7 @@ const ConfirmationModal = ({
     description, children
 }: ConfirmationModalProps) => {
     return (
-        <Modal {...modalProps} sizeProps={testModalStyles}>
+        <Modal {...modalProps} sizeProps={MODAL_STYLES}>
             <FlexFlow align="center" gap="10px" justifySelf="flex-start">
                 <IconContainer>
                     <Icon icon="iconamoon:attention-square-fill" />

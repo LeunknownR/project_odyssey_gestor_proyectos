@@ -5,7 +5,6 @@ import { TabsProps } from "./types";
 
 
 const Tabs = ({ projectId }: TabsProps) => {
-    //GNOMO CREO QUE SE PEUDE HACER MEJOR
     const TABS_CONTENT = [
         {
             name: "Tablero",

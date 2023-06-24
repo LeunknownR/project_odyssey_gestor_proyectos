@@ -4,7 +4,7 @@ import { isPositiveNumber, isPositiveNumberOrZero } from "../../../../utils/numb
 import { checkLength } from "../../../../utils/strings";
 import { 
     WSNewProjectTask, 
-    WSProjectTaskToBeChangedState, 
+    WSProjectTaskWithNewState, 
     WSProjectTaskComment, 
     WSProjectTaskMainInformation,
     WSNewProjectSubtask,
@@ -86,7 +86,7 @@ export const parseToWSSubtaskIdToBeDeleted = (subtaskId: any): number => {
         throw new Error("Invalid data to delete subtask ");
     return subtaskId;
 }
-export const parseToWSProjectTaskToBeChangedState = (body: any): WSProjectTaskToBeChangedState => {
+export const parseToWSProjectTaskWithNewState = (body: any): WSProjectTaskWithNewState => {
     const {
         taskId, state
     } = body;

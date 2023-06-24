@@ -6,7 +6,7 @@ import ProjectTasksModel from "../../models/projectTasksModel/projectTasks.model
 import { SearchCollaboratorRequestBody } from "../../routes/collaborator/types";
 import { ResponseMessages } from "../../utils/response/enums";
 import { 
-    WSProjectTaskToBeChangedStateForm,
+    WSProjectTaskWithNewStateForm,
     WSProjectTaskToBeDeletedForm,
     WSNewProjectTaskForm, 
     WSProjectTaskCommentForm, 
@@ -71,8 +71,8 @@ export default abstract class ProjectTasksController {
         if (message === ResponseMessages.Success) return;
         throw new Error(message);
     }
-    public static async changeTaskState(projectTaskToBeChangedStateForm: WSProjectTaskToBeChangedStateForm): Promise<void> {
-        const record: any = await ProjectTasksModel.changeTaskState(projectTaskToBeChangedStateForm);
+    public static async changeTaskState(projectTaskWithNewState: WSProjectTaskWithNewStateForm): Promise<void> {
+        const record: any = await ProjectTasksModel.changeTaskState(projectTaskWithNewState);
         const message: string = record["message"];
         if (message === ResponseMessages.Success) return;
         throw new Error(message);

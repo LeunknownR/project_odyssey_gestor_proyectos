@@ -34,6 +34,9 @@ export const Container = styled.div`
         span {
             color: var(--red-3);
         }
+        &.disabled {
+            opacity: 0.5;
+        }
     }
     @media (max-width: ${MOBILE_WIDTH}px) {
         padding: 5px 10px;

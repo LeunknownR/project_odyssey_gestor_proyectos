@@ -8,7 +8,7 @@ import useLoginForm from "./utils/hooks/useLoginForm";
 const LoginForm = () => {
     const [btnDisabled, setBtnDisabled] = useState(true);
     //GNOMO USAR EL LOADING
-    const { form, error, loading, handleChange, handleSubmit } = useLoginForm();
+    const { form, error, handleChange, handleSubmit } = useLoginForm();
     useEffect(() => {
         setBtnDisabled(!form.isCompleted());
     }, [form.value]);

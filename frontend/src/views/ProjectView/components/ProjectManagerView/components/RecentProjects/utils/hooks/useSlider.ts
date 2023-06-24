@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CARD_LIST_GAP } from "../constants";
 import { SliderHook } from "./types";
-import { Project } from "src/entities/project/types";
+import { Project } from "src/entities/project/entities";
 
 const useSlider = (
     $list: React.MutableRefObject<HTMLDivElement | undefined>,
