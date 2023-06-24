@@ -1,12 +1,13 @@
 import { useState, useRef } from "react";
 import { Container } from "./styles";
-import ThreeDots from "./components/ThreeDots/ThreeDots";
+import IconMenu from "./components/IconMenu/IconMenu";
 import { MenuOption, MenuOptionsProps } from "./types";
 import Menu from "./components/Menu/Menu";
 
 const MenuOptions = ({
     options,
-    menuPosition
+    menuPosition,
+    icon
 }: MenuOptionsProps) => {
     //#region States
     const [showMenu, setShowMenu] = useState(false);
@@ -33,7 +34,7 @@ const MenuOptions = ({
             tabIndex={0} 
             onFocus={() => setShowMenu(true)}
             onBlur={() => setShowMenu(false)}>
-            <ThreeDots onClick={() => containerRef.current?.focus()} />
+            <IconMenu onClick={() => containerRef.current?.focus()} icon={icon} />
             <Menu 
                 className={getClassNameMenu()} 
                 options={options.map(option => ({

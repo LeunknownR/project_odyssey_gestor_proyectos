@@ -1,3 +1,4 @@
+import CustomButton from "src/components/CustomButton/CustomButton";
 import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
@@ -31,5 +32,22 @@ export const Container = styled.div<ContainerProps>`
     }
     @media (max-width: 600px) {
         width: 20px;
+    }
+`;
+export const CustomIcon = styled.span`
+    display: flex;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 100%;
+    padding: 2px;
+    .iconify {
+        font-size: 32px;
+        color: var(--white-1);
+    }
+    :hover {
+        background-color: var(--white-1-12);
+    }
+    :active {
+        scale: 0.9;
     }
 `;

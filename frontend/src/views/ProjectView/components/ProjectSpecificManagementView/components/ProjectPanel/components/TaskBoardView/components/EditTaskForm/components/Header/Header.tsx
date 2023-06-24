@@ -11,6 +11,7 @@ const Header = ({
     name,
     doUpdateTask,
     openModalDeleteTask,
+    openChangeStateModal
 }: HeaderProps) => {
     const { isMobile } = useMainContext();
     const { canEditTask, hideEditTaskForm } = useTaskBoardContext();
@@ -33,7 +34,7 @@ const Header = ({
                     {isMobile && 
                         <ChangeStateButton 
                             icon="fa6-solid:pen" 
-                            onClick={() => console.log("gnomo")} />}
+                            onClick={openChangeStateModal} />}
                     <DeleteButton icon="ion:skull" onClick={openModalDeleteTask} />
                 </FlexFlow>
             }

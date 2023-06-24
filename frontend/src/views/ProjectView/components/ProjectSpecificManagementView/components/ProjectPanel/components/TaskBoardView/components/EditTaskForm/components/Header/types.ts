@@ -5,4 +5,5 @@ export type HeaderProps = {
     name: string;
     doUpdateTask: () => void;
     openModalDeleteTask: () => void;
+    openChangeStateModal: () => void;
 };

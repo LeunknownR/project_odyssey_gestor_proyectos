@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MENU_OPTIONS, SUBMODULES_VIEWS } from "./utils/constants";
+import { MENU_OPTIONS, RESPONSIVE_MENU_OPTIONS, SUBMODULES_VIEWS } from "./utils/constants";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Tabs from "../Tabs/Tabs";
 import { PanelTabProps } from "../../types";
@@ -35,7 +35,9 @@ const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
             <ProjectTitle 
                 name={projectDetails.name} 
                 state={projectDetails.state} 
-                options={MENU_OPTIONS}/>}
+                options={!isMobile ? MENU_OPTIONS : RESPONSIVE_MENU_OPTIONS}
+                isHeader={true}
+                icon="mingcute:down-fill"/>}
             <FlexFlow  width="100%" direction="column" gap="20px">
                 {!isMobile && <Tabs projectId={projectId} />}
                 <Routes>

@@ -9,6 +9,8 @@ import useTaskForm from "./utils/hooks/useTaskForm";
 import useTaskBoardContext from "../../utils/contexts/useTaskBoardContext";
 import SubtaskList from "./components/SubtaskList/SubtaskList";
 import useUpdateMainInformationTask from "./utils/hooks/useUpdateMainInformationTask";
+import ChangeStateModal from "./components/ChangeStateModal";
+import useModal from "src/components/Modal/utils/hooks/useModal";
 
 const EditTaskForm = forwardRef<HTMLDivElement, EditTaskFormProps>(({
     openModalDeleteTask
@@ -27,6 +29,7 @@ const EditTaskForm = forwardRef<HTMLDivElement, EditTaskFormProps>(({
         isEditTaskFormOpen
     );
     const doUpdateTask = useUpdateMainInformationTask(form.value, socketIo);
+    const changeStateModal = useModal();
     //#endregion
     useEffect(() => {
         isEditTaskFormOpenRef.current = isEditTaskFormOpen;
@@ -72,7 +75,8 @@ const EditTaskForm = forwardRef<HTMLDivElement, EditTaskFormProps>(({
                 name={name}
                 form={form}
                 doUpdateTask={doUpdateTask}
-                openModalDeleteTask={openModalDeleteTask}/>
+                openModalDeleteTask={openModalDeleteTask}
+                openChangeStateModal={() => changeStateModal.open(true)}/>
             <Content ref={editTaskFormRef} className="custom-scrollbar">
                 <TaskForm 
                     form={form}
@@ -95,7 +99,11 @@ const EditTaskForm = forwardRef<HTMLDivElement, EditTaskFormProps>(({
             ref={ref}>
             {renderContent()}
         </Container>
-        
+        {currentProjectTask && 
+            <ChangeStateModal 
+                modalProps={changeStateModal} 
+                {...currentProjectTask}/>
+        }
         </>
     );
 });

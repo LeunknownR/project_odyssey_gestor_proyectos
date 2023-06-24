@@ -11,7 +11,7 @@ export const Container = styled.section`
     padding-bottom: 0;
     width: 100%;
     @media (max-width: ${MOBILE_WIDTH}px) {
-        padding: 5vh 10vw;
+        padding: 5vh 8vw;
         min-height: calc(100vh - var(--main-sidebar-height-mobile));
     }
 `;

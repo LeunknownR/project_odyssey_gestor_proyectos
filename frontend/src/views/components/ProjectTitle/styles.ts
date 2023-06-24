@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { MOBILE_WIDTH } from 'src/config/constants';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
     display: flex;
@@ -9,10 +10,19 @@ export const Container = styled.div`
         gap: 10px;
     }
 `;
-export const BackArrowContainer = styled.span`
+export const BackArrowContainer = styled(Link)`
+    transition: 0.3s;
+    border-radius: 100%;
+    padding: 2px;
     .iconify {
         color: var(--white-1);
         font-size: 35px;
+    }
+    :hover {
+        background-color: var(--white-1-12);
+    }
+    :active {
+        scale: 0.85;
     }
 `;
 export const TitleIconContainer = styled.span`
