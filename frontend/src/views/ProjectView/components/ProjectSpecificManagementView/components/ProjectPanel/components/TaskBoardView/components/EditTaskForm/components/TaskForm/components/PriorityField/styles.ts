@@ -1,4 +1,5 @@
 import { FlexFlow } from "src/components/styles";
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 export const EmptyTaskPriority = styled.img`
@@ -8,6 +9,10 @@ export const EmptyTaskPriority = styled.img`
     &.disabled {
         pointer-events: none;
         opacity: 0.5;
+    }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        width: 70px;
+        height: 30px;
     }
 `;
 export const Content = styled(FlexFlow)`

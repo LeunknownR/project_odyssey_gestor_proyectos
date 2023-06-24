@@ -11,7 +11,5 @@ export const Container = styled.ul`
     margin: 0;
     @media (max-width: ${MOBILE_WIDTH}px) {
         max-height: 310px;
-        overflow-y: scroll;
-        overflow-x: hidden;
     }
 `;

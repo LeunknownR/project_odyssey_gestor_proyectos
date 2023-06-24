@@ -1,5 +1,5 @@
 import CustomTextArea from "src/components/CustomTextArea/CustomTextArea";
-import { Container, IconContainer } from "./styles";
+import { CommentInput, Container, IconContainer, SendCommentButton } from "./styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { TASK_FIELD_PROPS } from "../../utils/constants";
 import { CommentBoxProps } from "./types";
@@ -39,15 +39,16 @@ const CommentBox = ({ taskId, scrollToMenuBottom }: CommentBoxProps) => {
     };
     return (
         <Container align="center">
-            <CustomTextArea
+            <CommentInput
                 {...TASK_FIELD_PROPS.TASK_COMMENT}
                 value={commentText}
                 onChange={changeCommentText}
                 onKeyDown={onKeyDownHandler}
             />
-            <IconContainer onClick={createComment}>
+            {/* <IconContainer onClick={createComment}>
                 <Icon icon="ic:round-comment" />
-            </IconContainer>
+            </IconContainer> */}
+            <SendCommentButton icon="ic:round-comment" onClick={createComment}/>
         </Container>
     );
 };

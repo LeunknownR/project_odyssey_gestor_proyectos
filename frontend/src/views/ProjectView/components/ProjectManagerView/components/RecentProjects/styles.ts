@@ -21,7 +21,6 @@ type CardListProps = {
     dragging: boolean;
 }
 export const CardList = styled(FlexFlow)<CardListProps>`
-    display: flex;
     justify-content: center;
     gap: 35px;
     @media (max-width: ${MOBILE_WIDTH}px) {

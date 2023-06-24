@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { ShadowProps } from './types';
 import BackendImage from 'src/views/components/UserImage/components/BackendImage/BackendImage';
+import { MOBILE_WIDTH } from 'src/config/constants';
 
 export const Shadow = styled.div<ShadowProps>`
     gap: 22px;
@@ -42,7 +43,13 @@ export const TaskPriorityImage = styled(BackendImage)`
         pointer-events: none;
         opacity: 0.6;
     }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        width: 70px;
+    }
 `;
 export const EmptyTaskPriority = styled.img`
     width: 100px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        width: 70px;
+    }
 `;

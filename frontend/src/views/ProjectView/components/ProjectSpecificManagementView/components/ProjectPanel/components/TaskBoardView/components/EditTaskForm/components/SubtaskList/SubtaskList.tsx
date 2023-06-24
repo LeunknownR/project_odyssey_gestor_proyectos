@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 //#region Styles
 import { FlexFlow } from "src/components/styles";
 import { Label } from "../TaskForm/styles";
-import { List } from "./styles";
+import { Container, List } from "./styles";
 import { AddSubtaskButton } from "../SubtaskSection/styles";
 //#endregion
 //#region Components
@@ -23,7 +23,7 @@ const SubtaskList = ({ currentProjectTask, scrollToMenuBottom }: SubtaskListProp
     const hideCreateSubtask = (): void => setCreateSubtaskCard(false);
     const subtaskListRef = useRef<HTMLDivElement | null>(null)
     return (
-        <FlexFlow direction="column" margin="0 30px 0 0" ref={subtaskListRef}>
+        <Container direction="column" padding="0 20px 0 0" ref={subtaskListRef}>
             {(subtasks.length > 0 || createSubtaskCard) && (
                 <>
                 <Label>Subtareas</Label>
@@ -49,7 +49,7 @@ const SubtaskList = ({ currentProjectTask, scrollToMenuBottom }: SubtaskListProp
                     scrollToMenuBottom(subtaskListRef.current.scrollHeight);
                 }}
             />}
-        </FlexFlow>
+        </Container>
     );
 };
 

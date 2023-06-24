@@ -1,3 +1,4 @@
+import { MOBILE_WIDTH } from 'src/config/constants';
 import styled from 'styled-components';
 
 export const EditTaskNameInput = styled.input`
@@ -16,4 +17,10 @@ export const EditTaskNameInput = styled.input`
 export const TaskName = styled.h2`
     color: var(--white-2);
     font-size: 24px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 210px;
+    }
 `;

@@ -1,4 +1,5 @@
 import { FlexFlow } from "src/components/styles";
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 export const Container = styled(FlexFlow.withComponent("li"))`
@@ -7,5 +8,8 @@ export const Container = styled(FlexFlow.withComponent("li"))`
     border-radius: 3px;
     &.checked {
         opacity: 0.4;
+    }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        padding: 8px;
     }
 `;
