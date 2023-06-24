@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SUBMODULES_VIEWS } from "./constants";
+import { MENU_OPTIONS, SUBMODULES_VIEWS } from "./utils/constants";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Tabs from "../Tabs/Tabs";
 import { PanelTabProps } from "../../types";
@@ -9,12 +9,6 @@ import { requestGetProjectDetailForPanel } from "src/services/projects/relatedTo
 import ProjectTitle from "src/views/components/ProjectTitle/ProjectTitle";
 import { Container } from "./styles";
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
-
-const MENU_OPTIONS = [{
-    text: "Detalles",
-    to: "detalles",
-    icon: "fa6-solid:diagram-project"
-}];
 
 const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
     //#region States
@@ -38,7 +32,10 @@ const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
             direction="column" 
             width="100%" gap="30px">
             {projectDetails && 
-            <ProjectTitle name={projectDetails.name} state={projectDetails.state} options={MENU_OPTIONS}/>}
+            <ProjectTitle 
+                name={projectDetails.name} 
+                state={projectDetails.state} 
+                options={MENU_OPTIONS}/>}
             <FlexFlow  width="100%" direction="column" gap="20px">
                 {!isMobile && <Tabs projectId={projectId} />}
                 <Routes>

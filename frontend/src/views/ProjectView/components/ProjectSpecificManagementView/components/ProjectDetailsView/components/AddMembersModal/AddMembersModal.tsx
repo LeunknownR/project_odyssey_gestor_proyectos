@@ -1,6 +1,5 @@
-import Modal from "src/components/Modal/Modal";
 import { AddMembersModalProps } from "./types";
-import { BodyWrapper } from "./styles";
+import { BodyWrapper, StyledModal } from "./styles";
 import Footer from "./components/Footer/Footer";
 import CustomInputSearch from "src/components/CustomInputSearch/CustomInputSearch";
 import Header from "./components/Header/Header";
@@ -32,14 +31,14 @@ const AddMembersModal = ({
         setProjectMembersToAddList([]);
     }, [modalProps.isOpen]);
     const selectProjectMemberHandler = useSearchCollaborator({
-        requestSearchCollaborators: async (collaboratorName: string) => {
+        requestSearchCollaborators: async collaboratorName => {
             preloader.show("Buscando...");
             const { data } = await requestSearchCollaboratorToBeMemberForCollaborator({
                 projectId,
                 collaboratorName
             });
             preloader.hide();
-            return data;
+            return data.filter(({ id }) => !projectMembersToAddList.some(projectMember => projectMember.id === id));
         },
     });
     const customSearchInputHandler = useCustomInputSearch<CollaboratorUser>({
@@ -48,11 +47,11 @@ const AddMembersModal = ({
         onChange: addProjectMemberToAddList,
     });
     //#region Functions
-    function addProjectMemberToAddList(collaboratorUser: CollaboratorUser | null) {
+    function addProjectMemberToAddList(collaboratorUser: CollaboratorUser | null): void {
         if (!collaboratorUser) return;
         setProjectMembersToAddList((prev) => [...prev, collaboratorUser]);
     }
-    const removeProjectMemberToAddList = (projectMemberToDeleteId: number) => {
+    const removeProjectMemberToAddList = (projectMemberToDeleteId: number): void => {
         setProjectMembersToAddList((prev) => prev.filter(({ id }) => id !== projectMemberToDeleteId));
     };
     const addMembersToProject = async (): Promise<void> => {
@@ -71,7 +70,7 @@ const AddMembersModal = ({
     };
     //#endregion
     return (
-        <Modal {...modalProps} sizeProps={MODAL_STYLES}>
+        <StyledModal {...modalProps} sizeProps={MODAL_STYLES}>
             <Header />
             <BodyWrapper>
                 <CustomInputSearch<CollaboratorUser>
@@ -98,7 +97,7 @@ const AddMembersModal = ({
                 addMembersToProject={addMembersToProject}
                 noProjectMembers={projectMembersToAddList.length === 0}
             />
-        </Modal>
+        </StyledModal>
     );
 };
 
