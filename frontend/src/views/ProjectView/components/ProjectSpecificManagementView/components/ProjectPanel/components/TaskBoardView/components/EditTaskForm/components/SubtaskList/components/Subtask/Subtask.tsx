@@ -97,10 +97,10 @@ const Subtask = ({ subtask }: SubtaskProps) => {
             align="center"
             padding="8px 15px"
         >
-            <FlexFlow gap="12px" align="center">
-                <Check onClick={switchCheckStatus}>
-                    <Icon icon={checked ? "material-symbols:check-circle" : "gg:check-o"}/>
-                </Check>
+            <FlexFlow gap="10px" align="center" width="90%">
+                <Check 
+                    icon={checked ? "material-symbols:check-circle" : "gg:check-o"} 
+                    onClick={switchCheckStatus}/>
                 <SubtaskTextField
                     ref={subtaskTextFieldRef}
                     value={subtaskNameForm === null ? name : subtaskNameForm}
@@ -112,9 +112,7 @@ const Subtask = ({ subtask }: SubtaskProps) => {
                 />
             </FlexFlow>
             {canEditTask && (
-                <Skull onClick={deleteSubtask}>
-                    <Icon icon="ion:skull" />
-                </Skull>
+                <Skull icon="ion:skull" onClick={deleteSubtask}/>
             )}
         </Container>
     );

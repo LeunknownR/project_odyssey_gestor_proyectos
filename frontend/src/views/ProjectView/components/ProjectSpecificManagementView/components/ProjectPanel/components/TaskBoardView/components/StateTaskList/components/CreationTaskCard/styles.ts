@@ -1,4 +1,5 @@
 import CustomTextArea from "src/components/CustomTextArea/CustomTextArea";
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 export const Container = styled.li`
@@ -36,4 +37,7 @@ export const TaskCardName = styled.h3`
 export const UnselectedResponsible = styled.img``;
 export const EmptyTaskPriority = styled.img`
     width: 100px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        width: 70px;
+    }
 `;

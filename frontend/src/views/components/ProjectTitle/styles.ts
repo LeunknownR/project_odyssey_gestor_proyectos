@@ -9,7 +9,13 @@ export const Container = styled.div`
         gap: 10px;
     }
 `;
-export const IconContainer = styled.span`
+export const BackArrowContainer = styled.span`
+    .iconify {
+        color: var(--white-1);
+        font-size: 35px;
+    }
+`;
+export const TitleIconContainer = styled.span`
     .iconify {
         color: var(--white-1);
         background-color: var(--green-1);

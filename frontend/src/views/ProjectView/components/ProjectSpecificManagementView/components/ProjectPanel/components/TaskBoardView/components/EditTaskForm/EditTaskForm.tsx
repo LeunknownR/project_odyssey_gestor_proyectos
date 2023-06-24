@@ -88,12 +88,15 @@ const EditTaskForm = forwardRef<HTMLDivElement, EditTaskFormProps>(({
     };
     //#endregion
     return (
+        <>
         <Container
             className={getClassName()}
             tabIndex={0}
             ref={ref}>
             {renderContent()}
         </Container>
+        
+        </>
     );
 });
 

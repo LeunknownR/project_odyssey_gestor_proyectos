@@ -1,5 +1,7 @@
+import CustomButton from "src/components/CustomButton/CustomButton";
 import CustomTextField from "src/components/CustomTextField/CustomTextField";
 import { FlexFlow } from "src/components/styles";
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 export const SubtaskTextField = styled(CustomTextField)`
@@ -7,8 +9,11 @@ export const SubtaskTextField = styled(CustomTextField)`
     color: var(--white-2);
     font-weight: 300;
     font-size: 16px;
-    width: 300px;
     transition: 0.35s;
+    width: 100%;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 14px;
+    }
 `;
 export const Text = styled.p`
     color: var(--white-2);
@@ -23,12 +28,15 @@ export const Container = styled(FlexFlow.withComponent("li"))`
     &.checked {
         opacity: 0.4;
     }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        padding: 8px;
+    }
 `;
-export const Skull = styled.p`
-    display: flex;
+export const Skull = styled(CustomButton)`
     color: var(--gray-3);
-    cursor: pointer;
     transition: 0.3s;
+    padding: 0;
+    background: transparent;
     .iconify {
         font-size: 19px;
     }

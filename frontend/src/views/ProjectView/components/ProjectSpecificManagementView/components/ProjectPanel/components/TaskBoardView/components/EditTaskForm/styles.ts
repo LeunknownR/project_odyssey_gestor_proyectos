@@ -26,6 +26,10 @@ export const Container = styled(FlexFlow.withComponent("section"))`
     }
     @media (max-width: ${MOBILE_WIDTH}px) {
         height: calc(100vh - var(--main-sidebar-height-mobile));
+        width: 100%;
+        top: 0;
+        left: 0;
+        border-left: none
     }
 `;
 export const Content = styled.div`
@@ -34,4 +38,7 @@ export const Content = styled.div`
     gap: 15px;
     margin: 30px 15px 20px 30px;
     height: 100%;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        margin: 30px 15px 20px 25px;
+    }
 `;

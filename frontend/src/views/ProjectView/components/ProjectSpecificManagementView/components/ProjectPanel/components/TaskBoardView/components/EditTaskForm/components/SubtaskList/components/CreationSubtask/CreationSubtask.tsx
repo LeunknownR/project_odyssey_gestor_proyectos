@@ -69,10 +69,10 @@ const CreationSubtask = ({ taskId, hideCreateSubtask }: CreationSubtaskProps) =>
             ref={containerRef}
             tabIndex={0}
         >
-            <FlexFlow gap="12px" align="center">
-                <Check onClick={() => setIsChecked(prev => !prev)}>
-                    <Icon icon={isChecked ? "material-symbols:check-circle" : "gg:check-o"}/>
-                </Check>
+            <FlexFlow gap="10px" align="center" width="90%">
+                <Check 
+                    icon={isChecked ? "material-symbols:check-circle" : "gg:check-o"}  
+                    onClick={() => setIsChecked(prev => !prev)}/>
                 <SubtaskTextField
                     value={newSubtaskText}
                     onChange={changeNewSubtaskName}

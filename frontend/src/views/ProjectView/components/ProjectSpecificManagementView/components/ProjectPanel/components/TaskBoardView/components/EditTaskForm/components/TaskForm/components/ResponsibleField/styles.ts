@@ -19,7 +19,7 @@ export const Container = styled(FlexFlow)`
     }
 `;
 export const SelfAssignmentButton = styled(CustomButton)`
-    font-size: 14px;
+    font-size: 11px;
     color: var(--white-1);
     text-decoration: underline;
     background: none;
