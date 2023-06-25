@@ -5,10 +5,12 @@ import { DBProjectRoles } from "src/config/roles";
 const INIT_TASK_BOARD_CONTEXT: TaskBoardContextType = {
     socketIo: null,
     projectId: 0,
-    isTaskMenuOpen: false,
+    isEditTaskFormOpen: false,
     projectRoleId: DBProjectRoles.ProjectMember,
+    currentProjectTask: null,
     fillCurrentProjectTask: () => {},
-    hideTaskMenu: () => {},
+    hideEditTaskForm: () => {},
+    currentProjectTaskState: null,
     modifyMenuRef: null,
     preloader: {
         hide: () => {},

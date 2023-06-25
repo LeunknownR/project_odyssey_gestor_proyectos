@@ -8,5 +8,6 @@ export type MenuOption = {
 export type MenuOptionsProps = {
     className?: string;
     options: MenuOption[];
+    icon?: string;
     menuPosition: "left" | "right";
 }

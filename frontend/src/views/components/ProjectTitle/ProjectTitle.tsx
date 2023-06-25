@@ -3,7 +3,13 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 //#endregion
 //#region Styles
 import { FlexFlow } from "src/components/styles";
-import { Container, IconContainer, OptionsWrapper, ProjectName } from "./styles";
+import {
+    BackArrowContainer,
+    Container,
+    TitleIconContainer,
+    OptionsWrapper,
+    ProjectName,
+} from "./styles";
 //#endregion
 //#region Components
 import ProjectStateLabel from "../ProjectState/ProjectStateLabel";
@@ -11,21 +17,28 @@ import ProjectStateLabel from "../ProjectState/ProjectStateLabel";
 //#region Types
 import { ProjectTitleProps } from "./types";
 import MenuOptions from "../MenuOptions/MenuOptions";
+import useMainContext from "src/utils/contexts/main-context/useMainContext";
 //#endregion
 
-const ProjectTitle = ({ name, state, options }: ProjectTitleProps) => {
+const ProjectTitle = ({ name, state, options, isHeader = false, icon }: ProjectTitleProps) => {
+    const { isMobile } = useMainContext();
+    const isResponsiveHeader: boolean = isMobile && isHeader;
     return (
         <Container>
             <FlexFlow gap="14px" align="center">
-                <IconContainer>
+                {isResponsiveHeader && 
+                    <BackArrowContainer to="../detalles">
+                        <Icon icon="ion:chevron-back" />
+                    </BackArrowContainer>}
+                <TitleIconContainer>
                     <Icon icon="eos-icons:project" />
-                </IconContainer>
+                </TitleIconContainer>
                 <ProjectName>{name}</ProjectName>
             </FlexFlow>
             <OptionsWrapper>
-                <MenuOptions menuPosition="left" options={options} />
+                <MenuOptions menuPosition="left" options={options} icon={icon} />
             </OptionsWrapper>
-            <ProjectStateLabel state={state} />
+            {!isResponsiveHeader && <ProjectStateLabel state={state} />}
         </Container>
     );
 };

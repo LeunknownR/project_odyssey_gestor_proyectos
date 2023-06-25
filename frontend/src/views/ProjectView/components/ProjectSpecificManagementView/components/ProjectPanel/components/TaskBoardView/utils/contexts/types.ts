@@ -13,10 +13,12 @@ export type TaskToBeChangedStateHandler = {
 export type TaskBoardContextType = {
     socketIo: Socket | null;
     projectId: number;
-    isTaskMenuOpen: boolean;
+    isEditTaskFormOpen: boolean;
     projectRoleId: DBProjectRoles;
+    currentProjectTask: ProjectTask | null;
     fillCurrentProjectTask: (task: ProjectTask, state: ProjectTaskState) => void;
-    hideTaskMenu: () => void;
+    hideEditTaskForm: () => void;
+    currentProjectTaskState: ProjectTaskState | null;
     modifyMenuRef: RefObject<HTMLElement> | null;
     preloader: PreloaderHook;
     canEditTask: boolean;

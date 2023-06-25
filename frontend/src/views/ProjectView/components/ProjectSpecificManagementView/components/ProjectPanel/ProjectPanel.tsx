@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SUBMODULES_VIEWS } from "./constants";
+import { MENU_OPTIONS, RESPONSIVE_MENU_OPTIONS, SUBMODULES_VIEWS } from "./utils/constants";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Tabs from "../Tabs/Tabs";
 import { PanelTabProps } from "../../types";
@@ -7,17 +7,14 @@ import { FlexFlow } from "src/components/styles";
 import { ProjectDetailsForPanel } from "src/entities/project/entities";
 import { requestGetProjectDetailForPanel } from "src/services/projects/relatedToProjects";
 import ProjectTitle from "src/views/components/ProjectTitle/ProjectTitle";
-
-const MENU_OPTIONS = [{
-    text: "Detalles",
-    to: "detalles",
-    icon: "fa6-solid:diagram-project"
-}];
+import { Container, Content } from "./styles";
+import useMainContext from "src/utils/contexts/main-context/useMainContext";
 
 const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
     //#region States
     const [projectDetails, setProjectDetails] = useState<ProjectDetailsForPanel | null>(null);
     //#endregion
+    const { isMobile } = useMainContext();
     //#region Effects
     useEffect(() => {
         fillProjectInfo();
@@ -31,13 +28,18 @@ const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
     }
     //#endregion
     return (
-        <FlexFlow 
+        <Container 
             direction="column" 
             width="100%" gap="30px">
             {projectDetails && 
-            <ProjectTitle name={projectDetails.name} state={projectDetails.state} options={MENU_OPTIONS}/>}
-            <FlexFlow  width="100%" direction="column">
-                <Tabs projectId={projectId} />
+            <ProjectTitle 
+                name={projectDetails.name} 
+                state={projectDetails.state} 
+                options={!isMobile ? MENU_OPTIONS : RESPONSIVE_MENU_OPTIONS}
+                isHeader={true}
+                icon={isMobile ? "mingcute:down-fill" : ""}/>}
+            <Content width="100%" direction="column" gap="20px">
+                {!isMobile && <Tabs projectId={projectId} />}
                 <Routes>
                     {SUBMODULES_VIEWS.map(({ key, path, View }) => (
                         <Route
@@ -51,8 +53,8 @@ const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
                     ))}
                     <Route path="*" element={<Navigate to={`/proyectos/${projectId}/detalles`} replace/>} />
                 </Routes>
-            </FlexFlow>
-        </FlexFlow>
+            </Content>
+        </Container>
     );
 };
 

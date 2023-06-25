@@ -156,6 +156,32 @@ CREATE TABLE `task_comment` (
     FOREIGN KEY (`id_collaborator`) REFERENCES `collaborator`(`id_collaborator`)
 );
 
+-- Tabla para guardar los mensajes para el chat privado
+DROP TABLE IF EXISTS `private_chat_message`;
+CREATE TABLE `private_chat_message` (
+    `id_private_chat_message` INT UNSIGNED AUTO_INCREMENT,
+    `message` VARCHAR(200) NOT NULL,
+    `datetime` DATETIME NOT NULL,
+    `id_collaborator_sender` INT UNSIGNED NOT NULL,
+    `id_collaborator_receiver` INT UNSIGNED NOT NULL,
+    PRIMARY KEY (`id_private_chat_message`),
+    FOREIGN KEY (`id_collaborator_sender`) REFERENCES `collaborator`(`id_collaborator`),
+    FOREIGN KEY (`id_collaborator_receiver`) REFERENCES `collaborator`(`id_collaborator`)
+);
+
+-- Tabla para guardar los mensajes para el chat del proyecto
+DROP TABLE IF EXISTS `project_chat_message`;
+CREATE TABLE `project_chat_message` (
+    `id_project_chat_message` INT UNSIGNED AUTO_INCREMENT,
+    `message` VARCHAR(200) NOT NULL,
+    `datetime` DATETIME NOT NULL,
+    `id_project_team_member` INT UNSIGNED NOT NULL,
+    `id_project` INT UNSIGNED NOT NULL,
+    PRIMARY KEY (`id_project_chat_message`),
+    FOREIGN KEY (`id_project`) REFERENCES `project`(`id_project`),
+    FOREIGN KEY (`id_project_team_member`) REFERENCES `project_team_member`(`id_project_team_member`)
+);
+
 -- --- [ INSERT INTO ] ------------------------------------------------------------
 -- Insertando datos en la tabla user 
 INSERT INTO `user` (`id_user`, `user_name`, `user_surname`, `username`, `userpassword`, `url_photo`, `email`, `id_role`) 
@@ -253,26 +279,37 @@ VALUES
     (23, 13, 18, 'PLD'),
     (24, 14, 19, 'PLD');
 
-INSERT INTO `task`(id_task, task_name, description, deadline, state, id_task_priority, id_project, id_responsible)
+INSERT INTO `task`(`id_task`, `task_name`, `description`, `deadline`, `state`, `id_task_priority`, `id_project`, `id_responsible`)
 VALUES 
-    (1, "db | Stored procedures 'sprint-2'", "Desarrollo de Sotored procedures por parte del DBA, 'osea yo',  para los servicios REST del sprint 2", "2023-05-17", "F", 3, 1, 3),
-    (2, "backend | new logict with POO 'sprint-2'", "Description example backend", "2023-05-12", "O", 1, 1, 2),
-    (3, "frontend | dev responsive design to mobile 'sprint-2'", "Description example frontend", "2023-05-15", "O", 1, 1, 5),
-    (4, "frontend | task example 'sprint-2'", "Description example frontend", "2023-05-20", "P", 1, 1, 5),
-    (5, "backend | task example 'sprint-2'", "Description example backend", "2023-05-21", "P", 1, 1, 2),
-    (6, "db | task example 'sprint-2'", "Description example db", "2023-05-23", "O", 1, 1, 2);
+    (1, 'db | Stored procedures "sprint-2"', 'Desarrollo de Sotored procedures por parte del DBA, "osea yo",  para los servicios REST del sprint 2', '2023-05-17', 'F', 3, 1, 3),
+    (2, 'backend | new logict with POO "sprint-2"', "Description example backend", '2023-05-12', 'O', 1, 1, 2),
+    (3, 'frontend | dev responsive design to mobile "sprint-2"', 'Description example frontend', '2023-05-15', 'O', 1, 1, 5),
+    (4, 'frontend | task example "sprint-2"', 'Description example frontend', '2023-05-20', 'P', 1, 1, 5),
+    (5, 'backend | task example "sprint-2"', 'Description example backend', '2023-05-21', 'P', 1, 1, 2),
+    (6, 'db | task example "sprint-2"', 'Description example db', '2023-05-23', 'O', 1, 1, 2);
 
-INSERT INTO `subtask`(id_subtask, subtask_name, checked, id_task)
-VALUES 
-    (1, "Analisis del CRUD task", 0, 1),
-    (2, "sp_1 - 'sp_create_task'", 0, 1),
-    (3, "sp_2 - 'sp_update_task'", 0, 1),
-    (4, "sp_3 - 'sp_delete_task'", 0, 1);
+INSERT INTO `subtask`(`id_subtask`, `subtask_name`, `checked`, `id_task`)
+VALUES
+    (1, 'Analisis del CRUD task', 0, 1),
+    (2, 'sp_1 - "sp_create_task"', 0, 1),
+    (3, 'sp_2 - "sp_update_task"', 0, 1),
+    (4, 'sp_3 - "sp_delete_task"', 0, 1);
 
-INSERT INTO `task_comment`(id_task_comment, comment_content, comment_date, id_task, id_collaborator)
+INSERT INTO `task_comment`(`id_task_comment`, `comment_content`, `comment_date`, `id_task`, `id_collaborator`)
 VALUES 
-    (1, "oe mano esta mal la subtarea", NOW(), 1, 2),
-    (2, "skueretriste mano", NOW(), 1, 3);
+    (1, 'oe mano esta mal la subtarea', NOW(), 1, 2),
+    (2, 'skueretriste mano', NOW(), 1, 3);
+
+INSERT INTO `private_chat_message` (`id_private_chat_message`, `message`, `datetime`, `id_collaborator_sender`, `id_collaborator_receiver`)
+VALUES 
+    (1,'Hola, como estas?', '2023-06-27 20:38:40', 2, 3),
+    (2,'Bien y tu?', '2023-06-27 20:45:02', 3, 2);
+
+INSERT INTO `project_chat_message` (`id_project_chat_message`, `message`, `datetime`, `id_project_team_member`, `id_project`)
+VALUES 
+    (1,'Chicos avancen sus partes crj', '2023-06-28 19:38:40', 1, 1),
+    (2,'va va', '2023-06-28 20:02:40', 2, 1),
+    (3,'va va', '2023-06-28 20:01:50', 3, 1);
 
 
 -- --- [ FUNCTIONs ] ------------------------------------------------------------
@@ -949,6 +986,14 @@ BEGIN
             -- Cuando el colaborador es miembro del proyecto y no es su tarea.
             SELECT 'COLLAB_IS_PMB_AND_TASK_IS_NOT_HIM' AS 'message';
         ELSE
+            -- Eliminando la subtareas de la tarea
+            DELETE FROM task_comment
+            WHERE id_task = p_id_task_to_be_deleted;
+
+            -- Eliminando la comentarios de la tarea
+            DELETE FROM subtask
+            WHERE id_task = p_id_task_to_be_deleted;
+
             -- Eliminando la tarea
             DELETE FROM task
             WHERE id_task = p_id_task_to_be_deleted;

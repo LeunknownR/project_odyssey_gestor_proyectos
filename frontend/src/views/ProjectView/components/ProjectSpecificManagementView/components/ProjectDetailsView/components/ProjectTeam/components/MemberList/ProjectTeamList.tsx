@@ -4,7 +4,7 @@ import { MemberListProps } from "./types";
 
 const ProjectTeamList = ({ collaborators, openDeleteModal, currentUserIsProjectLeader }: MemberListProps) => {
     return (
-        <Container>
+        <Container className="custom-scrollbar">
             {collaborators.map(collaborator => (
                 <ProjectTeamMember
                     key={collaborator.id}
