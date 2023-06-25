@@ -5,6 +5,7 @@ import { CommentProps } from "./types";
 import { commentDateFormat } from "src/utils/dates";
 import { getUserId } from "src/storage/user.local";
 
+//GNOMO GENERALIZAR ESTA MIERDA
 const Comment = ({ comment }: CommentProps) => {
     const { content, datetime, collaborator } = comment;
     return (
