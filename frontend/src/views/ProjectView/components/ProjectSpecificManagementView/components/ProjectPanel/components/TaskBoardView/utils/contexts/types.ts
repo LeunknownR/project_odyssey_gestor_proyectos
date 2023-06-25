@@ -18,6 +18,7 @@ export type TaskBoardContextType = {
     currentProjectTask: ProjectTask | null;
     fillCurrentProjectTask: (task: ProjectTask, state: ProjectTaskState) => void;
     hideEditTaskForm: () => void;
+    currentProjectTaskState: ProjectTaskState | null;
     modifyMenuRef: RefObject<HTMLElement> | null;
     preloader: PreloaderHook;
     canEditTask: boolean;

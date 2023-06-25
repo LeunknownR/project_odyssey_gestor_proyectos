@@ -38,7 +38,7 @@ const ProjectPanel = ({ preloader, projectId }: PanelTabProps) => {
                 options={!isMobile ? MENU_OPTIONS : RESPONSIVE_MENU_OPTIONS}
                 isHeader={true}
                 icon="mingcute:down-fill"/>}
-            <FlexFlow  width="100%" direction="column" gap="20px">
+            <FlexFlow  width="100%" direction="column" gap="20px" align="center">
                 {!isMobile && <Tabs projectId={projectId} />}
                 <Routes>
                     {SUBMODULES_VIEWS.map(({ key, path, View }) => (
