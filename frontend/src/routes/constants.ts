@@ -4,6 +4,7 @@ import { AbsolutePaths } from "src/config/absolutePaths";
 import OnDevelopment from "src/dev-components/OnDevelopment";
 import ProjectView from "src/views/ProjectView/ProjectView";
 
+//GNOMO CREO QUE DEBERÍA IR ACÁ LOS CHATS
 export const MODULE_VIEWS: ViewModulesRouteByViewModule = {
     [ViewModule.Projects]: {
         View: ProjectView,

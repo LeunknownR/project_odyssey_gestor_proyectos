@@ -19,4 +19,14 @@ export const Tab = styled(FlexFlow)`
         color: var(--white-1);
         background-color: var(--darkblue-2);
     }
+    &.new-chat {
+        ::after {
+            content: "";
+            height: 8px;
+            width: 8px;
+            background-color: var(--red-2);
+            margin-left: 3px;
+            border-radius: 100%;
+        }
+    }
 `;

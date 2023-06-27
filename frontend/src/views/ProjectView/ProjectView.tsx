@@ -4,7 +4,6 @@ import { currentUserLocalStorage } from "src/storage/user.local";
 import { DBRoles } from "src/config/roles";
 import ProjectManagerView from "./components/ProjectManagerView/ProjectManagerView";
 import ProjectSpecificManagementView from "./components/ProjectSpecificManagementView/ProjectSpecificManagementView";
-import { SUBMODULES_VIEWS } from "./utils/constants";
 import ChatRoomsView from "./components/ChatRoomsView/ChatRoomsView";
 
 const ProjectView = () => {
