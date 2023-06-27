@@ -65,7 +65,7 @@ export const projectTaskBoardMapper = (resulset: any[]): ProjectTaskBoard => {
             {
                 id: taskId,
                 name: record["task_name"],
-                description: record["task_description"],
+                description: record["task_description"] || "",
                 priorityId: record["id_task_priority"],
                 deadline: deadline ? deadline.getTime() : -1,
                 responsible: reponsibleId ? {

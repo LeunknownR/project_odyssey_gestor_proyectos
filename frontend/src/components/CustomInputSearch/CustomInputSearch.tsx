@@ -11,6 +11,7 @@ import { SearchedItemToShow } from "./components/types";
 function CustomInputSearch<O>({
     label, placeholder,
     variant, maxLength,
+    disabled,
     handler: {
         searchedText,
         changeSearchText,
@@ -28,6 +29,7 @@ function CustomInputSearch<O>({
                 value={searchedText}
                 onChange={changeSearchText}
                 variant={variant}
+                disabled={disabled}
                 maxLength={maxLength}
                 onFocus={() => fillOptions(searchedText)}
             />
@@ -45,7 +47,6 @@ function CustomInputSearch<O>({
                     })}
                 </List>
             )}
-            {/* {value && <CleanBtn onClick={clearInput}>Limpiar</CleanBtn>} */}
         </Container>
     );
 }

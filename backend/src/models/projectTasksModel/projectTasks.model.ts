@@ -2,7 +2,7 @@ import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
 import { SearchCollaboratorRequestBody } from "../../routes/collaborator/types";
 import {
-    WSProjectTaskToBeChangedStateForm,
+    WSProjectTaskWithNewStateForm,
     WSProjectTaskToBeDeletedForm,
     WSNewProjectTaskForm,
     WSProjectTaskCommentForm,
@@ -73,7 +73,7 @@ export default abstract class ProjectTasksModel {
                 taskMainInformation.deadline > 0
                     ? new Date(taskMainInformation.deadline)
                     : null,
-                taskMainInformation.priotityId
+                taskMainInformation.priorityId
             ]
         );
         return record;
@@ -145,7 +145,7 @@ export default abstract class ProjectTasksModel {
         projectId,
         payload: task,
         collaboratorId
-    }: WSProjectTaskToBeChangedStateForm): Promise<any> {
+    }: WSProjectTaskWithNewStateForm): Promise<any> {
         const [[record]] = await DBConnection.query(
             StoredProcedures.ChangeProjectTaskState,
             [

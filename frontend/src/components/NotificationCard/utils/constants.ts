@@ -40,4 +40,9 @@ export const VARIANT: Record<CardVariant, CardTypeVisual> = {
         subtitle: "La fecha de finalización ha sido actualizada correctamente",
         color: "var(--green-2)",
     },
+    [CardVariant.DeleteTask]: {
+        title: "TAREA ELIMINADA",
+        subtitle: "La tarea ha sido eliminada correctamente",
+        color: "var(--red-3)",
+    },
 };

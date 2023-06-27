@@ -2,37 +2,39 @@ import { Container, Content, LabelContent, MaxLength, TextArea } from "./styles"
 import { CustomTextAreaProps } from "./types";
 
 const CustomTextArea = ({
-    placeholder,
-    label,
-    variant,
-    maxLength,
-    size,
-    width,
-    maxWidth,
-    value,
-    onChange,
+    className, placeholder,
+    label, variant,
+    maxLength, size,
+    width, maxWidth, disabled = false,
+    value, onChange, onBlur,
+    characterCounter = true,
+    onKeyDown
 }: CustomTextAreaProps) => {
     const getClassName = () => {
         const classList: string[] = [];
+        className && classList.push(className)
+        disabled && classList.push("disabled");
         size && classList.push(size);
         variant && classList.push(variant);
         return classList.join(" ");
     };
-    const className: string = getClassName();
+    const classNameFull: string = getClassName();
     return (
-        <Container width={width} maxWidth={maxWidth} className={className}>
+        <Container width={width} maxWidth={maxWidth} className={classNameFull}>
             {label && (
-                <LabelContent className={className}>{label}</LabelContent>
+                <LabelContent className={classNameFull}>{label}</LabelContent>
             )}
-            <Content className={className}>
+            <Content className={classNameFull}>
                 <TextArea
-                    className={className}
+                    className={classNameFull}
                     maxLength={maxLength}
                     placeholder={placeholder}
                     value={value}
+                    disabled={disabled}
                     onChange={onChange}
-                />
-                <MaxLength>{value.length} / {maxLength}</MaxLength>
+                    onKeyDown={onKeyDown}
+                    onBlur={onBlur}/>
+                {(characterCounter && !disabled) && <MaxLength>{value.length} / {maxLength}</MaxLength>}
             </Content>
         </Container>
     );

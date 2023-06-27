@@ -7,7 +7,7 @@ function useCustomInputSearch<O>({
 }: CustomInputSearchHookParams<O>): CustomInputSearchHook<O> {
     //#region States
     const [searchedText, setSearchedText] = useState<string>("");
-    const [timeoutToSearchId, setTimeoutId] = useState<NodeJS.Timeout | undefined>();
+    const [timeoutToSearchId, setTimeoutToSearchId] = useState<NodeJS.Timeout | undefined>();
     //#endregion
     useEffect(() => {
         if (searchedText) return;
@@ -25,7 +25,7 @@ function useCustomInputSearch<O>({
         const newTimeoutToSearchId: NodeJS.Timeout | undefined = setTimeout(() => {
             fillOptions(value);
         }, 500);
-        setTimeoutId(newTimeoutToSearchId);
+        setTimeoutToSearchId(newTimeoutToSearchId);
     };
     const clear = (): void => {
         setSearchedText("");

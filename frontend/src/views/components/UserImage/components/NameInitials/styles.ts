@@ -9,6 +9,7 @@ export const Container = styled.span`
     color: var(--dark-1);
     background-color: var(--cream-1);
     border-radius: 50%;
+    //GNOMO, ACÁ ESTOS ESTABAN EN 2.45 WADAFA --> Revisar detalles si se decide 2.45
     width: 2em;
     height: 2em;
     font-size: 24px;

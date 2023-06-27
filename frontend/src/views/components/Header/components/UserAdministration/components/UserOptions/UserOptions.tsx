@@ -7,15 +7,14 @@ import {
 import Footer from "./components/Footer/Footer";
 import UserImage from "../../../../../UserImage/UserImage";
 import { UserOptionsProps } from "./types";
-import { forwardRef } from "react";
 import RolInfo from "./components/RolInfo/RolInfo";
 import { FlexFlow } from "src/components/styles";
 
-const UserOptions = forwardRef(({ isOpen, currentUser }: UserOptionsProps, ref) => {
+const UserOptions = ({ isOpen, currentUser }: UserOptionsProps) => {
     if (!currentUser) return null;
     const { name, surname, role, urlPhoto } = currentUser;
     return (
-        <Container className={isOpen && "open"} ref={ref}>
+        <Container className={isOpen ? "open" : ""}>
             <FlexFlow direction="column" gap="8px">
                 <UserInfo align="center" gap="12px">
                     <UserImage 
@@ -29,6 +28,6 @@ const UserOptions = forwardRef(({ isOpen, currentUser }: UserOptionsProps, ref) 
             <Footer />
         </Container>
     );
-});
+};
 
 export default UserOptions;

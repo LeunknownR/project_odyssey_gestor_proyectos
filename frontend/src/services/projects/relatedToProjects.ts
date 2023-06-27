@@ -14,7 +14,6 @@ import {
     DeleteProjectRequestBody,
     UpdateProjectEndDateRequestBody,
 } from "./types";
-import { getProjectId } from "src/storage/project.session";
 
 export const requestGetProjectsForGeneralAdmin: APIRequestFunction<
     GroupedProjectList,
@@ -101,11 +100,11 @@ export const requestUpdateProjectEndDate: APIRequestFunction<
     return data;
 };
 export const requestDeleteMember: APIRequestFunction<null, number> = async (
-    projectHasCollaboratorId: number
+    projectTeamMemberId: number
 ) => {
     const path: string = getEndpointWithPathVariables(
         ApiPathEndpoints.DeleteProjectMember,
-        [getUserId(), projectHasCollaboratorId]
+        [getUserId(), projectTeamMemberId]
     );
     const data: ResponseBody = await APIHandler.api.delete(path);
     return data;

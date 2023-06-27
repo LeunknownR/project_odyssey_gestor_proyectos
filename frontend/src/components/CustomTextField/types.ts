@@ -1,6 +1,7 @@
 import { ChangeEvent, FocusEventHandler } from "react";
 
 export type CustomTextFieldProps = {
+    className?: string;
     placeholder?: string;
     label?: string;
     type?: string;
@@ -15,9 +16,10 @@ export type CustomTextFieldProps = {
     error?: string | null;
     restriction?: string;
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-    onBlur?: FocusEventHandler<HTMLInputElement>,
-    onFocus?: FocusEventHandler<HTMLInputElement>
-}
+    onBlur?: FocusEventHandler<HTMLInputElement>;
+    onFocus?: FocusEventHandler<HTMLInputElement>;
+    onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+};
 
 export type TextInputTarget = {
     target: {

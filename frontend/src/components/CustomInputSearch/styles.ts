@@ -18,6 +18,7 @@ export const List = styled.div`
     top: 45px;
     max-height: 300px;
     overflow-y: scroll;
+    z-index: 30;
     ::-webkit-scrollbar {
         display: none;
     }

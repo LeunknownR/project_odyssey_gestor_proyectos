@@ -7,11 +7,11 @@ import { ModalProps } from "./types";
 //#endregion
 
 const Modal = ({
-    children,
+    className,
     isOpen = false,
     sizeProps,
     handleClose,
-    open: handleOpen,
+    open, children,
 }: ModalProps) => {
     useEffect(() => {
         if (isOpen) {
@@ -20,13 +20,18 @@ const Modal = ({
         }
         document.body.classList.remove("no-scroll");
     }, [isOpen]);
+    const getClassName = () => {
+        const classList: string[] = ["modal"];
+        className && classList.push(className);
+        isOpen && classList.push("open");
+        return classList.join(" ");
+    }
     return (
         <Container
-            className={isOpen && "open"}
+            className={getClassName()}
             onMouseDown={() => {
-                handleClose ? handleClose() : handleOpen(false);
-            }}
-        >
+                handleClose ? handleClose() : open(false);
+            }}>
             <Content
                 width={sizeProps?.width}
                 minWidth={sizeProps?.minWidth}
@@ -36,8 +41,7 @@ const Modal = ({
                 className={isOpen && "opened"}
                 onMouseDown={(e: React.ChangeEvent<HTMLInputElement>) => {
                     e.stopPropagation();
-                }}
-            >
+                }}>
                 {children}
             </Content>
         </Container>

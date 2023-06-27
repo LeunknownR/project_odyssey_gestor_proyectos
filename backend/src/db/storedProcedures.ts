@@ -24,5 +24,7 @@ export enum StoredProcedures {
     DeleteProjectSubtask = "CALL sp_delete_subtask(?, ?, ?);",
     SwitchCheckStatusSubtask = "CALL sp_switch_check_status_subtask(?, ?, ?, ?);",
     DeleteProjectTask = "CALL sp_delete_task(?, ?, ?);",
-    CommentInProjectTask = "CALL sp_comment_in_task(?, ?, ?, ?);"
+    CommentInProjectTask = "CALL sp_comment_in_task(?, ?, ?, ?);",
+    SearchCollaboratorChats = "CALL sp_search_collaborator_chats(?, ?);",
+    SearchCollaboratorChatsWithMessages = "CALL sp_search_collaborator_chats_with_messages(?);"
 }

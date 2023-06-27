@@ -1,7 +1,7 @@
 export type UserImageProps = {
     className?: string;
     clickable?: boolean;
-    onClick?: (e: React.MouseEvent<HTMLElement>) => void;
+    onClick?: React.MouseEventHandler<HTMLElement>;
     name: string;
     surname: string;
     urlPhoto: string | null;
@@ -13,6 +13,7 @@ export type NameInitialsProps = {
 };
 export type BackendImageProps = {
     className?: string;
+    onClick?: React.MouseEventHandler<HTMLImageElement>;
     path: string;
     isDynamic?: boolean;
 }

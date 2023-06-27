@@ -1,36 +1,38 @@
-import { ProjectState } from "src/entities/project/enums";
 import { ProjectTaskState } from "src/entities/projectTasks/entities";
+import { WSUserData } from "src/services/websockets/types";
 
+export type WSUserDataProjectTaskService = WSUserData & {
+    projectId: number;
+};
 export type WSNewProjectTask = {
     name: string;
     state: ProjectTaskState;
 };
-export type WSProjectTaskToBeUpdated = {
+export type WSProjectTaskMainInformation = {
     taskId: number;
     responsibleId: number | null;
     name: string;
     description: string | null;
     deadline: number;
-    priotityId: number | null;
-    newSubTask: string[];
-    subTaskIdsToBeDeleted: number[];
+    priorityId: number | null;
 };
-
-export type WSProjectTaskToBeChangedState = {
+export type WSNewProjectSubtask = {
+	taskId: number;
+	name: string;
+};
+export type WSProjectSubtaskToBeUpdated = {
+	subtaskId: number;
+	name: string;
+};
+export type WSProjectSubtaskToBeSwitchedCheckStatus = {
+	subtaskId: number;
+    checked: boolean;
+};
+export type WSProjectTaskWithNewState = {
     taskId: number;
-    state: ProjectState;
+    state: ProjectTaskState;
 };
 export type WSProjectTaskComment = {
     taskId: number;
     content: string;
 };
-export type WSProjectTaskForm<T> = {
-    collaboratorId: number;
-    projectId: number;
-    payload: T;
-};
-export type WSNewProjectTaskForm = WSProjectTaskForm<WSNewProjectTask>;
-export type WSProjectTaskToBeUpdatedForm = WSProjectTaskForm<WSProjectTaskToBeUpdated>;
-export type WSProjectTaskToBeChangedStateForm = WSProjectTaskForm<WSProjectTaskToBeChangedState>;
-export type WSProjectTaskToBeDeletedForm = WSProjectTaskForm<number>;
-export type WSProjectTaskCommentForm = WSProjectTaskForm<WSProjectTaskComment>;
