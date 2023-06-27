@@ -142,6 +142,7 @@ const TaskBoardView = ({
                 projectId, isEditTaskFormOpen, projectRoleId,
                 modifyMenuRef, preloader, canEditTask,
                 currentProjectTask, fillCurrentProjectTask, hideEditTaskForm,
+                currentProjectTaskState,
                 taskToBeChangedStateHandler: {
                     fill: fillCurrentTaskToBeChangedState,
                     value: currentTaskToBeChangedState

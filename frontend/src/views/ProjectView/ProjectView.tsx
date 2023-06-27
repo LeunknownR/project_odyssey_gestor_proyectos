@@ -4,6 +4,8 @@ import { currentUserLocalStorage } from "src/storage/user.local";
 import { DBRoles } from "src/config/roles";
 import ProjectManagerView from "./components/ProjectManagerView/ProjectManagerView";
 import ProjectSpecificManagementView from "./components/ProjectSpecificManagementView/ProjectSpecificManagementView";
+import { SUBMODULES_VIEWS } from "./utils/constants";
+import ChatRoomsView from "./components/ChatRoomsView/ChatRoomsView";
 
 const ProjectView = () => {
     const [routes, setRoutes] = useState<ReactElement[] | null>(null);
@@ -13,27 +15,21 @@ const ProjectView = () => {
     }, []);
     const fillRoutes = (roleId: string): void => {
         const routes: ReactElement[] = [
-            <Route
-                key={0}
-                path=""
-                element={<ProjectManagerView/>}/>
+            <Route key={0} path="" element={<ProjectManagerView />} />,
+            <Route key={1} path="salas-chat" element={<ChatRoomsView />} />,
         ];
         if (roleId === DBRoles.Collaborator)
             routes.push(
                 <Route
-                    key={1}
+                    key={2}
                     path=":projectId/*"
-                    element={<ProjectSpecificManagementView/>}/>
+                    element={<ProjectSpecificManagementView />}
+                />
             );
         setRoutes(routes);
     };
-    if (routes === null)
-        return null;
-    return (
-        <Routes>
-            {routes}
-        </Routes>
-    );
-}
- 
+    if (routes === null) return null;
+    return <Routes>{routes}</Routes>;
+};
+
 export default ProjectView;

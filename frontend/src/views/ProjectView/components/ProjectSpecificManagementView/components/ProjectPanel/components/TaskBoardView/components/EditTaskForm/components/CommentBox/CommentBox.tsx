@@ -45,9 +45,6 @@ const CommentBox = ({ taskId, scrollToMenuBottom }: CommentBoxProps) => {
                 onChange={changeCommentText}
                 onKeyDown={onKeyDownHandler}
             />
-            {/* <IconContainer onClick={createComment}>
-                <Icon icon="ic:round-comment" />
-            </IconContainer> */}
             <SendCommentButton icon="ic:round-comment" onClick={createComment}/>
         </Container>
     );

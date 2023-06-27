@@ -123,6 +123,7 @@ export const Content = styled.div`
         border-radius: 5px;
         border: 1px solid var(--darkblue-1);
         color: var(--darkblue-1);
+        //gnomo cambiar esta mierda
         :focus-within {
             background-color: rgba(45, 90, 119, 0.2);
         }

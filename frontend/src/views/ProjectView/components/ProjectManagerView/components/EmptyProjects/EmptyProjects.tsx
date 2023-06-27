@@ -14,7 +14,6 @@ const EmptyProjects = () => {
                 subtitle={EMPTY_PROJECT_TEST[userRole].subtitle}
                 titleColor="var(--white-1)"
             />}
-            
         </Container>
     );
 };
