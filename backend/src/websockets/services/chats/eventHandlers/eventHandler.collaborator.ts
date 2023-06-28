@@ -177,25 +177,25 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 chatId,
                 collaboratorId
             );
-        const hasMessages: boolean = await ChatController.collaboratorHasNewPrivateMessages(collaboratorId);
+        const hasUnreadChats: boolean = await ChatController.collaboratorHasUnreadPrivateChats(collaboratorId);
         socket.emit(
             WSChatServiceEvents.Server.NotifyNewPrivateChatMessages,
-            hasMessages
+            hasUnreadChats
         );
-        this.notifyIfCollaboratorHasNewPrivateMessages(
+        this.notifyIfCollaboratorHasUnreadPrivateChats(
             socket.emit,
             collaboratorId
         );
     }
-    async notifyIfCollaboratorHasNewPrivateMessages(
+    async notifyIfCollaboratorHasUnreadPrivateChats(
         emit: (event: WSChatServiceEvents.Server, hasMessages: boolean) => void,
         collaboratorId: number
     ): Promise<void> {
         // Revisar que entre todos los chat del colaborador que existen si tienen mensajes
-        const hasNewMessages: boolean = await ChatController.collaboratorHasNewPrivateMessages(collaboratorId);
+        const hasUnreadChats: boolean = await ChatController.collaboratorHasUnreadPrivateChats(collaboratorId);
         emit(
             WSChatServiceEvents.Server.NotifyNewPrivateChatMessages,
-            hasNewMessages
+            hasUnreadChats
         );
     }
     private async getProjectChatMessages(socket: Socket, body: any) {
@@ -287,7 +287,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         if (!isConnected) return;
         const receiverRoomName: string = WSChatServiceRoom.getCollaboratorChatRoom(receiverId);
         // Notificando de mensajes al receptor
-        this.notifyIfCollaboratorHasNewPrivateMessages(
+        this.notifyIfCollaboratorHasUnreadPrivateChats(
             this.io.to(receiverRoomName).emit,
             receiverId
         );

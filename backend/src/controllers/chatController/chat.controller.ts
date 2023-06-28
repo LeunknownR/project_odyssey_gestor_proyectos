@@ -62,12 +62,11 @@ export default abstract class ChatController {
         );
         return new PrivateChatMessage(record);
     }
-    static async collaboratorHasNewPrivateMessages(collaboratorId: number): Promise<boolean> {
+    static async collaboratorHasUnreadPrivateChats(collaboratorId: number): Promise<boolean> {
         return false;
     }
-    static async collaboratorHasProjectMessages(
-        collaboratorId: number,
-        projectId: number
+    static async collaboratorHasUnreadProjectChats(
+        collaboratorId: number
     ): Promise<boolean> {
         return false;
     }
