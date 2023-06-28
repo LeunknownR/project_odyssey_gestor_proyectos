@@ -1,5 +1,6 @@
 import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
+import WSPrivateMessage from "../../websockets/services/chats/utils/entities/privateMessage";
 import WSSearchPrivateChatPreviewPayload from "../../websockets/services/chats/utils/entities/searchPrivateChatPreviewPayload";
 
 export default abstract class ChatModel {
@@ -22,5 +23,52 @@ export default abstract class ChatModel {
             [collaboratorId]
         );
         return resultset;
+    }
+    static async getPrivateChatMessages(collaboratorId: number, collaboratorChatId: number): Promise<any[]> {
+        const [resultset] = await DBConnection.query(
+            StoredProcedures.GetPrivateChatMessages, 
+            [collaboratorId, collaboratorChatId]
+        );
+        return resultset;
+    }
+    static async getProjectChatMessages(projectId: number): Promise<any[]> {
+        const [resultset] = await DBConnection.query(
+            StoredProcedures.GetProjectChatMessages, 
+            [projectId]
+        );
+        return resultset;
+    }
+    static async markPrivateChatMessagesAsSeen(
+        collaboratorId: number, 
+        collaboratorChatId: number
+    ): Promise<number> {
+        const { affectedRows } = await DBConnection.query(
+            StoredProcedures.MarkPrivateChatMessagesAsSeen, 
+            [collaboratorId, collaboratorChatId]
+        );
+        return affectedRows;
+    }
+    static async markProjectChatMessagesAsSeen(
+        collaboratorId: number, 
+        projectId: number
+    ): Promise<number> {
+        const { affectedRows } = await DBConnection.query(
+            StoredProcedures.MarkProjectChatMessagesAsSeen, 
+            [collaboratorId, projectId]
+        );
+        return affectedRows;
+    }
+    static async sendMessageToPrivateChat(
+        senderId: number,
+        {
+            receiverId,
+            content
+        }: WSPrivateMessage
+    ): Promise<any> {
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.SendMessageToPrivateChat, 
+            [senderId, receiverId, content]
+        );
+        return record;
     }
 }

@@ -6,6 +6,8 @@ import WSChatServiceCollaboratorEventHandler from "./eventHandlers/eventHandler.
 import { getWSUserData, rejectConnection } from "../../utils/helpers";
 import { checkWSCollaboratorToken } from "../../utils/authentication";
 import WSErrorMessages from "../../utils/errorMessages";
+import { WSChatServiceRoom } from "./utils/helpers";
+import WSChatServiceEvents from "./events";
 
 export default class WSChatService extends WSService {
     //#region Attributes
@@ -32,7 +34,20 @@ export default class WSChatService extends WSService {
             return;
         }
         const { userId: collaboratorId } = userDataBySocket;
-        this.dataHandler.connectedCollaborators.addCollaborator(collaboratorId);
+        // Agregando a la lista de collaboradores conectados al servicio de chat
+        this.dataHandler
+            .connectedCollaborators
+            .addCollaborator(collaboratorId);
+        // Ingresando al colaborador a su sala de chat privado
+        socket.join(
+            WSChatServiceRoom.getCollaboratorChatRoom(collaboratorId)
+        );
+        // Enviando notificación de mensajes recibidos
+        this.collaboratorEventHandler
+            .notifyIfCollaboratorHasUnreadPrivateChats(
+                socket.emit,
+                collaboratorId
+            );
     }
     private async connectCollaborator(socket: Socket,  next: WSNext) {
         // Autenticando token para la conexión
@@ -46,9 +61,14 @@ export default class WSChatService extends WSService {
     }
     private async disconnectCollaborator(socket: Socket) {
         const { userId: collaboratorId } = getWSUserData(socket);
+        // Eliminando colaborador de la lista de collaboradores conectados al servicio de chat
         this.dataHandler
             .connectedCollaborators
             .removeCollaborator(collaboratorId);
+        // Sacando de la sala de chat privado
+        socket.leave(
+            WSChatServiceRoom.getCollaboratorChatRoom(collaboratorId)
+        );
     }
     //#region Main
     config(): void {
