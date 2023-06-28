@@ -13,4 +13,7 @@ export default class WSChatServiceConnectedCollaborators {
         this.collaboratorIdList = this.collaboratorIdList
             .filter(id => id !== collaboratorId);
     }
+    isConnectedCollaborator(collaboratorId: number): boolean {
+        return this.collaboratorIdList.includes(collaboratorId);
+    }
 }

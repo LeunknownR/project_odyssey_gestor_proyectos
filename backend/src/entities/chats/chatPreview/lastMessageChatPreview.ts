@@ -1,4 +1,4 @@
-import { bufferToBoolean } from "../../db/helpers";
+import { bufferToBoolean } from "../../../db/helpers";
 
 export class LastMessageChatPreview {
     readonly datetime: number;
