@@ -1,20 +1,20 @@
 export class WSOpenProjectChats {
-    private collaboratorsInProjectChats: Map<string, number[]>;
+    private collaboratorsInProjectChats: Map<number, number[]>;
     addCollaboratorToProjectChat(
-        chatId: string,
+        projectId: number,
         collaboratorToAddId: number
     ): void {
         this.collaboratorsInProjectChats
-            .get(chatId)
+            .get(projectId)
             .push(collaboratorToAddId);
     }
     removeCollaboratorOfProjectChat(
-        chatId: string,
+        projectId: number,
         collaboratorToRemoveId: number
     ) {
         const newCollaborators: number[] = this.collaboratorsInProjectChats
-            .get(chatId)
+            .get(projectId)
             .filter(id => id !== collaboratorToRemoveId);
-        this.collaboratorsInProjectChats.set(chatId, newCollaborators);
+        this.collaboratorsInProjectChats.set(projectId, newCollaborators);
     }
 }

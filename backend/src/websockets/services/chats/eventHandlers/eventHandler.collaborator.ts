@@ -61,11 +61,11 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
     }
     //#region Search chat
     private async getPrivateChatPreview(
-        searchedCollaborator: string, 
+        searchedCollaborator: string,
         collaboratorId: number
     ): Promise<PrivateChatPreview[]> {
         // Verificando si es una cadena vacía
-        if (searchedCollaborator) 
+        if (searchedCollaborator)
             return await ChatController.getPrivateChatPreviewListWithMessages(collaboratorId);
         const getPrivateChatPreviewPayload: WSSearchPrivateChatPreviewPayload = new WSSearchPrivateChatPreviewPayload(
             collaboratorId,
@@ -74,16 +74,11 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         return await ChatController.searchPrivateChatPreviewList(getPrivateChatPreviewPayload);
     }
     private async getProjectChatPreview(
-        searchedProject: string, 
-        projectId: number
+        searchedProject: string,
+        collaboratorId: number
     ): Promise<ProjectChatPreview[]> {
-        if (searchedProject) 
-            return await ChatController.getProjectChatPreviewListWithMessages(projectId);
-        const getProjectChatPreviewPayload: WSSearchProjectChatPreviewPayload = new WSSearchProjectChatPreviewPayload(
-            projectId,
-            searchedProject
-        );
-        return await ChatController.searchProjectChatPreviewList(getProjectChatPreviewPayload)
+        const searchProjectChatPreviewList: ProjectChatPreview[] = await ChatController.searchProjectChatPreviewList(searchedProject, collaboratorId)
+        return searchProjectChatPreviewList;
     }
     private async searchPrivateChatPreview(
         socket: Socket,
@@ -96,7 +91,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         this.dataHandler
             .privateChatPreviewGroup
             .addPreviewChat(
-                collaboratorId, 
+                collaboratorId,
                 newPrivateChatPreviewList
             );
         // Enviar preview list al colaborador
@@ -107,15 +102,15 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
     }
     private async searchProjectChatPreview(
         socket: Socket,
-        projectId: number,
-        searchChatPreviewPayload: WSSearchChatPreviewPayload
+        collaboratorId: number,
+        searchedChat: string
     ): Promise<void> {
-        const newProjectChatPreviewList: ProjectChatPreview[] = await this.getProjectChatPreview(searchChatPreviewPayload.searchedChat, projectId);
+        const newProjectChatPreviewList: ProjectChatPreview[] = await this.getProjectChatPreview(searchedChat, collaboratorId);
         // Agregando preview list a la memoria
         this.dataHandler
             .projectChatPreviewGroup
             .addPreviewChat(
-                projectId, 
+                collaboratorId,
                 newProjectChatPreviewList
             );
         // Enviar preview list al colaborador
@@ -124,7 +119,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             newProjectChatPreviewList
         );
     }
-    private async searchChat(socket: Socket, body: any) {
+    private async searchChat(socket: Socket, body: any): Promise<void> {
         const searchChatPreviewPayload = new WSSearchChatPreviewPayload(body);
         const { userId: collaboratorId } = getWSUserData(socket);
         switch (searchChatPreviewPayload.chatTab) {
@@ -137,7 +132,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             case WSChatTab.Project:
                 this.searchProjectChatPreview(
                     socket, collaboratorId,
-                    searchChatPreviewPayload
+                    searchChatPreviewPayload.searchedChat
                 );
                 break;
         }
@@ -158,15 +153,17 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
     }
     private async leaveProjectChat(socket: Socket, body: any) {
         const { userId: collaboratorId } = getWSUserData(socket);
-        const collaboratorChatId = new IntegerId(body.collaboratorId);
         // Obtener id del proyecto
-        const chatId: string = "1";
+        const projectId = new IntegerId(body.projectId);
         // Eliminando colaborador del chat de un projecto
         this
             .dataHandler.openProjectChats
             .removeCollaboratorOfProjectChat(
-                chatId,
+                projectId.value,
                 collaboratorId);
+        // Sacar de la sala del proyecto
+        const getProjectChatRoom = WSChatServiceRoom.getProjectChatRoom(projectId.value);
+        socket.leave(getProjectChatRoom);
     }
     //#endregion
     //#region Search chat
@@ -185,7 +182,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         if (!messageList) {
             // Obtener los mensajes a través de una db query
             messageList = await ChatController.getPrivateChatMessages(
-                collaboratorId, 
+                collaboratorId,
                 collaboratorChatId
             );
             // Guardando los mensajes en la memoria
@@ -275,7 +272,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
     ): Promise<void> {
         // Guardar mensaje en la bd
         const privateChatMessage: PrivateChatMessage = await ChatController.sendMessageToPrivateChat(
-            senderId, 
+            senderId,
             privateMessage
         );
         // Agregar a lista de mensajes del chat privado
@@ -289,13 +286,13 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
     private async sendPrivateChatMessageList(
         socket: Socket,
         senderId: number,
-        receiverId: number 
+        receiverId: number
     ): Promise<void> {
         // Obtener mensajes del chat privado
         const privateChatMessageList: PrivateChatMessage[] = this.dataHandler
             .privateChatMessagesGroup
             .getPrivateChatMessageList(
-                senderId, 
+                senderId,
                 receiverId
             );
         // Enviando chat actualizado a emisor y receptor
@@ -331,7 +328,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             receiverId
         );
     }
-    private async sendMessageToPrivateChat(socket: Socket, body: any)  {
+    private async sendMessageToPrivateChat(socket: Socket, body: any) {
         const privateMessage = new WSPrivateMessage(body);
         const { userId: senderId } = getWSUserData(socket);
         this.savePrivateChatMessage(

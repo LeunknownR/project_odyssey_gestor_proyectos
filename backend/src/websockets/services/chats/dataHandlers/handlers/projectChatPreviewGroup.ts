@@ -2,15 +2,14 @@ import { ProjectChatPreview } from "../../../../../entities/chats/chatPreview/pr
 
 export default class WSProjectChatPreviewGroup {
     //#region Attributes
-    // Diccionario { key: collaboratorId, value: projectChatPreview[] }
     private previewChatGroup: Map<number, ProjectChatPreview[]>;
     //#endregion
     //#region Methods
-    getPreviewChat(projectId: number): ProjectChatPreview[] {
-        return this.previewChatGroup.get(projectId);
+    getPreviewChat(collaboratorId: number): ProjectChatPreview[] {
+        return this.previewChatGroup.get(collaboratorId);
     }
-    addPreviewChat(projectId: number, previewChat: ProjectChatPreview[]): void {
-        this.previewChatGroup.set(projectId, previewChat);
+    addPreviewChat(collaboratorId: number, previewChat: ProjectChatPreview[]): void {
+        this.previewChatGroup.set(collaboratorId, previewChat);
     }
     //#endregion
 }

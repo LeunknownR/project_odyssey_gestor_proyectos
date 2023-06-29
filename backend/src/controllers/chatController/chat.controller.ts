@@ -15,8 +15,11 @@ export default abstract class ChatController {
         const resultset: any[] = await ChatModel.searchPrivateChatPreviewList(getPrivateChatPreviewPayload);
         return resultset.map(record => new PrivateChatPreview(record));
     }
-    static async searchProjectChatPreviewList(getprojectChatPreviewPayload: WSSearchProjectChatPreviewPayload): Promise<ProjectChatPreview[]> {
-        const resultset: any[] = await ChatModel.searchProjectChatPreviewList(getprojectChatPreviewPayload);
+    static async searchProjectChatPreviewList(
+        searchedProject: string,
+        collaboratorId: number
+    ): Promise<ProjectChatPreview[]> {
+        const resultset: any[] = await ChatModel.searchProjectChatPreviewList(searchedProject, collaboratorId);
         return resultset.map(record => new ProjectChatPreview(record));
     }
     static async getPrivateChatPreviewListWithMessages(collaboratorId: number): Promise<PrivateChatPreview[]> {
@@ -45,20 +48,20 @@ export default abstract class ChatController {
         return new FormattedProjectChatMessages(resultset);
     }
     static async markPrivateChatMessagesAsSeen(
-        collaboratorId: number, 
+        collaboratorId: number,
         collaboratorChatId: number
     ): Promise<void> {
         await ChatModel.markPrivateChatMessagesAsSeen(
-            collaboratorId, 
+            collaboratorId,
             collaboratorChatId
         );
     }
     static async markProjectChatMessagesAsSeen(
-        collaboratorId: number, 
+        collaboratorId: number,
         projectId: number
     ): Promise<void> {
         await ChatModel.markPrivateChatMessagesAsSeen(
-            collaboratorId, 
+            collaboratorId,
             projectId
         );
     }
