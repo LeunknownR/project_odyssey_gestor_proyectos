@@ -1,5 +1,4 @@
 import WSChatServiceConnectedCollaborators from "./handlers/connectedCollaboratorsInChatService";
-import WSPrivateChatHasMessagesGroup from "./handlers/privateChatHasMessagesGroup";
 import { WSPrivateChatMessagesGroup } from "./handlers/privateChatMessagesGroup";
 import WSPrivateChatPreviewGroup from "./handlers/privateChatPreviewGroup";
 import { WSOpenPrivateChats } from "./handlers/privateChatsOpen";
@@ -12,7 +11,6 @@ export default class WSChatServiceDataHandler {
     readonly privateChatMessagesGroup: WSPrivateChatMessagesGroup;
     readonly projectChatMessagesGroup: WSProjectChatMessagesGroup;
     readonly openPrivateChats: WSOpenPrivateChats;
-    readonly privateChatHasMessagesGroup: WSPrivateChatHasMessagesGroup;
     //#endregion
     constructor() {
         this.connectedCollaborators = new WSChatServiceConnectedCollaborators();

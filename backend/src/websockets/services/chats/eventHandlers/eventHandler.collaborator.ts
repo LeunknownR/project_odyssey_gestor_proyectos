@@ -277,10 +277,6 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
     private async sendPrivateChatNotification(
         socket: Socket, receiverId: number
     ) {
-        const hasMessages: boolean = true;
-        this.dataHandler
-            .privateChatHasMessagesGroup
-            .notify(receiverId, hasMessages);
         const isConnected: boolean = this.dataHandler
             .connectedCollaborators
             .isConnectedCollaborator(receiverId);
