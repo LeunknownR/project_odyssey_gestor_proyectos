@@ -6,11 +6,11 @@ export default class WSProjectChatPreviewGroup {
     private previewChatGroup: Map<number, ProjectChatPreview[]>;
     //#endregion
     //#region Methods
-    getPreviewChat(collaboratorId: number): ProjectChatPreview[] {
-        return this.previewChatGroup.get(collaboratorId);
+    getPreviewChat(projectId: number): ProjectChatPreview[] {
+        return this.previewChatGroup.get(projectId);
     }
-    addPreviewChat(collaboratorId: number, previewChat: ProjectChatPreview[]): void {
-        this.previewChatGroup.set(collaboratorId, previewChat);
+    addPreviewChat(projectId: number, previewChat: ProjectChatPreview[]): void {
+        this.previewChatGroup.set(projectId, previewChat);
     }
     //#endregion
 }

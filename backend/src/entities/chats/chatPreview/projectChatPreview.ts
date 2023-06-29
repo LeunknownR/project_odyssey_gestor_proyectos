@@ -1,16 +1,17 @@
-import { ProjectChatPreviewProject } from "./entities";
+import { ProjectChatPreviewProject } from "../entities";
 import { LastMessageChatPreview } from "./lastMessageChatPreview";
+import { LastMessageProjectChatPreview } from "./lastMessageProjectChatPreview";
 
 export class ProjectChatPreview {
     //#region Attributes
     readonly project: ProjectChatPreviewProject;
-    readonly lastMessage: LastMessageChatPreview | null;
+    readonly lastMessage: LastMessageProjectChatPreview | null;
     //#endregion
     constructor(record: any) {
         this.project = {
-            id: record["id_collaborator"],
-            name: record["collaborator_name"]
+            id: record["id_project"],
+            name: record["project_name"]
         };
-        this.lastMessage = new LastMessageChatPreview(record);
+        this.lastMessage = new LastMessageProjectChatPreview(record);
     }
 };

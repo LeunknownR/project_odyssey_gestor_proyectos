@@ -3,19 +3,29 @@ import FormattedProjectChatMessages from "../../entities/chats/chatMessage/forma
 import PrivateChatMessage from "../../entities/chats/chatMessage/privateChatMessage";
 import ProjectChatMessage from "../../entities/chats/chatMessage/projectChatMessage";
 import { PrivateChatPreview } from "../../entities/chats/chatPreview/privateChatPreview";
+import { ProjectChatPreview } from "../../entities/chats/chatPreview/projectChatPreview";
 import ChatModel from "../../models/chatModel/chat.model";
 import { IntegerId } from "../../utils/entities/integerId";
 import WSPrivateMessage from "../../websockets/services/chats/utils/entities/privateMessage";
 import WSSearchPrivateChatPreviewPayload from "../../websockets/services/chats/utils/entities/searchPrivateChatPreviewPayload";
+import WSSearchProjectChatPreviewPayload from "../../websockets/services/chats/utils/entities/searchProjectChatPreviewPayload";
 
 export default abstract class ChatController {
     static async searchPrivateChatPreviewList(getPrivateChatPreviewPayload: WSSearchPrivateChatPreviewPayload): Promise<PrivateChatPreview[]> {
         const resultset: any[] = await ChatModel.searchPrivateChatPreviewList(getPrivateChatPreviewPayload);
         return resultset.map(record => new PrivateChatPreview(record));
     }
+    static async searchProjectChatPreviewList(getprojectChatPreviewPayload: WSSearchProjectChatPreviewPayload): Promise<ProjectChatPreview[]> {
+        const resultset: any[] = await ChatModel.searchProjectChatPreviewList(getprojectChatPreviewPayload);
+        return resultset.map(record => new ProjectChatPreview(record));
+    }
     static async getPrivateChatPreviewListWithMessages(collaboratorId: number): Promise<PrivateChatPreview[]> {
         const resultset: any[] = await ChatModel.getPrivateChatPreviewListWithMessages(collaboratorId);
         return resultset.map(record => new PrivateChatPreview(record));
+    }
+    static async getProjectChatPreviewListWithMessages(projectId: number): Promise<ProjectChatPreview[]> {
+        const resultset: any[] = await ChatModel.getPrivateChatPreviewListWithMessages(projectId);
+        return resultset.map(record => new ProjectChatPreview(record));
     }
     static async getPrivateChatMessages(collaboratorId: number, collaboratorChatId: IntegerId): Promise<PrivateChatMessage[]> {
         const resultset: any[] = await ChatModel.getPrivateChatMessages(

@@ -17,6 +17,9 @@ import { WSPrivateChatMessagesGroup } from "../dataHandlers/handlers/privateChat
 import { RelationCollaboratorChat } from "../../../../entities/chats/chatMessage/chatCollaboratorRelation";
 import { FormattedPrivateChatMessages } from "../../../../entities/chats/entities";
 import FormattedProjectChatMessages from "../../../../entities/chats/chatMessage/formattedProjectChatMessage";
+import { WSProjectChatMessagesGroup } from "../dataHandlers/handlers/projectChatMessagesGroup";
+import { ProjectChatPreview } from "../../../../entities/chats/chatPreview/projectChatPreview";
+import WSSearchProjectChatPreviewPayload from "../utils/entities/searchProjectChatPreviewPayload";
 
 export default class WSChatServiceCollaboratorEventHandler extends WSServiceEventHandler<WSChatServiceEvents.Collaborator> {
     //#region Attributes
@@ -40,6 +43,10 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             {
                 name: WSChatServiceEvents.Collaborator.LeavePrivateChat,
                 handler: this.leavePrivateChat.bind(this)
+            },
+            {
+                name: WSChatServiceEvents.Collaborator.LeaveProjectChat,
+                handler: this.leaveProjectChat.bind(this)
             },
             {
                 name: WSChatServiceEvents.Collaborator.GetProjectChatMessages,
@@ -66,6 +73,18 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         );
         return await ChatController.searchPrivateChatPreviewList(getPrivateChatPreviewPayload);
     }
+    private async getProjectChatPreview(
+        searchedProject: string, 
+        projectId: number
+    ): Promise<ProjectChatPreview[]> {
+        if (searchedProject) 
+            return await ChatController.getProjectChatPreviewListWithMessages(projectId);
+        const getProjectChatPreviewPayload: WSSearchProjectChatPreviewPayload = new WSSearchProjectChatPreviewPayload(
+            projectId,
+            searchedProject
+        );
+        return await ChatController.searchProjectChatPreviewList(getProjectChatPreviewPayload)
+    }
     private async searchPrivateChatPreview(
         socket: Socket,
         collaboratorId: number,
@@ -88,9 +107,22 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
     }
     private async searchProjectChatPreview(
         socket: Socket,
-        // Otros parámetros
+        projectId: number,
+        searchChatPreviewPayload: WSSearchChatPreviewPayload
     ): Promise<void> {
-
+        const newProjectChatPreviewList: ProjectChatPreview[] = await this.getProjectChatPreview(searchChatPreviewPayload.searchedChat, projectId);
+        // Agregando preview list a la memoria
+        this.dataHandler
+            .projectChatPreviewGroup
+            .addPreviewChat(
+                projectId, 
+                newProjectChatPreviewList
+            );
+        // Enviar preview list al colaborador
+        socket.emit(
+            WSChatServiceEvents.Server.DispatchProjectChatPreview,
+            newProjectChatPreviewList
+        );
     }
     private async searchChat(socket: Socket, body: any) {
         const searchChatPreviewPayload = new WSSearchChatPreviewPayload(body);
@@ -104,7 +136,8 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 break;
             case WSChatTab.Project:
                 this.searchProjectChatPreview(
-                    socket
+                    socket, collaboratorId,
+                    searchChatPreviewPayload
                 );
                 break;
         }
@@ -122,6 +155,18 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             .removeCollaboratorOfPrivateChat(
                 chatId, collaboratorId
             );
+    }
+    private async leaveProjectChat(socket: Socket, body: any) {
+        const { userId: collaboratorId } = getWSUserData(socket);
+        const collaboratorChatId = new IntegerId(body.collaboratorId);
+        // Obtener id del proyecto
+        const chatId: string = "1";
+        // Eliminando colaborador del chat de un projecto
+        this
+            .dataHandler.openProjectChats
+            .removeCollaboratorOfProjectChat(
+                chatId,
+                collaboratorId);
     }
     //#endregion
     //#region Search chat

@@ -2,6 +2,7 @@ import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
 import WSPrivateMessage from "../../websockets/services/chats/utils/entities/privateMessage";
 import WSSearchPrivateChatPreviewPayload from "../../websockets/services/chats/utils/entities/searchPrivateChatPreviewPayload";
+import WSSearchProjectChatPreviewPayload from "../../websockets/services/chats/utils/entities/searchProjectChatPreviewPayload";
 
 export default abstract class ChatModel {
     static async searchPrivateChatPreviewList({
@@ -17,10 +18,23 @@ export default abstract class ChatModel {
         );
         return resultset;
     }
-    static async getPrivateChatPreviewListWithMessages(collaboratorId: number): Promise<any[]> {
+    static async searchProjectChatPreviewList({
+        collaboratorId,
+        searchedCollaborator
+    }: WSSearchProjectChatPreviewPayload): Promise<any[]> {
+        const [resultset] = await DBConnection.query(
+            StoredProcedures.SearchCollaboratorChats, 
+            [
+                collaboratorId,
+                searchedCollaborator
+            ]
+        );
+        return resultset;
+    }
+    static async getPrivateChatPreviewListWithMessages(projectId: number): Promise<any[]> {
         const [resultset] = await DBConnection.query(
             StoredProcedures.SearchCollaboratorChatsWithMessages, 
-            [collaboratorId]
+            [projectId]
         );
         return resultset;
     }
