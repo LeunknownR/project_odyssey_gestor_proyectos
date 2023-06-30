@@ -1,5 +1,9 @@
 export abstract class WSChatServiceRoom {
-    public static getCollaboratorChatRoom(collaboratorId: number) {
+    static getCollaboratorChatRoom(collaboratorId: number) {
         return `collaborator-chat:${collaboratorId}`;
+    }
+    
+    static getProjectChatRoom(projectId: number) {
+        return `project-chat:${projectId}`;
     }
 }

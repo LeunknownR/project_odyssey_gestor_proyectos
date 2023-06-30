@@ -42,9 +42,15 @@ export default class WSChatService extends WSService {
         socket.join(
             WSChatServiceRoom.getCollaboratorChatRoom(collaboratorId)
         );
-        // Enviando notificación de mensajes recibidos
+        // Notificando de chats privados sin leer al receptor
         this.collaboratorEventHandler
             .notifyIfCollaboratorHasUnreadPrivateChats(
+                socket.emit,
+                collaboratorId
+            );
+        // Notificando de chats de proyectos sin leer al receptor
+        this.collaboratorEventHandler
+            .notifyIfCollaboratorHasUnreadProjectChats(
                 socket.emit,
                 collaboratorId
             );
