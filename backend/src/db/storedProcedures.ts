@@ -24,5 +24,15 @@ export enum StoredProcedures {
     DeleteProjectSubtask = "CALL sp_delete_subtask(?, ?, ?);",
     SwitchCheckStatusSubtask = "CALL sp_switch_check_status_subtask(?, ?, ?, ?);",
     DeleteProjectTask = "CALL sp_delete_task(?, ?, ?);",
-    CommentInProjectTask = "CALL sp_comment_in_task(?, ?, ?, ?);"
+    CommentInProjectTask = "CALL sp_comment_in_task(?, ?, ?, ?);",
+    SearchCollaboratorChats = "CALL sp_search_collaborator_chats(?, ?);",
+    SearchCollaboratorChatsWithMessages = "CALL sp_search_collaborator_chats_with_messages(?);",
+    SearchProjectChatsWithMessages = "CALL sp_search_collaborator_chats_with_messages(?);",
+    GetPrivateChatMessages = "CALL sp_get_private_chat_messages(?, ?);",
+    GetProjectChatMessages = "CALL sp_get_project_chat_messages(?);",
+    MarkPrivateChatMessagesAsSeen = "CALL mark_private_messages_as_seen(?, ?);",
+    MarkProjectChatMessagesAsSeen = "CALL mark_project_messages_as_seen(?, ?);",
+    SendMessageToPrivateChat = "CALL sp_send_message_to_private_chat(?, ?, ?);",
+    HasUnreadPrivateChats = "CALL sp_notify_unread_private_chats(?);",
+    HasUnreadProjectChats = "CALL sp_notify_unread_project_chats(?);"
 }

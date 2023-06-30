@@ -8,6 +8,11 @@ export const SUBMODULES_VIEWS: SubmoduleView[] = [
         View: ProjectDetailsView,
         path: "detalles",
     },
+    // {
+    //     key: "CHAT_ROOMS",
+    //     View: ChatRoomsView,
+    //     path: "salas-chat",
+    // },
     {
         key: "PROJECT_PANEL",
         View: ProjectPanel,

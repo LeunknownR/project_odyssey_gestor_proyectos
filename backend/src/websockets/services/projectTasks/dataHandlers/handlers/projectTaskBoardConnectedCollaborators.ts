@@ -1,6 +1,6 @@
 import { WSUserDataProjectTaskService } from "../../utils/entities";
 
-export default class WSConnectedCollaboratorsInProjectHandler {
+export default class WSProjectTaskBoardConnectedCollaborators {
     //#region Attributes
     // Diccionario { key: projectId, value: collabortarUserIdList }
     private connectedCollaboratorListInProject: Map<number, number[]>;

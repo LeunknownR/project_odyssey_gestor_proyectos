@@ -1,22 +1,22 @@
 import { ProjectTaskBoard } from "../../../../../entities/projectTasks/entities";
 
-export default class WSTaskBoardsHandler {
+export default class WSTaskBoardGroup {
     //#region Attributes
     // Diccionario { key: projectId, value: taskBoard }
-    private readonly taskBoardList: Map<number, ProjectTaskBoard>;
+    private taskBoardGroup: Map<number, ProjectTaskBoard>;
     //#endregion
     constructor() {
-        this.taskBoardList = new Map<number, ProjectTaskBoard>();
+        this.taskBoardGroup = new Map<number, ProjectTaskBoard>();
     }
     //#region Methods
     public setTaskBoardProject(projectId: number, taskBoard: ProjectTaskBoard): void {
-        this.taskBoardList.set(projectId, taskBoard);
+        this.taskBoardGroup.set(projectId, taskBoard);
     }
     public getTaskBoardByProject(projectId: number): ProjectTaskBoard {
-        return this.taskBoardList.get(projectId);
+        return this.taskBoardGroup.get(projectId);
     }
     public removeTaskBoardByProjectId(projectId: number): void {
-        this.taskBoardList.delete(projectId);
+        this.taskBoardGroup.delete(projectId);
     }
     //#endregion
 }
