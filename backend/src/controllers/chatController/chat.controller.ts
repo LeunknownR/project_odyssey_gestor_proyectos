@@ -1,3 +1,4 @@
+import { bufferToBoolean } from "../../db/helpers";
 import { RelationCollaboratorChat } from "../../entities/chats/chatMessage/chatCollaboratorRelation";
 import FormattedProjectChatMessages from "../../entities/chats/chatMessage/formattedProjectChatMessage";
 import PrivateChatMessage from "../../entities/chats/chatMessage/privateChatMessage";
@@ -75,12 +76,16 @@ export default abstract class ChatController {
         );
         return new PrivateChatMessage(record);
     }
-    static async collaboratorHasUnreadPrivateChats(collaboratorId: number): Promise<boolean> {
-        return false;
+    static async collaboratorHasUnreadPrivateChats(
+        collaboratorId: number
+    ): Promise<boolean> {
+        const record: any = ChatModel.collaboratorHasUnreadPrivateChats(collaboratorId);
+        return bufferToBoolean(record["has_unread_chats"]);
     }
     static async collaboratorHasUnreadProjectChats(
         collaboratorId: number
     ): Promise<boolean> {
-        return false;
+        const record: any = ChatModel.collaboratorHasUnreadProjectChats(collaboratorId);
+        return bufferToBoolean(record["has_unread_chats"]);
     }
 }
