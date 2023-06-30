@@ -195,6 +195,27 @@ CREATE TABLE `project_team_member_seen_message` (
     FOREIGN KEY (`id_project_chat_message`) REFERENCES `project_chat_message`(`id_project_chat_message`)
 );
 
+
+-- --- [ TRIGERs ] ------------------------------------------------------------
+
+-- -- Triger para insertar datos cuando se envia un mensaje
+DELIMITER //
+CREATE TRIGGER trg_insert_project_chat_message
+AFTER INSERT ON project_chat_message
+FOR EACH ROW
+BEGIN
+    INSERT INTO project_team_member_seen_message (
+        id_project_team_member, 
+        id_project_chat_message
+    )
+    SELECT 
+        ptm.id_project_team_member, 
+        NEW.id_project_chat_message
+    FROM project_team_member ptm
+    WHERE ptm.id_project = NEW.id_project;
+END //
+DELIMITER ;
+
 -- --- [ INSERT INTO ] ------------------------------------------------------------
 -- Insertando datos en la tabla user 
 INSERT INTO `user` (`id_user`, `user_name`, `user_surname`, `username`, `userpassword`, `url_photo`, `email`, `id_role`) 
@@ -322,12 +343,11 @@ VALUES
     (5,'Pues todo piola', '2023-06-27 20:46:02', 3, 2),
     (6,'Ya hiciste el trabajo que dejaron para ingenieria de procesos?', '2023-06-27 20:46:20', 3, 2);
 
-INSERT INTO `project_chat_message` (`id_project_chat_message`, `message`, `datetime`, `id_project_team_member`, `id_project`)
-VALUES 
-    (1,'Chicos avancen sus partes crj', '2023-06-28 19:38:40', 1, 1),
-    (2,'va va', '2023-06-28 20:02:40', 2, 1),
-    (3,'va va', '2023-06-28 20:01:50', 3, 1);
-
+-- INSERT INTO `project_chat_message` (`id_project_chat_message`, `message`, `datetime`, `id_project_team_member`, `id_project`)
+-- VALUES 
+--     (1,'Chicos avancen sus partes crj', '2023-06-28 19:38:40', 1, 1);
+--     (2,'va va', '2023-06-28 20:02:40', 2, 1),
+--     (3,'va va', '2023-06-28 20:01:50', 3, 1);
 
 -- --- [ FUNCTIONs ] ------------------------------------------------------------
 
@@ -1344,3 +1364,130 @@ BEGIN
     OR (id_collaborator_sender = p_id_collaborator_chat AND id_collaborator_receiver = p_id_collaborator_open_chat));
 END //
 DELIMITER ;
+
+
+-- SP para 
+DELIMITER //
+CREATE PROCEDURE `sp_get_project_chat_messages`(
+    IN p_id_project INT
+)
+BEGIN
+    -- Obteniendo los datos de los mensajes del chat privado
+    SELECT
+        id_project_team_member AS "id_project_team_member",
+        id_project_chat_message,
+        id_project_team_member AS "id_sender",
+        message
+    FROM project_chat_message 
+    WHERE id_project = p_id_project;
+END //
+DELIMITER ;
+
+-- SP para marcar como visto como visto de parte de un miembro del proyecto cuando abre el chat
+DELIMITER //
+CREATE PROCEDURE `sp_mark_project_messages_as_seen`(
+    IN p_id_collaborator_open_chat INT,
+    IN p_id_project INT
+)
+BEGIN
+    -- obteniendo el id_project_team_member
+    SET @id_project_team_member = (
+        SELECT id_project_team_member
+        FROM project_team_member
+        WHERE id_project = p_id_project
+        AND id_collaborator = p_id_collaborator_open_chat
+    );
+
+    -- obteniendo el id_private_chat_message
+    SET @id_project_chat_message = (
+        SELECT id_project_chat_message
+        FROM project_chat_message
+        WHERE id_project_team_member = @id_project_team_member
+        AND id_project = p_id_project
+    );
+    
+    -- Marcando como visto el mensaje privado
+    UPDATE project_team_member_seen_message
+    SET seen = 1
+    WHERE id_project_team_member = @id_project_team_member
+    AND id_project_chat_message = @id_project_chat_message;
+END //
+DELIMITER ;
+
+-- SP para enviar mensajes de un chat privado
+DELIMITER //
+CREATE PROCEDURE `sp_send_message_to_private_chat`(
+    IN p_id_sender INT,
+    IN p_id_reciver INT,
+    IN p_message VARCHAR(200)
+)
+BEGIN
+    -- Enviando nuevo mensaje en privado
+    INSERT INTO `private_chat_message`(
+        `message`,
+        `datetime`,
+        `id_collaborator_sender`,
+        `id_collaborator_receiver`
+    ) VALUES (
+        p_message,
+        NOW(),
+        p_id_sender,
+        p_id_reciver
+    );
+    SET @id_private_chat_message = LAST_INSERT_ID();
+
+    -- Luego de insertarlo, devolver el message con un SELECT
+    SELECT 
+        `id_private_chat_message`,
+        `id_collaborator_sender`,
+        `message`
+    FROM private_chat_message
+    WHERE id_private_chat_message = @id_private_chat_message;
+END //
+DELIMITER ;
+
+-- SP para enviar mensajes de un chat proyecto
+DELIMITER //
+CREATE PROCEDURE `sp_send_message_to_project_chat`(
+    IN p_id_sender INT,
+    IN p_id_project INT,
+    IN p_message VARCHAR(200)
+)
+BEGIN
+    -- Enviando nuevo mensaje al proyecto
+    INSERT INTO `project_chat_message`(
+        `message`,
+        `datetime`,
+        `id_project_team_member`,
+        `id_project`
+    ) VALUES (
+        p_message,
+        NOW(),
+        p_id_sender,
+        p_id_project
+    );
+    SET @id_project_chat_message = LAST_INSERT_ID();
+
+    -- Se creo la insercion de los projec_team_member_seen_message para cada colab del proyecto
+
+    -- ACA CREO QUE USARAS EL sp_mark_private_messages_as_seen
+
+    -- UPDATE project_team_member_seen_message
+    -- SET seen = 1
+    -- WHERE id_project_team_member = p_id_sender;
+    
+    -- Luego de insertarlo, devolver el message con un SELECT
+    SELECT 
+        `id_project_chat_message`,
+        `id_project_team_member`,
+        `message`
+    FROM project_chat_message
+    WHERE id_project_chat_message = @id_project_chat_message;
+END //
+DELIMITER ;
+
+
+-- INSETANDO LOS NUEVOS CHATS
+CALL sp_send_message_to_project_chat(1, 1, 'Chicos avancen sus partes crj');
+CALL sp_send_message_to_project_chat(2, 1, 'va va 1');
+CALL sp_send_message_to_project_chat(3, 1, 'va va 2');
