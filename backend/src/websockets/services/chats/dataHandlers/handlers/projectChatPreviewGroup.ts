@@ -2,7 +2,6 @@ import { ProjectChatPreview } from "../../../../../entities/chats/chatPreview/pr
 
 export default class WSProjectChatPreviewGroup {
     //#region Attributes
-    // Diccionario { key: collaboratorId, value: projectChatPreview[] }
     private previewChatGroup: Map<number, ProjectChatPreview[]>;
     //#endregion
     //#region Methods
