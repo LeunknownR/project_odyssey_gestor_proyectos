@@ -1303,7 +1303,7 @@ DELIMITER ;
 
 
 
--- new sp sprint 3 - Chats
+-- new sp sprint 3 - Chats 
 
 -- SP para obtener los datos de los mensajes de un chat privado
 DELIMITER //
