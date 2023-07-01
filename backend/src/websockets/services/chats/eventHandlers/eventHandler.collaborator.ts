@@ -410,7 +410,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             );
     }
     private async sendProjectChatNotification(projectId: number, senderId: number): Promise<void> {
-        //Traer la lista de mensajes.collaborator.Id  y filtrar el id del que envia el projecto del FormattedProjectChatMessages
+        // Obteniendo los colaboradores de un proyecto
         const collaboratorIds: number[] =
             this.dataHandler
                 .projectChatMessagesGroup
@@ -418,13 +418,13 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 .collaborators
                 .filter(collaborator => collaborator.id !== senderId)
                 .map(collaborator => collaborator.id);
-        // Utilizar un for each para enviar a cada collaborador una notificacion
+        // Enviando notificación de nuevos mensajes de proyectos a los colaboradores
         collaboratorIds.forEach(collaboratorId => {
             const receiverRoomName: string = WSChatServiceRoom.getCollaboratorChatRoom(collaboratorId);
             this.notifyIfCollaboratorHasUnreadProjectChats(
                 this.io.to(receiverRoomName).emit,
                 collaboratorId
-            )
+            );
         });
     }
     private async sendMessageToProjectChat(
