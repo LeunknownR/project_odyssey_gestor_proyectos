@@ -1,6 +1,7 @@
 import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
 import WSPrivateMessage from "../../websockets/services/chats/utils/entities/privateMessage";
+import WSProjectMessage from "../../websockets/services/chats/utils/entities/projectMessage";
 import WSSearchPrivateChatPreviewPayload from "../../websockets/services/chats/utils/entities/searchPrivateChatPreviewPayload";
 
 export default abstract class ChatModel {
@@ -95,6 +96,19 @@ export default abstract class ChatModel {
         const [[record]] = await DBConnection.query(
             StoredProcedures.HasUnreadProjectChats,
             [collaboratorId]
+        );
+        return record;
+    }
+    static async sendMessageToProjectChat(
+        senderId: number,
+        {
+            projectId,
+            content
+        }: WSProjectMessage
+    ): Promise<any> {
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.SendMessageToProjectChat,
+            [senderId, projectId, content]
         );
         return record;
     }

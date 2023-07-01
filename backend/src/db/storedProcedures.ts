@@ -34,5 +34,7 @@ export enum StoredProcedures {
     MarkProjectChatMessagesAsSeen = "CALL mark_project_messages_as_seen(?, ?);",
     SendMessageToPrivateChat = "CALL sp_send_message_to_private_chat(?, ?, ?);",
     HasUnreadPrivateChats = "CALL sp_notify_unread_private_chats(?);",
-    HasUnreadProjectChats = "CALL sp_notify_unread_project_chats(?);"
+    HasUnreadProjectChats = "CALL sp_notify_unread_project_chats(?);",
+    SendMessageToProjectChat = "CALL sp_send_message_to_project_chat(?, ?, ?);",
+
 }
