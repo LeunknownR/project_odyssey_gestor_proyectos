@@ -14,7 +14,6 @@ export default class WSChatServiceDataHandler {
     readonly privateChatMessagesGroup: WSPrivateChatMessagesGroup;
     readonly projectChatMessagesGroup: WSProjectChatMessagesGroup;
     readonly openPrivateChats: WSOpenPrivateChats;
-    readonly openProjectChats: WSOpenProjectChats;
     //#endregion
     constructor() {
         this.connectedCollaborators = new WSChatServiceConnectedCollaborators();

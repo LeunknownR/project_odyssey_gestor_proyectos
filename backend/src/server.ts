@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import endpointRouter from "./routes/index";
-import files from "./routes/files";
+import files from "./routes/files"; 
 import { Application } from "express";
 import http from "http";
 import { Server as WebSocketServer } from "socket.io";
