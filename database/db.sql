@@ -334,20 +334,14 @@ VALUES
     (1, 'oe mano esta mal la subtarea', NOW(), 1, 2),
     (2, 'skueretriste mano', NOW(), 1, 3);
 
-INSERT INTO `private_chat_message` (`id_private_chat_message`, `message`, `datetime`, `id_collaborator_sender`, `id_collaborator_receiver`)
+INSERT INTO `private_chat_message` (`id_private_chat_message`, `message`, `datetime`, `seen`, `id_collaborator_sender`, `id_collaborator_receiver`)
 VALUES 
-    (1,'Hola, como estas?', '2023-06-27 20:38:40', 2, 3),
-    (2,'Bien y tu?', '2023-06-27 20:45:02', 3, 2),
-    (3,'Hola soy SEO de CompanyPeru quieres ser tu propio jefe?', '2023-06-27 20:39:02', 4, 5),
-    (4,'Hola manuel...', '2023-06-27 20:41:00', 5, 2),
-    (5,'Pues todo piola', '2023-06-27 20:46:02', 3, 2),
-    (6,'Ya hiciste el trabajo que dejaron para ingenieria de procesos?', '2023-06-27 20:46:20', 3, 2);
-
--- INSERT INTO `project_chat_message` (`id_project_chat_message`, `message`, `datetime`, `id_project_team_member`, `id_project`)
--- VALUES 
---     (1,'Chicos avancen sus partes crj', '2023-06-28 19:38:40', 1, 1);
---     (2,'va va', '2023-06-28 20:02:40', 2, 1),
---     (3,'va va', '2023-06-28 20:01:50', 3, 1);
+    (1,'Hola, como estas?', '2023-06-27 20:38:40', 1, 2, 3),
+    (2,'Bien y tu?', '2023-06-27 20:45:02', 0, 3, 2),
+    (3,'Hola soy SEO de CompanyPeru quieres ser tu propio jefe?', '2023-06-27 20:39:02', 0, 4, 5),
+    (4,'Hola manuel...', '2023-06-27 20:41:00', 0, 5, 2),
+    (5,'Pues todo piola', '2023-06-27 20:46:02', 0, 3, 2),
+    (6,'Ya hiciste el trabajo que dejaron para ingenieria de procesos?', '2023-06-27 20:46:20', 0, 3, 2);
 
 -- --- [ FUNCTIONs ] ------------------------------------------------------------
 
@@ -1325,6 +1319,87 @@ DELIMITER ;
 
 -- new sp sprint 3 - Chats 
 
+-- SP para obtener la previsualización de chats. FALTA❗❗❗❗❗❗❗❗
+DELIMITER //
+CREATE PROCEDURE `sp_search_collaborator_private_chats`(
+    IN p_id_collaborator INT,
+    IN p_searched_collaborator VARCHAR(50)
+)
+BEGIN
+    SET @searched_collaborator_name = UPPER(CONCAT('%',p_searched_collaborator,'%'));
+
+    SELECT 
+        ptm.id_project,
+        uclb.user_name AS "collaborator_name",
+        uclb.user_surname AS "collaborator_surname",
+        uclb.url_photo AS "collaborator_url_photo",
+        MAX(pvcm.datetime) AS "last_message_datetime",
+        pvcm.message AS "last_message",
+        pvcm.id_collaborator_sender AS "last_message_id_sender",
+        pvcm.seen
+    FROM private_chat_message pvcm
+    LEFT JOIN user uclb ON pvcm.id_collaborator_sender = uclb.id_user
+    INNER JOIN collaborator clb ON uclb.id_user = clb.id_collaborator
+    INNER JOIN project_team_member ptm ON clb.id_collaborator = ptm.id_collaborator
+    WHERE pvcm.id_collaborator_sender = p_id_collaborator
+    AND uclb.user_name LIKE @searched_collaborator_name
+    ORDER BY DATE(pvcm.datetime), TIME(pvcm.datetime), uclb.user_name ASC;
+END //
+DELIMITER ;
+
+
+-- SP para  FALTA❗❗❗❗❗❗❗❗
+DELIMITER //
+CREATE PROCEDURE `sp_search_collaborator_project_chats`(
+    IN p_id_project INT,
+    IN p_searched_collaborator VARCHAR(50)
+)
+BEGIN
+    SELECT 
+        prcm.id_project,
+        uclb.user_name AS "collaborator_name",
+        prcm.datetime AS "last_message_datetime",
+        prcm.message AS "last_message",
+        prcm.id_project_team_member AS "last_message_id_sender",
+        ptmsm.id_project_team_member_seen_message
+    FROM project_chat_message prcm
+    INNER JOIN user uclb ON prcm.id_project_team_member = uclb.id_user
+    INNER JOIN project_team_member_seen_message ptmsm ON prcm.id_project_chat_message = ptmsm.id_project_chat_message
+    WHERE prcm.id_project_team_member = p_id_collaborator;
+END //
+DELIMITER ;
+
+-- SP para  FALTA❗❗❗❗❗❗❗❗
+DELIMITER //
+CREATE PROCEDURE `sp_search_collaborator_chats_with_messages`(
+    IN p_id_collaborator INT
+)
+BEGIN
+    SELECT 
+        prcm.id_project,
+        uclb.user_name AS "collaborator_name",
+        prcm.datetime AS "last_message_datetime",
+        prcm.message AS "last_message",
+        prcm.id_project_team_member AS "last_message_id_sender",
+        ptmsm.id_project_team_member_seen_message
+    FROM project_chat_message prcm
+    INNER JOIN user uclb ON prcm.id_project_team_member = uclb.id_user
+    INNER JOIN project_team_member_seen_message ptmsm ON prcm.id_project_chat_message = ptmsm.id_project_chat_message
+    WHERE prcm.id_project_team_member = p_id_collaborator;
+END //
+DELIMITER ;
+
+-- SP_ANOTATIONS: ----------------
+-- sp_search_collaborator_chats
+-- “ALGO” - Con chat
+-- sp_search_collaborator enfocado a buscar colaboradores en chats privados
+-- Reutilizar funct_get_chat_collaborator_preview
+-- collaborator LEFT JOIN private_chat
+
+-- ELSE -> SIN CHAT
+-- Los colaboradores con los que no tienes chats, es decir, nuevos chats.
+
+
 -- SP para obtener los datos de los mensajes de un chat privado
 DELIMITER //
 CREATE PROCEDURE `sp_get_private_chat_messages`(
@@ -1470,11 +1545,10 @@ BEGIN
 
     -- Se creo la insercion de los projec_team_member_seen_message para cada colab del proyecto
 
-    -- ACA CREO QUE USARAS EL sp_mark_private_messages_as_seen
-
-    -- UPDATE project_team_member_seen_message
-    -- SET seen = 1
-    -- WHERE id_project_team_member = p_id_sender;
+    -- ACA CREO QUE USARAS EL sp_mark_private_messages_as_seen ????
+    UPDATE project_team_member_seen_message
+    SET seen = 1
+    WHERE id_project_team_member = p_id_sender;
     
     -- Luego de insertarlo, devolver el message con un SELECT
     SELECT 
@@ -1486,8 +1560,84 @@ BEGIN
 END //
 DELIMITER ;
 
+-- SP para notificar a los colaboradores correspondientes, que hay mensajes nuevos en chats privados.
+DELIMITER //
+CREATE PROCEDURE `sp_collaborator_has_unread_private_chats`(
+    IN p_id_collaborator INT
+)
+BEGIN
+    IF EXISTS (
+        SELECT *
+        FROM private_chat_message
+        WHERE id_collaborator_sender = p_id_collaborator
+        AND seen = 0
+    ) THEN
+        SELECT '0' AS 'has_unread_chats';
+    ELSE
+        SELECT '1' AS 'has_unread_chats';
+    END IF;
+END //
+DELIMITER ;
 
+-- -- SP para notificar a los colaboradores correspondientes, que hay mensajes nuevos en chats de proyectos.
+DELIMITER //
+CREATE PROCEDURE `sp_collaborator_has_unread_project_chats`(
+    IN p_id_collaborator INT
+)
+BEGIN
+    IF EXISTS (
+        SELECT *
+        FROM project_team_member_seen_message
+        WHERE id_project_team_member = p_id_collaborator
+        AND seen = 0
+    ) THEN
+        SELECT '0' AS 'has_unread_chats';
+    ELSE
+        SELECT '1' AS 'has_unread_chats';
+    END IF;
+END //
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+-- PARA INSERTAR LOS DATOS DE MANERA ADECUADA
+DELIMITER //
+CREATE PROCEDURE `send_message_to_project_chat`(
+    IN p_id_sender INT,
+    IN p_id_project INT,
+    IN p_message VARCHAR(200)
+)
+BEGIN
+    -- Enviando nuevo mensaje al proyecto
+    INSERT INTO `project_chat_message`(
+        `message`,
+        `datetime`,
+        `id_project_team_member`,
+        `id_project`
+    ) VALUES (
+        p_message,
+        p_datetime,
+        p_id_sender,
+        p_id_project
+    );
+    SET @id_project_chat_message = LAST_INSERT_ID();
+
+    -- Se creo la insercion de los projec_team_member_seen_message para cada colab del proyecto
+
+    -- ACA CREO QUE USARAS EL sp_mark_private_messages_as_seen ????
+    UPDATE project_team_member_seen_message
+    SET seen = 1
+    WHERE id_project_team_member = p_id_sender;
+END //
+DELIMITER ;
 -- INSETANDO LOS NUEVOS CHATS
-CALL sp_send_message_to_project_chat(1, 1, 'Chicos avancen sus partes crj');
-CALL sp_send_message_to_project_chat(2, 1, 'va va 1');
-CALL sp_send_message_to_project_chat(3, 1, 'va va 2');
+CALL send_message_to_project_chat(1, 1, '2023-06-28 19:38:40','Chicos avancen sus partes crj');
+CALL send_message_to_project_chat(2, 1, '2023-06-28 20:02:40','va va 1');
+CALL send_message_to_project_chat(3, 1, '2023-06-28 20:01:50','va va 2');
