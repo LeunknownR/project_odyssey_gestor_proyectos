@@ -1,4 +1,4 @@
-import { ProjectChatPreviewProject } from "./entities";
+import { ProjectChatPreviewProject } from "../entities";
 import { LastMessageChatPreview } from "./lastMessageChatPreview";
 
 export class ProjectChatPreview {
@@ -8,8 +8,8 @@ export class ProjectChatPreview {
     //#endregion
     constructor(record: any) {
         this.project = {
-            id: record["id_collaborator"],
-            name: record["collaborator_name"]
+            id: record["id_project"],
+            name: record["project_name"]
         };
         this.lastMessage = new LastMessageChatPreview(record);
     }
