@@ -1596,7 +1596,7 @@ BEGIN
         SELECT '1' AS 'has_unread_chats';
     END IF;
 END //
-DELIMITER ;
+DELIMITER ; 
 
 
 
