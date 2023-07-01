@@ -1,3 +1,4 @@
+import { bufferToBoolean } from "../../db/helpers";
 import { RelationCollaboratorChat } from "../../entities/chats/chatMessage/chatCollaboratorRelation";
 import FormattedProjectChatMessages from "../../entities/chats/chatMessage/formattedProjectChatMessage";
 import PrivateChatMessage from "../../entities/chats/chatMessage/privateChatMessage";
@@ -7,6 +8,7 @@ import { ProjectChatPreview } from "../../entities/chats/chatPreview/projectChat
 import ChatModel from "../../models/chatModel/chat.model";
 import { IntegerId } from "../../utils/entities/integerId";
 import WSPrivateMessage from "../../websockets/services/chats/utils/entities/privateMessage";
+import WSProjectMessage from "../../websockets/services/chats/utils/entities/projectMessage";
 import WSSearchPrivateChatPreviewPayload from "../../websockets/services/chats/utils/entities/searchPrivateChatPreviewPayload";
 import WSSearchProjectChatPreviewPayload from "../../websockets/services/chats/utils/entities/searchProjectChatPreviewPayload";
 
@@ -75,12 +77,26 @@ export default abstract class ChatController {
         );
         return new PrivateChatMessage(record);
     }
-    static async collaboratorHasUnreadPrivateChats(collaboratorId: number): Promise<boolean> {
-        return false;
+    static async collaboratorHasUnreadPrivateChats(
+        collaboratorId: number
+    ): Promise<boolean> {
+        const record: any = ChatModel.collaboratorHasUnreadPrivateChats(collaboratorId);
+        return bufferToBoolean(record["has_unread_chats"]);
     }
     static async collaboratorHasUnreadProjectChats(
         collaboratorId: number
     ): Promise<boolean> {
-        return false;
+        const record: any = ChatModel.collaboratorHasUnreadProjectChats(collaboratorId);
+        return bufferToBoolean(record["has_unread_chats"]);
+    }
+    static async sendMessageToProjectChat(
+        senderId: number,
+        projectMessage: WSProjectMessage
+    ): Promise<ProjectChatMessage> {
+        const record: any = await ChatModel.sendMessageToProjectChat(
+            senderId,
+            projectMessage
+        );
+        return new ProjectChatMessage(record);
     }
 }

@@ -5,7 +5,8 @@ namespace WSChatServiceEvents {
         DispatchPrivateChatMessages = "server:dispatch-private-chat-messages",
         DispatchProjectChatMessages = "server:dispatch-project-chat-messages",
         NotifyNewPrivateChatMessages = "server:notify-new-private-chat-messages",
-        NotifyNewProjectChatMessages = "server:notify-new-project-chat-messages"
+        NotifyNewProjectChatMessages = "server:notify-new-project-chat-messages",
+        NotifyCollaboratorOnlineState = "server:notify-collaborator-online-state"
     }
     export enum Collaborator {
         SearchChat = "collaborator:search-chat",
@@ -14,6 +15,7 @@ namespace WSChatServiceEvents {
         LeavePrivateChat = "collaborator:leave-private-chat",
         LeaveProjectChat = "collaborator:leave-project-chat",
         SendMessageToPrivateChat = "collaborator:send-message-to-private-chat",
+        SendMessageToProjectChat = "collaborator:send-message-to-project-chat"
     }
 }
 
