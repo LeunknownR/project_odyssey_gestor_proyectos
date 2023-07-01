@@ -430,7 +430,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
     private async sendMessageToProjectChat(
         socket: Socket,
         body: any
-    ): Promise<void> {
+    ): Promise<void> { 
         //Validar parametros
         const projectMessage = new WSProjectMessage(body);
         //Obtener Id del collaborador que envia el mensaje
