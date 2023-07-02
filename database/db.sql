@@ -1572,9 +1572,9 @@ BEGIN
         WHERE id_collaborator_sender = p_id_collaborator
         AND seen = 0
     ) THEN
-        SELECT '0' AS 'has_unread_chats';
+        SELECT 0 AS 'has_unread_chats';
     ELSE
-        SELECT '1' AS 'has_unread_chats';
+        SELECT 1 AS 'has_unread_chats';
     END IF;
 END //
 DELIMITER ;
@@ -1591,9 +1591,9 @@ BEGIN
         WHERE id_project_team_member = p_id_collaborator
         AND seen = 0
     ) THEN
-        SELECT '0' AS 'has_unread_chats';
+        SELECT 0 AS 'has_unread_chats';
     ELSE
-        SELECT '1' AS 'has_unread_chats';
+        SELECT 1 AS 'has_unread_chats';
     END IF;
 END //
 DELIMITER ; 
