@@ -1315,11 +1315,9 @@ END //
 DELIMITER ;
 
 
-
-
 -- new sp sprint 3 - Chats 
 
--- SP para obtener la previsualización de chats. FALTA❗❗❗❗❗❗❗❗
+-- SP para obtener la previsualización de chats.
 DELIMITER //
 CREATE PROCEDURE `sp_search_collaborator_private_chats`(
     IN p_id_collaborator INT,
@@ -1346,7 +1344,6 @@ BEGIN
     ORDER BY DATE(pvcm.datetime), TIME(pvcm.datetime), uclb.user_name ASC;
 END //
 DELIMITER ;
-
 
 -- SP para  FALTA❗❗❗❗❗❗❗❗
 DELIMITER //
@@ -1398,6 +1395,7 @@ DELIMITER ;
 
 -- ELSE -> SIN CHAT
 -- Los colaboradores con los que no tienes chats, es decir, nuevos chats.
+
 
 
 -- SP para obtener los datos de los mensajes de un chat privado
