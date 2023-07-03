@@ -8,6 +8,7 @@ import { checkWSCollaboratorToken } from "../../utils/authentication";
 import WSErrorMessages from "../../utils/errorMessages";
 import { WSChatServiceRoom } from "./utils/helpers";
 import WSChatServiceEvents from "./events";
+import ChatController from "../../../controllers/chatController/chat.controller";
 
 export default class WSChatService extends WSService {
     //#region Attributes
@@ -23,7 +24,7 @@ export default class WSChatService extends WSService {
         );
     }
     //#region Methods
-    private configCollaborator(socket: Socket, next: WSNext) {
+    private async configCollaborator(socket: Socket, next: WSNext) {
         // Obteniendo datos de conexión
         let userDataBySocket: WSUserData = null;
         try {
@@ -43,17 +44,17 @@ export default class WSChatService extends WSService {
             WSChatServiceRoom.getCollaboratorChatRoom(collaboratorId)
         );
         // Notificando de chats privados sin leer al receptor
-        this.collaboratorEventHandler
-            .notifyIfCollaboratorHasUnreadPrivateChats(
-                socket.emit,
-                collaboratorId
-            );
+        const hasUnreadPrivateChats: boolean = await ChatController.collaboratorHasUnreadPrivateChats(collaboratorId);
+        socket.emit(
+            WSChatServiceEvents.Server.NotifyUnreadPrivateChats,
+            hasUnreadPrivateChats
+        );
         // Notificando de chats de proyectos sin leer al receptor
-        this.collaboratorEventHandler
-            .notifyIfCollaboratorHasUnreadProjectChats(
-                socket.emit,
-                collaboratorId
-            );
+        const hasUnreadProjectChats: boolean = await ChatController.collaboratorHasUnreadProjectChats(collaboratorId);
+        socket.emit(
+            WSChatServiceEvents.Server.NotifyUnreadProjectChats,
+            hasUnreadProjectChats
+        );
     }
     private async connectCollaborator(socket: Socket,  next: WSNext) {
         // Autenticando token para la conexión

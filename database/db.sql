@@ -1612,6 +1612,7 @@ DELIMITER //
 CREATE PROCEDURE `send_message_to_project_chat`(
     IN p_id_sender INT,
     IN p_id_project INT,
+    IN p_datetime DATETIME,
     IN p_message VARCHAR(200)
 )
 BEGIN

@@ -80,14 +80,14 @@ export default abstract class ChatController {
     static async collaboratorHasUnreadPrivateChats(
         collaboratorId: number
     ): Promise<boolean> {
-        const record: any = ChatModel.collaboratorHasUnreadPrivateChats(collaboratorId);
-        return bufferToBoolean(record["has_unread_chats"]);
+        const record: any = await ChatModel.collaboratorHasUnreadPrivateChats(collaboratorId);
+        return Boolean(record["has_unread_chats"]);
     }
     static async collaboratorHasUnreadProjectChats(
         collaboratorId: number
     ): Promise<boolean> {
-        const record: any = ChatModel.collaboratorHasUnreadProjectChats(collaboratorId);
-        return bufferToBoolean(record["has_unread_chats"]);
+        const record: any = await ChatModel.collaboratorHasUnreadProjectChats(collaboratorId);
+        return Boolean(record["has_unread_chats"]);
     }
     static async sendMessageToProjectChat(
         senderId: number,

@@ -1,4 +1,4 @@
-import { PrivateChatPreviewCollaborator } from "./entities";
+import { PrivateChatPreviewCollaborator } from "../entities";
 import { LastMessageChatPreview } from "./lastMessageChatPreview";
 
 export class PrivateChatPreview {
