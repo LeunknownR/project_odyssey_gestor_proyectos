@@ -1339,7 +1339,7 @@ BEGIN
     LEFT JOIN user uclb ON pvcm.id_collaborator_sender = uclb.id_user
     INNER JOIN collaborator clb ON uclb.id_user = clb.id_collaborator
     INNER JOIN project_team_member ptm ON clb.id_collaborator = ptm.id_collaborator
-    WHERE pvcm.id_collaborator_sender = p_id_collaborator
+    WHERE (pvcm.id_collaborator_sender = p_id_collaborator OR pvcm.id_collaborator_receiver = p_id_collaborator)
     AND uclb.user_name LIKE @searched_collaborator_name
     ORDER BY DATE(pvcm.datetime), TIME(pvcm.datetime), uclb.user_name ASC;
 END //
