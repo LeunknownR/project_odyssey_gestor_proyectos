@@ -87,14 +87,14 @@ export default abstract class ChatModel {
     }
     static async collaboratorHasUnreadPrivateChats(collaboratorId: number): Promise<any> {
         const [[record]] = await DBConnection.query(
-            StoredProcedures.HasUnreadPrivateChats,
+            StoredProcedures.CollaboratorHasUnreadPrivateChats,
             [collaboratorId]
         );
         return record;
     }
     static async collaboratorHasUnreadProjectChats(collaboratorId: number): Promise<any> {
         const [[record]] = await DBConnection.query(
-            StoredProcedures.HasUnreadProjectChats,
+            StoredProcedures.CollaboratorHasUnreadProjectChats,
             [collaboratorId]
         );
         return record;

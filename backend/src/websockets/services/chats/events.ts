@@ -4,8 +4,8 @@ namespace WSChatServiceEvents {
         DispatchProjectChatPreview = "server:dispatch-project-chat-preview",
         DispatchPrivateChatMessages = "server:dispatch-private-chat-messages",
         DispatchProjectChatMessages = "server:dispatch-project-chat-messages",
-        NotifyNewPrivateChatMessages = "server:notify-new-private-chat-messages",
-        NotifyNewProjectChatMessages = "server:notify-new-project-chat-messages",
+        NotifyUnreadPrivateChats = "server:notify-unread-private-chats",
+        NotifyUnreadProjectChats = "server:notify-unread-project-chats",
         NotifyCollaboratorOnlineState = "server:notify-collaborator-online-state"
     }
     export enum Collaborator {

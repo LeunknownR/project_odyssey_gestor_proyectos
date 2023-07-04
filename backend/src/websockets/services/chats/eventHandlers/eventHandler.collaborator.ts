@@ -242,33 +242,13 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 chatId,
                 collaboratorId
             );
-        this.notifyIfCollaboratorHasUnreadPrivateChats(
-            socket.emit,
-            collaboratorId
+        // Notificando de chats privados sin leer al colaborador
+        const hasUnreadChats: boolean = await ChatController.collaboratorHasUnreadPrivateChats(collaboratorId);
+        socket.emit(
+            WSChatServiceEvents.Server.NotifyUnreadPrivateChats,
+            hasUnreadChats
         );
         this.doNotifyStateOnlinePrivateChat(collaboratorChatId.value);
-    }
-    async notifyIfCollaboratorHasUnreadPrivateChats(
-        emit: (event: WSChatServiceEvents.Server, hasUnreadChats: boolean) => void,
-        collaboratorId: number
-    ): Promise<void> {
-        // Verificando si entre todos los chat del colaborador que existen si tienen mensajes
-        const hasUnreadChats: boolean = await ChatController.collaboratorHasUnreadPrivateChats(collaboratorId);
-        emit(
-            WSChatServiceEvents.Server.NotifyNewPrivateChatMessages,
-            hasUnreadChats
-        );
-    }
-    async notifyIfCollaboratorHasUnreadProjectChats(
-        emit: (event: WSChatServiceEvents.Server, hasUnreadChats: boolean) => void,
-        collaboratorId: number
-    ): Promise<void> {
-        // Revisar que entre todos los chat del colaborador que existen si tienen mensajes
-        const hasUnreadChats: boolean = await ChatController.collaboratorHasUnreadProjectChats(collaboratorId);
-        emit(
-            WSChatServiceEvents.Server.NotifyNewProjectChatMessages,
-            hasUnreadChats
-        );
     }
     private async getProjectChatMessages(socket: Socket, body: any): Promise<void> {
         const projectId = new IntegerId(body.projectId);
@@ -370,9 +350,10 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         if (!isConnected) return;
         const receiverRoomName: string = WSChatServiceRoom.getCollaboratorChatRoom(receiverId);
         // Notificando de chats privados sin leer al receptor
-        this.notifyIfCollaboratorHasUnreadPrivateChats(
-            this.io.to(receiverRoomName).emit,
-            receiverId
+        const hasUnreadChats: boolean = await ChatController.collaboratorHasUnreadPrivateChats(receiverId);
+        this.io.to(receiverRoomName).emit(
+            WSChatServiceEvents.Server.NotifyUnreadPrivateChats,
+            hasUnreadChats
         );
     }
     private async sendMessageToPrivateChat(
@@ -419,13 +400,15 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 .filter(collaborator => collaborator.id !== senderId)
                 .map(collaborator => collaborator.id);
         // Utilizar un for each para enviar a cada collaborador una notificacion
-        collaboratorIds.forEach(collaboratorId => {
+        for (const collaboratorId of collaboratorIds) {
             const receiverRoomName: string = WSChatServiceRoom.getCollaboratorChatRoom(collaboratorId);
-            this.notifyIfCollaboratorHasUnreadProjectChats(
-                this.io.to(receiverRoomName).emit,
-                collaboratorId
-            )
-        });
+            // Notificando de chats de proyectos sin leer al receptor
+            const hasUnreadProjectChats: boolean = await ChatController.collaboratorHasUnreadProjectChats(collaboratorId);
+            this.io.to(receiverRoomName).emit(
+                WSChatServiceEvents.Server.NotifyUnreadProjectChats,
+                hasUnreadProjectChats
+            );
+        }
     }
     private async sendMessageToProjectChat(
         socket: Socket,
