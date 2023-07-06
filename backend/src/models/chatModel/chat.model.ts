@@ -38,6 +38,16 @@ export default abstract class ChatModel {
         );
         return resultset;
     }
+    static async getRelationCollaboratorInPrivateChat(
+        collaboratorId: number, 
+        collaboratorChatId: number
+    ): Promise<any[]> {
+        const [resultset] = await DBConnection.query(
+            StoredProcedures.GetRelationCollaboratorInPrivateChat,
+            [collaboratorId, collaboratorChatId]
+        );
+        return resultset;
+    }
     static async getPrivateChatMessages(collaboratorId: number, collaboratorChatId: number): Promise<any[]> {
         const [resultset] = await DBConnection.query(
             StoredProcedures.GetPrivateChatMessages,
@@ -106,10 +116,12 @@ export default abstract class ChatModel {
             content
         }: WSProjectMessage
     ): Promise<any> {
+        console.log("Entra")
         const [[record]] = await DBConnection.query(
             StoredProcedures.SendMessageToProjectChat,
             [senderId, projectId, content]
         );
+        console.log("Sale")
         return record;
     }
 }

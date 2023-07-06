@@ -12,6 +12,6 @@ export type CollaboratorProjectChatMessage = {
     firstName: string;
 };
 export type FormattedPrivateChatMessages = {
-    relationCollaboratorChatList: RelationCollaboratorChat[];
+    collaboratorRelationList: RelationCollaboratorChat[];
     messages: PrivateChatMessage[];
 };
