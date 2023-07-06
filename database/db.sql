@@ -1614,14 +1614,14 @@ BEGIN
         WHERE id_collaborator_sender = p_id_collaborator
         AND seen = 0
     ) THEN
-        SELECT '0' AS 'has_unread_chats';
+        SELECT 0 AS 'has_unread_chats';
     ELSE
-        SELECT '1' AS 'has_unread_chats';
+        SELECT 1 AS 'has_unread_chats';
     END IF;
 END //
 DELIMITER ;
 
--- -- SP para notificar a los colaboradores correspondientes, que hay mensajes nuevos en chats de proyectos.
+-- SP para notificar a los colaboradores correspondientes, que hay mensajes nuevos en chats de proyectos.
 DELIMITER //
 CREATE PROCEDURE `sp_collaborator_has_unread_project_chats`(
     IN p_id_collaborator INT
@@ -1633,9 +1633,9 @@ BEGIN
         WHERE id_project_team_member = p_id_collaborator
         AND seen = 0
     ) THEN
-        SELECT '0' AS 'has_unread_chats';
+        SELECT 0 AS 'has_unread_chats';
     ELSE
-        SELECT '1' AS 'has_unread_chats';
+        SELECT 1 AS 'has_unread_chats';
     END IF;
 END //
 DELIMITER ; 
@@ -1651,7 +1651,7 @@ DELIMITER ;
 
 -- PARA INSERTAR LOS DATOS DE MANERA ADECUADA
 DELIMITER //
-CREATE PROCEDURE `send_message_to_project_chat`(
+CREATE PROCEDURE `test_send_message_to_project_chat`(
     IN p_id_sender INT,
     IN p_id_project INT,
     IN p_datetime DATETIME,
@@ -1681,6 +1681,6 @@ BEGIN
 END //
 DELIMITER ;
 -- INSETANDO LOS NUEVOS CHATS
-CALL send_message_to_project_chat(1, 1, '2023-06-28 19:38:40','Chicos avancen sus partes crj');
-CALL send_message_to_project_chat(2, 1, '2023-06-28 20:02:40','va va 1');
-CALL send_message_to_project_chat(3, 1, '2023-06-28 20:01:50','va va 2');
+CALL test_send_message_to_project_chat(1, 1, '2023-06-28 19:38:40','Chicos avancen sus partes crj');
+CALL test_send_message_to_project_chat(2, 1, '2023-06-28 20:02:40','va va 1');
+CALL test_send_message_to_project_chat(3, 1, '2023-06-28 20:01:50','va va 2');
