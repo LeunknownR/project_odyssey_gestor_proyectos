@@ -1314,43 +1314,93 @@ BEGIN
 END //
 DELIMITER ;
 
-
-
-
 -- new sp sprint 3 - Chats 
-
--- SP para obtener la previsualización de chats. FALTA❗❗❗❗❗❗❗❗
+-- SP para obtener la previsualización de chats privados
 DELIMITER //
-CREATE PROCEDURE `sp_search_collaborator_private_chats`(
+CREATE PROCEDURE `sp_search_private_chat_preview`(
     IN p_id_collaborator INT,
     IN p_searched_collaborator VARCHAR(50)
 )
 BEGIN
     SET @searched_collaborator_name = UPPER(CONCAT('%',p_searched_collaborator,'%'));
-
-    SELECT 
-        ptm.id_project,
-        uclb.user_name AS "collaborator_name",
-        uclb.user_surname AS "collaborator_surname",
-        uclb.url_photo AS "collaborator_url_photo",
-        MAX(pvcm.datetime) AS "last_message_datetime",
-        pvcm.message AS "last_message",
+	SELECT 
+        u.id_user AS "id_collaborator",
+        u.user_name AS "collaborator_name",
+        u.user_surname AS "collaborator_surname",
+        u.url_photo AS "collaborator_url_photo",
         pvcm.id_collaborator_sender AS "last_message_id_sender",
+        pvcm.message AS "last_message",
+        pvcm.datetime AS "last_message_datetime",
+        pvcm.seen
+    FROM collaborator clb
+    INNER JOIN user u
+    	ON clb.id_collaborator = u.id_user
+    LEFT JOIN private_chat_message pvcm
+    	ON u.id_user = pvcm.id_collaborator_sender
+    WHERE 
+        UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @searched_collaborator_name AND 
+        (
+            pvcm.id_private_chat_message IS NULL OR 
+            (
+                p_id_collaborator IN (pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver)
+                AND pvcm.datetime = (
+                    SELECT MAX(datetime)
+                    FROM private_chat_message
+                    WHERE id_collaborator_sender IN (
+                        pvcm.id_collaborator_sender, 
+                        pvcm.id_collaborator_receiver
+                    ) AND id_collaborator_receiver IN (
+                        pvcm.id_collaborator_sender, 
+                        pvcm.id_collaborator_receiver
+                    )
+                    GROUP BY 
+                        LEAST(pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver), 
+                        GREATEST(pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver)
+                )
+            )
+        );
+END //
+DELIMITER ;
+-- CALL sp_search_private_chat_preview(2, 'A');
+
+-- SP para obtener la previsualización de chats privados con mensajes
+DELIMITER //
+CREATE PROCEDURE `sp_get_private_chat_preview_with_messages`(
+    IN p_id_collaborator INT
+)
+BEGIN
+    SELECT 
+        u.id_user AS "id_collaborator",
+        u.user_name AS "collaborator_name",
+        u.user_surname AS "collaborator_surname",
+        u.url_photo AS "collaborator_url_photo",
+        pvcm.id_collaborator_sender AS "last_message_id_sender",
+        pvcm.message AS "last_message",
+        pvcm.datetime AS "last_message_datetime",
         pvcm.seen
     FROM private_chat_message pvcm
-    LEFT JOIN user uclb ON pvcm.id_collaborator_sender = uclb.id_user
-    INNER JOIN collaborator clb ON uclb.id_user = clb.id_collaborator
-    INNER JOIN project_team_member ptm ON clb.id_collaborator = ptm.id_collaborator
-    WHERE pvcm.id_collaborator_sender = p_id_collaborator
-    AND uclb.user_name LIKE @searched_collaborator_name
-    ORDER BY DATE(pvcm.datetime), TIME(pvcm.datetime), uclb.user_name ASC;
+    INNER JOIN user u
+    	ON pvcm.id_collaborator_sender = u.id_user
+    WHERE p_id_collaborator IN (pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver)
+        AND pvcm.datetime = (
+            SELECT MAX(datetime)
+            FROM private_chat_message
+            WHERE id_collaborator_sender IN (
+                pvcm.id_collaborator_sender, 
+                pvcm.id_collaborator_receiver
+            ) AND id_collaborator_receiver IN (
+                pvcm.id_collaborator_sender, 
+                pvcm.id_collaborator_receiver
+            )
+            GROUP BY 
+                LEAST(pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver), 
+                GREATEST(pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver)
+        );
 END //
 DELIMITER ;
 
-
--- SP para  FALTA❗❗❗❗❗❗❗❗
 DELIMITER //
-CREATE PROCEDURE `sp_search_collaborator_project_chats`(
+CREATE PROCEDURE `sp_search_project_chat_preview`(
     IN p_id_project INT,
     IN p_searched_collaborator VARCHAR(50)
 )
@@ -1369,37 +1419,6 @@ BEGIN
 END //
 DELIMITER ;
 
--- SP para  FALTA❗❗❗❗❗❗❗❗
-DELIMITER //
-CREATE PROCEDURE `sp_search_collaborator_chats_with_messages`(
-    IN p_id_collaborator INT
-)
-BEGIN
-    SELECT 
-        prcm.id_project,
-        uclb.user_name AS "collaborator_name",
-        prcm.datetime AS "last_message_datetime",
-        prcm.message AS "last_message",
-        prcm.id_project_team_member AS "last_message_id_sender",
-        ptmsm.id_project_team_member_seen_message
-    FROM project_chat_message prcm
-    INNER JOIN user uclb ON prcm.id_project_team_member = uclb.id_user
-    INNER JOIN project_team_member_seen_message ptmsm ON prcm.id_project_chat_message = ptmsm.id_project_chat_message
-    WHERE prcm.id_project_team_member = p_id_collaborator;
-END //
-DELIMITER ;
-
--- SP_ANOTATIONS: ----------------
--- sp_search_collaborator_chats
--- “ALGO” - Con chat
--- sp_search_collaborator enfocado a buscar colaboradores en chats privados
--- Reutilizar funct_get_chat_collaborator_preview
--- collaborator LEFT JOIN private_chat
-
--- ELSE -> SIN CHAT
--- Los colaboradores con los que no tienes chats, es decir, nuevos chats.
-
-
 -- SP para obtener los datos de los mensajes de un chat privado
 DELIMITER //
 CREATE PROCEDURE `sp_get_private_chat_messages`(
@@ -1408,20 +1427,33 @@ CREATE PROCEDURE `sp_get_private_chat_messages`(
 )
 BEGIN
     -- Obteniendo los datos de los mensajes del chat privado
-    SELECT
-        pr.id_project_role AS "id_role_relation_whit_collaborator",
-        p.project_name,
+    SELECT 
+        p.id_project,
+        ptm_cc.id_project_role AS "id_project_role_relation",
+        p.project_name AS "id_project_name_relation",
         pvcm.id_private_chat_message,
         pvcm.id_collaborator_sender,
+        pvcm.id_collaborator_receiver,
         pvcm.message
-    FROM private_chat_message pvcm 
-    RIGHT JOIN project_team_member ptm ON pvcm.id_collaborator_sender = ptm.id_collaborator
-    INNER JOIN project p ON ptm.id_project = p.id_project
-    INNER JOIN project_role pr ON ptm.id_project_role = pr.id_project_role
-    WHERE p.id_project = 1 
-    AND p.active = 1
-    AND ((pvcm.id_collaborator_sender = p_id_collaborator_open_chat AND pvcm.id_collaborator_receiver = p_id_collaborator_chat)
-    OR (pvcm.id_collaborator_sender = p_id_collaborator_chat AND pvcm.id_collaborator_receiver = p_id_collaborator_open_chat));
+    FROM project p
+    INNER JOIN project_team_member ptm_coc
+        ON ptm_coc.id_project = p.id_project
+    INNER JOIN project_team_member ptm_cc
+        ON ptm_cc.id_project = p.id_project
+    LEFT JOIN private_chat_message pvcm
+    	ON (
+	        pvcm.id_collaborator_sender IN (ptm_coc.id_collaborator, ptm_cc.id_collaborator) AND 
+        	pvcm.id_collaborator_receiver IN (ptm_coc.id_collaborator, ptm_cc.id_collaborator)
+        )
+    WHERE p.active = 1 AND (
+        (
+            ptm_coc.id_collaborator = p_id_collaborator_open_chat AND 
+        	ptm_cc.id_collaborator = p_id_collaborator_chat
+        ) OR (
+            ptm_coc.id_collaborator = p_id_collaborator_chat AND
+            ptm_cc.id_collaborator = p_id_collaborator_open_chat
+        )
+    );
 END //
 DELIMITER ;
 
@@ -1440,21 +1472,31 @@ BEGIN
 END //
 DELIMITER ;
 
-
--- SP para 
+-- SP para obtener los mensajes de un chat de proyecto
+DROP PROCEDURE IF EXISTS sp_get_project_chat_messages;
 DELIMITER //
 CREATE PROCEDURE `sp_get_project_chat_messages`(
     IN p_id_project INT
 )
 BEGIN
-    -- Obteniendo los datos de los mensajes del chat privado
     SELECT
-        id_project_team_member AS "id_project_team_member",
-        id_project_chat_message,
-        id_project_team_member AS "id_sender",
-        message
-    FROM project_chat_message 
-    WHERE id_project = p_id_project;
+        u.id_user AS "id_collaborator_project",
+        TRIM(SUBSTRING_INDEX(u.user_name, ' ', 1)) AS "collaborator_project_name",
+        prcm.id_project_chat_message,
+        ptm_prcm.id_collaborator AS "id_collaborator_sender",
+        prcm.message
+    FROM project p 
+    -- Obteniendo datos de los miembros del equipo de este proyecto
+    INNER JOIN project_team_member ptm_cp
+    	ON ptm_cp.id_project = p.id_project
+    INNER JOIN user u
+    	ON u.id_user = ptm_cp.id_collaborator
+    -- Obteniendo los mensajes del chat del proyecto (a partir de cualquiera de los miembros que los hayan emitido)
+    LEFT JOIN project_chat_message prcm
+        ON prcm.id_project_team_member = ptm_cp.id_project_team_member
+    LEFT JOIN project_team_member ptm_prcm
+    	ON ptm_prcm.id_project_team_member = prcm.id_project_team_member
+    WHERE p.id_project = p_id_project;
 END //
 DELIMITER ;
 
