@@ -37,13 +37,33 @@ export default abstract class ChatController {
             collaboratorId,
             collaboratorChatId.value
         );
-        return resultset.map(record => new PrivateChatMessage(record));
+        const uniqueMessages: PrivateChatMessage[] = [];
+        const idSet = new Set<number>();
+        resultset.forEach(record => {
+            if (idSet.has(record.id_private_chat_message))
+                return;
+            idSet.add(record.id_private_chat_message);
+            uniqueMessages.push(new PrivateChatMessage(record));
+        });
+        return uniqueMessages
     }
     static async getRelationsWithChatCollaborator(
         collaboratorId: number,
         collaboratorChatId: number
     ): Promise<RelationCollaboratorChat[]> {
-        return [];
+        const resultset: any[] = await ChatModel.getPrivateChatMessages(
+            collaboratorId,
+            collaboratorChatId
+        );
+        const uniqueRelationCollaboratorChat: RelationCollaboratorChat[] = [];
+        const idSet = new Set<string>();
+        resultset.forEach(record => {
+            if (idSet.has(record.id_project_role_relation))
+                return;
+            idSet.add(record.id_project_role_relation);
+            uniqueRelationCollaboratorChat.push(new RelationCollaboratorChat(record));
+        });
+        return uniqueRelationCollaboratorChat
     }
     static async getProjectChatMessages(projectId: IntegerId): Promise<FormattedProjectChatMessages> {
         const resultset: any[] = await ChatModel.getProjectChatMessages(projectId.value);

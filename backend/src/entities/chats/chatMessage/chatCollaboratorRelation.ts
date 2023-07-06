@@ -4,7 +4,7 @@ export class RelationCollaboratorChat {
     readonly projectName: string;
     //#endregion
     constructor(record: any) {
-        this.role = record["collaborator_project_role"];
-        this.projectName = record["project_name"];
+        this.role = record["id_project_role_relation"];
+        this.projectName = record["id_project_name_relation"];
     }
 }

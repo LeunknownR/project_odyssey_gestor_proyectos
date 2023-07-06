@@ -18,8 +18,11 @@ export default class WSChatServiceDataHandler {
     //#endregion
     constructor() {
         this.connectedCollaborators = new WSChatServiceConnectedCollaborators();
+        this.privateChatPreviewGroup = new WSPrivateChatPreviewGroup();
         this.projectChatPreviewGroup = new WSProjectChatPreviewGroup();
+        this.privateChatMessagesGroup = new WSPrivateChatMessagesGroup();
         this.projectChatMessagesGroup = new WSProjectChatMessagesGroup();
+        this.openPrivateChats = new WSOpenPrivateChats()
         this.openProjectChats = new WSOpenProjectChats();
     }
 }

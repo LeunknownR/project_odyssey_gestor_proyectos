@@ -193,10 +193,12 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
     private async getPrivateChatMessages(socket: Socket, body: any) {
         const collaboratorChatId = new IntegerId(body.collaboratorChatId);
         const { userId: collaboratorId } = getWSUserData(socket);
-        // Obtener mensajes del chat privado del colaborador
-        let messageList: PrivateChatMessage[] = this.dataHandler
-            .privateChatMessagesGroup
-            .getPrivateChatMessageList(collaboratorId, collaboratorChatId.value);
+        // Obtener mensajes del chat privado del 
+        let messageList: PrivateChatMessage[] =
+            this.dataHandler
+                .privateChatMessagesGroup
+                .getPrivateChatMessageList(collaboratorId, collaboratorChatId.value);
+        // Obtener relación del colaboradores
         const relationCollaboratorChatList: RelationCollaboratorChat[] = await ChatController.getRelationsWithChatCollaborator(
             collaboratorId,
             collaboratorChatId.value
@@ -377,10 +379,10 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
     }
     private async sendProjectChatMessageList(projectId: number): Promise<void> {
         // Obtener mensajes de los chat de proyectos
-        const projectChatMessageList: FormattedProjectChatMessages = 
-        this.dataHandler
-            .projectChatMessagesGroup
-            .getProjectChatMessageList(projectId)
+        const projectChatMessageList: FormattedProjectChatMessages =
+            this.dataHandler
+                .projectChatMessagesGroup
+                .getProjectChatMessageList(projectId)
         // Enviando chat actualizado a los colaboradores del proyecto
         const receiverRoomName: string = WSChatServiceRoom.getProjectChatRoom(projectId);
         this.io
