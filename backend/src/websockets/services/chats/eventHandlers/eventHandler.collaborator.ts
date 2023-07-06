@@ -377,10 +377,10 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
     }
     private async sendProjectChatMessageList(projectId: number): Promise<void> {
         // Obtener mensajes de los chat de proyectos
-        const projectChatMessageList: FormattedProjectChatMessages =
-            this.dataHandler
-                .projectChatMessagesGroup
-                .getProjectChatMessageList(projectId);
+        const projectChatMessageList: FormattedProjectChatMessages = 
+        this.dataHandler
+            .projectChatMessagesGroup
+            .getProjectChatMessageList(projectId)
         // Enviando chat actualizado a los colaboradores del proyecto
         const receiverRoomName: string = WSChatServiceRoom.getProjectChatRoom(projectId);
         this.io

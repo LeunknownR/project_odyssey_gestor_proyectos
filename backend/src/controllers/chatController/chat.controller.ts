@@ -92,7 +92,7 @@ export default abstract class ChatController {
     static async sendMessageToProjectChat(
         senderId: number,
         projectMessage: WSProjectMessage
-    ): Promise<ProjectChatMessage> {
+    ): Promise<any> {
         const record: any = await ChatModel.sendMessageToProjectChat(
             senderId,
             projectMessage
