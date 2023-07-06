@@ -1428,32 +1428,43 @@ CREATE PROCEDURE `sp_get_private_chat_messages`(
 BEGIN
     -- Obteniendo los datos de los mensajes del chat privado
     SELECT 
+        id_private_chat_message,
+        id_collaborator_sender,
+        message
+    FROM private_chat_message
+    WHERE 
+        (
+            p_id_collaborator_open_chat = id_collaborator_sender AND 
+            p_id_collaborator_chat = id_collaborator_receiver
+        ) OR (
+            p_id_collaborator_open_chat = id_collaborator_receiver AND 
+            p_id_collaborator_chat = id_collaborator_sender
+        );
+END //
+DELIMITER ;
+
+-- SP para obtener los datos de los mensajes de un chat privado
+DROP PROCEDURE sp_get_collaborator_relations_in_private_chat;
+DELIMITER //
+CREATE PROCEDURE `sp_get_collaborator_relations_in_private_chat`(
+    IN p_id_collaborator_open_chat INT,
+    IN p_id_collaborator_chat INT
+)
+BEGIN
+    -- Obteniendo los datos de los mensajes del chat privado
+    -- p_id_collaborator_chat
+    SELECT 
         p.id_project,
-        ptm_cc.id_project_role AS "id_project_role_relation",
         p.project_name AS "id_project_name_relation",
-        pvcm.id_private_chat_message,
-        pvcm.id_collaborator_sender,
-        pvcm.id_collaborator_receiver,
-        pvcm.message
-    FROM project p
-    INNER JOIN project_team_member ptm_coc
-        ON ptm_coc.id_project = p.id_project
+        ptm_cc.id_project_role AS "id_project_role_relation"
+    FROM project_team_member ptm_coc
+    INNER JOIN project p
+        ON p.id_project = ptm_coc.id_project
     INNER JOIN project_team_member ptm_cc
         ON ptm_cc.id_project = p.id_project
-    LEFT JOIN private_chat_message pvcm
-    	ON (
-	        pvcm.id_collaborator_sender IN (ptm_coc.id_collaborator, ptm_cc.id_collaborator) AND 
-        	pvcm.id_collaborator_receiver IN (ptm_coc.id_collaborator, ptm_cc.id_collaborator)
-        )
-    WHERE p.active = 1 AND (
-        (
-            ptm_coc.id_collaborator = p_id_collaborator_open_chat AND 
-        	ptm_cc.id_collaborator = p_id_collaborator_chat
-        ) OR (
-            ptm_coc.id_collaborator = p_id_collaborator_chat AND
-            ptm_cc.id_collaborator = p_id_collaborator_open_chat
-        )
-    );
+    WHERE 
+        ptm_coc.id_collaborator = p_id_collaborator_open_chat AND 
+        ptm_cc.id_collaborator = p_id_collaborator_chat;
 END //
 DELIMITER ;
 

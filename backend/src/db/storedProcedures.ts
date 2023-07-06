@@ -29,6 +29,7 @@ export enum StoredProcedures {
     SearchCollaboratorChatsWithMessages = "CALL sp_search_collaborator_chats_with_messages(?);",
     SearchProjectChatsWithMessages = "CALL sp_search_collaborator_chats_with_messages(?);",
     GetPrivateChatMessages = "CALL sp_get_private_chat_messages(?, ?);",
+    GetRelationCollaboratorInPrivateChat = "CALL sp_get_collaborator_relations_in_private_chat(?, ?);",
     GetProjectChatMessages = "CALL sp_get_project_chat_messages(?);",
     MarkPrivateChatMessagesAsSeen = "CALL sp_mark_private_messages_as_seen(?, ?);",
     MarkProjectChatMessagesAsSeen = "CALL sp_mark_project_messages_as_seen(?, ?);",

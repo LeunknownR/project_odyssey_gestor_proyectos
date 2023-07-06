@@ -190,19 +190,18 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 true
             );
     }
-    private async getPrivateChatMessages(socket: Socket, body: any) {
-        const collaboratorChatId = new IntegerId(body.collaboratorChatId);
+    private async getPrivateChatMessages(socket: Socket, collaboratorChatIdBody: any) {
+        const collaboratorChatId = new IntegerId(collaboratorChatIdBody);
         const { userId: collaboratorId } = getWSUserData(socket);
         // Obtener mensajes del chat privado del 
+        const collaboratorRelationList: RelationCollaboratorChat[] = await ChatController.getRelationCollaboratorInPrivateChat(
+            collaboratorId,
+            collaboratorChatId
+        );
         let messageList: PrivateChatMessage[] =
             this.dataHandler
                 .privateChatMessagesGroup
                 .getPrivateChatMessageList(collaboratorId, collaboratorChatId.value);
-        // Obtener relación del colaboradores
-        const relationCollaboratorChatList: RelationCollaboratorChat[] = await ChatController.getRelationsWithChatCollaborator(
-            collaboratorId,
-            collaboratorChatId.value
-        );
         // Verificar si no existen mensajes de este chat
         if (!messageList) {
             // Obtener los mensajes a través de una db query
@@ -225,7 +224,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             collaboratorChatId.value
         );
         const formattedPrivateChatMessages: FormattedPrivateChatMessages = {
-            relationCollaboratorChatList,
+            collaboratorRelationList,
             messages: messageList
         };
         // Enviar lista de mensajes al colaborador

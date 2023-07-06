@@ -1,4 +1,3 @@
-import { bufferToBoolean } from "../../db/helpers";
 import { RelationCollaboratorChat } from "../../entities/chats/chatMessage/chatCollaboratorRelation";
 import FormattedProjectChatMessages from "../../entities/chats/chatMessage/formattedProjectChatMessage";
 import PrivateChatMessage from "../../entities/chats/chatMessage/privateChatMessage";
@@ -37,33 +36,14 @@ export default abstract class ChatController {
             collaboratorId,
             collaboratorChatId.value
         );
-        const uniqueMessages: PrivateChatMessage[] = [];
-        const idSet = new Set<number>();
-        resultset.forEach(record => {
-            if (idSet.has(record.id_private_chat_message))
-                return;
-            idSet.add(record.id_private_chat_message);
-            uniqueMessages.push(new PrivateChatMessage(record));
-        });
-        return uniqueMessages
+        return resultset.map(record => new PrivateChatMessage(record));
     }
-    static async getRelationsWithChatCollaborator(
-        collaboratorId: number,
-        collaboratorChatId: number
-    ): Promise<RelationCollaboratorChat[]> {
-        const resultset: any[] = await ChatModel.getPrivateChatMessages(
+    static async getRelationCollaboratorInPrivateChat(collaboratorId: number, collaboratorChatId: IntegerId): Promise<RelationCollaboratorChat[]> {
+        const resultset: any[] = await ChatModel.getRelationCollaboratorInPrivateChat(
             collaboratorId,
-            collaboratorChatId
+            collaboratorChatId.value
         );
-        const uniqueRelationCollaboratorChat: RelationCollaboratorChat[] = [];
-        const idSet = new Set<string>();
-        resultset.forEach(record => {
-            if (idSet.has(record.id_project_role_relation))
-                return;
-            idSet.add(record.id_project_role_relation);
-            uniqueRelationCollaboratorChat.push(new RelationCollaboratorChat(record));
-        });
-        return uniqueRelationCollaboratorChat
+        return resultset.map(record => new RelationCollaboratorChat(record));
     }
     static async getProjectChatMessages(projectId: IntegerId): Promise<FormattedProjectChatMessages> {
         const resultset: any[] = await ChatModel.getProjectChatMessages(projectId.value);
