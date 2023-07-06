@@ -106,12 +106,12 @@ export default abstract class ChatModel {
             content
         }: WSProjectMessage
     ): Promise<any> {
-        console.log("Entrada Q")
+        console.log("Entra")
         const [[record]] = await DBConnection.query(
             StoredProcedures.SendMessageToProjectChat,
             [senderId, projectId, content]
         );
-        console.log("Salida Q")
+        console.log("Sale")
         return record;
     }
 }
