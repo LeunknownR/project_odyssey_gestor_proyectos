@@ -13,6 +13,7 @@ export const Container = styled.div`
     overflow: hidden;
 `;
 export const List = styled(FlexFlow.withComponent("ul"))`
+    width: 100%;
     padding-right: 10px;
 `;
 export const Chat = styled(UserMessage)`

@@ -25,7 +25,13 @@ const ChangeStateModal = ({ modalProps, name, id }: ChangeStateModalProps) => {
             <ProjectName>{name}</ProjectName>
             <StateLabel>Estado de la tarea</StateLabel>
             <StateList>
-                {stateListData.map(stateData => <StatePicker {...stateData} taskId={id} hideModal={hideModal}/>)}
+                {stateListData.map(stateData => (
+                    <StatePicker 
+                        key={stateData.state}
+                        {...stateData}
+                        taskId={id}
+                        hideModal={hideModal}/>
+                ))}
             </StateList>
         </StyledModal>
     );

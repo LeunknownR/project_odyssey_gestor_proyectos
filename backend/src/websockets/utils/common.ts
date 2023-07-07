@@ -1,4 +1,5 @@
 import { Namespace, Socket } from "socket.io";
+import { ExtendedError } from "socket.io/dist/namespace";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 export type IOServerService = Namespace<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
@@ -10,6 +11,7 @@ export type WSEvent<E> = {
     name: E;
     handler: WSEventHandler;
 };
+export type WSNext = (err?: ExtendedError) => void;
 export abstract class WSService {
     //#region Attributes
     protected io: IOServerService;
@@ -18,8 +20,8 @@ export abstract class WSService {
         this.io = io;
     }
     //#region Métodos
-    public abstract config(): void;
-    public abstract init(): void;
+    abstract config(): void;
+    abstract init(): void;
     //#endregion
 };
 export abstract class WSServiceEventHandler<E> {
