@@ -8,10 +8,10 @@ export default class WSSearchChatPreviewPayload {
     //#endregion
     //#region Constants
     constructor({
-        seachedChat,
+        searchedChat: searchedChat,
         chatTab
     }: any) {
-        this._searchedChat = new WSSearchedChat(seachedChat);
+        this._searchedChat = new WSSearchedChat(searchedChat);
         if (!Object.values(WSChatTab).includes(chatTab))
             throw new Error("Invalid chat tab");
         this.chatTab = chatTab;
