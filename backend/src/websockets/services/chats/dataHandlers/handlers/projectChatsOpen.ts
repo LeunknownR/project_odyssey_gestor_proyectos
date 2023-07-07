@@ -7,8 +7,15 @@ export class WSOpenProjectChats {
         projectId: number,
         collaboratorToAddId: number
     ): void {
-        const collaborators = this.collaboratorsInProjectChats.get(projectId) || [];
-        if (collaborators.includes(collaboratorToAddId)) return;
+        // Verificando si no existe la lista de colaboradores
+        if (!this.collaboratorsInProjectChats.has(projectId)) {
+            // Agregando lista vacía
+            this.collaboratorsInProjectChats.set(projectId, [collaboratorToAddId]);
+            return;
+        }
+        // Agregando colaborador a la lista
+        const collaborators: number[] = this.collaboratorsInProjectChats.get(projectId);
+        if (!collaborators || collaborators.includes(collaboratorToAddId)) return;
         collaborators.push(collaboratorToAddId);
     }
     removeCollaboratorOfProjectChat(
@@ -21,7 +28,6 @@ export class WSOpenProjectChats {
         // Si queda 1, es el último y se elimina la lista completa
         if (currentCollaborators.length === 1) {
             this.collaboratorsInProjectChats.delete(projectId);
-            console.log(this.collaboratorsInProjectChats.get(projectId));
             return;
         }
         // Sino se elimina solo ese colaborador de la lista
@@ -31,6 +37,5 @@ export class WSOpenProjectChats {
         this.collaboratorsInProjectChats.set(
             projectId, newCollaborators
         );
-        console.log(this.collaboratorsInProjectChats.get(projectId));
     }
 }

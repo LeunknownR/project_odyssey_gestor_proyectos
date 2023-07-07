@@ -10,6 +10,7 @@ import WSPrivateMessage from "../../websockets/services/chats/utils/entities/pri
 import WSProjectMessage from "../../websockets/services/chats/utils/entities/projectMessage";
 import WSSearchPrivateChatPreviewPayload from "../../websockets/services/chats/utils/entities/searchPrivateChatPreviewPayload";
 import WSSearchProjectChatPreviewPayload from "../../websockets/services/chats/utils/entities/searchProjectChatPreviewPayload";
+import { WSSearchedChat } from "../../websockets/services/chats/utils/entities/searchedChat";
 
 export default abstract class ChatController {
     static async searchPrivateChatPreview(getPrivateChatPreviewPayload: WSSearchPrivateChatPreviewPayload): Promise<PrivateChatPreview[]> {
@@ -21,9 +22,13 @@ export default abstract class ChatController {
         return resultset.map(record => new PrivateChatPreview(record));
     }
     static async searchProjectChatPreview(
-        searchProjectChatPreviewPayload: WSSearchProjectChatPreviewPayload
+        collaboratorId: number,
+        searchedProject: string
     ): Promise<ProjectChatPreview[]> {
-        const resultset: any[] = await ChatModel.searchProjectChatPreview(searchProjectChatPreviewPayload);
+        const resultset: any[] = await ChatModel.searchProjectChatPreview(
+            collaboratorId,
+            searchedProject
+        );
         return resultset.map(record => new ProjectChatPreview(record));
     }
     static async getProjectChatPreviewListWithMessages(projectId: number): Promise<ProjectChatPreview[]> {
@@ -34,7 +39,7 @@ export default abstract class ChatController {
         collaboratorId: number, 
         collaboratorChatId: IntegerId
     ): Promise<PrivateChatMessage[]> {
-        const resultset: any[] = await ChatModel.searchPrivateChatPreview(
+        const resultset: any[] = await ChatModel.getPrivateChatMessages(
             collaboratorId,
             collaboratorChatId.value
         );

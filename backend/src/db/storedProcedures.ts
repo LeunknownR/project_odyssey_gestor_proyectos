@@ -29,8 +29,9 @@ export enum StoredProcedures {
     // Chats
     SearchPrivateChatPreview = "CALL sp_search_private_chat_preview(?, ?);",
     GetPrivateChatPreviewWithMessages = "CALL sp_get_private_chat_preview_with_messages(?);",
-    GetProjectChatPreview = "CALL sp_search_project_chat_preview(?);"
-    GetProjectChatMessages = "CALL sp_get_project_chat_messages(?, ?);",
+    SearchProjectChatPreview = "CALL sp_search_project_chat_preview(?);",
+    GetPrivateChatMessages = "CALL sp_get_private_chat_messages(?, ?);",
+    GetProjectChatMessages = "CALL sp_get_project_chat_messages(?);",
     GetRelationCollaboratorInPrivateChat = "CALL sp_get_collaborator_relations_in_private_chat(?, ?);",
     MarkPrivateChatMessagesAsSeen = "CALL sp_mark_private_messages_as_seen(?, ?);",
     MarkProjectChatMessagesAsSeen = "CALL sp_mark_project_messages_as_seen(?, ?);",

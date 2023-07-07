@@ -5,6 +5,9 @@ import WSProjectMessage from "../../websockets/services/chats/utils/entities/pro
 import WSSearchPrivateChatPreviewPayload from "../../websockets/services/chats/utils/entities/searchPrivateChatPreviewPayload";
 import WSSearchProjectChatPreviewPayload from "../../websockets/services/chats/utils/entities/searchProjectChatPreviewPayload";
 
+// GetPrivateChatMessages
+// GetRelationCollaboratorInPrivateChat
+
 export default abstract class ChatModel {
     static async searchPrivateChatPreview({
         collaboratorId,
@@ -26,16 +29,13 @@ export default abstract class ChatModel {
         );
         return resultset;
     }
-    static async searchProjectChatPreview({
-        collaboratorId,
-        searchedProject: searchedCollaborator
-    }: WSSearchProjectChatPreviewPayload): Promise<any[]> {
+    static async searchProjectChatPreview(
+        collaboratorId: number,
+        searchedProject: string
+    ): Promise<any[]> {
         const [resultset] = await DBConnection.query(
-            StoredProcedures.SearchPrivateChatPreview,
-            [
-                collaboratorId,
-                searchedCollaborator
-            ]
+            StoredProcedures.SearchProjectChatPreview,
+            [collaboratorId, searchedProject]
         );
         return resultset;
     }
@@ -49,10 +49,20 @@ export default abstract class ChatModel {
         );
         return resultset;
     }
-    static async getProjectChatMessages(collaboratorId: number): Promise<any[]> {
+    static async getPrivateChatMessages(
+        collaboratorId: number,
+        collaboratorChatId: number
+    ): Promise<any[]> {
+        const [resultset] = await DBConnection.query(
+            StoredProcedures.GetPrivateChatMessages,
+            [collaboratorId, collaboratorChatId]
+        );
+        return resultset;
+    }
+    static async getProjectChatMessages(projectId: number): Promise<any[]> {
         const [resultset] = await DBConnection.query(
             StoredProcedures.GetProjectChatMessages,
-            [collaboratorId]
+            [projectId]
         );
         return resultset;
     }

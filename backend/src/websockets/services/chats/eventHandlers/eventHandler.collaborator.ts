@@ -19,6 +19,7 @@ import { FormattedPrivateChatMessages } from "../../../../entities/chats/entitie
 import FormattedProjectChatMessages from "../../../../entities/chats/chatMessage/formattedProjectChatMessage";
 import { ProjectChatPreview } from "../../../../entities/chats/chatPreview/projectChatPreview";
 import WSProjectMessage from "../utils/entities/projectMessage";
+import { WSSearchedChat } from "../utils/entities/searchedChat";
 
 export default class WSChatServiceCollaboratorEventHandler extends WSServiceEventHandler<WSChatServiceEvents.Collaborator> {
     //#region Attributes
@@ -77,10 +78,10 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         return await ChatController.searchPrivateChatPreview(getPrivateChatPreviewPayload);
     }
     private async getProjectChatPreview(
-        searchedProject: string,
-        collaboratorId: number
+        collaboratorId: number,
+        searchedProject: string
     ): Promise<ProjectChatPreview[]> {
-        const searchProjectChatPreviewList: ProjectChatPreview[] = await ChatController.searchProjectChatPreview(searchedProject, collaboratorId)
+        const searchProjectChatPreviewList: ProjectChatPreview[] = await ChatController.searchProjectChatPreview(collaboratorId, searchedProject);
         return searchProjectChatPreviewList;
     }
     private async searchPrivateChatPreview(
@@ -108,7 +109,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         collaboratorId: number,
         searchedChat: string
     ): Promise<void> {
-        const newProjectChatPreviewList: ProjectChatPreview[] = await this.getProjectChatPreview(searchedChat, collaboratorId);
+        const newProjectChatPreviewList: ProjectChatPreview[] = await this.getProjectChatPreview(collaboratorId, searchedChat);
         // Agregando preview list a la memoria
         this.dataHandler
             .projectChatPreviewGroup

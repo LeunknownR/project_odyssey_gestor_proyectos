@@ -12,26 +12,36 @@ export class WSOpenPrivateChats {
         chatId: string,
         collaboratorToAddId: number
     ): void {
-        const collaborators = this.collaboratorsInPrivateChats.get(chatId) || [];
-        if (collaborators.includes(collaboratorToAddId)) return;
+        // Verificando si no existe la lista de colaboradores
+        if (!this.collaboratorsInPrivateChats.has(chatId)) {
+            // Agregando lista vacía
+            this.collaboratorsInPrivateChats.set(chatId, [collaboratorToAddId]);
+            return;
+        }
+        // Agregando colaborador a la lista
+        const collaborators: number[] = this.collaboratorsInPrivateChats.get(chatId);
+        if (!collaborators || collaborators.includes(collaboratorToAddId)) return;
         collaborators.push(collaboratorToAddId);
     }
     removeCollaboratorOfPrivateChat(
         chatId: string,
         collaboratorToRemoveId: number
     ): void {
-        // Se obtienen los collaboradores excepto al que se sale del chat 
-        const collaborators =
-            this.collaboratorsInPrivateChats
-                .get(chatId)?.filter(
-                    id => id !== collaboratorToRemoveId
-                ) || [];
-        // Verificar si existe colaborador en el chat
-        if (collaborators.length === 0) {
+        if (!this.collaboratorsInPrivateChats.has(chatId)) return;
+        // Obteniendo la lista de colaboradores con el chat del proyecto abierto
+        const currentCollaborators: number[] = this.collaboratorsInPrivateChats.get(chatId);
+        // Si queda 1, es el último y se elimina la lista completa
+        if (currentCollaborators.length === 1) {
             this.collaboratorsInPrivateChats.delete(chatId);
-        } else {
-            this.collaboratorsInPrivateChats.set(chatId, collaborators);
+            return;
         }
+        // Sino se elimina solo ese colaborador de la lista
+        const newCollaborators = this.collaboratorsInPrivateChats
+            .get(chatId)
+            .filter(id => id !== collaboratorToRemoveId);
+        this.collaboratorsInPrivateChats.set(
+            chatId, newCollaborators
+        );
     }
     //#endregion
 }
