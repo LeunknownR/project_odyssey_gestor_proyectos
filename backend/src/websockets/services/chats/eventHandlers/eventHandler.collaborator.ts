@@ -163,10 +163,10 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 false
             );
     }
-    private async leaveProjectChat(socket: Socket, body: any) {
+    private async leaveProjectChat(socket: Socket, bprojectIdBody: any) {
         const { userId: collaboratorId } = getWSUserData(socket);
         // Obtener id del proyecto
-        const projectId = new IntegerId(body.projectId);
+        const projectId = new IntegerId(bprojectIdBody);
         // Eliminando colaborador del chat de un projecto
         this
             .dataHandler.openProjectChats
@@ -271,6 +271,12 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             collaboratorId,
             projectId.value
         );
+        this.dataHandler
+            .openProjectChats
+            .addCollaboratorToProjectChat(
+                projectId.value,
+                collaboratorId
+            );
         // Enviar preview list al colaborador
         socket.emit(
             WSChatServiceEvents.Server.DispatchProjectChatMessages,

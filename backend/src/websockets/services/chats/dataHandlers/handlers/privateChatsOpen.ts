@@ -30,11 +30,15 @@ export class WSOpenPrivateChats {
                     id => id !== collaboratorToRemoveId
                 ) || [];
         // Verificar si existe colaborador en el chat
-        if (collaborators.length !== 0)
-            // Se guarda la nueva lista de collaboradores en la memoria
+        if (collaborators.length === 0) {
+            this.collaboratorsInPrivateChats.delete(chatId);
+        } else {
             this.collaboratorsInPrivateChats.set(chatId, collaborators);
-        // Se elimina el chat que no tiene colaboradores
-        this.collaboratorsInPrivateChats.delete(chatId);
+        }
+        /*         if (collaborators.length === 0) {
+                    this.collaboratorsInPrivateChats.delete(chatId);
+                }
+                this.collaboratorsInPrivateChats.set(chatId, collaborators); */
         console.log(this.collaboratorsInPrivateChats)
     }
     //#endregion
