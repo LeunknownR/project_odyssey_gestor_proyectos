@@ -3,14 +3,15 @@ import { StoredProcedures } from "../../db/storedProcedures";
 import WSPrivateMessage from "../../websockets/services/chats/utils/entities/privateMessage";
 import WSProjectMessage from "../../websockets/services/chats/utils/entities/projectMessage";
 import WSSearchPrivateChatPreviewPayload from "../../websockets/services/chats/utils/entities/searchPrivateChatPreviewPayload";
+import WSSearchProjectChatPreviewPayload from "../../websockets/services/chats/utils/entities/searchProjectChatPreviewPayload";
 
 export default abstract class ChatModel {
-    static async searchPrivateChatPreviewList({
+    static async searchPrivateChatPreview({
         collaboratorId,
         searchedCollaborator
     }: WSSearchPrivateChatPreviewPayload): Promise<any[]> {
         const [resultset] = await DBConnection.query(
-            StoredProcedures.SearchCollaboratorChats,
+            StoredProcedures.SearchPrivateChatPreview,
             [
                 collaboratorId,
                 searchedCollaborator
@@ -18,24 +19,23 @@ export default abstract class ChatModel {
         );
         return resultset;
     }
-    static async searchProjectChatPreviewList(
-        searchedProject: string,
-        collaboratorId: number
-    ): Promise<any[]> {
-        console.log("La vaca lola")
+    static async getPrivateChatPreviewWithMessages (collaboratorId: number): Promise<any[]> {
         const [resultset] = await DBConnection.query(
-            StoredProcedures.SearchCollaboratorChats,
-            [
-                collaboratorId,
-                searchedProject
-            ]
+            StoredProcedures.GetPrivateChatPreviewWithMessages,
+            [collaboratorId]
         );
         return resultset;
     }
-    static async getPrivateChatPreviewListWithMessages(projectId: number): Promise<any[]> {
+    static async searchProjectChatPreview({
+        collaboratorId,
+        searchedProject: searchedCollaborator
+    }: WSSearchProjectChatPreviewPayload): Promise<any[]> {
         const [resultset] = await DBConnection.query(
-            StoredProcedures.SearchCollaboratorChatsWithMessages,
-            [projectId]
+            StoredProcedures.SearchPrivateChatPreview,
+            [
+                collaboratorId,
+                searchedCollaborator
+            ]
         );
         return resultset;
     }
@@ -49,17 +49,10 @@ export default abstract class ChatModel {
         );
         return resultset;
     }
-    static async getPrivateChatMessages(collaboratorId: number, collaboratorChatId: number): Promise<any[]> {
-        const [resultset] = await DBConnection.query(
-            StoredProcedures.GetPrivateChatMessages,
-            [collaboratorId, collaboratorChatId]
-        );
-        return resultset;
-    }
-    static async getProjectChatMessages(projectId: number): Promise<any[]> {
+    static async getProjectChatMessages(collaboratorId: number): Promise<any[]> {
         const [resultset] = await DBConnection.query(
             StoredProcedures.GetProjectChatMessages,
-            [projectId]
+            [collaboratorId]
         );
         return resultset;
     }
@@ -117,12 +110,10 @@ export default abstract class ChatModel {
             content
         }: WSProjectMessage
     ): Promise<any> {
-        console.log("Entra")
         const [[record]] = await DBConnection.query(
             StoredProcedures.SendMessageToProjectChat,
             [senderId, projectId, content]
         );
-        console.log("Sale")
         return record;
     }
 }

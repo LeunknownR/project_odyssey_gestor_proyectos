@@ -1444,7 +1444,6 @@ END //
 DELIMITER ;
 
 -- SP para obtener los datos de los mensajes de un chat privado
-DROP PROCEDURE sp_get_collaborator_relations_in_private_chat;
 DELIMITER //
 CREATE PROCEDURE `sp_get_collaborator_relations_in_private_chat`(
     IN p_id_collaborator_open_chat INT,
@@ -1484,7 +1483,6 @@ END //
 DELIMITER ;
 
 -- SP para obtener los mensajes de un chat de proyecto
-DROP PROCEDURE IF EXISTS sp_get_project_chat_messages;
 DELIMITER //
 CREATE PROCEDURE `sp_get_project_chat_messages`(
     IN p_id_project INT

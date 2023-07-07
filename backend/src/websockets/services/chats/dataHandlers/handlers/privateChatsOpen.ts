@@ -13,11 +13,8 @@ export class WSOpenPrivateChats {
         collaboratorToAddId: number
     ): void {
         const collaborators = this.collaboratorsInPrivateChats.get(chatId) || [];
-        if (!collaborators.includes(collaboratorToAddId)) {
-            collaborators.push(collaboratorToAddId);
-            this.collaboratorsInPrivateChats.set(chatId, collaborators);
-        }
-        console.log(this.collaboratorsInPrivateChats)
+        if (collaborators.includes(collaboratorToAddId)) return;
+        collaborators.push(collaboratorToAddId);
     }
     removeCollaboratorOfPrivateChat(
         chatId: string,
@@ -35,11 +32,6 @@ export class WSOpenPrivateChats {
         } else {
             this.collaboratorsInPrivateChats.set(chatId, collaborators);
         }
-        /*         if (collaborators.length === 0) {
-                    this.collaboratorsInPrivateChats.delete(chatId);
-                }
-                this.collaboratorsInPrivateChats.set(chatId, collaborators); */
-        console.log(this.collaboratorsInPrivateChats)
     }
     //#endregion
 }
