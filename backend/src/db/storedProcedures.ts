@@ -29,7 +29,7 @@ export enum StoredProcedures {
     // Chats
     SearchPrivateChatPreview = "CALL sp_search_private_chat_preview(?, ?);",
     GetPrivateChatPreviewWithMessages = "CALL sp_get_private_chat_preview_with_messages(?);",
-    SearchProjectChatPreview = "CALL sp_search_project_chat_preview(?);",
+    SearchProjectChatPreview = "CALL sp_search_project_chat_preview(?, ?);",
     GetPrivateChatMessages = "CALL sp_get_private_chat_messages(?, ?);",
     GetProjectChatMessages = "CALL sp_get_project_chat_messages(?);",
     GetRelationCollaboratorInPrivateChat = "CALL sp_get_collaborator_relations_in_private_chat(?, ?);",

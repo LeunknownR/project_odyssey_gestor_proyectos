@@ -1,8 +1,11 @@
 export class WSOpenProjectChats {
+    //#region Attributes
     private collaboratorsInProjectChats: Map<number, number[]>;
+    //#endregion
     constructor() {
         this.collaboratorsInProjectChats = new Map<number, number[]>();
     }
+    //#region Methods
     addCollaboratorToProjectChat(
         projectId: number,
         collaboratorToAddId: number
@@ -38,4 +41,5 @@ export class WSOpenProjectChats {
             projectId, newCollaborators
         );
     }
+    //#endregion
 }

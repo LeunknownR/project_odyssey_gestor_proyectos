@@ -5,6 +5,9 @@ export default class WSPrivateChatPreviewGroup {
     // Diccionario { key: collaboratorId, value: privateChatPreview[] }
     private previewChatGroup: Map<number, PrivateChatPreview[]>;
     //#endregion
+    constructor() {
+        this.previewChatGroup = new Map<number, PrivateChatPreview[]>();
+    }
     //#region Methods
     getPreviewChat(collaboratorId: number): PrivateChatPreview[] {
         return this.previewChatGroup.get(collaboratorId);

@@ -1407,7 +1407,6 @@ CREATE PROCEDURE `sp_search_project_chat_preview`(
 )
 BEGIN
     SET @searched_project = UPPER(CONCAT('%',p_searched_project,'%'));
-
     -- temporary_table_project_ids
     CREATE TEMPORARY TABLE temporary_table_project_ids (
         id INT
@@ -1422,14 +1421,13 @@ BEGIN
         p.active = 1 
         AND UPPER(p.project_name) LIKE @searched_project
         AND ptm.id_collaborator = p_id_collaborator;
-
 	SELECT 
         p.id_project AS "id_project",
         p.project_name AS "project_name",
         prcm.datetime AS "last_message_datetime",
         prcm.message AS "last_message",
         prcm.id_project_team_member AS "last_message_id_sender",
-        ptmsm.seen AS "id_project_team_member_seen_message"
+        ptmsm.seen
     FROM project p
     INNER JOIN project_team_member ptm 
         ON p.id_project = ptm.id_project
@@ -1455,7 +1453,6 @@ BEGIN
                 )
             )
         );
-
     DROP TEMPORARY TABLE IF EXISTS temporary_table_project_ids;
 END //
 DELIMITER ;
@@ -1518,8 +1515,15 @@ BEGIN
     -- Marcando como visto el mensaje privado
     UPDATE private_chat_message
     SET seen = 1
-    WHERE ((id_collaborator_sender = p_id_collaborator_open_chat AND id_collaborator_receiver = p_id_collaborator_chat)
-    OR (id_collaborator_sender = p_id_collaborator_chat AND id_collaborator_receiver = p_id_collaborator_open_chat));
+    WHERE (
+        (
+            id_collaborator_sender = p_id_collaborator_open_chat AND 
+            id_collaborator_receiver = p_id_collaborator_chat
+        ) OR (
+            id_collaborator_sender = p_id_collaborator_chat AND 
+            id_collaborator_receiver = p_id_collaborator_open_chat
+        )
+    );
 END //
 DELIMITER ;
 

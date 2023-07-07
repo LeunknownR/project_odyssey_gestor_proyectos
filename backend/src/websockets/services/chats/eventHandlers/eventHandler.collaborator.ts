@@ -3,7 +3,6 @@ import { IOServerService, WSEvent, WSServiceEventHandler } from "../../../utils/
 import WSChatServiceEvents from "../events";
 import WSChatServiceDataHandler from "../dataHandlers";
 import { getWSUserData } from "../../../utils/helpers";
-import WSSearchPrivateChatPreviewPayload from "../utils/entities/searchPrivateChatPreviewPayload";
 import ChatController from "../../../../controllers/chatController/chat.controller";
 import WSSearchChatPreviewPayload from "../utils/entities/searchChatPreviewPayload";
 import WSChatTab from "../utils/enums";
@@ -19,7 +18,6 @@ import { FormattedPrivateChatMessages } from "../../../../entities/chats/entitie
 import FormattedProjectChatMessages from "../../../../entities/chats/chatMessage/formattedProjectChatMessage";
 import { ProjectChatPreview } from "../../../../entities/chats/chatPreview/projectChatPreview";
 import WSProjectMessage from "../utils/entities/projectMessage";
-import { WSSearchedChat } from "../utils/entities/searchedChat";
 
 export default class WSChatServiceCollaboratorEventHandler extends WSServiceEventHandler<WSChatServiceEvents.Collaborator> {
     //#region Attributes
@@ -65,17 +63,13 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
     }
     //#region Search chat
     private async getPrivateChatPreview(
-        searchedCollaborator: string,
-        collaboratorId: number
+        collaboratorId: number,
+        searchedCollaborator: string
     ): Promise<PrivateChatPreview[]> {
         // Verificando si es una cadena vacía
-        if (searchedCollaborator)
+        if (!searchedCollaborator)
             return await ChatController.getPrivateChatPreviewWithMessages(collaboratorId);
-        const getPrivateChatPreviewPayload: WSSearchPrivateChatPreviewPayload = new WSSearchPrivateChatPreviewPayload(
-            collaboratorId,
-            searchedCollaborator
-        );
-        return await ChatController.searchPrivateChatPreview(getPrivateChatPreviewPayload);
+        return await ChatController.searchPrivateChatPreview(collaboratorId, searchedCollaborator);
     }
     private async getProjectChatPreview(
         collaboratorId: number,
@@ -90,7 +84,10 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         searchChatPreviewPayload: WSSearchChatPreviewPayload
     ): Promise<void> {
         // Obtener preview list de chats de la bd
-        const newPrivateChatPreviewList: PrivateChatPreview[] = await this.getPrivateChatPreview(searchChatPreviewPayload.searchedChat, collaboratorId);
+        const newPrivateChatPreviewList: PrivateChatPreview[] = await this.getPrivateChatPreview(
+            collaboratorId,
+            searchChatPreviewPayload.searchedChat
+        );
         // Agregando preview list a la memoria
         this.dataHandler
             .privateChatPreviewGroup

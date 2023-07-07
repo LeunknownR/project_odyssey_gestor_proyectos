@@ -4,7 +4,6 @@ export class WSPrivateChatMessagesGroup {
     //#region Attributes
     // Diccionario { key: "{collaboratorId1:collaboratorId2}", value: privateChatMessages }
     private chatMessages: Map<string, PrivateChatMessage[]>;
-    // Inicialización en el constructor
     constructor() {
         this.chatMessages = new Map<string, PrivateChatMessage[]>(); 
     }
