@@ -1400,23 +1400,69 @@ END //
 DELIMITER ;
 
 -- FALTA ❗❗❗❗❗❗
+--  id_project | 
+--  collaborator_name | 
+--  last_message_datetime | 
+--  last_message | 
+--  last_message_id_sender |
+--  id_project_team_member_seen_message | 
+
 DELIMITER //
 CREATE PROCEDURE `sp_search_project_chat_preview`(
     IN p_id_project INT,
-    IN p_searched_collaborator VARCHAR(50)
+    IN p_searched_project VARCHAR(100)
 )
 BEGIN
-    SELECT 
-        prcm.id_project,
-        uclb.user_name AS "collaborator_name",
-        prcm.datetime AS "last_message_datetime",
-        prcm.message AS "last_message",
-        prcm.id_project_team_member AS "last_message_id_sender",
-        ptmsm.id_project_team_member_seen_message
-    FROM project_chat_message prcm
-    INNER JOIN user uclb ON prcm.id_project_team_member = uclb.id_user
-    INNER JOIN project_team_member_seen_message ptmsm ON prcm.id_project_chat_message = ptmsm.id_project_chat_message
-    WHERE prcm.id_project_team_member = p_id_collaborator;
+    SET @searched_project = UPPER(CONCAT('%',p_searched_project,'%'));
+	SELECT 
+        u.id_user AS "id_collaborator",
+        u.user_name AS "collaborator_name",
+        u.user_surname AS "collaborator_surname",
+        u.url_photo AS "collaborator_url_photo",
+        pvcm.id_collaborator_sender AS "last_message_id_sender",
+        pvcm.message AS "last_message",
+        pvcm.datetime AS "last_message_datetime",
+        pvcm.seen
+    FROM collaborator clb
+    INNER JOIN user u
+    	ON clb.id_collaborator = u.id_user
+    LEFT JOIN private_chat_message pvcm
+    	ON u.id_user = pvcm.id_collaborator_sender
+    WHERE 
+        UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @searched_project AND 
+        (
+            pvcm.id_private_chat_message IS NULL OR 
+            (
+                p_id_collaborator IN (pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver)
+                AND pvcm.datetime = (
+                    SELECT MAX(datetime)
+                    FROM private_chat_message
+                    WHERE id_collaborator_sender IN (
+                        pvcm.id_collaborator_sender, 
+                        pvcm.id_collaborator_receiver
+                    ) AND id_collaborator_receiver IN (
+                        pvcm.id_collaborator_sender, 
+                        pvcm.id_collaborator_receiver
+                    )
+                    GROUP BY 
+                        LEAST(pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver), 
+                        GREATEST(pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver)
+                )
+            )
+        );
+
+
+    -- SELECT 
+    --     prcm.id_project,
+    --     uclb.user_name AS "collaborator_name",
+    --     prcm.datetime AS "last_message_datetime",
+    --     prcm.message AS "last_message",
+    --     prcm.id_project_team_member AS "last_message_id_sender",
+    --     ptmsm.id_project_team_member_seen_message
+    -- FROM project_chat_message prcm
+    -- INNER JOIN user uclb ON prcm.id_project_team_member = uclb.id_user
+    -- INNER JOIN project_team_member_seen_message ptmsm ON prcm.id_project_chat_message = ptmsm.id_project_chat_message
+    -- WHERE prcm.id_project_team_member = p_id_collaborator;
 END //
 DELIMITER ;
 
