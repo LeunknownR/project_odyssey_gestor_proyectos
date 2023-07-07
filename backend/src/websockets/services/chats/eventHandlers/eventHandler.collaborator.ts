@@ -190,17 +190,18 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 true
             );
     }
-    private async getPrivateChatMessages(socket: Socket, body: any) {
-        const collaboratorChatId = new IntegerId(body.collaboratorChatId);
+    private async getPrivateChatMessages(socket: Socket, collaboratorChatIdBody: any) {
+        const collaboratorChatId = new IntegerId(collaboratorChatIdBody);
         const { userId: collaboratorId } = getWSUserData(socket);
-        // Obtener mensajes del chat privado del colaborador
-        let messageList: PrivateChatMessage[] = this.dataHandler
-            .privateChatMessagesGroup
-            .getPrivateChatMessageList(collaboratorId, collaboratorChatId.value);
-        const relationCollaboratorChatList: RelationCollaboratorChat[] = await ChatController.getRelationsWithChatCollaborator(
+        // Obtener mensajes del chat privado del 
+        const collaboratorRelationList: RelationCollaboratorChat[] = await ChatController.getRelationCollaboratorInPrivateChat(
             collaboratorId,
-            collaboratorChatId.value
+            collaboratorChatId
         );
+        let messageList: PrivateChatMessage[] =
+            this.dataHandler
+                .privateChatMessagesGroup
+                .getPrivateChatMessageList(collaboratorId, collaboratorChatId.value);
         // Verificar si no existen mensajes de este chat
         if (!messageList) {
             // Obtener los mensajes a través de una db query
@@ -223,7 +224,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             collaboratorChatId.value
         );
         const formattedPrivateChatMessages: FormattedPrivateChatMessages = {
-            relationCollaboratorChatList,
+            collaboratorRelationList,
             messages: messageList
         };
         // Enviar lista de mensajes al colaborador
@@ -380,7 +381,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         const projectChatMessageList: FormattedProjectChatMessages =
             this.dataHandler
                 .projectChatMessagesGroup
-                .getProjectChatMessageList(projectId);
+                .getProjectChatMessageList(projectId)
         // Enviando chat actualizado a los colaboradores del proyecto
         const receiverRoomName: string = WSChatServiceRoom.getProjectChatRoom(projectId);
         this.io

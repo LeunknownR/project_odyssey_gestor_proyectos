@@ -1,4 +1,3 @@
-import { bufferToBoolean } from "../../db/helpers";
 import { RelationCollaboratorChat } from "../../entities/chats/chatMessage/chatCollaboratorRelation";
 import FormattedProjectChatMessages from "../../entities/chats/chatMessage/formattedProjectChatMessage";
 import PrivateChatMessage from "../../entities/chats/chatMessage/privateChatMessage";
@@ -39,11 +38,12 @@ export default abstract class ChatController {
         );
         return resultset.map(record => new PrivateChatMessage(record));
     }
-    static async getRelationsWithChatCollaborator(
-        collaboratorId: number,
-        collaboratorChatId: number
-    ): Promise<RelationCollaboratorChat[]> {
-        return [];
+    static async getRelationCollaboratorInPrivateChat(collaboratorId: number, collaboratorChatId: IntegerId): Promise<RelationCollaboratorChat[]> {
+        const resultset: any[] = await ChatModel.getRelationCollaboratorInPrivateChat(
+            collaboratorId,
+            collaboratorChatId.value
+        );
+        return resultset.map(record => new RelationCollaboratorChat(record));
     }
     static async getProjectChatMessages(projectId: IntegerId): Promise<FormattedProjectChatMessages> {
         const resultset: any[] = await ChatModel.getProjectChatMessages(projectId.value);
