@@ -22,6 +22,7 @@ export default abstract class ChatModel {
         searchedProject: string,
         collaboratorId: number
     ): Promise<any[]> {
+        console.log("La vaca lola")
         const [resultset] = await DBConnection.query(
             StoredProcedures.SearchCollaboratorChats,
             [

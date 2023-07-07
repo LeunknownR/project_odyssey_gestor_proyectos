@@ -251,8 +251,8 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         );
         this.doNotifyStateOnlinePrivateChat(collaboratorChatId.value);
     }
-    private async getProjectChatMessages(socket: Socket, body: any): Promise<void> {
-        const projectId = new IntegerId(body.projectId);
+    private async getProjectChatMessages(socket: Socket, projectIdBody: any): Promise<void> {
+        const projectId = new IntegerId(projectIdBody);
         const { userId: collaboratorId } = getWSUserData(socket);
         let formattedProjectChatMessages: FormattedProjectChatMessages = this.dataHandler
             .projectChatMessagesGroup

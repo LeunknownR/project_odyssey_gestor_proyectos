@@ -5,6 +5,9 @@ export class WSProjectChatMessagesGroup {
     //#region Attributes
     // Diccionario { key: collaboratorId, value: formattedProjectChatMessages }
     private chatMessages: Map<number, FormattedProjectChatMessages>;
+    constructor() {
+        this.chatMessages = new Map<number, FormattedProjectChatMessages>();
+    }
     //#endregion
     //#region Methods
     getProjectChatMessageList(projectId: number): FormattedProjectChatMessages {
