@@ -1,8 +1,8 @@
-import { PrivateChatPreview } from "../../../../../entities/chats/privateChatPreview";
+import { PrivateChatPreview } from "../../../../../entities/chats/chatPreview/privateChatPreview";
 
 export default class WSPrivateChatPreviewGroup {
     //#region Attributes
-    // Diccionario { key: collaboratorId, value: privateChatPreview }
+    // Diccionario { key: collaboratorId, value: privateChatPreview[] }
     private previewChatGroup: Map<number, PrivateChatPreview[]>;
     //#endregion
     //#region Methods
