@@ -4,16 +4,16 @@ import { isString } from "../../../../../utils/strings";
 export default class WSSearchProjectChatPreviewPayload {
     //#region Attributes
     private _collaboratorId: IntegerId;
-    readonly searchedCollaborator: string;
+    readonly searchedProject: string;
     //#endregion
     //#region Constantes
     private readonly ERROR: string = "Invalid payload to get project chat preview";
     //#endregion
-    constructor(collaboratorId: number, searchedCollaborator: string) {
+    constructor(collaboratorId: number, searchedProject: string) {
         this._collaboratorId = new IntegerId(collaboratorId);
-        if (!isString(searchedCollaborator))
+        if (!isString(searchedProject))
             throw new Error(this.ERROR);
-        this.searchedCollaborator = searchedCollaborator;
+        this.searchedProject = searchedProject;
     }
     get collaboratorId(): number {
         return this._collaboratorId.value;

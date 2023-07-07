@@ -7,14 +7,14 @@ export default class FormattedProjectChatMessages {
     readonly collaborators: CollaboratorProjectChatMessage[];
     //#endregion
     constructor(resultset: any[]) {
-        this.messages = [];
-        this.collaborators = [];
-        resultset.forEach(record => {
-            this.messages.push(new ProjectChatMessage(record));
-            this.collaborators.push({
-                id: record["collaborator_id"],
-                firstName: record["collaborator_first_name"]
-            });
-        });
+        this.messages = resultset.map(record => new ProjectChatMessage(record));
+        this.collaborators = resultset.map(record => ({
+            id: record["id_collaborator_project"],
+            firstName: record["collaborator_project_name"]
+        }));
+        // Se valida si todos los mensajes son Null
+        if (this.messages.every(message => message.message === null))
+            // Se asigna Null a Messages
+            this.messages = null;
     }
 }
