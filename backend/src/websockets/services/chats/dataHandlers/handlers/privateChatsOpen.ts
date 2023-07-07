@@ -2,11 +2,10 @@ export class WSOpenPrivateChats {
     //#region Attributes
     // Diccionario { key: chatId, value: collaboratorId[] }
     private collaboratorsInPrivateChats: Map<string, number[]>;
-
+    //#endregion
     constructor() {
         this.collaboratorsInPrivateChats = new Map<string, number[]>();
     }
-    //#endregion
     //#region Methods
     addCollaboratorToPrivateChat(
         chatId: string,
