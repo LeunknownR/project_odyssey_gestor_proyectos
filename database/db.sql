@@ -1362,7 +1362,6 @@ BEGIN
         );
 END //
 DELIMITER ;
--- CALL sp_search_private_chat_preview(2, 'A');
 
 -- SP para obtener la previsualización de chats privados con mensajes
 DELIMITER //
@@ -1509,7 +1508,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- SP para 
+-- SP para marcar como visto en un chat privado
 DELIMITER //
 CREATE PROCEDURE `sp_mark_private_messages_as_seen`(
     IN p_id_collaborator_open_chat INT,
@@ -1525,7 +1524,6 @@ END //
 DELIMITER ;
 
 -- SP para obtener los mensajes de un chat de proyecto
-DROP PROCEDURE IF EXISTS sp_get_project_chat_messages;
 DELIMITER //
 CREATE PROCEDURE `sp_get_project_chat_messages`(
     IN p_id_project INT
