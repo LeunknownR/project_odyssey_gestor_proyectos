@@ -12,19 +12,30 @@ export class WSOpenPrivateChats {
         chatId: string,
         collaboratorToAddId: number
     ): void {
-        if (!this.collaboratorsInPrivateChats.has(chatId)) {
-            this.collaboratorsInPrivateChats.set(chatId, []);
+        const collaborators = this.collaboratorsInPrivateChats.get(chatId) || [];
+        if (!collaborators.includes(collaboratorToAddId)) {
+            collaborators.push(collaboratorToAddId);
+            this.collaboratorsInPrivateChats.set(chatId, collaborators);
         }
-        this.collaboratorsInPrivateChats.get(chatId)?.push(collaboratorToAddId);
+        console.log(this.collaboratorsInPrivateChats)
     }
     removeCollaboratorOfPrivateChat(
         chatId: string,
         collaboratorToRemoveId: number
-    ) {
-        const newCollaborators: number[] = this.collaboratorsInPrivateChats
-            .get(chatId)
-            .filter(id => id !== collaboratorToRemoveId);
-        this.collaboratorsInPrivateChats.set(chatId, newCollaborators);
+    ): void {
+        // Se obtienen los collaboradores excepto al que se sale del chat 
+        const collaborators =
+            this.collaboratorsInPrivateChats
+                .get(chatId)?.filter(
+                    id => id !== collaboratorToRemoveId
+                ) || [];
+        // Verificar si existe colaborador en el chat
+        if (collaborators.length !== 0)
+            // Se guarda la nueva lista de collaboradores en la memoria
+            this.collaboratorsInPrivateChats.set(chatId, collaborators);
+        // Se elimina el chat que no tiene colaboradores
+        this.collaboratorsInPrivateChats.delete(chatId);
+        console.log(this.collaboratorsInPrivateChats)
     }
     //#endregion
 }

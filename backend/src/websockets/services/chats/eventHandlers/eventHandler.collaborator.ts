@@ -142,9 +142,9 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 break;
         }
     }
-    private async leavePrivateChat(socket: Socket, body: any) {
+    private async leavePrivateChat(socket: Socket, collaboratorChatIdBody: any) {
+        const collaboratorChatId = new IntegerId(collaboratorChatIdBody );
         const { userId: collaboratorId } = getWSUserData(socket);
-        const collaboratorChatId = new IntegerId(body.collaboratorId);
         // Eliminando colaborador de su chat privado
         const chatId: string = WSPrivateChatMessagesGroup.getChatId(
             collaboratorId,
