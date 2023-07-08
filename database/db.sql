@@ -1400,6 +1400,7 @@ END //
 DELIMITER ;
 
 -- Sp para despachar la previsualización de chats de proyectos
+-- DROP PROCEDURE IF EXISTS `sp_search_project_chat_preview`;
 DELIMITER //
 CREATE PROCEDURE `sp_search_project_chat_preview`(
     IN p_id_collaborator INT,
@@ -1407,41 +1408,25 @@ CREATE PROCEDURE `sp_search_project_chat_preview`(
 )
 BEGIN
     SET @searched_project = UPPER(CONCAT('%',p_searched_project,'%'));
-
-    -- temporary_table_project_ids
-    CREATE TEMPORARY TABLE temporary_table_project_ids (
-        id INT
-    );
-    -- Insertando las IDs en una tabla temporal
-    INSERT INTO temporary_table_project_ids (id)
-    SELECT p.id_project 
-    FROM project p 
-    INNER JOIN project_team_member ptm
-        ON p.id_project = ptm.id_project
-    WHERE 
-        p.active = 1 
-        AND UPPER(p.project_name) LIKE @searched_project
-        AND ptm.id_collaborator = p_id_collaborator;
-
+    
 	SELECT 
         p.id_project AS "id_project",
         p.project_name AS "project_name",
         prcm.datetime AS "last_message_datetime",
         prcm.message AS "last_message",
         prcm.id_project_team_member AS "last_message_id_sender",
-        ptmsm.seen AS "id_project_team_member_seen_message"
+        ptmsm.seen
     FROM project p
     INNER JOIN project_team_member ptm 
         ON p.id_project = ptm.id_project
     LEFT JOIN project_chat_message prcm 
-        ON p.id_project = prcm.id_project
+        ON ptm.id_project = prcm.id_project
     LEFT JOIN project_team_member_seen_message ptmsm 
         ON prcm.id_project_chat_message = ptmsm.id_project_chat_message
     WHERE
-        p.id_project IN (
-            SELECT id 
-            FROM temporary_table_project_ids
-        ) AND
+        p.active = 1 
+        AND UPPER(p.project_name) LIKE @searched_project
+        AND ptm.id_collaborator = p_id_collaborator AND
         (
             prcm.id_project_chat_message IS NULL OR
             (
@@ -1449,16 +1434,14 @@ BEGIN
                 AND prcm.datetime = (
                     SELECT MAX(datetime)
                     FROM project_chat_message
-                    WHERE id_project_team_member = prcm.id_project_team_member
-                    GROUP BY prcm.id_project_team_member
-                
+                    WHERE id_project = prcm.id_project
+                    GROUP BY prcm.id_project_chat_message
                 )
             )
         );
-
-    DROP TEMPORARY TABLE IF EXISTS temporary_table_project_ids;
 END //
 DELIMITER ;
+-- CALL sp_search_project_chat_preview(3,"D");
 
 -- SP para obtener los datos de los mensajes de un chat privado
 DELIMITER //
@@ -1732,5 +1715,5 @@ END //
 DELIMITER ;
 -- INSETANDO LOS NUEVOS CHATS
 CALL test_send_message_to_project_chat(1, 1, '2023-06-28 19:38:40','Chicos avancen sus partes crj');
-CALL test_send_message_to_project_chat(2, 1, '2023-06-28 20:02:40','va va 1');
-CALL test_send_message_to_project_chat(3, 1, '2023-06-28 20:01:50','va va 2');
+CALL test_send_message_to_project_chat(2, 1, '2023-06-28 20:01:40','va va 1');
+CALL test_send_message_to_project_chat(3, 1, '2023-06-28 20:02:50','va va 2');
