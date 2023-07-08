@@ -1,10 +1,10 @@
 import WSChatServiceConnectedCollaborators from "./handlers/connectedCollaboratorsInChatService";
 import { WSPrivateChatMessagesGroup } from "./handlers/privateChatMessagesGroup";
 import WSPrivateChatPreviewGroup from "./handlers/privateChatPreviewGroup";
-import { WSOpenPrivateChats } from "./handlers/privateChatsOpen";
+import { WSOpenPrivateChats } from "./handlers/openPrivateChats";
 import { WSProjectChatMessagesGroup } from "./handlers/projectChatMessagesGroup";
 import WSProjectChatPreviewGroup from "./handlers/projectChatPreviewGroup";
-import { WSOpenProjectChats } from "./handlers/projectChatsOpen";
+import { WSOpenProjectChats } from "./handlers/openProjectChats";
 
 export default class WSChatServiceDataHandler {
     //#region Attributes
