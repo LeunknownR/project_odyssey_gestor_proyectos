@@ -9,8 +9,8 @@ const SidebarMenu = ({ mainMenuButton }: SidebarMenuProps) => {
         <Sidebar>
             {mainMenuButton}
             <MenuList>
-                {MENU_LINKS.map(({ to, icon }) => (
-                    <MenuButton to={to} end activeclassname="active">
+                {MENU_LINKS.map(({ to, icon }, idx) => (
+                    <MenuButton key={idx} to={to} end activeclassname="active">
                         <span>
                             <Icon icon={icon} />
                         </span>

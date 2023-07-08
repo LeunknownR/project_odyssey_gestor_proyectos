@@ -1,5 +1,5 @@
-import { FlexFlow } from 'src/components/styles';
-import styled from 'styled-components';
+import { FlexFlow } from "src/components/styles";
+import styled from "styled-components";
 
 export const Container = styled(FlexFlow)`
     background-color: var(--darkblue-3);
@@ -15,11 +15,12 @@ export const Tab = styled(FlexFlow)`
     font-size: 18px;
     transition: 0.3s;
     border-radius: inherit;
+    &.active,
     :hover {
         color: var(--white-1);
         background-color: var(--darkblue-2);
     }
-    &.new-chat {
+    &.has-unread-chat {
         ::after {
             content: "";
             height: 8px;

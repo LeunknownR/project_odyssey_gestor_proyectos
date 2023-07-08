@@ -1,5 +1,9 @@
+import WSChatTab from "src/services/websockets/services/chats/utils/enums";
+
 export type ChatTabsProps = {
-    isNewChat?: boolean;
+    showPrivateChatPreview: () => void;
+    showProjectChatPreview: () => void;
+    currentTab: WSChatTab;
 }
 export type TabsContentProps = {
     text: string
