@@ -1400,7 +1400,6 @@ END //
 DELIMITER ;
 
 -- Sp para despachar la previsualización de chats de proyectos
--- DROP PROCEDURE IF EXISTS `sp_search_project_chat_preview`;
 DELIMITER //
 CREATE PROCEDURE `sp_search_project_chat_preview`(
     IN p_id_collaborator INT,
@@ -1408,7 +1407,7 @@ CREATE PROCEDURE `sp_search_project_chat_preview`(
 )
 BEGIN
     SET @searched_project = UPPER(CONCAT('%',p_searched_project,'%'));
-	SELECT 
+	SELECT DISTINCT
         p.id_project AS "id_project",
         p.project_name AS "project_name",
         prcm.datetime AS "last_message_datetime",
@@ -1421,7 +1420,7 @@ BEGIN
     LEFT JOIN project_chat_message prcm 
         ON ptm.id_project = prcm.id_project
     LEFT JOIN project_team_member_seen_message ptmsm 
-        ON prcm.id_project_chat_message = ptmsm.id_project_chat_message
+        ON prcm.id_project_team_member = ptmsm.id_project_team_member
     WHERE
         p.active = 1 
         AND UPPER(p.project_name) LIKE @searched_project
@@ -1440,7 +1439,6 @@ BEGIN
         );
 END //
 DELIMITER ;
--- CALL sp_search_project_chat_preview(3,"D");
 
 -- SP para obtener los datos de los mensajes de un chat privado
 DELIMITER //
