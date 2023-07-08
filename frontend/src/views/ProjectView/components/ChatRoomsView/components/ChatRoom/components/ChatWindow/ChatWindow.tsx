@@ -18,7 +18,6 @@ const ChatWindow = ({ formattedMessages }: ChatWindowProps) => {
                             className={
                                 collaboratorId === getUserId() ? "my-message" : ""
                             }
-                            sender="paco"
                             text={message}
                             datetime={datetime}
                         />

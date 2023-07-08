@@ -5,7 +5,7 @@ import { MessageProps } from "./types";
 const Message = ({ className, sender, text, datetime }: MessageProps) => {
     return (
         <Container direction="column" gap="8px" className={className}>
-            <Sender className={className}>{sender}</Sender>
+            {sender && <Sender className={className}>{sender}</Sender>}
             <Text className={className}>
                 {text}
             </Text>

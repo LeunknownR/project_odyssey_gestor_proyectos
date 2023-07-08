@@ -4,7 +4,7 @@ import { CHAT_FIELD_PROPS } from "./constants";
 import { ChatInput, ChatInputContainer, IconContainer } from "./styles";
 import { MessageBoxProps } from "./types";
 
-const MessageBox = ({ emitMessageEvent }: MessageBoxProps) => {
+const MessageBox = () => {
     const [messageText, setMessageText] = useState<string>("");
     const changeMessageText = ({
         target: { value },
@@ -12,7 +12,7 @@ const MessageBox = ({ emitMessageEvent }: MessageBoxProps) => {
         setMessageText(value);
     };
     const sendMessage = () => {
-        emitMessageEvent();
+        // emitMessageEvent();
         setMessageText("");
     };
     return (

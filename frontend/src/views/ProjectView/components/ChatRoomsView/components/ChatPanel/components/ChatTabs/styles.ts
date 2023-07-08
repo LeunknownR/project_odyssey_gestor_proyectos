@@ -15,6 +15,7 @@ export const Tab = styled(FlexFlow)`
     font-size: 18px;
     transition: 0.3s;
     border-radius: inherit;
+    user-select: none;
     &.active,
     :hover {
         color: var(--white-1);

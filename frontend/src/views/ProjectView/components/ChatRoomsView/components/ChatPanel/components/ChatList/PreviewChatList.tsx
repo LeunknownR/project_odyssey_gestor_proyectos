@@ -5,7 +5,7 @@ import { ChatListProps } from "./types";
 function PreviewChatList<I>({ previewChatList, renderItem }: ChatListProps<I>) {
     return (
         <Container>
-            <List direction="column" gap="15px" className="custom-scrollbar">
+            <List direction="column" gap="6px" className="custom-scrollbar">
                 {previewChatList.map(renderItem)}
             </List>
         </Container>

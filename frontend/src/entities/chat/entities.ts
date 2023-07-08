@@ -11,6 +11,9 @@ export type LastMessage = {
     senderId: number;
     seen: boolean;
 };
+export type ProjectLastMessage = LastMessage & {
+    senderFirstName: string;
+}
 export type ChatCollaboratorUser = Omit<CollaboratorUser, "email">;
 export type PrivateChatPreview = {
     collaborator: ChatCollaboratorUser;
@@ -18,7 +21,7 @@ export type PrivateChatPreview = {
 };
 export type ProjectChatPreview = {
     project: ProjectChat;
-    lastMessage: LastMessage | null;
+    lastMessage: ProjectLastMessage | null;
 };
 export type FormattedPrivateChatMessages = {
     collaboratorRelationList: CollaboratorRelationList[];
