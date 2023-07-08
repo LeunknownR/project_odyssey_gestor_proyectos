@@ -1408,7 +1408,6 @@ CREATE PROCEDURE `sp_search_project_chat_preview`(
 )
 BEGIN
     SET @searched_project = UPPER(CONCAT('%',p_searched_project,'%'));
-    
 	SELECT 
         p.id_project AS "id_project",
         p.project_name AS "project_name",
@@ -1501,8 +1500,15 @@ BEGIN
     -- Marcando como visto el mensaje privado
     UPDATE private_chat_message
     SET seen = 1
-    WHERE ((id_collaborator_sender = p_id_collaborator_open_chat AND id_collaborator_receiver = p_id_collaborator_chat)
-    OR (id_collaborator_sender = p_id_collaborator_chat AND id_collaborator_receiver = p_id_collaborator_open_chat));
+    WHERE (
+        (
+            id_collaborator_sender = p_id_collaborator_open_chat AND 
+            id_collaborator_receiver = p_id_collaborator_chat
+        ) OR (
+            id_collaborator_sender = p_id_collaborator_chat AND 
+            id_collaborator_receiver = p_id_collaborator_open_chat
+        )
+    );
 END //
 DELIMITER ;
 

@@ -11,6 +11,7 @@ export class ProjectChatPreview {
             id: record["id_project"],
             name: record["project_name"]
         };
-        this.lastMessage = new LastMessageChatPreview(record);
+        const senderId: number | null = record["last_message_id_sender"];
+        this.lastMessage = senderId ? new LastMessageChatPreview(record) : null;
     }
 };
