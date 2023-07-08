@@ -1,29 +1,23 @@
 import UserImage from "src/views/components/UserImage/UserImage";
-import {
-    Container,
-    ChatTitle,
-    ChatSubtitle,
-    TitleContainer,
-    CloseBtn,
-} from "./styles";
+import { Container, ChatTitle, ChatSubtitle, CloseBtn } from "./styles";
 import { FAKE_CHATS } from "../../mock";
 import { FlexFlow } from "src/components/styles";
+import { ChatHeaderProps } from "./types";
 
-const ChatHeader = () => {
+const ChatHeader = ({ portrait, title, subtitle }: ChatHeaderProps) => {
     return (
         <Container align="center" justify="space-between">
             <FlexFlow gap="18px">
-                <UserImage
+                {portrait}
+                {/* <UserImage
                     name={FAKE_CHATS.name}
                     surname={FAKE_CHATS.surname}
                     urlPhoto={FAKE_CHATS.urlPhoto}
                     className="medium"
-                />
+                /> */}
                 <FlexFlow direction="column" gap="5px">
-                    <ChatTitle>
-                        {FAKE_CHATS.name} {FAKE_CHATS.surname}
-                    </ChatTitle>
-                    <ChatSubtitle>{FAKE_CHATS.state}</ChatSubtitle>
+                    <ChatTitle>{title}</ChatTitle>
+                    <ChatSubtitle>{subtitle}</ChatSubtitle>
                 </FlexFlow>
             </FlexFlow>
             <CloseBtn

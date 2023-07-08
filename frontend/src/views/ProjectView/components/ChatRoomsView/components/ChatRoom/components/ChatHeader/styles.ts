@@ -7,10 +7,6 @@ export const Container = styled(FlexFlow.withComponent("header"))`
     padding: 15px 50px;
     background-color: var(--darkblue-3);
 `;
-export const TitleContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
 export const ChatTitle = styled.h1`
     font-size: 22px;
     font-weight: 700;

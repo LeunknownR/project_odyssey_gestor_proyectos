@@ -5,7 +5,6 @@ export type UserImageProps = {
     name: string;
     surname: string;
     urlPhoto: string | null;
-    size?: string;
 }
 export type NameInitialsProps = {
     className?: string;
