@@ -22,7 +22,7 @@ const ChatTabs = ({
         return classList.join(" ");
     };
     return (
-        <Container width="100%">
+        <Container width="100%" gap="10px">
             <Tab
                 className={getClassNamePrivate()}
                 onClick={showPrivateChatPreview}

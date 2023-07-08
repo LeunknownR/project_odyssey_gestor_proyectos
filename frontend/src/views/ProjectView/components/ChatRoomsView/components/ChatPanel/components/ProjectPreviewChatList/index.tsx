@@ -11,34 +11,42 @@ const ProjectPreviewChatList = ({
     projectChatPreviewList,
 }: ProjectPreviewChatListProps) => {
     const { socketIoChatService } = useChatServiceContext();
-    const { dispatchProjectMessages } = useChatViewContext();
+    const { dispatchProjectMessages, currentProjectChat, setCurrentProjectChat } = useChatViewContext();
     const getIsLastMessageSeen = (lastMessage: LastMessage | null): boolean => {
         if (!lastMessage) return true;
         return lastMessage.seen;
     };
-    const getPrivateChatMessages = (projectId: number): void => {
-        socketIoChatService?.emit(WSChatServiceEvents.Collaborator.GetProjectChatMessages, projectId);
-        dispatchProjectMessages()
-    }
+    const getPrivateChatMessages = (projectChatPreview: ProjectChatPreview): void => {
+        socketIoChatService?.emit(
+            WSChatServiceEvents.Collaborator.GetProjectChatMessages,
+            projectChatPreview.project.id
+        );
+        setCurrentProjectChat(projectChatPreview);
+        dispatchProjectMessages();
+    };
     return (
         <PreviewChatList<ProjectChatPreview>
             previewChatList={projectChatPreviewList}
-            renderItem={({ project, lastMessage }) => (
-                <ChatPreview
-                    key={project.id}
-                    portrait={
-                        <ProjectChatImage
-                            isLastMessageSeen={
-                                getIsLastMessageSeen(lastMessage)
-                            }
-                        />
-                    }
-                    title={project.name}
-                    datetime={lastMessage?.datetime || null}
-                    message={lastMessage?.message || null}
-                    onClick={() => getPrivateChatMessages(project.id)}
-                />
-            )}
+            renderItem={projectChatPreview => {
+                const { project, lastMessage } = projectChatPreview;
+                return (
+                    <ChatPreview
+                        key={project.id}
+                        portrait={
+                            <ProjectChatImage
+                                isLastMessageSeen={getIsLastMessageSeen(
+                                    lastMessage
+                                )}
+                            />
+                        }
+                        title={project.name}
+                        datetime={lastMessage?.datetime || null}
+                        message={lastMessage?.message || null}
+                        onClick={() => getPrivateChatMessages(projectChatPreview)}
+                        active={project.id === currentProjectChat?.project.id}
+                    />
+                );
+            }}
         />
     );
 };

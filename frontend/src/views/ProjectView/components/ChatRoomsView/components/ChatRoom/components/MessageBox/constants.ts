@@ -1,4 +1,4 @@
 export const CHAT_FIELD_PROPS = {
-    placeholder: "Redacte su comentario aquí...",
+    placeholder: "Escribe tu mensaje aquí...",
     variant: "primary",
 };

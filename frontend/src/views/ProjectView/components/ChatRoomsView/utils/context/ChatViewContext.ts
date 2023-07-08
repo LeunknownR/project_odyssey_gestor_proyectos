@@ -6,6 +6,10 @@ const INIT_CHAT_VIEW_CONTEXT: ChatViewContextType = {
     projectChatPreviewList: [],
     setPrivateChatPreviewList: () => {},
     setProjectChatPreviewList: () => {},
+    currentPrivateChat: null,
+    currentProjectChat: null,
+    setCurrentPrivateChat: () => {},
+    setCurrentProjectChat: () => {},
     dispatchPrivateMessages: () => {},
     dispatchProjectMessages: () => {},
 };

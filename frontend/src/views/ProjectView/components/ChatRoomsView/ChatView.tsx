@@ -1,4 +1,3 @@
-/* eslint-disable no-constant-condition */
 import { useState, ReactNode } from "react";
 import { Container } from "./styles";
 import ChatPanel from "./components/ChatPanel/ChatPanel";
@@ -17,21 +16,25 @@ import useChatServiceContext from "src/routes/components/ChatService/utils/conte
 import ProjectChatRoom from "./components/ProjectChatRoom";
 
 const ChatView = () => {
+    //#region States
     const [privateChatPreviewList, setPrivateChatPreviewList] = useState<
         PrivateChatPreview[]
     >([]);
     const [projectChatPreviewList, setProjectChatPreviewList] = useState<
         ProjectChatPreview[]
     >([]);
+    const [currentPrivateChat, setCurrentPrivateChat] = useState<PrivateChatPreview | null>(null);
+    const [currentProjectChat, setCurrentProjectChat] = useState<ProjectChatPreview | null>(null);
     const [formattedPrivateChatMessages, setFormattedPrivateChatMessages] =
         useState<FormattedPrivateChatMessages | null>(null);
     const [formattedProjectChatMessages, setFormattedProjectChatMessages] =
         useState<FormattedProjectChatMessages | null>(null);
+    //#endregion
     const { socketIoChatService } = useChatServiceContext();
     //GNOMO refactorizar 👇
-    const renderTest = (): ReactNode => {
+    const renderChatRoom = (): ReactNode => {
         if (formattedPrivateChatMessages) 
-        return <PrivateChatRoom formattedPrivateChatMessages={formattedPrivateChatMessages} />
+            return <PrivateChatRoom formattedPrivateChatMessages={formattedPrivateChatMessages} />
         if (formattedProjectChatMessages)
             return <ProjectChatRoom formattedProjectChatMessages={formattedProjectChatMessages} />
         return null;
@@ -58,22 +61,26 @@ const ChatView = () => {
     };
     return (
         <>
-            <SidebarMenu />
-            <Container>
-                <ChatViewContext.Provider
-                    value={{
-                        privateChatPreviewList,
-                        projectChatPreviewList,
-                        setPrivateChatPreviewList,
-                        setProjectChatPreviewList,
-                        dispatchPrivateMessages,
-                        dispatchProjectMessages,
-                    }}
-                >
-                    <ChatPanel />
-                    {renderTest() ? renderTest() : <UnselectedChat />}
-                </ChatViewContext.Provider>
-            </Container>
+        <SidebarMenu />
+        <Container>
+            <ChatViewContext.Provider
+                value={{
+                    privateChatPreviewList,
+                    projectChatPreviewList,
+                    setPrivateChatPreviewList,
+                    setProjectChatPreviewList,
+                    currentPrivateChat,
+                    currentProjectChat,
+                    setCurrentPrivateChat,
+                    setCurrentProjectChat,
+                    dispatchPrivateMessages,
+                    dispatchProjectMessages,
+                }}
+            >
+                <ChatPanel />
+                {renderChatRoom() ? renderChatRoom() : <UnselectedChat />}
+            </ChatViewContext.Provider>
+        </Container>
         </>
     );
 };

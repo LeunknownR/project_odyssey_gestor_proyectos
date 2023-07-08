@@ -13,7 +13,7 @@ const PrivatePreviewChatList = ({
     privateChatPreviewList,
 }: PrivatePreviewChatListProps) => {
     const { socketIoChatService } = useChatServiceContext();
-    const { dispatchPrivateMessages } = useChatViewContext();
+    const { dispatchPrivateMessages, currentPrivateChat, setCurrentPrivateChat } = useChatViewContext();
     const getFormattedMessage = (
         lastMessage: LastMessage | null
     ): string | null => {
@@ -26,34 +26,42 @@ const PrivatePreviewChatList = ({
         if (!lastMessage) return "";
         return lastMessage.seen ? "" : "has-unread-chat";
     };
-    const getPrivateChatMessages = (collaboratorChatId: number): void => {
-        socketIoChatService?.emit(WSChatServiceEvents.Collaborator.GetPrivateChatMessages, collaboratorChatId);
+    const getPrivateChatMessages = (privateChatPreview: PrivateChatPreview): void => {
+        socketIoChatService?.emit(
+            WSChatServiceEvents.Collaborator.GetPrivateChatMessages,
+            privateChatPreview.collaborator.id
+        );
+        setCurrentPrivateChat(privateChatPreview);
         dispatchPrivateMessages();
-    }
+    };
     return (
         <PreviewChatList<PrivateChatPreview>
             previewChatList={privateChatPreviewList}
-            renderItem={({ collaborator, lastMessage }) => (
-                <ChatPreview
-                    key={collaborator.id}
-                    portrait={
-                        <ImageWrapper
-                            className={getIsChatNotRead(lastMessage)}
-                        >
-                            <UserImage
-                                className="medium"
-                                name={collaborator.name}
-                                surname={collaborator.surname}
-                                urlPhoto={collaborator.urlPhoto}
-                            />
-                        </ImageWrapper>
-                    }
-                    title={`${collaborator.name} ${collaborator.surname}`}
-                    datetime={lastMessage?.datetime || null}
-                    message={getFormattedMessage(lastMessage)}
-                    onClick={() => getPrivateChatMessages(collaborator.id)}
-                />
-            )}
+            renderItem={privateChatPreview => {
+                const { collaborator, lastMessage } = privateChatPreview;
+                return (
+                    <ChatPreview
+                        key={collaborator.id}
+                        portrait={
+                            <ImageWrapper
+                                className={getIsChatNotRead(lastMessage)}
+                            >
+                                <UserImage
+                                    className="medium"
+                                    name={collaborator.name}
+                                    surname={collaborator.surname}
+                                    urlPhoto={collaborator.urlPhoto}
+                                />
+                            </ImageWrapper>
+                        }
+                        title={`${collaborator.name} ${collaborator.surname}`}
+                        datetime={lastMessage?.datetime || null}
+                        message={getFormattedMessage(lastMessage)}
+                        onClick={() => getPrivateChatMessages(privateChatPreview)}
+                        active={collaborator.id === currentPrivateChat?.collaborator.id}
+                    />
+                );
+            }}
         />
     );
 };

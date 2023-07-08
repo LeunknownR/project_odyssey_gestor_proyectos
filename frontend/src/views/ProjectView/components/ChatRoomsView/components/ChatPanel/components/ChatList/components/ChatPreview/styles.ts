@@ -8,7 +8,7 @@ export const Container = styled(FlexFlow.withComponent("li"))`
     padding: 8px 12px;
     border-radius: 5px;
     user-select: none;
-    :hover {
+    &.active, :hover {
         background-color: var(--white-1-12);
     }
 `;

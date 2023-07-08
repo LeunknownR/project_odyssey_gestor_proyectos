@@ -9,9 +9,9 @@ import {
 import { messageDateFormat } from "src/utils/dates";
 import { ChatPreviewProps } from "./types";
 
-const ChatPreview = ({ portrait, title, datetime, message, onClick }: ChatPreviewProps) => {
+const ChatPreview = ({ portrait, title, datetime, message, onClick, active }: ChatPreviewProps) => {
     return (
-        <Container align="center" gap="12px" onClick={onClick}>
+        <Container align="center" gap="12px" onClick={onClick} className={active ? "active" : ""}>
             {portrait}
             <Wrapper direction="column" gap="4px">
                 <NameDateWrapper gap="8px">

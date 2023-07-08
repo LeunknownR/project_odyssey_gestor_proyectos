@@ -6,4 +6,5 @@ export type ChatPreviewProps = {
     datetime: number | null;
     message: string | null;
     onClick: () => void;
+    active: boolean;
 }
