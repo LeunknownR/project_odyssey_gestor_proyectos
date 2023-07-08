@@ -7,7 +7,9 @@ export default class FormattedProjectChatMessages {
     readonly collaborators: CollaboratorProjectChatMessage[];
     //#endregion
     constructor(resultset: any[]) {
-        this.messages = resultset.map(record => new ProjectChatMessage(record));
+        this.messages = resultset
+            .filter(record => record["id_project_chat_message"])
+            .map(record => new ProjectChatMessage(record));
         this.collaborators = resultset.map(record => ({
             id: record["id_collaborator_project"],
             firstName: record["collaborator_project_name"]
