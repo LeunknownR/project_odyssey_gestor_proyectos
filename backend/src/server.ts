@@ -9,7 +9,7 @@ import { Server as WebSocketServer } from "socket.io";
 import DBConnection from "./db";
 import IOServiceHandler from "./websockets";
 
-async function initServer() {
+async function initServer() { 
     // Inicializando variables de entorno
     dotenv.config();
     // Inicializando aplicación
