@@ -42,6 +42,7 @@ export const Date = styled.span`
     color: var(--white-2);
     font-weight: 300;
     font-size: 13px;
+    white-space: nowrap;
     @media (max-width: ${MOBILE_WIDTH}px) {
         font-size: 11px;
     }
