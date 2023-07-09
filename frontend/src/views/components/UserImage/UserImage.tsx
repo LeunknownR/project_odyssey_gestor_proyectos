@@ -8,7 +8,7 @@ const UserImage = ({
     className,
     onClick, 
     name, surname, 
-    urlPhoto 
+    urlPhoto
 }: UserImageProps) => {
     return (
         <Container 

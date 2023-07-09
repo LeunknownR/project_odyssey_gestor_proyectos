@@ -7,6 +7,7 @@ import { MODULE_VIEWS_BY_USER_ROLE } from "src/config/roles";
 import { clearStorage } from "src/storage";
 import { AbsolutePaths } from "src/config/absolutePaths";
 import { currentUserLocalStorage } from "src/storage/user.local";
+import ChatService from "./components/ChatService/ChatService";
 
 const MasterRouter = () => {
     const navigate = useNavigate();
@@ -45,13 +46,14 @@ const MasterRouter = () => {
         <Main>
             {routesLoaded && <Header />}
             <Content>
-                <Routes>
-                    {routes}
-                    {routesLoaded && 
+                <ChatService children={
+                    <Routes>
+                        {routes}
+                        {routesLoaded && 
                         <Route 
                             path="*" 
                             element={<Navigate to={AbsolutePaths.Projects} replace />} />}
-                </Routes>
+                    </Routes>}/>
             </Content>
         </Main>
     );
