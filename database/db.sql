@@ -1413,10 +1413,13 @@ BEGIN
         prcm.datetime AS "last_message_datetime",
         prcm.message AS "last_message",
         prcm.id_project_team_member AS "last_message_id_sender",
+        TRIM(SUBSTRING_INDEX(u.user_name, ' ', 1)) AS "sender_first_name",
         ptmsm.seen
     FROM project p
     INNER JOIN project_team_member ptm 
         ON p.id_project = ptm.id_project
+    INNER JOIN user u
+    	ON u.id_user = ptm.id_collaborator
     LEFT JOIN project_chat_message prcm 
         ON ptm.id_project = prcm.id_project
     LEFT JOIN project_team_member_seen_message ptmsm 
@@ -1518,7 +1521,7 @@ CREATE PROCEDURE `sp_get_project_chat_messages`(
 BEGIN
     SELECT
         u.id_user AS "id_collaborator_project",
-        TRIM(SUBSTRING_INDEX(u.user_name, ' ', 1)) AS "collaborator_project_name",
+        TRIM(SUBSTRING_INDEX(u.user_name, ' ', 1)) AS "collaborator_project_first_name",
         prcm.id_project_chat_message,
         ptm_prcm.id_collaborator AS "id_collaborator_sender",
         prcm.message,
@@ -1680,15 +1683,6 @@ BEGIN
     END IF;
 END //
 DELIMITER ; 
-
-
-
-
-
-
-
-
-
 
 -- PARA INSERTAR LOS DATOS DE MANERA ADECUADA
 DELIMITER //
