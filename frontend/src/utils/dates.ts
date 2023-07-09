@@ -5,7 +5,7 @@ export const dayMonthFormat = (milliseconds: number): string => {
 
     return `${day} ${month}`;
 };
-export const commentDateFormat = (milliseconds: number): string => {
+export const messageDateFormat = (milliseconds: number): string => {
     const date = new Date(milliseconds);
     const today = new Date();
     

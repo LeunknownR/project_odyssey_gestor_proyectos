@@ -1413,10 +1413,13 @@ BEGIN
         prcm.datetime AS "last_message_datetime",
         prcm.message AS "last_message",
         prcm.id_project_team_member AS "last_message_id_sender",
+        TRIM(SUBSTRING_INDEX(u.user_name, ' ', 1)) AS "sender_first_name",
         ptmsm.seen
     FROM project p
     INNER JOIN project_team_member ptm 
         ON p.id_project = ptm.id_project
+    INNER JOIN user u
+    	ON u.id_user = ptm.id_collaborator
     LEFT JOIN project_chat_message prcm 
         ON ptm.id_project = prcm.id_project
     LEFT JOIN project_team_member_seen_message ptmsm 
@@ -1451,7 +1454,7 @@ BEGIN
     SELECT 
         id_private_chat_message,
         id_collaborator_sender,
-        message
+        message, datetime
     FROM private_chat_message
     WHERE 
         (
@@ -1518,10 +1521,11 @@ CREATE PROCEDURE `sp_get_project_chat_messages`(
 BEGIN
     SELECT
         u.id_user AS "id_collaborator_project",
-        TRIM(SUBSTRING_INDEX(u.user_name, ' ', 1)) AS "collaborator_project_name",
+        TRIM(SUBSTRING_INDEX(u.user_name, ' ', 1)) AS "collaborator_project_first_name",
         prcm.id_project_chat_message,
         ptm_prcm.id_collaborator AS "id_collaborator_sender",
-        prcm.message
+        prcm.message,
+        prcm.datetime
     FROM project p 
     -- Obteniendo datos de los miembros del equipo de este proyecto
     INNER JOIN project_team_member ptm_cp
@@ -1592,10 +1596,10 @@ BEGIN
 
     -- Luego de insertarlo, devolver el message con un SELECT
     SELECT 
-        `id_private_chat_message`,
-        `id_collaborator_sender`,
-        `message`
-    FROM private_chat_message
+        id_private_chat_message,
+        id_collaborator_sender,
+        message, datetime
+    FROM private_chat_message prcm
     WHERE id_private_chat_message = @id_private_chat_message;
 END //
 DELIMITER ;
@@ -1631,11 +1635,14 @@ BEGIN
     
     -- Luego de insertarlo, devolver el message con un SELECT
     SELECT 
-        `id_project_chat_message`,
-        `id_project_team_member`,
-        `message`
-    FROM project_chat_message
-    WHERE id_project_chat_message = @id_project_chat_message;
+        prcm.id_project_chat_message,
+        prcm.id_project_team_member,
+        prcm.message, prcm.datetime
+    FROM project_chat_message prcm
+    INNER JOIN project_team_member ptm
+    	ON ptm.id_project_team_member = prcm.id_project_team_member
+    WHERE prcm.id_project_chat_message = @id_project_chat_message AND 
+        ptm.id_collaborator = p_id_sender;
 END //
 DELIMITER ;
 
@@ -1676,15 +1683,6 @@ BEGIN
     END IF;
 END //
 DELIMITER ; 
-
-
-
-
-
-
-
-
-
 
 -- PARA INSERTAR LOS DATOS DE MANERA ADECUADA
 DELIMITER //
