@@ -28,11 +28,10 @@ export const Text = styled.p`
     }
 `;
 export const Timestamp = styled.label`
-    display: flex;
+    align-self: flex-end;
     color: var(--darkblue-0);
     font-size: 12px;
     font-weight: 400;
-    justify-content: flex-end;
     &.my-message {
         color: var(--darkblue-2);
     }
