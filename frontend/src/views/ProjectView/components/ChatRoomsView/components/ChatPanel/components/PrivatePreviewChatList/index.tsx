@@ -13,7 +13,12 @@ const PrivatePreviewChatList = ({
     privateChatPreviewList,
 }: PrivatePreviewChatListProps) => {
     const { socketIoChatService } = useChatServiceContext();
-    const { dispatchPrivateMessages, currentPrivateChat, setCurrentPrivateChat } = useChatViewContext();
+    const {
+        dispatchPrivateMessages,
+        currentPrivateChat,
+        setCurrentPrivateChat,
+        setCurrentProjectChat,
+    } = useChatViewContext();
     const getFormattedMessage = (
         lastMessage: LastMessage | null
     ): string | null => {
@@ -26,12 +31,15 @@ const PrivatePreviewChatList = ({
         if (!lastMessage) return "";
         return lastMessage.seen ? "" : "has-unread-chat";
     };
-    const getPrivateChatMessages = (privateChatPreview: PrivateChatPreview): void => {
+    const getPrivateChatMessages = (
+        privateChatPreview: PrivateChatPreview
+    ): void => {
         socketIoChatService?.emit(
             WSChatServiceEvents.Collaborator.GetPrivateChatMessages,
             privateChatPreview.collaborator.id
         );
         setCurrentPrivateChat(privateChatPreview);
+        setCurrentProjectChat(null);
         dispatchPrivateMessages();
     };
     return (
@@ -57,8 +65,13 @@ const PrivatePreviewChatList = ({
                         title={`${collaborator.name} ${collaborator.surname}`}
                         datetime={lastMessage?.datetime || null}
                         message={getFormattedMessage(lastMessage)}
-                        onClick={() => getPrivateChatMessages(privateChatPreview)}
-                        active={collaborator.id === currentPrivateChat?.collaborator.id}
+                        onClick={() =>
+                            getPrivateChatMessages(privateChatPreview)
+                        }
+                        active={
+                            collaborator.id ===
+                            currentPrivateChat?.collaborator.id
+                        }
                     />
                 );
             }}

@@ -15,12 +15,12 @@ const ChatPreview = ({ portrait, title, datetime, message, onClick, active }: Ch
             {portrait}
             <Wrapper direction="column" gap="4px">
                 <NameDateWrapper gap="8px">
-                    <ChatPreviewTitle maxWidth={datetime ? "250px" : "300px"}>
+                    <ChatPreviewTitle title={title} maxWidth={datetime ? "250px" : "300px"}>
                         {title}
                     </ChatPreviewTitle>
                     {datetime && <Date>{messageDateFormat(datetime)}</Date>}
                 </NameDateWrapper>
-                {message && <Content>{message}</Content>}
+                {message && <Content title={message}>{message}</Content>}
             </Wrapper>
         </Container>
     );

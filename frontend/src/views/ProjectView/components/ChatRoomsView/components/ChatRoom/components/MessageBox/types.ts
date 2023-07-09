@@ -1,3 +1,3 @@
 export type MessageBoxProps = {
-    emitMessageEvent: () => void;
+    emitMessageEvent: (messageText: string) => void;
 }

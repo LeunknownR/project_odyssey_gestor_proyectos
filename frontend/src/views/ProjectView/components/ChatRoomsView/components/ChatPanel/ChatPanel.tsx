@@ -10,22 +10,19 @@ import {
 import useChatServiceContext from "src/routes/components/ChatService/utils/contexts/useChatServiceContext";
 import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import PrivatePreviewChatList from "./components/PrivatePreviewChatList";
-import { A } from "./types";
+import { ChatListByTab } from "./types";
 import ProjectPreviewChatList from "./components/ProjectPreviewChatList";
 import useChatViewContext from "../../utils/context/useChatViewContext";
 
 const ChatPanel = () => {
+    //#region States
     const [chatTab, setChatTab] = useState<WSChatTab>(WSChatTab.Private);
     const [searchedChat, setSearchedChat] = useState("");
-    // const [privateChatPreviewList, setPrivateChatPreviewList] = useState<
-    //     PrivateChatPreview[]
-    // >([]);
-    // const [projectChatPreviewList, setProjectChatPreviewList] = useState<
-    //     ProjectChatPreview[]
-    // >([]);
     const [timeoutToSearchChatId, setTimeoutToSearchChatId] = useState<
         NodeJS.Timeout | undefined
     >();
+    //#endregion
+    //#region Hooks
     const { socketIoChatService } = useChatServiceContext();
     const {
         privateChatPreviewList,
@@ -33,6 +30,8 @@ const ChatPanel = () => {
         setPrivateChatPreviewList,
         setProjectChatPreviewList,
     } = useChatViewContext();
+    //#endregion
+    //#region Effects
     useEffect(() => {
         showPrivateChatPreview();
     }, []);
@@ -42,6 +41,7 @@ const ChatPanel = () => {
             chatTab,
         });
     }, [chatTab]);
+    //#endregion
     const showPrivateChatPreview = () => {
         socketIoChatService?.off(
             WSChatServiceEvents.Server.DispatchProjectChatPreview
@@ -72,7 +72,7 @@ const ChatPanel = () => {
     ) => {
         setProjectChatPreviewList(projectChatPreview);
     };
-    //Funciones relacionadas con el Buscador de chat
+    //#region Funciones relacionadas con el Buscador de chat
     const searchChat = ({
         target: { value },
     }: ChangeEvent<HTMLInputElement>) => {
@@ -89,8 +89,8 @@ const ChatPanel = () => {
         }, 350);
         setTimeoutToSearchChatId(newTimeoutToSearchChatId);
     };
-    //GNOMO CAMBIAR NOMBRE DE ESE ALIAS
-    const previewChatList: A = {
+    //#endregion
+    const previewChatList: ChatListByTab = {
         [WSChatTab.Private]: (
             <PrivatePreviewChatList
                 privateChatPreviewList={privateChatPreviewList}

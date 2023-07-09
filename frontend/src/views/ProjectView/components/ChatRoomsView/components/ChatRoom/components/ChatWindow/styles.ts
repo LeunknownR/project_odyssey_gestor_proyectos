@@ -11,6 +11,18 @@ export const Container = styled.div`
     height: 100%;
     overflow: hidden;
 `;
+export const AdditionalChatInfoWrapper = styled(FlexFlow)`
+
+    span {
+        color: var(--white-1);
+        font-size: 16px;
+    }
+`;
+export const Separator = styled.hr`
+    width: 70%;
+    background-color: var(--darkblue-0);
+    margin-bottom: 30px;
+`;
 export const MessageList = styled(FlexFlow.withComponent("ul"))`
     padding-right: 30px;
 `;

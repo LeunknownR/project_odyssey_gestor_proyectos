@@ -1,9 +1,17 @@
 import { getUserId } from "src/storage/user.local";
 import Message from "./components/Message/Message";
-import { Container, MessageList } from "./styles";
+import {
+    AdditionalChatInfoWrapper,
+    Container,
+    MessageList,
+    Separator,
+} from "./styles";
 import { ChatWindowProps } from "./types";
 
-const ChatWindow = ({ formattedMessages }: ChatWindowProps) => {
+const ChatWindow = ({
+    formattedMessages,
+    additionalChatInfo,
+}: ChatWindowProps) => {
     return (
         <Container>
             <MessageList
@@ -11,12 +19,22 @@ const ChatWindow = ({ formattedMessages }: ChatWindowProps) => {
                 gap="15px"
                 className="custom-scrollbar"
             >
+                <AdditionalChatInfoWrapper
+                    direction="column"
+                    align="center"
+                    gap="8px"
+                >
+                    {additionalChatInfo}
+                    <Separator />
+                </AdditionalChatInfoWrapper>
                 {formattedMessages.map(
                     ({ collaboratorId, message, id, datetime }) => (
                         <Message
                             key={id}
                             className={
-                                collaboratorId === getUserId() ? "my-message" : ""
+                                collaboratorId === getUserId()
+                                    ? "my-message"
+                                    : ""
                             }
                             text={message}
                             datetime={datetime}

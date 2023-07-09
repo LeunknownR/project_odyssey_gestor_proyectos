@@ -11,17 +11,25 @@ const ProjectPreviewChatList = ({
     projectChatPreviewList,
 }: ProjectPreviewChatListProps) => {
     const { socketIoChatService } = useChatServiceContext();
-    const { dispatchProjectMessages, currentProjectChat, setCurrentProjectChat } = useChatViewContext();
+    const {
+        dispatchProjectMessages,
+        currentProjectChat,
+        setCurrentProjectChat,
+        setCurrentPrivateChat,
+    } = useChatViewContext();
     const getIsLastMessageSeen = (lastMessage: LastMessage | null): boolean => {
         if (!lastMessage) return true;
         return lastMessage.seen;
     };
-    const getPrivateChatMessages = (projectChatPreview: ProjectChatPreview): void => {
+    const getPrivateChatMessages = (
+        projectChatPreview: ProjectChatPreview
+    ): void => {
         socketIoChatService?.emit(
             WSChatServiceEvents.Collaborator.GetProjectChatMessages,
             projectChatPreview.project.id
         );
         setCurrentProjectChat(projectChatPreview);
+        setCurrentPrivateChat(null);
         dispatchProjectMessages();
     };
     return (
@@ -41,8 +49,14 @@ const ProjectPreviewChatList = ({
                         }
                         title={project.name}
                         datetime={lastMessage?.datetime || null}
-                        message={lastMessage?.message || null}
-                        onClick={() => getPrivateChatMessages(projectChatPreview)}
+                        message={
+                            lastMessage
+                                ? `${lastMessage?.senderFirstName}: ${lastMessage?.message}`
+                                : null
+                        }
+                        onClick={() =>
+                            getPrivateChatMessages(projectChatPreview)
+                        }
                         active={project.id === currentProjectChat?.project.id}
                     />
                 );

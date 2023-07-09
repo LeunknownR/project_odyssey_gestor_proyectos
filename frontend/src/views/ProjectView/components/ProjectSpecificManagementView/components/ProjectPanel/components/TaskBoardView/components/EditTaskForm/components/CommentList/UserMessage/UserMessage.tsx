@@ -10,8 +10,6 @@ const UserMessage = ({
     surname, urlPhoto,
     id, size
 }: UserMessageProps) => {
-    //GNOMO PREGUNTAR A MANUEL SI CREAR UN NUEVO USERIMAGE PARA PONER EL AVISO DE NUEVO CHAT (BOLA ROJA SOBRE IMAGEN)
-    //SEPARo y paso image y hago el datetimelabel
     return (
         <Container className={className} align="center" gap="12px">
             <UserImage className={size} name={name} surname={surname} urlPhoto={urlPhoto} />

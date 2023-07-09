@@ -31,14 +31,6 @@ const ChatView = () => {
         useState<FormattedProjectChatMessages | null>(null);
     //#endregion
     const { socketIoChatService } = useChatServiceContext();
-    //GNOMO refactorizar 👇
-    const renderChatRoom = (): ReactNode => {
-        if (formattedPrivateChatMessages) 
-            return <PrivateChatRoom formattedPrivateChatMessages={formattedPrivateChatMessages} />
-        if (formattedProjectChatMessages)
-            return <ProjectChatRoom formattedProjectChatMessages={formattedProjectChatMessages} />
-        return null;
-    };
     const dispatchPrivateMessages = () => {
         socketIoChatService?.off(WSChatServiceEvents.Server.DispatchProjectChatMessages);
         socketIoChatService?.on(
@@ -59,6 +51,14 @@ const ChatView = () => {
         );
         setFormattedPrivateChatMessages(null);
     };
+    //GNOMO refactorizar 👇
+    const renderChatRoom = (): ReactNode => {
+        if (formattedPrivateChatMessages) 
+            return <PrivateChatRoom formattedPrivateChatMessages={formattedPrivateChatMessages} />
+        if (formattedProjectChatMessages)
+            return <ProjectChatRoom formattedProjectChatMessages={formattedProjectChatMessages} />
+        return null;
+    };
     return (
         <>
         <SidebarMenu />
@@ -73,6 +73,8 @@ const ChatView = () => {
                     currentProjectChat,
                     setCurrentPrivateChat,
                     setCurrentProjectChat,
+                    setFormattedPrivateChatMessages,
+                    setFormattedProjectChatMessages,
                     dispatchPrivateMessages,
                     dispatchProjectMessages,
                 }}

@@ -16,6 +16,7 @@ export const ChatInput = styled(CustomTextArea)`
     }
 `;
 export const IconContainer = styled.span`
+    cursor: pointer;
     display: flex;
     align-items: center;
     .iconify {

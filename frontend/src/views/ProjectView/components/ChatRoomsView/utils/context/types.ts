@@ -1,4 +1,6 @@
 import {
+    FormattedPrivateChatMessages,
+    FormattedProjectChatMessages,
     PrivateChatPreview,
     ProjectChatPreview,
 } from "src/entities/chat/entities";
@@ -10,8 +12,10 @@ export type ChatViewContextType = {
     setProjectChatPreviewList: (arg: ProjectChatPreview[]) => void;
     currentPrivateChat: PrivateChatPreview | null;
     currentProjectChat: ProjectChatPreview | null;
-    setCurrentPrivateChat: (arg: PrivateChatPreview) => void;
-    setCurrentProjectChat: (arg: ProjectChatPreview) => void;
+    setCurrentPrivateChat: (arg: PrivateChatPreview | null) => void;
+    setCurrentProjectChat: (arg: ProjectChatPreview | null) => void;
+    setFormattedPrivateChatMessages: (arg: FormattedPrivateChatMessages | null) => void;
+    setFormattedProjectChatMessages: (arg: FormattedProjectChatMessages | null) => void;
     dispatchPrivateMessages: () => void;
     dispatchProjectMessages: () => void;
 };
