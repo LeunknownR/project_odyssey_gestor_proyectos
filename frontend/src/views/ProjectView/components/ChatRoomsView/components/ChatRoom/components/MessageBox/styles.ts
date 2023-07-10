@@ -22,5 +22,11 @@ export const IconContainer = styled.span`
     .iconify {
         font-size: 35px;
         color: var(--darkblue-5);
+        transition: 0.3s;
+    }
+    :hover {
+        .iconify {
+            color: var(--orange-3);
+        }
     }
 `;

@@ -6,7 +6,8 @@ export const Container = styled(FlexFlow)`
     max-width: 70%;
     background-color: var(--darkblue-4);
     border-radius: 7px 7px 7px 0px;
-    height: fit-content;
+    min-width: 25%;
+    width: fit-content;
     color: white;
     &.my-message {
         background-color: var(--darkblue-0);

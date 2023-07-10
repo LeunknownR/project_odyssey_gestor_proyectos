@@ -46,14 +46,15 @@ const MasterRouter = () => {
         <Main>
             {routesLoaded && <Header />}
             <Content>
-                <ChatService children={
+                <ChatService>
                     <Routes>
                         {routes}
                         {routesLoaded && 
                         <Route 
                             path="*" 
                             element={<Navigate to={AbsolutePaths.Projects} replace />} />}
-                    </Routes>}/>
+                    </Routes>
+                </ChatService>
             </Content>
         </Main>
     );
