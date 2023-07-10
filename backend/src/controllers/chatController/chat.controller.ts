@@ -48,10 +48,10 @@ export default abstract class ChatController {
         );
         return resultset.map(record => new PrivateChatMessage(record));
     }
-    static async getRelationCollaboratorInPrivateChat(collaboratorId: number, collaboratorChatId: IntegerId): Promise<RelationCollaboratorChat[]> {
+    static async getRelationCollaboratorInPrivateChat(collaboratorId: number, collaboratorChatId: number): Promise<RelationCollaboratorChat[]> {
         const resultset: any[] = await ChatModel.getRelationCollaboratorInPrivateChat(
             collaboratorId,
-            collaboratorChatId.value
+            collaboratorChatId
         );
         return resultset.map(record => new RelationCollaboratorChat(record));
     }
