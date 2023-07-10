@@ -3,6 +3,7 @@ import { DBRoles } from "src/config/roles";
 import useUserRole from "src/storage/hooks/useUserRole";
 import { ChatLinkButton } from "./styles";
 import useChatServiceContext from "src/routes/components/ChatService/utils/contexts/useChatServiceContext";
+import { AbsolutePaths } from "src/config/absolutePaths";
 
 const ChatMenuButton = () => {
     const userRole = useUserRole();
@@ -10,7 +11,7 @@ const ChatMenuButton = () => {
     if (userRole === DBRoles.GeneralAdmin) return null;
     return (
         <ChatLinkButton
-            to="/proyectos/salas-chat"
+            to={AbsolutePaths.Chat}
             activeclassname="active"
             className={(hasUnreadProjectChats || hasUnreadPrivateChats) ? "has-unread-chat" : ""}
         >

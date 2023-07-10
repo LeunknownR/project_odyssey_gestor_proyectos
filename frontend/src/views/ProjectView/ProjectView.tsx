@@ -4,7 +4,6 @@ import { currentUserLocalStorage } from "src/storage/user.local";
 import { DBRoles } from "src/config/roles";
 import ProjectManagerView from "./components/ProjectManagerView/ProjectManagerView";
 import ProjectSpecificManagementView from "./components/ProjectSpecificManagementView/ProjectSpecificManagementView";
-import ChatView from "./components/ChatRoomsView/ChatView";
 
 const ProjectView = () => {
     const [routes, setRoutes] = useState<ReactElement[] | null>(null);
@@ -18,9 +17,8 @@ const ProjectView = () => {
         ];
         if (roleId === DBRoles.Collaborator)
         routes.push(
-                <Route key={1} path="salas-chat" element={<ChatView />} />,
                 <Route
-                    key={2}
+                    key={1}
                     path=":projectId/*"
                     element={<ProjectSpecificManagementView />}
                 />
