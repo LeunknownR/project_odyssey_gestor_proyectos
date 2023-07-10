@@ -18,10 +18,8 @@ const ChatPanel = () => {
     //#region States
     const [chatTab, setChatTab] = useState<WSChatTab>(WSChatTab.Private);
     const [searchedChat, setSearchedChat] = useState("");
-    const [timeoutToSearchChatId, setTimeoutToSearchChatId] = useState<
-        NodeJS.Timeout | undefined
-    >();
-    const searchedChatRef = useRef<SearchChatPayload>();
+    const [timeoutToSearchChatId, setTimeoutToSearchChatId] = useState<NodeJS.Timeout | undefined>();
+    const searchedChatPayloadRef = useRef<SearchChatPayload>();
     //#endregion
     //#region Hooks
     const { socketIoChatService } = useChatServiceContext();
@@ -34,16 +32,16 @@ const ChatPanel = () => {
     //#endregion
     //#region Effects
     useEffect(() => {
-        searchedChatRef.current = {
+        searchedChatPayloadRef.current = {
             chatTab, searchedChat
         };
     }, [chatTab, searchedChat]);
     useEffect(() => {
         showPrivateChatPreview();
         socketIoChatService?.on(WSChatServiceEvents.Server.NotifySentMessage, () => {
-            if (!searchedChatRef.current)
+            if (!searchedChatPayloadRef.current)
                 return;
-            emitSearchChatEvent(searchedChatRef.current);
+            emitSearchChatEvent(searchedChatPayloadRef.current);
         });
     }, []);
     useEffect(() => {
@@ -91,7 +89,7 @@ const ChatPanel = () => {
         clearTimeout(timeoutToSearchChatId);
         const newTimeoutToSearchChatId: NodeJS.Timeout = setTimeout(() => {
             emitSearchChatEvent({
-                chatTab, searchedChat
+                chatTab, searchedChat: value
             });
         }, 350);
         setTimeoutToSearchChatId(newTimeoutToSearchChatId);
@@ -101,19 +99,24 @@ const ChatPanel = () => {
             WSChatServiceEvents.Collaborator.SearchChat,
             payload
         );
-        // searchedChatRef
+    }
+    const refreshPreviewChatList = (): void => {
+        const searchedChatPayload = searchedChatPayloadRef.current;
+        if (!searchedChatPayload)
+            return;
+        emitSearchChatEvent(searchedChatPayload);
     }
     //#endregion
     const previewChatList: ChatListByTab = {
         [WSChatTab.Private]: (
             <PrivatePreviewChatList
-                privateChatPreviewList={privateChatPreviewList}
-            />
+                chatPreviewList={privateChatPreviewList}
+                refreshPreviewChatList={refreshPreviewChatList}/>
         ),
         [WSChatTab.Project]: (
             <ProjectPreviewChatList
-                projectChatPreviewList={projectChatPreviewList}
-            />
+                chatPreviewList={projectChatPreviewList}
+                refreshPreviewChatList={refreshPreviewChatList}/>
         ),
     };
     return (

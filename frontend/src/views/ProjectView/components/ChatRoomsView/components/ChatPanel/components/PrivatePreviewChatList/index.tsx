@@ -10,11 +10,12 @@ import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import useChatViewContext from "../../../../utils/context/useChatViewContext";
 
 const PrivatePreviewChatList = ({
-    privateChatPreviewList,
+    chatPreviewList,
+    refreshPreviewChatList
 }: PrivatePreviewChatListProps) => {
     const { socketIoChatService } = useChatServiceContext();
     const {
-        dispatchPrivateMessages,
+        onDispatchPrivateChatMessages,
         currentPrivateChat,
         setCurrentPrivateChat,
         setCurrentProjectChat,
@@ -40,11 +41,11 @@ const PrivatePreviewChatList = ({
         );
         setCurrentPrivateChat(privateChatPreview);
         setCurrentProjectChat(null);
-        dispatchPrivateMessages();
+        onDispatchPrivateChatMessages(refreshPreviewChatList);
     };
     return (
         <PreviewChatList<PrivateChatPreview>
-            previewChatList={privateChatPreviewList}
+            previewChatList={chatPreviewList}
             renderItem={privateChatPreview => {
                 const { collaborator, lastMessage } = privateChatPreview;
                 return (
@@ -65,14 +66,8 @@ const PrivatePreviewChatList = ({
                         title={`${collaborator.name} ${collaborator.surname}`}
                         datetime={lastMessage?.datetime || null}
                         message={getFormattedMessage(lastMessage)}
-                        onClick={() =>
-                            getPrivateChatMessages(privateChatPreview)
-                        }
-                        active={
-                            collaborator.id ===
-                            currentPrivateChat?.collaborator.id
-                        }
-                    />
+                        onClick={() => getPrivateChatMessages(privateChatPreview)}
+                        active={collaborator.id === currentPrivateChat?.collaborator.id}/>
                 );
             }}
         />

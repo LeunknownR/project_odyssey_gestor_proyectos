@@ -8,14 +8,14 @@ import {
 export type ChatViewContextType = {
     privateChatPreviewList: PrivateChatPreview[];
     projectChatPreviewList: ProjectChatPreview[];
-    setPrivateChatPreviewList: (arg: PrivateChatPreview[]) => void;
-    setProjectChatPreviewList: (arg: ProjectChatPreview[]) => void;
+    setPrivateChatPreviewList: (previewChatList: PrivateChatPreview[]) => void;
+    setProjectChatPreviewList: (previewChatList: ProjectChatPreview[]) => void;
     currentPrivateChat: PrivateChatPreview | null;
     currentProjectChat: ProjectChatPreview | null;
-    setCurrentPrivateChat: (arg: PrivateChatPreview | null) => void;
-    setCurrentProjectChat: (arg: ProjectChatPreview | null) => void;
-    setFormattedPrivateChatMessages: (arg: FormattedPrivateChatMessages | null) => void;
-    setFormattedProjectChatMessages: (arg: FormattedProjectChatMessages | null) => void;
-    dispatchPrivateMessages: () => void;
-    dispatchProjectMessages: () => void;
+    setCurrentPrivateChat: (previewChat: PrivateChatPreview | null) => void;
+    setCurrentProjectChat: (previewChat: ProjectChatPreview | null) => void;
+    setFormattedPrivateChatMessages: (messages: FormattedPrivateChatMessages | null) => void;
+    setFormattedProjectChatMessages: (messages: FormattedProjectChatMessages | null) => void;
+    onDispatchPrivateChatMessages: (refreshPreviewChatList: () => void) => void;
+    onDispatchProjectChatMessages: (refreshPreviewChatList: () => void) => void;
 };

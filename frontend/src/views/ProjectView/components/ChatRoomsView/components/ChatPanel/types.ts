@@ -6,3 +6,7 @@ export type SearchChatPayload = {
     searchedChat: string;
     chatTab: WSChatTab;
 };
+export type PreviewChatListProps<T> = {
+    chatPreviewList: T[];
+    refreshPreviewChatList: () => void;
+};

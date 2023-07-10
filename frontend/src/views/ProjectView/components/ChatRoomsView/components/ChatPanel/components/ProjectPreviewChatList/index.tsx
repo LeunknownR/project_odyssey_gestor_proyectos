@@ -8,11 +8,11 @@ import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import useChatViewContext from "../../../../utils/context/useChatViewContext";
 
 const ProjectPreviewChatList = ({
-    projectChatPreviewList,
+    chatPreviewList, refreshPreviewChatList
 }: ProjectPreviewChatListProps) => {
     const { socketIoChatService } = useChatServiceContext();
     const {
-        dispatchProjectMessages,
+        onDispatchProjectChatMessages,
         currentProjectChat,
         setCurrentProjectChat,
         setCurrentPrivateChat,
@@ -30,11 +30,11 @@ const ProjectPreviewChatList = ({
         );
         setCurrentProjectChat(projectChatPreview);
         setCurrentPrivateChat(null);
-        dispatchProjectMessages();
+        onDispatchProjectChatMessages(refreshPreviewChatList);
     };
     return (
         <PreviewChatList<ProjectChatPreview>
-            previewChatList={projectChatPreviewList}
+            previewChatList={chatPreviewList}
             renderItem={projectChatPreview => {
                 const { project, lastMessage } = projectChatPreview;
                 return (
@@ -44,21 +44,15 @@ const ProjectPreviewChatList = ({
                             <ProjectChatImage
                                 isLastMessageSeen={getIsLastMessageSeen(
                                     lastMessage
-                                )}
-                            />
-                        }
+                                )}/>}
                         title={project.name}
                         datetime={lastMessage?.datetime || null}
                         message={
                             lastMessage
                                 ? `${lastMessage?.senderFirstName}: ${lastMessage?.message}`
-                                : null
-                        }
-                        onClick={() =>
-                            getPrivateChatMessages(projectChatPreview)
-                        }
-                        active={project.id === currentProjectChat?.project.id}
-                    />
+                                : null}
+                        onClick={() => getPrivateChatMessages(projectChatPreview)}
+                        active={project.id === currentProjectChat?.project.id}/>
                 );
             }}
         />

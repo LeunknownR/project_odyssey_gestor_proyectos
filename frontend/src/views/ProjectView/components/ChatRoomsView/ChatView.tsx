@@ -1,4 +1,4 @@
-import { useState, ReactNode, useEffect } from "react";
+import { useState, ReactNode } from "react";
 import { Container } from "./styles";
 import ChatPanel from "./components/ChatPanel/ChatPanel";
 import SidebarMenu from "src/views/components/SidebarMenu/SidebarMenu";
@@ -31,22 +31,23 @@ const ChatView = () => {
         useState<FormattedProjectChatMessages | null>(null);
     //#endregion
     const { socketIoChatService } = useChatServiceContext();
-    const dispatchPrivateMessages = () => {
+    const onDispatchPrivateChatMessages = (refreshPreviewChatList: () => void): void => {
         socketIoChatService?.off(WSChatServiceEvents.Server.DispatchProjectChatMessages);
         socketIoChatService?.on(
             WSChatServiceEvents.Server.DispatchPrivateChatMessages,
             (formattedPrivateChatMessages: FormattedPrivateChatMessages) => {
                 setFormattedPrivateChatMessages(formattedPrivateChatMessages);
-            }
-        );
+                refreshPreviewChatList();
+            });
         setFormattedProjectChatMessages(null);
     };
-    const dispatchProjectMessages = () => {
+    const onDispatchProjectChatMessages = (refreshPreviewChatList: () => void): void => {
         socketIoChatService?.off(WSChatServiceEvents.Server.DispatchPrivateChatMessages);
         socketIoChatService?.on(
             WSChatServiceEvents.Server.DispatchProjectChatMessages,
             (formattedProjectChatMessages: FormattedProjectChatMessages) => {
                 setFormattedProjectChatMessages(formattedProjectChatMessages);
+                refreshPreviewChatList();
             }
         );
         setFormattedPrivateChatMessages(null);
@@ -75,8 +76,8 @@ const ChatView = () => {
                     setCurrentProjectChat,
                     setFormattedPrivateChatMessages,
                     setFormattedProjectChatMessages,
-                    dispatchPrivateMessages,
-                    dispatchProjectMessages,
+                    onDispatchPrivateChatMessages,
+                    onDispatchProjectChatMessages
                 }}>
                 <ChatPanel />
                 {renderChatRoom() ? renderChatRoom() : <UnselectedChat />}

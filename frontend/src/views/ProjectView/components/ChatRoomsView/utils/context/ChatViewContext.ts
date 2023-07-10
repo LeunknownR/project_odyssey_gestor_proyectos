@@ -12,8 +12,8 @@ const INIT_CHAT_VIEW_CONTEXT: ChatViewContextType = {
     setCurrentProjectChat: () => {},
     setFormattedPrivateChatMessages: () => {},
     setFormattedProjectChatMessages: () => {},
-    dispatchPrivateMessages: () => {},
-    dispatchProjectMessages: () => {},
+    onDispatchPrivateChatMessages: () => {},
+    onDispatchProjectChatMessages: () => {},
 };
 const ChatViewContext = createContext(INIT_CHAT_VIEW_CONTEXT);
 

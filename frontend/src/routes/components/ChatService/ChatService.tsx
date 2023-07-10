@@ -43,7 +43,7 @@ const ChatService = ({ children }: ChatServiceTypes) => {
                 hasUnreadPrivateChats,
                 hasUnreadProjectChats,
             }}>
-            {children}
+            {socketHandler.socketIo && children}
         </ChatServiceContext.Provider>
     );
 };
