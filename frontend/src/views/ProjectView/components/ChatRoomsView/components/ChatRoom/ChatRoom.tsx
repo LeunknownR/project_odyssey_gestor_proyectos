@@ -1,19 +1,10 @@
-import ChatBubble from "./components/ChatBubble/ChatBubble";
-import ChatHeader from "./components/ChatHeader/ChatHeader";
-import ChatInputField from "./components/ChatInputField/ChatInputField";
-import NoChatSelected from "./components/NoChatSelected/NoChatSelected";
-import { Content, ChatContentContainer, Container } from "./styles";
+import { Container } from "./styles";
+import { ChatRoomProps } from "./types";
 
-const ChatRoom = () => {
+const ChatRoom = ({ render }: ChatRoomProps) => {
     return (
-        <Container>
-            <ChatHeader />
-            <Content>
-                <ChatContentContainer>
-                    <ChatBubble />
-                </ChatContentContainer>
-            </Content>
-            <ChatInputField />
+        <Container direction="column" justify="center">
+            {render}
         </Container>
     );
 };

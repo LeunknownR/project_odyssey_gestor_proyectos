@@ -45,11 +45,3 @@ export const SendCommentButton = styled(CustomButton)`
         color: var(--white-1);
     }
 `;
-export const IconContainer = styled.span`
-    display: flex;
-    cursor: pointer;
-    .iconify {
-        font-size: 30px;
-        color: var(--white-1);
-    }
-`;

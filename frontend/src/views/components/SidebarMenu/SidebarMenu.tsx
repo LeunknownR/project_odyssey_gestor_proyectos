@@ -1,27 +1,25 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Sidebar, MenuList, MenuButton } from "./styles";
 import { SidebarMenuProps } from "./types";
-import { AbsolutePaths } from "src/config/absolutePaths";
 import UserAdministration from "../Header/components/UserAdministration/UserAdministration";
+import { MENU_LINKS } from "./constants";
+import ChatMenuButton from "./constants/ChatMenuButton";
 
-const SidebarMenu = ({
-    mainMenuButton
-}: SidebarMenuProps) => {
+const SidebarMenu = ({ mainMenuButton }: SidebarMenuProps) => {
     return (
         <Sidebar>
             {mainMenuButton}
             <MenuList>
-                <MenuButton 
-                    to={AbsolutePaths.Projects} activeclassname="active">
-                    <span><Icon icon="material-symbols:home-outline-rounded" /></span>
-                </MenuButton>
-                <MenuButton 
-                    to={AbsolutePaths.Settings}
-                    activeclassname="active">
-                    <span><Icon icon="uiw:setting" /></span>
-                </MenuButton>
+                <ChatMenuButton />
+                {MENU_LINKS.map(({ to, icon }, idx) => (
+                    <MenuButton key={idx} to={to} end activeclassname="active">
+                        <span>
+                            <Icon icon={icon} />
+                        </span>
+                    </MenuButton>
+                ))}
             </MenuList>
-            <UserAdministration isInSidebar/>
+            <UserAdministration isInSidebar />
         </Sidebar>
     );
 };

@@ -1,11 +1,10 @@
-import styled from 'styled-components';
-import { MOBILE_WIDTH } from 'src/config/constants';
-import { Link } from 'react-router-dom';
+import styled from "styled-components";
+import { MOBILE_WIDTH } from "src/config/constants";
+import { Link } from "react-router-dom";
 
 export const Container = styled.div`
     display: flex;
-<<<<<<<< HEAD:frontend/src/views/ProjectSpecificManagement/components/ProjectDetailsView/components/ProjectInfo/styles.ts
-    flex-direction: column;
+    align-items: center;
     gap: 15px;
 `;
 export const DataPart = styled.section`
@@ -27,7 +26,7 @@ export const Description = styled.p`
     @media (max-width: ${MOBILE_WIDTH}px) {
         font-size: 15px;
         max-width: unset;
-========
+    }
     align-items: center;
     gap: 30px;
     @media (max-width: ${MOBILE_WIDTH}px) {
@@ -65,7 +64,6 @@ export const ProjectName = styled.h1`
     font-size: 36px;
     @media (max-width: ${MOBILE_WIDTH}px) {
         font-size: 20px;
->>>>>>>> c90fc6259ac0d94fcffed729c3e7230cbbff66ab:frontend/src/views/components/ProjectTitle/styles.ts
     }
 `;
 export const OptionsWrapper = styled.div`

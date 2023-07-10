@@ -1,6 +1,4 @@
-import CustomTextArea from "src/components/CustomTextArea/CustomTextArea";
-import { CommentInput, Container, IconContainer, SendCommentButton } from "./styles";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { CommentInput, Container, SendCommentButton } from "./styles";
 import { TASK_FIELD_PROPS } from "../../utils/constants";
 import { CommentBoxProps } from "./types";
 import { useState, ChangeEvent, KeyboardEvent } from "react";

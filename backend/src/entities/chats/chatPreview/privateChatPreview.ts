@@ -11,6 +11,7 @@ export class PrivateChatPreview {
             surname: record["collaborator_surname"],
             urlPhoto: record["collaborator_url_photo"]
         };
-        this.lastMessage = new LastMessageChatPreview(record);
+        const senderId: number | null = record["last_message_id_sender"];
+        this.lastMessage = senderId ? new LastMessageChatPreview(record) : null;
     }
 };
