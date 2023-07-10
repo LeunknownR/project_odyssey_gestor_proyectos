@@ -44,17 +44,19 @@ const MasterRouter = () => {
     const routesLoaded: boolean = routes !== null;
     return (
         <Main>
-            {routesLoaded && <Header />}
-            <Content>
-                <ChatService children={
+            {routesLoaded && 
+            <ChatService>
+                <Header />
+                <Content>
                     <Routes>
                         {routes}
                         {routesLoaded && 
                         <Route 
                             path="*" 
                             element={<Navigate to={AbsolutePaths.Projects} replace />} />}
-                    </Routes>}/>
-            </Content>
+                    </Routes>
+                </Content>
+            </ChatService>}
         </Main>
     );
 };

@@ -11,17 +11,25 @@ import { WSServiceDataConnection } from "src/services/websockets/types";
 
 function useWebsocket<P>(
     wsServiceDataConnection: WSServiceDataConnection<P>,
-    params: P
+    params?: P
 ): WebsocketHook {
     const [socketIo, setSocketIo] = useState<Socket | null>(null);
-    const connect = (): Socket => {
+    const getExtraHeaders = (): Record<string, string> => {
         const currentUser: User = currentUserLocalStorage.get();
-        const socket = io(`${HOST_WS}${wsServiceDataConnection.servicePath}`, {
-            extraHeaders: {
-                authorization: `Bearer ${tokenLocalStorage.get()}`,
-                "user-id": String(currentUser.id),
+        let extraHeaders: Record<string, string> = {
+            authorization: `Bearer ${tokenLocalStorage.get()}`,
+            "user-id": String(currentUser.id)
+        };
+        if (params)
+            extraHeaders = {
+                ...extraHeaders,
                 ...wsServiceDataConnection.getHeaders(params),
-            },
+            };
+        return extraHeaders;
+    }
+    const connect = (): Socket => {
+        const socket = io(`${HOST_WS}${wsServiceDataConnection.servicePath}`, {
+            extraHeaders: getExtraHeaders(),
             closeOnBeforeunload: false,
         });
         setSocketIo(socket);

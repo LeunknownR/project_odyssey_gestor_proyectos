@@ -1,4 +1,4 @@
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import { Container } from "./styles";
 import ChatPanel from "./components/ChatPanel/ChatPanel";
 import SidebarMenu from "src/views/components/SidebarMenu/SidebarMenu";
@@ -77,8 +77,7 @@ const ChatView = () => {
                     setFormattedProjectChatMessages,
                     dispatchPrivateMessages,
                     dispatchProjectMessages,
-                }}
-            >
+                }}>
                 <ChatPanel />
                 {renderChatRoom() ? renderChatRoom() : <UnselectedChat />}
             </ChatViewContext.Provider>

@@ -8,7 +8,7 @@ export default class WSSearchChatPreviewPayload {
     //#endregion
     //#region Constants
     constructor({
-        searchedChat: searchedChat,
+        searchedChat,
         chatTab
     }: any) {
         this._searchedChat = new WSSearchedChat(searchedChat);
