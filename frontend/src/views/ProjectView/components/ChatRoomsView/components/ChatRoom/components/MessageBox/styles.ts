@@ -16,10 +16,17 @@ export const ChatInput = styled(CustomTextArea)`
     }
 `;
 export const IconContainer = styled.span`
+    cursor: pointer;
     display: flex;
     align-items: center;
     .iconify {
         font-size: 35px;
         color: var(--darkblue-5);
+        transition: 0.3s;
+    }
+    :hover {
+        .iconify {
+            color: var(--orange-3);
+        }
     }
 `;

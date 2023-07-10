@@ -10,6 +10,7 @@ export enum DBProjectRoles {
 }
 export enum ViewModule {
     Projects = "PROJECTS",
+    Chat = "CHAT",
     Settings = "SETTINGS"
 }
 export const MODULE_VIEWS_BY_USER_ROLE: ModuleViewByUserRole = {
@@ -19,8 +20,7 @@ export const MODULE_VIEWS_BY_USER_ROLE: ModuleViewByUserRole = {
     ],
     [DBRoles.Collaborator]: [
         ViewModule.Projects,
-        // ViewModule.ProjectDetails,
-        // ViewModule.ProjectSpecificManagement,
+        ViewModule.Chat,
         ViewModule.Settings
     ]
 };

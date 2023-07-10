@@ -31,6 +31,27 @@ const ChatView = () => {
         useState<FormattedProjectChatMessages | null>(null);
     //#endregion
     const { socketIoChatService } = useChatServiceContext();
+    const onDispatchPrivateChatMessages = (refreshPreviewChatList: () => void): void => {
+        socketIoChatService?.off(WSChatServiceEvents.Server.DispatchProjectChatMessages);
+        socketIoChatService?.on(
+            WSChatServiceEvents.Server.DispatchPrivateChatMessages,
+            (formattedPrivateChatMessages: FormattedPrivateChatMessages) => {
+                setFormattedPrivateChatMessages(formattedPrivateChatMessages);
+                refreshPreviewChatList();
+            });
+        setFormattedProjectChatMessages(null);
+    };
+    const onDispatchProjectChatMessages = (refreshPreviewChatList: () => void): void => {
+        socketIoChatService?.off(WSChatServiceEvents.Server.DispatchPrivateChatMessages);
+        socketIoChatService?.on(
+            WSChatServiceEvents.Server.DispatchProjectChatMessages,
+            (formattedProjectChatMessages: FormattedProjectChatMessages) => {
+                setFormattedProjectChatMessages(formattedProjectChatMessages);
+                refreshPreviewChatList();
+            }
+        );
+        setFormattedPrivateChatMessages(null);
+    };
     //GNOMO refactorizar 👇
     const renderChatRoom = (): ReactNode => {
         if (formattedPrivateChatMessages) 
@@ -38,26 +59,6 @@ const ChatView = () => {
         if (formattedProjectChatMessages)
             return <ProjectChatRoom formattedProjectChatMessages={formattedProjectChatMessages} />
         return null;
-    };
-    const dispatchPrivateMessages = () => {
-        socketIoChatService?.off(WSChatServiceEvents.Server.DispatchProjectChatMessages);
-        socketIoChatService?.on(
-            WSChatServiceEvents.Server.DispatchPrivateChatMessages,
-            (formattedPrivateChatMessages: FormattedPrivateChatMessages) => {
-                setFormattedPrivateChatMessages(formattedPrivateChatMessages);
-            }
-        );
-        setFormattedProjectChatMessages(null);
-    };
-    const dispatchProjectMessages = () => {
-        socketIoChatService?.off(WSChatServiceEvents.Server.DispatchPrivateChatMessages);
-        socketIoChatService?.on(
-            WSChatServiceEvents.Server.DispatchProjectChatMessages,
-            (formattedProjectChatMessages: FormattedProjectChatMessages) => {
-                setFormattedProjectChatMessages(formattedProjectChatMessages);
-            }
-        );
-        setFormattedPrivateChatMessages(null);
     };
     return (
         <>
@@ -73,10 +74,11 @@ const ChatView = () => {
                     currentProjectChat,
                     setCurrentPrivateChat,
                     setCurrentProjectChat,
-                    dispatchPrivateMessages,
-                    dispatchProjectMessages,
-                }}
-            >
+                    setFormattedPrivateChatMessages,
+                    setFormattedProjectChatMessages,
+                    onDispatchPrivateChatMessages,
+                    onDispatchProjectChatMessages
+                }}>
                 <ChatPanel />
                 {renderChatRoom() ? renderChatRoom() : <UnselectedChat />}
             </ChatViewContext.Provider>

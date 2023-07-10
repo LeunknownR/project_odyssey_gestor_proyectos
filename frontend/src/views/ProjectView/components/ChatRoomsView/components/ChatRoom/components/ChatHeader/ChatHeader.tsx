@@ -2,7 +2,7 @@ import { Container, ChatTitle, ChatSubtitle, CloseBtn } from "./styles";
 import { FlexFlow } from "src/components/styles";
 import { ChatHeaderProps } from "./types";
 
-const ChatHeader = ({ portrait, title, subtitle }: ChatHeaderProps) => {
+const ChatHeader = ({ portrait, title, subtitle, closeChat }: ChatHeaderProps) => {
     return (
         <Container align="center" justify="space-between">
             <FlexFlow gap="18px">
@@ -13,7 +13,7 @@ const ChatHeader = ({ portrait, title, subtitle }: ChatHeaderProps) => {
                 </FlexFlow>
             </FlexFlow>
             <CloseBtn
-                onClick={() => console.log("cierra")}
+                onClick={closeChat}
                 icon="octicon:x-16"
             />
         </Container>

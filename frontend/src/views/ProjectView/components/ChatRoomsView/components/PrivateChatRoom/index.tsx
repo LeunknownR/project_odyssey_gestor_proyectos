@@ -8,13 +8,22 @@ import UserImage from "src/views/components/UserImage/UserImage";
 import useChatViewContext from "../../utils/context/useChatViewContext";
 import useChatServiceContext from "src/routes/components/ChatService/utils/contexts/useChatServiceContext";
 import WSChatServiceEvents from "src/services/websockets/services/chats/events";
+import AdditionalPrivateChatInfo from "./components/AdditionalPrivateChatInfo";
 
 const PrivateChatRoom = ({
     formattedPrivateChatMessages,
 }: PrivateChatRoomProps) => {
     const [isOnline, setIsOnline] = useState(false);
     const { socketIoChatService } = useChatServiceContext();
-    const { currentPrivateChat } = useChatViewContext();
+    const {
+        currentPrivateChat,
+        setCurrentPrivateChat,
+        setFormattedPrivateChatMessages,
+    } = useChatViewContext();
+    useEffect(() => {
+        window.addEventListener("beforeunload", leaveChat);
+        return () => window.removeEventListener("beforeunload", leaveChat);
+    }, []);
     useEffect(() => {
         socketIoChatService?.on(
             WSChatServiceEvents.Server.NotifyCollaboratorOnlineState,
@@ -22,7 +31,29 @@ const PrivateChatRoom = ({
                 setIsOnline(isOnline);
             }
         );
+        leaveChat();
     }, [currentPrivateChat]);
+    const leaveChat = () => {
+        socketIoChatService?.emit(
+            WSChatServiceEvents.Collaborator.LeavePrivateChat,
+            currentPrivateChat?.collaborator.id
+        );
+    };
+    const closeChat = () => {
+        leaveChat();
+        setFormattedPrivateChatMessages(null);
+        setCurrentPrivateChat(null);
+    };
+    const sendMessage = (messageText: string) => {
+        const message = {
+            receiverId: currentPrivateChat?.collaborator.id,
+            content: messageText,
+        };
+        socketIoChatService?.emit(
+            WSChatServiceEvents.Collaborator.SendMessageToPrivateChat,
+            message
+        );
+    };
     if (!currentPrivateChat) return null;
     const { collaborator } = currentPrivateChat;
     return (
@@ -40,13 +71,21 @@ const PrivateChatRoom = ({
                             className="medium"
                         />
                     }
+                    closeChat={closeChat}
                 />
                 <ChatWindow
                     formattedMessages={
                         formattedPrivateChatMessages.messages
                     }
+                    additionalChatInfo={
+                        <AdditionalPrivateChatInfo
+                            collaboratorRelationList={
+                                formattedPrivateChatMessages.collaboratorRelationList
+                            }
+                        />
+                    }
                 />
-                <MessageBox />
+                <MessageBox emitMessageEvent={sendMessage} />
                 </>
             }
         />

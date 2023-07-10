@@ -61,7 +61,6 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         ];
         this.configSocket(socket, wsEventList);
     }
-    //#region Search chat
     private async getPrivateChatPreview(
         collaboratorId: number,
         searchedCollaborator: string
@@ -174,8 +173,6 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         const getProjectChatRoom = WSChatServiceRoom.getProjectChatRoom(projectId.value);
         socket.leave(getProjectChatRoom);
     }
-    //#endregion
-    //#region Search chat
     private doNotifyStateOnlinePrivateChat(collaboratorChatId: number) {
         const isOnline = this.dataHandler.connectedCollaborators.isConnectedCollaborator(collaboratorChatId);
         if (!isOnline) return;
@@ -193,7 +190,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         // Obtener mensajes del chat privado del 
         const collaboratorRelationList: RelationCollaboratorChat[] = await ChatController.getRelationCollaboratorInPrivateChat(
             collaboratorId,
-            collaboratorChatId
+            collaboratorChatId.value
         );
         let messageList: PrivateChatMessage[] =
             this.dataHandler
@@ -326,11 +323,20 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 senderId,
                 receiverId
             );
+        // Obteniendo relaciones con los colaboradores del chat privado
+        const collaboratorRelationList: RelationCollaboratorChat[] = await ChatController.getRelationCollaboratorInPrivateChat(
+            senderId,
+            receiverId
+        );
+        const formattedPrivateChatMessages: FormattedPrivateChatMessages = {
+            collaboratorRelationList,
+            messages: privateChatMessageList
+        };
         // Enviando chat actualizado a emisor y receptor
         // Emisor
         socket.emit(
             WSChatServiceEvents.Server.DispatchPrivateChatMessages,
-            privateChatMessageList
+            formattedPrivateChatMessages
         );
         // Receptor
         // Verificando si se encuentra conectado para el envío
@@ -344,7 +350,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             .to(receiverRoomName)
             .emit(
                 WSChatServiceEvents.Server.DispatchPrivateChatMessages,
-                privateChatMessageList
+                formattedPrivateChatMessages
             );
     }
     private async sendPrivateChatNotification(receiverId: number): Promise<void> {
@@ -366,15 +372,19 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
     ): Promise<void> {
         const privateMessage = new WSPrivateMessage(body);
         const { userId: senderId } = getWSUserData(socket);
-        this.savePrivateChatMessage(
-            senderId,
-            privateMessage
+        await this.savePrivateChatMessage(
+            senderId, privateMessage
         );
         this.sendPrivateChatMessageList(
             socket,
             senderId,
             privateMessage.receiverId
         );
+        // Notificando que el mensaje fue guardado
+        socket.emit(WSChatServiceEvents.Server.NotifySentMessage);
+        this.io.to(
+            WSChatServiceRoom.getCollaboratorChatRoom(privateMessage.receiverId)
+        ).emit(WSChatServiceEvents.Server.NotifySentMessage);
         this.sendPrivateChatNotification(
             privateMessage.receiverId
         );
@@ -435,6 +445,5 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             senderId
         );
     }
-    //#endregion
     //#endregion
 }

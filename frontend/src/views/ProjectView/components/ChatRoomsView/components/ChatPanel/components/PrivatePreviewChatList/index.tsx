@@ -10,10 +10,16 @@ import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import useChatViewContext from "../../../../utils/context/useChatViewContext";
 
 const PrivatePreviewChatList = ({
-    privateChatPreviewList,
+    chatPreviewList,
+    refreshPreviewChatList
 }: PrivatePreviewChatListProps) => {
     const { socketIoChatService } = useChatServiceContext();
-    const { dispatchPrivateMessages, currentPrivateChat, setCurrentPrivateChat } = useChatViewContext();
+    const {
+        onDispatchPrivateChatMessages,
+        currentPrivateChat,
+        setCurrentPrivateChat,
+        setCurrentProjectChat,
+    } = useChatViewContext();
     const getFormattedMessage = (
         lastMessage: LastMessage | null
     ): string | null => {
@@ -26,17 +32,20 @@ const PrivatePreviewChatList = ({
         if (!lastMessage) return "";
         return lastMessage.seen ? "" : "has-unread-chat";
     };
-    const getPrivateChatMessages = (privateChatPreview: PrivateChatPreview): void => {
+    const getPrivateChatMessages = (
+        privateChatPreview: PrivateChatPreview
+    ): void => {
         socketIoChatService?.emit(
             WSChatServiceEvents.Collaborator.GetPrivateChatMessages,
             privateChatPreview.collaborator.id
         );
         setCurrentPrivateChat(privateChatPreview);
-        dispatchPrivateMessages();
+        setCurrentProjectChat(null);
+        onDispatchPrivateChatMessages(refreshPreviewChatList);
     };
     return (
         <PreviewChatList<PrivateChatPreview>
-            previewChatList={privateChatPreviewList}
+            previewChatList={chatPreviewList}
             renderItem={privateChatPreview => {
                 const { collaborator, lastMessage } = privateChatPreview;
                 return (
@@ -58,8 +67,7 @@ const PrivatePreviewChatList = ({
                         datetime={lastMessage?.datetime || null}
                         message={getFormattedMessage(lastMessage)}
                         onClick={() => getPrivateChatMessages(privateChatPreview)}
-                        active={collaborator.id === currentPrivateChat?.collaborator.id}
-                    />
+                        active={collaborator.id === currentPrivateChat?.collaborator.id}/>
                 );
             }}
         />

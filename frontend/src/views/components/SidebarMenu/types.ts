@@ -1,5 +1,3 @@
-
 export type SidebarMenuProps = {
-    // currentViewModule: ViewModule
-    mainMenuButton?: JSX.Element
-}
+    mainMenuButton?: JSX.Element;
+};
