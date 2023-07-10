@@ -1364,6 +1364,7 @@ END //
 DELIMITER ;
 
 -- SP para obtener la previsualización de chats privados con mensajes
+DROP PROCEDURE `sp_get_private_chat_preview_with_messages`;
 DELIMITER //
 CREATE PROCEDURE `sp_get_private_chat_preview_with_messages`(
     IN p_id_collaborator INT
@@ -1378,10 +1379,11 @@ BEGIN
         pvcm.message AS "last_message",
         pvcm.datetime AS "last_message_datetime",
         pvcm.seen
-    FROM private_chat_message pvcm
-    INNER JOIN user u
-    	ON pvcm.id_collaborator_sender = u.id_user
-    WHERE p_id_collaborator IN (pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver)
+    FROM user u
+    LEFT JOIN private_chat_message pvcm
+    	ON u.id_user IN (pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver)
+    WHERE u.id_user != p_id_collaborator 
+        AND p_id_collaborator IN (pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver)
         AND pvcm.datetime = (
             SELECT MAX(datetime)
             FROM private_chat_message

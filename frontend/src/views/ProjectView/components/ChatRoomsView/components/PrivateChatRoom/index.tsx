@@ -34,7 +34,6 @@ const PrivateChatRoom = ({
         leaveChat();
     }, [currentPrivateChat]);
     const leaveChat = () => {
-        console.log("keloke")
         socketIoChatService?.emit(
             WSChatServiceEvents.Collaborator.LeavePrivateChat,
             currentPrivateChat?.collaborator.id
@@ -57,6 +56,7 @@ const PrivateChatRoom = ({
     };
     if (!currentPrivateChat) return null;
     const { collaborator } = currentPrivateChat;
+    console.log(formattedPrivateChatMessages);
     return (
         <ChatRoom
             render={
