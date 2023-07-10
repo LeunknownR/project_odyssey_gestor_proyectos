@@ -24,5 +24,6 @@ export const Separator = styled.hr`
     margin-bottom: 30px;
 `;
 export const MessageList = styled(FlexFlow.withComponent("ul"))`
+    margin-top: auto;
     padding-right: 30px;
 `;

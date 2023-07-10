@@ -56,7 +56,6 @@ const PrivateChatRoom = ({
     };
     if (!currentPrivateChat) return null;
     const { collaborator } = currentPrivateChat;
-    console.log(formattedPrivateChatMessages);
     return (
         <ChatRoom
             render={

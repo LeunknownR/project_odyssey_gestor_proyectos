@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { getUserId } from "src/storage/user.local";
 import Message from "./components/Message/Message";
 import {
@@ -12,12 +13,22 @@ const ChatWindow = ({
     formattedMessages,
     additionalChatInfo,
 }: ChatWindowProps) => {
+    const bottomChatRef = useRef<HTMLUListElement | null>(null);
+    useEffect(() => {
+        scrollToBottom();
+    }, [formattedMessages]);
+    const scrollToBottom = () => {
+        bottomChatRef?.current?.scrollTo({
+            top: bottomChatRef.current.scrollHeight,
+        });
+    };
     return (
         <Container>
             <MessageList
                 direction="column"
                 gap="15px"
                 className="custom-scrollbar"
+                ref={bottomChatRef}
             >
                 <AdditionalChatInfoWrapper
                     direction="column"

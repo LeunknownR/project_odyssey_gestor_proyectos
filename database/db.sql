@@ -1364,7 +1364,6 @@ END //
 DELIMITER ;
 
 -- SP para obtener la previsualización de chats privados con mensajes
-DROP PROCEDURE `sp_get_private_chat_preview_with_messages`;
 DELIMITER //
 CREATE PROCEDURE `sp_get_private_chat_preview_with_messages`(
     IN p_id_collaborator INT
