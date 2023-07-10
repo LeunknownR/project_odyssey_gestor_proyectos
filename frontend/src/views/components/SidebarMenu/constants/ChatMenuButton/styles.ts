@@ -2,8 +2,11 @@ import { MenuButton } from "src/views/components/SidebarMenu/styles";
 import styled from "styled-components";
 
 export const ChatLinkButton = styled(MenuButton)`
-    order: 1;
     position: relative;
+    .iconify {
+        font-size: 37px;
+        padding-top: 4px;
+    }
     &.has-unread-chat {
         ::after {
             content: "";
@@ -11,8 +14,8 @@ export const ChatLinkButton = styled(MenuButton)`
             height: 8px;
             width: 8px;
             background-color: var(--red-2);
-            top: 4px;
-            left: 10px;
+            top: 7px;
+            left: 9px;
             border-radius: 100%;
         }
     }
