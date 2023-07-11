@@ -67,6 +67,7 @@ const ProjectChatRoom = ({
                     closeChat={closeChat}/>
                 <ChatWindow
                     formattedMessages={formattedProjectChatMessages.messages}
+                    collaboratorInfo={formattedProjectChatMessages.collaborators}
                     additionalChatInfo={<span>Coordina con tu equipo</span>}/>
                 <MessageBox emitMessageEvent={sendMessage}/>
                 </>
