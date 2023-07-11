@@ -176,11 +176,11 @@ CREATE TABLE `project_chat_message` (
     `id_project_chat_message` INT UNSIGNED AUTO_INCREMENT,
     `message` VARCHAR(500) NOT NULL,
     `datetime` DATETIME NOT NULL,
-    `id_project_team_member` INT UNSIGNED NOT NULL,
+    `id_project_team_member_sender` INT UNSIGNED NOT NULL,
     `id_project` INT UNSIGNED NOT NULL,
     PRIMARY KEY (`id_project_chat_message`),
     FOREIGN KEY (`id_project`) REFERENCES `project`(`id_project`),
-    FOREIGN KEY (`id_project_team_member`) REFERENCES `project_team_member`(`id_project_team_member`)
+    FOREIGN KEY (`id_project_team_member_sender`) REFERENCES `project_team_member`(`id_project_team_member`)
 );
 
 -- Tabla para guardar si estan vistos los mensajes para el chat del proyecto
@@ -212,7 +212,8 @@ BEGIN
         ptm.id_project_team_member, 
         NEW.id_project_chat_message
     FROM project_team_member ptm
-    WHERE ptm.id_project = NEW.id_project;
+    WHERE ptm.id_project = NEW.id_project 
+        AND ptm.id_project_team_member != NEW.id_project_team_member_sender;
 END //
 DELIMITER ;
 
@@ -1413,9 +1414,12 @@ BEGIN
         p.project_name AS "project_name",
         prcm.datetime AS "last_message_datetime",
         prcm.message AS "last_message",
-        prcm.id_project_team_member AS "last_message_id_sender",
+        ptm_prcm.id_collaborator AS "last_message_id_sender",
         TRIM(SUBSTRING_INDEX(u.user_name, ' ', 1)) AS "sender_first_name",
-        ptmsm.seen
+        CASE 
+            WHEN ptm_prcm.id_collaborator != p_id_collaborator THEN ptmsm.seen
+            ELSE 0
+        END AS 'seen'
     FROM project p
     INNER JOIN project_team_member ptm 
         ON p.id_project = ptm.id_project
@@ -1423,10 +1427,11 @@ BEGIN
     	ON u.id_user = ptm.id_collaborator
     LEFT JOIN project_chat_message prcm 
         ON ptm.id_project = prcm.id_project
+    LEFT JOIN project_team_member ptm_prcm
+        ON ptm_prcm.id_project_team_member = prcm.id_project_team_member_sender
     LEFT JOIN project_team_member_seen_message ptmsm 
-        ON prcm.id_project_team_member = ptmsm.id_project_team_member
-    WHERE
-        p.active = 1 
+        ON prcm.id_project_team_member_sender = ptmsm.id_project_team_member
+    WHERE p.active = 1 
         AND UPPER(p.project_name) LIKE @searched_project
         AND ptm.id_collaborator = p_id_collaborator AND
         (
@@ -1535,9 +1540,9 @@ BEGIN
     	ON u.id_user = ptm_cp.id_collaborator
     -- Obteniendo los mensajes del chat del proyecto (a partir de cualquiera de los miembros que los hayan emitido)
     LEFT JOIN project_chat_message prcm
-        ON prcm.id_project_team_member = ptm_cp.id_project_team_member
+        ON prcm.id_project_team_member_sender = ptm_cp.id_project_team_member
     LEFT JOIN project_team_member ptm_prcm
-    	ON ptm_prcm.id_project_team_member = prcm.id_project_team_member
+    	ON ptm_prcm.id_project_team_member = prcm.id_project_team_member_sender
     WHERE p.id_project = p_id_project;
 END //
 DELIMITER ;
@@ -1637,17 +1642,17 @@ BEGIN
     -- Luego de insertarlo, devolver el message con un SELECT
     SELECT 
         prcm.id_project_chat_message,
-        prcm.id_project_team_member,
+        ptm.id_collaborator AS "id_collaborator_sender",
         prcm.message, prcm.datetime
     FROM project_chat_message prcm
     INNER JOIN project_team_member ptm
-    	ON ptm.id_project_team_member = prcm.id_project_team_member
+    	ON ptm.id_project_team_member = prcm.id_project_team_member_sender
     WHERE prcm.id_project_chat_message = @id_project_chat_message AND 
         ptm.id_collaborator = p_id_sender;
 END //
 DELIMITER ;
 
--- SP para notificar a los colaboradores correspondientes, que hay mensajes nuevos en chats privados.
+-- SP para saber si un colaborador tiene chats privados sin leer.
 DELIMITER //
 CREATE PROCEDURE `sp_collaborator_has_unread_private_chats`(
     IN p_id_collaborator INT
@@ -1656,17 +1661,17 @@ BEGIN
     IF EXISTS (
         SELECT *
         FROM private_chat_message
-        WHERE id_collaborator_sender = p_id_collaborator
+        WHERE id_collaborator_receiver = p_id_collaborator
         AND seen = 0
     ) THEN
-        SELECT 0 AS 'has_unread_chats';
-    ELSE
         SELECT 1 AS 'has_unread_chats';
+    ELSE
+        SELECT 0 AS 'has_unread_chats';
     END IF;
 END //
 DELIMITER ;
 
--- SP para notificar a los colaboradores correspondientes, que hay mensajes nuevos en chats de proyectos.
+-- SP para saber si un colaborador tiene chats de proyecto sin leer.
 DELIMITER //
 CREATE PROCEDURE `sp_collaborator_has_unread_project_chats`(
     IN p_id_collaborator INT
@@ -1674,21 +1679,23 @@ CREATE PROCEDURE `sp_collaborator_has_unread_project_chats`(
 BEGIN
     IF EXISTS (
         SELECT *
-        FROM project_team_member_seen_message
-        WHERE id_project_team_member = p_id_collaborator
+        FROM project_team_member_seen_message ptm_sm
+        INNER JOIN project_team_member ptm
+        	ON ptm.id_project_team_member = ptm_sm.id_project_team_member
+        WHERE ptm.id_collaborator = p_id_collaborator
         AND seen = 0
     ) THEN
-        SELECT 0 AS 'has_unread_chats';
-    ELSE
         SELECT 1 AS 'has_unread_chats';
+    ELSE
+        SELECT 0 AS 'has_unread_chats';
     END IF;
 END //
-DELIMITER ; 
+DELIMITER ;
 
 -- PARA INSERTAR LOS DATOS DE MANERA ADECUADA
 DELIMITER //
 CREATE PROCEDURE `test_send_message_to_project_chat`(
-    IN p_id_sender INT,
+    IN p_id_project_team_member_sender INT,
     IN p_id_project INT,
     IN p_datetime DATETIME,
     IN p_message VARCHAR(200)
@@ -1698,12 +1705,12 @@ BEGIN
     INSERT INTO `project_chat_message`(
         `message`,
         `datetime`,
-        `id_project_team_member`,
+        `id_project_team_member_sender`,
         `id_project`
     ) VALUES (
         p_message,
         p_datetime,
-        p_id_sender,
+        p_id_project_team_member_sender,
         p_id_project
     );
     SET @id_project_chat_message = LAST_INSERT_ID();
@@ -1711,9 +1718,9 @@ BEGIN
     -- Se creo la insercion de los project_team_member_seen_message para cada colab del proyecto
 
     -- ACA CREO QUE USARAS EL sp_mark_private_messages_as_seen ????
-    UPDATE project_team_member_seen_message
-    SET seen = 1
-    WHERE id_project_team_member = p_id_sender;
+    -- UPDATE project_team_member_seen_message
+    -- SET seen = 1
+    -- WHERE id_project_team_member = p_id_project_team_member_sender;
 END //
 DELIMITER ;
 -- INSETANDO LOS NUEVOS CHATS

@@ -1,5 +1,5 @@
 import { ProjectChatPreviewProject } from "../entities";
-import LastMessageProjectChatPreview from "./lasstMessageProjectChatPreview";
+import LastMessageProjectChatPreview from "./lastMessageProjectChatPreview";
 
 export class ProjectChatPreview {
     //#region Attributes

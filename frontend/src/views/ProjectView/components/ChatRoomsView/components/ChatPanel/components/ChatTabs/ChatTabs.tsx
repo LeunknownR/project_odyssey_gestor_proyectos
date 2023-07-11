@@ -22,17 +22,15 @@ const ChatTabs = ({
         return classList.join(" ");
     };
     return (
-        <Container width="100%" gap="10px">
+        <Container>
             <Tab
                 className={getClassNamePrivate()}
-                onClick={showPrivateChatPreview}
-            >
+                onClick={showPrivateChatPreview}>
                 Privados
             </Tab>
             <Tab
                 className={getClassNameProject()}
-                onClick={showProjectChatPreview}
-            >
+                onClick={showProjectChatPreview}>
                 Proyectos
             </Tab>
         </Container>
