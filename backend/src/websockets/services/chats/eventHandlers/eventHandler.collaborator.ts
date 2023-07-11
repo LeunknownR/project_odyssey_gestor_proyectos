@@ -279,7 +279,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         // Notificando de chats privados sin leer al colaborador
         const hasUnreadChats: boolean = await ChatController.collaboratorHasUnreadProjectChats(collaboratorId);
         socket.emit(
-            WSChatServiceEvents.Server.NotifyUnreadPrivateChats,
+            WSChatServiceEvents.Server.NotifyUnreadProjectChats,
             hasUnreadChats
         );
     }

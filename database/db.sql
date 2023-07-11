@@ -1364,8 +1364,8 @@ BEGIN
                         LEAST(pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver), 
                         GREATEST(pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver)
                 )
-            );
-
+            )
+    ORDER BY pvcm.datetime DESC, u.user_name ASC, u.user_surname ASC;
 END //
 DELIMITER ;
 
@@ -1402,7 +1402,8 @@ BEGIN
             GROUP BY 
                 LEAST(pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver), 
                 GREATEST(pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver)
-        );
+        )
+    ORDER BY pvcm.datetime DESC, u.user_name ASC, u.user_surname ASC;
 END //
 DELIMITER ;
 
