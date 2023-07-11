@@ -9,11 +9,6 @@ export const SUBMODULES_VIEWS: SubmoduleView[] = [
         View: TaskBoardView,
         path: "tareas",
     },
-    {
-        key: "TIMELINE",
-        View: Timeline,
-        path: "cronograma",
-    },
 ];
 export const MENU_OPTIONS: MenuOption[] = [
     {
@@ -27,11 +22,6 @@ export const RESPONSIVE_MENU_OPTIONS: MenuOption[] = [
         text: "Tareas",
         to: "tareas",
         icon: "fluent:task-list-square-ltr-16-filled",
-    },
-    {
-        text: "Cronograma",
-        to: "cronograma",
-        icon: "fluent:gantt-chart-16-regular",
     },
     {
         text: "Salas de chat",

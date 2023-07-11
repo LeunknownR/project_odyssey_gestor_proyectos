@@ -29,11 +29,13 @@ const ChatWindow = ({
                 direction="column"
                 gap="15px"
                 className="custom-scrollbar"
-                ref={bottomChatRef}>
+                ref={bottomChatRef}
+            >
                 <AdditionalChatInfoWrapper
                     direction="column"
                     align="center"
-                    gap="8px">
+                    gap="8px"
+                >
                     {additionalChatInfo}
                     <Separator />
                 </AdditionalChatInfoWrapper>
@@ -45,7 +47,13 @@ const ChatWindow = ({
                         }
                         text={message}
                         datetime={datetime}
-                        sender={collaboratorInfo && collaboratorInfo.find((collaborator) => collaborator.id === collaboratorId)?.firstName}
+                        sender={
+                            collaboratorInfo &&
+                            collaboratorInfo.find(
+                                collaborator =>
+                                    collaborator.id === collaboratorId
+                            )?.firstName
+                        }
                     />
                 ))}
             </MessageList>
