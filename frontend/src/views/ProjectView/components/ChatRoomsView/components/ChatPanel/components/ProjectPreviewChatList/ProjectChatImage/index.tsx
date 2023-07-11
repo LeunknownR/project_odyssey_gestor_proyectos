@@ -2,9 +2,9 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { Container } from "./styles";
 import { ProjectChatImageProps } from "./types";
 
-const ProjectChatImage = ({ isLastMessageSeen = true }: ProjectChatImageProps) => {
+const ProjectChatImage = ({ isUnreadChat = false }: ProjectChatImageProps) => {
     return (
-        <Container className={isLastMessageSeen ? "" : "has-unread-chat"}>
+        <Container className={isUnreadChat ? "has-unread-chat" : ""}>
             <Icon icon="eos-icons:project" />
         </Container>
     );

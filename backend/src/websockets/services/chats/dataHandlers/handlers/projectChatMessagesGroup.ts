@@ -10,12 +10,12 @@ export class WSProjectChatMessagesGroup {
         this.chatMessages = new Map<number, FormattedProjectChatMessages>();
     }
     //#region Methods
-    getProjectChatMessageList(projectId: number): FormattedProjectChatMessages {
+    getFormattedProjectChatMessages(projectId: number): FormattedProjectChatMessages {
         if (!this.chatMessages.has(projectId))
             return null;
         return this.chatMessages.get(projectId);
     }
-    setProjectChatMessageList(
+    setFormattedProjectChatMessages(
         projectId: number,
         formattedProjectChatMessages: FormattedProjectChatMessages
     ): void {

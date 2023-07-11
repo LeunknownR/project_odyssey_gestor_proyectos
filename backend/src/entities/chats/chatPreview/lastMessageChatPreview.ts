@@ -9,6 +9,7 @@ export class LastMessageChatPreview {
         this.senderId = record["last_message_id_sender"];
         this.datetime = record["last_message_datetime"].getTime();
         this.message = record["last_message"];
-        this.seen = bufferToBoolean(record["seen"]);
+        const seenField: unknown = record["seen"];
+        this.seen = typeof seenField === "number" ? Boolean(seenField) : bufferToBoolean(record["seen"]);
     }
 }

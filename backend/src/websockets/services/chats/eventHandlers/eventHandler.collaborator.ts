@@ -14,7 +14,7 @@ import WSPrivateMessage from "../utils/entities/privateMessage";
 import { WSChatServiceRoom } from "../utils/helpers";
 import { WSPrivateChatMessagesGroup } from "../dataHandlers/handlers/privateChatMessagesGroup";
 import { RelationCollaboratorChat } from "../../../../entities/chats/chatMessage/chatCollaboratorRelation";
-import { FormattedPrivateChatMessages } from "../../../../entities/chats/entities";
+import { CollaboratorProjectChatMessage, FormattedPrivateChatMessages } from "../../../../entities/chats/entities";
 import FormattedProjectChatMessages from "../../../../entities/chats/chatMessage/formattedProjectChatMessage";
 import { ProjectChatPreview } from "../../../../entities/chats/chatPreview/projectChatPreview";
 import WSProjectMessage from "../utils/entities/projectMessage";
@@ -250,7 +250,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         const { userId: collaboratorId } = getWSUserData(socket);
         let formattedProjectChatMessages: FormattedProjectChatMessages = this.dataHandler
             .projectChatMessagesGroup
-            .getProjectChatMessageList(projectId.value);
+            .getFormattedProjectChatMessages(projectId.value);
         // Marcar como visto mensajes
         await ChatController.markProjectChatMessagesAsSeen(
             collaboratorId,
@@ -263,7 +263,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             // Guardando nuevo chat messages en memoria
             this.dataHandler
                 .projectChatMessagesGroup
-                .setProjectChatMessageList(projectId.value, formattedProjectChatMessages);
+                .setFormattedProjectChatMessages(projectId.value, formattedProjectChatMessages);
         }
         // Enviar preview list al colaborador
         socket.emit(
@@ -279,7 +279,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         // Notificando de chats privados sin leer al colaborador
         const hasUnreadChats: boolean = await ChatController.collaboratorHasUnreadProjectChats(collaboratorId);
         socket.emit(
-            WSChatServiceEvents.Server.NotifyUnreadPrivateChats,
+            WSChatServiceEvents.Server.NotifyUnreadProjectChats,
             hasUnreadChats
         );
     }
@@ -316,6 +316,19 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 projectMessage.projectId,
                 projectChatMessage
             );
+    }
+    private async sendPrivateChatNotification(receiverId: number): Promise<void> {
+        const isConnected: boolean = this.dataHandler
+            .connectedCollaborators
+            .isConnectedCollaborator(receiverId);
+        if (!isConnected) return;
+        const receiverRoomName: string = WSChatServiceRoom.getCollaboratorChatRoom(receiverId);
+        // Notificando de chats privados sin leer al receptor
+        const hasUnreadChats: boolean = await ChatController.collaboratorHasUnreadPrivateChats(receiverId);
+        this.io.to(receiverRoomName).emit(
+            WSChatServiceEvents.Server.NotifyUnreadPrivateChats,
+            hasUnreadChats
+        );
     }
     private async sendPrivateChatMessageList(
         socket: Socket,
@@ -359,29 +372,6 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 formattedPrivateChatMessages
             );
     }
-    private async sendPrivateChatNotification(receiverId: number): Promise<void> {
-        const isConnected: boolean = this.dataHandler
-            .connectedCollaborators
-            .isConnectedCollaborator(receiverId);
-        if (!isConnected) return;
-        const receiverRoomName: string = WSChatServiceRoom.getCollaboratorChatRoom(receiverId);
-        // Notificando de chats privados sin leer al receptor
-        const hasUnreadChats: boolean = await ChatController.collaboratorHasUnreadPrivateChats(receiverId);
-        this.io.to(receiverRoomName).emit(
-            WSChatServiceEvents.Server.NotifyUnreadPrivateChats,
-            hasUnreadChats
-        );
-    }
-    private async notifySavedMessage(
-        socket: Socket,
-        receiverId: number
-    ) {
-        // Notificando que el mensaje fue guardado
-        // socket.emit(WSChatServiceEvents.Server.NotifySentMessage, null);
-        this.io.to(
-            WSChatServiceRoom.getCollaboratorChatRoom(receiverId)
-        ).emit(WSChatServiceEvents.Server.NotifySentMessage);
-    } 
     private async sendMessageToPrivateChat(
         socket: Socket,
         body: any
@@ -395,66 +385,80 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             socket, senderId,
             privateMessage.receiverId
         );
-        this.notifySavedMessage(socket, privateMessage.receiverId);
+        // Notificando que el mensaje fue guardado
+        this.io.to(
+            WSChatServiceRoom.getCollaboratorChatRoom(privateMessage.receiverId)
+        ).emit(WSChatServiceEvents.Server.NotifySentMessage, WSChatTab.Private);
         this.sendPrivateChatNotification(
             privateMessage.receiverId
         );
     }
-    private async sendProjectChatMessageList(projectId: number): Promise<void> {
-        // Obtener mensajes de los chat de proyectos
-        const projectChatMessageList: FormattedProjectChatMessages =
-            this.dataHandler
-                .projectChatMessagesGroup
-                .getProjectChatMessageList(projectId)
-        // Enviando chat actualizado a los colaboradores del proyecto
-        const receiverRoomName: string = WSChatServiceRoom.getProjectChatRoom(projectId);
-        this.io
-            .to(receiverRoomName)
-            .emit(
+    private async updateChatViewToProjectTeamMember(
+        socket: Socket, 
+        collaboratorId: number, senderId: number,
+        formattedProjectChatMessages: FormattedProjectChatMessages
+    ) {
+        if (collaboratorId === senderId) {
+            // Enviar a la lista de chats
+            socket.emit(
                 WSChatServiceEvents.Server.DispatchProjectChatMessages,
-                projectChatMessageList
+                formattedProjectChatMessages
             );
-    }
-    private async sendProjectChatNotification(projectId: number, senderId: number): Promise<void> {
-        //Traer la lista de mensajes.collaborator.Id  y filtrar el id del que envia el projecto del FormattedProjectChatMessages
-        const collaboratorIds: number[] =
-            this.dataHandler
-                .projectChatMessagesGroup
-                .getProjectChatMessageList(projectId)
-                .collaborators
-                .filter(collaborator => collaborator.id !== senderId)
-                .map(collaborator => collaborator.id);
-        // Utilizar un for each para enviar a cada collaborador una notificacion
-        for (const collaboratorId of collaboratorIds) {
-            const receiverRoomName: string = WSChatServiceRoom.getCollaboratorChatRoom(collaboratorId);
-            // Notificando de chats de proyectos sin leer al receptor
-            const hasUnreadProjectChats: boolean = await ChatController.collaboratorHasUnreadProjectChats(collaboratorId);
-            this.io.to(receiverRoomName).emit(
-                WSChatServiceEvents.Server.NotifyUnreadProjectChats,
-                hasUnreadProjectChats
-            );
+            return;
         }
+        // Verificando si se encuentra conectado para el envío
+        const isConnected: boolean = this.dataHandler
+            .connectedCollaborators
+            .isConnectedCollaborator(collaboratorId);
+        if (!isConnected) return;
+        // Enviando mensajes
+        const hasUnreadChats: boolean = await ChatController.collaboratorHasUnreadProjectChats(collaboratorId);
+        const collaboratorChatRoom: string = WSChatServiceRoom.getCollaboratorChatRoom(collaboratorId);
+        this.io
+            .to(collaboratorChatRoom)
+            .emit(
+                WSChatServiceEvents.Server.NotifyUnreadProjectChats,
+                hasUnreadChats
+            );
+        this.io
+            .to(collaboratorChatRoom)
+            .emit(
+                WSChatServiceEvents.Server.NotifySentMessage,
+                WSChatTab.Project
+            );
     }
     private async sendMessageToProjectChat(
         socket: Socket,
         body: any
     ): Promise<void> {
-        //Validar parametros
+        // Validar parametros
         const projectMessage = new WSProjectMessage(body);
-        //Obtener Id del collaborador que envia el mensaje
+        // Obtener Id del collaborador que envia el mensaje
         const { userId: senderId } = getWSUserData(socket);
-        //Guardar el mensaje en la BD
-        this.saveProjectChatMessage(
+        // Guardar el mensaje en la BD
+        await this.saveProjectChatMessage(
             senderId,
             projectMessage
         );
-        //Enviar a la lista de chat de proyectos
-        this.sendProjectChatMessageList(projectMessage.projectId);
-        //Enviar notificacion al chat de un projecto  
-        this.sendProjectChatNotification(
-            projectMessage.projectId,
-            senderId
-        );
+        const { projectId } = projectMessage;
+        // Obtener ids de los colaboradores del proyecto
+        const collaborators: CollaboratorProjectChatMessage[] = this.dataHandler
+            .projectChatMessagesGroup
+            .getFormattedProjectChatMessages(projectId)
+            .collaborators;
+        // Obtener mensajes de los chat de proyectos
+        const formattedProjectChatMessages: FormattedProjectChatMessages =
+            this.dataHandler
+                .projectChatMessagesGroup
+                .getFormattedProjectChatMessages(projectId);
+        for (const collaborator of collaborators) {
+            this.updateChatViewToProjectTeamMember(
+                socket,
+                collaborator.id,
+                senderId,
+                formattedProjectChatMessages
+            );
+        }
     }
     //#endregion
 }

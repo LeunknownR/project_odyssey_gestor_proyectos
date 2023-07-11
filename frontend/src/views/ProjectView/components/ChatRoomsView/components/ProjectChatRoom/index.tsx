@@ -38,7 +38,7 @@ const ProjectChatRoom = ({
         const message = {
             projectId: currentProjectChat?.project.id,
             content: messageText
-        }
+        };
         socketIoChatService?.emit(
             WSChatServiceEvents.Collaborator.SendMessageToProjectChat,
             message
@@ -63,7 +63,7 @@ const ProjectChatRoom = ({
                 <ChatHeader
                     title={project.name}
                     subtitle={getProjectCollaborators()}
-                    portrait={<ProjectChatImage />}
+                    portrait={<ProjectChatImage/>}
                     closeChat={closeChat}/>
                 <ChatWindow
                     messages={formattedProjectChatMessages.messages}

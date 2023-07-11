@@ -11,9 +11,9 @@ const ProjectPreviewChatList = ({
     const {
         currentProjectChat
     } = useChatViewContext();
-    const getIsLastMessageSeen = (lastMessage: LastMessage | null): boolean => {
-        if (!lastMessage) return true;
-        return lastMessage.seen;
+    const isUnreadChat = (lastMessage: ProjectLastMessage | null): boolean => {
+        if (!lastMessage) return false;
+        return !lastMessage.seen;
     };
     const getFormattedMessage = (lastMessage: ProjectLastMessage | null): string | null => {
         return lastMessage
@@ -30,7 +30,7 @@ const ProjectPreviewChatList = ({
                         key={project.id}
                         portrait={
                             <ProjectChatImage
-                                isLastMessageSeen={getIsLastMessageSeen(lastMessage)}/>}
+                                isUnreadChat={isUnreadChat(lastMessage)}/>}
                         title={project.name}
                         datetime={lastMessage?.datetime || null}
                         message={getFormattedMessage(lastMessage)}

@@ -75,10 +75,6 @@ export default abstract class ChatModel {
         collaboratorId: number,
         projectId: number
     ): Promise<number> {
-        console.log({
-            collaboratorId,
-            projectId
-        });
         const { affectedRows } = await DBConnection.query(
             StoredProcedures.MarkProjectChatMessagesAsSeen,
             [collaboratorId, projectId]

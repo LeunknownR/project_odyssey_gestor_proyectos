@@ -1,11 +1,12 @@
 import { Socket } from "socket.io-client";
+import { WSHeaders } from "src/services/websockets/types";
 
 export type DeviceSizeHook = {
     isMobile: boolean;
 };
 export type WebsocketHook = {
     socketIo: Socket | null;
-    connect: () => Socket;
+    connect: (headers?: WSHeaders) => Socket;
     disconnect: () => void;
 };
 export type CheckExpirationTimeTokenHook = {

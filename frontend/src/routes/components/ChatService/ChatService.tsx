@@ -1,21 +1,19 @@
 import useWebsocket from "src/utils/hooks/useWebsocket";
 import { ChatServiceTypes } from "./types";
 import ChatServiceContext from "./utils/contexts/ChatServiceContext";
-import { wsChatServiceDataConnection } from "src/services/websockets/connections";
 import { currentUserLocalStorage } from "src/storage/user.local";
 import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
 import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import { DBRoles } from "src/config/roles";
+import WSServicePaths from "src/services/websockets/services";
 
 const ChatService = ({ children }: ChatServiceTypes) => {
     //#region States
-    const [hasUnreadPrivateChats, setHasUnreadPrivateChats] =
-        useState<boolean>(false);
-    const [hasUnreadProjectChats, setHasUnreadProjectChats] =
-        useState<boolean>(false);
+    const [hasUnreadPrivateChats, setHasUnreadPrivateChats] = useState<boolean>(false);
+    const [hasUnreadProjectChats, setHasUnreadProjectChats] = useState<boolean>(false);
     //#endregion
-    const socketHandler = useWebsocket(wsChatServiceDataConnection);
+    const socketHandler = useWebsocket(WSServicePaths.Chats);
     useEffect(() => {
         const currentUser = currentUserLocalStorage.get();
         initService(currentUser.role.id);
