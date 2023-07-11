@@ -16,7 +16,6 @@ import {
 //#endregion
 //#region Utils
 import useWebsocket from "src/utils/hooks/useWebsocket";
-import { wsProjectTasksServiceDataConnection } from "src/services/websockets/connections";
 import WSProjectTaskServiceEvents from "src/services/websockets/services/projectTasks/events";
 import { projectTaskBoardStateByTaskState } from "src/entities/projectTasks/mappers";
 import { TaskBoardViewProps } from "./types";
@@ -28,6 +27,7 @@ import { TaskToBeChangedState } from "./utils/contexts/types";
 import NotificationCard from "src/components/NotificationCard/NotificationCard";
 import useNotificationCard from "src/components/NotificationCard/utils/hooks/useNotificationCard";
 import { CardVariant } from "src/components/NotificationCard/types";
+import WSServicePaths from "src/services/websockets/services";
 //#endregion
 
 const TaskBoardView = ({ 
@@ -39,10 +39,7 @@ const TaskBoardView = ({
     const notificationCard = useNotificationCard();
     //#endregion
     //#region States
-    const socketHandler = useWebsocket<number>(
-        wsProjectTasksServiceDataConnection,
-        projectId
-    );
+    const socketHandler = useWebsocket(WSServicePaths.ProjectTask);
     const [projectTaskBoard, setProjectTaskBoard] = useState<ProjectTaskBoard | null>(null);
     const [currentProjectTask, setCurrentProjectTask] = useState<ProjectTask | null>(null);
     const [currentProjectTaskState, setCurrentProjectTaskState] = useState<ProjectTaskState | null>(null);
@@ -52,7 +49,9 @@ const TaskBoardView = ({
     //#endregion
     //#region Effects
     useEffect(() => {
-        const socketIoValue: Socket = socketHandler.connect();
+        const socketIoValue: Socket = socketHandler.connect({ 
+            "project-id": String(projectId) 
+        });
         socketIoValue.on(
             WSProjectTaskServiceEvents.Server.DispatchTaskBoard,
             (projectTaskBoard: ProjectTaskBoard) => {

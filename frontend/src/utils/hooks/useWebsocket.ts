@@ -7,30 +7,23 @@ import {
     tokenLocalStorage,
 } from "src/storage/user.local";
 import { User } from "src/entities/user/types";
-import { WSServiceDataConnection } from "src/services/websockets/types";
+import { WSHeaders } from "src/services/websockets/types";
+import WSServicePaths from "src/services/websockets/services";
 
-function useWebsocket<P>(
-    wsServiceDataConnection: WSServiceDataConnection<P>,
-    params?: P
+function useWebsocket(
+    servicePath: WSServicePaths
 ): WebsocketHook {
     const [socketIo, setSocketIo] = useState<Socket | null>(null);
-    const getExtraHeaders = (): Record<string, string> => {
+    const connect = (headers?: WSHeaders): Socket => {
         const currentUser: User = currentUserLocalStorage.get();
-        let extraHeaders: Record<string, string> = {
-            authorization: `Bearer ${tokenLocalStorage.get()}`,
-            "user-id": String(currentUser.id)
-        };
-        if (params)
-            extraHeaders = {
-                ...extraHeaders,
-                ...wsServiceDataConnection.getHeaders(params),
-            };
-        return extraHeaders;
-    }
-    const connect = (): Socket => {
-        const socket = io(`${HOST_WS}${wsServiceDataConnection.servicePath}`, {
-            extraHeaders: getExtraHeaders(),
-            closeOnBeforeunload: false,
+        const socket = io(`${HOST_WS}${servicePath}`, {
+            extraHeaders: {
+                authorization: `Bearer ${tokenLocalStorage.get()}`,
+                "user-id": String(currentUser?.id),
+                ...headers,
+            },
+            forceNew: true,
+            closeOnBeforeunload: false
         });
         setSocketIo(socket);
         return socket;
@@ -42,7 +35,7 @@ function useWebsocket<P>(
     return {
         socketIo: socketIo || null,
         connect,
-        disconnect,
+        disconnect
     };
 }
 

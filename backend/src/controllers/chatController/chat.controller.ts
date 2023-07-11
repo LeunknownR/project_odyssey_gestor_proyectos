@@ -107,6 +107,8 @@ export default abstract class ChatController {
             senderId,
             projectMessage
         );
+        if (!record)
+            throw new Error("It can't be saved project chat message");
         return new ProjectChatMessage(record);
     }
 }
