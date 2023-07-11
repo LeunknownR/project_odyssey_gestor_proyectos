@@ -6,6 +6,7 @@ import { PrivatePreviewChatListProps } from "./types";
 import { getUserId } from "src/storage/user.local";
 import { ImageWrapper } from "./styles";
 import useChatViewContext from "../../../../utils/context/useChatViewContext";
+import NoChats from "../NoChats";
 
 const PrivatePreviewChatList = ({
     chatPreviewList, getChatMessages
@@ -26,6 +27,8 @@ const PrivatePreviewChatList = ({
         return !lastMessage.seen && lastMessage.senderId !== getUserId();
     };
     return (
+        <>
+        {chatPreviewList.length > 0 ?
         <PreviewChatList<PrivateChatPreview>
             previewChatList={chatPreviewList}
             renderItem={privateChatPreview => {
@@ -49,7 +52,8 @@ const PrivatePreviewChatList = ({
                         active={collaborator.id === currentPrivateChat?.collaborator.id}/>
                 );
             }}
-        />
+        /> : <NoChats />}
+        </>
     );
 };
 

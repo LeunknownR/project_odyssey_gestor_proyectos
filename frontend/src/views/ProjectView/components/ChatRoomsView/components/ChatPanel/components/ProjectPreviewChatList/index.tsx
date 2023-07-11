@@ -1,9 +1,10 @@
-import { LastMessage, ProjectChatPreview, ProjectLastMessage } from "src/entities/chat/entities";
+import { ProjectChatPreview, ProjectLastMessage } from "src/entities/chat/entities";
 import PreviewChatList from "../ChatList/PreviewChatList";
 import ChatPreview from "../ChatList/components/ChatPreview/ChatPreview";
 import { ProjectPreviewChatListProps } from "./types";
 import ProjectChatImage from "./ProjectChatImage";
 import useChatViewContext from "../../../../utils/context/useChatViewContext";
+import NoChats from "../NoChats";
 
 const ProjectPreviewChatList = ({
     chatPreviewList, getChatMessages
@@ -21,7 +22,8 @@ const ProjectPreviewChatList = ({
             : null;
     }
     return (
-        <PreviewChatList<ProjectChatPreview>
+        <>
+        {chatPreviewList.length > 0 ? <PreviewChatList<ProjectChatPreview>
             previewChatList={chatPreviewList}
             renderItem={projectChatPreview => {
                 const { project, lastMessage } = projectChatPreview;
@@ -38,7 +40,9 @@ const ProjectPreviewChatList = ({
                         active={project.id === currentProjectChat?.project.id}/>
                 );
             }}
-        />
+        /> : <NoChats />}
+        </>
+        
     );
 };
 

@@ -2,7 +2,7 @@ type NoContentProps = {
     imageWidth?: string;
     img: string;
     title?: string;
-    subtitle: string;
+    subtitle?: string;
     titleColor?: string;
     size?: string;
 };

@@ -13,8 +13,7 @@ const ChatMenuButton = () => {
         <ChatLinkButton
             to={AbsolutePaths.Chat}
             activeclassname="active"
-            className={(hasUnreadProjectChats || hasUnreadPrivateChats) ? "has-unread-chat" : ""}
-        >
+            className={(hasUnreadProjectChats || hasUnreadPrivateChats) ? "has-unread-chat" : ""}>
             <span>
                 <Icon icon="grommet-icons:chat" />
             </span>

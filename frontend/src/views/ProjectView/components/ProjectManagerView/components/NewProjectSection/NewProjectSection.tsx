@@ -18,22 +18,22 @@ const NewProjectSection = ({
     if (userRole !== DBRoles.GeneralAdmin) return null;
     return (
         <>
-            <NewProjectButton 
-                to="" 
-                activeclassname="active" 
-                onClick={openCreateProjectModal}>
-                <span>
-                    <Icon icon="mdi:layers-plus" />
-                </span>
-            </NewProjectButton>
-            <NewProjectModal
-                preloader={preloader}
-                modalProps={modal}
-                form={form}
-                getProjectFromForm={getProjectFromForm}
-                fillProjects={fillProjects}
-                notificationCard={notificationCard}
-            />
+        <NewProjectButton 
+            to="" 
+            activeclassname="active" 
+            onClick={openCreateProjectModal}>
+            <span>
+                <Icon icon="mdi:layers-plus" />
+            </span>
+        </NewProjectButton>
+        <NewProjectModal
+            preloader={preloader}
+            modalProps={modal}
+            form={form}
+            getProjectFromForm={getProjectFromForm}
+            fillProjects={fillProjects}
+            notificationCard={notificationCard}
+        />
         </>
     );
 };
