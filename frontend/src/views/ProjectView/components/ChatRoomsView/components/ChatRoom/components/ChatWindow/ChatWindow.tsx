@@ -12,7 +12,7 @@ import { ChatWindowProps } from "./types";
 const ChatWindow = ({
     formattedMessages,
     additionalChatInfo,
-    collaboratorInfo
+    collaboratorInfo,
 }: ChatWindowProps) => {
     const bottomChatRef = useRef<HTMLUListElement | null>(null);
     useEffect(() => {
@@ -50,7 +50,12 @@ const ChatWindow = ({
                             }
                             text={message}
                             datetime={datetime}
-                            sender={collaboratorInfo && collaboratorInfo.find((collaborator) => collaborator.id === id)?.firstName}
+                            sender={
+                                collaboratorInfo &&
+                                collaboratorInfo.find(
+                                    collaborator => collaborator.id === collaboratorId
+                                )?.firstName
+                            }
                         />
                     )
                 )}
