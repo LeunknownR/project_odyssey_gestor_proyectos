@@ -32,7 +32,6 @@ export default abstract class ChatModel {
             StoredProcedures.SearchProjectChatPreview,
             [collaboratorId, searchedProject]
         );
-        console.log(resultset);
         return resultset;
     }
     static async getRelationCollaboratorInPrivateChat(
@@ -76,6 +75,10 @@ export default abstract class ChatModel {
         collaboratorId: number,
         projectId: number
     ): Promise<number> {
+        console.log({
+            collaboratorId,
+            projectId
+        });
         const { affectedRows } = await DBConnection.query(
             StoredProcedures.MarkProjectChatMessagesAsSeen,
             [collaboratorId, projectId]

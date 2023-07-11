@@ -54,7 +54,7 @@ const ProjectChatRoom = ({
                 return firstName;
             })
             .filter(Boolean).concat("Tú").join(", ");
-        return formattedCollaborators
+        return formattedCollaborators;
     };
     return (
         <ChatRoom
@@ -66,7 +66,8 @@ const ProjectChatRoom = ({
                     portrait={<ProjectChatImage />}
                     closeChat={closeChat}/>
                 <ChatWindow
-                    formattedMessages={formattedProjectChatMessages.messages}
+                    messages={formattedProjectChatMessages.messages}
+                    collaboratorInfo={formattedProjectChatMessages.collaborators}
                     additionalChatInfo={<span>Coordina con tu equipo</span>}/>
                 <MessageBox emitMessageEvent={sendMessage}/>
                 </>

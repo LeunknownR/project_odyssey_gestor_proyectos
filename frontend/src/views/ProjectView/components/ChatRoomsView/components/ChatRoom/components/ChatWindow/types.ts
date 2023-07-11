@@ -1,7 +1,8 @@
 import { ReactNode } from "react";
-import { ChatMessages } from "src/entities/chat/entities"
+import { ChatCollaborators, ChatMessages } from "src/entities/chat/entities";
 
 export type ChatWindowProps = {
-    formattedMessages: ChatMessages[];
+    messages: ChatMessages[];
     additionalChatInfo: ReactNode;
-}
+    collaboratorInfo?: ChatCollaborators[];
+};

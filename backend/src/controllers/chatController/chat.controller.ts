@@ -72,7 +72,7 @@ export default abstract class ChatController {
         collaboratorId: number,
         projectId: number
     ): Promise<void> {
-        await ChatModel.markPrivateChatMessagesAsSeen(
+        await ChatModel.markProjectChatMessagesAsSeen(
             collaboratorId,
             projectId
         );
