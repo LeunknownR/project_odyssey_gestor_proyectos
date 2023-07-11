@@ -251,6 +251,11 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
         let formattedProjectChatMessages: FormattedProjectChatMessages = this.dataHandler
             .projectChatMessagesGroup
             .getProjectChatMessageList(projectId.value);
+        // Marcar como visto mensajes
+        await ChatController.markProjectChatMessagesAsSeen(
+            collaboratorId,
+            projectId.value
+        );
         // Verificar si no existen mensajes de este chat
         if (!formattedProjectChatMessages) {
             // Obtener los mensajes a través de una db query
@@ -260,10 +265,10 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 .projectChatMessagesGroup
                 .setProjectChatMessageList(projectId.value, formattedProjectChatMessages);
         }
-        // Marcar como visto mensajes
-        await ChatController.markProjectChatMessagesAsSeen(
-            collaboratorId,
-            projectId.value
+        // Enviar preview list al colaborador
+        socket.emit(
+            WSChatServiceEvents.Server.DispatchProjectChatMessages,
+            formattedProjectChatMessages
         );
         this.dataHandler
             .openProjectChats
@@ -271,10 +276,11 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 projectId.value,
                 collaboratorId
             );
-        // Enviar preview list al colaborador
+        // Notificando de chats privados sin leer al colaborador
+        const hasUnreadChats: boolean = await ChatController.collaboratorHasUnreadProjectChats(collaboratorId);
         socket.emit(
-            WSChatServiceEvents.Server.DispatchProjectChatMessages,
-            formattedProjectChatMessages
+            WSChatServiceEvents.Server.NotifyUnreadPrivateChats,
+            hasUnreadChats
         );
     }
     private async savePrivateChatMessage(

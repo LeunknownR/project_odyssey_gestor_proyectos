@@ -1,4 +1,4 @@
-import { LastMessage, ProjectChatPreview } from "src/entities/chat/entities";
+import { LastMessage, ProjectChatPreview, ProjectLastMessage } from "src/entities/chat/entities";
 import PreviewChatList from "../ChatList/PreviewChatList";
 import ChatPreview from "../ChatList/components/ChatPreview/ChatPreview";
 import { ProjectPreviewChatListProps } from "./types";
@@ -15,6 +15,11 @@ const ProjectPreviewChatList = ({
         if (!lastMessage) return true;
         return lastMessage.seen;
     };
+    const getFormattedMessage = (lastMessage: ProjectLastMessage | null): string | null => {
+        return lastMessage
+            ? `${lastMessage.senderFirstName}: ${lastMessage.message}`
+            : null;
+    }
     return (
         <PreviewChatList<ProjectChatPreview>
             previewChatList={chatPreviewList}
@@ -28,10 +33,7 @@ const ProjectPreviewChatList = ({
                                 isLastMessageSeen={getIsLastMessageSeen(lastMessage)}/>}
                         title={project.name}
                         datetime={lastMessage?.datetime || null}
-                        message={
-                            lastMessage
-                                ? `${lastMessage?.senderFirstName}: ${lastMessage?.message}`
-                                : null}
+                        message={getFormattedMessage(lastMessage)}
                         onClick={() => getChatMessages(projectChatPreview)}
                         active={project.id === currentProjectChat?.project.id}/>
                 );
