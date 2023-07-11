@@ -70,3 +70,8 @@ export const MenuButton = styled(NavLink)<MenuButtonProps>`
         }
     }
 `;
+export const GoHomeButton = styled(MenuButton)`
+    .iconify {
+        font-size: 40px;
+    }
+`;
