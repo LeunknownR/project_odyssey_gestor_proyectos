@@ -2,6 +2,14 @@ import { createContext } from "react";
 import { ChatViewContextType } from "./types";
 
 const INIT_CHAT_VIEW_CONTEXT: ChatViewContextType = {
+    preloader: {
+        hide: () => {},
+        show: () => {},
+        value: {
+            hidden: true,
+            message: ""
+        }
+    },
     privateChatPreviewList: [],
     projectChatPreviewList: [],
     setPrivateChatPreviewList: () => {},
@@ -11,9 +19,7 @@ const INIT_CHAT_VIEW_CONTEXT: ChatViewContextType = {
     setCurrentPrivateChat: () => {},
     setCurrentProjectChat: () => {},
     setFormattedPrivateChatMessages: () => {},
-    setFormattedProjectChatMessages: () => {},
-    onDispatchPrivateChatMessages: () => {},
-    onDispatchProjectChatMessages: () => {},
+    setFormattedProjectChatMessages: () => {}
 };
 const ChatViewContext = createContext(INIT_CHAT_VIEW_CONTEXT);
 

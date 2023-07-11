@@ -3,7 +3,9 @@ import styled from "styled-components";
 
 export const Container = styled(FlexFlow)`
     background-color: var(--darkblue-3);
-    border-radius: 10px;
+    border-radius: 8px;
+    width: 100%;
+    gap: 5px;
 `;
 export const Tab = styled(FlexFlow)`
     justify-content: center;

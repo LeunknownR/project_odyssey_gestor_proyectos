@@ -8,5 +8,9 @@ export type SearchChatPayload = {
 };
 export type PreviewChatListProps<T> = {
     chatPreviewList: T[];
-    refreshPreviewChatList: () => void;
+    getChatMessages: (previewChat: T) => void;
+};
+export type ChatPanelProps = {
+    onDispatchPrivateChatMessages: (refresh: () => void) => void;
+    onDispatchProjectChatMessages: (refresh: () => void) => void;
 };

@@ -32,6 +32,7 @@ export default abstract class ChatModel {
             StoredProcedures.SearchProjectChatPreview,
             [collaboratorId, searchedProject]
         );
+        console.log(resultset);
         return resultset;
     }
     static async getRelationCollaboratorInPrivateChat(

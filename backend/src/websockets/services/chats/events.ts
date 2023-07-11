@@ -13,6 +13,7 @@ namespace WSChatServiceEvents {
         SearchChat = "collaborator:search-chat",
         GetPrivateChatMessages = "collaborator:get-private-chat-messages",
         GetProjectChatMessages = "collaborator:get-project-chat-messages",
+        JoinPrivateChat = "collaborator:join-private-chat",
         LeavePrivateChat = "collaborator:leave-private-chat",
         LeaveProjectChat = "collaborator:leave-project-chat",
         SendMessageToPrivateChat = "collaborator:send-message-to-private-chat",

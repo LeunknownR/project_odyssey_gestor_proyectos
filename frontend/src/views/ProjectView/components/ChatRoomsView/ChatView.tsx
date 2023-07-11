@@ -14,8 +14,11 @@ import PrivateChatRoom from "./components/PrivateChatRoom";
 import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import useChatServiceContext from "src/routes/components/ChatService/utils/contexts/useChatServiceContext";
 import ProjectChatRoom from "./components/ProjectChatRoom";
+import Preloader from "src/components/Preloader/Preloader";
+import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
 
 const ChatView = () => {
+    const preloader = usePreloader();
     //#region States
     const [privateChatPreviewList, setPrivateChatPreviewList] = useState<
         PrivateChatPreview[]
@@ -32,33 +35,31 @@ const ChatView = () => {
     //#endregion
     const { socketIoChatService } = useChatServiceContext();
     const onDispatchPrivateChatMessages = (refreshPreviewChatList: () => void): void => {
-        socketIoChatService?.off(WSChatServiceEvents.Server.DispatchProjectChatMessages);
         socketIoChatService?.on(
             WSChatServiceEvents.Server.DispatchPrivateChatMessages,
             (formattedPrivateChatMessages: FormattedPrivateChatMessages) => {
+                setFormattedProjectChatMessages(null);
                 setFormattedPrivateChatMessages(formattedPrivateChatMessages);
                 refreshPreviewChatList();
+                preloader.hide();
             });
-        setFormattedProjectChatMessages(null);
     };
     const onDispatchProjectChatMessages = (refreshPreviewChatList: () => void): void => {
-        socketIoChatService?.off(WSChatServiceEvents.Server.DispatchPrivateChatMessages);
         socketIoChatService?.on(
             WSChatServiceEvents.Server.DispatchProjectChatMessages,
             (formattedProjectChatMessages: FormattedProjectChatMessages) => {
+                setFormattedPrivateChatMessages(null);
                 setFormattedProjectChatMessages(formattedProjectChatMessages);
                 refreshPreviewChatList();
-            }
-        );
-        setFormattedPrivateChatMessages(null);
+                preloader.hide();
+            });
     };
-    //GNOMO refactorizar 👇
     const renderChatRoom = (): ReactNode => {
-        if (formattedPrivateChatMessages) 
+        if (currentPrivateChat && formattedPrivateChatMessages) 
             return <PrivateChatRoom formattedPrivateChatMessages={formattedPrivateChatMessages} />
-        if (formattedProjectChatMessages)
+        if (currentProjectChat && formattedProjectChatMessages)
             return <ProjectChatRoom formattedProjectChatMessages={formattedProjectChatMessages} />
-        return null;
+        return <UnselectedChat />;
     };
     return (
         <>
@@ -66,6 +67,7 @@ const ChatView = () => {
         <Container>
             <ChatViewContext.Provider
                 value={{
+                    preloader,
                     privateChatPreviewList,
                     projectChatPreviewList,
                     setPrivateChatPreviewList,
@@ -75,14 +77,15 @@ const ChatView = () => {
                     setCurrentPrivateChat,
                     setCurrentProjectChat,
                     setFormattedPrivateChatMessages,
-                    setFormattedProjectChatMessages,
-                    onDispatchPrivateChatMessages,
-                    onDispatchProjectChatMessages
+                    setFormattedProjectChatMessages
                 }}>
-                <ChatPanel />
-                {renderChatRoom() ? renderChatRoom() : <UnselectedChat />}
+                <ChatPanel 
+                    onDispatchPrivateChatMessages={onDispatchPrivateChatMessages}
+                    onDispatchProjectChatMessages={onDispatchProjectChatMessages}/>
+                {renderChatRoom()}
             </ChatViewContext.Provider>
         </Container>
+        <Preloader {...preloader.value}/>
         </>
     );
 };

@@ -3,34 +3,17 @@ import PreviewChatList from "../ChatList/PreviewChatList";
 import ChatPreview from "../ChatList/components/ChatPreview/ChatPreview";
 import { ProjectPreviewChatListProps } from "./types";
 import ProjectChatImage from "./ProjectChatImage";
-import useChatServiceContext from "src/routes/components/ChatService/utils/contexts/useChatServiceContext";
-import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import useChatViewContext from "../../../../utils/context/useChatViewContext";
 
 const ProjectPreviewChatList = ({
-    chatPreviewList, refreshPreviewChatList
+    chatPreviewList, getChatMessages
 }: ProjectPreviewChatListProps) => {
-    const { socketIoChatService } = useChatServiceContext();
     const {
-        onDispatchProjectChatMessages,
-        currentProjectChat,
-        setCurrentProjectChat,
-        setCurrentPrivateChat,
+        currentProjectChat
     } = useChatViewContext();
     const getIsLastMessageSeen = (lastMessage: LastMessage | null): boolean => {
         if (!lastMessage) return true;
         return lastMessage.seen;
-    };
-    const getPrivateChatMessages = (
-        projectChatPreview: ProjectChatPreview
-    ): void => {
-        socketIoChatService?.emit(
-            WSChatServiceEvents.Collaborator.GetProjectChatMessages,
-            projectChatPreview.project.id
-        );
-        setCurrentProjectChat(projectChatPreview);
-        setCurrentPrivateChat(null);
-        onDispatchProjectChatMessages(refreshPreviewChatList);
     };
     return (
         <PreviewChatList<ProjectChatPreview>
@@ -42,16 +25,14 @@ const ProjectPreviewChatList = ({
                         key={project.id}
                         portrait={
                             <ProjectChatImage
-                                isLastMessageSeen={getIsLastMessageSeen(
-                                    lastMessage
-                                )}/>}
+                                isLastMessageSeen={getIsLastMessageSeen(lastMessage)}/>}
                         title={project.name}
                         datetime={lastMessage?.datetime || null}
                         message={
                             lastMessage
                                 ? `${lastMessage?.senderFirstName}: ${lastMessage?.message}`
                                 : null}
-                        onClick={() => getPrivateChatMessages(projectChatPreview)}
+                        onClick={() => getChatMessages(projectChatPreview)}
                         active={project.id === currentProjectChat?.project.id}/>
                 );
             }}
