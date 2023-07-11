@@ -38,16 +38,16 @@ export const getDayMonthYearTwoDigitsFormat = (
     const year = date.toLocaleString("es", { year: "2-digit" });
     return `${day}/${month}/${year}`;
 };
+// export const getHour = (milliseconds: number): string => {
+//     const date = new Date(milliseconds);
+//     const hour = date.toLocaleString("es", {
+//         hour: "numeric",
+//         minute: "numeric",
+//         hour12: true,
+//     });
+//     return hour;
+// };
 export const getHour = (milliseconds: number): string => {
-    const date = new Date(milliseconds);
-    const hour = date.toLocaleString("es", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-    });
-    return hour;
-};
-export const formatTime = (milliseconds: number): string => {
     const date = new Date(milliseconds);
     const timeInMinutes = date.getHours() * 60 + date.getMinutes();
     // Obteniendo horas del tiempo en minutos
