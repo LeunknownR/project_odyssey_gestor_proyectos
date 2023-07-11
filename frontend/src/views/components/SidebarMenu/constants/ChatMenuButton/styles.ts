@@ -9,8 +9,10 @@ export const ChatLinkButton = styled(MenuButton)`
     }
     ::after {
         content: "";
-        display: block;
         position: absolute;
+        top: 12%;
+        left: 12%;
+        display: block;
         height: 8px;
         width: 8px;
         border-radius: 100%;
@@ -19,8 +21,6 @@ export const ChatLinkButton = styled(MenuButton)`
     &.has-unread-chat {
         ::after {
             background-color: var(--red-2);
-            top: 12%;
-            left: 12%;
         }
     }
 `;
