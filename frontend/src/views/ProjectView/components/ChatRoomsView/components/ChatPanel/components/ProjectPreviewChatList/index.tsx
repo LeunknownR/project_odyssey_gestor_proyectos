@@ -1,4 +1,4 @@
-import { LastMessage, ProjectChatPreview, ProjectLastMessage } from "src/entities/chat/entities";
+import { ProjectChatPreview, ProjectLastMessage } from "src/entities/chat/entities";
 import PreviewChatList from "../ChatList/PreviewChatList";
 import ChatPreview from "../ChatList/components/ChatPreview/ChatPreview";
 import { ProjectPreviewChatListProps } from "./types";
