@@ -1417,20 +1417,22 @@ BEGIN
         ptm_prcm.id_collaborator AS "last_message_id_sender",
         TRIM(SUBSTRING_INDEX(u.user_name, ' ', 1)) AS "sender_first_name",
         CASE 
-            WHEN ptm_prcm.id_collaborator != p_id_collaborator THEN ptmsm.seen
+            WHEN ptm_prcm.id_collaborator != p_id_collaborator THEN 
             ELSE 0
         END AS 'seen'
     FROM project p
     INNER JOIN project_team_member ptm 
         ON p.id_project = ptm.id_project
-    INNER JOIN user u
-    	ON u.id_user = ptm.id_collaborator
     LEFT JOIN project_chat_message prcm 
         ON ptm.id_project = prcm.id_project
     LEFT JOIN project_team_member ptm_prcm
         ON ptm_prcm.id_project_team_member = prcm.id_project_team_member_sender
     LEFT JOIN project_team_member_seen_message ptmsm 
         ON prcm.id_project_team_member_sender = ptmsm.id_project_team_member
+    -- LEFT JOIN project_team_member ptm_2
+    -- 	ON ptm_2.id_project_team_member = prcm.id_project_team_member_sender
+    -- LEFT JOIN user u
+    -- 	ON u.id_user = ptm_2.id_collaborator
     WHERE p.active = 1 
         AND UPPER(p.project_name) LIKE @searched_project
         AND ptm.id_collaborator = p_id_collaborator AND
@@ -1448,6 +1450,27 @@ BEGIN
         );
 END //
 DELIMITER ;
+-- SET @searched_project = "";
+-- SET @p_id_collaborator = 3;
+-- SELECT * 
+-- FROM project p
+-- LEFT JOIN project_team_member ptm
+-- 	ON ptm.id_project = p.id_project
+-- LEFT JOIN project_chat_message prcm
+-- 	ON prcm.id_project = ptm.id_project
+-- WHERE ptm.id_collaborator = @p_id_collaborator AND ptm.id_collaborator = @p_id_collaborator AND
+--         (
+--             prcm.id_project_chat_message IS NULL OR
+--             (
+--                 @p_id_collaborator = ptm.id_collaborator
+--                 AND prcm.datetime = (
+--                     SELECT MAX(datetime)
+--                     FROM project_chat_message
+--                     WHERE id_project = prcm.id_project
+--                     GROUP BY prcm.id_project_chat_message
+--                 )
+--             )
+--         );
 
 -- SP para obtener los datos de los mensajes de un chat privado
 DELIMITER //
@@ -1561,7 +1584,6 @@ BEGIN
         WHERE id_project = p_id_project
         AND id_collaborator = p_id_collaborator_open_chat
     );
-    
     -- Marcando como visto el mensaje privado
     UPDATE project_team_member_seen_message
     SET seen = 1

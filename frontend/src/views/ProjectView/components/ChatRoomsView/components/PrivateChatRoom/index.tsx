@@ -76,7 +76,7 @@ const PrivateChatRoom = ({
                     closeChat={closeChat}
                 />
                 <ChatWindow
-                    formattedMessages={
+                    messages={
                         formattedPrivateChatMessages.messages
                     }
                     additionalChatInfo={

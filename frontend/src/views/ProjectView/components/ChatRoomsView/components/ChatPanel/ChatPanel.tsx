@@ -41,9 +41,13 @@ const ChatPanel = ({
     } = useChatViewContext();
     //#endregion
     const privateChatCollaboratorIdRef = useRef<number>();
+    const projectChatIdRef = useRef<number>();
     useEffect(() => {
         privateChatCollaboratorIdRef.current = currentPrivateChat?.collaborator.id;
     }, [currentPrivateChat]);
+    useEffect(() => {
+        projectChatIdRef.current = currentProjectChat?.project.id
+    }, [currentProjectChat]);
     //#region Effects
     useEffect(() => {
         preloader.show(null);
@@ -69,13 +73,24 @@ const ChatPanel = ({
     }, [chatTab]);
     //#endregion
     const onNotifySentMessage = (): void => {
-        socketIoChatService?.on(WSChatServiceEvents.Server.NotifySentMessage, () => {
-            if (privateChatCollaboratorIdRef.current) {
-                socketIoChatService?.emit(
-                    WSChatServiceEvents.Collaborator.GetPrivateChatMessages,
-                    privateChatCollaboratorIdRef.current
-                );
-                return;
+        socketIoChatService?.on(WSChatServiceEvents.Server.NotifySentMessage, (chatTab: WSChatTab) => {
+            switch (chatTab) {
+                case WSChatTab.Private:
+                    if (!privateChatCollaboratorIdRef.current) 
+                        break;
+                    socketIoChatService?.emit(
+                        WSChatServiceEvents.Collaborator.GetPrivateChatMessages,
+                        privateChatCollaboratorIdRef.current
+                    );
+                    return;
+                case WSChatTab.Project:
+                    if (!projectChatIdRef.current) 
+                        break;
+                    socketIoChatService?.emit(
+                        WSChatServiceEvents.Collaborator.GetProjectChatMessages,
+                        projectChatIdRef.current
+                    );
+                    return;
             }
             emitSearchChatEvent(searchedChatPayloadRef.current);
         });

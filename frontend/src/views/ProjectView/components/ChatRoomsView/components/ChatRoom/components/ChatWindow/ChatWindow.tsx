@@ -10,15 +10,15 @@ import {
 import { ChatWindowProps } from "./types";
 
 const ChatWindow = ({
-    formattedMessages,
+    messages,
     additionalChatInfo,
     collaboratorInfo
 }: ChatWindowProps) => {
     const bottomChatRef = useRef<HTMLUListElement | null>(null);
     useEffect(() => {
         scrollToBottom();
-    }, [formattedMessages]);
-    const scrollToBottom = () => {
+    }, [messages]);
+    const scrollToBottom = (): void => {
         bottomChatRef?.current?.scrollTo({
             top: bottomChatRef.current.scrollHeight,
         });
@@ -29,31 +29,25 @@ const ChatWindow = ({
                 direction="column"
                 gap="15px"
                 className="custom-scrollbar"
-                ref={bottomChatRef}
-            >
+                ref={bottomChatRef}>
                 <AdditionalChatInfoWrapper
                     direction="column"
                     align="center"
-                    gap="8px"
-                >
+                    gap="8px">
                     {additionalChatInfo}
                     <Separator />
                 </AdditionalChatInfoWrapper>
-                {formattedMessages.map(
-                    ({ collaboratorId, message, id, datetime }) => (
-                        <Message
-                            key={id}
-                            className={
-                                collaboratorId === getUserId()
-                                    ? "my-message"
-                                    : ""
-                            }
-                            text={message}
-                            datetime={datetime}
-                            sender={collaboratorInfo && collaboratorInfo.find((collaborator) => collaborator.id === id)?.firstName}
-                        />
-                    )
-                )}
+                {messages.map(({ id, collaboratorId, message, datetime }) => (
+                    <Message
+                        key={id}
+                        className={
+                            collaboratorId === getUserId() ? "my-message" : ""
+                        }
+                        text={message}
+                        datetime={datetime}
+                        sender={collaboratorInfo && collaboratorInfo.find((collaborator) => collaborator.id === collaboratorId)?.firstName}
+                    />
+                ))}
             </MessageList>
         </Container>
     );
