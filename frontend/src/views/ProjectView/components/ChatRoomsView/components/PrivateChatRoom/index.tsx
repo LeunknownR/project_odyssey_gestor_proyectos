@@ -25,6 +25,7 @@ const PrivateChatRoom = ({
         return () => window.removeEventListener("beforeunload", leaveChat);
     }, []);
     useEffect(() => {
+        if (!currentPrivateChat) return;
         socketIoChatService?.on(
             WSChatServiceEvents.Server.NotifyCollaboratorOnlineState,
             (isOnline: boolean) => {
@@ -33,18 +34,19 @@ const PrivateChatRoom = ({
         );
         leaveChat();
     }, [currentPrivateChat]);
-    const leaveChat = () => {
+    const leaveChat = (): void => {
         socketIoChatService?.emit(
             WSChatServiceEvents.Collaborator.LeavePrivateChat,
             currentPrivateChat?.collaborator.id
         );
     };
-    const closeChat = () => {
+    const closeChat = (): void => {
+        if (!currentPrivateChat) return;
         leaveChat();
         setFormattedPrivateChatMessages(null);
         setCurrentPrivateChat(null);
     };
-    const sendMessage = (messageText: string) => {
+    const sendMessage = (messageText: string): void => {
         const message = {
             receiverId: currentPrivateChat?.collaborator.id,
             content: messageText,

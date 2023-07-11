@@ -5,20 +5,13 @@ import UserImage from "src/views/components/UserImage/UserImage";
 import { PrivatePreviewChatListProps } from "./types";
 import { getUserId } from "src/storage/user.local";
 import { ImageWrapper } from "./styles";
-import useChatServiceContext from "src/routes/components/ChatService/utils/contexts/useChatServiceContext";
-import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import useChatViewContext from "../../../../utils/context/useChatViewContext";
 
 const PrivatePreviewChatList = ({
-    chatPreviewList,
-    refreshPreviewChatList
+    chatPreviewList, getChatMessages
 }: PrivatePreviewChatListProps) => {
-    const { socketIoChatService } = useChatServiceContext();
     const {
-        onDispatchPrivateChatMessages,
-        currentPrivateChat,
-        setCurrentPrivateChat,
-        setCurrentProjectChat,
+        currentPrivateChat
     } = useChatViewContext();
     const getFormattedMessage = (
         lastMessage: LastMessage | null
@@ -28,20 +21,9 @@ const PrivatePreviewChatList = ({
             ? `Tú: ${lastMessage.message}`
             : lastMessage.message;
     };
-    const getIsChatNotRead = (lastMessage: LastMessage | null): string => {
-        if (!lastMessage) return "";
-        return lastMessage.seen ? "" : "has-unread-chat";
-    };
-    const getPrivateChatMessages = (
-        privateChatPreview: PrivateChatPreview
-    ): void => {
-        socketIoChatService?.emit(
-            WSChatServiceEvents.Collaborator.GetPrivateChatMessages,
-            privateChatPreview.collaborator.id
-        );
-        setCurrentPrivateChat(privateChatPreview);
-        setCurrentProjectChat(null);
-        onDispatchPrivateChatMessages(refreshPreviewChatList);
+    const isUnreadChat = (lastMessage: LastMessage | null): boolean => {
+        if (!lastMessage) return false;
+        return !lastMessage.seen && lastMessage.senderId !== getUserId();
     };
     return (
         <PreviewChatList<PrivateChatPreview>
@@ -53,20 +35,17 @@ const PrivatePreviewChatList = ({
                         key={collaborator.id}
                         portrait={
                             <ImageWrapper
-                                className={getIsChatNotRead(lastMessage)}
-                            >
+                                className={isUnreadChat(lastMessage) ? "has-unread-chat" : ""}>
                                 <UserImage
                                     className="medium"
                                     name={collaborator.name}
                                     surname={collaborator.surname}
-                                    urlPhoto={collaborator.urlPhoto}
-                                />
-                            </ImageWrapper>
-                        }
+                                    urlPhoto={collaborator.urlPhoto}/>
+                            </ImageWrapper>}
                         title={`${collaborator.name} ${collaborator.surname}`}
                         datetime={lastMessage?.datetime || null}
                         message={getFormattedMessage(lastMessage)}
-                        onClick={() => getPrivateChatMessages(privateChatPreview)}
+                        onClick={() => getChatMessages(privateChatPreview)}
                         active={collaborator.id === currentPrivateChat?.collaborator.id}/>
                 );
             }}

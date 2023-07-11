@@ -196,6 +196,10 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             this.dataHandler
                 .privateChatMessagesGroup
                 .getPrivateChatMessageList(collaboratorId, collaboratorChatId.value);
+        await ChatController.markPrivateChatMessagesAsSeen(
+            collaboratorId,
+            collaboratorChatId.value
+        );
         // Verificar si no existen mensajes de este chat
         if (!messageList) {
             // Obtener los mensajes a través de una db query
@@ -213,10 +217,6 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 );
         }
         // Marcar como visto mensajes
-        await ChatController.markPrivateChatMessagesAsSeen(
-            collaboratorId,
-            collaboratorChatId.value
-        );
         const formattedPrivateChatMessages: FormattedPrivateChatMessages = {
             collaboratorRelationList,
             messages: messageList
@@ -366,6 +366,16 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             hasUnreadChats
         );
     }
+    private async notifySavedMessage(
+        socket: Socket,
+        receiverId: number
+    ) {
+        // Notificando que el mensaje fue guardado
+        // socket.emit(WSChatServiceEvents.Server.NotifySentMessage, null);
+        this.io.to(
+            WSChatServiceRoom.getCollaboratorChatRoom(receiverId)
+        ).emit(WSChatServiceEvents.Server.NotifySentMessage);
+    } 
     private async sendMessageToPrivateChat(
         socket: Socket,
         body: any
@@ -376,15 +386,10 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             senderId, privateMessage
         );
         this.sendPrivateChatMessageList(
-            socket,
-            senderId,
+            socket, senderId,
             privateMessage.receiverId
         );
-        // Notificando que el mensaje fue guardado
-        socket.emit(WSChatServiceEvents.Server.NotifySentMessage);
-        this.io.to(
-            WSChatServiceRoom.getCollaboratorChatRoom(privateMessage.receiverId)
-        ).emit(WSChatServiceEvents.Server.NotifySentMessage);
+        this.notifySavedMessage(socket, privateMessage.receiverId);
         this.sendPrivateChatNotification(
             privateMessage.receiverId
         );

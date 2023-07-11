@@ -10,48 +10,77 @@ import {
 import useChatServiceContext from "src/routes/components/ChatService/utils/contexts/useChatServiceContext";
 import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import PrivatePreviewChatList from "./components/PrivatePreviewChatList";
-import { ChatListByTab, SearchChatPayload } from "./types";
+import { ChatListByTab, ChatPanelProps, SearchChatPayload } from "./types";
 import ProjectPreviewChatList from "./components/ProjectPreviewChatList";
 import useChatViewContext from "../../utils/context/useChatViewContext";
 
-const ChatPanel = () => {
+const ChatPanel = ({
+    onDispatchPrivateChatMessages,
+    onDispatchProjectChatMessages
+}: ChatPanelProps) => {
     //#region States
     const [chatTab, setChatTab] = useState<WSChatTab>(WSChatTab.Private);
     const [searchedChat, setSearchedChat] = useState("");
     const [timeoutToSearchChatId, setTimeoutToSearchChatId] = useState<NodeJS.Timeout | undefined>();
-    const searchedChatPayloadRef = useRef<SearchChatPayload>();
     //#endregion
+    const searchedChatPayloadRef = useRef<SearchChatPayload>();
     //#region Hooks
-    const { socketIoChatService } = useChatServiceContext();
+    const { 
+        socketIoChatService
+    } = useChatServiceContext();
     const {
+        preloader,
         privateChatPreviewList,
         projectChatPreviewList,
+        currentPrivateChat,
+        currentProjectChat,
+        setCurrentPrivateChat,
+        setCurrentProjectChat,
         setPrivateChatPreviewList,
         setProjectChatPreviewList
     } = useChatViewContext();
     //#endregion
+    const privateChatCollaboratorIdRef = useRef<number>();
+    useEffect(() => {
+        privateChatCollaboratorIdRef.current = currentPrivateChat?.collaborator.id;
+    }, [currentPrivateChat]);
     //#region Effects
+    useEffect(() => {
+        preloader.show(null);
+        showPrivateChatPreview();
+        onNotifySentMessage();
+        onDispatchPrivateChatMessages(refreshPreviewChatList);
+        onDispatchProjectChatMessages(refreshPreviewChatList);
+        return () => {
+            socketIoChatService?.off(WSChatServiceEvents.Server.DispatchPrivateChatMessages);
+            socketIoChatService?.off(WSChatServiceEvents.Server.DispatchProjectChatMessages);
+        };
+    }, []);
     useEffect(() => {
         searchedChatPayloadRef.current = {
             chatTab, searchedChat
         };
     }, [chatTab, searchedChat]);
     useEffect(() => {
-        showPrivateChatPreview();
-        socketIoChatService?.on(WSChatServiceEvents.Server.NotifySentMessage, () => {
-            if (!searchedChatPayloadRef.current)
-                return;
-            emitSearchChatEvent(searchedChatPayloadRef.current);
-        });
-    }, []);
-    useEffect(() => {
         socketIoChatService?.emit(WSChatServiceEvents.Collaborator.SearchChat, {
             searchedChat,
-            chatTab,
+            chatTab
         });
     }, [chatTab]);
     //#endregion
-    const showPrivateChatPreview = () => {
+    const onNotifySentMessage = (): void => {
+        socketIoChatService?.on(WSChatServiceEvents.Server.NotifySentMessage, () => {
+            if (privateChatCollaboratorIdRef.current) {
+                socketIoChatService?.emit(
+                    WSChatServiceEvents.Collaborator.GetPrivateChatMessages,
+                    privateChatCollaboratorIdRef.current
+                );
+                return;
+            }
+            emitSearchChatEvent(searchedChatPayloadRef.current);
+        });
+    }
+    const showPrivateChatPreview = (): void => {
         socketIoChatService?.off(
             WSChatServiceEvents.Server.DispatchProjectChatPreview
         );
@@ -61,12 +90,11 @@ const ChatPanel = () => {
         );
         setChatTab(WSChatTab.Private);
     };
-    const handlerShowPrivateChatPreview = (
-        privateChatPreview: PrivateChatPreview[]
-    ) => {
+    const handlerShowPrivateChatPreview = (privateChatPreview: PrivateChatPreview[]): void => {
         setPrivateChatPreviewList(privateChatPreview);
+        preloader.hide();
     };
-    const showProjectChatPreview = () => {
+    const showProjectChatPreview = (): void => {
         socketIoChatService?.off(
             WSChatServiceEvents.Server.DispatchPrivateChatPreview
         );
@@ -76,15 +104,36 @@ const ChatPanel = () => {
         );
         setChatTab(WSChatTab.Project);
     };
-    const handlerShowProjectChatPreview = (
-        projectChatPreview: ProjectChatPreview[]
-    ) => {
+    const handlerShowProjectChatPreview = (projectChatPreview: ProjectChatPreview[]): void => {
         setProjectChatPreviewList(projectChatPreview);
+        preloader.hide();
+    };
+    const getPrivateChatMessages = (
+        privateChatPreview: PrivateChatPreview
+    ): void => {
+        if (privateChatPreview.collaborator.id === currentPrivateChat?.collaborator.id) return;
+        preloader.show(null);
+        socketIoChatService?.emit(
+            WSChatServiceEvents.Collaborator.GetPrivateChatMessages,
+            privateChatPreview.collaborator.id
+        );
+        setCurrentPrivateChat(privateChatPreview);
+        setCurrentProjectChat(null);
+    };
+    const getProjectChatMessages = (projectChatPreview: ProjectChatPreview): void => {
+        if (projectChatPreview.project.id === currentProjectChat?.project.id) return;
+        preloader.show(null);
+        socketIoChatService?.emit(
+            WSChatServiceEvents.Collaborator.GetProjectChatMessages,
+            projectChatPreview.project.id
+        );
+        setCurrentProjectChat(projectChatPreview);
+        setCurrentPrivateChat(null);
     };
     //#region Funciones relacionadas con el Buscador de chat
     const searchChat = ({
         target: { value },
-    }: ChangeEvent<HTMLInputElement>) => {
+    }: ChangeEvent<HTMLInputElement>): void => {
         setSearchedChat(value);
         clearTimeout(timeoutToSearchChatId);
         const newTimeoutToSearchChatId: NodeJS.Timeout = setTimeout(() => {
@@ -94,29 +143,28 @@ const ChatPanel = () => {
         }, 350);
         setTimeoutToSearchChatId(newTimeoutToSearchChatId);
     };
-    const emitSearchChatEvent = (payload: SearchChatPayload): void => {
+    const emitSearchChatEvent = (payload?: SearchChatPayload): void => {
+        if (!payload) return;
+        preloader.show(null);
         socketIoChatService?.emit(
             WSChatServiceEvents.Collaborator.SearchChat,
             payload
         );
     }
     const refreshPreviewChatList = (): void => {
-        const searchedChatPayload = searchedChatPayloadRef.current;
-        if (!searchedChatPayload)
-            return;
-        emitSearchChatEvent(searchedChatPayload);
+        emitSearchChatEvent(searchedChatPayloadRef.current);
     }
     //#endregion
     const previewChatList: ChatListByTab = {
         [WSChatTab.Private]: (
             <PrivatePreviewChatList
                 chatPreviewList={privateChatPreviewList}
-                refreshPreviewChatList={refreshPreviewChatList}/>
+                getChatMessages={getPrivateChatMessages}/>
         ),
         [WSChatTab.Project]: (
             <ProjectPreviewChatList
                 chatPreviewList={projectChatPreviewList}
-                refreshPreviewChatList={refreshPreviewChatList}/>
+                getChatMessages={getProjectChatMessages}/>
         ),
     };
     return (
