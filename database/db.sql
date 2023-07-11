@@ -1561,20 +1561,11 @@ BEGIN
         WHERE id_project = p_id_project
         AND id_collaborator = p_id_collaborator_open_chat
     );
-
-    -- obteniendo el id_private_chat_message
-    SET @id_project_chat_message = (
-        SELECT id_project_chat_message
-        FROM project_chat_message
-        WHERE id_project_team_member = @id_project_team_member
-        AND id_project = p_id_project
-    );
     
     -- Marcando como visto el mensaje privado
     UPDATE project_team_member_seen_message
     SET seen = 1
-    WHERE id_project_team_member = @id_project_team_member
-    AND id_project_chat_message = @id_project_chat_message;
+    WHERE id_project_team_member = @id_project_team_member;
 END //
 DELIMITER ;
 
@@ -1631,10 +1622,8 @@ BEGIN
         p_id_project
     );
     SET @id_project_chat_message = LAST_INSERT_ID();
-
     -- Se creo la insercion de los project_team_member_seen_message para cada colab del proyecto
 
-    -- ACA CREO QUE USARAS EL sp_mark_private_messages_as_seen ????
     UPDATE project_team_member_seen_message
     SET seen = 1
     WHERE id_project_team_member = p_id_sender;
@@ -1714,16 +1703,11 @@ BEGIN
         p_id_project
     );
     SET @id_project_chat_message = LAST_INSERT_ID();
-
     -- Se creo la insercion de los project_team_member_seen_message para cada colab del proyecto
-
-    -- ACA CREO QUE USARAS EL sp_mark_private_messages_as_seen ????
-    -- UPDATE project_team_member_seen_message
-    -- SET seen = 1
-    -- WHERE id_project_team_member = p_id_project_team_member_sender;
 END //
 DELIMITER ;
 -- INSETANDO LOS NUEVOS CHATS
 CALL test_send_message_to_project_chat(1, 1, '2023-06-28 19:38:40','Chicos avancen sus partes crj');
 CALL test_send_message_to_project_chat(2, 1, '2023-06-28 20:01:40','va va 1');
 CALL test_send_message_to_project_chat(3, 1, '2023-06-28 20:02:50','va va 2');
+CALL test_send_message_to_project_chat(7, 3, '2023-06-28 23:12:10','mesaje para el proyecto 3');
