@@ -24,6 +24,13 @@ export default class WSChatService extends WSService {
         );
     }
     //#region Methods
+    private notifyOnlineStateCollaborator(isOnline: boolean): void {
+        this.dataHandler.connectedCollaborators.forEach(stillConnectedCollaboratorId => {
+            this.io
+                .to(WSChatServiceRoom.getCollaboratorChatRoom(stillConnectedCollaboratorId))
+                .emit(WSChatServiceEvents.Server.NotifyCollaboratorOnlineState, isOnline);
+        });
+    }
     private async configCollaborator(socket: Socket, next: WSNext) {
         // Obteniendo datos de conexión
         let userDataBySocket: WSUserData = null;
@@ -39,6 +46,7 @@ export default class WSChatService extends WSService {
         this.dataHandler
             .connectedCollaborators
             .addCollaborator(collaboratorId);
+        this.notifyOnlineStateCollaborator(true);
         // Ingresando al colaborador a su sala de chat privado
         socket.join(
             WSChatServiceRoom.getCollaboratorChatRoom(collaboratorId)
@@ -72,6 +80,7 @@ export default class WSChatService extends WSService {
         this.dataHandler
             .connectedCollaborators
             .removeCollaborator(collaboratorId);
+        this.notifyOnlineStateCollaborator(false);
         // Sacando de la sala de chat privado
         socket.leave(
             WSChatServiceRoom.getCollaboratorChatRoom(collaboratorId)
