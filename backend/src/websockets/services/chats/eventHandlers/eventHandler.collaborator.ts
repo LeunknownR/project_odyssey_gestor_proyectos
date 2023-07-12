@@ -39,14 +39,6 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 handler: this.getPrivateChatMessages.bind(this)
             },
             {
-                name: WSChatServiceEvents.Collaborator.LeavePrivateChat,
-                handler: this.leavePrivateChat.bind(this)
-            },
-            {
-                name: WSChatServiceEvents.Collaborator.LeaveProjectChat,
-                handler: this.leaveProjectChat.bind(this)
-            },
-            {
                 name: WSChatServiceEvents.Collaborator.GetProjectChatMessages,
                 handler: this.getProjectChatMessages.bind(this)
             },
@@ -137,51 +129,35 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 break;
         }
     }
-    private leavePrivateChat(socket: Socket, collaboratorChatIdBody: any): void {
-        const collaboratorChatId = new IntegerId(collaboratorChatIdBody);
-        const { userId: collaboratorId } = getWSUserData(socket);
-        // Eliminando colaborador de su chat privado
-        const chatId: string = WSPrivateChatMessagesGroup.getChatId(
-            collaboratorId,
-            collaboratorChatId.value
-        );
-        this.dataHandler
-            .openPrivateChats
-            .removeCollaboratorOfPrivateChat(
-                chatId, collaboratorId
-            );
-        const collaboratorChatRoom: string = WSChatServiceRoom.getCollaboratorChatRoom(collaboratorChatId.value);
-        this.io
-            .to(collaboratorChatRoom)
-            .emit(
-                WSChatServiceEvents.Server.NotifyCollaboratorOnlineState,
-                false
-            );
-    }
-    private leaveProjectChat(socket: Socket, projectIdBody: any): void {
-        // Obtener id del proyecto
-        const projectId = new IntegerId(projectIdBody);
-        const { userId: collaboratorId } = getWSUserData(socket);
-        // Eliminando colaborador del chat de un projecto
-        this
-            .dataHandler.openProjectChats
-            .removeCollaboratorOfProjectChat(
-                projectId.value,
-                collaboratorId
-            );
-        // Sacar de la sala del proyecto
-        const getProjectChatRoom = WSChatServiceRoom.getProjectChatRoom(projectId.value);
-        socket.leave(getProjectChatRoom);
-    }
-    private doNotifyStateOnlinePrivateChat(collaboratorChatId: number) {
+    // private leavePrivateChat(socket: Socket, collaboratorChatIdBody: any): void {
+    //     const collaboratorChatId = new IntegerId(collaboratorChatIdBody);
+    //     const { userId: collaboratorId } = getWSUserData(socket);
+    //     // Eliminando colaborador de su chat privado
+    //     const chatId: string = WSPrivateChatMessagesGroup.getChatId(
+    //         collaboratorId,
+    //         collaboratorChatId.value
+    //     );
+    //     this.dataHandler
+    //         .openPrivateChats
+    //         .removeCollaboratorOfPrivateChat(
+    //             chatId, collaboratorId
+    //         );
+    //     const collaboratorChatRoom: string = WSChatServiceRoom.getCollaboratorChatRoom(collaboratorChatId.value);
+    //     this.io
+    //         .to(collaboratorChatRoom)
+    //         .emit(
+    //             WSChatServiceEvents.Server.NotifyCollaboratorOnlineState,
+    //             false
+    //         );
+    // }
+    private doNotifyStateOnlinePrivateChat(collaboratorId: number, collaboratorChatId: number) {
         const isOnline = this.dataHandler.connectedCollaborators.isConnectedCollaborator(collaboratorChatId);
-        if (!isOnline) return;
-        const collaboratorChatRoom: string = WSChatServiceRoom.getCollaboratorChatRoom(collaboratorChatId);
+        const collaboratorChatRoom: string = WSChatServiceRoom.getCollaboratorChatRoom(collaboratorId);
         this.io
             .to(collaboratorChatRoom)
             .emit(
                 WSChatServiceEvents.Server.NotifyCollaboratorOnlineState,
-                true
+                isOnline
             );
     }
     private async getPrivateChatMessages(socket: Socket, collaboratorChatIdBody: any) {
@@ -243,7 +219,7 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
             WSChatServiceEvents.Server.NotifyUnreadPrivateChats,
             hasUnreadChats
         );
-        this.doNotifyStateOnlinePrivateChat(collaboratorChatId.value);
+        this.doNotifyStateOnlinePrivateChat(collaboratorId, collaboratorChatId.value);
     }
     private async getProjectChatMessages(socket: Socket, projectIdBody: any): Promise<void> {
         const projectId = new IntegerId(projectIdBody);

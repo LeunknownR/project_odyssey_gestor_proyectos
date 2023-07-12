@@ -21,28 +21,17 @@ const PrivateChatRoom = ({
         setFormattedPrivateChatMessages,
     } = useChatViewContext();
     useEffect(() => {
-        window.addEventListener("beforeunload", leaveChat);
-        return () => window.removeEventListener("beforeunload", leaveChat);
-    }, []);
-    useEffect(() => {
         if (!currentPrivateChat) return;
         socketIoChatService?.on(
             WSChatServiceEvents.Server.NotifyCollaboratorOnlineState,
             (isOnline: boolean) => {
+                console.log(isOnline);
                 setIsOnline(isOnline);
             }
         );
-        leaveChat();
     }, [currentPrivateChat]);
-    const leaveChat = (): void => {
-        socketIoChatService?.emit(
-            WSChatServiceEvents.Collaborator.LeavePrivateChat,
-            currentPrivateChat?.collaborator.id
-        );
-    };
     const closeChat = (): void => {
         if (!currentPrivateChat) return;
-        leaveChat();
         setFormattedPrivateChatMessages(null);
         setCurrentPrivateChat(null);
     };

@@ -9,16 +9,18 @@ export const Container = styled.span`
         font-size: 56px;
         background-color: var(--green-1);
     }
-    &.has-unread-chat {
-        ::after {
-            content: "";
-            position: absolute;
-            height: 10px;
-            width: 10px;
-            background-color: var(--red-2);
-            top: 4px;
-            right: 1px;
-            border-radius: 100%;
-        }
+    ::after {
+        content: "";
+        position: absolute;
+        top: 4px;
+        right: 1px;
+        display: block;
+        height: 10px;
+        width: 10px;
+        transition: 0.3s;
+        border-radius: 100%;
+    }
+    &.has-unread-chat::after {
+        background-color: var(--red-2);
     }
 `;

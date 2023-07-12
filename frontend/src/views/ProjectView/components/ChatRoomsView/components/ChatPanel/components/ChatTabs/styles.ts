@@ -14,23 +14,25 @@ export const Tab = styled(FlexFlow)`
     font-weight: 700;
     width: 100%;
     padding: 10px;
+    padding-left: 15px;
     font-size: 18px;
     transition: 0.3s;
     border-radius: inherit;
     user-select: none;
-    &.active,
-    :hover {
+    ::after {
+        content: "";
+        display: block;
+        height: 8px;
+        width: 8px;
+        border-radius: 100%;
+        transition: 0.3s;
+        margin-left: 5px;
+    }
+    &.active, :hover {
         color: var(--white-1);
         background-color: var(--darkblue-2);
     }
-    &.has-unread-chat {
-        ::after {
-            content: "";
-            height: 8px;
-            width: 8px;
-            background-color: var(--red-2);
-            margin-left: 3px;
-            border-radius: 100%;
-        }
+    &.has-unread-chat::after {
+        background-color: var(--red-2);
     }
 `;

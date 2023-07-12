@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import ChatRoom from "../ChatRoom/ChatRoom";
 import ChatHeader from "../ChatRoom/components/ChatHeader/ChatHeader";
 import ChatWindow from "../ChatRoom/components/ChatWindow/ChatWindow";
@@ -15,22 +14,8 @@ const ProjectChatRoom = ({
 }: ProjectChatRoomProps) => {
     const { socketIoChatService } = useChatServiceContext();
     const { currentProjectChat, setCurrentProjectChat, setFormattedProjectChatMessages } = useChatViewContext();
-    useEffect(() => {
-        window.addEventListener("beforeunload", leaveChat);
-        return () => window.removeEventListener("beforeunload", leaveChat);
-    }, []);
-    useEffect(() => {
-        leaveChat();
-    }, [currentProjectChat]);
-    const leaveChat = (): void => {
-        socketIoChatService?.emit(
-            WSChatServiceEvents.Collaborator.LeaveProjectChat,
-            currentProjectChat?.project.id
-        );
-    }
     if (!currentProjectChat) return null;
     const closeChat = (): void => {
-        leaveChat();
         setFormattedProjectChatMessages(null);
         setCurrentProjectChat(null);
     }

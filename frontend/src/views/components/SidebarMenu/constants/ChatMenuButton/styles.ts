@@ -11,16 +11,14 @@ export const ChatLinkButton = styled(MenuButton)`
         content: "";
         position: absolute;
         top: 12%;
-        left: 12%;
+        left: 15%;
         display: block;
         height: 8px;
         width: 8px;
         border-radius: 100%;
-        transition: 2s;
+        transition: 0.3s;
     }
-    &.has-unread-chat {
-        ::after {
-            background-color: var(--red-2);
-        }
+    &.has-unread-chat::after {
+        background-color: var(--red-2);
     }
 `;
