@@ -1,7 +1,4 @@
-//#region Libraries
-import { Icon } from "@iconify/react/dist/iconify.js";
-import { ChangeEvent, useState, useRef } from "react";
-//#endregion
+import { ChangeEventHandler, useRef, useState } from "react";
 //#region Styles
 import { FlexFlow } from "src/components/styles";
 import { Container, Skull, SubtaskTextField } from "./styles";
@@ -52,9 +49,9 @@ const Subtask = ({ subtask }: SubtaskProps) => {
             subtask.id
         );
     };
-    const changeSubtaskName = ({
+    const changeSubtaskName: ChangeEventHandler<HTMLInputElement> = ({
         target: { value },
-    }: ChangeEvent<HTMLInputElement>) => {
+    }) => {
         if (!canEditTask) return;
         setSubtaskNameForm(value);
         updateSubtask(value);

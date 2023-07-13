@@ -2,7 +2,6 @@
 import { useRef, useState } from "react";
 //#endregion
 //#region Styles
-import { FlexFlow } from "src/components/styles";
 import { Label } from "../TaskForm/styles";
 import { Container, List } from "./styles";
 import { AddSubtaskButton } from "../SubtaskSection/styles";

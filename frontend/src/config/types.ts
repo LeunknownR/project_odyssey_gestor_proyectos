@@ -1,11 +1,15 @@
-import { PanelTabProps } from "src/views/ProjectSpecificManagement/types";
 import { ViewModule } from "./roles";
+import { PreloaderHook } from "src/components/Preloader/types";
 
 export type ModuleViewByUserRole = {
     [roleId: string]: ViewModule[];
 };
-export type SubmoduleView = {
+export type ProjectSubmoduleViewProps = {
+    preloader: PreloaderHook;
+    projectId: number;
+};
+export type ProjectSubmoduleView = {
     key: string;
     path: string;
-    View: ({ projectId }: PanelTabProps) => JSX.Element | null;
+    View: (props: ProjectSubmoduleViewProps) => JSX.Element | null;
 };

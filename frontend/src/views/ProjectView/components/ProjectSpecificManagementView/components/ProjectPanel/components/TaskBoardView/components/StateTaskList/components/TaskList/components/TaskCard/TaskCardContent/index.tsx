@@ -1,5 +1,5 @@
 //#region Libraries
-import { forwardRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 //#endregion
 //#region Styles
@@ -28,10 +28,11 @@ import UserImage from "src/views/components/UserImage/UserImage";
 import NoResponsible from "src/images/no-responsible.svg";
 //#endregion
 
-const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
-    task, state, draggingTaskCard,
+const TaskCardContent = ({
+    containerRef, task, state,
+    draggingTaskCard, 
     canEditing
-}, ref) => {
+}: TaskCardContentProps) => {
     const { name, responsible, deadline, priorityId, id } = task;
     const { socketIo, currentProjectTask } = useTaskBoardContext();
     const [className, setClassName] = useState<string>("");
@@ -41,11 +42,11 @@ const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
     useEffect(() => {
         fillLocationCardWhenIsDragging();
     }, [draggingTaskCard.data]);
-    const fillLocationCardWhenIsDragging = () => {
-        if (!draggingTaskCard.data || !ref.current) return;
+    const fillLocationCardWhenIsDragging = (): void => {
+        if (!draggingTaskCard.data || !containerRef.current) return;
         const { top, left } = draggingTaskCard.data;
-        ref.current.style.left = `${left}px`;
-        ref.current.style.top = `${top}px`;
+        containerRef.current.style.left = `${left}px`;
+        containerRef.current.style.top = `${top}px`;
     };
     const getClassName = (): string => {
         const classList = ["task-card"];
@@ -67,7 +68,7 @@ const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
     }
     return (
         <Container
-            ref={ref}
+            ref={containerRef}
             className={className}
             width={draggingTaskCard.data?.width}
             {...draggingTaskCard.events}>
@@ -110,6 +111,6 @@ const TaskCardContent = forwardRef<HTMLLIElement, TaskCardContentProps>(({
             </FlexFlow>
         </Container>
     );
-});
+};
 
 export default TaskCardContent;

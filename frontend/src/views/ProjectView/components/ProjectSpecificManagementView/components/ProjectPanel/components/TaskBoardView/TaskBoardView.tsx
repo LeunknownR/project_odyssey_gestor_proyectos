@@ -18,7 +18,6 @@ import {
 import useWebsocket from "src/utils/hooks/useWebsocket";
 import WSProjectTaskServiceEvents from "src/services/websockets/services/projectTasks/events";
 import { projectTaskBoardStateByTaskState } from "src/entities/projectTasks/mappers";
-import { TaskBoardViewProps } from "./types";
 import useModal from "src/components/Modal/utils/hooks/useModal";
 import { DBProjectRoles } from "src/config/roles";
 import { getUserId } from "src/storage/user.local";
@@ -28,13 +27,14 @@ import NotificationCard from "src/components/NotificationCard/NotificationCard";
 import useNotificationCard from "src/components/NotificationCard/utils/hooks/useNotificationCard";
 import { CardVariant } from "src/components/NotificationCard/types";
 import WSServicePaths from "src/services/websockets/services";
+import { PanelTabProps } from "../../types";
 //#endregion
 
 const TaskBoardView = ({ 
-    projectId, preloader, projectRoleId
-}: TaskBoardViewProps) => {
+    preloader, projectId, projectRoleId
+}: PanelTabProps) => {
     //#region Custom Hooks
-    const modifyMenuRef = useRef<HTMLDivElement>(null);
+    const editTaskFormRef = useRef<HTMLDivElement>(null);
     const modalDeleteTask = useModal();
     const notificationCard = useNotificationCard();
     //#endregion
@@ -139,7 +139,7 @@ const TaskBoardView = ({
             <TaskBoardContext.Provider value={{ 
                 socketIo: socketHandler.socketIo, 
                 projectId, isEditTaskFormOpen, projectRoleId,
-                modifyMenuRef, preloader, canEditTask,
+                modifyMenuRef: editTaskFormRef, preloader, canEditTask,
                 currentProjectTask, fillCurrentProjectTask, hideEditTaskForm,
                 currentProjectTaskState,
                 taskToBeChangedStateHandler: {
@@ -149,7 +149,7 @@ const TaskBoardView = ({
             }}>
                 <TaskBoard taskBoard={projectTaskBoard}/>
                 <EditTaskForm
-                    ref={modifyMenuRef}
+                    containerRef={editTaskFormRef}
                     openModalDeleteTask={() => modalDeleteTask.open(true)}
                 />
                 <DeleteTaskModal

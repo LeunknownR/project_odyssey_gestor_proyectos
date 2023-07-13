@@ -1,7 +1,7 @@
 import UserImage from "src/views/components/UserImage/UserImage";
 import { Collaborator, Container, Content, Date, NameDateWrapper, Wrapper } from "./styles";
 import { UserMessageProps } from "./types";
-import { getHour, messageDateFormat } from "src/utils/dates";
+import { getHour } from "src/utils/dates";
 import { getUserId } from "src/storage/user.local";
 
 const UserMessage = ({

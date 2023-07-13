@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import CommentList from "./components/CommentList/CommentList";
 import CommentBox from "./components/CommentBox/CommentBox";
 import Header from "./components/Header/Header";
@@ -12,9 +12,10 @@ import useUpdateMainInformationTask from "./utils/hooks/useUpdateMainInformation
 import ChangeStateModal from "./components/ChangeStateModal";
 import useModal from "src/components/Modal/utils/hooks/useModal";
 
-const EditTaskForm = forwardRef<HTMLDivElement, EditTaskFormProps>(({
-    openModalDeleteTask
-}, ref) => {
+const EditTaskForm = ({
+    openModalDeleteTask,
+    containerRef
+}: EditTaskFormProps) => {
     //#region Custom hooks
     const { 
         socketIo,
@@ -22,8 +23,8 @@ const EditTaskForm = forwardRef<HTMLDivElement, EditTaskFormProps>(({
         isEditTaskFormOpen, 
         hideEditTaskForm
     } = useTaskBoardContext(); 
-    const isEditTaskFormOpenRef = useRef<boolean>(false);
-    const editTaskFormRef = useRef<HTMLDivElement | null>(null);
+    const contentRef = useRef<boolean>(false);
+    const editTaskFormContentRef = useRef<HTMLDivElement | null>(null);
     const { form } = useTaskForm(
         currentProjectTask, 
         isEditTaskFormOpen
@@ -32,15 +33,15 @@ const EditTaskForm = forwardRef<HTMLDivElement, EditTaskFormProps>(({
     const changeStateModal = useModal();
     //#endregion
     useEffect(() => {
-        isEditTaskFormOpenRef.current = isEditTaskFormOpen;
+        contentRef.current = isEditTaskFormOpen;
     }, [isEditTaskFormOpen]);
     useEffect(() => {
-        const $container: HTMLDivElement = ref?.current;
+        const $container: HTMLDivElement | null = containerRef.current;
         if (!$container) return;
         const handler = (e: MouseEvent): void => {
             const $elementClicked = e.target as HTMLElement;
             if (
-                !isEditTaskFormOpenRef.current || 
+                !contentRef.current || 
                 $container.contains($elementClicked) || 
                 !document.body.contains($elementClicked) ||
                 $elementClicked.classList.contains("modal") ||
@@ -50,7 +51,7 @@ const EditTaskForm = forwardRef<HTMLDivElement, EditTaskFormProps>(({
         };
         document.addEventListener("mousedown", handler);
         return () => document.removeEventListener("mousedown", handler);
-    }, [ref?.current]);
+    }, [containerRef?.current]);
     const getClassName = (): string => {
         const classList: string[] = [];
         isEditTaskFormOpen && classList.push("show");
@@ -58,10 +59,10 @@ const EditTaskForm = forwardRef<HTMLDivElement, EditTaskFormProps>(({
     };
     const scrollToMenuBottom = (floor: number | undefined) => {
         setTimeout(() => {
-            editTaskFormRef.current?.scrollTo({
+            editTaskFormContentRef.current?.scrollTo({
                 top: floor 
-                    ? editTaskFormRef.current.scrollHeight - (editTaskFormRef.current.scrollHeight - floor) 
-                    : editTaskFormRef.current.scrollHeight, 
+                    ? editTaskFormContentRef.current.scrollHeight - (editTaskFormContentRef.current.scrollHeight - floor) 
+                    : editTaskFormContentRef.current.scrollHeight, 
                 behavior: "smooth" 
             });
         }, 100);
@@ -77,7 +78,7 @@ const EditTaskForm = forwardRef<HTMLDivElement, EditTaskFormProps>(({
                 doUpdateTask={doUpdateTask}
                 openModalDeleteTask={openModalDeleteTask}
                 openChangeStateModal={() => changeStateModal.open(true)}/>
-            <Content ref={editTaskFormRef} className="custom-scrollbar">
+            <Content ref={editTaskFormContentRef} className="custom-scrollbar">
                 <TaskForm 
                     form={form}
                     doUpdateTask={doUpdateTask}/>
@@ -96,7 +97,7 @@ const EditTaskForm = forwardRef<HTMLDivElement, EditTaskFormProps>(({
         <Container
             className={getClassName()}
             tabIndex={0}
-            ref={ref}>
+            ref={containerRef}>
             {renderContent()}
         </Container>
         {currentProjectTask && 
@@ -106,6 +107,6 @@ const EditTaskForm = forwardRef<HTMLDivElement, EditTaskFormProps>(({
         }
         </>
     );
-});
+};
 
 export default EditTaskForm;

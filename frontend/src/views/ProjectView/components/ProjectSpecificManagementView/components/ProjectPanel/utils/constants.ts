@@ -1,9 +1,8 @@
-import { SubmoduleView } from "src/config/types";
 import TaskBoardView from "../components/TaskBoardView/TaskBoardView";
-import Timeline from "../components/TimelineView/TimelineView";
 import { MenuOption } from "src/views/components/MenuOptions/types";
+import { ProjectPanelSubmodule } from "../types";
 
-export const SUBMODULES_VIEWS: SubmoduleView[] = [
+export const SUBMODULES_VIEWS: ProjectPanelSubmodule[] = [
     {
         key: "TASK_MANAGER",
         View: TaskBoardView,

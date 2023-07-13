@@ -25,7 +25,6 @@ const PrivateChatRoom = ({
         socketIoChatService?.on(
             WSChatServiceEvents.Server.NotifyCollaboratorOnlineState,
             (isOnline: boolean) => {
-                console.log(isOnline);
                 setIsOnline(isOnline);
             }
         );

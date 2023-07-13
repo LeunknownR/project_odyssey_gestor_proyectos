@@ -25,12 +25,14 @@ import { requestDeleteProject } from "src/services/projects/relatedToProjects";
 
 const ProjectManagerView = () => {
     const [currentProject, setCurrentProject] = useState<Project | null>(null);
+    //#region Modals
     const notificationCard = useNotificationCard();
     const newProjectModal = useModal();
     const updateProjectModal = useModal();
     const deleteProjectModal = useModal();
     const preloader = usePreloader();
     const userRole = useUserRole();
+    //#endregion
     const { form, getProjectFromForm } = useFormProject(
         newProjectModal,
         updateProjectModal,

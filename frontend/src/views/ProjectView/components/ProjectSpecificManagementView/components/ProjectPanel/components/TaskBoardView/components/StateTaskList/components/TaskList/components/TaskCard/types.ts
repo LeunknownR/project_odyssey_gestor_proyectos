@@ -1,5 +1,6 @@
 import { ProjectTask, ProjectTaskState } from "src/entities/projectTasks/entities";
 import { DraggingTaskCardHook } from "./utils/hooks/types";
+import { MutableRefObject } from "react";
 
 export type TaskCardProps = {
     task: ProjectTask;
@@ -15,6 +16,7 @@ export type ContainerProps = {
     width?: number;
 };
 export type TaskCardContentProps = TaskCardProps & {
+    containerRef: MutableRefObject<HTMLLIElement | null>;
     draggingTaskCard: DraggingTaskCardHook;
     canEditing: boolean;
 };
