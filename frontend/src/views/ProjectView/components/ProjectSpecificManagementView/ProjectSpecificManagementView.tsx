@@ -33,7 +33,10 @@ const ProjectSpecificManagementView = () => {
             <Route
                 key={key}
                 path={path}
-                element={<View preloader={preloader} projectId={projectId}/>}/>
+                element={
+                    <View 
+                        preloader={preloader} 
+                        projectId={projectId}/>}/>
         )));
     }
     if (!showRoutes)

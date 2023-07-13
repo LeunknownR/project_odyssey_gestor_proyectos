@@ -19,7 +19,9 @@ const MasterRouter = () => {
             return;
         }
         try { fillRoutes(currentUser.role.id); } 
-        catch (err) { toLogin(); }
+        catch (err) {
+            toLogin();
+        }
     }, []);
     const toLogin = (): void => {
         clearStorage();

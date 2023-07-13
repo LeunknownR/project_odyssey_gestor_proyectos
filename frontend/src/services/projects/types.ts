@@ -1,4 +1,4 @@
-import { ProjectForm } from "src/entities/project/types";
+import { ProjectForm } from "src/entities/project/entities";
 
 export type CreateProjectRequestBody = {
     userId: number;

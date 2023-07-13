@@ -6,7 +6,7 @@ import { TASK_FIELD_PROPS } from "../../../../utils/constants";
 import { Container, SelfAssignmentButton } from "./styles";
 import { Label } from "../../styles";
 import { ResponsibleFieldProps } from "./types";
-import { ProjectTask, ProjectTaskCollaboratorUser } from "src/entities/projectTasks/entities";
+import { ProjectTaskCollaboratorUser } from "src/entities/projectTasks/entities";
 import SelectedResponsible from "./components/SelectedResponsible/SelectedResponsible";
 import useSearchCollaborator from "src/views/ProjectView/components/ProjectManagerView/utils/hooks/useSearchCollaborator";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
@@ -28,7 +28,7 @@ const ResponsibleField = ({
         canEditTask,
         currentProjectTask 
     } = useTaskBoardContext();
-    const currentResponsible: ProjectTask | null = currentProjectTask?.responsible || null;
+    const currentResponsible: ProjectTaskCollaboratorUser | null = currentProjectTask?.responsible || null;
     useEffect(() => {
         setSelectedResponsible(isEditTaskFormOpen ? currentResponsible : null);
     }, [isEditTaskFormOpen, currentResponsible]);

@@ -8,9 +8,12 @@ import http from "http";
 import { Server as WebSocketServer } from "socket.io";
 import DBConnection from "./db";
 import IOServiceHandler from "./websockets";
+import { initAppConfig } from "./config";
+import deployFrontend from "./frontend";
 
 async function initServer() { 
     // Inicializando variables de entorno
+    initAppConfig();
     dotenv.config();
     // Inicializando aplicación
     const app: Application = express();
@@ -31,6 +34,8 @@ async function initServer() {
     }));
     // Configurando cors
     app.use(cors());
+    // Desplegando frontend
+    deployFrontend(app);
     // Configurando endpoints
     app.use("/", files);
     app.use("/api", endpointRouter);

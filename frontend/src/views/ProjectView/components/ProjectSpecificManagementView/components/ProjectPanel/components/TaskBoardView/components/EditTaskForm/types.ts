@@ -1,5 +1,6 @@
 export type EditTaskFormProps = {
     openModalDeleteTask: () => void;
+    containerRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 export type ProjectTaskForm = {
     id?: number;
