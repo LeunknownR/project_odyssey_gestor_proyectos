@@ -5,6 +5,7 @@ import { ProjectPreviewChatListProps } from "./types";
 import ProjectChatImage from "./ProjectChatImage";
 import useChatViewContext from "../../../../utils/context/useChatViewContext";
 import NoChats from "../NoChats";
+import { getUserId } from "src/storage/user.local";
 
 const ProjectPreviewChatList = ({
     chatPreviewList, getChatMessages
@@ -17,9 +18,10 @@ const ProjectPreviewChatList = ({
         return !lastMessage.seen;
     };
     const getFormattedMessage = (lastMessage: ProjectLastMessage | null): string | null => {
-        return lastMessage
-            ? `${lastMessage.senderFirstName}: ${lastMessage.message}`
-            : null;
+        if (!lastMessage) return null;
+        return lastMessage.senderId === getUserId()
+            ? lastMessage.message
+            : `${lastMessage.senderFirstName}: ${lastMessage.message}`;
     }
     return (
         <>
