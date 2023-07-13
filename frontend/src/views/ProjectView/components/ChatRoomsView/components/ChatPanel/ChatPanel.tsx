@@ -42,13 +42,13 @@ const ChatPanel = ({
     //#endregion
     const privateChatCollaboratorIdRef = useRef<number>();
     const projectChatIdRef = useRef<number>();
+    //#region Effects
     useEffect(() => {
         privateChatCollaboratorIdRef.current = currentPrivateChat?.collaborator.id;
     }, [currentPrivateChat]);
     useEffect(() => {
         projectChatIdRef.current = currentProjectChat?.project.id
     }, [currentProjectChat]);
-    //#region Effects
     useEffect(() => {
         preloader.show(null);
         showPrivateChatPreview();
@@ -165,10 +165,14 @@ const ChatPanel = ({
             WSChatServiceEvents.Collaborator.SearchChat,
             payload
         );
-    }
+    };
+    const cleanSearchedChat = (): void => {
+        setSearchedChat("");
+        emitSearchChatEvent({ chatTab, searchedChat: "" });
+    };
     const refreshPreviewChatList = (): void => {
         emitSearchChatEvent(searchedChatPayloadRef.current);
-    }
+    };
     //#endregion
     const previewChatList: ChatListByTab = {
         [WSChatTab.Private]: (
@@ -184,7 +188,7 @@ const ChatPanel = ({
     };
     return (
         <Container direction="column" gap="25px">
-            <ChatFinder searchChat={searchChat} searchedChat={searchedChat} />
+            <ChatFinder searchChat={searchChat} searchedChat={searchedChat} cleanSearchedChat={cleanSearchedChat} />
             <ChatTabs
                 showPrivateChatPreview={showPrivateChatPreview}
                 showProjectChatPreview={showProjectChatPreview}

@@ -1,14 +1,17 @@
-import { ChatTextField } from "./styles";
+import { ChatTextField, CleanChatBtn, Container } from "./styles";
 import { ChatFinderProps } from "./types";
 
-const ChatFinder = ({ searchChat, searchedChat }: ChatFinderProps) => {
+const ChatFinder = ({ searchChat, searchedChat, cleanSearchedChat }: ChatFinderProps) => {
     return (
-        <ChatTextField
-            onChange={searchChat}
-            value={searchedChat}
-            placeholder="¿A quién(es) estás buscando?"
-            variant="primary-search"
-        />
+        <Container>
+            <ChatTextField
+                onChange={searchChat}
+                value={searchedChat}
+                placeholder="¿A quién(es) estás buscando?"
+                variant="primary-search"
+            />
+            {searchedChat && <CleanChatBtn onClick={cleanSearchedChat} icon="mdi:close" />}
+        </Container>
     );
 };
 
