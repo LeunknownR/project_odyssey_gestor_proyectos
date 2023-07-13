@@ -19,9 +19,6 @@ const CustomTextArea = ({
         return classList.join(" ");
     };
     const classNameFull: string = getClassName();
-    const growTextArea = () => {
-        console.log("crece")
-    }
     return (
         <Container width={width} maxWidth={maxWidth} className={classNameFull}>
             {label && (
