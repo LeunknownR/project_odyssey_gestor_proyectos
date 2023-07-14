@@ -23,6 +23,7 @@ const DescriptionField = ({
                 {...TASK_FIELD_PROPS.TASK_DESCRIPTION}
                 value={description ? description : ""}
                 onChange={changeDescriptionField}
+                maxHeightExpand={100}
                 disabled={!canEditTask}
             />
         </Wrapper>

@@ -14,6 +14,7 @@ export const Container = styled.div<ContainerProps>`
     width: ${({ width = "100%" }) => width};
     max-width: ${({ maxWidth }) => maxWidth};
     position: relative;
+    height: 100%;
     border-radius: 5px;
     &.primary,
     &.secondary {
@@ -79,8 +80,7 @@ export const TextArea = styled.textarea`
     background-color: transparent;
     color: inherit;
     resize: none;
-    min-height: inherit;
-    padding: 10px 10px 0;
+    padding: 15px 10px;
     overflow-y: scroll;
     transition: 0.35s;
     :disabled {
