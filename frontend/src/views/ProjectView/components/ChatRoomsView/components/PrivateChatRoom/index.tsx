@@ -11,40 +11,33 @@ import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import AdditionalPrivateChatInfo from "./components/AdditionalPrivateChatInfo";
 
 const PrivateChatRoom = ({
-    formattedPrivateChatMessages,
+    formattedMessages
 }: PrivateChatRoomProps) => {
     const [isOnline, setIsOnline] = useState(false);
     const { socketIoChatService } = useChatServiceContext();
     const {
         currentPrivateChat,
         setCurrentPrivateChat,
-        setFormattedPrivateChatMessages,
+        privateChatMessagesHandler
     } = useChatViewContext();
     useEffect(() => {
-        window.addEventListener("beforeunload", leaveChat);
-        return () => window.removeEventListener("beforeunload", leaveChat);
-    }, []);
-    useEffect(() => {
+        if (!currentPrivateChat) return;
         socketIoChatService?.on(
             WSChatServiceEvents.Server.NotifyCollaboratorOnlineState,
             (isOnline: boolean) => {
                 setIsOnline(isOnline);
             }
         );
-        leaveChat();
+        return () => {
+            socketIoChatService?.off(WSChatServiceEvents.Server.NotifySentMessage);
+        };
     }, [currentPrivateChat]);
-    const leaveChat = () => {
-        socketIoChatService?.emit(
-            WSChatServiceEvents.Collaborator.LeavePrivateChat,
-            currentPrivateChat?.collaborator.id
-        );
-    };
-    const closeChat = () => {
-        leaveChat();
-        setFormattedPrivateChatMessages(null);
+    const closeChat = (): void => {
+        if (!currentPrivateChat) return;
+        privateChatMessagesHandler.clearMessages();
         setCurrentPrivateChat(null);
     };
-    const sendMessage = (messageText: string) => {
+    const sendMessage = (messageText: string): void => {
         const message = {
             receiverId: currentPrivateChat?.collaborator.id,
             content: messageText,
@@ -68,27 +61,17 @@ const PrivateChatRoom = ({
                             name={collaborator.name}
                             surname={collaborator.surname}
                             urlPhoto={collaborator.urlPhoto}
-                            className="medium"
-                        />
-                    }
-                    closeChat={closeChat}
-                />
+                            className="medium"/>}
+                    closeChat={closeChat}/>
                 <ChatWindow
-                    formattedMessages={
-                        formattedPrivateChatMessages.messages
-                    }
+                    messages={formattedMessages.messages}
                     additionalChatInfo={
                         <AdditionalPrivateChatInfo
                             collaboratorRelationList={
-                                formattedPrivateChatMessages.collaboratorRelationList
-                            }
-                        />
-                    }
-                />
-                <MessageBox emitMessageEvent={sendMessage} />
-                </>
-            }
-        />
+                                formattedMessages.collaboratorRelationList
+                            }/>}/>
+                <MessageBox emitMessageEvent={sendMessage}/>
+                </>}/>
     );
 };
 

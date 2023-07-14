@@ -1,5 +1,5 @@
 export type MessageProps = {
-    sender?: string;
+    sender?: string | null;
     text: string;
     datetime: number;
     className: string;

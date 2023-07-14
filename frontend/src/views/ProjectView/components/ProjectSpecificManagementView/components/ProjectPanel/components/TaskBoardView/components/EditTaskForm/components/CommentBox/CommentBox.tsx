@@ -42,6 +42,7 @@ const CommentBox = ({ taskId, scrollToMenuBottom }: CommentBoxProps) => {
                 value={commentText}
                 onChange={changeCommentText}
                 onKeyDown={onKeyDownHandler}
+                maxHeightExpand={200}
             />
             <SendCommentButton icon="ic:round-comment" onClick={createComment}/>
         </Container>

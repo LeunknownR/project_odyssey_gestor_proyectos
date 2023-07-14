@@ -1,4 +1,3 @@
-import CustomButton from "src/components/CustomButton/CustomButton";
 import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 

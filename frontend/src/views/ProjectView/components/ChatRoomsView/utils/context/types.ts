@@ -1,21 +1,17 @@
+import { PreloaderHook } from "src/components/Preloader/types";
 import {
-    FormattedPrivateChatMessages,
-    FormattedProjectChatMessages,
     PrivateChatPreview,
     ProjectChatPreview,
 } from "src/entities/chat/entities";
+import { PrivateChatMessagesHook, ProjectChatMessagesHook, SearchChatPayloadHook } from "../types";
 
 export type ChatViewContextType = {
-    privateChatPreviewList: PrivateChatPreview[];
-    projectChatPreviewList: ProjectChatPreview[];
-    setPrivateChatPreviewList: (arg: PrivateChatPreview[]) => void;
-    setProjectChatPreviewList: (arg: ProjectChatPreview[]) => void;
+    preloader: PreloaderHook;
+    searchChatPayloadHandler: SearchChatPayloadHook;
     currentPrivateChat: PrivateChatPreview | null;
     currentProjectChat: ProjectChatPreview | null;
-    setCurrentPrivateChat: (arg: PrivateChatPreview | null) => void;
-    setCurrentProjectChat: (arg: ProjectChatPreview | null) => void;
-    setFormattedPrivateChatMessages: (arg: FormattedPrivateChatMessages | null) => void;
-    setFormattedProjectChatMessages: (arg: FormattedProjectChatMessages | null) => void;
-    dispatchPrivateMessages: () => void;
-    dispatchProjectMessages: () => void;
+    setCurrentPrivateChat: (previewChat: PrivateChatPreview | null) => void;
+    setCurrentProjectChat: (previewChat: ProjectChatPreview | null) => void;
+    privateChatMessagesHandler: PrivateChatMessagesHook;
+    projectChatMessagesHandler: ProjectChatMessagesHook;
 };

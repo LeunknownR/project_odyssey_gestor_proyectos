@@ -20,11 +20,10 @@ const MessageBox = ({ emitMessageEvent }: MessageBoxProps) => {
         setMessageText("");
     };
     const onKeyDownHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            if (isValidMessage()) sendMessage();
-            return;
-        }
+        if (e.key !== "Enter") return;
+        e.preventDefault();
+        if (!isValidMessage()) return;
+        sendMessage();
     }
     return (
         <ChatInputContainer gap="15px" align="center">
@@ -34,6 +33,7 @@ const MessageBox = ({ emitMessageEvent }: MessageBoxProps) => {
                 onChange={changeMessageText}
                 onKeyDown={onKeyDownHandler}
                 characterCounter={false}
+                maxHeightExpand={150}
             />
             <IconContainer onClick={sendMessage}>
                 <Icon icon="material-symbols:send" />

@@ -4,85 +4,60 @@ import ChatPanel from "./components/ChatPanel/ChatPanel";
 import SidebarMenu from "src/views/components/SidebarMenu/SidebarMenu";
 import UnselectedChat from "./components/ChatRoom/components/NoChatSelected/UnselectedChat";
 import {
-    FormattedPrivateChatMessages,
-    FormattedProjectChatMessages,
     PrivateChatPreview,
     ProjectChatPreview,
 } from "src/entities/chat/entities";
 import ChatViewContext from "./utils/context/ChatViewContext";
 import PrivateChatRoom from "./components/PrivateChatRoom";
-import WSChatServiceEvents from "src/services/websockets/services/chats/events";
-import useChatServiceContext from "src/routes/components/ChatService/utils/contexts/useChatServiceContext";
 import ProjectChatRoom from "./components/ProjectChatRoom";
+import Preloader from "src/components/Preloader/Preloader";
+import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
+import useSearchChatPayload from "./utils/hooks/useSearchChatPayload";
+import useProjectChatMessages from "./utils/hooks/useProjectChatMessages";
+import usePrivateChatMessages from "./utils/hooks/usePrivateChatMessages";
 
 const ChatView = () => {
+    const preloader = usePreloader();
     //#region States
-    const [privateChatPreviewList, setPrivateChatPreviewList] = useState<
-        PrivateChatPreview[]
-    >([]);
-    const [projectChatPreviewList, setProjectChatPreviewList] = useState<
-        ProjectChatPreview[]
-    >([]);
     const [currentPrivateChat, setCurrentPrivateChat] = useState<PrivateChatPreview | null>(null);
     const [currentProjectChat, setCurrentProjectChat] = useState<ProjectChatPreview | null>(null);
-    const [formattedPrivateChatMessages, setFormattedPrivateChatMessages] =
-        useState<FormattedPrivateChatMessages | null>(null);
-    const [formattedProjectChatMessages, setFormattedProjectChatMessages] =
-        useState<FormattedProjectChatMessages | null>(null);
-    //#endregion
-    const { socketIoChatService } = useChatServiceContext();
-    const dispatchPrivateMessages = () => {
-        socketIoChatService?.off(WSChatServiceEvents.Server.DispatchProjectChatMessages);
-        socketIoChatService?.on(
-            WSChatServiceEvents.Server.DispatchPrivateChatMessages,
-            (formattedPrivateChatMessages: FormattedPrivateChatMessages) => {
-                setFormattedPrivateChatMessages(formattedPrivateChatMessages);
-            }
-        );
-        setFormattedProjectChatMessages(null);
-    };
-    const dispatchProjectMessages = () => {
-        socketIoChatService?.off(WSChatServiceEvents.Server.DispatchPrivateChatMessages);
-        socketIoChatService?.on(
-            WSChatServiceEvents.Server.DispatchProjectChatMessages,
-            (formattedProjectChatMessages: FormattedProjectChatMessages) => {
-                setFormattedProjectChatMessages(formattedProjectChatMessages);
-            }
-        );
-        setFormattedPrivateChatMessages(null);
-    };
-    //GNOMO refactorizar 👇
+    const searchChatPayloadHandler = useSearchChatPayload(
+        preloader, currentPrivateChat,
+        currentProjectChat
+    );
+    const privateChatMessagesHandler = usePrivateChatMessages(
+        preloader, searchChatPayloadHandler
+    );
+    const projectChatMessagesHandler = useProjectChatMessages(
+        preloader, searchChatPayloadHandler
+    );
     const renderChatRoom = (): ReactNode => {
-        if (formattedPrivateChatMessages) 
-            return <PrivateChatRoom formattedPrivateChatMessages={formattedPrivateChatMessages} />
-        if (formattedProjectChatMessages)
-            return <ProjectChatRoom formattedProjectChatMessages={formattedProjectChatMessages} />
-        return null;
+        if (currentPrivateChat && privateChatMessagesHandler.formattedMessages) 
+            return <PrivateChatRoom formattedMessages={privateChatMessagesHandler.formattedMessages} />
+        if (currentProjectChat && projectChatMessagesHandler.formattedMessages)
+            return <ProjectChatRoom formattedMessages={projectChatMessagesHandler.formattedMessages} />
+        return <UnselectedChat />;
     };
+    //#endregion
     return (
         <>
         <SidebarMenu />
         <Container>
             <ChatViewContext.Provider
                 value={{
-                    privateChatPreviewList,
-                    projectChatPreviewList,
-                    setPrivateChatPreviewList,
-                    setProjectChatPreviewList,
+                    preloader, searchChatPayloadHandler,
                     currentPrivateChat,
                     currentProjectChat,
                     setCurrentPrivateChat,
                     setCurrentProjectChat,
-                    setFormattedPrivateChatMessages,
-                    setFormattedProjectChatMessages,
-                    dispatchPrivateMessages,
-                    dispatchProjectMessages,
-                }}
-            >
-                <ChatPanel />
-                {renderChatRoom() ? renderChatRoom() : <UnselectedChat />}
+                    projectChatMessagesHandler,
+                    privateChatMessagesHandler
+                }}>
+                <ChatPanel/>
+                {renderChatRoom()}
             </ChatViewContext.Provider>
         </Container>
+        <Preloader {...preloader.value}/>
         </>
     );
 };

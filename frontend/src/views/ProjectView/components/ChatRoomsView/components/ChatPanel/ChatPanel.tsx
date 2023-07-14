@@ -16,100 +16,109 @@ import useChatViewContext from "../../utils/context/useChatViewContext";
 
 const ChatPanel = () => {
     //#region States
-    const [chatTab, setChatTab] = useState<WSChatTab>(WSChatTab.Private);
-    const [searchedChat, setSearchedChat] = useState("");
-    const [timeoutToSearchChatId, setTimeoutToSearchChatId] = useState<
-        NodeJS.Timeout | undefined
-    >();
+    const [timeoutToSearchChatId, setTimeoutToSearchChatId] = useState<NodeJS.Timeout | undefined>();
     //#endregion
     //#region Hooks
-    const { socketIoChatService } = useChatServiceContext();
+    const { 
+        socketIoChatService
+    } = useChatServiceContext();
     const {
-        privateChatPreviewList,
-        projectChatPreviewList,
-        setPrivateChatPreviewList,
-        setProjectChatPreviewList,
+        preloader, searchChatPayloadHandler,
+        currentPrivateChat,
+        currentProjectChat,
+        setCurrentPrivateChat,
+        setCurrentProjectChat,
+        privateChatMessagesHandler,
+        projectChatMessagesHandler
     } = useChatViewContext();
+    const { 
+        privateChatPreviewList, 
+        projectChatPreviewList 
+    } = searchChatPayloadHandler.chatPreviewGroup;
     //#endregion
     //#region Effects
     useEffect(() => {
-        showPrivateChatPreview();
+        privateChatMessagesHandler.onDispatchMessages();
+        projectChatMessagesHandler.onDispatchMessages();
+        return () => {
+            socketIoChatService?.off(WSChatServiceEvents.Server.DispatchPrivateChatMessages);
+            socketIoChatService?.off(WSChatServiceEvents.Server.DispatchProjectChatMessages);
+        };
     }, []);
-    useEffect(() => {
-        socketIoChatService?.emit(WSChatServiceEvents.Collaborator.SearchChat, {
-            searchedChat,
-            chatTab,
-        });
-    }, [chatTab]);
     //#endregion
-    const showPrivateChatPreview = () => {
-        socketIoChatService?.off(
-            WSChatServiceEvents.Server.DispatchProjectChatPreview
+    const getPrivateChatMessages = (
+        privateChatPreview: PrivateChatPreview
+    ): void => {
+        if (privateChatPreview.collaborator.id === currentPrivateChat?.collaborator.id) return;
+        preloader.show(null);
+        socketIoChatService?.emit(
+            WSChatServiceEvents.Collaborator.GetPrivateChatMessages,
+            privateChatPreview.collaborator.id
         );
-        socketIoChatService?.on(
-            WSChatServiceEvents.Server.DispatchPrivateChatPreview,
-            handlerShowPrivateChatPreview
-        );
-        setChatTab(WSChatTab.Private);
+        setCurrentPrivateChat(privateChatPreview);
+        setCurrentProjectChat(null);
     };
-    const handlerShowPrivateChatPreview = (
-        privateChatPreview: PrivateChatPreview[]
-    ) => {
-        setPrivateChatPreviewList(privateChatPreview);
-    };
-    const showProjectChatPreview = () => {
-        socketIoChatService?.off(
-            WSChatServiceEvents.Server.DispatchPrivateChatPreview
+    const getProjectChatMessages = (projectChatPreview: ProjectChatPreview): void => {
+        if (projectChatPreview.project.id === currentProjectChat?.project.id) return;
+        preloader.show(null);
+        socketIoChatService?.emit(
+            WSChatServiceEvents.Collaborator.GetProjectChatMessages,
+            projectChatPreview.project.id
         );
-        socketIoChatService?.on(
-            WSChatServiceEvents.Server.DispatchProjectChatPreview,
-            handlerShowProjectChatPreview
-        );
-        setChatTab(WSChatTab.Project);
-    };
-    const handlerShowProjectChatPreview = (
-        projectChatPreview: ProjectChatPreview[]
-    ) => {
-        setProjectChatPreviewList(projectChatPreview);
+        setCurrentProjectChat(projectChatPreview);
+        setCurrentPrivateChat(null);
     };
     //#region Funciones relacionadas con el Buscador de chat
     const searchChat = ({
         target: { value },
-    }: ChangeEvent<HTMLInputElement>) => {
-        setSearchedChat(value);
-        emitSearchChatEvent(value);
-    };
-    const emitSearchChatEvent = (searchedChat: string) => {
+    }: ChangeEvent<HTMLInputElement>): void => {
+        searchChatPayloadHandler.change("searchedChat", value);
         clearTimeout(timeoutToSearchChatId);
         const newTimeoutToSearchChatId: NodeJS.Timeout = setTimeout(() => {
-            socketIoChatService?.emit(
-                WSChatServiceEvents.Collaborator.SearchChat,
-                { searchedChat, chatTab }
-            );
+            searchChatPayloadHandler.emit({
+                ...searchChatPayloadHandler.value, 
+                searchedChat: value
+            });
         }, 350);
         setTimeoutToSearchChatId(newTimeoutToSearchChatId);
+    };
+    const cleanSearchedChat = (): void => {
+        searchChatPayloadHandler.change("searchedChat", "");
+        searchChatPayloadHandler.emit({ 
+            ...searchChatPayloadHandler.value, 
+            searchedChat: "" 
+        });
     };
     //#endregion
     const previewChatList: ChatListByTab = {
         [WSChatTab.Private]: (
             <PrivatePreviewChatList
-                privateChatPreviewList={privateChatPreviewList}
-            />
+                chatPreviewList={privateChatPreviewList}
+                getChatMessages={getPrivateChatMessages}/>
         ),
         [WSChatTab.Project]: (
             <ProjectPreviewChatList
-                projectChatPreviewList={projectChatPreviewList}
-            />
+                chatPreviewList={projectChatPreviewList}
+                getChatMessages={getProjectChatMessages}/>
         ),
     };
+    const listenPrivateChatPreview = (): void => {
+        searchChatPayloadHandler.change("chatTab", WSChatTab.Private);
+    }
+    const listenProjectChatPreview = (): void => {
+        searchChatPayloadHandler.change("chatTab", WSChatTab.Project);
+    }
+    const { chatTab, searchedChat } = searchChatPayloadHandler.value;
     return (
         <Container direction="column" gap="25px">
-            <ChatFinder searchChat={searchChat} searchedChat={searchedChat} />
+            <ChatFinder 
+                searchChat={searchChat} 
+                searchedChat={searchedChat} 
+                cleanSearchedChat={cleanSearchedChat}/>
             <ChatTabs
-                showPrivateChatPreview={showPrivateChatPreview}
-                showProjectChatPreview={showProjectChatPreview}
-                currentTab={chatTab}
-            />
+                showPrivateChatPreview={listenPrivateChatPreview}
+                showProjectChatPreview={listenProjectChatPreview}
+                currentTab={chatTab}/>
             {previewChatList[chatTab]}
         </Container>
     );

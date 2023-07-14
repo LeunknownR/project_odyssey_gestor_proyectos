@@ -10,9 +10,15 @@ export default class FormattedProjectChatMessages {
         this.messages = resultset
             .filter(record => record["id_project_chat_message"])
             .map(record => new ProjectChatMessage(record));
-        this.collaborators = resultset.map(record => ({
-            id: record["id_collaborator_project"],
-            firstName: record["collaborator_project_first_name"]
-        }));
+        this.collaborators = [];
+        resultset.forEach(record => {
+            const collaboratorId: number = record["id_collaborator_project"];
+            if (this.collaborators.some(collaborator => collaborator.id === collaboratorId))
+                return;
+            this.collaborators.push({
+                id: collaboratorId,
+                firstName: record["collaborator_project_first_name"]
+            });
+        });
     }
 }

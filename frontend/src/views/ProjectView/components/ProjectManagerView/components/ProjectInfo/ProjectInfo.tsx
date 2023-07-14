@@ -9,7 +9,8 @@ import {
 import { ProjectInfoProps } from "./types";
 
 const ProjectInfo = ({ form, variant }: ProjectInfoProps) => {
-    const {name, description} = form.value;
+    const { name, description } = form.value;
+    const finalDescription: string = description.trim();
     return (
         <Container>
             <Project>
@@ -19,7 +20,7 @@ const ProjectInfo = ({ form, variant }: ProjectInfoProps) => {
                 <ProjectName className={variant} title={name}>{name || "[Nombre del proyecto]"}</ProjectName>
             </Project>
             <Description className={variant}>
-                {description || "[Descripción]"}
+                {finalDescription || "[Descripción]"}
             </Description>
         </Container>
     );

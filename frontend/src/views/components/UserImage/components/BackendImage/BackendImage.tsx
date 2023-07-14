@@ -1,3 +1,4 @@
+import { getUrlImage } from "src/config/helpers";
 import { BackendImageProps } from "../../types";
 import { Image } from "./styles";
 
@@ -9,7 +10,7 @@ const BackendImage = ({
     return (
         <Image
             className={className}
-            src={`http://localhost:3006/${directory}${path}`}
+            src={getUrlImage(`/${directory}${path}`)}
             onClick={onClick}
         />
     );

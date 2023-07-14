@@ -1,4 +1,4 @@
-import { FormProjectHook } from "src/views/ProjectManager/types";
+import { FormProjectHook } from "../../../../types";
 
 export type FormSectionProps = {
     form: FormProjectHook;

@@ -1,12 +1,12 @@
 import { ModalProps } from "src/components/Modal/types"
 import { PreloaderHook } from "src/components/Preloader/types";
-import { FormProjectHook } from "src/views/ProjectManager/types";
+import { FormProjectHook } from "src/views/ProjectView/components/ProjectManagerView/types";
 
 export type LeaderSelectionSectionProps = {
-    modalProps: ModalProps,
-    form: FormProjectHook, 
-    preloader: PreloaderHook, 
+    modalProps: ModalProps;
+    form: FormProjectHook; 
+    preloader: PreloaderHook;
     registerProject: () => Promise<void>;
     tabIdx: number;
-    toPage: (idx: number) => void
+    toPage: (idx: number) => void;
 }

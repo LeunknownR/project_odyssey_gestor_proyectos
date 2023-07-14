@@ -18,10 +18,10 @@ import { ProjectCollaborator } from "src/entities/collaborator/entities";
 import { DBProjectRoles } from "src/config/roles";
 import { getUserId } from "src/storage/user.local";
 import { FlexFlow } from "src/components/styles";
-import { PanelTabProps } from "../../types";
 import { CardVariant } from "src/components/NotificationCard/types";
+import { ProjectSubmoduleViewProps } from "src/config/types";
 
-const ProjectDetailsView = ({ projectId }: PanelTabProps) => {
+const ProjectDetailsView = ({ projectId }: ProjectSubmoduleViewProps) => {
     const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(null);
     const [currentProjectMember, setCurrentProjectMember] = useState<ProjectCollaborator | null>(null);
     const [currentUserIsProjectLeader, setCurrentUserIsProjectLeader] = useState(false);

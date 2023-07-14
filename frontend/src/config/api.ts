@@ -1,20 +1,17 @@
 import axios, { AxiosInstance } from "axios";
+import { HOST_HTTP } from "./constants";
 
 export abstract class APIHandler {
     public static api: AxiosInstance;
     public static init(): void {
         APIHandler.api = axios.create({
-            baseURL: `${import.meta.env.VITE_API_URL}/api`,
+            baseURL: `${HOST_HTTP}/api`,
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
             signal: CancelServiceRequest.getSignal()
         });
-        // requestLogin({
-        //     username: "diegot",
-        //     password: "diegot123"
-        // });
     }
 }
 export abstract class CancelServiceRequest {

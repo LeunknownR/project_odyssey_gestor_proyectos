@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import ChatRoom from "../ChatRoom/ChatRoom";
 import ChatHeader from "../ChatRoom/components/ChatHeader/ChatHeader";
 import ChatWindow from "../ChatRoom/components/ChatWindow/ChatWindow";
@@ -11,49 +10,40 @@ import ProjectChatImage from "../ChatPanel/components/ProjectPreviewChatList/Pro
 import { getUserId } from "src/storage/user.local";
 
 const ProjectChatRoom = ({
-    formattedProjectChatMessages,
+    formattedMessages: formattedProjectChatMessages,
 }: ProjectChatRoomProps) => {
     const { socketIoChatService } = useChatServiceContext();
-    const { currentProjectChat, setCurrentProjectChat, setFormattedProjectChatMessages } = useChatViewContext();
-    useEffect(() => {
-        //GNOMO REVISAR ESTO y el de privdos
-        window.addEventListener("beforeunload", leaveChat);
-        return () => window.removeEventListener("beforeunload", leaveChat);
-    }, []);
-    useEffect(() => {
-        leaveChat();
-    }, [currentProjectChat]);
-    const leaveChat = () => {
-        socketIoChatService?.emit(
-            WSChatServiceEvents.Collaborator.LeaveProjectChat,
-            currentProjectChat?.project.id
-        );
-    }
-    const closeChat = () => {
-        leaveChat();
-        setFormattedProjectChatMessages(null);
+    const { 
+        currentProjectChat, 
+        setCurrentProjectChat, 
+        projectChatMessagesHandler 
+    } = useChatViewContext();
+    if (!currentProjectChat) return null;
+    const closeChat = (): void => {
+        projectChatMessagesHandler.clearMessages();
         setCurrentProjectChat(null);
     }
-    const sendMessage = (messageText: string) => {
+    const sendMessage = (messageText: string): void => {
         const message = {
             projectId: currentProjectChat?.project.id,
             content: messageText
-        }
+        };
         socketIoChatService?.emit(
             WSChatServiceEvents.Collaborator.SendMessageToProjectChat,
             message
         );
     }
-    if (!currentProjectChat) return null;
     const { project } = currentProjectChat;
     const getProjectCollaborators = (): string => {
-        const {collaborators} = formattedProjectChatMessages
-        const formattedCollaborators = collaborators.map(({firstName, id}) => {
-            if (id === getUserId()) 
-                return null;
-            return firstName;
-        }).filter(Boolean).concat("Tú").join(", ");
-        return formattedCollaborators
+        const { collaborators } = formattedProjectChatMessages
+        const formattedCollaborators = collaborators
+            .map(({firstName, id}) => {
+                if (id === getUserId()) 
+                    return null;
+                return firstName;
+            })
+            .filter(Boolean).concat("Tú").join(", ");
+        return formattedCollaborators;
     };
     return (
         <ChatRoom
@@ -62,14 +52,13 @@ const ProjectChatRoom = ({
                 <ChatHeader
                     title={project.name}
                     subtitle={getProjectCollaborators()}
-                    portrait={<ProjectChatImage />}
-                    closeChat={closeChat}
-                />
+                    portrait={<ProjectChatImage/>}
+                    closeChat={closeChat}/>
                 <ChatWindow
-                    formattedMessages={formattedProjectChatMessages.messages}
-                    additionalChatInfo={<span>Coordina con tu equipo</span>}
-                />
-                <MessageBox emitMessageEvent={sendMessage} />
+                    messages={formattedProjectChatMessages.messages}
+                    collaboratorInfo={formattedProjectChatMessages.collaborators}
+                    additionalChatInfo={<span>Coordina con tu equipo</span>}/>
+                <MessageBox emitMessageEvent={sendMessage}/>
                 </>
             }
         />

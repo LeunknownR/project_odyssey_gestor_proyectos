@@ -6,7 +6,11 @@ export default class WSChatServiceConnectedCollaborators {
         this.collaboratorIdList = [];
     }
     //#region Methods
+    forEach(iterate: (collaboratorId: number) => void): void {
+        this.collaboratorIdList.forEach(iterate);
+    }
     addCollaborator(collaboratorId: number): void {
+        if (this.collaboratorIdList.includes(collaboratorId)) return;
         this.collaboratorIdList = [
             ...this.collaboratorIdList,
             collaboratorId

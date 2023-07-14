@@ -49,7 +49,8 @@ const TaskBoard = ({ taskBoard }: TaskBoardProps) => {
                     />
                 ))}
             </ScreenList>
-            {isMobile && <ChangeStateSectionButtons
+            {isMobile && 
+            <ChangeStateSectionButtons
                 stateIdx={stateIdx}
                 prevStateSection={prevStateSection}
                 nextStateSection={nextStateSection}

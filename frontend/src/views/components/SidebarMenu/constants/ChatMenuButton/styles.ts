@@ -2,18 +2,23 @@ import { MenuButton } from "src/views/components/SidebarMenu/styles";
 import styled from "styled-components";
 
 export const ChatLinkButton = styled(MenuButton)`
-    order: 1;
     position: relative;
-    &.has-unread-chat {
-        ::after {
-            content: "";
-            position: absolute;
-            height: 8px;
-            width: 8px;
-            background-color: var(--red-2);
-            top: 4px;
-            left: 10px;
-            border-radius: 100%;
-        }
+    .iconify {
+        font-size: 32px;
+        padding-top: 4px;
+    }
+    ::after {
+        content: "";
+        position: absolute;
+        top: 12%;
+        left: 15%;
+        display: block;
+        height: 8px;
+        width: 8px;
+        border-radius: 100%;
+        transition: 0.2s;
+    }
+    &.has-unread-chat::after {
+        background-color: var(--red-2);
     }
 `;

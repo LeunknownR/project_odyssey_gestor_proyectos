@@ -11,11 +11,6 @@ const Tabs = ({ projectId }: TabsProps) => {
             path: `/proyectos/${projectId}/tareas`,
             icon: "fluent:task-list-square-ltr-16-filled",
         },
-        {
-            name: "Cronograma",
-            path: `/proyectos/${projectId}/cronograma`,
-            icon: "fluent:gantt-chart-16-regular",
-        },
     ];
     return (
         <FlexFlow>

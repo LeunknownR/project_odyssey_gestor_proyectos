@@ -1,40 +1,32 @@
-import { LastMessage, ProjectChatPreview } from "src/entities/chat/entities";
+import { ProjectChatPreview, ProjectLastMessage } from "src/entities/chat/entities";
 import PreviewChatList from "../ChatList/PreviewChatList";
 import ChatPreview from "../ChatList/components/ChatPreview/ChatPreview";
 import { ProjectPreviewChatListProps } from "./types";
 import ProjectChatImage from "./ProjectChatImage";
-import useChatServiceContext from "src/routes/components/ChatService/utils/contexts/useChatServiceContext";
-import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import useChatViewContext from "../../../../utils/context/useChatViewContext";
+import NoChats from "../NoChats";
+import { getUserId } from "src/storage/user.local";
 
 const ProjectPreviewChatList = ({
-    projectChatPreviewList,
+    chatPreviewList, getChatMessages
 }: ProjectPreviewChatListProps) => {
-    const { socketIoChatService } = useChatServiceContext();
     const {
-        dispatchProjectMessages,
-        currentProjectChat,
-        setCurrentProjectChat,
-        setCurrentPrivateChat,
+        currentProjectChat
     } = useChatViewContext();
-    const getIsLastMessageSeen = (lastMessage: LastMessage | null): boolean => {
-        if (!lastMessage) return true;
-        return lastMessage.seen;
+    const isUnreadChat = (lastMessage: ProjectLastMessage | null): boolean => {
+        if (!lastMessage) return false;
+        return !lastMessage.seen;
     };
-    const getPrivateChatMessages = (
-        projectChatPreview: ProjectChatPreview
-    ): void => {
-        socketIoChatService?.emit(
-            WSChatServiceEvents.Collaborator.GetProjectChatMessages,
-            projectChatPreview.project.id
-        );
-        setCurrentProjectChat(projectChatPreview);
-        setCurrentPrivateChat(null);
-        dispatchProjectMessages();
-    };
+    const getFormattedMessage = (lastMessage: ProjectLastMessage | null): string | null => {
+        if (!lastMessage) return null;
+        return lastMessage.senderId === getUserId()
+            ? lastMessage.message
+            : `${lastMessage.senderFirstName}: ${lastMessage.message}`;
+    }
     return (
-        <PreviewChatList<ProjectChatPreview>
-            previewChatList={projectChatPreviewList}
+        <>
+        {chatPreviewList.length > 0 ? <PreviewChatList<ProjectChatPreview>
+            previewChatList={chatPreviewList}
             renderItem={projectChatPreview => {
                 const { project, lastMessage } = projectChatPreview;
                 return (
@@ -42,26 +34,17 @@ const ProjectPreviewChatList = ({
                         key={project.id}
                         portrait={
                             <ProjectChatImage
-                                isLastMessageSeen={getIsLastMessageSeen(
-                                    lastMessage
-                                )}
-                            />
-                        }
+                                isUnreadChat={isUnreadChat(lastMessage)}/>}
                         title={project.name}
                         datetime={lastMessage?.datetime || null}
-                        message={
-                            lastMessage
-                                ? `${lastMessage?.senderFirstName}: ${lastMessage?.message}`
-                                : null
-                        }
-                        onClick={() =>
-                            getPrivateChatMessages(projectChatPreview)
-                        }
-                        active={project.id === currentProjectChat?.project.id}
-                    />
+                        message={getFormattedMessage(lastMessage)}
+                        onClick={() => getChatMessages(projectChatPreview)}
+                        active={project.id === currentProjectChat?.project.id}/>
                 );
             }}
-        />
+        /> : <NoChats />}
+        </>
+        
     );
 };
 

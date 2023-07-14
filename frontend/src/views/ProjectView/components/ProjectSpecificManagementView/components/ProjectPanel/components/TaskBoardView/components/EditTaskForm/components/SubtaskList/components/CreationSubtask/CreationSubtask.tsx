@@ -1,5 +1,4 @@
 //#region Libraries
-import { Icon } from "@iconify/react/dist/iconify.js";
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 //#endregion
 //#region Styles

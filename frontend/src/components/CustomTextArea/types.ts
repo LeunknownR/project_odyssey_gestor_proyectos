@@ -1,3 +1,5 @@
+import { ChangeEventHandler, FocusEventHandler, KeyboardEventHandler } from "react";
+
 export type CustomTextAreaProps = {
     className?: string;
     placeholder?: string;
@@ -9,8 +11,9 @@ export type CustomTextAreaProps = {
     maxWidth?: string;
     disabled?: boolean;
     value: string;
-    onChange: React.ChangeEventHandler<HTMLTextAreaElement>;
-    onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement>;
-    onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
+    onChange: ChangeEventHandler<HTMLTextAreaElement>;
+    onKeyDown?: KeyboardEventHandler<HTMLTextAreaElement>;
+    onBlur?: FocusEventHandler<HTMLTextAreaElement>;
     characterCounter?: boolean;
+    maxHeightExpand?: number | null;
 };

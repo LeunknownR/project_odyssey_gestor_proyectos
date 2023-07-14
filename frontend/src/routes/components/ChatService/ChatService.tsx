@@ -1,51 +1,50 @@
 import useWebsocket from "src/utils/hooks/useWebsocket";
 import { ChatServiceTypes } from "./types";
 import ChatServiceContext from "./utils/contexts/ChatServiceContext";
-import { wsChatServiceDataConnection } from "src/services/websockets/connections";
-import { currentUserLocalStorage, getUserId } from "src/storage/user.local";
 import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
 import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import { DBRoles } from "src/config/roles";
+import WSServicePaths from "src/services/websockets/services";
+import useUserRole from "src/storage/hooks/useUserRole";
 
 const ChatService = ({ children }: ChatServiceTypes) => {
-    const [hasUnreadPrivateChats, setHasUnreadPrivateChats] =
-        useState<boolean>(false);
-    const [hasUnreadProjectChats, setHasUnreadProjectChats] =
-        useState<boolean>(false);
-    const socketHandler = useWebsocket<number>(
-        wsChatServiceDataConnection,
-        getUserId()
-    );
+    //#region States
+    const [hasUnreadPrivateChats, setHasUnreadPrivateChats] = useState<boolean>(false);
+    const [hasUnreadProjectChats, setHasUnreadProjectChats] = useState<boolean>(false);
+    //#endregion
+    const socketHandler = useWebsocket(WSServicePaths.Chats);
+    const userRole = useUserRole();
     useEffect(() => {
-        const currentUser = currentUserLocalStorage.get();
-        initService(currentUser.role.id);
-    }, []);
-    const initService = (roleId: string) => {
-        if (roleId !== DBRoles.Collaborator) return;
+        initService();
+    }, [userRole]);
+    const initService = (): void => {
+        if (userRole !== DBRoles.Collaborator) return;
         const socketIoValue: Socket = socketHandler.connect();
         socketIoValue.on(
             WSChatServiceEvents.Server.NotifyUnreadPrivateChats,
-            (hasUnreadPrivateChats: boolean) => {
-                setHasUnreadPrivateChats(hasUnreadPrivateChats);
-            }
+            notifyUnreadPrivateChats
         );
         socketIoValue.on(
             WSChatServiceEvents.Server.NotifyUnreadProjectChats,
-            (hasUnreadProjectChats: boolean) => {
-                setHasUnreadProjectChats(hasUnreadProjectChats);
-            }
+            notifyUnreadProjectChats
         );
     };
+    const notifyUnreadPrivateChats = (hasUnreadChats: boolean): void => {
+        setHasUnreadPrivateChats(hasUnreadChats);
+    }
+    const notifyUnreadProjectChats = (hasUnreadChats: boolean): void => {
+        setHasUnreadProjectChats(hasUnreadChats);
+    }
+    const ready: boolean = userRole === DBRoles.GeneralAdmin || socketHandler.socketIo !== null;
     return (
         <ChatServiceContext.Provider
             value={{
                 socketIoChatService: socketHandler.socketIo,
                 hasUnreadPrivateChats,
                 hasUnreadProjectChats,
-            }}
-        >
-            {children}
+            }}>
+            {ready && children}
         </ChatServiceContext.Provider>
     );
 };

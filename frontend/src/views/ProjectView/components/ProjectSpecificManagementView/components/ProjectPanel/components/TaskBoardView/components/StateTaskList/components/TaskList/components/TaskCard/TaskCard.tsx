@@ -8,7 +8,7 @@ import { getUserId } from "src/storage/user.local";
 import { DBProjectRoles } from "src/config/roles";
 
 const TaskCard = (props: TaskCardProps) => {
-    const containerRef = useRef<HTMLLIElement>(null);
+    const containerRef = useRef<HTMLLIElement | null>(null);
     const { 
         projectRoleId
     } = useTaskBoardContext();
@@ -30,7 +30,7 @@ const TaskCard = (props: TaskCardProps) => {
             />
         )}
         <TaskCardContent
-            ref={containerRef}
+            containerRef={containerRef}
             draggingTaskCard={draggingTaskCard}
             canEditing={canEditing}
             {...props}

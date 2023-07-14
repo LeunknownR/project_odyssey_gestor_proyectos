@@ -176,11 +176,11 @@ CREATE TABLE `project_chat_message` (
     `id_project_chat_message` INT UNSIGNED AUTO_INCREMENT,
     `message` VARCHAR(500) NOT NULL,
     `datetime` DATETIME NOT NULL,
-    `id_project_team_member` INT UNSIGNED NOT NULL,
+    `id_project_team_member_sender` INT UNSIGNED NOT NULL,
     `id_project` INT UNSIGNED NOT NULL,
     PRIMARY KEY (`id_project_chat_message`),
     FOREIGN KEY (`id_project`) REFERENCES `project`(`id_project`),
-    FOREIGN KEY (`id_project_team_member`) REFERENCES `project_team_member`(`id_project_team_member`)
+    FOREIGN KEY (`id_project_team_member_sender`) REFERENCES `project_team_member`(`id_project_team_member`)
 );
 
 -- Tabla para guardar si estan vistos los mensajes para el chat del proyecto
@@ -212,7 +212,8 @@ BEGIN
         ptm.id_project_team_member, 
         NEW.id_project_chat_message
     FROM project_team_member ptm
-    WHERE ptm.id_project = NEW.id_project;
+    WHERE ptm.id_project = NEW.id_project 
+        AND ptm.id_project_team_member != NEW.id_project_team_member_sender;
 END //
 DELIMITER ;
 
@@ -224,7 +225,7 @@ VALUES
     (2, 'Manuel Alejandro', 'Rivera Becerra', 'manuelr', '$2a$10$FOuqRzBR7drrXGku/hvJAunSKwNzFBxd.0HvL847iazSnLqftCuyG', "/csm.jpg", 'leunknownr@gmail.com', 'CLB'),
     (3, 'Ralf Carsten', 'Carrasco Stein', 'ralfc', '$2a$10$yhW0eomyv23YbJTx.FG4keIKdmVi4HS9PEoZ5SMtJhRRLYhZFFi8a', '/fotoderal.jpg', 'ralfcarrasco@gmail.com', 'CLB'),
     (4, 'Alexis Valentin', 'Dulanto Arias', 'alexisd', '$2a$10$eCqOhlQbA1C0JJsMZKLH..Zk2Obrt.RAmKtbhiAsUabRUUfZD5qwq', NULL, 'alexisdulanto@example.com', 'CLB'),
-    (5, 'Nikcol Anayeli', 'Uribe Huamani', 'nikcolu', '$2a$10$aB5fnUtNG0j29.PQY//7EOheZDWQiovsq2f.sfHm.1YIObZ8G2aKS', NULL, 'nikcoluribe@example.com', 'CLB'),
+    (5, 'Nikcol Anayeli', 'Uribe Huamani', 'nikcolu', '$2a$12$oh40b.aGfANMO7PKjGYDaeqdSbVPEr6QtlQBhQFq/RG8WBs2PhVZO', NULL, 'nikcoluribe@example.com', 'CLB'),
     (6, 'Alice', 'Smith', 'alices', '$2a$10$0hkuRJzYuG4KTgcVruYjLOzqk0RNkieLkSTcrZjhprkPsTcBSuBju', NULL, 'alicesmith@example.com', 'CLB'),
     (7, 'Bob', 'Johnson', 'bobj', '$2a$10$ZSKPZnbVXx5hSUTUbjqF9OaMx3PWVxnVyUFTxqManmlDluKweA/QG', NULL, 'bobjohnson@example.com', 'CLB'),
     (8, 'Maria', 'Garcia', 'mariag', '$2a$10$ZxEqZvDqnL2V4Qe4dK5xAuwkeZFirKECxZRDOYkX4DBs8Do2yR3Te', NULL, 'mariagarcia@example.com', 'CLB'),
@@ -238,8 +239,8 @@ VALUES
     (16, 'Sarah', 'Lee', 'sarahl', '$2a$10$1R1ypXm5VjeKxlOK/039S.ySrKQk0EF/oCaG0k1eXhdSZDv9H1lZu', NULL, 'sarahlee@example.com', 'CLB'),
     (17, 'Daniel', 'Martin', 'danielm', '$2a$10$0MZ61DjO5ENfW1OeOSYRgO7tZsLvkBnDFsPP3ofUefAeSusS6c3g2', NULL, 'danielmartin@example.com', 'CLB'),
     (18, 'Emily', 'Clark', 'emilyc', '$2a$10$YdgwhXh9MNvThP9hUm3MZe1lJetaCut/bml9R.4sEpobZYEwG1ig2', NULL, 'emilyclark@example.com', 'CLB'),
-    (19, 'Christopher', 'Rodriguez', 'christopherr', '$2a$10$MRVVtZqyPY51FkZotVjgWuGM/0TKuvFOekfW2DdBrDPT3p6jRzq.S', NULL, 'christopherrodriguez@example.com', 'CLB');
-
+    (19, 'Christopher', 'Rodriguez', 'christopherr', '$2a$10$MRVVtZqyPY51FkZotVjgWuGM/0TKuvFOekfW2DdBrDPT3p6jRzq.S', NULL, 'christopherrodriguez@example.com', 'CLB'),
+    (20, 'Juan Maycol', 'Soto Ccaccachahua', 'msoto', '$2a$12$s0ghhw39him/BYquiX44Se/R3jaC9aydRXwyPOT6FkRJbOGPFikTG', '/msoto.jpg', 'msoto@xnxx.com', 'CLB');
 
 -- Insertando datos en la tabla admin. General
 INSERT INTO `admin_general`(`id_admin_general`) 
@@ -266,7 +267,8 @@ VALUES
     (16),
     (17),
     (18),
-    (19);
+    (19),
+    (20);
 
 -- Insertando datos en la tabla collaborator  
 INSERT INTO `project` (`id_project`, `project_name`, `description`, `creation_date`, `state`, `start_date`, `end_date`, `id_admin_general`) 
@@ -311,7 +313,8 @@ VALUES
     (21, 11, 16, 'PLD'),
     (22, 12, 17, 'PLD'),
     (23, 13, 18, 'PLD'),
-    (24, 14, 19, 'PLD');
+    (24, 14, 19, 'PLD'),
+    (25, 1, 20, 'PMB');
 
 INSERT INTO `task`(`id_task`, `task_name`, `description`, `deadline`, `state`, `id_task_priority`, `id_project`, `id_responsible`)
 VALUES 
@@ -1324,27 +1327,32 @@ CREATE PROCEDURE `sp_search_private_chat_preview`(
 )
 BEGIN
     SET @searched_collaborator_name = UPPER(CONCAT('%',p_searched_collaborator,'%'));
-	SELECT 
-        u.id_user AS "id_collaborator",
+    SELECT 
+        clb.id_collaborator,
         u.user_name AS "collaborator_name",
         u.user_surname AS "collaborator_surname",
         u.url_photo AS "collaborator_url_photo",
         pvcm.id_collaborator_sender AS "last_message_id_sender",
+        pvcm.id_collaborator_receiver,
         pvcm.message AS "last_message",
         pvcm.datetime AS "last_message_datetime",
         pvcm.seen
     FROM collaborator clb
     INNER JOIN user u
-    	ON clb.id_collaborator = u.id_user
+        ON clb.id_collaborator = u.id_user
     LEFT JOIN private_chat_message pvcm
-    	ON u.id_user = pvcm.id_collaborator_sender
-    WHERE 
-        UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @searched_collaborator_name AND 
-        (
-            pvcm.id_private_chat_message IS NULL OR 
-            (
-                p_id_collaborator IN (pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver)
-                AND pvcm.datetime = (
+        ON (
+            pvcm.id_collaborator_sender = p_id_collaborator AND
+            pvcm.id_collaborator_receiver = clb.id_collaborator
+        ) OR (
+            pvcm.id_collaborator_sender = clb.id_collaborator AND
+            pvcm.id_collaborator_receiver = p_id_collaborator
+        )
+    WHERE u.id_user != p_id_collaborator
+        AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @searched_collaborator_name
+        AND (
+                pvcm.id_private_chat_message IS NULL
+                OR pvcm.datetime = (
                     SELECT MAX(datetime)
                     FROM private_chat_message
                     WHERE id_collaborator_sender IN (
@@ -1359,7 +1367,7 @@ BEGIN
                         GREATEST(pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver)
                 )
             )
-        );
+    ORDER BY pvcm.datetime DESC, u.user_name ASC, u.user_surname ASC;
 END //
 DELIMITER ;
 
@@ -1396,10 +1404,12 @@ BEGIN
             GROUP BY 
                 LEAST(pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver), 
                 GREATEST(pvcm.id_collaborator_sender, pvcm.id_collaborator_receiver)
-        );
+        )
+    ORDER BY pvcm.datetime DESC, u.user_name ASC, u.user_surname ASC;
 END //
 DELIMITER ;
 
+-- SELECT * FROM project_team_member_seen_message WHERE id_project_chat_message = 3;
 -- Sp para despachar la previsualización de chats de proyectos
 DELIMITER //
 CREATE PROCEDURE `sp_search_project_chat_preview`(
@@ -1408,39 +1418,44 @@ CREATE PROCEDURE `sp_search_project_chat_preview`(
 )
 BEGIN
     SET @searched_project = UPPER(CONCAT('%',p_searched_project,'%'));
-	SELECT DISTINCT
+    SELECT 
         p.id_project AS "id_project",
         p.project_name AS "project_name",
         prcm.datetime AS "last_message_datetime",
         prcm.message AS "last_message",
-        prcm.id_project_team_member AS "last_message_id_sender",
-        TRIM(SUBSTRING_INDEX(u.user_name, ' ', 1)) AS "sender_first_name",
-        ptmsm.seen
+        ptm_prcm.id_collaborator AS "last_message_id_sender",
+        TRIM(SUBSTRING_INDEX(u_prcm.user_name, ' ', 1)) AS "sender_first_name",
+        CASE
+            WHEN ptm_prcm.id_collaborator IS NOT NULL AND ptmsm.seen IS NULL THEN 1
+            ELSE ptmsm.seen
+        END AS "seen"
     FROM project p
-    INNER JOIN project_team_member ptm 
-        ON p.id_project = ptm.id_project
-    INNER JOIN user u
-    	ON u.id_user = ptm.id_collaborator
-    LEFT JOIN project_chat_message prcm 
-        ON ptm.id_project = prcm.id_project
-    LEFT JOIN project_team_member_seen_message ptmsm 
-        ON prcm.id_project_team_member = ptmsm.id_project_team_member
-    WHERE
-        p.active = 1 
+    INNER JOIN project_team_member ptm
+        ON ptm.id_project = p.id_project
+    LEFT JOIN project_chat_message prcm
+        ON prcm.id_project = ptm.id_project
+    LEFT JOIN project_team_member ptm_prcm
+        ON ptm_prcm.id_project_team_member = prcm.id_project_team_member_sender
+    LEFT JOIN user u_prcm
+        ON u_prcm.id_user = ptm_prcm.id_collaborator
+    LEFT JOIN project_team_member_seen_message ptmsm
+    	ON ptmsm.id_project_chat_message = prcm.id_project_chat_message  
+        	AND ptmsm.id_project_team_member = ptm.id_project_team_member
+    WHERE ptm.id_collaborator = p_id_collaborator 
         AND UPPER(p.project_name) LIKE @searched_project
-        AND ptm.id_collaborator = p_id_collaborator AND
-        (
-            prcm.id_project_chat_message IS NULL OR
-            (
-                p_id_collaborator = ptm.id_collaborator
-                AND prcm.datetime = (
-                    SELECT MAX(datetime)
-                    FROM project_chat_message
-                    WHERE id_project = prcm.id_project
-                    GROUP BY prcm.id_project_chat_message
+        AND (
+                prcm.id_project_chat_message IS NULL OR
+                (
+                    p_id_collaborator = ptm.id_collaborator
+                    AND prcm.datetime = (
+                        SELECT MAX(datetime)
+                        FROM project_chat_message
+                        WHERE id_project = prcm.id_project
+                        GROUP BY prcm.id_project_chat_message
+                    )
                 )
-            )
-        );
+        )
+    ORDER BY prcm.datetime DESC, p.project_name ASC;
 END //
 DELIMITER ;
 
@@ -1535,9 +1550,9 @@ BEGIN
     	ON u.id_user = ptm_cp.id_collaborator
     -- Obteniendo los mensajes del chat del proyecto (a partir de cualquiera de los miembros que los hayan emitido)
     LEFT JOIN project_chat_message prcm
-        ON prcm.id_project_team_member = ptm_cp.id_project_team_member
+        ON prcm.id_project_team_member_sender = ptm_cp.id_project_team_member
     LEFT JOIN project_team_member ptm_prcm
-    	ON ptm_prcm.id_project_team_member = prcm.id_project_team_member
+    	ON ptm_prcm.id_project_team_member = prcm.id_project_team_member_sender
     WHERE p.id_project = p_id_project;
 END //
 DELIMITER ;
@@ -1556,20 +1571,10 @@ BEGIN
         WHERE id_project = p_id_project
         AND id_collaborator = p_id_collaborator_open_chat
     );
-
-    -- obteniendo el id_private_chat_message
-    SET @id_project_chat_message = (
-        SELECT id_project_chat_message
-        FROM project_chat_message
-        WHERE id_project_team_member = @id_project_team_member
-        AND id_project = p_id_project
-    );
-    
     -- Marcando como visto el mensaje privado
     UPDATE project_team_member_seen_message
     SET seen = 1
-    WHERE id_project_team_member = @id_project_team_member
-    AND id_project_chat_message = @id_project_chat_message;
+    WHERE id_project_team_member = @id_project_team_member;
 END //
 DELIMITER ;
 
@@ -1613,41 +1618,44 @@ CREATE PROCEDURE `sp_send_message_to_project_chat`(
     IN p_message VARCHAR(200)
 )
 BEGIN
+    SET @id_project_team_member_sender = (
+        SELECT ptm.id_project_team_member 
+        FROM project_team_member ptm 
+        WHERE ptm.id_collaborator = p_id_sender AND ptm.id_project = p_id_project
+    );
     -- Enviando nuevo mensaje al proyecto
     INSERT INTO `project_chat_message`(
         `message`,
         `datetime`,
-        `id_project_team_member`,
+        `id_project_team_member_sender`,
         `id_project`
     ) VALUES (
         p_message,
         NOW(),
-        p_id_sender,
+        @id_project_team_member_sender,
         p_id_project
     );
     SET @id_project_chat_message = LAST_INSERT_ID();
-
     -- Se creo la insercion de los project_team_member_seen_message para cada colab del proyecto
 
-    -- ACA CREO QUE USARAS EL sp_mark_private_messages_as_seen ????
     UPDATE project_team_member_seen_message
     SET seen = 1
-    WHERE id_project_team_member = p_id_sender;
+    WHERE id_project_team_member = @id_project_chat_message;
     
     -- Luego de insertarlo, devolver el message con un SELECT
     SELECT 
         prcm.id_project_chat_message,
-        prcm.id_project_team_member,
+        ptm.id_collaborator AS "id_collaborator_sender",
         prcm.message, prcm.datetime
     FROM project_chat_message prcm
     INNER JOIN project_team_member ptm
-    	ON ptm.id_project_team_member = prcm.id_project_team_member
+    	ON ptm.id_project_team_member = prcm.id_project_team_member_sender
     WHERE prcm.id_project_chat_message = @id_project_chat_message AND 
         ptm.id_collaborator = p_id_sender;
 END //
 DELIMITER ;
 
--- SP para notificar a los colaboradores correspondientes, que hay mensajes nuevos en chats privados.
+-- SP para saber si un colaborador tiene chats privados sin leer.
 DELIMITER //
 CREATE PROCEDURE `sp_collaborator_has_unread_private_chats`(
     IN p_id_collaborator INT
@@ -1656,17 +1664,17 @@ BEGIN
     IF EXISTS (
         SELECT *
         FROM private_chat_message
-        WHERE id_collaborator_sender = p_id_collaborator
+        WHERE id_collaborator_receiver = p_id_collaborator
         AND seen = 0
     ) THEN
-        SELECT 0 AS 'has_unread_chats';
-    ELSE
         SELECT 1 AS 'has_unread_chats';
+    ELSE
+        SELECT 0 AS 'has_unread_chats';
     END IF;
 END //
 DELIMITER ;
 
--- SP para notificar a los colaboradores correspondientes, que hay mensajes nuevos en chats de proyectos.
+-- SP para saber si un colaborador tiene chats de proyecto sin leer.
 DELIMITER //
 CREATE PROCEDURE `sp_collaborator_has_unread_project_chats`(
     IN p_id_collaborator INT
@@ -1674,21 +1682,23 @@ CREATE PROCEDURE `sp_collaborator_has_unread_project_chats`(
 BEGIN
     IF EXISTS (
         SELECT *
-        FROM project_team_member_seen_message
-        WHERE id_project_team_member = p_id_collaborator
+        FROM project_team_member_seen_message ptm_sm
+        INNER JOIN project_team_member ptm
+        	ON ptm.id_project_team_member = ptm_sm.id_project_team_member
+        WHERE ptm.id_collaborator = p_id_collaborator
         AND seen = 0
     ) THEN
-        SELECT 0 AS 'has_unread_chats';
-    ELSE
         SELECT 1 AS 'has_unread_chats';
+    ELSE
+        SELECT 0 AS 'has_unread_chats';
     END IF;
 END //
-DELIMITER ; 
+DELIMITER ;
 
 -- PARA INSERTAR LOS DATOS DE MANERA ADECUADA
 DELIMITER //
 CREATE PROCEDURE `test_send_message_to_project_chat`(
-    IN p_id_sender INT,
+    IN p_id_project_team_member_sender INT,
     IN p_id_project INT,
     IN p_datetime DATETIME,
     IN p_message VARCHAR(200)
@@ -1698,25 +1708,20 @@ BEGIN
     INSERT INTO `project_chat_message`(
         `message`,
         `datetime`,
-        `id_project_team_member`,
+        `id_project_team_member_sender`,
         `id_project`
     ) VALUES (
         p_message,
         p_datetime,
-        p_id_sender,
+        p_id_project_team_member_sender,
         p_id_project
     );
     SET @id_project_chat_message = LAST_INSERT_ID();
-
     -- Se creo la insercion de los project_team_member_seen_message para cada colab del proyecto
-
-    -- ACA CREO QUE USARAS EL sp_mark_private_messages_as_seen ????
-    UPDATE project_team_member_seen_message
-    SET seen = 1
-    WHERE id_project_team_member = p_id_sender;
 END //
 DELIMITER ;
 -- INSETANDO LOS NUEVOS CHATS
 CALL test_send_message_to_project_chat(1, 1, '2023-06-28 19:38:40','Chicos avancen sus partes crj');
 CALL test_send_message_to_project_chat(2, 1, '2023-06-28 20:01:40','va va 1');
 CALL test_send_message_to_project_chat(3, 1, '2023-06-28 20:02:50','va va 2');
+CALL test_send_message_to_project_chat(7, 3, '2023-06-28 23:12:10','mesaje para el proyecto 3');

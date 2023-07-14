@@ -14,8 +14,8 @@ export const Content = styled.main`
     gap: 30px;
     min-height: calc(100vh - var(--main-header-height));
     width: 80%;
-    margin-top: 50px;
-    margin-bottom: 30px;
+    padding-top: 50px;
+    padding-bottom: 30px;
     @media (max-width: 600px) {
         margin-bottom: 0;
     }

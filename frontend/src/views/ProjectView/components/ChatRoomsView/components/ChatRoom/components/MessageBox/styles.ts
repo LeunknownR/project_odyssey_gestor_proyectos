@@ -8,19 +8,27 @@ export const ChatInputContainer= styled(FlexFlow)`
     padding: 25px 40px;
 `;
 export const ChatInput = styled(CustomTextArea)`
-    background-color: var(--darkblue-2);
-    border-radius: 10px;
+    border-radius: 8px;
+    &.primary {
+        background-color: var(--darkblue-2);
+    }
     ${Content} {
         border: none;
         min-height: unset;
     }
 `;
 export const IconContainer = styled.span`
-    cursor: pointer;
     display: flex;
     align-items: center;
+    cursor: pointer;
     .iconify {
         font-size: 35px;
         color: var(--darkblue-5);
+        transition: 0.3s;
+    }
+    :hover {
+        .iconify {
+            color: var(--orange-3);
+        }
     }
 `;
