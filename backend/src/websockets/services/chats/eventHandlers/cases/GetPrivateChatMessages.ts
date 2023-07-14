@@ -27,7 +27,7 @@ export default class GetPrivateChatMessages {
         this.collaboratorChatId = new IntegerId(body).value;
         this.collaboratorId = getWSUserData(socket).userId;
     }
-    async getPrivateChatMessages() {
+    async getMessages() {
         const { socket, collaboratorId, collaboratorChatId } = this;
         // Obtener mensajes del chat privado del 
         const collaboratorRelationList: RelationCollaboratorChat[] = await ChatController.getRelationCollaboratorInPrivateChat(
@@ -83,10 +83,10 @@ export default class GetPrivateChatMessages {
             WSChatServiceEvents.Server.NotifyUnreadPrivateChats,
             hasUnreadChats
         );
-        this.doNotifyStateOnlinePrivateChat(collaboratorId, collaboratorChatId);
+        this.notifyOnlineState(collaboratorId, collaboratorChatId);
     }
-    private doNotifyStateOnlinePrivateChat(collaboratorId: number, collaboratorChatId: number) {
-        const isOnline = this.dataHandler.connectedCollaborators.isConnectedCollaborator(collaboratorChatId);
+    private notifyOnlineState(collaboratorId: number, collaboratorChatId: number) {
+        const isOnline: boolean = this.dataHandler.connectedCollaborators.isConnectedCollaborator(collaboratorChatId);
         const collaboratorChatRoom: string = WSChatServiceRoom.getCollaboratorChatRoom(collaboratorId);
         this.io
             .to(collaboratorChatRoom)

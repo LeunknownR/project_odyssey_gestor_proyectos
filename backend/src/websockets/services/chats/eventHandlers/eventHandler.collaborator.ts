@@ -45,13 +45,13 @@ export default class WSChatServiceCollaboratorEventHandler extends WSServiceEven
                 name: WSChatServiceEvents.Collaborator.GetPrivateChatMessages,
                 handler: (socket, body) => new GetPrivateChatMessages(
                     io, dataHandler, socket, body
-                ).getPrivateChatMessages()
+                ).getMessages()
             },
             {
                 name: WSChatServiceEvents.Collaborator.GetProjectChatMessages,
                 handler: (socket, body) => new GetProjectChatMessages(
                     dataHandler, socket, body
-                ).getProjectChatMessages()
+                ).getMessages()
             },
             {
                 name: WSChatServiceEvents.Collaborator.SendMessageToPrivateChat,

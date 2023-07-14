@@ -25,7 +25,7 @@ export const Tab = styled(FlexFlow)`
         height: 8px;
         width: 8px;
         border-radius: 100%;
-        transition: 0.3s;
+        transition: 0.2s;
         margin-left: 5px;
     }
     &.active, :hover {

@@ -17,7 +17,7 @@ export const Container = styled.span`
         display: block;
         height: 10px;
         width: 10px;
-        transition: 0.3s;
+        transition: 0.2s;
         border-radius: 100%;
     }
     &.has-unread-chat::after {

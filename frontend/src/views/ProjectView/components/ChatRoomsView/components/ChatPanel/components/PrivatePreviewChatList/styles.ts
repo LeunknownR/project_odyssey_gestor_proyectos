@@ -11,7 +11,7 @@ export const ImageWrapper = styled.div`
         height: 10px;
         width: 10px;
         border-radius: 100%;
-        transition: 0.3s;
+        transition: 0.2s;
     }
     &.has-unread-chat::after {
         background-color: var(--red-2);

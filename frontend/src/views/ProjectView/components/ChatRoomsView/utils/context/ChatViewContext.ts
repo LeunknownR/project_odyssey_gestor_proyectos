@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import { ChatViewContextType } from "./types";
+import { INIT_SEARCH_CHAT_PAYLOAD } from "../constants";
 
 const INIT_CHAT_VIEW_CONTEXT: ChatViewContextType = {
     preloader: {
@@ -10,16 +11,29 @@ const INIT_CHAT_VIEW_CONTEXT: ChatViewContextType = {
             message: ""
         }
     },
-    privateChatPreviewList: [],
-    projectChatPreviewList: [],
-    setPrivateChatPreviewList: () => {},
-    setProjectChatPreviewList: () => {},
+    searchChatPayloadHandler: {
+        change: () => {},
+        emit: () => {},
+        value: { ...INIT_SEARCH_CHAT_PAYLOAD },
+        chatPreviewGroup: {
+            privateChatPreviewList: [],
+            projectChatPreviewList: []
+        }
+    },
     currentPrivateChat: null,
     currentProjectChat: null,
     setCurrentPrivateChat: () => {},
     setCurrentProjectChat: () => {},
-    setFormattedPrivateChatMessages: () => {},
-    setFormattedProjectChatMessages: () => {}
+    privateChatMessagesHandler: {
+        clearMessages: () => {},
+        onDispatchMessages: () => {},
+        formattedMessages: null
+    },
+    projectChatMessagesHandler: {
+        clearMessages: () => {},
+        onDispatchMessages: () => {},
+        formattedMessages: null
+    }
 };
 const ChatViewContext = createContext(INIT_CHAT_VIEW_CONTEXT);
 

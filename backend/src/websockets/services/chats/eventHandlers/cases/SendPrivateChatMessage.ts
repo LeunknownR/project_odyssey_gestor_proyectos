@@ -36,26 +36,30 @@ export default class SendPrivateChatMessage {
         await this.saveChat(
             senderId, privateMessage
         );
-        this.sendMessageList(
-            senderId, privateMessage.receiverId
-        );
-        // Notificando que el mensaje fue guardado
-        this.io.to(
-            WSChatServiceRoom.getCollaboratorChatRoom(privateMessage.receiverId)
-        ).emit(WSChatServiceEvents.Server.NotifySentMessage, WSChatTab.Private);
-        this.sendChatNotification(
-            privateMessage.receiverId
-        );
-    }
-    private async sendChatNotification(receiverId: number): Promise<void> {
-        const isConnected: boolean = this.dataHandler
+        const { receiverId } = privateMessage;
+        // Verificando si se encuentra conectado para el envío
+        const receiverIsConnected: boolean = this.dataHandler
             .connectedCollaborators
             .isConnectedCollaborator(receiverId);
-        if (!isConnected) return;
-        const receiverRoomName: string = WSChatServiceRoom.getCollaboratorChatRoom(receiverId);
+        this.getMessageList(
+            senderId, receiverId,
+            receiverIsConnected
+        );
+        if (!receiverIsConnected) return;
+        // Notificando que el mensaje fue guardado
+        const receiverRoom: string = WSChatServiceRoom.getCollaboratorChatRoom(receiverId);
+        this.notifySentMessageToReceiver(receiverRoom);
+        this.notifyUnreadChatsToReceiver(receiverRoom);
+    }
+    private notifySentMessageToReceiver = (room: string): void => {
+        this.io.to(room)
+            .emit(WSChatServiceEvents.Server.NotifySentMessage, WSChatTab.Private);
+    }
+    private async notifyUnreadChatsToReceiver(room: string): Promise<void> {
+        const { receiverId } = this.privateMessage;
         // Notificando de chats privados sin leer al receptor
         const hasUnreadChats: boolean = await ChatController.collaboratorHasUnreadPrivateChats(receiverId);
-        this.io.to(receiverRoomName).emit(
+        this.io.to(room).emit(
             WSChatServiceEvents.Server.NotifyUnreadPrivateChats,
             hasUnreadChats
         );
@@ -77,9 +81,10 @@ export default class SendPrivateChatMessage {
                 privateMessage.receiverId,
             );
     }
-    private async sendMessageList(
+    private async getMessageList(
         senderId: number,
-        receiverId: number
+        receiverId: number,
+        receiverIsConnected: boolean
     ): Promise<void> {
         // Obtener mensajes del chat privado
         const privateChatMessageList: PrivateChatMessage[] = this.dataHandler
@@ -104,11 +109,7 @@ export default class SendPrivateChatMessage {
             formattedPrivateChatMessages
         );
         // Receptor
-        // Verificando si se encuentra conectado para el envío
-        const isConnected: boolean = this.dataHandler
-            .connectedCollaborators
-            .isConnectedCollaborator(receiverId);
-        if (!isConnected) return;
+        if (!receiverIsConnected) return;
         // Enviando mensajes
         const receiverRoomName: string = WSChatServiceRoom.getCollaboratorChatRoom(receiverId);
         this.io

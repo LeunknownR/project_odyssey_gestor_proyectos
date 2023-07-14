@@ -11,14 +11,14 @@ import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import AdditionalPrivateChatInfo from "./components/AdditionalPrivateChatInfo";
 
 const PrivateChatRoom = ({
-    formattedPrivateChatMessages,
+    formattedMessages
 }: PrivateChatRoomProps) => {
     const [isOnline, setIsOnline] = useState(false);
     const { socketIoChatService } = useChatServiceContext();
     const {
         currentPrivateChat,
         setCurrentPrivateChat,
-        setFormattedPrivateChatMessages,
+        privateChatMessagesHandler
     } = useChatViewContext();
     useEffect(() => {
         if (!currentPrivateChat) return;
@@ -28,10 +28,13 @@ const PrivateChatRoom = ({
                 setIsOnline(isOnline);
             }
         );
+        return () => {
+            socketIoChatService?.off(WSChatServiceEvents.Server.NotifySentMessage);
+        };
     }, [currentPrivateChat]);
     const closeChat = (): void => {
         if (!currentPrivateChat) return;
-        setFormattedPrivateChatMessages(null);
+        privateChatMessagesHandler.clearMessages();
         setCurrentPrivateChat(null);
     };
     const sendMessage = (messageText: string): void => {
@@ -58,27 +61,17 @@ const PrivateChatRoom = ({
                             name={collaborator.name}
                             surname={collaborator.surname}
                             urlPhoto={collaborator.urlPhoto}
-                            className="medium"
-                        />
-                    }
-                    closeChat={closeChat}
-                />
+                            className="medium"/>}
+                    closeChat={closeChat}/>
                 <ChatWindow
-                    messages={
-                        formattedPrivateChatMessages.messages
-                    }
+                    messages={formattedMessages.messages}
                     additionalChatInfo={
                         <AdditionalPrivateChatInfo
                             collaboratorRelationList={
-                                formattedPrivateChatMessages.collaboratorRelationList
-                            }
-                        />
-                    }
-                />
-                <MessageBox emitMessageEvent={sendMessage} />
-                </>
-            }
-        />
+                                formattedMessages.collaboratorRelationList
+                            }/>}/>
+                <MessageBox emitMessageEvent={sendMessage}/>
+                </>}/>
     );
 };
 
