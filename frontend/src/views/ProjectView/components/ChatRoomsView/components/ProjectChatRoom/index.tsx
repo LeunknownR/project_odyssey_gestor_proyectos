@@ -10,13 +10,17 @@ import ProjectChatImage from "../ChatPanel/components/ProjectPreviewChatList/Pro
 import { getUserId } from "src/storage/user.local";
 
 const ProjectChatRoom = ({
-    formattedProjectChatMessages,
+    formattedMessages: formattedProjectChatMessages,
 }: ProjectChatRoomProps) => {
     const { socketIoChatService } = useChatServiceContext();
-    const { currentProjectChat, setCurrentProjectChat, setFormattedProjectChatMessages } = useChatViewContext();
+    const { 
+        currentProjectChat, 
+        setCurrentProjectChat, 
+        projectChatMessagesHandler 
+    } = useChatViewContext();
     if (!currentProjectChat) return null;
     const closeChat = (): void => {
-        setFormattedProjectChatMessages(null);
+        projectChatMessagesHandler.clearMessages();
         setCurrentProjectChat(null);
     }
     const sendMessage = (messageText: string): void => {

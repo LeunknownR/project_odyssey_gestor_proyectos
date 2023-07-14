@@ -1,5 +1,4 @@
 import { Socket } from "socket.io";
-import { IOServerService } from "../../../../utils/common";
 import WSChatServiceDataHandler from "../../dataHandlers";
 import { getWSUserData } from "../../../../utils/helpers";
 import { IntegerId } from "../../../../../utils/entities/integerId";
@@ -24,7 +23,7 @@ export default class GetProjectChatMessages {
         this.projectId = new IntegerId(body).value;
     }
     //#region Methods
-    async getProjectChatMessages(): Promise<void> {
+    async getMessages(): Promise<void> {
         const { socket, collaboratorId, projectId, dataHandler } = this;
         let formattedProjectChatMessages: FormattedProjectChatMessages = this.dataHandler
             .projectChatMessagesGroup
@@ -53,9 +52,9 @@ export default class GetProjectChatMessages {
             .addCollaboratorToProjectChat(
                 projectId, collaboratorId
             );
-        this.notifyUnreadPrivateChats();
+        this.notifyUnreadChats();
     }
-    private async notifyUnreadPrivateChats() {
+    private async notifyUnreadChats() {
         // Notificando de chats privados sin leer al colaborador
         const hasUnreadChats: boolean = await ChatController.collaboratorHasUnreadProjectChats(this.collaboratorId);
         this.socket.emit(

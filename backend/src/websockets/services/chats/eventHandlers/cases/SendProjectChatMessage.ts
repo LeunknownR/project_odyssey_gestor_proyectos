@@ -39,16 +39,12 @@ export default class SendProjectChatMessage {
         // Guardar el mensaje en la BD
         await this.saveMessage();
         const { projectId } = projectMessage;
-        // Obtener ids de los colaboradores del proyecto
-        const { collaborators } = this.dataHandler
-            .projectChatMessagesGroup
-            .getFormattedProjectChatMessages(projectId);
         // Obtener mensajes de los chat de proyectos
         const formattedProjectChatMessages: FormattedProjectChatMessages =
             this.dataHandler
                 .projectChatMessagesGroup
                 .getFormattedProjectChatMessages(projectId);
-        for (const collaborator of collaborators) {
+        for (const collaborator of formattedProjectChatMessages.collaborators) {
             this.sendMessageList(
                 collaborator.id,
                 formattedProjectChatMessages

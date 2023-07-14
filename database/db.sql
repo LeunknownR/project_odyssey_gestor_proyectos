@@ -239,8 +239,8 @@ VALUES
     (16, 'Sarah', 'Lee', 'sarahl', '$2a$10$1R1ypXm5VjeKxlOK/039S.ySrKQk0EF/oCaG0k1eXhdSZDv9H1lZu', NULL, 'sarahlee@example.com', 'CLB'),
     (17, 'Daniel', 'Martin', 'danielm', '$2a$10$0MZ61DjO5ENfW1OeOSYRgO7tZsLvkBnDFsPP3ofUefAeSusS6c3g2', NULL, 'danielmartin@example.com', 'CLB'),
     (18, 'Emily', 'Clark', 'emilyc', '$2a$10$YdgwhXh9MNvThP9hUm3MZe1lJetaCut/bml9R.4sEpobZYEwG1ig2', NULL, 'emilyclark@example.com', 'CLB'),
-    (19, 'Christopher', 'Rodriguez', 'christopherr', '$2a$10$MRVVtZqyPY51FkZotVjgWuGM/0TKuvFOekfW2DdBrDPT3p6jRzq.S', NULL, 'christopherrodriguez@example.com', 'CLB');
-
+    (19, 'Christopher', 'Rodriguez', 'christopherr', '$2a$10$MRVVtZqyPY51FkZotVjgWuGM/0TKuvFOekfW2DdBrDPT3p6jRzq.S', NULL, 'christopherrodriguez@example.com', 'CLB'),
+    (20, 'Juan Maycol', 'Soto Ccaccachahua', 'msoto', '$2a$12$s0ghhw39him/BYquiX44Se/R3jaC9aydRXwyPOT6FkRJbOGPFikTG', '/msoto.jpg', 'msoto@xnxx.com', 'CLB');
 
 -- Insertando datos en la tabla admin. General
 INSERT INTO `admin_general`(`id_admin_general`) 
@@ -267,7 +267,8 @@ VALUES
     (16),
     (17),
     (18),
-    (19);
+    (19),
+    (20);
 
 -- Insertando datos en la tabla collaborator  
 INSERT INTO `project` (`id_project`, `project_name`, `description`, `creation_date`, `state`, `start_date`, `end_date`, `id_admin_general`) 
@@ -312,7 +313,8 @@ VALUES
     (21, 11, 16, 'PLD'),
     (22, 12, 17, 'PLD'),
     (23, 13, 18, 'PLD'),
-    (24, 14, 19, 'PLD');
+    (24, 14, 19, 'PLD'),
+    (25, 1, 20, 'PMB');
 
 INSERT INTO `task`(`id_task`, `task_name`, `description`, `deadline`, `state`, `id_task_priority`, `id_project`, `id_responsible`)
 VALUES 
