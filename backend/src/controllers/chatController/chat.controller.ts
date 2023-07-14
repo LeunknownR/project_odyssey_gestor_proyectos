@@ -40,11 +40,11 @@ export default abstract class ChatController {
     }
     static async getPrivateChatMessages(
         collaboratorId: number, 
-        collaboratorChatId: IntegerId
+        collaboratorChatId: number
     ): Promise<PrivateChatMessage[]> {
         const resultset: any[] = await ChatModel.getPrivateChatMessages(
             collaboratorId,
-            collaboratorChatId.value
+            collaboratorChatId
         );
         return resultset.map(record => new PrivateChatMessage(record));
     }
@@ -55,8 +55,8 @@ export default abstract class ChatController {
         );
         return resultset.map(record => new RelationCollaboratorChat(record));
     }
-    static async getProjectChatMessages(projectId: IntegerId): Promise<FormattedProjectChatMessages> {
-        const resultset: any[] = await ChatModel.getProjectChatMessages(projectId.value);
+    static async getProjectChatMessages(projectId: number): Promise<FormattedProjectChatMessages> {
+        const resultset: any[] = await ChatModel.getProjectChatMessages(projectId);
         return new FormattedProjectChatMessages(resultset);
     }
     static async markPrivateChatMessagesAsSeen(

@@ -15,4 +15,5 @@ export type CustomTextAreaProps = {
     onKeyDown?: KeyboardEventHandler<HTMLTextAreaElement>;
     onBlur?: FocusEventHandler<HTMLTextAreaElement>;
     characterCounter?: boolean;
+    maxHeightExpand?: number | null;
 };
