@@ -1,4 +1,5 @@
 import { Container as ContainerCustomTextField } from "src/components/CustomTextField/styles";
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 export const Container = styled.section`
@@ -7,6 +8,12 @@ export const Container = styled.section`
     justify-content: center;
     align-items: center;
     height: 100%;
+    padding-top: 40px;
+    padding-bottom: 15px;
+    @media (max-width: 600px) {
+        padding-top: 30px;
+        padding-bottom: calc(var(--main-sidebar-height-mobile) + 5px);
+    }
 `;
 export const Content = styled.main`
     display: flex;
@@ -14,18 +21,13 @@ export const Content = styled.main`
     gap: 30px;
     min-height: calc(100vh - var(--main-header-height));
     width: 80%;
-    padding-top: 50px;
-    padding-bottom: 30px;
-    @media (max-width: 600px) {
-        margin-bottom: 0;
-    }
 `;
 export const ProjectFinderWrapper = styled.div`
     display: flex;
     justify-content: flex-end;
     ${ContainerCustomTextField} {
         width: 45%;
-        @media (max-width: 600px) {
+        @media (max-width: ${MOBILE_WIDTH}px) {
             width: 100%;
         }
     }

@@ -2,10 +2,6 @@ import { FlexFlow } from 'src/components/styles';
 import { MOBILE_WIDTH } from 'src/config/constants';
 import styled from 'styled-components';
 
-export const Container = styled(FlexFlow.withComponent("section"))`
-    width: 100%;
-    scroll-behavior: smooth;
-`;
 export const Content = styled(FlexFlow.withComponent("ul"))`
     display: flex;
     flex-direction: column;
@@ -15,8 +11,12 @@ export const Content = styled(FlexFlow.withComponent("ul"))`
     padding-bottom: 10px;
     height: max-content;
     width: 100%;
+`;
+export const Container = styled(FlexFlow.withComponent("section"))`
+    width: 100%;
     @media (max-width: ${MOBILE_WIDTH}px) {
-        padding: 0;
-        padding-right: 15px;
+        ${Content} {
+            padding: 0 10px;
+        }
     }
 `;

@@ -6,6 +6,11 @@ const bgAnimation = keyframes`
         filter: blur(220px);
     }
 `;
+const bgAnimationMobile = keyframes`
+    to {
+        filter: blur(140px);
+    }
+`;
 export const Container = styled.section`
     display: flex;
     height: 100vh;
@@ -27,11 +32,19 @@ export const Container = styled.section`
         border-radius: 100%;
         background-color: var(--orange-3);
         filter: blur(150px);
-        animation: linear ${bgAnimation} 1s infinite alternate-reverse;
+        animation: linear ${bgAnimation} 2s infinite alternate-reverse;
         z-index: -1;
     }
-    @media (max-width: 600px) {
+    @media (max-width: ${MOBILE_WIDTH}px) {
         padding: 0;
+        ::before {
+            top: 0;
+            left: 0;
+            width: 50vw;
+            height: 40vw;
+            animation-name: ${bgAnimationMobile};
+            filter: blur(100px);
+        }
     }    
 `;
 export const Slogan = styled.div`

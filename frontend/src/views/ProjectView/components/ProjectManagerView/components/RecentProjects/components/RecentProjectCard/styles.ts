@@ -1,29 +1,24 @@
 import styled from "styled-components";
 
+export const RECENT_PROJECT_CARD_WIDTH: string = "280px";
 export const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-width: 280px;
+    min-width: ${RECENT_PROJECT_CARD_WIDTH};
     border: 2px solid var(--gray-1);
     background-color: #112430;
     border-radius: 7px;
     position: relative;
-    .showSubMenu {
-        display: block;
-    }
-    .SubMenuContainer {
-        display: none;
-    }
 `;
 export const Image = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 0;
+    padding: 35px 0;
     .iconify {
-        font-size: 90px;
+        font-size: 75px;
         color: #2a3c46;
     }
 `;

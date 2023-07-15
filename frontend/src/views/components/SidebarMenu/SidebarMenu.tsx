@@ -1,24 +1,34 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Sidebar, MenuList, MenuButton, GoHomeButton } from "./styles";
+import { Sidebar, MenuList, MenuButton } from "./styles";
 import { SidebarMenuProps } from "./types";
 import UserAdministration from "../Header/components/UserAdministration/UserAdministration";
 import ChatMenuButton from "./constants/ChatMenuButton";
 import { AbsolutePaths } from "src/config/absolutePaths";
+import { DBRoles } from "src/config/roles";
+import useUserRole from "src/storage/hooks/useUserRole";
 
 const SidebarMenu = ({ mainMenuButton }: SidebarMenuProps) => {
+    const userRole = useUserRole();
     return (
         <Sidebar>
             {mainMenuButton}
             <MenuList>
-                <GoHomeButton to={AbsolutePaths.Projects} end activeclassname="active">
+                <MenuButton 
+                    className={({ isActive }) => isActive ? "active" : ""}
+                    to={AbsolutePaths.Projects} 
+                    end>
+                {/* <GoHomeButton to={AbsolutePaths.Projects} end activeclassname="active"> */}
                     <span>
-                        <Icon icon="material-symbols:home-outline-rounded" />
+                        <Icon icon="mingcute:home-1-line" />
                     </span>
-                </GoHomeButton>
-                <ChatMenuButton />
-                <MenuButton to={AbsolutePaths.Settings} end activeclassname="active">
+                </MenuButton>
+                {userRole === DBRoles.GeneralAdmin && 
+                <ChatMenuButton />}
+                <MenuButton 
+                    className={({ isActive }) => isActive ? "active" : ""}
+                    to={AbsolutePaths.Settings}>
                     <span>
-                        <Icon icon="uiw:setting" />
+                        <Icon icon="ep:setting" />
                     </span>
                 </MenuButton>
             </MenuList>

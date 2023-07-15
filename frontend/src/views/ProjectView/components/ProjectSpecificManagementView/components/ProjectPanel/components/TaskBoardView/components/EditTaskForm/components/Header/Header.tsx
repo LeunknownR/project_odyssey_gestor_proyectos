@@ -16,8 +16,8 @@ const Header = ({
     const { isMobile } = useMainContext();
     const { canEditTask, hideEditTaskForm } = useTaskBoardContext();
     return (
-        <Container justify="space-between" align="center" gap="15px">
-            <FlexFlow align="center" gap="10px">
+        <Container>
+            <FlexFlow wrap="nowrap" align="center" gap="10px" width="100%">
                 {isMobile && (
                     <CloseMenu onClick={hideEditTaskForm}>
                         <Icon icon="ion:chevron-back" />

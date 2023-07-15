@@ -21,6 +21,9 @@ export const TaskName = styled.h2`
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
-        max-width: 210px;
+        max-width: 80vw;
+        &.can-edit-task {
+            max-width: 60vw;
+        }
     }
 `;

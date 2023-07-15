@@ -35,11 +35,7 @@ export const MenuList = styled.ul`
         width: max-content;
     }
 `;
-//GNOMO ESTE BRODER DEBERÍA LLAMARSE NAVLINKPROPS Y DEBERÍA ESTAR EN UN LUGAR ADECUADO.
-export type MenuButtonProps = {
-    activeclassname: string;
-};
-export const MenuButton = styled(NavLink)<MenuButtonProps>`
+export const MenuButton = styled(NavLink)`
     display: flex;
     justify-content: center;
     padding: 10px 5px;
@@ -48,15 +44,15 @@ export const MenuButton = styled(NavLink)<MenuButtonProps>`
     &.active {
         background-color: var(--white-1-05);
     }
-    :hover {
-        .iconify {
-            color: var(--orange-3);
-        }
-    }
     .iconify {
         transition: 0.2s;
         font-size: 33px;
         color: var(--white-1);
+    }
+    :hover {
+        .iconify {
+            color: var(--orange-3);
+        }
     }
     @media (max-width: 600px) {
         padding: 5px 20px;
@@ -66,12 +62,7 @@ export const MenuButton = styled(NavLink)<MenuButtonProps>`
         height: 100%;
         bottom: 0;
         .iconify {
-            font-size: 28px;
+            font-size: 33px;
         }
-    }
-`;
-export const GoHomeButton = styled(MenuButton)`
-    .iconify {
-        font-size: 40px;
     }
 `;

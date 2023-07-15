@@ -13,7 +13,7 @@ export const Container = styled.article`
     min-width: 300px;
     @media (max-width: ${MOBILE_WIDTH}px) {
         background-color: unset;
-        height: 71vh;
+        height: 60vh;
         padding: 0;
         gap: 15px;
     }

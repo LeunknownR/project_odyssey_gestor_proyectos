@@ -29,8 +29,7 @@ const RecentProjects = ({
                         dragging={dragging}
                         onTouchStart={handler.touchStart}
                         onTouchMove={handler.touchMove}
-                        onTouchEnd={handler.touchEnd}
-                    >
+                        onTouchEnd={handler.touchEnd}>
                         {recentProjects.map(project => {
                             return (
                                 <RecentProjectCard
@@ -47,8 +46,7 @@ const RecentProjects = ({
                         {recentProjects.map((_, idx) => (
                             <Index
                                 key={idx}
-                                className={idx === idxActiveCard && "active"}
-                            />
+                                className={idx === idxActiveCard ? "active" : ""}/>
                         ))}
                     </FlexFlow>
                 )}

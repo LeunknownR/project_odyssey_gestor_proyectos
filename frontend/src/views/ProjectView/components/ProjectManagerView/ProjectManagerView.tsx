@@ -131,16 +131,13 @@ const ProjectManagerView = () => {
             getProjectFromForm={getProjectFromForm}
             fillProjects={fillProjects}
             preloader={preloader}
-            notificationCard={notificationCard}
-        />
+            notificationCard={notificationCard}/>
         <DeleteProjectModal
             modalProps={deleteProjectModal}
-            deleteProject={deleteProject}
-        />
+            deleteProject={deleteProject}/>
         <NotificationCard
             handler={notificationCard}
-            variant={notificationCard.cardVariant}
-        />
+            variant={notificationCard.cardVariant}/>
         <Preloader {...preloader.value} />
         </>
     );

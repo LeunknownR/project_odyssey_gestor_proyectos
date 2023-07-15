@@ -1,8 +1,8 @@
 import { ProjectTaskState } from "src/entities/projectTasks/entities";
+import { StateListDataProps } from "../types";
 
 export type StatePickerProps = {
-    stateName: string;
-    state: ProjectTaskState;
-    taskId: number;
-    hideModal: () => void;
+    data: StateListDataProps;
+    newState: ProjectTaskState | null;
+    changeTaskState: (payload: ProjectTaskState) => void;
 }

@@ -75,9 +75,6 @@
 	--main-sidebar-height-mobile: 65px;
 }
 /* General */
-html {
-    overflow-x: hidden;
-}
 body {
     background-color: var(--darkblue-4);
 }
@@ -110,4 +107,10 @@ p {
     width: 10px;
     height: 10px;
 	border-radius: 20px;
+}
+@media (max-width: 600px) {
+	*.custom-scrollbar::-webkit-scrollbar {
+		width: 6px;
+		height: 6px;
+	}
 }

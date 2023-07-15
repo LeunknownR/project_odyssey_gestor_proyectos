@@ -36,9 +36,9 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin: 30px 15px 20px 30px;
+    padding: 30px 15px 20px 30px;
     height: 100%;
     @media (max-width: ${MOBILE_WIDTH}px) {
-        margin: 30px 15px 20px 25px;
+        padding: 15px 15px 20px 25px;
     }
 `;

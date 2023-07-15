@@ -1,1 +1,1 @@
-export const CARD_LIST_GAP = 100;
+export const CARD_LIST_GAP: number = 100;

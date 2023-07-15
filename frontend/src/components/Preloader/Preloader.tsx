@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { 
     Blades,
     Container,
+    Message,
     Spinner } from "./styles";
 import { PreloaderProps } from "./types";
 import preloaderImage from "src/images/preloader-img.svg"
@@ -33,7 +34,7 @@ const Preloader = ({
             <Spinner>
                 <Blades src={preloaderImage} />
             </Spinner>
-            {message && <h6>{message}</h6>}
+            {message && <Message>{message}</Message>}
         </Container>
     );
 }
