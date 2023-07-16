@@ -2,6 +2,7 @@ import { Container, ChatTitle, ChatSubtitle, CloseBtn, BackBtn } from "./styles"
 import { FlexFlow } from "src/components/styles";
 import { ChatHeaderProps } from "./types";
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
+import useChatViewContext from "../../../../utils/context/useChatViewContext";
 
 const ChatHeader = ({
     portrait,
@@ -12,7 +13,7 @@ const ChatHeader = ({
     const { isMobile } = useMainContext();
     return (
         <Container align="center" justify="space-between">
-            <BackBtn onClick={() => {}} icon="ion:chevron-back"/>
+            {isMobile && <BackBtn onClick={closeChat} icon="ion:chevron-back"/>}
             <FlexFlow gap="18px">
                 {portrait}
                 <FlexFlow direction="column" gap="5px" justify="center">

@@ -29,7 +29,8 @@ const ChatPanel = () => {
         setCurrentPrivateChat,
         setCurrentProjectChat,
         privateChatMessagesHandler,
-        projectChatMessagesHandler
+        projectChatMessagesHandler,
+        isMobileChatOpen
     } = useChatViewContext();
     const { 
         privateChatPreviewList, 
@@ -60,6 +61,7 @@ const ChatPanel = () => {
     };
     const getProjectChatMessages = (projectChatPreview: ProjectChatPreview): void => {
         if (projectChatPreview.project.id === currentProjectChat?.project.id) return;
+        
         preloader.show(null);
         socketIoChatService?.emit(
             WSChatServiceEvents.Collaborator.GetProjectChatMessages,

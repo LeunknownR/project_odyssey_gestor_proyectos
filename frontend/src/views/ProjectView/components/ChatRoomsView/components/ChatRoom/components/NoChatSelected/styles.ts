@@ -12,10 +12,6 @@ export const Container = styled.article`
     border-top: 1px solid var(--darkblue-4);
     background-color: var(--darkblue-3);
     @media (max-width: ${MOBILE_WIDTH}px) {
-        position: absolute;
-        visibility: hidden;
-        left: 105%;
-        opacity: 0;
         display: none;
     }
 `;

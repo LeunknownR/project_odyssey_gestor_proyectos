@@ -14,4 +14,5 @@ export type ChatViewContextType = {
     setCurrentProjectChat: (previewChat: ProjectChatPreview | null) => void;
     privateChatMessagesHandler: PrivateChatMessagesHook;
     projectChatMessagesHandler: ProjectChatMessagesHook;
+    isMobileChatOpen: boolean;
 };

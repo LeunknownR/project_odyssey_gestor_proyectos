@@ -33,7 +33,8 @@ const INIT_CHAT_VIEW_CONTEXT: ChatViewContextType = {
         clearMessages: () => {},
         onDispatchMessages: () => {},
         formattedMessages: null
-    }
+    },
+    isMobileChatOpen: false,
 };
 const ChatViewContext = createContext(INIT_CHAT_VIEW_CONTEXT);
 
