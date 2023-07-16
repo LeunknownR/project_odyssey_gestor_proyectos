@@ -16,8 +16,9 @@ export const Wrapper = styled(FlexFlow)`
     width: 100%;
 `;
 export const NameDateWrapper = styled(FlexFlow)`
-    width: 100%;
     justify-content: space-between;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+    }
 `;
 type ChatPreviewTitleProps = {
     maxWidth: string;
@@ -30,11 +31,8 @@ export const ChatPreviewTitle = styled.h5<ChatPreviewTitleProps>`
     text-overflow: ellipsis;
     max-width: ${({ maxWidth }) => maxWidth};
     @media (max-width: ${MOBILE_WIDTH}px) {
-        font-size: 13px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        max-width: 170px;
+        font-size: 14px;
+        max-width: 175px;
     }
 `;
 export const Date = styled.span`
@@ -57,5 +55,6 @@ export const Content = styled.p`
     white-space: nowrap;
     @media (max-width: ${MOBILE_WIDTH}px) {
         font-size: 12px;
+        width: 230px;
     }
 `;
