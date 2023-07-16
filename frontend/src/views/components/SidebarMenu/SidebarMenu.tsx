@@ -17,7 +17,6 @@ const SidebarMenu = ({ mainMenuButton }: SidebarMenuProps) => {
                     className={({ isActive }) => isActive ? "active" : ""}
                     to={AbsolutePaths.Projects} 
                     end>
-                {/* <GoHomeButton to={AbsolutePaths.Projects} end activeclassname="active"> */}
                     <span>
                         <Icon icon="mingcute:home-1-line" />
                     </span>

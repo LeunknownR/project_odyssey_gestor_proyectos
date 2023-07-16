@@ -18,7 +18,7 @@ export const Container = styled.div`
     }
     @media (max-width: ${MOBILE_WIDTH}px) {
         font-size: 12px;
-        width: unset;
+        width: max-content;
         &.short {
             white-space: nowrap;
         }

@@ -12,11 +12,13 @@ import ProjectDeadline from "./components/ProjectDeadline/ProjectDeadline";
 import { AllProjectCardProps } from "./types";
 import ProjectCollaborators from "../../../RecentProjects/components/RecentProjectCard/components/ProjectCollaborators/ProjectCollaborators";
 import { FlexFlow } from "src/components/styles";
+import useMainContext from "src/utils/contexts/main-context/useMainContext";
 
 const AllProjectCard = ({
     project,
     options
 }: AllProjectCardProps) => {
+    const { isMobile } = useMainContext();
     const { name, startDate, endDate, state, leader, projectMemberCount } = project;
     return (
         <Container className={state}>
@@ -24,7 +26,15 @@ const AllProjectCard = ({
                 <IconContainer>
                     <Icon icon="ph:projector-screen-chart-fill" />
                 </IconContainer>
-                <ProjectName title={name}>{name}</ProjectName>
+                <FlexFlow direction="column" align="flex-start" gap="5px">
+                    {isMobile &&
+                    <ProjectDeadline 
+                        mobile={isMobile}
+                        startDate={startDate} 
+                        endDate={endDate}
+                        variant="short"/>}
+                    <ProjectName title={name}>{name}</ProjectName>
+                </FlexFlow>
             </FlexFlow>
             <EndContent align="center" gap="20px">
                 <FlexFlow gap="15px" align="center">
@@ -33,10 +43,12 @@ const AllProjectCard = ({
                         leaderName={leader.name} 
                         projectMemberCount={projectMemberCount}/>}
                     <DateLabel>Fecha</DateLabel>
+                    {!isMobile &&
                     <ProjectDeadline 
+                        mobile={isMobile}
                         startDate={startDate} 
                         endDate={endDate}
-                        variant="short"/>
+                        variant="short"/>}
                 </FlexFlow>
                 <OptionsWrapper>
                     <MenuOptions

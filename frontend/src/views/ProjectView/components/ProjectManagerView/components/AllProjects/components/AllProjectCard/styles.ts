@@ -22,8 +22,10 @@ export const Container = styled.li`
         border-left: 27px solid var(--yellow-1);
     }
     @media (max-width: ${MOBILE_WIDTH}px) {
-        padding: 5px 18px;
+        padding: 10px;
+        padding-left: 14px;
         padding-right: 10px;
+        padding-bottom: 8px;
         &.O, &.F, &.P {
             border-left-width: 15px;
         }
@@ -42,8 +44,8 @@ export const ProjectName = styled.h2`
     color: var(--white-1);
     font-size: 18px;
     @media (max-width: ${MOBILE_WIDTH}px) {
-        font-size: 12px;
-        width: 25vw;
+        font-size: 14px;
+        width: 100%;
     }
 `;
 export const DateLabel = styled.span`

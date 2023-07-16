@@ -17,7 +17,7 @@ export const Sidebar = styled.aside`
         padding-top: 0;
         flex-direction: row;
         justify-content: center;
-        height: 65px;
+        height: max-content;
         width: 100%;
         bottom: 0;
     }
@@ -55,14 +55,14 @@ export const MenuButton = styled(NavLink)`
         }
     }
     @media (max-width: 600px) {
-        padding: 5px 20px;
+        padding: 15px 20px;
         flex-direction: row;
         align-items: center;
         width: max-content;
         height: 100%;
         bottom: 0;
         .iconify {
-            font-size: 33px;
+            font-size: 28px;
         }
     }
 `;
