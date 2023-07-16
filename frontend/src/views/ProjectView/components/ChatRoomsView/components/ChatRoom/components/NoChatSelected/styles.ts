@@ -1,3 +1,4 @@
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 export const Container = styled.article`
@@ -10,4 +11,11 @@ export const Container = styled.article`
     align-items: center;
     border-top: 1px solid var(--darkblue-4);
     background-color: var(--darkblue-3);
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        position: absolute;
+        visibility: hidden;
+        left: 105%;
+        opacity: 0;
+        display: none;
+    }
 `;

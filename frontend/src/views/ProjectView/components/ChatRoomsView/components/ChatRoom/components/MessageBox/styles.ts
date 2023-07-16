@@ -1,11 +1,15 @@
 import CustomTextArea from "src/components/CustomTextArea/CustomTextArea";
 import { Content } from "src/components/CustomTextArea/styles";
 import { FlexFlow } from "src/components/styles";
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 export const ChatInputContainer= styled(FlexFlow)`
     background-color: var(--darkblue-3);
     padding: 25px 40px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        padding: 20px 25px;
+    }
 `;
 export const ChatInput = styled(CustomTextArea)`
     border-radius: 8px;
