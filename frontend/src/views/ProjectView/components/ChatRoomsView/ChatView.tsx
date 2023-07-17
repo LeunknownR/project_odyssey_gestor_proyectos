@@ -1,4 +1,4 @@
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import { Container } from "./styles";
 import ChatPanel from "./components/ChatPanel/ChatPanel";
 import SidebarMenu from "src/views/components/SidebarMenu/SidebarMenu";
@@ -21,6 +21,7 @@ const ChatView = () => {
     //#region States
     const [currentPrivateChat, setCurrentPrivateChat] = useState<PrivateChatPreview | null>(null);
     const [currentProjectChat, setCurrentProjectChat] = useState<ProjectChatPreview | null>(null);
+    const [isMobileChatOpen, setMobileIsChatOpen] = useState(false);
     const searchChatPayloadHandler = useSearchChatPayload(
         preloader, currentPrivateChat,
         currentProjectChat
@@ -31,6 +32,9 @@ const ChatView = () => {
     const projectChatMessagesHandler = useProjectChatMessages(
         preloader, searchChatPayloadHandler
     );
+    useEffect(() => {
+        setMobileIsChatOpen(Boolean(currentPrivateChat || currentProjectChat))
+    }, [currentPrivateChat, currentProjectChat]);
     const renderChatRoom = (): ReactNode => {
         if (currentPrivateChat && privateChatMessagesHandler.formattedMessages) 
             return <PrivateChatRoom formattedMessages={privateChatMessagesHandler.formattedMessages} />
@@ -51,7 +55,8 @@ const ChatView = () => {
                     setCurrentPrivateChat,
                     setCurrentProjectChat,
                     projectChatMessagesHandler,
-                    privateChatMessagesHandler
+                    privateChatMessagesHandler,
+                    isMobileChatOpen
                 }}>
                 <ChatPanel/>
                 {renderChatRoom()}
