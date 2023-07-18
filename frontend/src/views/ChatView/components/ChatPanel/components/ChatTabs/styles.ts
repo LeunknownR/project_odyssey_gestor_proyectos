@@ -16,7 +16,7 @@ export const Tab = styled(FlexFlow)`
     padding: 10px;
     padding-left: 15px;
     font-size: 18px;
-    transition: 0.3s;
+    transition: 0.2s;
     border-radius: inherit;
     user-select: none;
     ::after {

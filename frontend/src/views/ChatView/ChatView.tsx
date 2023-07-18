@@ -13,14 +13,17 @@ import usePrivateChatMessages from "./utils/hooks/usePrivateChatMessages";
 import useCurrentPrivateChat from "./utils/hooks/useCurrentPrivateChat";
 import useCurrentProjectChat from "./utils/hooks/useCurrentProjectChat";
 import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
+import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 
 const View = () => {
     const preloader = usePreloader();
     //#region States
     const [isMobileChatOpen, setMobileIsChatOpen] = useState(false);
+    const [isOnlineCollaboratorChat, setIsOnlineCollaboratorChat] = useState(false);
     //#endregion
     const currentPrivateChatHandler = useCurrentPrivateChat();
     const currentProjectChatHandler = useCurrentProjectChat();
+    const { chatServiceHandler } = useMasterRouterContext();
     const searchChatPayloadHandler = useSearchChatPayload(
         preloader, 
         currentPrivateChatHandler.value,
@@ -35,9 +38,16 @@ const View = () => {
     useEffect(() => {
         setMobileIsChatOpen(Boolean(currentPrivateChatHandler.value || currentProjectChatHandler.value))
     }, [currentPrivateChatHandler.value, currentProjectChatHandler.value]);
+    const onNotifyCollaboratorConnectionState = (): void => {
+        chatServiceHandler.socketIoChatService?.off(WSChatServiceEvents.Server.NotifyCollaboratorOnlineState);
+        chatServiceHandler.socketIoChatService?.on(
+            WSChatServiceEvents.Server.NotifyCollaboratorOnlineState,
+            (isOnline: boolean) => setIsOnlineCollaboratorChat(isOnline)
+        );
+    }
     const renderChatRoom = (): ReactNode => {
         if (currentPrivateChatHandler.value && privateChatMessagesHandler.formattedMessages) 
-            return <PrivateChatRoom/>;
+            return <PrivateChatRoom isOnlineCollaboratorChat={isOnlineCollaboratorChat}/>;
         if (currentProjectChatHandler.value && projectChatMessagesHandler.formattedMessages)
             return <ProjectChatRoom/>;
         return <UnselectedChat />;
@@ -55,7 +65,7 @@ const View = () => {
                     privateChatMessagesHandler,
                     isMobileChatOpen
                 }}>
-                <ChatPanel/>
+                <ChatPanel onNotifyCollaboratorConnectionState={onNotifyCollaboratorConnectionState}/>
                 <ChatRoomWrapper className={isMobileChatOpen ? "open" : ""}>
                     {renderChatRoom()}
                 </ChatRoomWrapper>

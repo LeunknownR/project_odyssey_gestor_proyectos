@@ -26,22 +26,19 @@ const useChatService = (
             icon: "solar:chat-line-linear",
             className: getMainMenuButtonClassName()
         });
+        initService();
     }, [userRole]);
     useEffect(() => {
         if (userRole !== DBRoles.Collaborator) return;
         mainMenuButtonHandler.changeClassNameButton("CHATS", getMainMenuButtonClassName());
     }, [hasUnreadProjectChats, hasUnreadPrivateChats]);
-    useEffect(() => {
-        initService();
-    }, [userRole]);
     const getMainMenuButtonClassName = (): string => {
         const classList: string[] = [];
-        if (hasUnreadProjectChats || hasUnreadPrivateChats)
-            classList.push("has-unread-chat");
+        if (hasUnreadPrivateChats || hasUnreadProjectChats)
+            classList.push("notified");
         return classList.join(" ");
     }
     const initService = (): void => {
-        if (userRole !== DBRoles.Collaborator) return;
         const socketIoValue: Socket = socketHandler.connect();
         socketIoValue.on(
             WSChatServiceEvents.Server.NotifyUnreadPrivateChats,

@@ -9,7 +9,9 @@ const MainMenu = () => {
         <Sidebar>
             <MenuList>
                 {mainMenuButtonHandler.buttons.map(props => (
-                    <MainMenuButton key={props.id} {...props}/>
+                    <li key={props.id}>
+                        <MainMenuButton {...props}/>
+                    </li>
                 ))}
             </MenuList>
             <UserAdministration isInSidebar />

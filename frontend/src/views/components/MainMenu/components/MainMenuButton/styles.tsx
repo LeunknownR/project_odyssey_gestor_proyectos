@@ -6,6 +6,7 @@ import styled from "styled-components";
 export const MainMenuButtonRegular = styled.button`
     display: flex;
     justify-content: center;
+    position: relative;
     padding: 15px 5px;
     width: 100%;
     height: max-content;
@@ -17,6 +18,22 @@ export const MainMenuButtonRegular = styled.button`
         transition: 0.2s;
         font-size: 33px;
         color: var(--white-1);
+    }
+    &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        right: 20%;
+        top: 15%;
+        height: 8px;
+        width: 8px;
+        border-radius: 100%;
+        -webkit-transition: 0.2s;
+        transition: 0.2s;
+        margin-left: 5px; 
+    }
+    &.notified::after {
+        background-color: var(--red-2);
     }
     :hover {
         .iconify {

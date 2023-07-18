@@ -6,16 +6,11 @@ const MainMenuButton = ({
     className, to,
     icon, onClick
 }: MainMenuButtonProps) => {
-    if (to)
+    if (to) 
         return (
             <MainMenuButtonLink
-                className={({ isActive }) => {
-                    const classList: string[] = [];
-                    className && classList.push(className);
-                    isActive && classList.push("active");
-                    return classList.join(" ");
-                }}
-                to={to} end>
+                className={className}
+                to={to}>
                 <span>
                     <Icon icon={icon}/>
                 </span>
