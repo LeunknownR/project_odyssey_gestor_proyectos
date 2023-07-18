@@ -7,6 +7,7 @@ import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import ProjectChatImage from "../ChatPanel/components/ProjectPreviewChatList/ProjectChatImage";
 import { getUserId } from "src/storage/user.local";
 import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
+import { ChatSubtitle } from "../ChatRoom/components/ChatHeader/styles";
 
 const ProjectChatRoom = () => {
     const { socketIoChatService } = useMasterRouterContext().chatServiceHandler;
@@ -49,7 +50,10 @@ const ProjectChatRoom = () => {
                 <>
                 <ChatHeader
                     title={currentProjectChatHandler.value?.project.name || ""}
-                    subtitle={getProjectCollaborators()}
+                    subtitle={
+                        <ChatSubtitle>
+                            {getProjectCollaborators()}
+                        </ChatSubtitle>}
                     portrait={<ProjectChatImage/>}
                     closeChat={closeChat}/>
                 <ChatWindow

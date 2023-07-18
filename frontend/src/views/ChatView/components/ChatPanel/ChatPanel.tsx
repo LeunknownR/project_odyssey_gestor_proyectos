@@ -9,12 +9,14 @@ import {
 } from "src/entities/chat/entities";
 import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import PrivatePreviewChatList from "./components/PrivatePreviewChatList";
-import { ChatListByTab } from "./types";
+import { ChatListByTab, ChatPanelProps } from "./types";
 import ProjectPreviewChatList from "./components/ProjectPreviewChatList";
 import useChatViewContext from "../../utils/context/useChatViewContext";
 import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
 
-const ChatPanel = () => {
+const ChatPanel = ({
+    onNotifyCollaboratorConnectionState
+}: ChatPanelProps) => {
     //#region States
     const [timeoutToSearchChatId, setTimeoutToSearchChatId] = useState<NodeJS.Timeout | undefined>();
     //#endregion
@@ -51,6 +53,7 @@ const ChatPanel = () => {
             WSChatServiceEvents.Collaborator.GetPrivateChatMessages,
             privateChatPreview.collaborator.id
         );
+        onNotifyCollaboratorConnectionState();
         currentPrivateChatHandler.fill(privateChatPreview);
         currentProjectChatHandler.clear();
     };

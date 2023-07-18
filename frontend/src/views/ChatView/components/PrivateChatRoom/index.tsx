@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import ChatRoom from "../ChatRoom/ChatRoom";
 import ChatHeader from "../ChatRoom/components/ChatHeader/ChatHeader";
 import ChatWindow from "../ChatRoom/components/ChatWindow/ChatWindow";
@@ -8,22 +8,19 @@ import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import AdditionalPrivateChatInfo from "./components/AdditionalPrivateChatInfo";
 import useChatViewContext from "../../utils/context/useChatViewContext";
 import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
+import ConnectionData from "./components/ConnectionData";
+import { PrivateChatRoomProps } from "./types";
 
-const PrivateChatRoom = () => {
+const PrivateChatRoom = ({
+    isOnlineCollaboratorChat
+}: PrivateChatRoomProps) => {
     const { currentPrivateChatHandler, privateChatMessagesHandler } = useChatViewContext();
     const { value: currentChat } = currentPrivateChatHandler;
     const { formattedMessages, clearMessages } = privateChatMessagesHandler;
-    const [isOnline, setIsOnline] = useState(false);
     const { socketIoChatService } = useMasterRouterContext().chatServiceHandler;
     useEffect(() => {
-        socketIoChatService?.on(
-            WSChatServiceEvents.Server.NotifyCollaboratorOnlineState,
-            (isOnline: boolean) => {
-                setIsOnline(isOnline);
-            }
-        );
         return () => {
-            socketIoChatService?.off(WSChatServiceEvents.Server.NotifySentMessage);
+            socketIoChatService?.off(WSChatServiceEvents.Server.NotifyCollaboratorOnlineState);
         };
     }, []);
     if (!formattedMessages || !currentChat) return null;
@@ -48,7 +45,7 @@ const PrivateChatRoom = () => {
                 <>
                 <ChatHeader
                     title={`${collaborator.name} ${collaborator.surname}`}
-                    subtitle={isOnline ? "Conectado(a)" : "Desconectado(a)"}
+                    subtitle={<ConnectionData isOnline={isOnlineCollaboratorChat}/>}
                     portrait={
                         <UserImage
                             name={collaborator.name}

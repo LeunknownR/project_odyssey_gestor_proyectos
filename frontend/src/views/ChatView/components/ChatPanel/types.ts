@@ -11,6 +11,5 @@ export type PreviewChatListProps<T> = {
     getChatMessages: (previewChat: T) => void;
 };
 export type ChatPanelProps = {
-    onDispatchPrivateChatMessages: () => void;
-    onDispatchProjectChatMessages: () => void;
+    onNotifyCollaboratorConnectionState: () => void;
 };

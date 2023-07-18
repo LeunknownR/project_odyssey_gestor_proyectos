@@ -83,16 +83,11 @@ export default class GetPrivateChatMessages {
             WSChatServiceEvents.Server.NotifyUnreadPrivateChats,
             hasUnreadChats
         );
-        this.notifyOnlineState(collaboratorId, collaboratorChatId);
-    }
-    private notifyOnlineState(collaboratorId: number, collaboratorChatId: number) {
+        // Notificando estado de conexión al colaborador
         const isOnline: boolean = this.dataHandler.connectedCollaborators.isConnectedCollaborator(collaboratorChatId);
-        const collaboratorChatRoom: string = WSChatServiceRoom.getCollaboratorChatRoom(collaboratorId);
-        this.io
-            .to(collaboratorChatRoom)
-            .emit(
-                WSChatServiceEvents.Server.NotifyCollaboratorOnlineState,
-                isOnline
-            );
+        socket.emit(
+            WSChatServiceEvents.Server.NotifyCollaboratorOnlineState,
+            isOnline
+        );
     }
 }

@@ -1,6 +1,6 @@
 import { DBProjectRoles } from "src/config/roles";
 import { AdditionalPrivateChatInfoProps } from "./types";
-import useChatViewContext from "../../../utils/context/useChatViewContext";
+import useChatViewContext from "src/views/ChatView/utils/context/useChatViewContext";
 
 const AdditionalPrivateChatInfo = ({
     collaboratorRelationList,
