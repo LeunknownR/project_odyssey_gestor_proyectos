@@ -29,11 +29,4 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
-    &:not(.disabled):focus > div:first-child {
-        color: var(--purple-2);
-        border-color: var(--purple-2);
-        & svg {
-            fill: var(--purple-2);
-        }
-    }
 `;

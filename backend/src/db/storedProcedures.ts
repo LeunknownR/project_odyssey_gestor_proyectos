@@ -13,6 +13,7 @@ export enum StoredProcedures {
     DeleteProjectMember = "CALL sp_delete_project_member(?, ?);",
     GetProjectDetails = "CALL sp_get_project_details_by_project_id(?);",
     GetProjectPanelDetails = "CALL sp_get_project_panel_details(?, ?);",
+    // Tareas
     GetProjectTaskPriorities = "CALL sp_get_task_priorities();",
     SearchProjectTeamMember = "CALL sp_search_project_team_member(?, ?);",
     GetProjectTaskBoard = "CALL sp_get_project_task_board(?, ?);",
@@ -24,5 +25,18 @@ export enum StoredProcedures {
     DeleteProjectSubtask = "CALL sp_delete_subtask(?, ?, ?);",
     SwitchCheckStatusSubtask = "CALL sp_switch_check_status_subtask(?, ?, ?, ?);",
     DeleteProjectTask = "CALL sp_delete_task(?, ?, ?);",
-    CommentInProjectTask = "CALL sp_comment_in_task(?, ?, ?, ?);"
+    CommentInProjectTask = "CALL sp_comment_in_task(?, ?, ?, ?);",
+    // Chats
+    SearchPrivateChatPreview = "CALL sp_search_private_chat_preview(?, ?);",
+    GetPrivateChatPreviewWithMessages = "CALL sp_get_private_chat_preview_with_messages(?);",
+    SearchProjectChatPreview = "CALL sp_search_project_chat_preview(?, ?);",
+    GetPrivateChatMessages = "CALL sp_get_private_chat_messages(?, ?);",
+    GetProjectChatMessages = "CALL sp_get_project_chat_messages(?);",
+    GetRelationCollaboratorInPrivateChat = "CALL sp_get_collaborator_relations_in_private_chat(?, ?);",
+    MarkPrivateChatMessagesAsSeen = "CALL sp_mark_private_messages_as_seen(?, ?);",
+    MarkProjectChatMessagesAsSeen = "CALL sp_mark_project_messages_as_seen(?, ?);",
+    SendMessageToPrivateChat = "CALL sp_send_message_to_private_chat(?, ?, ?);",
+    CollaboratorHasUnreadPrivateChats = "CALL sp_collaborator_has_unread_private_chats(?);",
+    CollaboratorHasUnreadProjectChats = "CALL sp_collaborator_has_unread_project_chats(?);",
+    SendMessageToProjectChat = "CALL sp_send_message_to_project_chat(?, ?, ?);"
 }

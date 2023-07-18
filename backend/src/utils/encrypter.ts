@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 
 export default abstract class Encrypter {
-    static encryptPassword = async (password: string): Promise<string> => {
+    static encryptPassword = async (password: string): Promise<string | null> => {
         if (!password) return null;
         // Añadimos el pepper a la contraseña
         password = password + process.env.ENCRYPTION_PEPPER;

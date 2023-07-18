@@ -31,7 +31,7 @@ export const Wrapper = styled(FlexFlow)`
 export const Title = styled.h2`
     color: var(--white-1);
     @media (max-width: ${MOBILE_WIDTH}px) {
-        font-size: 13px;
+        font-size: 12px;
     }
 `;
 export const DashedAddButton = styled(CustomButton)`

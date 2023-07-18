@@ -4,7 +4,7 @@ import { isPositiveNumber, isPositiveNumberOrZero } from "../../../../utils/numb
 import { checkLength } from "../../../../utils/strings";
 import { 
     WSNewProjectTask, 
-    WSProjectTaskToBeChangedState, 
+    WSProjectTaskWithNewState, 
     WSProjectTaskComment, 
     WSProjectTaskMainInformation,
     WSNewProjectSubtask,
@@ -29,11 +29,11 @@ const isValidWSProjectTaskMainInformation = (body: any): boolean => {
     } = body;
     return (
         isPositiveNumber(taskId) &&
-        (responsibleId == null || isPositiveNumber(responsibleId)) &&
+        (responsibleId === null || isPositiveNumber(responsibleId)) &&
         checkLength(name, 1, 40) &&
-        (description == null || checkLength(description, 1, 200)) &&
+        checkLength(description, 0, 200) &&
         (deadline === -1 || isPositiveNumberOrZero(deadline)) &&
-        (priorityId == null || isPositiveNumber(priorityId))
+        (priorityId === null || isPositiveNumber(priorityId))
     )
 }
 export const parseToWSProjectTaskMainInformation = (body: any): WSProjectTaskMainInformation => {
@@ -46,7 +46,7 @@ export const parseToWSProjectTaskMainInformation = (body: any): WSProjectTaskMai
     } = body;
     return {
         taskId, responsibleId,
-        name, description,
+        name, description: description || null,
         deadline, priorityId
     };
 }
@@ -86,7 +86,7 @@ export const parseToWSSubtaskIdToBeDeleted = (subtaskId: any): number => {
         throw new Error("Invalid data to delete subtask ");
     return subtaskId;
 }
-export const parseToWSProjectTaskToBeChangedState = (body: any): WSProjectTaskToBeChangedState => {
+export const parseToWSProjectTaskWithNewState = (body: any): WSProjectTaskWithNewState => {
     const {
         taskId, state
     } = body;

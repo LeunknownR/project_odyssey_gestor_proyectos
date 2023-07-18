@@ -1,8 +1,8 @@
 import { Socket } from "socket.io";
 import { IOServerService, WSEvent, WSServiceEventHandler } from "../../../utils/common";
-import WSProjectTaskServiceDataHandler from "../handlerData";
-import { WSProjectTaskToBeChangedState, WSNewProjectTask, WSProjectTaskComment, WSProjectTaskMainInformation, WSUserDataProjectTaskService, WSNewProjectSubtask, WSProjectSubtaskToBeUpdated, WSProjectSubtaskToBeSwitchedCheckStatus } from "../utils/entities";
-import { parseToWSProjectTaskToBeChangedState, parseToWSTaskIdToBeDeleted, parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskMainInformation, parseToWSNewProjectSubtask, parseToWSProjectSubtaskToBeUpdated, parseToWSProjectSubtaskToBeSwitchedCheckStatus, parseToWSSubtaskIdToBeDeleted } from "../utils/parsers";
+import WSProjectTaskServiceDataHandler from "../dataHandlers";
+import { WSProjectTaskWithNewState, WSNewProjectTask, WSProjectTaskComment, WSProjectTaskMainInformation, WSUserDataProjectTaskService, WSNewProjectSubtask, WSProjectSubtaskToBeUpdated, WSProjectSubtaskToBeSwitchedCheckStatus } from "../utils/entities";
+import { parseToWSProjectTaskWithNewState, parseToWSTaskIdToBeDeleted, parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskMainInformation, parseToWSNewProjectSubtask, parseToWSProjectSubtaskToBeUpdated, parseToWSProjectSubtaskToBeSwitchedCheckStatus, parseToWSSubtaskIdToBeDeleted } from "../utils/parsers";
 import ProjectTasksController from "../../../../controllers/projectTaskController/projectTasks.controller";
 import { WSProjectTaskServiceRoomHandler, getUserDataProjectTaskServiceBySocket } from "../utils/helpers";
 import { ProjectTaskBoard } from "../../../../entities/projectTasks/entities";
@@ -69,7 +69,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         });
         // Actualizando el tablero en la memoria
         this.dataHandler
-            .taskBoardsHandler
+            .taskBoardGroup
             .setTaskBoardProject(projectId, taskBoard);
         // Refrescando tablero a los colaboradores
         const projectRoom: string = WSProjectTaskServiceRoomHandler.getProjectRoom(projectId);
@@ -188,7 +188,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
     }
     private async changeTaskState(socket: Socket, body?: any) {
         // Validando y formateando formulario
-        const projectTaskToBeChangedState: WSProjectTaskToBeChangedState = parseToWSProjectTaskToBeChangedState(body);
+        const projectTaskWithNewState: WSProjectTaskWithNewState = parseToWSProjectTaskWithNewState(body);
         // Obteniendo datos de conexión del colaborador
         const userData = getUserDataProjectTaskServiceBySocket(socket);
         const {
@@ -198,7 +198,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
         // Realizando query para cambiar el estado de una tarea
         await ProjectTasksController.changeTaskState({
             projectId, 
-            payload: projectTaskToBeChangedState, 
+            payload: projectTaskWithNewState, 
             collaboratorId
         });
         // Refrescando tablero a los colaboradores

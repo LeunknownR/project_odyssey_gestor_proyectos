@@ -1,4 +1,3 @@
-import SidebarMenu from "src/views/components/SidebarMenu/SidebarMenu";
 import styled, { keyframes } from "styled-components";
 
 const animationText = keyframes`
@@ -20,7 +19,6 @@ const Text = styled.div`
 const OnDevelopment = () => {
     return (
         <>
-        <SidebarMenu/>
         <Text>En desarrollo...</Text>
         </>
     );

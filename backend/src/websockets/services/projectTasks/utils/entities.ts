@@ -29,7 +29,7 @@ export type WSProjectSubtaskToBeSwitchedCheckStatus = {
 	subtaskId: number;
     checked: boolean;
 };
-export type WSProjectTaskToBeChangedState = {
+export type WSProjectTaskWithNewState = {
     taskId: number;
     state: ProjectState;
 };
@@ -47,7 +47,7 @@ export type WSProjectTaskMainInformationForm = WSProjectTaskForm<WSProjectTaskMa
 export type WSSubtaskToBeUpdatedForm = WSProjectTaskForm<WSProjectSubtaskToBeUpdated>;
 export type WSSubtaskToBeSwitchedCheckStatusForm = WSProjectTaskForm<WSProjectSubtaskToBeSwitchedCheckStatus>;
 export type WSNewProjectSubtaskForm = WSProjectTaskForm<WSNewProjectSubtask>;
-export type WSProjectTaskToBeChangedStateForm = WSProjectTaskForm<WSProjectTaskToBeChangedState>;
+export type WSProjectTaskWithNewStateForm = WSProjectTaskForm<WSProjectTaskWithNewState>;
 export type WSProjectSubtaskToBeDeletedForm = WSProjectTaskForm<number>;
 export type WSProjectTaskToBeDeletedForm = WSProjectTaskForm<number>;
 export type WSProjectTaskCommentForm = WSProjectTaskForm<WSProjectTaskComment>;

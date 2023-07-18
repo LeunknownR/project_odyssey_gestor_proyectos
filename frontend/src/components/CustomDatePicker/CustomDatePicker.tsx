@@ -5,6 +5,7 @@ import { useEffect, useState, useRef } from "react";
 import { 
     Container,
     Content } from "./styles";
+import { FlexFlow } from "../styles";
 //#endregion
 //#region Components
 // import ErrorMessage from "components/ErrorMessage/ErrorMessage";
@@ -18,7 +19,6 @@ import {
     getToday
  } from "./utils/helpers";
 import { CustomDatePickerProps } from "./types";
-import { FlexFlow } from "../styles";
 //#endregion
  
 const CustomDatePicker = ({

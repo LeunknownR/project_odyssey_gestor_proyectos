@@ -7,5 +7,5 @@ export type TokenPayload = {
 export type ResponseBody<T = null> = {
     code: ResponseCodes,
     message: string | null,
-    data: T | null
+    data: T
 };

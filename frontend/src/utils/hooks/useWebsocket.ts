@@ -7,22 +7,23 @@ import {
     tokenLocalStorage,
 } from "src/storage/user.local";
 import { User } from "src/entities/user/types";
-import { WSServiceDataConnection } from "src/services/websockets/types";
+import { WSHeaders } from "src/services/websockets/types";
+import WSServicePaths from "src/services/websockets/services";
 
-function useWebsocket<P>(
-    wsServiceDataConnection: WSServiceDataConnection<P>,
-    params: P
+function useWebsocket(
+    servicePath: WSServicePaths
 ): WebsocketHook {
     const [socketIo, setSocketIo] = useState<Socket | null>(null);
-    const connect = (): Socket => {
+    const connect = (headers?: WSHeaders): Socket => {
         const currentUser: User = currentUserLocalStorage.get();
-        const socket = io(`${HOST_WS}${wsServiceDataConnection.servicePath}`, {
+        const socket = io(`${HOST_WS}${servicePath}`, {
             extraHeaders: {
                 authorization: `Bearer ${tokenLocalStorage.get()}`,
-                "user-id": String(currentUser.id),
-                ...wsServiceDataConnection.getHeaders(params),
+                "x-user-id": String(currentUser?.id),
+                ...headers,
             },
-            closeOnBeforeunload: false,
+            forceNew: true,
+            closeOnBeforeunload: false
         });
         setSocketIo(socket);
         return socket;
@@ -34,7 +35,7 @@ function useWebsocket<P>(
     return {
         socketIo: socketIo || null,
         connect,
-        disconnect,
+        disconnect
     };
 }
 

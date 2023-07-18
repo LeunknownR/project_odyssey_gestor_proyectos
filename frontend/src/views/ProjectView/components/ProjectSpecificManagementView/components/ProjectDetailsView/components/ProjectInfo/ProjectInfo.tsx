@@ -1,9 +1,5 @@
 //#region styles
-import {
-    Container,
-    DataPart,
-    Description,
-} from "./styles";
+import { Container, DataPart, Description } from "./styles";
 //#endregion
 //#region components
 import Period from "./components/Period/Period";
@@ -11,23 +7,23 @@ import ProjectTitle from "src/views/components/ProjectTitle/ProjectTitle";
 //#endregion
 //#region types
 import { ProjectInfoProps } from "./types";
+import { MENU_OPTIONS } from "./utils/constants";
 //#endregion
 
 const ProjectInfo = ({
-    name,
-    description,
-    period,
-    state,
+    projectDetails,
     openUpdateDateModal,
     currentUserIsProjectLeader,
 }: ProjectInfoProps) => {
+    const { name, description, period, state } = projectDetails;
     return (
         <Container>
-            <ProjectTitle name={name} state={state} />
+            <ProjectTitle 
+                name={name} 
+                state={state} 
+                options={MENU_OPTIONS}/>
             <DataPart>
-                <Description>
-                    {description}
-                </Description>
+                <Description>{description}</Description>
                 <Period
                     period={period}
                     openUpdateDateModal={openUpdateDateModal}

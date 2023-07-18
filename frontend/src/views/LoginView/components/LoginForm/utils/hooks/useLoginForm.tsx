@@ -8,13 +8,13 @@ import { AbsolutePaths } from "src/config/absolutePaths";
 import { requestLogin } from "src/services/authentication/auth";
 import { AuthData } from "src/entities/user/types";
 import { currentUserLocalStorage, tokenLocalStorage } from "src/storage/user.local";
+import { PreloaderHook } from "src/components/Preloader/types";
 
-const useLoginForm = (): LoginFormHook => {
+const useLoginForm = (preloader: PreloaderHook): LoginFormHook => {
     // const { checkExpirationTimeToken } = useMainContext();
     //#region States
     const [form, setForm] = useState<LoginFormTypes>({...INITIAL_CREDENTIALS});
     const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
     //#endregion
     const navigate = useNavigate();
     //#region Functions
@@ -41,9 +41,9 @@ const useLoginForm = (): LoginFormHook => {
     const handleSubmit = async (e: React.MouseEvent<HTMLElement>): Promise<void> => {
         e.preventDefault();
         if (existsErrors()) return;
-        setLoading(true);
+        preloader.show(null);
         const {data, message} = await requestLogin(form);
-        setLoading(false);
+        preloader.hide();
         if (checkErrors(message, data)) return;
         // Éxito
         saveAuthData(data);
@@ -79,7 +79,6 @@ const useLoginForm = (): LoginFormHook => {
             isCompleted: isCompletedForm,
         },
         error,
-        loading,
         handleChange,
         handleSubmit
     };

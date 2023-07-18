@@ -1,6 +1,16 @@
-import styled from "styled-components";
-import BackgroundImage from "./temporal-fondo-borrar.png";
+import styled, { keyframes } from "styled-components";
 import { MOBILE_WIDTH } from "src/config/constants";
+
+const bgAnimation = keyframes`
+    to {
+        filter: blur(220px);
+    }
+`;
+const bgAnimationMobile = keyframes`
+    to {
+        filter: blur(140px);
+    }
+`;
 export const Container = styled.section`
     display: flex;
     height: 100vh;
@@ -9,12 +19,33 @@ export const Container = styled.section`
     align-items: center;
     justify-content: center;
     position: relative;
-    background-image: url(${BackgroundImage});
     background-repeat: no-repeat;
     background-size: cover;
-    @media (max-width: 600px) {
-        padding: 0;
+    ::before {
+        position: fixed;
+        top: 5vh;
+        left: 5vw;
+        display: block;
+        content: attr(div);
+        width: 30vw;
+        height: 20vw;
+        border-radius: 100%;
+        background-color: var(--orange-3);
+        filter: blur(150px);
+        animation: linear ${bgAnimation} 2s infinite alternate-reverse;
+        z-index: -1;
     }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        padding: 0;
+        ::before {
+            top: 0;
+            left: 0;
+            width: 50vw;
+            height: 40vw;
+            animation-name: ${bgAnimationMobile};
+            filter: blur(100px);
+        }
+    }    
 `;
 export const Slogan = styled.div`
     flex: 1;

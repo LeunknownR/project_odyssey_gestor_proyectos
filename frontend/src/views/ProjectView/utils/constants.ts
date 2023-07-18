@@ -1,27 +1,20 @@
-import { SubmoduleView } from "src/config/types";
-import ProjectDetailsView from "./components/ProjectDetailsView/ProjectDetailsView";
-import ProjectPanel from "./components/ProjectPanel/ProjectPanel";
-import ProjectManagerView from "src/views/ProjectManager/ProjectManagerView";
-import { AbsolutePaths } from "src/config/absolutePaths";
+import { ProjectSubmoduleView } from "src/config/types";
+import ProjectManagerView from "../components/ProjectManagerView/ProjectManagerView";
+import ProjectPanel from "../components/ProjectSpecificManagementView/components/ProjectPanel/ProjectPanel";
 
-export const SUBMODULES_VIEWS: SubmoduleView[] = [
+export const SUBMODULES_VIEWS: ProjectSubmoduleView[] = [
     {
         key: "PROJECT_MANAGER",
         View: ProjectManagerView,
         path: "",
     },
-    // {
-    //     key: "PROJECT_DETAILS",
-    //     View: ProjectDetailsView,
-    //     path: "detalles",
-    // },
     {
         key: "PROJECT_PANEL",
         View: ProjectPanel,
         path: "*",
     },
 ];
-export enum ViewModule {
+export enum ProjectSubmodules {
     Projects = "PROJECT_MANAGER",
     ProjectSpecificManager = "PROJECT_SPECIFIC_MANAGER"
-}
+};

@@ -14,6 +14,8 @@ export const Container = styled.div<ContainerProps>`
     width: ${({ width = "100%" }) => width};
     max-width: ${({ maxWidth }) => maxWidth};
     position: relative;
+    height: 100%;
+    border-radius: 5px;
     &.primary,
     &.secondary {
         gap: 14px;
@@ -42,15 +44,16 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: 3px;
+    border-radius: inherit;
     transition: 0.3s;
     font-size: 16px;
     gap: 7px;
+    min-height: 80px;
     &.primary {
         background-color: var(--white-1-12);
         border: 1px solid var(--white-1);
         color: var(--white-1);
-        border-radius: 5px;
+        border-radius: inherit;
         ::placeholder {
             color: var(--gray-3);
         }
@@ -59,7 +62,7 @@ export const Content = styled.div`
         background-color: var(--white-1-12);
         border: 1px solid var(--darkblue-1);
         color: var(--darkblue-1);
-        border-radius: 5px;
+        border-radius: inherit;
         ::placeholder {
             color: var(--gray-2);
         }
@@ -77,9 +80,13 @@ export const TextArea = styled.textarea`
     background-color: transparent;
     color: inherit;
     resize: none;
-    min-height: 80px;
-    padding: 10px 10px 0;
+    padding: 15px 10px;
     overflow-y: scroll;
+    transition: 0.35s;
+    :disabled {
+        opacity: 0.6;
+        pointer-events: none;
+    }
     ::placeholder {
         user-select: none;
     }

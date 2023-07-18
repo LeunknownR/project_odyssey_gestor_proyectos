@@ -6,7 +6,6 @@ import { Container } from "./styles";
 import Preloader from "src/components/Preloader/Preloader";
 import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
 import { isPositiveNumber } from "src/utils/numbers";
-import SidebarMenu from "src/views/components/SidebarMenu/SidebarMenu";
 
 const ProjectSpecificManagementView = () => {
     //#region States
@@ -33,7 +32,10 @@ const ProjectSpecificManagementView = () => {
             <Route
                 key={key}
                 path={path}
-                element={<View preloader={preloader} projectId={projectId}/>}/>
+                element={
+                    <View 
+                        preloader={preloader} 
+                        projectId={projectId}/>}/>
         )));
     }
     if (!showRoutes)
@@ -41,7 +43,6 @@ const ProjectSpecificManagementView = () => {
     //#endregion
     return (
         <>
-        <SidebarMenu />
         <Container>
             <Routes>
                 {routes}
@@ -52,6 +53,7 @@ const ProjectSpecificManagementView = () => {
                 />}
             </Routes>
         </Container>
+        {/* <SidebarMenu /> */}
         <Preloader {...preloader.value} />
         </>
     );

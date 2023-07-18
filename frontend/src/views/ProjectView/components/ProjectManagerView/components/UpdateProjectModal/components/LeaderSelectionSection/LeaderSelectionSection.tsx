@@ -2,10 +2,10 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { Container, Column } from "./styles";
 import Footer from "./components/Footer/Footer";
 import { LeaderSelectionSectionProps } from "./types";
-import LeaderSelector from "../../../NewProjectSection/components/NewProjectModal/components/LeaderSelector/LeaderSelector";
 import { FlexFlow } from "src/components/styles";
 import { CloseButtonProjectForm } from "../../../../styles";
 import ProjectInfo from "../../../ProjectInfo/ProjectInfo";
+import LeaderSelector from "../../../NewProjectModal/components/LeaderSelector/LeaderSelector";
 
 const LeaderSelectionSection = ({
     modalProps,

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CARD_LIST_GAP } from "../constants";
 import { SliderHook } from "./types";
-import { Project } from "src/entities/project/types";
+import { Project } from "src/entities/project/entities";
 
 const useSlider = (
     $list: React.MutableRefObject<HTMLDivElement | undefined>,
@@ -52,8 +52,7 @@ const useSlider = (
         const diffMovement: number = startX - endX;
         let newIdxActiveCard: number = listWidth / (-newTranslateX + cardWidth);
         // Decidiendo si hacia adelante o hacia atrás
-        newIdxActiveCard =
-            Math[diffMovement > 0 ? "floor" : "ceil"](newIdxActiveCard);
+        newIdxActiveCard = Math[diffMovement > 0 ? "floor" : "ceil"](newIdxActiveCard);
         newIdxActiveCard = recentProjects.length - newIdxActiveCard;
         // Revisando si no hay desborde para atrás
         newIdxActiveCard = newIdxActiveCard < 0 ? 0 : newIdxActiveCard;

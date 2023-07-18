@@ -1,13 +1,10 @@
-import useMainContext from "src/utils/contexts/main-context/useMainContext";
-import { Container } from "./styles";
+import { Container, Label, Value } from "./styles";
 import { ProjectDeadlineProps } from "./types";
-import { FlexFlow } from "src/components/styles";
 
 const ProjectDeadline = ({ 
     startDate, endDate, 
-    variant = "long"
+    variant = "long", withLabel = false
 }: ProjectDeadlineProps) => {
-    const { isMobile } = useMainContext();
     const convertMilisToReadableDate = (milis: number) => {
         const date = new Date(milis);
         return date.toLocaleDateString('es-ES', {day: 'numeric', month: `${variant}`})
@@ -20,17 +17,9 @@ const ProjectDeadline = ({
         end: convertMilisToReadableDate(endDate)
     };
     return (
-        <Container className={variant}>
-            {isMobile && variant === "short"
-            ? <FlexFlow direction="column">
-                <span>
-                    <b>Desde:</b> {readableDate.start}
-                </span>
-                <span>
-                    <b>Hasta:</b> {readableDate.end}
-                </span>
-            </FlexFlow>
-            : `${readableDate.start} - ${readableDate.end}`}
+        <Container>
+            {withLabel && <Label>Periodo:</Label>}
+            <Value>{readableDate.start} - {readableDate.end}</Value>
         </Container>
     );
 };
