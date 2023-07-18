@@ -40,7 +40,7 @@ const ProjectManagerView = () => {
         currentProject
     );
     const filters = useProjectFilters();
-    const { 
+    const {
         recentProjects, 
         allProjects, 
         fillProjects, 

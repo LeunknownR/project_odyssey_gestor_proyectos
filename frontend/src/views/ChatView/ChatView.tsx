@@ -12,8 +12,9 @@ import useProjectChatMessages from "./utils/hooks/useProjectChatMessages";
 import usePrivateChatMessages from "./utils/hooks/usePrivateChatMessages";
 import useCurrentPrivateChat from "./utils/hooks/useCurrentPrivateChat";
 import useCurrentProjectChat from "./utils/hooks/useCurrentProjectChat";
+import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
 
-const ChatView = () => {
+const View = () => {
     const preloader = usePreloader();
     //#region States
     const [isMobileChatOpen, setMobileIsChatOpen] = useState(false);
@@ -62,6 +63,13 @@ const ChatView = () => {
         </Container>
         <Preloader {...preloader.value}/>
         </>
+    );
+}
+const ChatView = () => {
+    const { chatServiceHandler } = useMasterRouterContext();
+    if (!chatServiceHandler.socketIoChatService) return null;
+    return (
+        <View/>
     );
 };
 
