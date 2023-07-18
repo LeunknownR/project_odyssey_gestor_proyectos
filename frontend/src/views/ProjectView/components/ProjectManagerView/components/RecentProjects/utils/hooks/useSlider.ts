@@ -52,8 +52,7 @@ const useSlider = (
         const diffMovement: number = startX - endX;
         let newIdxActiveCard: number = listWidth / (-newTranslateX + cardWidth);
         // Decidiendo si hacia adelante o hacia atrás
-        newIdxActiveCard =
-            Math[diffMovement > 0 ? "floor" : "ceil"](newIdxActiveCard);
+        newIdxActiveCard = Math[diffMovement > 0 ? "floor" : "ceil"](newIdxActiveCard);
         newIdxActiveCard = recentProjects.length - newIdxActiveCard;
         // Revisando si no hay desborde para atrás
         newIdxActiveCard = newIdxActiveCard < 0 ? 0 : newIdxActiveCard;

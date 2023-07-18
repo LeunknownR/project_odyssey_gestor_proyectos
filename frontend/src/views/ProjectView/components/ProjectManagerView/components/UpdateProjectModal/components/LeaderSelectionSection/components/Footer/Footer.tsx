@@ -3,7 +3,7 @@ import CustomButton from "src/components/CustomButton/CustomButton";
 import { Container } from "./styles";
 import { FooterProps } from "./types";
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
-import ResponsiveButtons from "../../../../../NewProjectSection/components/NewProjectModal/components/ResponsiveButtons/ResponsiveButtons";
+import ResponsiveButtons from "../../../../../NewProjectModal/components/ResponsiveButtons/ResponsiveButtons";
 
 const Footer = ({
     updateProject,

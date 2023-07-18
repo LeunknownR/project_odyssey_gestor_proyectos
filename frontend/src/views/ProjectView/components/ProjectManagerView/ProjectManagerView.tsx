@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Content, ProjectFinderWrapper } from "./styles";
 import useModal from "src/components/Modal/utils/hooks/useModal";
 import RecentProjects from "./components/RecentProjects/RecentProjects";
@@ -7,7 +7,6 @@ import AllProjects from "./components/AllProjects/AllProjects";
 import NotificationCard from "src/components/NotificationCard/NotificationCard";
 import useNotificationCard from "src/components/NotificationCard/utils/hooks/useNotificationCard";
 import { Project } from "src/entities/project/entities";
-import NewProjectSection from "./components/NewProjectSection/NewProjectSection";
 import useFormProject from "./utils/hooks/useFormProject";
 import DeleteProjectModal from "./components/DeleteProjectModal/DeleteProjectModal";
 import ProjectFinder from "./components/ProjectFinder/ProjectFinder";
@@ -16,12 +15,13 @@ import useProjectFilters from "./utils/hooks/useProjectFilters";
 import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
 import Preloader from "src/components/Preloader/Preloader";
 import EmptyProjects from "./components/EmptyProjects/EmptyProjects";
-import SidebarMenu from "src/views/components/SidebarMenu/SidebarMenu";
 import { DBRoles } from "src/config/roles";
 import { MenuOption } from "src/views/components/MenuOptions/types";
 import useUserRole from "src/storage/hooks/useUserRole";
 import { CardVariant } from "src/components/NotificationCard/types";
 import { requestDeleteProject } from "src/services/projects/relatedToProjects";
+import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
+import NewProjectModal from "./components/NewProjectModal/NewProjectModal";
 
 const ProjectManagerView = () => {
     const [currentProject, setCurrentProject] = useState<Project | null>(null);
@@ -32,6 +32,7 @@ const ProjectManagerView = () => {
     const deleteProjectModal = useModal();
     const preloader = usePreloader();
     const userRole = useUserRole();
+    const isGeneralAdmin: boolean = userRole === DBRoles.GeneralAdmin;
     //#endregion
     const { form, getProjectFromForm } = useFormProject(
         newProjectModal,
@@ -39,7 +40,21 @@ const ProjectManagerView = () => {
         currentProject
     );
     const filters = useProjectFilters();
-    const { recentProjects, allProjects, fillProjects, doFill } = useProjectList(preloader, filters.value);
+    const { 
+        recentProjects, 
+        allProjects, 
+        fillProjects, 
+        doFill 
+    } = useProjectList(preloader, filters.value);
+    const { mainMenuButtonHandler } = useMasterRouterContext();
+    useEffect(() => {
+        if (!isGeneralAdmin) return;
+        mainMenuButtonHandler.addButton({
+            id: "ADD_PROJECT",
+            icon: "mdi:layers-plus",
+            onClick: openCreateProjectModal
+        });
+    }, [userRole]);
     const openCreateProjectModal = (): void => {
         notificationCard.hide();
         setCurrentProject(null);
@@ -95,17 +110,6 @@ const ProjectManagerView = () => {
     };
     return (
         <>
-        <SidebarMenu
-            mainMenuButton={
-                <NewProjectSection
-                    modal={newProjectModal}
-                    form={form}
-                    getProjectFromForm={getProjectFromForm}
-                    fillProjects={fillProjects}
-                    preloader={preloader}
-                    notificationCard={notificationCard}
-                    openCreateProjectModal={openCreateProjectModal}
-                />}/>
         <Container>
             <Content>
                 <ProjectFinderWrapper>
@@ -124,6 +128,16 @@ const ProjectManagerView = () => {
                 </> : <EmptyProjects />}
             </Content>
         </Container>
+        {isGeneralAdmin && 
+        <>
+        <NewProjectModal
+            preloader={preloader}
+            modalProps={newProjectModal}
+            form={form}
+            getProjectFromForm={getProjectFromForm}
+            fillProjects={fillProjects}
+            notificationCard={notificationCard}
+        />
         <UpdateProjectModal
             modalProps={updateProjectModal}
             currentProject={currentProject}
@@ -138,6 +152,7 @@ const ProjectManagerView = () => {
         <NotificationCard
             handler={notificationCard}
             variant={notificationCard.cardVariant}/>
+        </>}
         <Preloader {...preloader.value} />
         </>
     );

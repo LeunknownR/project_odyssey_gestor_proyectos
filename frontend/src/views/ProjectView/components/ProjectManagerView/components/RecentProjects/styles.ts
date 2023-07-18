@@ -1,8 +1,7 @@
 import { FlexFlow } from 'src/components/styles';
 import { MOBILE_WIDTH } from 'src/config/constants';
 import styled from 'styled-components';
-import { CARD_LIST_GAP } from './utils/constants';
-import { RECENT_PROJECT_CARD_WIDTH } from './components/RecentProjectCard/styles';
+import { CARD_LIST_GAP, RECENT_PROJECT_CARD_WIDTH } from './utils/constants';
 
 export const Container = styled.div`
     display: flex;
@@ -15,7 +14,7 @@ export const Container = styled.div`
 `;
 export const ScreenList = styled(FlexFlow)`
     @media (max-width: ${MOBILE_WIDTH}px) {
-        width: ${RECENT_PROJECT_CARD_WIDTH};
+        width: ${RECENT_PROJECT_CARD_WIDTH + 20}px;
         overflow: hidden;
     }
 `;

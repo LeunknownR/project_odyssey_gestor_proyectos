@@ -11,6 +11,7 @@ import SubtaskList from "./components/SubtaskList/SubtaskList";
 import useUpdateMainInformationTask from "./utils/hooks/useUpdateMainInformationTask";
 import ChangeStateModal from "./components/ChangeStateModal";
 import useModal from "src/components/Modal/utils/hooks/useModal";
+import { FlexFlow } from "src/components/styles";
 
 const EditTaskForm = ({
     openModalDeleteTask,
@@ -45,7 +46,8 @@ const EditTaskForm = ({
                 $container.contains($elementClicked) || 
                 !document.body.contains($elementClicked) ||
                 $elementClicked.classList.contains("modal") ||
-                $elementClicked.closest(".task-card")
+                $elementClicked.id === "comment-box" ||
+                $elementClicked.closest(".task-card, #comment-box")
             ) return;
             hideEditTaskForm();
         };
@@ -93,19 +95,18 @@ const EditTaskForm = ({
     };
     //#endregion
     return (
-        <>
-        <Container
-            className={getClassName()}
-            tabIndex={0}
-            ref={containerRef}>
-            {renderContent()}
-        </Container>
-        {currentProjectTask && 
-            <ChangeStateModal 
-                modalProps={changeStateModal} 
-                {...currentProjectTask}/>
-        }
-        </>
+        <FlexFlow id="edit-task-form" width="100%">
+            <Container
+                className={getClassName()}
+                tabIndex={0}
+                ref={containerRef}>
+                {renderContent()}
+            </Container>
+            {currentProjectTask && 
+                <ChangeStateModal 
+                    modalProps={changeStateModal}
+                    {...currentProjectTask}/>}
+        </FlexFlow>
     );
 };
 

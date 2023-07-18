@@ -7,8 +7,10 @@ import {
     Spinner } from "./styles";
 import { PreloaderProps } from "./types";
 import preloaderImage from "src/images/preloader-img.svg"
+import { createPortal } from "react-dom";
 //#endregion
 
+const preloadersContainer: Element = document.getElementById("preloaders") as Element;
 const Preloader = ({
     hidden,
     message = "Cargando..."
@@ -29,13 +31,14 @@ const Preloader = ({
         hidden && classList.push("hidden");
         return classList.join(" ");
     }
-    return (
+    return createPortal(
         <Container className={getClassName()}>
             <Spinner>
                 <Blades src={preloaderImage} />
             </Spinner>
             {message && <Message>{message}</Message>}
-        </Container>
+        </Container>, 
+        preloadersContainer
     );
 }
 

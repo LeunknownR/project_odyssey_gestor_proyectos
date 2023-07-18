@@ -1,12 +1,12 @@
 import styled from "styled-components";
+import { RECENT_PROJECT_CARD_WIDTH } from "../../utils/constants";
 
-export const RECENT_PROJECT_CARD_WIDTH: string = "280px";
 export const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-width: ${RECENT_PROJECT_CARD_WIDTH};
+    min-width: ${RECENT_PROJECT_CARD_WIDTH}px;
     border: 2px solid var(--gray-1);
     background-color: #112430;
     border-radius: 7px;

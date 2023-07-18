@@ -12,7 +12,6 @@ export const Container = styled.section`
     padding-bottom: 15px;
     @media (max-width: 600px) {
         padding-top: 30px;
-        padding-bottom: calc(var(--main-sidebar-height-mobile) + 5px);
     }
 `;
 export const Content = styled.main`

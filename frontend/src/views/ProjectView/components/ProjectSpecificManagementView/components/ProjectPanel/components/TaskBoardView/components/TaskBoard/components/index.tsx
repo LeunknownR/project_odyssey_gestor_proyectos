@@ -1,6 +1,6 @@
 import { FlexFlow } from "src/components/styles";
 import { ChangeStateSectionButtonsProps } from "./types";
-import { ResponsiveBackButton, ResponsiveNextButton } from "src/views/ProjectView/components/ProjectManagerView/components/NewProjectSection/components/NewProjectModal/components/ResponsiveButtons/styles";
+import { ResponsiveBackButton, ResponsiveNextButton } from "src/views/ProjectView/components/ProjectManagerView/components/NewProjectModal/components/ResponsiveButtons/styles";
 
 const ChangeStateSectionButtons = ({
     stateIdx,

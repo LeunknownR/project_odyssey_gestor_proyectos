@@ -6,8 +6,8 @@ import { ChangeEventHandler } from "react";
 import { Container } from "./styles";
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
 import Duration from "../../../Duration/Duration";
-import ResponsiveButtons from "../../../NewProjectSection/components/NewProjectModal/components/ResponsiveButtons/ResponsiveButtons";
 import { TEXT_FIELD_PROPS } from "../../../../utils/constants";
+import ResponsiveButtons from "../../../NewProjectModal/components/ResponsiveButtons/ResponsiveButtons";
 
 const ProjectFormComponent = ({ form, tabIdx, toPage }: ProjectFormComponentProps) => {
     const { name, description } = form.value;

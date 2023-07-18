@@ -6,7 +6,7 @@ import {
     StateProject,
     TextRecentCard,
 } from "./styles";
-import ProjectCollaborators from "./components/ProjectCollaborators/ProjectCollaborators";
+import ProjectTeamCount from "./components/ProjectTeamCount";
 import { RecentProjectCardProps } from "./types";
 import Header from "./components/Header/Header";
 
@@ -30,7 +30,7 @@ const RecentProjectCard = ({
                     <ProjectTitle title={name}>{name}</ProjectTitle>
                 </div>
                 {leader && (
-                    <ProjectCollaborators
+                    <ProjectTeamCount
                         leaderName={leader.name}
                         projectMemberCount={projectMemberCount}
                     />

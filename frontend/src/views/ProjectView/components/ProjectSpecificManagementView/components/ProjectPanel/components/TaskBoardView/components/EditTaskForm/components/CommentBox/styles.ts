@@ -23,6 +23,10 @@ export const Container = styled(FlexFlow.withComponent("footer"))`
     @media (max-width: ${MOBILE_WIDTH}px) {
         background-color: var(--darkblue-3);
         padding: 20px 18px;
+        position: fixed;
+        bottom: var(--main-sidebar-height-mobile);
+        left: 0;
+        z-index: 3;
     }
 `;
 export const CommentInput = styled(CustomTextArea)`

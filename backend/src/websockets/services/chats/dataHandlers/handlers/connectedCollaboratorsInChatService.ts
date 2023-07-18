@@ -1,27 +1,30 @@
+import { WSConnectedCollaborator } from "../../utils/types";
+
 export default class WSChatServiceConnectedCollaborators {
     //#region Attributes
-    private collaboratorIdList: number[];
+    private collaboratorList: WSConnectedCollaborator[];
     //#endregion
     constructor() {
-        this.collaboratorIdList = [];
+        this.collaboratorList = [];
     }
     //#region Methods
-    forEach(iterate: (collaboratorId: number) => void): void {
-        this.collaboratorIdList.forEach(iterate);
+    forEach(iterate: (collaborator: WSConnectedCollaborator) => void): void {
+        this.collaboratorList.forEach(iterate);
     }
-    addCollaborator(collaboratorId: number): void {
-        if (this.collaboratorIdList.includes(collaboratorId)) return;
-        this.collaboratorIdList = [
-            ...this.collaboratorIdList,
-            collaboratorId
+    addCollaborator(collaborator: WSConnectedCollaborator): void {
+        this.collaboratorList = [
+            ...this.collaboratorList,
+            collaborator
         ];
     }
-    removeCollaborator(collaboratorId: number): void {
-        this.collaboratorIdList = this.collaboratorIdList
-            .filter(id => id !== collaboratorId);
+    removeCollaborator(collaboratorSocketId: string): void {
+        this.collaboratorList = this.collaboratorList
+            .filter(({ socketId }) => socketId !== collaboratorSocketId);
     }
     isConnectedCollaborator(collaboratorId: number): boolean {
-        return this.collaboratorIdList.includes(collaboratorId);
+        return this
+            .collaboratorList
+            .some(({ id }) => id === collaboratorId);
     }
     //#endregion
 }

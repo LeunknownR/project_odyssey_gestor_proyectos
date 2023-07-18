@@ -10,7 +10,7 @@ export const Container = styled(FlexFlow.withComponent("section"))`
     @media (max-width: ${MOBILE_WIDTH}px) {
         width: 300px;
         overflow: hidden;
-        padding-bottom: 0px;
+        padding: 0px;
     }
 `;
 type ScreenListProps = {

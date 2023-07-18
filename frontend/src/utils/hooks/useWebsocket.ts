@@ -19,7 +19,7 @@ function useWebsocket(
         const socket = io(`${HOST_WS}${servicePath}`, {
             extraHeaders: {
                 authorization: `Bearer ${tokenLocalStorage.get()}`,
-                "user-id": String(currentUser?.id),
+                "x-user-id": String(currentUser?.id),
                 ...headers,
             },
             forceNew: true,

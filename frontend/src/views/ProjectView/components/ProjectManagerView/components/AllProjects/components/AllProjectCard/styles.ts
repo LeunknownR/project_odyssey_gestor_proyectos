@@ -2,9 +2,11 @@ import { FlexFlow } from 'src/components/styles';
 import { MOBILE_WIDTH } from 'src/config/constants';
 import styled from 'styled-components';
 
-export const Container = styled.li`
-    display: flex;
+export const Container = styled(FlexFlow.withComponent("li"))`
     list-style: none;
+    flex-wrap: nowrap;
+    width: 100%;
+    flex-direction: column;
     justify-content: space-between;
     width: 100%;
     background-color: var(--white-1-12);
@@ -12,6 +14,7 @@ export const Container = styled.li`
     padding: 7px 24px;
     padding-right: 14px;
     border-radius: 10px;
+    gap: 6px;
     &.O {
         border-left: 27px solid var(--green-1);
     }
@@ -48,16 +51,12 @@ export const ProjectName = styled.h2`
         width: 100%;
     }
 `;
-export const DateLabel = styled.span`
-    color: var(--white-1);
-    font-weight: 700;
-    font-size: 17px;
-    @media (max-width: ${MOBILE_WIDTH}px) {
-        display: none;
-    }
-`;
 export const OptionsWrapper = styled.div`
     position: relative;
+`;
+export const StartContent = styled(FlexFlow)`
+    align-items: center;
+    gap: 10px;
 `;
 export const EndContent = styled(FlexFlow)`
     @media (max-width: ${MOBILE_WIDTH}px) {

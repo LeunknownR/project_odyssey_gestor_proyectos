@@ -8,19 +8,22 @@ export const Container = styled.div`
     font-weight: bold;
     color: var(--white-1);
     font-size: 15px;
-    background-color: var(--white-1-50);
+    background-color: var(--white-1-30);
     border-radius: 6px;
     padding: 8px 13px;
     width: 100%;
-    &.short {
+    gap: 10px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
         font-size: 13px;
         padding: 4px 10px;
-    }
-    @media (max-width: ${MOBILE_WIDTH}px) {
-        font-size: 12px;
         width: max-content;
         &.short {
             white-space: nowrap;
         }
     }
 `;
+export const Label = styled.label`
+    color: var(--gray-1);
+    font-weight: bold;
+`;
+export const Value = styled.span``;

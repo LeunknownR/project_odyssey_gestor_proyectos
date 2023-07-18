@@ -1,10 +1,9 @@
-import { Container } from "./styles";
+import { Container, Label, Value } from "./styles";
 import { ProjectDeadlineProps } from "./types";
-import { FlexFlow } from "src/components/styles";
 
 const ProjectDeadline = ({ 
     startDate, endDate, 
-    variant = "long", mobile
+    variant = "long", withLabel = false
 }: ProjectDeadlineProps) => {
     const convertMilisToReadableDate = (milis: number) => {
         const date = new Date(milis);
@@ -18,14 +17,9 @@ const ProjectDeadline = ({
         end: convertMilisToReadableDate(endDate)
     };
     return (
-        <Container className={variant}>
-            {mobile && variant === "short"
-            ? <FlexFlow 
-                width="150px"
-                align="flex-start">
-                <b>Periodo:</b>{readableDate.start} - {readableDate.end}
-            </FlexFlow>
-            : `${readableDate.start} - ${readableDate.end}`}
+        <Container>
+            {withLabel && <Label>Periodo:</Label>}
+            <Value>{readableDate.start} - {readableDate.end}</Value>
         </Container>
     );
 };

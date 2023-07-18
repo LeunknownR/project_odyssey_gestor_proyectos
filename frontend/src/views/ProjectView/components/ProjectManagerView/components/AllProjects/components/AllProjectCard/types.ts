@@ -4,4 +4,4 @@ import { MenuOption } from "src/views/components/MenuOptions/types";
 export type AllProjectCardProps = {
     project: Project;
     options: MenuOption[];
-}
+};

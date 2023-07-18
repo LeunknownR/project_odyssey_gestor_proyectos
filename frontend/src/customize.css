@@ -30,6 +30,7 @@
 	--white-3: #D9D9D9;
 	--white-1-05: #FFFFFF0d;
 	--white-1-12: #FFFFFF1f;
+	--white-1-30: #ffffff60;
 	--white-1-50: #FFFFFF80;
 	--gray-1: #DEDEDE;
 	--gray-2: #8F8F8F;
@@ -104,13 +105,19 @@ p {
 }
 *.custom-scrollbar::-webkit-scrollbar {
     background-color: var(--white-1-12);
-    width: 10px;
-    height: 10px;
+    width: 7px;
+    height: 7px;
 	border-radius: 20px;
 }
 @media (max-width: 600px) {
 	*.custom-scrollbar::-webkit-scrollbar {
-		width: 6px;
-		height: 6px;
+		width: 5px;
+		height: 5px;
+	}
+}
+@media (min-width: 1500px) {
+	*.custom-scrollbar::-webkit-scrollbar {
+		width: 10px;
+		height: 10px;
 	}
 }

@@ -7,7 +7,7 @@ export const Container = styled(FlexFlow.withComponent("section"))`
     position: fixed;
     right: 0;
     bottom: 0;
-    z-index: 100;
+    z-index: 2;
     overflow: hidden;
     transition: 0.4s;
     translate: 105%;
@@ -29,7 +29,10 @@ export const Container = styled(FlexFlow.withComponent("section"))`
         width: 100%;
         top: 0;
         left: 0;
-        border-left: none
+        border-left: none;
+        position: fixed;
+        padding-bottom: 82px;
+        width: 100%;
     }
 `;
 export const Content = styled.div`
