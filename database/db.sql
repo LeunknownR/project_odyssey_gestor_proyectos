@@ -27,7 +27,7 @@ CREATE TABLE `user` (
     `id_user` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `user_name` VARCHAR(50) NOT NULL,
     `user_surname` VARCHAR(50) NOT NULL,
-    `username` VARCHAR(12) NOT NULL,
+    `username` VARCHAR(24) NOT NULL,
     `userpassword` VARCHAR(60) NOT NULL,
     `url_photo` VARCHAR(100) DEFAULT NULL,
     `email` VARCHAR(50) NOT NULL,
@@ -428,12 +428,13 @@ BEGIN
         u.id_user, 
         u.user_name, 
         u.user_surname,  
+        u.email,
         u.username, 
         u.url_photo,
         u.id_role,
         r.role_name
     FROM user u
-    JOIN role r ON u.id_role = r.id_role
+    INNER JOIN role r ON u.id_role = r.id_role
     WHERE u.username = p_username;
 END //
 DELIMITER ;
