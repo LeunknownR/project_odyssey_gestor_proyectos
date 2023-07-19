@@ -5,7 +5,6 @@ import ProjectChatMessage from "../../entities/chats/chatMessage/projectChatMess
 import { PrivateChatPreview } from "../../entities/chats/chatPreview/privateChatPreview";
 import { ProjectChatPreview } from "../../entities/chats/chatPreview/projectChatPreview";
 import ChatModel from "../../models/chatModel/chat.model";
-import { IntegerId } from "../../utils/entities/integerId";
 import WSPrivateMessage from "../../websockets/services/chats/utils/entities/privateMessage";
 import WSProjectMessage from "../../websockets/services/chats/utils/entities/projectMessage";
 

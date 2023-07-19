@@ -1,6 +1,6 @@
 import { ProjectState } from "../../../../entities/project/enums";
 import { isArrayString, isPositiveArrayNumber } from "../../../../utils/arrays";
-import { isPositiveNumber, isPositiveNumberOrZero } from "../../../../utils/numbers";
+import { isPositiveNumberNonZero, isPositiveNumberOrZero } from "../../../../utils/numbers";
 import { checkLength } from "../../../../utils/strings";
 import { 
     WSNewProjectTask, 
@@ -28,12 +28,12 @@ const isValidWSProjectTaskMainInformation = (body: any): boolean => {
         deadline, priorityId
     } = body;
     return (
-        isPositiveNumber(taskId) &&
-        (responsibleId === null || isPositiveNumber(responsibleId)) &&
+        isPositiveNumberNonZero(taskId) &&
+        (responsibleId === null || isPositiveNumberNonZero(responsibleId)) &&
         checkLength(name, 1, 40) &&
         checkLength(description, 0, 200) &&
         (deadline === -1 || isPositiveNumberOrZero(deadline)) &&
-        (priorityId === null || isPositiveNumber(priorityId))
+        (priorityId === null || isPositiveNumberNonZero(priorityId))
     )
 }
 export const parseToWSProjectTaskMainInformation = (body: any): WSProjectTaskMainInformation => {
@@ -54,7 +54,7 @@ export const parseToWSNewProjectSubtask = (body: any): WSNewProjectSubtask => {
     const {
         taskId, name
     } = body;
-    if (!isPositiveNumber(taskId) || !checkLength(name, 1, 50))
+    if (!isPositiveNumberNonZero(taskId) || !checkLength(name, 1, 50))
         throw new Error("Invalid data to create subtask");
     return {
         taskId, name
@@ -64,7 +64,7 @@ export const parseToWSProjectSubtaskToBeUpdated = (body: any): WSProjectSubtaskT
     const {
         subtaskId, name
     } = body;
-    if (!isPositiveNumber(subtaskId) || !checkLength(name, 1, 50)
+    if (!isPositiveNumberNonZero(subtaskId) || !checkLength(name, 1, 50)
     )
         throw new Error("Invalid data to update subtask");
     return {
@@ -75,14 +75,14 @@ export const parseToWSProjectSubtaskToBeSwitchedCheckStatus = (body: any): WSPro
     const {
         subtaskId, checked
     } = body;
-    if (!isPositiveNumber(subtaskId) || typeof checked !== "boolean")
+    if (!isPositiveNumberNonZero(subtaskId) || typeof checked !== "boolean")
         throw new Error("Invalid data to switch subtask state");
     return {
         subtaskId, checked
     };
 }
 export const parseToWSSubtaskIdToBeDeleted = (subtaskId: any): number => {
-    if (!isPositiveNumber(subtaskId))
+    if (!isPositiveNumberNonZero(subtaskId))
         throw new Error("Invalid data to delete subtask ");
     return subtaskId;
 }
@@ -91,7 +91,7 @@ export const parseToWSProjectTaskWithNewState = (body: any): WSProjectTaskWithNe
         taskId, state
     } = body;
     if (
-        !isPositiveNumber(taskId) ||
+        !isPositiveNumberNonZero(taskId) ||
         ![
             ProjectState.Pending, 
             ProjectState.OnProgress, 
@@ -104,13 +104,13 @@ export const parseToWSProjectTaskWithNewState = (body: any): WSProjectTaskWithNe
     };
 }
 export const parseToWSTaskIdToBeDeleted = (taskId: any): number => {
-    if (!isPositiveNumber(taskId))
+    if (!isPositiveNumberNonZero(taskId))
         throw new Error("Invalid data to delete task ");
     return taskId;
 }
 export const parseToWSProjectTaskComment = (body: any): WSProjectTaskComment => {
     const { taskId, content } = body;
-    if (!isPositiveNumber(taskId) || !checkLength(content, 1, 200))
+    if (!isPositiveNumberNonZero(taskId) || !checkLength(content, 1, 200))
         throw new Error("Invalid data to comment in task");
     return {
         taskId,

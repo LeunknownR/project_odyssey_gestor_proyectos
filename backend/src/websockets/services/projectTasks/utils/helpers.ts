@@ -1,6 +1,6 @@
 import { Socket } from "socket.io";
 import { WSUserDataProjectTaskService } from "./entities";
-import { isPositiveNumber } from "../../../../utils/numbers";
+import { isPositiveNumberNonZero } from "../../../../utils/numbers";
 import { getWSUserData } from "../../../utils/helpers";
 import WSErrorMessages from "../../../utils/errorMessages";
 
@@ -8,7 +8,7 @@ export const getUserDataProjectTaskServiceBySocket = (socket: Socket): WSUserDat
     const { headers } = socket.handshake;
     const { userId } = getWSUserData(socket);
     const projectId: any = Number(headers["x-project-id"]);
-    if (!isPositiveNumber(projectId)) 
+    if (!isPositiveNumberNonZero(projectId)) 
         throw Error(WSErrorMessages.InvalidConnectionData);
     return { userId, projectId };
 }

@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import { IntegerId } from "../../../../../utils/entities/integerId";
+import { PositiveNumberNonZero } from "../../../../../utils/entities/PositiveNumberNonZero";
 import { getWSUserData } from "../../../../utils/helpers";
 import ChatController from "../../../../../controllers/chatController/chat.controller";
 import { RelationCollaboratorChat } from "../../../../../entities/chats/chatMessage/chatCollaboratorRelation";
@@ -24,7 +24,7 @@ export default class GetPrivateChatMessages {
         this.io = io;
         this.dataHandler = dataHandler;
         this.socket = socket;
-        this.collaboratorChatId = new IntegerId(body).value;
+        this.collaboratorChatId = new PositiveNumberNonZero(body).value;
         this.collaboratorId = getWSUserData(socket).userId;
     }
     async getMessages() {
