@@ -481,7 +481,7 @@ DELIMITER ;
 
 -- SP para la busqueda de los colaboradores que existen segun el nombre
 DELIMITER //
-CREATE PROCEDURE `sp_search_collaborator_by_username`(
+CREATE PROCEDURE `sp_search_collaborator_by_collaborator_name`(
     IN p_collaborator_name VARCHAR(50)
 )
 BEGIN
@@ -497,7 +497,7 @@ BEGIN
     FROM collaborator clb
     INNER JOIN user u ON clb.id_collaborator = u.id_user 
     WHERE u.active = 1
-    AND u.user_name LIKE @search_collaborator_name
+    AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @search_collaborator_name
     ORDER BY u.user_name, u.user_surname ASC;
 END //
 DELIMITER ;
