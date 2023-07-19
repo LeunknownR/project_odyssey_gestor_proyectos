@@ -2,7 +2,7 @@ export enum AbsolutePaths {
     Login = "/login",
     Projects = "/proyectos",
     Chats = "/chats",
-    Settings = "/settings"
+    Settings = "/configuracion"
 }
 export const getProjectDetails = (projectId: number): string => {
     return `${AbsolutePaths.Projects}/${projectId}/detalles`;
