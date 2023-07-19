@@ -1,6 +1,6 @@
 import { FlexFlow } from "src/components/styles";
-import { NextStateButton, PreviousStateButton } from "./styles";
 import { ChangeStateSectionButtonsProps } from "./types";
+import { ResponsiveBackButton, ResponsiveNextButton } from "src/views/ProjectView/components/ProjectManagerView/components/NewProjectModal/components/ResponsiveButtons/styles";
 
 const ChangeStateSectionButtons = ({
     stateIdx,
@@ -8,13 +8,13 @@ const ChangeStateSectionButtons = ({
     nextStateSection
 }: ChangeStateSectionButtonsProps) => {
     return (
-        <FlexFlow gap="25px" justify="center">
-            <PreviousStateButton
+        <FlexFlow gap="0" justify="center">
+            <ResponsiveBackButton
                 icon="memory:bow-arrow"
                 disabled={stateIdx === 0}
                 onClick={prevStateSection}
             />
-            <NextStateButton
+            <ResponsiveNextButton
                 icon="memory:bow-arrow"
                 disabled={stateIdx === 2}
                 onClick={nextStateSection}

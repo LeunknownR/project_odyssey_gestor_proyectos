@@ -7,7 +7,7 @@ export const Container = styled(FlexFlow.withComponent("section"))`
     position: fixed;
     right: 0;
     bottom: 0;
-    z-index: 100;
+    z-index: 2;
     overflow: hidden;
     transition: 0.4s;
     translate: 105%;
@@ -29,16 +29,19 @@ export const Container = styled(FlexFlow.withComponent("section"))`
         width: 100%;
         top: 0;
         left: 0;
-        border-left: none
+        border-left: none;
+        position: fixed;
+        padding-bottom: 82px;
+        width: 100%;
     }
 `;
 export const Content = styled.div`
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin: 30px 15px 20px 30px;
+    padding: 30px 15px 20px 30px;
     height: 100%;
     @media (max-width: ${MOBILE_WIDTH}px) {
-        margin: 30px 15px 20px 25px;
+        padding: 15px 15px 20px 25px;
     }
 `;

@@ -39,7 +39,7 @@ const ProjectPanel = ({ preloader, projectId }: ProjectSubmoduleViewProps) => {
                 name={projectDetails.name} 
                 state={projectDetails.state} 
                 options={!isMobile ? MENU_OPTIONS : RESPONSIVE_MENU_OPTIONS}
-                isHeader={true}
+                isHeader
                 icon={isMobile ? "mingcute:down-fill" : ""}/>}
             <Content width="100%" direction="column" gap="20px">
                 {!isMobile && <Tabs projectId={projectId} />}
@@ -51,10 +51,11 @@ const ProjectPanel = ({ preloader, projectId }: ProjectSubmoduleViewProps) => {
                             element={
                                 <View preloader={preloader} 
                                     projectId={projectId} 
-                                    projectRoleId={projectDetails.projectRoleId as DBProjectRoles} />}
-                        />
+                                    projectRoleId={projectDetails.projectRoleId as DBProjectRoles} />}/>
                     ))}
-                    <Route path="*" element={<Navigate to={`/proyectos/${projectId}/detalles`} replace/>} />
+                    <Route 
+                        path="*" 
+                        element={<Navigate to={`/proyectos/${projectId}/detalles`} replace/>} />
                 </Routes>
             </Content>
         </Container>

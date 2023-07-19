@@ -15,9 +15,8 @@ const TaskList = ({
     taskList, 
     state, wasDraggingTaskCardRef
 }: TaskListProps) => {
-    const { 
+    const {
         socketIo,
-        // hideTaskMenu,
         taskToBeChangedStateHandler 
     } = useTaskBoardContext();
     const containerRef = useRef<HTMLUListElement>(null);

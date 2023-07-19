@@ -24,6 +24,6 @@ export const Container = styled(FlexFlow)`
         }
     }
     @media (max-width: ${MOBILE_WIDTH}px) {
-        padding: 2px 10px;
+        padding: 8px 10px;
     }
 `;

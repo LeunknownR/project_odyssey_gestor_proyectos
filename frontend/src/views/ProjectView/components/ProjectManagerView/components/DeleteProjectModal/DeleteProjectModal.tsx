@@ -13,7 +13,7 @@ const DeleteProjectModal = ({
             description={
                 <>
                 Esta acción es permanente, y eliminará todo lo relacionado con
-                el proyecto: <b>tareas, cronograma y salas de chat.</b>
+                el proyecto: <b> tareas y salas de chat.</b>
                 </>
             }>
             <CancelRedModalButton

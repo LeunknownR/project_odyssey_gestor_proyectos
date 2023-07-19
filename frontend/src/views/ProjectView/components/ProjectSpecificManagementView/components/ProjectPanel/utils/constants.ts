@@ -1,6 +1,7 @@
 import TaskBoardView from "../components/TaskBoardView/TaskBoardView";
 import { MenuOption } from "src/views/components/MenuOptions/types";
 import { ProjectPanelSubmodule } from "../types";
+import { AbsolutePaths } from "src/config/absolutePaths";
 
 export const SUBMODULES_VIEWS: ProjectPanelSubmodule[] = [
     {
@@ -12,19 +13,19 @@ export const SUBMODULES_VIEWS: ProjectPanelSubmodule[] = [
 export const MENU_OPTIONS: MenuOption[] = [
     {
         text: "Detalles",
-        to: "detalles",
+        to: "../detalles",
         icon: "fa6-solid:diagram-project"
     }
 ];
 export const RESPONSIVE_MENU_OPTIONS: MenuOption[] = [
     {
         text: "Tareas",
-        to: "tareas",
+        to: "../tareas",
         icon: "fluent:task-list-square-ltr-16-filled",
     },
     {
-        text: "Salas de chat",
-        to: "salas-chat",
+        text: "Chats",
+        to: AbsolutePaths.Chats,
         icon: "grommet-icons:chat",
-    },
+    }
 ]

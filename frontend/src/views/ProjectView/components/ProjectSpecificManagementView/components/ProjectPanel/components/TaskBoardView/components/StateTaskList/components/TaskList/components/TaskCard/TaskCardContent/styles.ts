@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { ContainerProps } from '../types';
+import { MOBILE_WIDTH } from 'src/config/constants';
+import { TASK_CARD_CONTENT_GAP, TASK_CARD_CONTENT_MOBILE_GAP } from '../utils/constants';
 
 export const Check = styled.span`
     display: flex;
@@ -16,7 +18,7 @@ export const Check = styled.span`
 export const Container = styled.li<ContainerProps>`
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    gap: ${TASK_CARD_CONTENT_GAP};
     padding: 18px;
     border: 1px solid var(--gray-3);
     border-radius: 10px;
@@ -88,7 +90,11 @@ export const Container = styled.li<ContainerProps>`
     :active {
         scale: 1.01;
     }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        gap: ${TASK_CARD_CONTENT_MOBILE_GAP};
+    }
 `;
+
 export const LockedIcon = styled.span`
     display: flex;
     .iconify {

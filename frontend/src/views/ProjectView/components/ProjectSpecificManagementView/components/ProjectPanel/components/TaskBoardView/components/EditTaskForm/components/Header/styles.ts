@@ -4,10 +4,14 @@ import { MOBILE_WIDTH } from 'src/config/constants';
 import styled from 'styled-components';
 
 export const Container = styled(FlexFlow.withComponent("header"))`
+    justify-content: space-between; 
+    align-items: center; 
+    gap: 15px;
     background-color: #051E2F;
     padding: 30px 0 30px 30px;
+    width: 100%;
     @media (max-width: ${MOBILE_WIDTH}px) {
-        padding: 25px 0 25px 5px; 
+        padding: 25px 0 10px 5px; 
         background-color: unset;
         gap: 5px;
     }
@@ -21,10 +25,10 @@ export const CloseMenu = styled.span`
     }
 `;
 export const ChangeStateButton = styled(CustomButton)`
-    background: transparent;
+    background-color: transparent;
     .iconify {
         color: var(--white-1);
-        font-size: 25px;
+        font-size: 20px;
     }
 `;
 export const DeleteButton = styled(CustomButton)`

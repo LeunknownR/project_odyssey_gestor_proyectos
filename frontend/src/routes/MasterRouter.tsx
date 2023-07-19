@@ -2,15 +2,19 @@ import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { ReactElement, useEffect, useState } from "react";
 import Header from "src/views/components/Header/Header";
 import { Content, Main } from "./styles";
-import { MODULE_VIEWS } from "./constants";
+import { MODULE_VIEWS } from "./utils/constants";
 import { MODULE_VIEWS_BY_USER_ROLE } from "src/config/roles";
 import { clearStorage } from "src/storage";
 import { AbsolutePaths } from "src/config/absolutePaths";
 import { currentUserLocalStorage } from "src/storage/user.local";
-import ChatService from "./components/ChatService/ChatService";
+import MainMenu from "src/views/components/MainMenu/MainMenu";
+import useMainMenuButtons from "src/views/components/MainMenu/utils/hooks/useMainMenuButtons";
+import useChatService from "./utils/hooks/useChatService";
+import MasterRouterContext from "./utils/context/MasterRouterContext";
 
 const MasterRouter = () => {
     const navigate = useNavigate();
+    const mainMenuButtonHandler = useMainMenuButtons();
     const [routes, setRoutes] = useState<ReactElement[] | null>(null);
     useEffect(() => {
         const currentUser = currentUserLocalStorage.get();
@@ -44,21 +48,27 @@ const MasterRouter = () => {
         );
     };
     const routesLoaded: boolean = routes !== null;
+    const chatServiceHandler = useChatService(mainMenuButtonHandler);
     return (
         <Main>
             {routesLoaded && 
-            <ChatService>
+            <MasterRouterContext.Provider value={{
+                chatServiceHandler,
+                mainMenuButtonHandler
+            }}>
                 <Header />
+                <MainMenu/>
                 <Content>
                     <Routes>
                         {routes}
                         {routesLoaded && 
                         <Route 
                             path="*" 
-                            element={<Navigate to={AbsolutePaths.Projects} replace />} />}
+                            element={<Navigate to={AbsolutePaths.Projects} 
+                            replace/>} />}
                     </Routes>
                 </Content>
-            </ChatService>}
+            </MasterRouterContext.Provider>}
         </Main>
     );
 };

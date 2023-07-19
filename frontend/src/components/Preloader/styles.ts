@@ -1,5 +1,32 @@
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled, { keyframes } from "styled-components";
 
+
+const spinnerAnimation = keyframes`
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+`;
+export const Spinner = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: var(--white-1);
+`;
+export const Message = styled.h6`
+    font-size: 18px;
+    margin: 0;
+    color: var(--white-1);
+    user-select: none;
+    translate: 0 -20px;
+`;
+export const Blades = styled.img`
+    animation: linear ${spinnerAnimation} 0.45s infinite;
+`;
 export const Container = styled.section`
     position: fixed;
     top: 0;
@@ -20,29 +47,12 @@ export const Container = styled.section`
         visibility: hidden;
         opacity: 0;
     }
-    & h6 {
-        font-size: 18px;
-        margin: 0;
-        color: var(--white-1);
-        user-select: none;
-        translate: 0 -20px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        ${Blades} {
+            width: 150px;
+        }
+        ${Message} {
+            font-size: 16px;
+        }
     }
-`;
-const spinnerAnimation = keyframes`
-    from {
-        transform: rotate(0);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-`;
-export const Spinner = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    color: var(--white-1);
-`;
-export const Blades = styled.img`
-    animation: linear ${spinnerAnimation} 0.5s infinite;
 `;

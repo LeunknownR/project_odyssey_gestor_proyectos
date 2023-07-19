@@ -50,7 +50,7 @@ const TaskBoardView = ({
     //#region Effects
     useEffect(() => {
         const socketIoValue: Socket = socketHandler.connect({ 
-            "project-id": String(projectId) 
+            "x-project-id": String(projectId) 
         });
         socketIoValue.on(
             WSProjectTaskServiceEvents.Server.DispatchTaskBoard,

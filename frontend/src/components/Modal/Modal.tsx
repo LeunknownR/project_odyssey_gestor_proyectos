@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 //#region Styles
 import { Container, Content } from "./styles";
 //#endregion
@@ -6,6 +7,7 @@ import { Container, Content } from "./styles";
 import { ModalProps } from "./types";
 //#endregion
 
+const modalsContainer: Element = document.getElementById("modals") as Element;
 const Modal = ({
     className,
     isOpen = false,
@@ -26,7 +28,7 @@ const Modal = ({
         isOpen && classList.push("open");
         return classList.join(" ");
     }
-    return (
+    return createPortal(
         <Container
             className={getClassName()}
             onMouseDown={() => {
@@ -44,7 +46,8 @@ const Modal = ({
                 }}>
                 {children}
             </Content>
-        </Container>
+        </Container>,
+        modalsContainer
     );
 };
 

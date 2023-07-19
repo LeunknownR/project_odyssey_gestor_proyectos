@@ -3,7 +3,10 @@ import { EditTaskNameInput, TaskName } from "./styles";
 import { TaskNameFieldProps } from "./types";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
 
-const TaskNameField = ({ form, name, doUpdateTask }: TaskNameFieldProps) => {
+const TaskNameField = ({ 
+    form, name, 
+    doUpdateTask
+}: TaskNameFieldProps) => {
     //#region Refs
     const editingTaskNameInputRef = useRef<HTMLInputElement>(null);
     //#endregion
@@ -21,15 +24,11 @@ const TaskNameField = ({ form, name, doUpdateTask }: TaskNameFieldProps) => {
         setEditingTaskName(name);
         setTimeout(() => editingTaskNameInputRef.current?.focus(), 200);
     };
-    const changeEditTaskNameInput: React.ChangeEventHandler<
-        HTMLInputElement
-    > = ({ target: { value } }) => {
-        setEditingTaskName(value);
+    const changeEditTaskNameInput: React.ChangeEventHandler<HTMLInputElement> = e => {
+        setEditingTaskName(e.target.value);
     };
-    const checkEnterForUpdateName: React.KeyboardEventHandler<
-        HTMLInputElement
-    > = ({ key }) => {
-        if (key !== "Enter" || !editingTaskName) return;
+    const checkEnterForUpdateName: React.KeyboardEventHandler<HTMLInputElement> = e => {
+        if (e.key !== "Enter" || !editingTaskName) return;
         editingTaskNameInputRef.current?.blur();
         form.change("name", editingTaskName);
         doUpdateTask();
@@ -47,7 +46,10 @@ const TaskNameField = ({ form, name, doUpdateTask }: TaskNameFieldProps) => {
                 maxLength={50}
             />
         ) : (
-            <TaskName onDoubleClick={enableEditingTaskNameInput}>
+            <TaskName 
+                className={canEditTask ? "can-edit-task" : ""}
+                onTouchEnd={enableEditingTaskNameInput}
+                onDoubleClick={enableEditingTaskNameInput}>
                 {name}
             </TaskName>
         )}

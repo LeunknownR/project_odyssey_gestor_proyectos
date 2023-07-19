@@ -8,8 +8,8 @@ export const MENU_OPTIONS: MenuOption[] = [
         icon: "fluent:task-list-square-ltr-16-filled",
     },
     {
-        text: "Salas de chat",
-        to: AbsolutePaths.Chat,
+        text: "Chats",
+        to: AbsolutePaths.Chats,
         icon: "grommet-icons:chat",
     },
 ];

@@ -7,7 +7,7 @@ import WSErrorMessages from "../../../utils/errorMessages";
 export const getUserDataProjectTaskServiceBySocket = (socket: Socket): WSUserDataProjectTaskService => {
     const { headers } = socket.handshake;
     const { userId } = getWSUserData(socket);
-    const projectId: any = Number(headers["project-id"]);
+    const projectId: any = Number(headers["x-project-id"]);
     if (!isPositiveNumber(projectId)) 
         throw Error(WSErrorMessages.InvalidConnectionData);
     return { userId, projectId };
