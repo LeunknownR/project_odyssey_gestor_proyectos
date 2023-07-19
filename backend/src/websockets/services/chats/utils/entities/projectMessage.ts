@@ -1,15 +1,15 @@
-import { IntegerId } from "../../../../../utils/entities/integerId";
+import { PositiveNumberNonZero } from "../../../../../utils/entities/PositiveNumberNonZero";
 import { checkLength } from "../../../../../utils/strings";
 
 export default class WSProjectMessage {
-    private _projectId: IntegerId;
+    private _projectId: PositiveNumberNonZero;
     readonly content: string;
     private readonly ERROR = "Invalid message content";
     constructor({
         projectId,
         content
     }: any) {
-        this._projectId = new IntegerId(projectId);
+        this._projectId = new PositiveNumberNonZero(projectId);
         if (!checkLength(content, 1, 500)) 
             throw new Error(this.ERROR);
         this.content = content;

@@ -21,7 +21,7 @@ export abstract class HandlerFiles {
         // Creando directorios si no existen
         await HandlerFiles.createUploadsDirectory();
         // Procesamos la imagen en formato base64
-        const imageName = `${generateUUID()}.jpg`;
+        const imageName: string = `${generateUUID()}.jpg`;
         // Convertimos la imagen a formato binario
         const buffer = Buffer.from(imageBase64, "base64");
         // Almacenando imagen
@@ -30,7 +30,6 @@ export abstract class HandlerFiles {
         return HandlerFiles.getImagePath(imageName);
     }
     static destroyImage = async (path: string): Promise<void> => {
-        if (!path) return;
         await fs.unlink(HandlerFiles.getPhysicImageUrlFromImagePath(PhysicalDirectoryImages.DynamicImages, path));
     }
 };

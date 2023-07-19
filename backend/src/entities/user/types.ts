@@ -1,19 +1,14 @@
+import { SessionUser } from "./User";
+
 export type Role = {
-    id: string, name: string
+    id: string; 
+    name: string;
 };
 export type Credentials = {
-    username: string,
-    password?: string,
-}
-export type User = {
-    id: number,
-    name: string,
-    surname: string,
-    username: string,
-    role: Role,
-    urlPhoto: string | null
+    username: string;
+    password?: string;
 };
 export type AuthData = {
-    user: User;
+    user: SessionUser;
     token: string;
 };

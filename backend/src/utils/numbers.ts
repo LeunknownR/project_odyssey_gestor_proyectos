@@ -1,4 +1,4 @@
-export const isPositiveNumber = (value: any): boolean => {
+export const isPositiveNumberNonZero = (value: any): boolean => {
     const posibleNumber: unknown = parseInt(value);
     return typeof posibleNumber === "number" && posibleNumber > 0;
 }

@@ -1,7 +1,7 @@
 import { Socket } from "socket.io";
 import WSChatServiceDataHandler from "../../dataHandlers";
 import { getWSUserData } from "../../../../utils/helpers";
-import { IntegerId } from "../../../../../utils/entities/integerId";
+import { PositiveNumberNonZero } from "../../../../../utils/entities/PositiveNumberNonZero";
 import ChatController from "../../../../../controllers/chatController/chat.controller";
 import FormattedProjectChatMessages from "../../../../../entities/chats/chatMessage/formattedProjectChatMessage";
 import WSChatServiceEvents from "../../events";
@@ -20,7 +20,7 @@ export default class GetProjectChatMessages {
         this.dataHandler = dataHandler;
         this.socket = socket;
         this.collaboratorId = getWSUserData(socket).userId;
-        this.projectId = new IntegerId(body).value;
+        this.projectId = new PositiveNumberNonZero(body).value;
     }
     //#region Methods
     async getMessages(): Promise<void> {
