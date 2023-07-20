@@ -1,6 +1,6 @@
-import { User } from "src/entities/user/types";
+import { SessionUser } from "src/entities/user/types";
 
 export type UserOptionsProps = {
     isOpen: boolean;
-    currentUser: User | null;
+    currentUser: SessionUser | null;
 }

@@ -1,0 +1,1 @@
+export const COLLABORATOR_RECORDS_BY_PAGE: number = 10;

@@ -1,7 +1,7 @@
-import { CollaboratorUser } from "../../entities/collaborator/entities";
-import { collaboratorMemberMapper, projecTaskPriorityMapper } from "../../entities/collaborator/mappers";
-import { ProjectTaskBoard, ProjectTaskPriority } from "../../entities/projectTasks/entities";
-import { projectTaskBoardMapper } from "../../entities/projectTasks/mappers";
+import BasicCollaboratorUser from "../../entities/collaborator/BasicCollaboratorUser";
+import { ProjectTaskPriority } from "../../entities/projectTask/ProjectTaskPriority";
+import { ProjectTaskBoard } from "../../entities/projectTask/entities";
+import { projectTaskBoardMapper } from "../../entities/projectTask/mappers";
 import ProjectTasksModel from "../../models/projectTasksModel/projectTasks.model";
 import { SearchCollaboratorRequestBody } from "../../routes/collaborator/types";
 import { ResponseMessages } from "../../utils/response/enums";
@@ -18,17 +18,17 @@ import {
     WSProjectTaskForm
 } from "../../websockets/services/projectTasks/utils/entities";
 
-export default abstract class ProjectTasksController {
+export default abstract class ProjectTaskController {
     static async getTaskPriorityList(): Promise<ProjectTaskPriority[]> {
         const resultset: any[] = await ProjectTasksModel.getTaskPriorities();
-        const taskPriorityList: ProjectTaskPriority[] = resultset.map(projecTaskPriorityMapper);
+        const taskPriorityList: ProjectTaskPriority[] = resultset.map(record => new ProjectTaskPriority(record));
         return taskPriorityList;
     }
     static async searchProjectTeamMember(
         searchProjectTeamMemberRequestBody: SearchCollaboratorRequestBody
-    ): Promise<CollaboratorUser[]> {
+    ): Promise<BasicCollaboratorUser[]> {
         const resultset: any[] = await ProjectTasksModel.searchProjectTeamMember(searchProjectTeamMemberRequestBody);
-        const collaboratorUserList: CollaboratorUser[] = resultset.map(collaboratorMemberMapper);
+        const collaboratorUserList: BasicCollaboratorUser[] = resultset.map(record => new BasicCollaboratorUser(record));
         return collaboratorUserList;
     }
     static async getTaskBoardByProjectId(projectTaskForm: WSProjectTaskForm): Promise<ProjectTaskBoard> {

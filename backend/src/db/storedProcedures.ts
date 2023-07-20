@@ -1,10 +1,11 @@
 export enum StoredProcedures {
+    // Login
     GetUserPasswordByUsername = "CALL sp_get_userpassword_by_username(?);",
     GetBasicUserInformation = "CALL sp_get_basic_user_information(?);",
+    // Proyectos
     GetProjectListForGeneralAdmin = "CALL sp_get_project_list_for_general_admin(?);",
     GetProjectListForCollaborator = "CALL sp_get_project_list_for_collaborator(?,?);",
     CreateProject = "CALL sp_create_project(?, ?, ?, ?, ?, ?);",
-    SearchCollaborator = "CALL sp_search_collaborator_by_username(?);",
     UpdateProject = "CALL sp_update_project_by_project_id(?, ?, ?, ?, ?, ?);",
     DeleteProject = "CALL sp_delete_project_by_id_project(?, ?);",
     UpdateEndDateProjectByLeader = "CALL sp_update_end_date_leader(?, ?);",
@@ -38,5 +39,13 @@ export enum StoredProcedures {
     SendMessageToPrivateChat = "CALL sp_send_message_to_private_chat(?, ?, ?);",
     CollaboratorHasUnreadPrivateChats = "CALL sp_collaborator_has_unread_private_chats(?);",
     CollaboratorHasUnreadProjectChats = "CALL sp_collaborator_has_unread_project_chats(?);",
-    SendMessageToProjectChat = "CALL sp_send_message_to_project_chat(?, ?, ?);"
+    SendMessageToProjectChat = "CALL sp_send_message_to_project_chat(?, ?, ?);",
+    // Configuración
+    SearchCollaborator = "CALL sp_search_collaborator_by_collaborator_name(?);",
+    GetCollaboratorList = "CALL sp_get_collaborator_list();",
+    CreateCollaborator = "CALL sp_create_collaborator();",
+    UpdateCollaborator = "CALL sp_update_collaborator();",
+    DeleteCollaborator = "CALL sp_delete_collaborator_by_id();",
+    UpdateCollaboratorPhoto = "CALL sp_update_collaborator_photo();",
+    ChangeCollaboratorPassword = "CALL sp_update_collaborator_password();"
 }

@@ -3,9 +3,9 @@ import { IOServerService, WSEvent, WSServiceEventHandler } from "../../../utils/
 import WSProjectTaskServiceDataHandler from "../dataHandlers";
 import { WSProjectTaskWithNewState, WSNewProjectTask, WSProjectTaskComment, WSProjectTaskMainInformation, WSUserDataProjectTaskService, WSNewProjectSubtask, WSProjectSubtaskToBeUpdated, WSProjectSubtaskToBeSwitchedCheckStatus } from "../utils/entities";
 import { parseToWSProjectTaskWithNewState, parseToWSTaskIdToBeDeleted, parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskMainInformation, parseToWSNewProjectSubtask, parseToWSProjectSubtaskToBeUpdated, parseToWSProjectSubtaskToBeSwitchedCheckStatus, parseToWSSubtaskIdToBeDeleted } from "../utils/parsers";
-import ProjectTasksController from "../../../../controllers/projectTaskController/projectTasks.controller";
+import ProjectTaskController from "../../../../controllers/projectTaskController/projectTasks.controller";
 import { WSProjectTaskServiceRoomHandler, getUserDataProjectTaskServiceBySocket } from "../utils/helpers";
-import { ProjectTaskBoard } from "../../../../entities/projectTasks/entities";
+import { ProjectTaskBoard } from "../../../../entities/projectTask/entities";
 import WSProjectTaskServiceEvents from "../events";
 
 export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServiceEventHandler<WSProjectTaskServiceEvents.Collaborator> {
@@ -62,7 +62,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
     private async refreshTaskBoardByProject(userData: WSUserDataProjectTaskService) {
         const { userId, projectId } = userData;
         // Obtener tablero de la bd
-        const taskBoard: ProjectTaskBoard = await ProjectTasksController.getTaskBoardByProjectId({
+        const taskBoard: ProjectTaskBoard = await ProjectTaskController.getTaskBoardByProjectId({
             projectId: projectId,
             payload: null,
             collaboratorId: userId
@@ -92,7 +92,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             projectId
         } = userData;
         // Realizando query para crear una tarea
-        await ProjectTasksController.createTask({
+        await ProjectTaskController.createTask({
             collaboratorId, projectId, payload: newTask
         });
         this.refreshTaskBoardByProject(userData);
@@ -107,7 +107,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             projectId
         } = userData;
         // Realizando query para actualizar una tarea
-        await ProjectTasksController.updateTaskMainInformation({
+        await ProjectTaskController.updateTaskMainInformation({
             projectId,
             payload: taskMainInformation,
             collaboratorId
@@ -125,7 +125,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             projectId
         } = userData;
         // Realizando query para crear una tarea
-        await ProjectTasksController.createSubtask({
+        await ProjectTaskController.createSubtask({
             collaboratorId, 
             projectId, 
             payload: newSubtask
@@ -142,7 +142,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             projectId
         } = userData;
         // Realizando query para actualizar una tarea
-        await ProjectTasksController.updateSubtask({
+        await ProjectTaskController.updateSubtask({
             projectId,
             payload: subtaskToBeUpdated,
             collaboratorId
@@ -160,7 +160,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             projectId
         } = userData;
         // Realizando query para cambiar el estado de una tarea
-        await ProjectTasksController.switchCheckStatusSubtask({
+        await ProjectTaskController.switchCheckStatusSubtask({
             projectId, 
             payload: subtaskToBeSwitchedCheckStatus, 
             collaboratorId
@@ -178,7 +178,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             projectId
         } = userData;
         // Realizando query para eliminar una tarea
-        await ProjectTasksController.deleteSubtask({
+        await ProjectTaskController.deleteSubtask({
             projectId, 
             payload: subtaskIdToBeDeleted, 
             collaboratorId
@@ -196,7 +196,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             projectId
         } = userData;
         // Realizando query para cambiar el estado de una tarea
-        await ProjectTasksController.changeTaskState({
+        await ProjectTaskController.changeTaskState({
             projectId, 
             payload: projectTaskWithNewState, 
             collaboratorId
@@ -214,7 +214,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             projectId
         } = userData;
         // Realizando query para eliminar una tarea
-        await ProjectTasksController.deleteTask({
+        await ProjectTaskController.deleteTask({
             projectId, 
             payload: taskIdToBeDeleted, 
             collaboratorId
@@ -232,7 +232,7 @@ export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServ
             projectId
         } = userData;
         // Realizando query para comentar en una tarea
-        await ProjectTasksController.commentInTask({
+        await ProjectTaskController.commentInTask({
             projectId,
             payload: taskComment,
             collaboratorId

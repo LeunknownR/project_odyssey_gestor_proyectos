@@ -1,6 +1,7 @@
 import { ApiPathEndpointGroups } from "./apiPaths";
 import login from "./authentication/login";
 import generalAdminProjects from "./generalAdmin/projects/projects.router";
+import generalAdminCollaborators from "./generalAdmin/collaborators/collaborators.router";
 import collaboratorProjects from "./collaborator/projects/projects.router";
 import collaboratorProjectTasks from "./collaborator/projectTasks/projectTasks.router";
 import collaboratorProjectPanel from "./collaborator/projectPanel/projectPanel.router";
@@ -16,6 +17,10 @@ const routes: Endpoint[] = [
     {
         path: ApiPathEndpointGroups.GeneralAdmin,
         routes: generalAdminProjects 
+    },
+    {
+        path: ApiPathEndpointGroups.GeneralAdmin,
+        routes: generalAdminCollaborators
     },
     {
         path: ApiPathEndpointGroups.Collaborator,

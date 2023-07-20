@@ -7,7 +7,7 @@ import ChatController from "../../../../controllers/chatController/chat.controll
 import WSSearchChatPreviewPayload from "../utils/entities/searchChatPreviewPayload";
 import WSChatTab from "../utils/enums";
 import { PrivateChatPreview } from "../../../../entities/chats/chatPreview/privateChatPreview";
-import { IntegerId } from "../../../../utils/entities/integerId";
+import { PositiveNumberNonZero } from "../../../../utils/entities/PositiveNumberNonZero";
 import PrivateChatMessage from "../../../../entities/chats/chatMessage/privateChatMessage";
 import ProjectChatMessage from "../../../../entities/chats/chatMessage/projectChatMessage";
 import { WSChatServiceRoom } from "../utils/helpers";

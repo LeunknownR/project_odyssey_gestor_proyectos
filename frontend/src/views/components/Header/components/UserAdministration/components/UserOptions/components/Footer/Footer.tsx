@@ -25,7 +25,7 @@ const Footer = () => {
                 icon="uiw:setting"
                 variant="user-options-config"
                 width="80%"
-                onClick={() => navigate(AbsolutePaths.Settings)}
+                onClick={() => navigate(AbsolutePaths.CollaboratorManagement)}
             />
             <LogoutButton
                 {...logoutButtonProps}

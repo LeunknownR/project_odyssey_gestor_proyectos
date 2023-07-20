@@ -27,7 +27,7 @@ CREATE TABLE `user` (
     `id_user` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `user_name` VARCHAR(50) NOT NULL,
     `user_surname` VARCHAR(50) NOT NULL,
-    `username` VARCHAR(12) NOT NULL,
+    `username` VARCHAR(24) NOT NULL,
     `userpassword` VARCHAR(60) NOT NULL,
     `url_photo` VARCHAR(100) DEFAULT NULL,
     `email` VARCHAR(50) NOT NULL,
@@ -428,12 +428,13 @@ BEGIN
         u.id_user, 
         u.user_name, 
         u.user_surname,  
+        u.email,
         u.username, 
         u.url_photo,
         u.id_role,
         r.role_name
     FROM user u
-    JOIN role r ON u.id_role = r.id_role
+    INNER JOIN role r ON u.id_role = r.id_role
     WHERE u.username = p_username;
 END //
 DELIMITER ;
@@ -480,7 +481,7 @@ DELIMITER ;
 
 -- SP para la busqueda de los colaboradores que existen segun el nombre
 DELIMITER //
-CREATE PROCEDURE `sp_search_collaborator_by_username`(
+CREATE PROCEDURE `sp_search_collaborator_by_collaborator_name`(
     IN p_collaborator_name VARCHAR(50)
 )
 BEGIN
@@ -496,7 +497,7 @@ BEGIN
     FROM collaborator clb
     INNER JOIN user u ON clb.id_collaborator = u.id_user 
     WHERE u.active = 1
-    AND u.user_name LIKE @search_collaborator_name
+    AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @search_collaborator_name
     ORDER BY u.user_name, u.user_surname ASC;
 END //
 DELIMITER ;

@@ -1,7 +1,7 @@
 import { useState, ReactNode, useEffect } from "react";
 import { ChatRoomWrapper, Container } from "./styles";
 import ChatPanel from "./components/ChatPanel/ChatPanel";
-import UnselectedChat from "./components/ChatRoom/components/NoChatSelected/UnselectedChat";
+import UnselectedChat from "./components/ChatRoom/components/UnselectedChat/UnselectedChat";
 import ChatViewContext from "./utils/context/ChatViewContext";
 import PrivateChatRoom from "./components/PrivateChatRoom";
 import ProjectChatRoom from "./components/ProjectChatRoom";

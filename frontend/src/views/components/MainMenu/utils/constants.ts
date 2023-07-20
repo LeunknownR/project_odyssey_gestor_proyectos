@@ -6,7 +6,7 @@ export const MENU_LINKS = [
         icon: "material-symbols:home-outline-rounded"
     },
     {
-        to: AbsolutePaths.Settings,
+        to: AbsolutePaths.CollaboratorManagement,
         icon: "uiw:setting"
     },
 ]

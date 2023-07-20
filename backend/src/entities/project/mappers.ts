@@ -1,19 +1,12 @@
-import { projectCollaboratorMapper } from "../collaborator/mappers";
-import { CollaboratorUser } from "../collaborator/entities";
 import { 
     Project, 
     GroupedProjectList,
     ProjectPanelDetails, 
     ProjectDetails
 } from "./entities";
+import ProjectCollaborator from "./ProjectCollaborator";
+import ProjectLeader from "./ProjectLeader";
 
-const projectLeaderMapper = (record: any): CollaboratorUser => ({
-    id: record["id_collaborator"],
-    name: record["collaborator_name"],
-    surname: record["collaborator_surname"],
-    email: record["collaborator_email"],
-    urlPhoto: record["collaborator_url_photo"]
-});
 const projectByGeneralAdminMapper = (record: any): Project => ({
     id: record["id_project"],
     name: record["project_name"],
@@ -22,7 +15,7 @@ const projectByGeneralAdminMapper = (record: any): Project => ({
     endDate: record["project_end_date"].getTime(),
     state: record["project_state"],
     projectMemberCount: record["project_member_count"],
-    leader: projectLeaderMapper(record)
+    leader: new ProjectLeader(record)
 });
 export const projectListByGeneralAdminMapper = (resultset: any[]): GroupedProjectList => {
     const projectList: Project[] = resultset.map(projectByGeneralAdminMapper);
@@ -56,7 +49,7 @@ export const projectDetailsMapper = (resultset: any[]): ProjectDetails => {
         period: header["period_project"],
         endDate: header["project_end_date"].getTime(),
         state: header["project_state"],
-        collaborators: resultset.map(projectCollaboratorMapper)
+        collaborators: resultset.map(record => new ProjectCollaborator(record))
     };
 };
 export const projetPanelDetailsMapper = (resultset: any): ProjectPanelDetails => {

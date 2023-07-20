@@ -40,21 +40,31 @@ const ProjectManagerView = () => {
         currentProject
     );
     const filters = useProjectFilters();
-    const {
-        recentProjects, 
-        allProjects, 
-        fillProjects, 
-        doFill 
-    } = useProjectList(preloader, filters.value);
+    const { recentProjects, allProjects, fillProjects, doFill } =
+        useProjectList(preloader, filters.value);
     const { mainMenuButtonHandler } = useMasterRouterContext();
     useEffect(() => {
+        addMenuButtons();
+        return removeMenuButtons;
+    }, [userRole]);
+    const addMenuButtons = (): void => {
         if (!isGeneralAdmin) return;
+        addGeneralAdminMenuButtons();
+    };
+    const removeMenuButtons = (): void => {
+        if (!isGeneralAdmin) return;
+        removeGeneralAdminMenuButtons();
+    };
+    const addGeneralAdminMenuButtons = (): void => {
         mainMenuButtonHandler.addButton({
             id: "ADD_PROJECT",
             icon: "mdi:layers-plus",
-            onClick: openCreateProjectModal
-        });
-    }, [userRole]);
+            onClick: openCreateProjectModal,
+        }, 1);
+    };
+    const removeGeneralAdminMenuButtons = (): void => {
+        mainMenuButtonHandler.removeButton("ADD_PROJECT");
+    };
     const openCreateProjectModal = (): void => {
         notificationCard.hide();
         setCurrentProject(null);
@@ -71,29 +81,28 @@ const ProjectManagerView = () => {
         deleteProjectModal.open(true);
     };
     const getMenuOptions = (project: Project): MenuOption[] => {
-        if (!userRole)
-            return [];
+        if (!userRole) return [];
         const menuOptionsByUserRole: Record<DBRoles, MenuOption[]> = {
             [DBRoles.GeneralAdmin]: [
                 {
                     text: "Editar",
                     onClick: () => openUpdateProjectModal(project),
-                    icon: "mingcute:edit-2-fill"
+                    icon: "mingcute:edit-2-fill",
                 },
                 {
                     text: "Eliminar",
                     onClick: () => openDeleteProjectModal(project),
                     color: "--red-2",
-                    icon: "ic:baseline-delete"
-                }
+                    icon: "ic:baseline-delete",
+                },
             ],
             [DBRoles.Collaborator]: [
                 {
                     text: "Detalles",
                     to: `${project.id}/detalles`,
-                    icon: "fa6-solid:diagram-project"
-                }
-            ]
+                    icon: "fa6-solid:diagram-project",
+                },
+            ],
         };
         return menuOptionsByUserRole[userRole] || [];
     };
@@ -110,50 +119,60 @@ const ProjectManagerView = () => {
     };
     return (
         <>
-        <Container>
-            <Content>
-                <ProjectFinderWrapper>
-                    <ProjectFinder
-                        filters={filters}
-                        doFillProjects={doFill}/>
-                </ProjectFinderWrapper>
-                {recentProjects.length > 0 ? 
+            <Container>
+                <Content>
+                    <ProjectFinderWrapper>
+                        <ProjectFinder
+                            filters={filters}
+                            doFillProjects={doFill}
+                        />
+                    </ProjectFinderWrapper>
+                    {recentProjects.length > 0 ? (
+                        <>
+                            <RecentProjects
+                                recentProjects={recentProjects}
+                                getMenuOptions={getMenuOptions}
+                            />
+                            <AllProjects
+                                allProjects={allProjects}
+                                getMenuOptions={getMenuOptions}
+                            />
+                        </>
+                    ) : (
+                        <EmptyProjects />
+                    )}
+                </Content>
+            </Container>
+            {isGeneralAdmin && (
                 <>
-                <RecentProjects
-                    recentProjects={recentProjects}
-                    getMenuOptions={getMenuOptions}/>
-                <AllProjects
-                    allProjects={allProjects}
-                    getMenuOptions={getMenuOptions}/>
-                </> : <EmptyProjects />}
-            </Content>
-        </Container>
-        {isGeneralAdmin && 
-        <>
-        <NewProjectModal
-            preloader={preloader}
-            modalProps={newProjectModal}
-            form={form}
-            getProjectFromForm={getProjectFromForm}
-            fillProjects={fillProjects}
-            notificationCard={notificationCard}
-        />
-        <UpdateProjectModal
-            modalProps={updateProjectModal}
-            currentProject={currentProject}
-            form={form}
-            getProjectFromForm={getProjectFromForm}
-            fillProjects={fillProjects}
-            preloader={preloader}
-            notificationCard={notificationCard}/>
-        <DeleteProjectModal
-            modalProps={deleteProjectModal}
-            deleteProject={deleteProject}/>
-        <NotificationCard
-            handler={notificationCard}
-            variant={notificationCard.cardVariant}/>
-        </>}
-        <Preloader {...preloader.value} />
+                    <NewProjectModal
+                        preloader={preloader}
+                        modalProps={newProjectModal}
+                        form={form}
+                        getProjectFromForm={getProjectFromForm}
+                        fillProjects={fillProjects}
+                        notificationCard={notificationCard}
+                    />
+                    <UpdateProjectModal
+                        modalProps={updateProjectModal}
+                        currentProject={currentProject}
+                        form={form}
+                        getProjectFromForm={getProjectFromForm}
+                        fillProjects={fillProjects}
+                        preloader={preloader}
+                        notificationCard={notificationCard}
+                    />
+                    <DeleteProjectModal
+                        modalProps={deleteProjectModal}
+                        deleteProject={deleteProject}
+                    />
+                    <NotificationCard
+                        handler={notificationCard}
+                        variant={notificationCard.cardVariant}
+                    />
+                </>
+            )}
+            <Preloader {...preloader.value} />
         </>
     );
 };

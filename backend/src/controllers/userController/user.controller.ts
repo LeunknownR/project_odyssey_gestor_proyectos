@@ -1,9 +1,9 @@
 import UserModel from "../../models/userModel/user.model";
 import Authentication from "../../utils/authentication";
 import { isCorrectPassword } from "./helpers";
-import { AuthData, Credentials, User } from "../../entities/user/types";
-import { userFromRecordMapper } from "../../entities/user/mappers";
+import { AuthData, Credentials } from "../../entities/user/types";
 import { ResponseMessages } from "../../utils/response/enums";
+import { SessionUser } from "../../entities/user/User";
 
 export default abstract class UserController {
     public static login = async ({ username, password }: Credentials): Promise<[AuthData, string]> => {
@@ -14,13 +14,16 @@ export default abstract class UserController {
         if (!await isCorrectPassword(password, currentPasswordHashed))
             return [null, "INVALID_PASSWORD"];
         const recordBasicUserInformation: any = await UserModel.getBasicUserInformation(username);
-        const user: User = userFromRecordMapper(recordBasicUserInformation);
-        return [{
-            user,
-            token: Authentication.createToken({ 
-                username: user.username, 
-                roleId: user.role.id
-            })
-        }, ResponseMessages.Success];
+        const user: SessionUser = new SessionUser(recordBasicUserInformation);
+        return [
+            {
+                user,
+                token: Authentication.createToken({ 
+                    username: user.username, 
+                    roleId: user.role.id
+                })
+            }, 
+            ResponseMessages.Success
+        ];
     }
 };
