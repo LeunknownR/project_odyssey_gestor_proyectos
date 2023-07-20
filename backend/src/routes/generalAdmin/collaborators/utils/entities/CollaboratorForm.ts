@@ -1,3 +1,4 @@
+import { PositiveNumberNonZero } from "../../../../../utils/entities/PositiveNumberNonZero";
 import { REG_EXP_EMAIL, REG_EXP_PASSWORD, REG_EXP_USERNAME } from "../../../../../utils/regex";
 import { checkLength } from "../../../../../utils/strings";
 import FormUserPhoto from "../../../../utils/FormUserPhoto";
@@ -56,15 +57,16 @@ export class CollaboratorCreationForm extends CollaboratorForm {
 }
 export class CollaboratorUpdatingForm extends CollaboratorForm {
     //#region Attributes
+    private _id: PositiveNumberNonZero;
     readonly photo: FormUserPhoto;
     readonly password: string | null;
     //#endregion
     constructor(body: any) {
         super(body);
         const {
-            photo, 
-            password
+            id, photo, password
         } = body;
+        this._id = new PositiveNumberNonZero(id);
         this.photo = new FormUserPhoto(photo);
         if (!checkLength(password, 8, 30) 
             || !REG_EXP_PASSWORD.test(password))
@@ -72,5 +74,8 @@ export class CollaboratorUpdatingForm extends CollaboratorForm {
         if (password !== null)
             CollaboratorForm.checkPassword(password);
         this.password = password;
+    }
+    get id(): number {
+        return this._id.value;
     }
 }

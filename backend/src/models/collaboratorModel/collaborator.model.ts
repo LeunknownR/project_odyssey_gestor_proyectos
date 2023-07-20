@@ -1,23 +1,57 @@
 import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
+import UpdateCollaboratorPhotoPayload from "../../routes/collaborator/profile/utils/entities/UpdateCollaboratorPhotoPayload";
+import { CollaboratorUpdatingForm } from "../../routes/generalAdmin/collaborators/utils/entities/CollaboratorForm";
+import { QueryResultWithOutParams } from "../types";
 
 export default abstract class CollaboratorModel {
-    static getCollaboratorList = async (
+    static async searchCollaborator(username: string): Promise<any[]> {
+        const [resultset] = await DBConnection.query(
+            StoredProcedures.SearchCollaborator,
+            [username]);
+        return resultset;
+    }
+    static async getCollaboratorList(
         searchedCollaborator: string, 
         offset: number
-    ): Promise<any[]> => {
-        const [resultset] = await DBConnection.query(
+    ): Promise<QueryResultWithOutParams> {
+        const result = await DBConnection.query(
             StoredProcedures.GetCollaboratorList, 
             [
                 searchedCollaborator, 
                 offset
             ]);
-        return resultset;
+        const 
+            resultset1: any[] = result[0], 
+            resultset2: any[] = result[2];
+        return {
+            resultset: resultset1, 
+            outParams: resultset2[0]
+        };
     }
-    public static async searchCollaborator(username: string): Promise<any[]> {
-        const [resultset] = await DBConnection.query(
-            StoredProcedures.SearchCollaborator,
-            [username]);
-        return resultset;
+    static async updateCollaborator({
+        id, name, surname, email, 
+        photo, username, password 
+    }: CollaboratorUpdatingForm, urlPhoto: string | null): Promise<QueryResultWithOutParams> {
+        const result: any[][] = await DBConnection.query(
+            StoredProcedures.UpdateCollaborator, 
+            [
+                id, name, surname, email, 
+                urlPhoto, photo.changePhoto,
+                username, password
+            ]);
+        const 
+            resultset1: any[] = result[0], 
+            resultset2: any[] = result[2];
+        return {
+            resultset: resultset1, 
+            outParams: resultset2[0]
+        };
+    }
+    static async updateCollaboratorPhoto(collaboratorId: number, urlPhoto: string | null): Promise<any> {
+        const [record] = await DBConnection.query(
+            StoredProcedures.UpdateCollaboratorPhoto, 
+            [collaboratorId, urlPhoto]);
+        return record;
     }
 }

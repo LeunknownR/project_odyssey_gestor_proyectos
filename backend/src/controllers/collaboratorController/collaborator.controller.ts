@@ -1,7 +1,12 @@
 import BasicCollaboratorUser from "../../entities/collaborator/BasicCollaboratorUser";
 import { User } from "../../entities/user/User";
 import CollaboratorModel from "../../models/collaboratorModel/collaborator.model";
+import { QueryResultWithOutParams } from "../../models/types";
+import UpdateCollaboratorPhotoPayload from "../../routes/collaborator/profile/utils/entities/UpdateCollaboratorPhotoPayload";
+import { CollaboratorUpdatingForm } from "../../routes/generalAdmin/collaborators/utils/entities/CollaboratorForm";
 import SearchedCollaboratorPayload from "../../routes/generalAdmin/collaborators/utils/entities/SearchedCollaboratorPayload";
+import { HandlerFiles } from "../../utils/files";
+import { PaginableList } from "../../utils/types";
 import { COLLABORATOR_RECORDS_BY_PAGE } from "./utils/constants";
 
 export default abstract class CollaboratorController {
@@ -10,12 +15,44 @@ export default abstract class CollaboratorController {
         const collaborators: BasicCollaboratorUser[] = resultset.map(record => new BasicCollaboratorUser(record));
         return collaborators;
     }
-    static getCollaboratorList = async ({ 
+    static async getCollaboratorList({ 
         searchedCollaborator, page 
-    }: SearchedCollaboratorPayload): Promise<User[]> => {
+    }: SearchedCollaboratorPayload): Promise<PaginableList<User>> {
         const offset: number = (page - 1) * COLLABORATOR_RECORDS_BY_PAGE;
-        const resulset: any[] = await CollaboratorModel.getCollaboratorList(searchedCollaborator, offset);
-        const userList: User[] = resulset.map(record => new User(record));
-        return userList;
+        const { resultset, outParams } = await CollaboratorModel.getCollaboratorList(searchedCollaborator, offset);
+        const userList: User[] = resultset.map(record => new User(record));
+        const count: number = outParams["collaborators_count"];
+        return {
+            list: userList,
+            count
+        };
+    }
+    static async updateCollaborator(form: CollaboratorUpdatingForm): Promise<string> {
+        const { photo } = form;
+        // Creando foto nueva si es que se quiere cambiar la foto y si es que existe base64
+        const urlPhoto: string | null = 
+            photo.changePhoto && photo.base64
+            ? await HandlerFiles.createImage(photo.base64)
+            : null;
+        const { resultset, outParams } = await CollaboratorModel.updateCollaborator(form, urlPhoto);
+        const urlPhotoToDestroy: string | null = outParams["url_photo_to_destroy"];
+        // Eliminando foto antigua si se quiere cambiar la foto y si es que previamente tenía
+        if (photo.changePhoto && urlPhotoToDestroy)
+            await HandlerFiles.destroyImage(urlPhotoToDestroy);
+        return resultset[0]["message"];
+    }
+    static async updateCollaboratorPhoto(payload: UpdateCollaboratorPhotoPayload): Promise<string | null>  {
+        const { photoInBase64 } = payload;
+        // Creando foto nueva si es que existe base64
+        const urlPhoto: string | null = 
+            photoInBase64 
+            ? await HandlerFiles.createImage(photoInBase64)
+            : null;
+        const record: any = await CollaboratorModel.updateCollaboratorPhoto(payload.collaboratorId, urlPhoto);
+        const urlPhotoToDestroy: string | null = record["url_photo_to_destroy"];
+        // Eliminando foto antigua si es que previamente tenía una
+        if (urlPhotoToDestroy)
+            await HandlerFiles.destroyImage(urlPhotoToDestroy);
+        return urlPhoto;
     }
 };
