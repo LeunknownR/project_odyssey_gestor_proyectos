@@ -16,6 +16,6 @@ export const MODULE_VIEWS: ViewModulesRouteByViewModule = {
     },
     [ViewModule.Settings]: {
         View: SettingsView,
-        path: AbsolutePaths.Settings
+        path: AbsolutePaths.CollaboratorManagement
     },
 };

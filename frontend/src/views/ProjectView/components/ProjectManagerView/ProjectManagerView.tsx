@@ -45,23 +45,14 @@ const ProjectManagerView = () => {
         useProjectList(preloader, filters.value);
     const { mainMenuButtonHandler } = useMasterRouterContext();
     useEffect(() => {
-        addAddProjectButton();
-        addConfigCollaboratorSettingsButton();
+        addGeneralAdminMenuButtons();
     }, [userRole]);
-    const addAddProjectButton = (): void => {
+    const addGeneralAdminMenuButtons = (): void => {
         if (!isGeneralAdmin) return;
         mainMenuButtonHandler.addButton({
             id: "ADD_PROJECT",
             icon: "mdi:layers-plus",
             onClick: openCreateProjectModal,
-        });
-    };
-    const addConfigCollaboratorSettingsButton = (): void => {
-        if (!isGeneralAdmin) return;
-        mainMenuButtonHandler.addButton({
-            id: "CONFIG_COLLABORATOR_SETTINGS",
-            icon: "uiw:setting",
-            to: AbsolutePaths.Settings,
         });
     };
     const openCreateProjectModal = (): void => {

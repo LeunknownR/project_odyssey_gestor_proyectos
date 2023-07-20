@@ -3,7 +3,7 @@ import { ReactElement, useEffect, useState } from "react";
 import Header from "src/views/components/Header/Header";
 import { Content, Main } from "./styles";
 import { MODULE_VIEWS } from "./utils/constants";
-import { MODULE_VIEWS_BY_USER_ROLE } from "src/config/roles";
+import { DBRoles, MODULE_VIEWS_BY_USER_ROLE } from "src/config/roles";
 import { clearStorage } from "src/storage";
 import { AbsolutePaths } from "src/config/absolutePaths";
 import { currentUserLocalStorage } from "src/storage/user.local";
@@ -22,11 +22,35 @@ const MasterRouter = () => {
             toLogin();
             return;
         }
-        try { fillRoutes(currentUser.role.id); } 
+        try { 
+            const { role } = currentUser 
+            fillRoutes(role.id); 
+            addMenuButtons(role.id); 
+        } 
         catch (err) {
             toLogin();
         }
     }, []);
+    const addMenuButtons = (role: DBRoles): void => {
+        addGeneralAdminMenuButtons(role);
+        addCollaboratorMenuButtons(role);
+    }
+    const addGeneralAdminMenuButtons = (role: DBRoles): void => {
+        if (role !== DBRoles.GeneralAdmin) return;
+        mainMenuButtonHandler.addButton({
+            id: "COLLABORATOR_MANAGEMENT",
+            icon: "uiw:setting",
+            to: AbsolutePaths.CollaboratorManagement,
+        });
+    };
+    const addCollaboratorMenuButtons = (role: DBRoles): void => {
+        if (role !== DBRoles.Collaborator) return;
+        mainMenuButtonHandler.addButton({
+            id: "COLLABORATOR_PROFILE",
+            icon: "uiw:setting",
+            onClick: () => console.log("")
+        });
+    };
     const toLogin = (): void => {
         clearStorage();
         navigate(AbsolutePaths.Login);

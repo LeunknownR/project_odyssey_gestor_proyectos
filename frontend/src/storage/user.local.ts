@@ -1,7 +1,7 @@
-import { User } from "src/entities/user/types";
+import { SessionUser } from "src/entities/user/types";
 import { LocalStorage } from "./helpers";
 
-export const currentUserLocalStorage = new LocalStorage<User>("currentUser");
+export const currentUserLocalStorage = new LocalStorage<SessionUser>("currentUser");
 export const getUserId = () => {
     return currentUserLocalStorage.get().id;
 }

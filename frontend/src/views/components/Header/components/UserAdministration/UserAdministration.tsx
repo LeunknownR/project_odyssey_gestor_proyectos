@@ -3,14 +3,14 @@ import UserImage from "../../../UserImage/UserImage";
 import UserOptions from "./components/UserOptions/UserOptions";
 import { Container } from "./styles";
 import { currentUserLocalStorage } from "src/storage/user.local";
-import { User } from "src/entities/user/types";
+import { SessionUser } from "src/entities/user/types";
 import { UserAdministrationProps } from "./types";
 
 const UserAdministration = ({
     isInSidebar = false,
 }: UserAdministrationProps) => {
     const [areOptionsOpen, setAreOptionsOpen] = useState(false);
-    const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const [currentUser, setCurrentUser] = useState<SessionUser | null>(null);
     useEffect(() => {
         const currentUser = currentUserLocalStorage.get();
         setCurrentUser(currentUser);

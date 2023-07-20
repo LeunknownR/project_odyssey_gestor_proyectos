@@ -1,5 +1,7 @@
+import { DBRoles } from "src/config/roles";
+
 export type Role = {
-    id: string;
+    id: DBRoles;
     name: string;
 };
 export type Credentials = {
@@ -11,11 +13,13 @@ export type User = {
     name: string;
     surname: string;
     username: string;
-    role: Role;
     urlPhoto: string | null;
     email: string;
 };
+export type SessionUser = User & {
+    role: Role;
+}
 export type AuthData = {
-    user: User;
+    user: SessionUser;
     token: string;
 };
