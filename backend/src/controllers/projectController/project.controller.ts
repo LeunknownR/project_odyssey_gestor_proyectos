@@ -1,8 +1,4 @@
 import { 
-    collaboratorMemberMapper, 
-    collaboratorUserMapper } from "../../entities/collaborator/mappers";
-import { CollaboratorUser } from "../../entities/collaborator/entities";
-import { 
     projectListByCollaboratorMapper, 
     projectListByGeneralAdminMapper, 
     projetPanelDetailsMapper
@@ -22,17 +18,13 @@ import { ResponseMessages } from "../../utils/response/enums";
 import { GetProjectPanelDetailRequestBody } from "../../routes/collaborator/projectPanel/types";
 import { projectDetailsMapper } from "../../entities/project/mappers";
 import { SearchCollaboratorRequestBody } from "../../routes/collaborator/types";
+import BasicCollaboratorUser from "../../entities/collaborator/BasicCollaboratorUser";
 
 export default abstract class ProjectController {
     public static async getProjectListForGeneralAdmin(projectName: string | null): Promise<GroupedProjectList> {
         const resultset: any[] = await ProjectModel.getProjectListForGeneralAdmin(projectName);
         const projectList: GroupedProjectList = projectListByGeneralAdminMapper(resultset);
         return projectList;
-    }
-    public static async searchCollaboratorByUsername(username: string): Promise<CollaboratorUser[]> {
-        const resultset: any[] = await ProjectModel.searchCollaboratorByUsername(username);
-        const collaborators: CollaboratorUser[] = resultset.map(collaboratorUserMapper);
-        return collaborators;
     }
     public static async createProject(createProjectRequestBody: CreateProjectRequestBody): Promise<string> {
         const record: any = await ProjectModel.createProject(createProjectRequestBody);
@@ -73,9 +65,9 @@ export default abstract class ProjectController {
     }
     public static async searchCollaboratorForProjectTeamMember(
         searchCollaboratorRequestBody: SearchCollaboratorRequestBody
-    ): Promise<CollaboratorUser[]> {
+    ): Promise<BasicCollaboratorUser[]> {
         const resultset: any[] = await ProjectModel.searchCollaboratorForProjectTeamMember(searchCollaboratorRequestBody);
-        const collaboratorUserList: CollaboratorUser[] = resultset.map(collaboratorMemberMapper);
+        const collaboratorUserList: BasicCollaboratorUser[] = resultset.map(record => new BasicCollaboratorUser(record));
         return collaboratorUserList;
     }
     public static async addProjectMembers(addProjectMembersRequest: AddProjectMembersRequestBody): Promise<string> {

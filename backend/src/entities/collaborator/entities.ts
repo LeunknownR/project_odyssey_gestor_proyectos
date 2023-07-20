@@ -1,12 +1,5 @@
-export type UserBase = {
-	name: string;
-	surname: string;
-	urlPhoto: string | null;
-	email: string;
-}
-export type CollaboratorUser = UserBase & {
-	id: number;
-};
+import { UserBase } from "../user/UserBase";
+
 export type ProjectRole = {
     id: number;
     name: string;
