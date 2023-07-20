@@ -25,7 +25,7 @@ const useChatService = (
             to: AbsolutePaths.Chats,
             icon: "solar:chat-line-linear",
             className: getMainMenuButtonClassName()
-        });
+        }, 1);
         initService();
     }, [userRole]);
     useEffect(() => {

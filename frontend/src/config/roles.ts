@@ -2,16 +2,16 @@ import { ModuleViewByUserRole } from "./types";
 
 export enum DBRoles {
     GeneralAdmin = "GAD",
-    Collaborator = "CLB"
+    Collaborator = "CLB",
 }
 export enum DBProjectRoles {
     ProjectLeader = "PLD",
-    ProjectMember = "PMB"
+    ProjectMember = "PMB",
 }
 export enum ViewModule {
     Projects = "PROJECTS",
     Chat = "CHAT",
-    Settings = "SETTINGS"
+    Settings = "SETTINGS",
 }
 export const MODULE_VIEWS_BY_USER_ROLE: ModuleViewByUserRole = {
     [DBRoles.GeneralAdmin]: [

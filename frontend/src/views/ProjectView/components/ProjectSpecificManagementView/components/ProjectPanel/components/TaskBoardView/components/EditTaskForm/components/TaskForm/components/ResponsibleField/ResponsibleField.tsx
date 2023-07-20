@@ -11,7 +11,7 @@ import SelectedResponsible from "./components/SelectedResponsible/SelectedRespon
 import useSearchCollaborator from "src/views/ProjectView/components/ProjectManagerView/utils/hooks/useSearchCollaborator";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
 import { currentUserLocalStorage } from "src/storage/user.local";
-import { User } from "src/entities/user/types";
+import { SessionUser } from "src/entities/user/types";
 import { FlexFlow } from "src/components/styles";
 import { requestGetTeamMembers } from "src/services/projectTasks/aboutProjectTasks";
 
@@ -64,7 +64,7 @@ const ResponsibleField = ({
         customSearchInputHandler.clear();
     };
     const autoAssignmentResponsible = (): void => {
-        const currentUser: User = currentUserLocalStorage.get();
+        const currentUser: SessionUser = currentUserLocalStorage.get();
         const newResponsible: ProjectTaskCollaboratorUser = {
             id: currentUser.id,
             name: currentUser.name,

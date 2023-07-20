@@ -10,14 +10,19 @@ const useMainMenuButtons = (): MainMenuButtonHandler => {
             id: "PROJECTS",
             to: AbsolutePaths.Projects,
             icon: "mingcute:home-1-line"
-        });
+        }, 0);
     }, []);
-    const addButton = (button: MainMenuButtonProps): void => {
+    const addButton = (button: MainMenuButtonProps, position: number): void => {
         if (buttons.some(({ id }) => id === button.id)) return;
-        setButtons(prev => ([
-            ...prev,
-            button
-        ]));
+        setButtons(prev => {
+            const newButtons: MainMenuButtonProps[] = [...prev];
+            if (position) newButtons.splice(position, 0, button);
+            else newButtons.push(button);
+            return newButtons;
+        });
+    }
+    const removeButton = (buttonId: string): void => {
+        setButtons(prev => prev.filter(button => button.id !== buttonId));
     }
     const changeClassNameButton = (id: string, className: string): void => {
         setButtons(prev => prev.map(button => button.id === id ? {
@@ -26,7 +31,7 @@ const useMainMenuButtons = (): MainMenuButtonHandler => {
         } : button));
     }
     return {
-        buttons, addButton,
+        buttons, addButton, removeButton,
         changeClassNameButton
     };
 }	

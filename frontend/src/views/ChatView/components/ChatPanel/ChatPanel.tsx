@@ -1,6 +1,5 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import WSChatTab from "src/services/websockets/services/chats/utils/enums";
-import ChatFinder from "./components/ChatFinder/ChatFinder";
 import ChatTabs from "./components/ChatTabs/ChatTabs";
 import { Container } from "./styles";
 import {
@@ -13,41 +12,49 @@ import { ChatListByTab, ChatPanelProps } from "./types";
 import ProjectPreviewChatList from "./components/ProjectPreviewChatList";
 import useChatViewContext from "../../utils/context/useChatViewContext";
 import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
+import InputFinder from "src/components/InputFinder";
 
-const ChatPanel = ({
-    onNotifyCollaboratorConnectionState
-}: ChatPanelProps) => {
+const ChatPanel = ({ onNotifyCollaboratorConnectionState }: ChatPanelProps) => {
     //#region States
-    const [timeoutToSearchChatId, setTimeoutToSearchChatId] = useState<NodeJS.Timeout | undefined>();
+    const [timeoutToSearchChatId, setTimeoutToSearchChatId] = useState<
+        NodeJS.Timeout | undefined
+    >();
     //#endregion
     //#region Hooks
     const { socketIoChatService } = useMasterRouterContext().chatServiceHandler;
     const {
-        preloader, searchChatPayloadHandler,
+        preloader,
+        searchChatPayloadHandler,
         currentPrivateChatHandler,
         currentProjectChatHandler,
         privateChatMessagesHandler,
-        projectChatMessagesHandler
+        projectChatMessagesHandler,
     } = useChatViewContext();
-    const { 
-        privateChatPreviewList, 
-        projectChatPreviewList 
-    } = searchChatPayloadHandler.chatPreviewGroup;
+    const { privateChatPreviewList, projectChatPreviewList } =
+        searchChatPayloadHandler.chatPreviewGroup;
     //#endregion
     //#region Effects
     useEffect(() => {
         privateChatMessagesHandler.onDispatchMessages();
         projectChatMessagesHandler.onDispatchMessages();
         return () => {
-            socketIoChatService?.off(WSChatServiceEvents.Server.DispatchPrivateChatMessages);
-            socketIoChatService?.off(WSChatServiceEvents.Server.DispatchProjectChatMessages);
+            socketIoChatService?.off(
+                WSChatServiceEvents.Server.DispatchPrivateChatMessages
+            );
+            socketIoChatService?.off(
+                WSChatServiceEvents.Server.DispatchProjectChatMessages
+            );
         };
     }, []);
     //#endregion
     const getPrivateChatMessages = (
         privateChatPreview: PrivateChatPreview
     ): void => {
-        if (privateChatPreview.collaborator.id === currentPrivateChatHandler.value?.collaborator.id) return;
+        if (
+            privateChatPreview.collaborator.id ===
+            currentPrivateChatHandler.value?.collaborator.id
+        )
+            return;
         preloader.show(null);
         socketIoChatService?.emit(
             WSChatServiceEvents.Collaborator.GetPrivateChatMessages,
@@ -57,8 +64,14 @@ const ChatPanel = ({
         currentPrivateChatHandler.fill(privateChatPreview);
         currentProjectChatHandler.clear();
     };
-    const getProjectChatMessages = (projectChatPreview: ProjectChatPreview): void => {
-        if (projectChatPreview.project.id === currentProjectChatHandler.value?.project.id) return;
+    const getProjectChatMessages = (
+        projectChatPreview: ProjectChatPreview
+    ): void => {
+        if (
+            projectChatPreview.project.id ===
+            currentProjectChatHandler.value?.project.id
+        )
+            return;
         preloader.show(null);
         socketIoChatService?.emit(
             WSChatServiceEvents.Collaborator.GetProjectChatMessages,
@@ -75,49 +88,53 @@ const ChatPanel = ({
         clearTimeout(timeoutToSearchChatId);
         const newTimeoutToSearchChatId: NodeJS.Timeout = setTimeout(() => {
             searchChatPayloadHandler.emit({
-                ...searchChatPayloadHandler.value, 
-                searchedChat: value
+                ...searchChatPayloadHandler.value,
+                searchedChat: value,
             });
         }, 350);
         setTimeoutToSearchChatId(newTimeoutToSearchChatId);
     };
     const clearSearchedChat = (): void => {
         searchChatPayloadHandler.change("searchedChat", "");
-        searchChatPayloadHandler.emit({ 
-            ...searchChatPayloadHandler.value, 
-            searchedChat: "" 
+        searchChatPayloadHandler.emit({
+            ...searchChatPayloadHandler.value,
+            searchedChat: "",
         });
     };
     //#endregion
     const listenPrivateChatPreview = (): void => {
         searchChatPayloadHandler.change("chatTab", WSChatTab.Private);
-    }
+    };
     const listenProjectChatPreview = (): void => {
         searchChatPayloadHandler.change("chatTab", WSChatTab.Project);
-    }
+    };
     const { chatTab, searchedChat } = searchChatPayloadHandler.value;
     const previewChatList: ChatListByTab = {
         [WSChatTab.Private]: (
             <PrivatePreviewChatList
                 chatPreviewList={privateChatPreviewList}
-                getChatMessages={getPrivateChatMessages}/>
+                getChatMessages={getPrivateChatMessages}
+            />
         ),
         [WSChatTab.Project]: (
             <ProjectPreviewChatList
                 chatPreviewList={projectChatPreviewList}
-                getChatMessages={getProjectChatMessages}/>
-        )
+                getChatMessages={getProjectChatMessages}
+            />
+        ),
     };
     return (
         <Container direction="column" gap="25px">
-            <ChatFinder 
-                searchChat={searchChat} 
-                searchedChat={searchedChat} 
-                clearSearchedChat={clearSearchedChat}/>
+            <InputFinder
+                searchInput={searchChat}
+                searchedInput={searchedChat}
+                clearSearchedInput={clearSearchedChat}
+            />
             <ChatTabs
                 showPrivateChatPreview={listenPrivateChatPreview}
                 showProjectChatPreview={listenProjectChatPreview}
-                currentTab={chatTab}/>
+                currentTab={chatTab}
+            />
             {previewChatList[chatTab]}
         </Container>
     );
