@@ -22,7 +22,6 @@ import { CardVariant } from "src/components/NotificationCard/types";
 import { requestDeleteProject } from "src/services/projects/relatedToProjects";
 import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
 import NewProjectModal from "./components/NewProjectModal/NewProjectModal";
-import { AbsolutePaths } from "src/config/absolutePaths";
 
 const ProjectManagerView = () => {
     const [currentProject, setCurrentProject] = useState<Project | null>(null);
@@ -45,15 +44,26 @@ const ProjectManagerView = () => {
         useProjectList(preloader, filters.value);
     const { mainMenuButtonHandler } = useMasterRouterContext();
     useEffect(() => {
-        addGeneralAdminMenuButtons();
+        addMenuButtons();
+        return removeMenuButtons;
     }, [userRole]);
-    const addGeneralAdminMenuButtons = (): void => {
+    const addMenuButtons = (): void => {
         if (!isGeneralAdmin) return;
+        addGeneralAdminMenuButtons();
+    };
+    const removeMenuButtons = (): void => {
+        if (!isGeneralAdmin) return;
+        removeGeneralAdminMenuButtons();
+    };
+    const addGeneralAdminMenuButtons = (): void => {
         mainMenuButtonHandler.addButton({
             id: "ADD_PROJECT",
             icon: "mdi:layers-plus",
             onClick: openCreateProjectModal,
-        });
+        }, 1);
+    };
+    const removeGeneralAdminMenuButtons = (): void => {
+        mainMenuButtonHandler.removeButton("ADD_PROJECT");
     };
     const openCreateProjectModal = (): void => {
         notificationCard.hide();

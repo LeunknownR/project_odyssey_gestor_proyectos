@@ -32,24 +32,28 @@ const MasterRouter = () => {
         }
     }, []);
     const addMenuButtons = (role: DBRoles): void => {
-        addGeneralAdminMenuButtons(role);
-        addCollaboratorMenuButtons(role);
+        switch (role) {
+            case DBRoles.GeneralAdmin:
+                addGeneralAdminMenuButtons();
+                return;
+            case DBRoles.Collaborator:
+                addCollaboratorMenuButtons();
+                return;
+        }
     }
-    const addGeneralAdminMenuButtons = (role: DBRoles): void => {
-        if (role !== DBRoles.GeneralAdmin) return;
+    const addGeneralAdminMenuButtons = (): void => {
         mainMenuButtonHandler.addButton({
             id: "COLLABORATOR_MANAGEMENT",
             icon: "uiw:setting",
             to: AbsolutePaths.CollaboratorManagement,
-        });
+        }, 2);
     };
-    const addCollaboratorMenuButtons = (role: DBRoles): void => {
-        if (role !== DBRoles.Collaborator) return;
+    const addCollaboratorMenuButtons = (): void => {
         mainMenuButtonHandler.addButton({
             id: "COLLABORATOR_PROFILE",
             icon: "uiw:setting",
             onClick: () => console.log("")
-        });
+        }, 2);
     };
     const toLogin = (): void => {
         clearStorage();
