@@ -23,9 +23,9 @@ import {
     UpdateEndDateProjectRequestBody
 } from "./types";
 import { ResponseCodes, ResponseMessages, getResponseCodeIfMessageExists } from "../../../utils/response/enums";
-import { CollaboratorUser } from "../../../entities/collaborator/entities";
 import { SearchCollaboratorRequestBody } from "../types";
 import { parseToSearchCollaboratorRequestBody } from "../parsers";
+import BasicCollaboratorUser from "../../../entities/collaborator/BasicCollaboratorUser";
 
 const router = Router();
 router.use("/", Authentication.checkTokenInEndpoints(DBRoles.Collaborator));
@@ -53,8 +53,8 @@ router.patch(ApiPathEndpointsCollaborator.UpdateEndDateProject,
 router.get(ApiPathEndpointsCollaborator.SearchCollaboratorForProjectTeamMember,
     withErrorHandler(async (req, res) => {
         const searchCollaboratorRequestBody: SearchCollaboratorRequestBody = parseToSearchCollaboratorRequestBody(req.params, "Invalid request body to search collaborator");
-        const collaboratorUserList: CollaboratorUser[] = await ProjectController.searchCollaboratorForProjectTeamMember(searchCollaboratorRequestBody);
-        GenerateResponseBody.sendResponse<CollaboratorUser[]>(res, {
+        const collaboratorUserList: BasicCollaboratorUser[] = await ProjectController.searchCollaboratorForProjectTeamMember(searchCollaboratorRequestBody);
+        GenerateResponseBody.sendResponse<BasicCollaboratorUser[]>(res, {
             code: ResponseCodes.Ok,
             message: ResponseMessages.Success,
             data: collaboratorUserList

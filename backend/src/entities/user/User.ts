@@ -1,6 +1,7 @@
+import { UserBase } from "./UserBase";
 import { Role } from "./types";
 
-export class User {
+export class User implements UserBase {
     readonly id: number;
     readonly name: string;
     readonly surname: string;

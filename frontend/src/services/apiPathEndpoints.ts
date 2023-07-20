@@ -4,7 +4,7 @@ export enum ApiPathEndpoints {
     DeleteProject = "/general-admin/projects/delete",
     GetProjectListByGeneralAdmin = "/general-admin/projects/all",
     UpdateProject = "/general-admin/projects/update",
-    SearchCollaborator = "/general-admin/projects/search-collaborator",
+    SearchCollaborator = "/general-admin/collaborators/search",
     GetProjectListForCollaborator = "/collaborator/projects/all",
     GetProjectDetails = "/collaborator/projects/details",
     UpdateEndDateProject = "/collaborator/projects/update-end-date",
@@ -13,5 +13,5 @@ export enum ApiPathEndpoints {
     DeleteProjectMember = "/collaborator/projects/delete-member",
     GetProjectDetailsForPanel = "/collaborator/project-panel/details",
     SearchProjectTeamMembers = "/collaborator/project-tasks/team-members",
-    SearchTaskPriorities = "/collaborator/project-tasks/priorities",
+    SearchTaskPriorities = "/collaborator/project-tasks/priorities"
 }
