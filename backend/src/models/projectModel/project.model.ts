@@ -23,12 +23,6 @@ export default abstract class ProjectModel {
             [projectName]);
         return resultset;
     }
-    public static async searchCollaboratorByUsername(username: string): Promise<any[]> {
-        const [resultset] = await DBConnection.query(
-            StoredProcedures.SearchCollaborator,
-            [username]);
-        return resultset;
-    }
     public static async createProject({
         userId,
         projectForm

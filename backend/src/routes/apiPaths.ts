@@ -17,8 +17,8 @@ export enum ApiPathEndpointsGeneralAdmin {
     DeleteProject = "/projects/delete",
     UpdateProject = "/projects/update",
     // Collaborators
-    SearchCollaborator = "/projects/search-collaborator/:collaboratorName",
     GetCollaborators = "/collaborators",
+    SearchCollaborator = "/collaborators/search/:collaboratorName",
     CreateCollaborator = "/collaborators/create",
     UpdateCollaborator = "/collaborators/update",
     DeleteCollaborator = "/collaborators/delete"
@@ -28,9 +28,9 @@ export enum ApiPathEndpointsCollaborator {
     GetProjectListForCollaborator = "/projects/all/:collaboratorId/:projectName?",
     GetProjectDetails = "/projects/details/:projectId",
     UpdateEndDateProject="/projects/update-end-date",
-    SearchCollaboratorForProjectTeamMember = "/projects/search-collaborator-member/:projectId/:collaboratorName",
     AddProjectMembers = "/projects/add-members",
     DeleteProjectMember = "/projects/delete-member/:userId/:projectTeamMemberId",
+    SearchCollaboratorForProjectTeamMember = "/projects/search-collaborator-member/:projectId/:collaboratorName",
     // Panel
     GetProjectPanelDetail="/project-panel/details/:projectId/:userId",
     // Tareas

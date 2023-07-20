@@ -14,4 +14,10 @@ export default abstract class CollaboratorModel {
             ]);
         return resultset;
     }
+    public static async searchCollaborator(username: string): Promise<any[]> {
+        const [resultset] = await DBConnection.query(
+            StoredProcedures.SearchCollaborator,
+            [username]);
+        return resultset;
+    }
 }

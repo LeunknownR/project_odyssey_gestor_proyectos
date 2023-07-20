@@ -8,12 +8,11 @@ import {
     parseToCreateProjectRequestBody, 
     parseToDeleteProjectRequestBody, 
     parseToProjectName, 
-    parseToProjectFormToUpdate, 
-    parseToCollaboratorName} from "./parsers";
+    parseToProjectFormToUpdate 
+} from "./parsers";
 import { withErrorHandler } from "../../helpers";
 import { CreateProjectRequestBody, DeleteProjectRequestBody } from "./types";
 import { GroupedProjectList, ProjectForm } from "../../../entities/project/entities";
-import { CollaboratorUser } from "../../../entities/collaborator/entities";
 import { ResponseCodes, ResponseMessages, getResponseCodeIfMessageExists } from "../../../utils/response/enums";
 
 const router = Router();
@@ -29,17 +28,6 @@ router.get(
             data: groupedProjectList,
         });
     })); 
-router.get(
-    ApiPathEndpointsGeneralAdmin.SearchCollaborator,
-    withErrorHandler(async (req, res) => {
-        const username: string = parseToCollaboratorName(req.params);
-        const collaboratorUserList: CollaboratorUser[] = await ProjectController.searchCollaboratorByUsername(username);
-        GenerateResponseBody.sendResponse<CollaboratorUser[]>(res, {
-            code: ResponseCodes.Ok,
-            message: ResponseMessages.Success,
-            data: collaboratorUserList
-        });
-    }));
 router.post(
     ApiPathEndpointsGeneralAdmin.CreateProject,
     withErrorHandler(async (req, res) => {

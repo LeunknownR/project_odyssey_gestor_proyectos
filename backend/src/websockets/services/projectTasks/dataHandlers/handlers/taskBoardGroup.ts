@@ -1,4 +1,4 @@
-import { ProjectTaskBoard } from "../../../../../entities/projectTasks/entities";
+import { ProjectTaskBoard } from "../../../../../entities/projectTask/entities";
 
 export default class WSTaskBoardGroup {
     //#region Attributes

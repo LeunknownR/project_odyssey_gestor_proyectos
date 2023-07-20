@@ -7,8 +7,8 @@ import { checkWSCollaboratorToken } from "../../utils/authentication";
 import WSErrorMessages from "../../utils/errorMessages";
 import WSProjectTaskServiceCollaboratorEventHandler from "./eventHandlers/eventHandler.collaborator";
 import WSProjectTaskServiceDataHandler from "./dataHandlers";
-import { ProjectTaskBoard } from "../../../entities/projectTasks/entities"
-import ProjectTasksController from "../../../controllers/projectTaskController/projectTasks.controller";
+import { ProjectTaskBoard } from "../../../entities/projectTask/entities"
+import ProjectTaskController from "../../../controllers/projectTaskController/projectTasks.controller";
 import { WSNext, WSService } from "../../utils/common";
 import WSProjectTaskServiceEvents from "./events";
 
@@ -48,7 +48,7 @@ export default class WSProjectTaskService extends WSService {
         const countConnectedCollaborators: number = this.dataHandler.projectTaskBoardConnectedCollaborators.getCountConnectedCollaborators(projectId);
         if (countConnectedCollaborators === 1) {
             // Consultando tablero de la bd
-            taskBoard = await ProjectTasksController.getTaskBoardByProjectId({
+            taskBoard = await ProjectTaskController.getTaskBoardByProjectId({
                 collaboratorId,
                 payload: null,
                 projectId

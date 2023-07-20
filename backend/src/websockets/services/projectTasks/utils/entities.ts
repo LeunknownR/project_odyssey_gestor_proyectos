@@ -1,5 +1,5 @@
 import { ProjectState } from "../../../../entities/project/enums";
-import { ProjectTaskState } from "../../../../entities/projectTasks/entities";
+import { ProjectTaskState } from "../../../../entities/projectTask/entities";
 import { WSUserData } from "../../../utils/common";
 
 export type WSUserDataProjectTaskService = WSUserData & {

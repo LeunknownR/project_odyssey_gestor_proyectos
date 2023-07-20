@@ -1,11 +1,11 @@
-import { CollaboratorUser } from "../collaborator/entities";
+import CollaboratorUserBase from "../collaborator/CollaboratorUserBase";
 
 export enum ProjectTaskState {
     Pending = "P",
     OnProgress = "O",
     Finalized = "F"
 }
-export type ProjectTaskCollaboratorUser = Omit<CollaboratorUser, "email">;
+export type ProjectTaskCollaboratorUser = Omit<CollaboratorUserBase, "email">;
 export type ProjectSubtask = {
     id: number;
     name: string;
@@ -32,8 +32,4 @@ export type ProjectTaskBoard = {
     onProgress: ProjectTask[];
     finalized: ProjectTask[];
     [projectTaskState: string]: ProjectTask[];
-};
-export type ProjectTaskPriority =  {
-    id: number,
-	urlPhoto: string,
 };
