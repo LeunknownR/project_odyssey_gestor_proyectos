@@ -1696,7 +1696,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- SP para saber si un colaborador tiene chats de proyecto sin leer.
+-- SP para traer la lista de los colaboradores para el admin General
 DELIMITER //
 CREATE PROCEDURE `sp_get_collaborator_list`(
     IN p_searched_collaborator VARCHAR(100),
@@ -1734,6 +1734,147 @@ BEGIN
 END //
 DELIMITER ;
 
+-- SP para crear un colaborador por parte del admin General
+DELIMITER //
+CREATE PROCEDURE `sp_create_collaborator`(
+    IN p_name VARCHAR(50),
+    IN p_surname VARCHAR(50),
+    IN p_email VARCHAR(50),
+    IN p_url_photo VARCHAR(100),
+    IN p_username VARCHAR(24),
+    IN p_userpass VARCHAR(60)
+)
+BEGIN
+    -- Validacion para ver si el username existe
+    IF EXISTS(
+        SELECT username
+        FROM user
+        WHERE active = 1
+        AND id_role = "CLB"
+        AND username = p_username
+    ) THEN
+        -- Mostrando el mensaje USERNAME_ALREADY_EXISTS
+        SELECT 'USERNAME_ALREADY_EXISTS' AS 'message';
+    ELSE 
+        -- Validacion para ver si el emial existe
+        IF EXISTS(
+            SELECT email
+            FROM user
+            WHERE active = 1
+            AND id_role = "CLB"
+            AND email = p_email
+        ) THEN
+            -- Mostrando el mensaje EMAIL_ALREADY_EXISTS
+            SELECT 'EMAIL_ALREADY_EXISTS' AS 'message';
+        ELSE
+            -- Creando nuevo collaborator
+            INSERT INTO user (
+                `user_name`,
+                `user_surname`,
+                `email`,
+                `url_photo`,
+                `username`,
+                `userpassword`,
+                `id_role`
+            ) VALUES (
+                p_name,
+                p_surname,
+                p_email,
+                p_url_photo,
+                p_username,
+                p_userpass,
+                "CLB"
+            );
+            -- Mostrando el mensaje de exito
+            SELECT 'SUCCESS' AS 'message';
+        END IF;
+    END IF;
+END //
+DELIMITER ;
+
+-- SP para actualizar un colaborador
+DELIMITER //
+CREATE PROCEDURE `sp_update_collaborator_by_id`(
+    IN p_id_collaborator INT,
+    IN p_name VARCHAR(50),
+    IN p_surname VARCHAR(50),
+    IN p_email VARCHAR(50),
+    IN p_url_photo VARCHAR(100),
+    IN p_change_photo BIT,
+    IN p_username VARCHAR(24),
+    IN p_userpass VARCHAR(60),
+    OUT url_photo_to_destroy VARCHAR(100)
+)
+BEGIN
+    IF NOT EXISTS(
+        SELECT * 
+        FROM user
+        WHERE id_user = 1 
+        OR id_role = "GAD"
+    ) THEN
+        -- Mostrando el mensaje GENERAL_ADMIN_CONFLICT
+        SELECT 'GENERAL_ADMIN_CONFLICT' AS 'message';
+    ELSE
+        -- Validacion para ver si el username existe
+        IF EXISTS(
+            SELECT username 
+            FROM user
+            WHERE username = p_username 
+            AND username NOT IN (
+                SELECT username 
+                FROM user 
+                WHERE id_user = p_id_collaborator 
+                AND active = 1
+            ) AND active = 1
+        ) THEN
+            -- Mostrando el mensaje USERNAME_ALREADY_EXISTS
+            SELECT 'USERNAME_ALREADY_EXISTS' AS 'message';
+        ELSE 
+            -- Validacion para ver si el emial existe
+            IF EXISTS(
+                SELECT email 
+                FROM user
+                WHERE email = p_email 
+                AND email NOT IN (
+                    SELECT email 
+                    FROM user 
+                    WHERE id_user = p_id_collaborator
+                    AND active = 1
+                ) AND active = 1
+            ) THEN
+                -- Mostrando el mensaje EMAIL_ALREADY_EXISTS
+                SELECT 'EMAIL_ALREADY_EXISTS' AS 'message';
+            ELSE
+                IF (p_change_photo = 0) THEN
+                    -- Setteando url_photo_to_destroy = null
+                    SET url_photo_to_destroy = NULL;
+                -- Cuando p_changePhoto != 0
+                ELSE
+                    SELECT url_photo INTO url_photo_to_destroy
+                    FROM user
+                    WHERE id_user = p_id_collaborator;
+
+                    -- Actualizando el collaborator
+                    UPDATE user
+                    SET url_photo = p_url_photo
+                    WHERE id_user = p_id_collaborator;
+                END IF;
+                -- Actualizando el collaborator
+                UPDATE user
+                SET user_name = p_name,
+                    user_surname = p_surname,
+                    email = p_email,
+                    username = p_username,
+                    userpassword = p_userpass
+                WHERE id_user = p_id_collaborator;
+
+                -- Mostrando el mensaje de exito
+                SELECT 'SUCCESS' AS 'message';
+            END IF;
+        END IF;
+    END IF;
+END //
+DELIMITER ;
 
 -- PARA INSERTAR LOS DATOS DE MANERA ADECUADA
 DELIMITER //
@@ -1760,7 +1901,7 @@ BEGIN
     -- Se creo la insercion de los project_team_member_seen_message para cada colab del proyecto
 END //
 DELIMITER ;
--- INSETANDO LOS NUEVOS CHATS
+-- INSERTANDO LOS NUEVOS CHATS
 CALL test_send_message_to_project_chat(1, 1, '2023-06-28 19:38:40','Chicos avancen sus partes crj');
 CALL test_send_message_to_project_chat(2, 1, '2023-06-28 20:01:40','va va 1');
 CALL test_send_message_to_project_chat(3, 1, '2023-06-28 20:02:50','va va 2');
