@@ -1,7 +1,8 @@
 import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
+import ChangeCollaboratorPasswordPayload from "../../routes/collaborator/profile/utils/entities/ChangeCollaboratorPasswordPayload";
 import UpdateCollaboratorPhotoPayload from "../../routes/collaborator/profile/utils/entities/UpdateCollaboratorPhotoPayload";
-import { CollaboratorUpdatingForm } from "../../routes/generalAdmin/collaborators/utils/entities/CollaboratorForm";
+import { CollaboratorCreationForm, CollaboratorDeletedForm, CollaboratorUpdatingForm } from "../../routes/generalAdmin/collaborators/utils/entities/CollaboratorForm";
 import { QueryResultWithOutParams } from "../types";
 
 export default abstract class CollaboratorModel {
@@ -12,46 +13,77 @@ export default abstract class CollaboratorModel {
         return resultset;
     }
     static async getCollaboratorList(
-        searchedCollaborator: string, 
+        searchedCollaborator: string,
         offset: number
     ): Promise<QueryResultWithOutParams> {
         const result = await DBConnection.query(
-            StoredProcedures.GetCollaboratorList, 
+            StoredProcedures.GetCollaboratorList,
             [
-                searchedCollaborator, 
+                searchedCollaborator,
                 offset
             ]);
-        const 
-            resultset1: any[] = result[0], 
+        const
+            resultset1: any[] = result[0],
             resultset2: any[] = result[2];
         return {
-            resultset: resultset1, 
+            resultset: resultset1,
             outParams: resultset2[0]
         };
     }
     static async updateCollaborator({
-        id, name, surname, email, 
-        photo, username, password 
+        id, name, surname, email,
+        photo, username, password
     }: CollaboratorUpdatingForm, urlPhoto: string | null): Promise<QueryResultWithOutParams> {
         const result: any[][] = await DBConnection.query(
-            StoredProcedures.UpdateCollaborator, 
+            StoredProcedures.UpdateCollaborator,
             [
-                id, name, surname, email, 
+                id, name, surname, email,
                 urlPhoto, photo.changePhoto,
                 username, password
             ]);
-        const 
-            resultset1: any[] = result[0], 
+        const
+            resultset1: any[] = result[0],
             resultset2: any[] = result[2];
         return {
-            resultset: resultset1, 
+            resultset: resultset1,
             outParams: resultset2[0]
         };
     }
+    static async createCollaborator({
+        name, surname, email,
+        username, password
+    }: CollaboratorCreationForm, urlPhoto: string | null): Promise<any> {
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.CreateCollaborator,
+            [
+                name, surname,
+                email, urlPhoto,
+                username, password
+            ]);
+        return record;
+    }
     static async updateCollaboratorPhoto(collaboratorId: number, urlPhoto: string | null): Promise<any> {
-        const [record] = await DBConnection.query(
-            StoredProcedures.UpdateCollaboratorPhoto, 
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.UpdateCollaboratorPhoto,
             [collaboratorId, urlPhoto]);
+        return record;
+    }
+    static async deleteCollaborator({
+        collaboratorId
+    }: CollaboratorDeletedForm): Promise<any> {
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.DeleteCollaborator,
+            [
+                collaboratorId
+            ]);
+        return record;
+    }
+    static async changeCollaboratorPassword({
+        collaboratorId, newPassword
+    }: ChangeCollaboratorPasswordPayload): Promise<any> {
+        const [record] = await DBConnection.query(
+            StoredProcedures.ChangeCollaboratorPassword,
+            [collaboratorId, newPassword]);
         return record;
     }
 }

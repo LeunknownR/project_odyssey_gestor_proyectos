@@ -11,7 +11,7 @@ import SearchedCollaboratorPayload from "./utils/entities/SearchedCollaboratorPa
 import BasicCollaboratorUser from "../../../entities/collaborator/BasicCollaboratorUser";
 import { parseToCollaboratorName } from "../projects/parsers";
 import { PaginableList } from "../../../utils/types";
-import { CollaboratorUpdatingForm } from "./utils/entities/CollaboratorForm";
+import { CollaboratorCreationForm, CollaboratorDeletedForm, CollaboratorUpdatingForm } from "./utils/entities/CollaboratorForm";
 
 const router = Router();
 router.use("/", Authentication.checkTokenInEndpoints(DBRoles.GeneralAdmin));
@@ -28,17 +28,29 @@ router.get(
     })
 );
 router.get(
-    ApiPathEndpointsGeneralAdmin.GetCollaborators, 
-    withErrorHandler(async (req, res) => {     
+    ApiPathEndpointsGeneralAdmin.GetCollaborators,
+    withErrorHandler(async (req, res) => {
         const searchedCollaboratorPayload: SearchedCollaboratorPayload = new SearchedCollaboratorPayload(req.body);
         const paginableCollaboratorList = await CollaboratorController.getCollaboratorList(searchedCollaboratorPayload);
         GenerateResponseBody.sendResponse<PaginableList<User>>(res, {
             code: ResponseCodes.Ok,
-            data: paginableCollaboratorList, 
+            data: paginableCollaboratorList,
             message: ResponseMessages.Success
         });
     })
-); 
+);
+router.post(
+    ApiPathEndpointsGeneralAdmin.CreateCollaborator,
+    withErrorHandler(async (req, res) => {
+        const form: CollaboratorCreationForm = new CollaboratorCreationForm(req.body);
+        const message: string = await CollaboratorController.createCollaborator(form);
+        GenerateResponseBody.sendResponse(res, {
+            code: getResponseCodeIfMessageExists(message, ResponseCodes.BadRequest),
+            data: null,
+            message
+        });
+    })
+);
 router.put(
     ApiPathEndpointsGeneralAdmin.UpdateCollaborator,
     withErrorHandler(async (req, res) => {
@@ -46,7 +58,19 @@ router.put(
         const message: string = await CollaboratorController.updateCollaborator(form);
         GenerateResponseBody.sendResponse(res, {
             code: getResponseCodeIfMessageExists(message, ResponseCodes.BadRequest),
-            data: null, 
+            data: null,
+            message
+        });
+    })
+);
+router.delete(
+    ApiPathEndpointsGeneralAdmin.DeleteCollaborator,
+    withErrorHandler(async (req, res) => {
+        const deleteCollaboratorById: CollaboratorDeletedForm =  new CollaboratorDeletedForm(req.params);
+        const message: string = await CollaboratorController.deleteCollaborator(deleteCollaboratorById);
+        GenerateResponseBody.sendResponse(res, {
+            code: getResponseCodeIfMessageExists(message, ResponseCodes.BadRequest),
+            data: null,
             message
         });
     })
