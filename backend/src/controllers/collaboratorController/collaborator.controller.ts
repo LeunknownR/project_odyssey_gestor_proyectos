@@ -36,7 +36,6 @@ export default abstract class CollaboratorController {
             photoInBase64
                 ? await HandlerFiles.createImage(photoInBase64)
                 : null;
-        // ENcriptando contraseña
         const encryptedPassword: string = await Encrypter.encryptPassword(password)
         const record: any = await CollaboratorModel.createCollaborator(form, urlPhoto, encryptedPassword);
         if (!record)
@@ -51,7 +50,10 @@ export default abstract class CollaboratorController {
             photo.changePhoto && photo.base64
                 ? await HandlerFiles.createImage(photo.base64)
                 : null;
-        const encryptedPassword: string = await Encrypter.encryptPassword(password);
+        // Encriptando contraseña si se envió una
+        const encryptedPassword: string | null = password 
+            ? await Encrypter.encryptPassword(password)
+            : null;
         const { resultset, outParams } = await CollaboratorModel.updateCollaborator(
             form, encryptedPassword, urlPhoto
         );
