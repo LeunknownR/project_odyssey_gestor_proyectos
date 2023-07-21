@@ -1696,6 +1696,45 @@ BEGIN
 END //
 DELIMITER ;
 
+-- SP para saber si un colaborador tiene chats de proyecto sin leer.
+DELIMITER //
+CREATE PROCEDURE `sp_get_collaborator_list`(
+    IN p_searched_collaborator VARCHAR(100),
+    IN p_offset INT,
+    OUT collaborators_count INT
+)
+BEGIN
+    -- Seteando lo que se desea buscar con el formato más optimo
+    SET @search_collaborator_name = UPPER(CONCAT('%',p_searched_collaborator,'%'));
+    -- Trayendo la información cuando el usernema coincida
+    SELECT
+        clb.id_collaborator,
+        u.user_name AS "collaborator_name",
+        u.user_surname AS "collaborator_surname",
+        u.email AS "collaborator_email",
+        u.url_photo AS "collaborator_url_photo",
+        u.username AS "collaborator_username"
+    FROM collaborator clb
+    INNER JOIN user u
+        ON clb.id_collaborator = u.id_user 
+    WHERE 
+        u.active = 1
+        AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @search_collaborator_name
+        ORDER BY u.user_name, u.user_surname ASC 
+        LIMIT p_offset, 10;
+
+    SELECT COUNT(*) INTO collaborators_count
+    FROM collaborator clb
+    INNER JOIN user u
+        ON clb.id_collaborator = u.id_user 
+    WHERE 
+        u.active = 1
+        AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @search_collaborator_name
+        ORDER BY u.user_name, u.user_surname ASC;
+END //
+DELIMITER ;
+
+
 -- PARA INSERTAR LOS DATOS DE MANERA ADECUADA
 DELIMITER //
 CREATE PROCEDURE `test_send_message_to_project_chat`(
