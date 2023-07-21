@@ -8,7 +8,7 @@ export default class SearchedCollaboratorPayload {
         searchedCollaborator,
         page
     }: any) {
-        if (!checkLength(searchedCollaborator, 1, 100))
+        if (!checkLength(searchedCollaborator, 0, 100))
             throw new Error("Invalid searched collaborator");
         this.searchedCollaborator = searchedCollaborator;
         this._page = new PositiveNumberNonZero(page);
