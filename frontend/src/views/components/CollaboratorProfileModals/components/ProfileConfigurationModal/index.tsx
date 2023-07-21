@@ -4,16 +4,14 @@ import PhotoUploader from "src/components/PhotoUploader";
 import { FAKE_DATA } from "../../mock";
 import {
     CustomModal,
-    Modalheader,
-    TitleModal,
     UserContainer,
-    UserData,
     UserDataContainer,
     ChangePasswordButton,
-    CloseBtn,
+    NamesContent,
 } from "./styles";
 import { FlexFlow } from "src/components/styles";
 import DataLabel from "./components/DataLabel";
+import ModalHeader from "./components/ModalHeader";
 
 const MODAL_STYLES = {
     padding: "20px 30px",
@@ -25,13 +23,7 @@ const ProfileConfigurationModal = ({
 }: ProfileConfigurationModalProps) => {
     return (
         <CustomModal {...modalProps} sizeProps={MODAL_STYLES}>
-            <Modalheader justify="space-between">
-                <TitleModal>Configuración de perfil</TitleModal>
-                <CloseBtn
-                    icon="material-symbols:close"
-                    onClick={() => modalProps.open(false)}
-                />
-            </Modalheader>
+            <ModalHeader modalProps={modalProps}/>
             <UserContainer justify="center" gap="70px">
                 <PhotoUploader
                     name={FAKE_DATA.name}
@@ -39,10 +31,10 @@ const ProfileConfigurationModal = ({
                     urlPhoto={FAKE_DATA.urlPhoto}
                 />
                 <UserDataContainer direction="column">
-                    <FlexFlow gap="20px">
+                    <NamesContent>
                         <DataLabel label="Nombres" data={FAKE_DATA.name}/>
                         <DataLabel label="Apellidos" data={FAKE_DATA.surname} />
-                    </FlexFlow>
+                    </NamesContent>
                     <DataLabel label="Usuario" data={FAKE_DATA.username} />
                     <DataLabel label="Correo" data={FAKE_DATA.email} />
                     <ChangePasswordButton

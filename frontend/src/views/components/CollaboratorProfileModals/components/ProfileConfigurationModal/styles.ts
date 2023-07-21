@@ -2,6 +2,7 @@ import CustomButton from "src/components/CustomButton/CustomButton";
 import Modal from "src/components/Modal/Modal";
 import { Content } from "src/components/Modal/styles";
 import { FlexFlow } from "src/components/styles";
+import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 export const CustomModal = styled(Modal)`
@@ -14,32 +15,37 @@ export const CustomModal = styled(Modal)`
         flex-direction: column;
         min-width: 47%;
     }
-`;
-export const Modalheader = styled(FlexFlow.withComponent("header"))``;
-export const CloseBtn = styled(CustomButton)`
-    background: transparent;
-    .iconify {
-        font-size: 40px;
-        color: var(--white-1);
-        transition: 0.3s;
-        :hover {
-            color: var(--yellow-1);
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        ${Content} {
+            padding: 25px 22px 45px;
+            gap: 25px;
         }
     }
 `;
-export const TitleModal = styled.h2`
-    color: var(--white-1);
-    font-size: 30px;
-    font-weight: 700;
-    line-height: normal;
+export const UserContainer = styled(FlexFlow)`
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        gap: 10px;
+    }
 `;
-export const UserContainer = styled(FlexFlow)``;
 export const UserDataContainer = styled(FlexFlow)`
     gap: 14px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        gap: 10px;
+    }
 `;
 export const UserData = styled(FlexFlow)`
     gap: 5px;
     flex-direction: column;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        gap: 10px;
+    }
+`;
+export const NamesContent = styled(FlexFlow)`
+    gap: 20px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        flex-direction: column;
+        gap: 10px;
+    }
 `;
 export const ChangePasswordButton = styled(CustomButton)`
     background-color: transparent;
@@ -59,6 +65,13 @@ export const ChangePasswordButton = styled(CustomButton)`
         color: var(--red-4);
         .iconify {
             color: var(--red-4);
+        }
+    }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 12px;
+        padding-top: 7px;
+        .iconify {
+            font-size: 15px;
         }
     }
 `;
