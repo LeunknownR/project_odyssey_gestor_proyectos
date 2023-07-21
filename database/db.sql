@@ -1806,72 +1806,74 @@ CREATE PROCEDURE `sp_update_collaborator_by_id`(
     OUT url_photo_to_destroy VARCHAR(100)
 )
 BEGIN
-    IF NOT EXISTS(
+    -- Validación para ver si el collaborator es admin_general
+    IF EXISTS(
         SELECT * 
         FROM user
-        WHERE id_user = 1 
-        OR id_role = "GAD"
+        WHERE id_user = p_id_collaborator
+        AND id_role = "GAD"
     ) THEN
         -- Mostrando el mensaje GENERAL_ADMIN_CONFLICT
         SELECT 'GENERAL_ADMIN_CONFLICT' AS 'message';
-    ELSE
-        -- Validacion para ver si el username existe
-        IF EXISTS(
+        -- Validación para ver si el username existe
+    ELSEIF EXISTS(
+        SELECT username 
+        FROM user
+        WHERE username = p_username 
+        AND username NOT IN (
             SELECT username 
+            FROM user 
+            WHERE id_user = p_id_collaborator 
+            AND active = 1
+        ) AND active = 1
+    ) THEN
+        -- Mostrando el mensaje USERNAME_ALREADY_EXISTS
+        SELECT 'USERNAME_ALREADY_EXISTS' AS 'message';
+        -- Validación para ver si el emial existe
+    ELSEIF EXISTS(
+        SELECT email 
+        FROM user
+        WHERE email = p_email 
+        AND email NOT IN (
+            SELECT email 
+            FROM user 
+            WHERE id_user = p_id_collaborator
+            AND active = 1
+        ) AND active = 1
+    ) THEN
+        -- Mostrando el mensaje EMAIL_ALREADY_EXISTS
+        SELECT 'EMAIL_ALREADY_EXISTS' AS 'message';
+    ELSE
+        IF (p_change_photo = 0) THEN
+            -- Setteando url_photo_to_destroy = null
+            SET url_photo_to_destroy = NULL;
+        -- Cuando p_changePhoto != 0
+        ELSE
+            SELECT url_photo INTO url_photo_to_destroy
             FROM user
-            WHERE username = p_username 
-            AND username NOT IN (
-                SELECT username 
-                FROM user 
-                WHERE id_user = p_id_collaborator 
-                AND active = 1
-            ) AND active = 1
-        ) THEN
-            -- Mostrando el mensaje USERNAME_ALREADY_EXISTS
-            SELECT 'USERNAME_ALREADY_EXISTS' AS 'message';
-        ELSE 
-            -- Validacion para ver si el emial existe
-            IF EXISTS(
-                SELECT email 
-                FROM user
-                WHERE email = p_email 
-                AND email NOT IN (
-                    SELECT email 
-                    FROM user 
-                    WHERE id_user = p_id_collaborator
-                    AND active = 1
-                ) AND active = 1
-            ) THEN
-                -- Mostrando el mensaje EMAIL_ALREADY_EXISTS
-                SELECT 'EMAIL_ALREADY_EXISTS' AS 'message';
-            ELSE
-                IF (p_change_photo = 0) THEN
-                    -- Setteando url_photo_to_destroy = null
-                    SET url_photo_to_destroy = NULL;
-                -- Cuando p_changePhoto != 0
-                ELSE
-                    SELECT url_photo INTO url_photo_to_destroy
-                    FROM user
-                    WHERE id_user = p_id_collaborator;
+            WHERE id_user = p_id_collaborator;
 
-                    -- Actualizando el collaborator
-                    UPDATE user
-                    SET url_photo = p_url_photo
-                    WHERE id_user = p_id_collaborator;
-                END IF;
-                -- Actualizando el collaborator
-                UPDATE user
-                SET user_name = p_name,
-                    user_surname = p_surname,
-                    email = p_email,
-                    username = p_username,
-                    userpassword = p_userpass
-                WHERE id_user = p_id_collaborator;
-
-                -- Mostrando el mensaje de exito
-                SELECT 'SUCCESS' AS 'message';
-            END IF;
+            -- Actualizando el collaborator
+            UPDATE user
+            SET url_photo = p_url_photo
+            WHERE id_user = p_id_collaborator;
         END IF;
+        -- Seteando la antigua contraseña
+        SET @old_password = (
+            SELECT userpassword
+            FROM user
+            WHERE id_user = p_id_collaborator
+        );
+        -- Actualizando el collaborator
+        UPDATE user
+        SET user_name = p_name,
+            user_surname = p_surname,
+            email = p_email,
+            username = p_username,
+            userpassword = COALESCE(p_userpass, @old_password)
+        WHERE id_user = p_id_collaborator;
+        -- Mostrando el mensaje de exito
+        SELECT 'SUCCESS' AS 'message';
     END IF;
 END //
 DELIMITER ;
