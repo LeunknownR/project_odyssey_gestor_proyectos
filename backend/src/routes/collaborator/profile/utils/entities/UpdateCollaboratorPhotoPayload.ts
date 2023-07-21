@@ -1,16 +1,17 @@
 import { PositiveNumberNonZero } from "../../../../../utils/entities/PositiveNumberNonZero";
-import Validator from "../../../../utils/Validator";
+import { checkLength } from "../../../../../utils/strings";
 
-export default class ChangeCollaboratorPasswordPayload {
+export default class UpdateCollaboratorPhotoPayload {
     private _collaboratorId: PositiveNumberNonZero;
-    readonly newPassword: string;
+    readonly photoInBase64: string | null;
     constructor({
         collaboratorId,
-        newPassword
+        photoInBase64
     }: any) {
         this._collaboratorId = new PositiveNumberNonZero(collaboratorId);
-        Validator.checkPassword(newPassword);
-        this.newPassword = newPassword;
+        if (!checkLength(photoInBase64, 1))
+            throw new Error("Invalid photo in base 64");
+        this.photoInBase64 = photoInBase64;
     }
     get collaboratorId(): number {
         return this._collaboratorId.value;

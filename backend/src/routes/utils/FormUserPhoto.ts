@@ -1,4 +1,4 @@
-import { isString } from "../../utils/strings";
+import { checkLength } from "../../utils/strings";
 
 export default class FormUserPhoto {
     readonly base64: string | null;
@@ -13,10 +13,7 @@ export default class FormUserPhoto {
         this.changePhoto = changePhoto;
     }
     static checkPhotoInBase64(base64: any): void {
-        if (
-            base64 !== null && (
-                !isString(base64) || base64.length === 0
-            ))
-            throw new Error("Invalid string base 64 or it's not empty photo");
+        if (base64 !== null && !checkLength(base64, 1))
+            throw new Error("Invalid base 64 or it's not empty photo");
     }
 };

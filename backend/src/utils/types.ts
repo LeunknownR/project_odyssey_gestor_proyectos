@@ -9,3 +9,7 @@ export type ResponseBody<T = null> = {
     message: string | null,
     data: T
 };
+export type PaginableList<O> = {
+    list: O[];
+    count: number;
+};
