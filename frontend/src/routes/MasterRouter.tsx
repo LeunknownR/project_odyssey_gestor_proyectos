@@ -18,7 +18,7 @@ const MasterRouter = () => {
     const navigate = useNavigate();
     const mainMenuButtonHandler = useMainMenuButtons();
     const [routes, setRoutes] = useState<ReactElement[] | null>(null);
-    const modalProps = useModal();
+    const profileConfigModal = useModal();
     useEffect(() => {
         const currentUser = currentUserLocalStorage.get();
         if (!currentUser) {
@@ -55,7 +55,7 @@ const MasterRouter = () => {
         mainMenuButtonHandler.addButton({
             id: "COLLABORATOR_PROFILE",
             icon: "uiw:setting",
-            onClick: () => modalProps.open(true),
+            onClick: () => profileConfigModal.open(true),
         }, 2);
     };
     const toLogin = (): void => {
@@ -99,7 +99,7 @@ const MasterRouter = () => {
                             replace/>} />}
                     </Routes>
                 </Content>
-                <CollaboratorProfileModals modalProps={modalProps}/>
+                <CollaboratorProfileModals profileConfigModal={profileConfigModal}/>
             </MasterRouterContext.Provider>}
         </Main>
     );

@@ -3,11 +3,11 @@ export type NotificationCardHook = {
     timeoutToClose: number;
     hide: () => void;
     show: (millis?: number) => void;
-    cardAppearanceProps: AppearanceProps;
-    changeAppearance: (appearanceProps: AppearanceProps) => void
+    cardAppearanceProps: CardTypeVisual;
+    changeAppearance: (appearanceProps: CardTypeVisual) => void
 };
 export type NotificationCardProps = {
-    appearanceProps: AppearanceProps;
+    appearanceProps: CardTypeVisual;
     handler: NotificationCardHook;
 };
 export enum AppearanceProps {

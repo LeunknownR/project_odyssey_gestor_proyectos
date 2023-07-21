@@ -1,94 +1,55 @@
 import { ChangePasswordModalProps } from "./types";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import {
-    ContentRequirements,
     CustomModal,
-    IndividualRequirement,
     Modalheader,
-    NotificationContainer,
-    NewPasswordConfirmationContainer,
-    PasswordConfirmationContainer,
+    NewPasswordWrapper,
+    ActualPassWrapper,
     TitleModal,
+    PasswordTextField,
+    UpdateButton,
 } from "./styles";
-import CustomTextField from "src/components/CustomTextField/CustomTextField";
 import CustomButton from "src/components/CustomButton/CustomButton";
+import { CloseBtn } from "../ProfileConfigurationModal/styles";
+import { TEXT_FIELD_PROPS } from "./utils/constants";
+import NotificationInfo from "./components/NotificationInfo";
+import ContentRequirements from "./components/ContentRequirements";
+import { FlexFlow } from "src/components/styles";
 
 const MODAL_STYLES = {
     padding: "20px 30px",
 };
 
-const ChangePasswordModal = ({
-    modalProps,
-    title,
-    description,
-    children,
-}: ChangePasswordModalProps) => {
+const ChangePasswordModal = ({ modalProps }: ChangePasswordModalProps) => {
     return (
         <CustomModal {...modalProps} sizeProps={MODAL_STYLES}>
-            <Modalheader>
-                <TitleModal>Configuración de perfil</TitleModal>
-                <Icon
+            <Modalheader justify="space-between">
+                <TitleModal>Cambiar contraseña</TitleModal>
+                <CloseBtn
                     icon="material-symbols:close"
                     onClick={() => modalProps.open(false)}
                 />
             </Modalheader>
-            <NotificationContainer>
-                <Icon icon="ic:baseline-info" />
-                Para cambiar tu contraseña es necesario que ingreses tu actual
-                credencial primero.
-            </NotificationContainer>
-            <PasswordConfirmationContainer>
-                <CustomTextField
-                    label="Contraseña actual"
-                    type="password"
-                    name="password"
-                    variant="login"
-                />
-                <CustomButton
-                    content="Verificar"
-                    size="normal"
-                    alignSelf="flex-end"
-                    variant="main"
-                    onClick={() => console.log("dx")}
-                />
-            </PasswordConfirmationContainer>
-            <NewPasswordConfirmationContainer>
-                <CustomTextField
-                    label="Nueva contraseña"
-                    type="password"
-                    name="password"
-                    variant="login"
-                />
-                <ContentRequirements>
-                    <IndividualRequirement>
-                        <Icon icon="emojione-monotone:shield" />
-                        Mínimo ocho caracteres
-                    </IndividualRequirement>
-                    <IndividualRequirement>
-                        <Icon icon="emojione-monotone:shield" />
-                        Al menos un número
-                    </IndividualRequirement>
-                    <IndividualRequirement>
-                        <Icon icon="emojione-monotone:shield" />
-                        Al menos una minúscula
-                    </IndividualRequirement>
-                    <IndividualRequirement>
-                        <Icon icon="emojione-monotone:shield" />
-                        Al menos una mayúscula
-                    </IndividualRequirement>
-                </ContentRequirements>
-            </NewPasswordConfirmationContainer>
-            <NewPasswordConfirmationContainer>
-                <CustomTextField
-                    label="Confirmar contraseña"
-                    type="password"
-                    name="password"
-                    variant="login"
-                />
-            </NewPasswordConfirmationContainer>
-            <CustomButton
+            <NotificationInfo />
+            <FlexFlow direction="column" gap="25px">
+                <ActualPassWrapper>
+                    <PasswordTextField {...TEXT_FIELD_PROPS.ACTUAL_PASS} />
+                    <CustomButton
+                        content="Verificar"
+                        size="normal"
+                        alignSelf="flex-end"
+                        icon="mdi:password-check"
+                        variant="main"
+                        onClick={() => console.log("dx")}
+                    />
+                </ActualPassWrapper>
+                <NewPasswordWrapper>
+                    <PasswordTextField {...TEXT_FIELD_PROPS.NEW_PASS} />
+                    <ContentRequirements />
+                </NewPasswordWrapper>
+                <PasswordTextField {...TEXT_FIELD_PROPS.CONFIRM_PASS} />
+            </FlexFlow>
+            <UpdateButton
                 content="Actualizar"
-                size="big"
                 alignSelf="flex-end"
                 variant="main"
                 onClick={() => console.log("dx")}

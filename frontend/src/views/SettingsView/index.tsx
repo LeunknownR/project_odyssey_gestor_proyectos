@@ -21,7 +21,7 @@ const SettingsView = () => {
         <Container>
             <CollaboratorsPanel />
             <CollaboratorFormWrapper className={isMobileCollaboratorOpen ? "open" : ""}>
-                {true ? <CollaboratorForm /> : <UnselectedCollaborator />}
+                {true ? <CollaboratorForm currentCollaborator={currentCollaborator} /> : <UnselectedCollaborator />}
             </CollaboratorFormWrapper>
         </Container>
     );

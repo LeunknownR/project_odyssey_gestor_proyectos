@@ -14,10 +14,13 @@ import PersonalDataForm from "./components/PersonalDataForm";
 import UserDataForm from "./components/UserDataForm";
 import ActionButtons from "./components/ActionButtons";
 import { CollaboratorFormProps } from "./types";
+import DeleteCollaboratorModal from "./components/DeleteCollaboratorModal";
+import useModal from "src/components/Modal/utils/hooks/useModal";
 
 const CollaboratorForm = ({ currentCollaborator }: CollaboratorFormProps) => {
     const [tabIdx, setTabIdx] = useState(0);
     const { isMobile } = useMainContext();
+    const deleteCollaboratorModal = useModal(true);
     const moveTab = (idx: number) => setTabIdx(idx);
     const tabs = [<PersonalDataForm key={0} />, <UserDataForm key={1} />];
     return (
@@ -58,6 +61,7 @@ const CollaboratorForm = ({ currentCollaborator }: CollaboratorFormProps) => {
                 </ContentWrapper>
                 <ActionButtons tabIdx={tabIdx} moveTab={moveTab} />
             </Container>
+            <DeleteCollaboratorModal modalProps={deleteCollaboratorModal}/>
         </>
     );
 };

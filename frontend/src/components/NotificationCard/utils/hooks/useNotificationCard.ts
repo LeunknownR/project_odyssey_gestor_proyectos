@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
-import { AppearanceProps, NotificationCardHook } from "../../types";
-import { DEFAULT_TIMEOUT_SECONDS_TO_CLOSE_NOTIFICATION_CARD } from "../constants";
+import { CardTypeVisual, NotificationCardHook } from "../../types";
+import { DEFAULT_NOTIFICATION_CARD, DEFAULT_TIMEOUT_SECONDS_TO_CLOSE_NOTIFICATION_CARD } from "../constants";
 
 export const useNotificationCard = (
     initialValue?: boolean,
@@ -9,7 +9,7 @@ export const useNotificationCard = (
     //#region States
     const [visible, setVisible] = useState<boolean>(initialValue || false);
     const [timeoutToCloseId, setTimeoutToCloseId] = useState<number>();
-    const [cardAppearanceProps, setCardAppearanceProps] = useState<AppearanceProps>(AppearanceProps.Default);
+    const [cardAppearanceProps, setCardAppearanceProps] = useState<CardTypeVisual>(DEFAULT_NOTIFICATION_CARD);
     //#endregion
     //#region Ref
     const timeoutToCloseRef = useRef<number>(timeoutToClose || DEFAULT_TIMEOUT_SECONDS_TO_CLOSE_NOTIFICATION_CARD);
@@ -29,7 +29,7 @@ export const useNotificationCard = (
         setVisible(true);
         runTimeout();
     }
-    const changeAppearance = (appearanceProps: AppearanceProps): void => setCardAppearanceProps(appearanceProps)
+    const changeAppearance = (appearanceProps: CardTypeVisual): void => setCardAppearanceProps(appearanceProps)
     function runTimeout(): void {
         const timeoutToCloseId: number = window.setTimeout(hide, timeoutToCloseRef.current * 1000);
         setTimeoutToCloseId(timeoutToCloseId);

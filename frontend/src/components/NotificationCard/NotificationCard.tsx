@@ -8,7 +8,7 @@ import {
 } from "./styles";
 import { NotificationCardProps } from "./types";
 import {useEffect, useState} from "react";
-import {DELTA_SECONDS, VARIANT } from "./utils/constants";
+import {DELTA_SECONDS } from "./utils/constants";
 import { FlexFlow } from "../styles";
 
 const NotificationCard = ({
@@ -59,18 +59,18 @@ const NotificationCard = ({
         //GNOMO CAMBIAR NOMBRE DE VARIANT
         <Container
             className={getClassName()}
-            color={VARIANT[appearanceProps].color}
+            color={appearanceProps.color}
             progress={progress}>
             <CloseIconContainer onClick={() => hide()}>
                 <Icon icon="mdi:close" />
             </CloseIconContainer>
             <FlexFlow align="center" gap="10px">
-                <IconContainer color={VARIANT[appearanceProps].color} >
+                <IconContainer color={appearanceProps.color} >
                     <Icon icon="material-symbols:check-circle-outline" />
                 </IconContainer>
-                <TitleModal color={VARIANT[appearanceProps].color}>{VARIANT[appearanceProps].title}</TitleModal>
+                <TitleModal color={appearanceProps.color}>{appearanceProps.title}</TitleModal>
             </FlexFlow>
-            <TextModal>{VARIANT[appearanceProps].subtitle}</TextModal>
+            <TextModal>{appearanceProps.subtitle}</TextModal>
         </Container>
     );
 };

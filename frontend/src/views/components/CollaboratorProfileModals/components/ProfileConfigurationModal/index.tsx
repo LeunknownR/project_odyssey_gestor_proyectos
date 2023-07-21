@@ -8,12 +8,12 @@ import {
     TitleModal,
     UserContainer,
     UserData,
-    UserDataSubtitle,
-    UserDataModal,
-    ProfileChangeConfigurationButton,
     UserDataContainer,
+    ChangePasswordButton,
+    CloseBtn,
 } from "./styles";
-import ChangePasswordModal from "../ChangePasswordModal";
+import { FlexFlow } from "src/components/styles";
+import DataLabel from "./components/DataLabel";
 
 const MODAL_STYLES = {
     padding: "20px 30px",
@@ -21,46 +21,36 @@ const MODAL_STYLES = {
 
 const ProfileConfigurationModal = ({
     modalProps,
-    title,
-    description,
-    children,
+    openChangePasswordModal,
 }: ProfileConfigurationModalProps) => {
     return (
         <CustomModal {...modalProps} sizeProps={MODAL_STYLES}>
-            <Modalheader>
+            <Modalheader justify="space-between">
                 <TitleModal>Configuración de perfil</TitleModal>
-                <Icon
+                <CloseBtn
                     icon="material-symbols:close"
                     onClick={() => modalProps.open(false)}
                 />
             </Modalheader>
-            <UserContainer>
+            <UserContainer justify="center" gap="70px">
                 <PhotoUploader
                     name={FAKE_DATA.name}
                     surname={FAKE_DATA.surname}
                     urlPhoto={FAKE_DATA.urlPhoto}
                 />
-                <UserDataContainer>
-                    <UserData>
-                        <UserDataSubtitle>Nombres</UserDataSubtitle>
-                        <UserDataModal>{FAKE_DATA.name}</UserDataModal>
-                    </UserData>
-                    <UserData>
-                        <UserDataSubtitle>Apellidos</UserDataSubtitle>
-                        <UserDataModal>{FAKE_DATA.surname}</UserDataModal>
-                    </UserData>
-                    <UserData>
-                        <UserDataSubtitle>Usuario</UserDataSubtitle>
-                        <UserDataModal>{FAKE_DATA.username}</UserDataModal>
-                    </UserData>
-                    <UserData>
-                        <UserDataSubtitle>Correo</UserDataSubtitle>
-                        <UserDataModal>{FAKE_DATA.email}</UserDataModal>
-                    </UserData>
-                    <ProfileChangeConfigurationButton>
-                        Cambiar contraseña
-                        <Icon icon="bxs:edit" />
-                    </ProfileChangeConfigurationButton>
+                <UserDataContainer direction="column">
+                    <FlexFlow gap="20px">
+                        <DataLabel label="Nombres" data={FAKE_DATA.name}/>
+                        <DataLabel label="Apellidos" data={FAKE_DATA.surname} />
+                    </FlexFlow>
+                    <DataLabel label="Usuario" data={FAKE_DATA.username} />
+                    <DataLabel label="Correo" data={FAKE_DATA.email} />
+                    <ChangePasswordButton
+                        onClick={openChangePasswordModal}
+                        content="Cambiar contraseña"
+                        icon="bxs:edit"
+                        iconAfterText
+                    />
                 </UserDataContainer>
             </UserContainer>
         </CustomModal>

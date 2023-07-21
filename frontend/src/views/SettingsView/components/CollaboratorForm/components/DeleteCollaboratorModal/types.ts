@@ -1,5 +1,5 @@
 import { ModalProps } from "src/components/Modal/types";
 
-export type ChangePasswordModalProps = {
+export type DeleteCollaboratorModalProps = {
     modalProps: ModalProps;
 };

@@ -37,5 +37,9 @@ export const INITIAL_FORM: ProjectForStateForm = {
     leaderId: 0,
 };
 export const NOTIFICATION_CARD_APPEARANCE_PROPS = {
-    
+    DeleteProject: {
+        title: "PROYECTO ELIMINADO",
+        subtitle: "El proyecto ha sido eliminado correctamente",
+        color: "var(--red-3)",
+    }
 }
