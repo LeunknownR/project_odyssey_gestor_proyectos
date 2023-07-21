@@ -1720,9 +1720,9 @@ BEGIN
     WHERE 
         u.active = 1
         AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @search_collaborator_name
-        ORDER BY u.user_name, u.user_surname ASC 
-        LIMIT p_offset, 10;
-
+    ORDER BY u.user_name, u.user_surname ASC 
+    LIMIT p_offset, 10;
+    -- Obteniendo el total de colaboradores
     SELECT COUNT(*) INTO collaborators_count
     FROM collaborator clb
     INNER JOIN user u
@@ -1730,7 +1730,7 @@ BEGIN
     WHERE 
         u.active = 1
         AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @search_collaborator_name
-        ORDER BY u.user_name, u.user_surname ASC;
+    ORDER BY u.user_name, u.user_surname ASC;
 END //
 DELIMITER ;
 
