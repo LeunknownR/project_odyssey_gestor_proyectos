@@ -1,11 +1,11 @@
 import BasicCollaboratorUser from "../../entities/collaborator/BasicCollaboratorUser";
 import { User } from "../../entities/user/User";
 import CollaboratorModel from "../../models/collaboratorModel/collaborator.model";
-import { QueryResultWithOutParams } from "../../models/types";
 import ChangeCollaboratorPasswordPayload from "../../routes/collaborator/profile/utils/entities/ChangeCollaboratorPasswordPayload";
 import UpdateCollaboratorPhotoPayload from "../../routes/collaborator/profile/utils/entities/UpdateCollaboratorPhotoPayload";
 import { CollaboratorCreationForm, CollaboratorDeletedForm, CollaboratorUpdatingForm } from "../../routes/generalAdmin/collaborators/utils/entities/CollaboratorForm";
 import SearchedCollaboratorPayload from "../../routes/generalAdmin/collaborators/utils/entities/SearchedCollaboratorPayload";
+import Encrypter from "../../utils/encrypter";
 import { HandlerFiles } from "../../utils/files";
 import { ResponseMessages } from "../../utils/response/enums";
 import { PaginableList } from "../../utils/types";
@@ -43,13 +43,16 @@ export default abstract class CollaboratorController {
         return message || ResponseMessages.FatalError;
     }
     static async updateCollaborator(form: CollaboratorUpdatingForm): Promise<string> {
-        const { photo } = form;
+        const { photo, password } = form;
         // Creando foto nueva si es que se quiere cambiar la foto y si es que existe base64
         const urlPhoto: string | null =
             photo.changePhoto && photo.base64
                 ? await HandlerFiles.createImage(photo.base64)
                 : null;
-        const { resultset, outParams } = await CollaboratorModel.updateCollaborator(form, urlPhoto);
+        const encryptedPassword: string = await Encrypter.encryptPassword(password);
+        const { resultset, outParams } = await CollaboratorModel.updateCollaborator(
+            form, encryptedPassword, urlPhoto
+        );
         const urlPhotoToDestroy: string | null = outParams["url_photo_to_destroy"];
         // Eliminando foto antigua si se quiere cambiar la foto y si es que previamente tenía
         if (photo.changePhoto && urlPhotoToDestroy)
