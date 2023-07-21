@@ -11,11 +11,14 @@ import MainMenu from "src/views/components/MainMenu/MainMenu";
 import useMainMenuButtons from "src/views/components/MainMenu/utils/hooks/useMainMenuButtons";
 import useChatService from "./utils/hooks/useChatService";
 import MasterRouterContext from "./utils/context/MasterRouterContext";
+import CollaboratorProfileModals from "src/views/components/CollaboratorProfileModals/CollaboratorProfile";
+import useModal from "src/components/Modal/utils/hooks/useModal";
 
 const MasterRouter = () => {
     const navigate = useNavigate();
     const mainMenuButtonHandler = useMainMenuButtons();
     const [routes, setRoutes] = useState<ReactElement[] | null>(null);
+    const modalProps = useModal();
     useEffect(() => {
         const currentUser = currentUserLocalStorage.get();
         if (!currentUser) {
@@ -52,7 +55,7 @@ const MasterRouter = () => {
         mainMenuButtonHandler.addButton({
             id: "COLLABORATOR_PROFILE",
             icon: "uiw:setting",
-            onClick: () => console.log("")
+            onClick: () => modalProps.open(true),
         }, 2);
     };
     const toLogin = (): void => {
@@ -96,6 +99,7 @@ const MasterRouter = () => {
                             replace/>} />}
                     </Routes>
                 </Content>
+                <CollaboratorProfileModals modalProps={modalProps}/>
             </MasterRouterContext.Provider>}
         </Main>
     );
