@@ -1708,12 +1708,12 @@ BEGIN
     SET @search_collaborator_name = UPPER(CONCAT('%',p_searched_collaborator,'%'));
     -- Trayendo la información cuando el usernema coincida
     SELECT
-        clb.id_collaborator,
-        u.user_name AS "collaborator_name",
-        u.user_surname AS "collaborator_surname",
-        u.email AS "collaborator_email",
-        u.url_photo AS "collaborator_url_photo",
-        u.username AS "collaborator_username"
+        clb.id_collaborator AS "id_user",
+        u.user_name AS "user_name",
+        u.user_surname AS "user_surname",
+        u.email AS "user_email",
+        u.url_photo AS "url_photo",
+        u.username AS "username"
     FROM collaborator clb
     INNER JOIN user u
         ON clb.id_collaborator = u.id_user 
