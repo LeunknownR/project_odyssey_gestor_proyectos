@@ -28,8 +28,8 @@ router.patch(ApiPathEndpointsCollaborator.ChangePassword,
         const message: string = await CollaboratorController.changeCollaboratorPassword(payload);
         GenerateResponseBody.sendResponse(res, {
             code: ResponseCodes.Ok,
-            data: message, 
-            message: ResponseMessages.Success
+            data: null, 
+            message
         });
     })
 );

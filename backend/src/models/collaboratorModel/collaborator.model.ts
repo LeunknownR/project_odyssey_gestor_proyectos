@@ -54,14 +54,14 @@ export default abstract class CollaboratorModel {
     }
     static async createCollaborator({
         name, surname, email,
-        username, password
-    }: CollaboratorCreationForm, urlPhoto: string | null): Promise<any> {
+        username
+    }: CollaboratorCreationForm, urlPhoto: string | null, encryptedPassword: string): Promise<any> {
         const [[record]] = await DBConnection.query(
             StoredProcedures.CreateCollaborator,
             [
                 name, surname,
                 email, urlPhoto,
-                username, password
+                username, encryptedPassword
             ]);
         return record;
     }
@@ -71,9 +71,7 @@ export default abstract class CollaboratorModel {
             [collaboratorId, urlPhoto]);
         return record;
     }
-    static async deleteCollaborator({
-        collaboratorId
-    }: CollaboratorDeletedForm): Promise<any> {
+    static async deleteCollaborator(collaboratorId: number): Promise<any> {
         const [[record]] = await DBConnection.query(
             StoredProcedures.DeleteCollaborator,
             [
@@ -81,12 +79,14 @@ export default abstract class CollaboratorModel {
             ]);
         return record;
     }
-    static async changeCollaboratorPassword({
-        collaboratorId, newPassword
-    }: ChangeCollaboratorPasswordPayload): Promise<any> {
-        const [record] = await DBConnection.query(
+    static async changeCollaboratorPassword(
+        collaboratorId: number, newPasswordEncrypted: string
+    ): Promise<number> {
+        const information = await DBConnection.query(
             StoredProcedures.ChangeCollaboratorPassword,
-            [collaboratorId, newPassword]);
-        return record;
+            [
+                collaboratorId, newPasswordEncrypted
+            ]);
+        return information.affectedRows;
     }
 }

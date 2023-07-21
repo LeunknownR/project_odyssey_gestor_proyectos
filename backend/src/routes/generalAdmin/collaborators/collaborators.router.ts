@@ -12,6 +12,7 @@ import BasicCollaboratorUser from "../../../entities/collaborator/BasicCollabora
 import { parseToCollaboratorName } from "../projects/parsers";
 import { PaginableList } from "../../../utils/types";
 import { CollaboratorCreationForm, CollaboratorDeletedForm, CollaboratorUpdatingForm } from "./utils/entities/CollaboratorForm";
+import { PositiveNumberNonZero } from "../../../utils/entities/PositiveNumberNonZero";
 
 const router = Router();
 router.use("/", Authentication.checkTokenInEndpoints(DBRoles.GeneralAdmin));
@@ -66,8 +67,8 @@ router.put(
 router.delete(
     ApiPathEndpointsGeneralAdmin.DeleteCollaborator,
     withErrorHandler(async (req, res) => {
-        const deleteCollaboratorById: CollaboratorDeletedForm =  new CollaboratorDeletedForm(req.params);
-        const message: string = await CollaboratorController.deleteCollaborator(deleteCollaboratorById);
+        const deleteCollaboratorById: PositiveNumberNonZero = new PositiveNumberNonZero(req.params)
+        const message: string = await CollaboratorController.deleteCollaborator(deleteCollaboratorById.value);
         GenerateResponseBody.sendResponse(res, {
             code: getResponseCodeIfMessageExists(message, ResponseCodes.BadRequest),
             data: null,

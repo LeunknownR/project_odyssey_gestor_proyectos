@@ -30,13 +30,15 @@ export default abstract class CollaboratorController {
         };
     }
     static async createCollaborator(form: CollaboratorCreationForm): Promise<string> {
-        const { photoInBase64 } = form;
+        const { photoInBase64, password } = form;
         // Creando foto si es que existe base64
         const urlPhoto: string | null =
             photoInBase64
                 ? await HandlerFiles.createImage(photoInBase64)
                 : null;
-        const record: any = await CollaboratorModel.createCollaborator(form, urlPhoto);
+        // ENcriptando contraseña
+        const encryptedPassword: string = await Encrypter.encryptPassword(password)
+        const record: any = await CollaboratorModel.createCollaborator(form, urlPhoto, encryptedPassword);
         if (!record)
             throw new Error("It couldn't be created collaborator");
         const message: string = record["message"];
@@ -73,7 +75,7 @@ export default abstract class CollaboratorController {
             await HandlerFiles.destroyImage(urlPhotoToDestroy);
         return urlPhoto;
     }
-    static async deleteCollaborator(collaboratorId: CollaboratorDeletedForm): Promise<string> {
+    static async deleteCollaborator(collaboratorId: number): Promise<string> {
         const record: any = await CollaboratorModel.deleteCollaborator(collaboratorId);
         if (!record)
             throw new Error("It couldn't be deleted collaborator");
@@ -81,10 +83,9 @@ export default abstract class CollaboratorController {
         return message || ResponseMessages.FatalError;
     }
     static async changeCollaboratorPassword(payload: ChangeCollaboratorPasswordPayload): Promise<string> {
-        const record: any = await CollaboratorModel.changeCollaboratorPassword(payload);
-        if (!record)
-            throw new Error("It couldn't be change collaborator password");
-        const message: string = record["message"];
-        return message || ResponseMessages.FatalError;
+        const { collaboratorId, newPassword } = payload;
+        const newEncryptedPassword: string = await Encrypter.encryptPassword(newPassword)
+        const affectedRows: number = await CollaboratorModel.changeCollaboratorPassword(collaboratorId, newEncryptedPassword);
+        return affectedRows > 0 ? ResponseMessages.Success : ResponseMessages.FatalError;
     }
 };
