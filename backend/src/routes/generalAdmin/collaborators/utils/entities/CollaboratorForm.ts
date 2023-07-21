@@ -79,3 +79,17 @@ export class CollaboratorUpdatingForm extends CollaboratorForm {
         return this._id.value;
     }
 }
+export class CollaboratorDeletedForm {
+    //#region Attributes
+    private _collaboratorId: PositiveNumberNonZero;
+    //#endregion
+    constructor(params: any) {
+        const {
+            collaboratorId
+        } = params;
+        this._collaboratorId = new PositiveNumberNonZero(collaboratorId);
+    }
+    get collaboratorId(): number {
+        return this._collaboratorId.value;
+    }
+}
