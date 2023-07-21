@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { FlexFlow } from "../styles";
 import CustomButton from "../CustomButton/CustomButton";
 import UserImage from "src/views/components/UserImage/UserImage";
+import { MOBILE_WIDTH } from "src/config/constants";
 
 export const Container = styled(FlexFlow)`
     position: relative;
@@ -19,9 +20,18 @@ export const DeleteImageBtn = styled(CustomButton)`
         font-size: 33px;
         background-color: var(--darkblue-3);
     }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        right: 8px;
+        .iconify {
+            font-size: 30px;
+        }
+    }
 `;
 export const CollaboratorImage = styled(UserImage)`
     font-size: 55px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 40px;
+    }
 `;
 export const UploadBtn = styled(CustomButton)`
     background-color: transparent;
@@ -36,5 +46,10 @@ export const UploadBtn = styled(CustomButton)`
     .iconify {
         display: flex;
         font-size: 32px;
+    }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        .iconify {
+            font-size: 24px;
+        }
     }
 `;

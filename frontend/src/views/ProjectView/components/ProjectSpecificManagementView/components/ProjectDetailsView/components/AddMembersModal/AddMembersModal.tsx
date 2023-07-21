@@ -10,7 +10,7 @@ import useCustomInputSearch from "src/components/CustomInputSearch/utils/hooks/u
 import { ResponseBody } from "src/services/types";
 import ProjectMemberToAddList from "./components/ProjectMemberList/ProjectMemberToAddList";
 import CustomInputSearchUserOption from "src/views/components/CustomInputSearchUserOption/CustomInputSearchUserOption";
-import { CardVariant } from "src/components/NotificationCard/types";
+import { AppearanceProps } from "src/components/NotificationCard/types";
 import useSearchCollaborator from "src/views/ProjectView/components/ProjectManagerView/utils/hooks/useSearchCollaborator";
 
 const MODAL_STYLES = {
@@ -65,7 +65,7 @@ const AddMembersModal = ({
         if (message !== "SUCCESS") return;
         modalProps.open(false);
         await fillProjectDetails();
-        notificationCard.changeVariant(CardVariant.AddMember);
+        notificationCard.changeAppearance(AppearanceProps.AddMember);
         notificationCard.show();
     };
     //#endregion

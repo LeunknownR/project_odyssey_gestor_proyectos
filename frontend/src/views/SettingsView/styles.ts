@@ -22,6 +22,7 @@ export const CollaboratorFormWrapper = styled.section`
         translate: 100%;
         width: 100%;
         height: calc(100vh - var(--main-sidebar-height-mobile));
+        background-color: var(--darkblue-4);
         transition: 0.35s;
         &.open {
             translate: 0%;

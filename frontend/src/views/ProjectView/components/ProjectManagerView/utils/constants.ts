@@ -36,3 +36,6 @@ export const INITIAL_FORM: ProjectForStateForm = {
     endDate: -1,
     leaderId: 0,
 };
+export const NOTIFICATION_CARD_APPEARANCE_PROPS = {
+    
+}

@@ -3,7 +3,7 @@ import Modal from "src/components/Modal/Modal";
 import { FlexFlow } from "src/components/styles";
 import { requestUpdateProject } from "src/services/projects/relatedToProjects";
 import { UpdateProjectModalProps } from "./types";
-import { CardVariant } from "src/components/NotificationCard/types";
+import { AppearanceProps } from "src/components/NotificationCard/types";
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
 import FormSection from "./components/FormSection/FormSection";
 import LeaderSelectionSection from "./components/LeaderSelectionSection/LeaderSelectionSection";
@@ -35,7 +35,7 @@ const UpdateProjectModal = ({
         // const { message } = data;
         modalProps.open(false);
         fillProjects();
-        notificationCard.changeVariant(CardVariant.UpdateProject);
+        notificationCard.changeAppearance(AppearanceProps.UpdateProject);
         notificationCard.show();
     };
     const toPage = (idx: number) => setTabIdx(idx);

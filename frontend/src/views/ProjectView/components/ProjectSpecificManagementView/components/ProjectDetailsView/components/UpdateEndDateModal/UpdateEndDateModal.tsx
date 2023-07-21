@@ -6,7 +6,7 @@ import { UpdateEndDateModalProps } from "./types";
 import Footer from "./components/Footer/Footer";
 import CustomDatePicker from "src/components/CustomDatePicker/CustomDatePicker";
 import { requestUpdateProjectEndDate } from "src/services/projects/relatedToProjects";
-import { CardVariant } from "src/components/NotificationCard/types";
+import { AppearanceProps } from "src/components/NotificationCard/types";
 import { FlexFlow } from "src/components/styles";
 
 const MODAL_STYLES = {
@@ -40,7 +40,7 @@ const UpdateEndDateModal = ({
         preloader.hide();
         if (message !== "SUCCESS") return;
         fillProjectDetails();
-        notificationCard.changeVariant(CardVariant.UpdateDate);
+        notificationCard.changeAppearance(AppearanceProps.UpdateDate);
         notificationCard.show();
     };
     const dateIsChanged = (): boolean => {

@@ -18,7 +18,7 @@ import EmptyProjects from "./components/EmptyProjects/EmptyProjects";
 import { DBRoles } from "src/config/roles";
 import { MenuOption } from "src/views/components/MenuOptions/types";
 import useUserRole from "src/storage/hooks/useUserRole";
-import { CardVariant } from "src/components/NotificationCard/types";
+import { AppearanceProps } from "src/components/NotificationCard/types";
 import { requestDeleteProject } from "src/services/projects/relatedToProjects";
 import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
 import NewProjectModal from "./components/NewProjectModal/NewProjectModal";
@@ -114,65 +114,65 @@ const ProjectManagerView = () => {
         preloader.hide();
         if (message !== "SUCCESS") return;
         fillProjects();
-        notificationCard.changeVariant(CardVariant.DeleteProject);
+        notificationCard.changeAppearance(AppearanceProps.DeleteProject);
         notificationCard.show();
     };
     return (
         <>
-            <Container>
-                <Content>
-                    <ProjectFinderWrapper>
-                        <ProjectFinder
-                            filters={filters}
-                            doFillProjects={doFill}
-                        />
-                    </ProjectFinderWrapper>
-                    {recentProjects.length > 0 ? (
-                        <>
-                            <RecentProjects
-                                recentProjects={recentProjects}
-                                getMenuOptions={getMenuOptions}
-                            />
-                            <AllProjects
-                                allProjects={allProjects}
-                                getMenuOptions={getMenuOptions}
-                            />
-                        </>
-                    ) : (
-                        <EmptyProjects />
-                    )}
-                </Content>
-            </Container>
-            {isGeneralAdmin && (
-                <>
-                    <NewProjectModal
-                        preloader={preloader}
-                        modalProps={newProjectModal}
-                        form={form}
-                        getProjectFromForm={getProjectFromForm}
-                        fillProjects={fillProjects}
-                        notificationCard={notificationCard}
+        <Container>
+            <Content>
+                <ProjectFinderWrapper>
+                    <ProjectFinder
+                        filters={filters}
+                        doFillProjects={doFill}
                     />
-                    <UpdateProjectModal
-                        modalProps={updateProjectModal}
-                        currentProject={currentProject}
-                        form={form}
-                        getProjectFromForm={getProjectFromForm}
-                        fillProjects={fillProjects}
-                        preloader={preloader}
-                        notificationCard={notificationCard}
+                </ProjectFinderWrapper>
+                {recentProjects.length > 0 ? (
+                    <>
+                    <RecentProjects
+                        recentProjects={recentProjects}
+                        getMenuOptions={getMenuOptions}
                     />
-                    <DeleteProjectModal
-                        modalProps={deleteProjectModal}
-                        deleteProject={deleteProject}
+                    <AllProjects
+                        allProjects={allProjects}
+                        getMenuOptions={getMenuOptions}
                     />
-                    <NotificationCard
-                        handler={notificationCard}
-                        variant={notificationCard.cardVariant}
-                    />
-                </>
-            )}
-            <Preloader {...preloader.value} />
+                    </>
+                ) : (
+                    <EmptyProjects />
+                )}
+            </Content>
+        </Container>
+        {isGeneralAdmin && (
+            <>
+            <NewProjectModal
+                preloader={preloader}
+                modalProps={newProjectModal}
+                form={form}
+                getProjectFromForm={getProjectFromForm}
+                fillProjects={fillProjects}
+                notificationCard={notificationCard}
+            />
+            <UpdateProjectModal
+                modalProps={updateProjectModal}
+                currentProject={currentProject}
+                form={form}
+                getProjectFromForm={getProjectFromForm}
+                fillProjects={fillProjects}
+                preloader={preloader}
+                notificationCard={notificationCard}
+            />
+            <DeleteProjectModal
+                modalProps={deleteProjectModal}
+                deleteProject={deleteProject}
+            />
+            <NotificationCard
+                handler={notificationCard}
+                appearanceProps={notificationCard.cardAppearanceProps}
+            />
+            </>
+        )}
+        <Preloader {...preloader.value} />
         </>
     );
 };

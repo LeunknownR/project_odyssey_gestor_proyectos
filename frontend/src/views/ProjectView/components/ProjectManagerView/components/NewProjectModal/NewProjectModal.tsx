@@ -2,7 +2,7 @@ import { useState } from "react";
 import Modal from "src/components/Modal/Modal";
 import { NewProjectModalProps } from "./types";
 import { requestCreateProject } from "src/services/projects/relatedToProjects";
-import { CardVariant } from "src/components/NotificationCard/types";
+import { AppearanceProps } from "src/components/NotificationCard/types";
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
 import FormSection from "./components/FormSection/FormSection";
 import LeaderSelectionSection from "./components/LeaderSelectionSection/LeaderSelectionSection";
@@ -36,7 +36,7 @@ const NewProjectModal = ({
         // Exitoso
         modalProps.open(false);
         fillProjects();
-        notificationCard.changeVariant(CardVariant.CreateProject);
+        notificationCard.changeAppearance(AppearanceProps.CreateProject);
         notificationCard.show();
     };
     const toPage = (idx: number) => setTabIdx(idx);

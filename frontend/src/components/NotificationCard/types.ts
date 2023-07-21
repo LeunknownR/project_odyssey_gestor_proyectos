@@ -3,14 +3,14 @@ export type NotificationCardHook = {
     timeoutToClose: number;
     hide: () => void;
     show: (millis?: number) => void;
-    cardVariant: CardVariant;
-    changeVariant: (variant: CardVariant) => void
+    cardAppearanceProps: AppearanceProps;
+    changeAppearance: (appearanceProps: AppearanceProps) => void
 };
 export type NotificationCardProps = {
-    variant: CardVariant;
+    appearanceProps: AppearanceProps;
     handler: NotificationCardHook;
 };
-export enum CardVariant {
+export enum AppearanceProps {
     Default = "default",
     CreateProject = "create-project",
     UpdateProject = "update-project",

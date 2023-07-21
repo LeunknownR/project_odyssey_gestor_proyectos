@@ -18,7 +18,7 @@ import { ProjectCollaborator } from "src/entities/collaborator/entities";
 import { DBProjectRoles } from "src/config/roles";
 import { getUserId } from "src/storage/user.local";
 import { FlexFlow } from "src/components/styles";
-import { CardVariant } from "src/components/NotificationCard/types";
+import { AppearanceProps } from "src/components/NotificationCard/types";
 import { ProjectSubmoduleViewProps } from "src/config/types";
 
 const ProjectDetailsView = ({ projectId }: ProjectSubmoduleViewProps) => {
@@ -55,7 +55,7 @@ const ProjectDetailsView = ({ projectId }: ProjectSubmoduleViewProps) => {
         preloader.hide();
         if (message !== "SUCCESS") return;
         await fillProjectDetails();
-        notificationCard.changeVariant(CardVariant.DeleteMember);
+        notificationCard.changeAppearance(AppearanceProps.DeleteMember);
         notificationCard.show();
     };
     const openAddMemberModal = (): void => {
@@ -119,7 +119,7 @@ const ProjectDetailsView = ({ projectId }: ProjectSubmoduleViewProps) => {
         )}
         <NotificationCard 
             handler={notificationCard}
-            variant={notificationCard.cardVariant}/>
+            appearanceProps={notificationCard.cardAppearanceProps}/>
         <Preloader {...preloader.value} />
         </>
     );

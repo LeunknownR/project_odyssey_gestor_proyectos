@@ -9,6 +9,7 @@ export const Container = styled(FlexFlow.withComponent("section"))`
     @media (max-width: ${MOBILE_WIDTH}px) {
         width: 100%;
         padding: 30px 15px;
-        gap: 15px;
+        gap: 40px;
+        height: calc(100vh - var(--main-sidebar-height-mobile))
     }
 `;
