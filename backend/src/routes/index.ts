@@ -5,6 +5,7 @@ import generalAdminCollaborators from "./generalAdmin/collaborators/collaborator
 import collaboratorProjects from "./collaborator/projects/projects.router";
 import collaboratorProjectTasks from "./collaborator/projectTasks/projectTasks.router";
 import collaboratorProjectPanel from "./collaborator/projectPanel/projectPanel.router";
+import collaboratorProfile from "./collaborator/profile/profile.router";
 import { Endpoint } from "./types";
 import { Router } from "express";
 
@@ -33,6 +34,10 @@ const routes: Endpoint[] = [
     {
         path: ApiPathEndpointGroups.Collaborator,
         routes: collaboratorProjectTasks
+    },
+    {
+        path: ApiPathEndpointGroups.Collaborator,
+        routes: collaboratorProfile
     }
 ];
 routes.forEach(({ path, routes }) => {
