@@ -31,15 +31,18 @@ export default abstract class CollaboratorModel {
         };
     }
     static async updateCollaborator({
-        id, name, surname, email,
-        photo, username, password
-    }: CollaboratorUpdatingForm, urlPhoto: string | null): Promise<QueryResultWithOutParams> {
+            id, name, surname, email,
+            photo, username
+        }: CollaboratorUpdatingForm, 
+        encryptedPassword: string, 
+        urlPhoto: string | null
+    ): Promise<QueryResultWithOutParams> {
         const result: any[][] = await DBConnection.query(
             StoredProcedures.UpdateCollaborator,
             [
                 id, name, surname, email,
                 urlPhoto, photo.changePhoto,
-                username, password
+                username, encryptedPassword
             ]);
         const
             resultset1: any[] = result[0],
