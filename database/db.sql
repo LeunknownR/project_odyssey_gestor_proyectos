@@ -1711,7 +1711,7 @@ BEGIN
         clb.id_collaborator AS "id_user",
         u.user_name AS "user_name",
         u.user_surname AS "user_surname",
-        u.email AS "user_email",
+        u.email AS "email",
         u.url_photo AS "url_photo",
         u.username AS "username"
     FROM collaborator clb
