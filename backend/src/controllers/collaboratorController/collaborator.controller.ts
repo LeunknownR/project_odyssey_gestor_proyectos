@@ -3,7 +3,7 @@ import { User } from "../../entities/user/User";
 import CollaboratorModel from "../../models/collaboratorModel/collaborator.model";
 import ChangeCollaboratorPasswordPayload from "../../routes/collaborator/profile/utils/entities/ChangeCollaboratorPasswordPayload";
 import UpdateCollaboratorPhotoPayload from "../../routes/collaborator/profile/utils/entities/UpdateCollaboratorPhotoPayload";
-import { CollaboratorCreationForm, CollaboratorDeletedForm, CollaboratorUpdatingForm } from "../../routes/generalAdmin/collaborators/utils/entities/CollaboratorForm";
+import { CollaboratorCreationForm, CollaboratorUpdatingForm } from "../../routes/generalAdmin/collaborators/utils/entities/CollaboratorForm";
 import SearchedCollaboratorPayload from "../../routes/generalAdmin/collaborators/utils/entities/SearchedCollaboratorPayload";
 import Encrypter from "../../utils/encrypter";
 import { HandlerFiles } from "../../utils/files";
@@ -63,6 +63,14 @@ export default abstract class CollaboratorController {
             await HandlerFiles.destroyImage(urlPhotoToDestroy);
         return resultset[0]["message"];
     }
+    static async deleteCollaborator(collaboratorId: number): Promise<string> {
+        const { resultset, outParams } = await CollaboratorModel.deleteCollaborator(collaboratorId);
+        const urlPhotoToDestroy: string | null = outParams["url_photo_to_destroy"];
+        // Eliminando foto si se tenia previamente
+        if (urlPhotoToDestroy)
+            await HandlerFiles.destroyImage(urlPhotoToDestroy);
+        return resultset[0]["message"];
+    }
     static async updateCollaboratorPhoto(payload: UpdateCollaboratorPhotoPayload): Promise<string | null> {
         const { photoInBase64 } = payload;
         // Creando foto nueva si es que existe base64
@@ -76,13 +84,6 @@ export default abstract class CollaboratorController {
         if (urlPhotoToDestroy)
             await HandlerFiles.destroyImage(urlPhotoToDestroy);
         return urlPhoto;
-    }
-    static async deleteCollaborator(collaboratorId: number): Promise<string> {
-        const record: any = await CollaboratorModel.deleteCollaborator(collaboratorId);
-        if (!record)
-            throw new Error("It couldn't be deleted collaborator");
-        const message: string = record["message"];
-        return message || ResponseMessages.FatalError;
     }
     static async changeCollaboratorPassword(payload: ChangeCollaboratorPasswordPayload): Promise<string> {
         const { collaboratorId, newPassword } = payload;
