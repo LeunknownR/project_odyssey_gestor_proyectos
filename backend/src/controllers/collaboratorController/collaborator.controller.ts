@@ -29,6 +29,19 @@ export default abstract class CollaboratorController {
             count
         };
     }
+    static async createCollaborator(form: CollaboratorCreationForm): Promise<string> {
+        const { photoInBase64 } = form;
+        // Creando foto si es que existe base64
+        const urlPhoto: string | null =
+            photoInBase64
+                ? await HandlerFiles.createImage(photoInBase64)
+                : null;
+        const record: any = await CollaboratorModel.createCollaborator(form, urlPhoto);
+        if (!record)
+            throw new Error("It couldn't be created collaborator");
+        const message: string = record["message"];
+        return message || ResponseMessages.FatalError;
+    }
     static async updateCollaborator(form: CollaboratorUpdatingForm): Promise<string> {
         const { photo } = form;
         // Creando foto nueva si es que se quiere cambiar la foto y si es que existe base64
@@ -56,19 +69,6 @@ export default abstract class CollaboratorController {
         if (urlPhotoToDestroy)
             await HandlerFiles.destroyImage(urlPhotoToDestroy);
         return urlPhoto;
-    }
-    static async createCollaborator(form: CollaboratorCreationForm): Promise<string> {
-        const { photoInBase64 } = form;
-        // Creando foto si es que existe base64
-        const urlPhoto: string | null =
-            photoInBase64
-                ? await HandlerFiles.createImage(photoInBase64)
-                : null;
-        const record: any = await CollaboratorModel.createCollaborator(form, urlPhoto);
-        if (!record)
-            throw new Error("It couldn't be created collaborator");
-        const message: string = record["message"];
-        return message || ResponseMessages.FatalError;
     }
     static async deleteCollaborator(collaboratorId: CollaboratorDeletedForm): Promise<string> {
         const record: any = await CollaboratorModel.deleteCollaborator(collaboratorId);

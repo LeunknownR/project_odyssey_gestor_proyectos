@@ -39,18 +39,6 @@ router.get(
         });
     })
 );
-router.put(
-    ApiPathEndpointsGeneralAdmin.UpdateCollaborator,
-    withErrorHandler(async (req, res) => {
-        const form: CollaboratorUpdatingForm = new CollaboratorUpdatingForm(req.body);
-        const message: string = await CollaboratorController.updateCollaborator(form);
-        GenerateResponseBody.sendResponse(res, {
-            code: getResponseCodeIfMessageExists(message, ResponseCodes.BadRequest),
-            data: null,
-            message
-        });
-    })
-);
 router.post(
     ApiPathEndpointsGeneralAdmin.CreateCollaborator,
     withErrorHandler(async (req, res) => {
@@ -63,11 +51,22 @@ router.post(
         });
     })
 );
+router.put(
+    ApiPathEndpointsGeneralAdmin.UpdateCollaborator,
+    withErrorHandler(async (req, res) => {
+        const form: CollaboratorUpdatingForm = new CollaboratorUpdatingForm(req.body);
+        const message: string = await CollaboratorController.updateCollaborator(form);
+        GenerateResponseBody.sendResponse(res, {
+            code: getResponseCodeIfMessageExists(message, ResponseCodes.BadRequest),
+            data: null,
+            message
+        });
+    })
+);
 router.delete(
     ApiPathEndpointsGeneralAdmin.DeleteCollaborator,
     withErrorHandler(async (req, res) => {
-        const deleteCollaboratorById: CollaboratorDeletedForm  = 
-            new CollaboratorDeletedForm(req.params);
+        const deleteCollaboratorById: CollaboratorDeletedForm =  new CollaboratorDeletedForm(req.params);
         const message: string = await CollaboratorController.deleteCollaborator(deleteCollaboratorById);
         GenerateResponseBody.sendResponse(res, {
             code: getResponseCodeIfMessageExists(message, ResponseCodes.BadRequest),

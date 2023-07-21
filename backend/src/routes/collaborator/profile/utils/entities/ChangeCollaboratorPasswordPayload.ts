@@ -1,6 +1,5 @@
 import { PositiveNumberNonZero } from "../../../../../utils/entities/PositiveNumberNonZero";
-import { REG_EXP_PASSWORD } from "../../../../../utils/regex";
-import { checkLength } from "../../../../../utils/strings";
+import Validator from "../../../../utils/Validator";
 
 export default class ChangeCollaboratorPasswordPayload {
     private _collaboratorId: PositiveNumberNonZero;
@@ -10,9 +9,7 @@ export default class ChangeCollaboratorPasswordPayload {
         newPassword
     }: any) {
         this._collaboratorId = new PositiveNumberNonZero(collaboratorId);
-        if (!checkLength(newPassword, 8, 30) 
-            || !REG_EXP_PASSWORD.test(newPassword))
-            throw new Error("Invalid password");
+        Validator.checkPassword(newPassword);
         this.newPassword = newPassword;
     }
     get collaboratorId(): number {

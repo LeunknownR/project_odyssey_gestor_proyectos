@@ -11,7 +11,7 @@ import ChangeCollaboratorPasswordPayload from "./utils/entities/ChangeCollaborat
 
 const router = Router();
 router.use("/", Authentication.checkTokenInEndpoints(DBRoles.Collaborator));
-router.get(ApiPathEndpointsCollaborator.UpdatePhoto,
+router.patch(ApiPathEndpointsCollaborator.UpdatePhoto,
     withErrorHandler(async (req, res) => {
         const payload: UpdateCollaboratorPhotoPayload = new UpdateCollaboratorPhotoPayload(req.body);
         const newUrlPhoto: string = await CollaboratorController.updateCollaboratorPhoto(payload);

@@ -49,12 +49,6 @@ export default abstract class CollaboratorModel {
             outParams: resultset2[0]
         };
     }
-    static async updateCollaboratorPhoto(collaboratorId: number, urlPhoto: string | null): Promise<any> {
-        const [record] = await DBConnection.query(
-            StoredProcedures.UpdateCollaboratorPhoto,
-            [collaboratorId, urlPhoto]);
-        return record;
-    }
     static async createCollaborator({
         name, surname, email,
         username, password
@@ -66,6 +60,12 @@ export default abstract class CollaboratorModel {
                 email, urlPhoto,
                 username, password
             ]);
+        return record;
+    }
+    static async updateCollaboratorPhoto(collaboratorId: number, urlPhoto: string | null): Promise<any> {
+        const [[record]] = await DBConnection.query(
+            StoredProcedures.UpdateCollaboratorPhoto,
+            [collaboratorId, urlPhoto]);
         return record;
     }
     static async deleteCollaborator({
