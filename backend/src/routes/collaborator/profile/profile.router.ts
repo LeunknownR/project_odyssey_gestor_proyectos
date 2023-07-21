@@ -26,7 +26,7 @@ router.patch(ApiPathEndpointsCollaborator.ChangePassword,
     withErrorHandler(async (req, res) => {
         const payload: ChangeCollaboratorPasswordPayload = new ChangeCollaboratorPasswordPayload(req.body);
         const message: string = await CollaboratorController.changeCollaboratorPassword(payload);
-        GenerateResponseBody.sendResponse<string>(res, {
+        GenerateResponseBody.sendResponse(res, {
             code: ResponseCodes.Ok,
             data: message, 
             message: ResponseMessages.Success
