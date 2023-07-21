@@ -1810,7 +1810,7 @@ BEGIN
     IF EXISTS(
         SELECT * 
         FROM user
-        WHERE id_user = id_collaborator 
+        WHERE id_user = p_id_collaborator
         AND id_role = "GAD"
     ) THEN
         -- Mostrando el mensaje GENERAL_ADMIN_CONFLICT
