@@ -1878,6 +1878,34 @@ BEGIN
 END //
 DELIMITER ;
 
+-- SP para actualizar la contraseña de un colaborador
+DELIMITER //
+CREATE PROCEDURE `sp_change_collaborator_password`(
+    IN p_id_collaborator INT,
+    IN p_new_userpass VARCHAR(60)
+)
+BEGIN
+    -- Validación para ver si el collaborator es admin_general
+    IF EXISTS(
+        SELECT * 
+        FROM user
+        WHERE id_user = p_id_collaborator
+        AND id_role = "GAD"
+    ) THEN
+        -- Mostrando el mensaje GENERAL_ADMIN_CONFLICT
+        SELECT 'GENERAL_ADMIN_CONFLICT' AS 'message';
+    ELSE
+        -- Actualizando la password
+        UPDATE user
+        SET userpass = p_new_userpass
+        WHERE id_user = p_id_collaborator;
+
+        -- Mostrando el mensaje de exito
+        SELECT 'SUCCESS' AS 'message';
+    END IF;
+END //
+DELIMITER ;
+
 -- PARA INSERTAR LOS DATOS DE MANERA ADECUADA
 DELIMITER //
 CREATE PROCEDURE `test_send_message_to_project_chat`(
