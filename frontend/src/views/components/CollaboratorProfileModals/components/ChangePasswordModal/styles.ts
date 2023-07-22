@@ -15,24 +15,6 @@ export const CustomModal = styled(Modal)`
         flex-direction: column;
     }
 `;
-export const Modalheader = styled(FlexFlow.withComponent("header"))`
-    .iconify {
-        cursor: pointer;
-        font-size: 40px;
-        color: var(--white-1);
-        transition: 0.3s;
-    }
-    &:hover {
-        .iconify {
-            color: var(--yellow-1);
-        }
-    }
-`;
-export const TitleModal = styled.h2`
-    color: var(--white-1);
-    font-size: 30px;
-    font-weight: 700;
-`;
 export const SubtitleTextModal = styled.h3`
     color: var(--cream-1);
     font-size: 18px;
