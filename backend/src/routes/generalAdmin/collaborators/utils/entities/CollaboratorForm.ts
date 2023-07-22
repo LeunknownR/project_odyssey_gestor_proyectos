@@ -37,11 +37,11 @@ export class CollaboratorCreationForm extends CollaboratorForm {
     constructor(body: any) {
         super(body);
         const {
-            photoBase64, 
+            photoInBase64, 
             password
         } = body;
-        FormUserPhoto.checkPhotoInBase64(photoBase64);
-        this.photoInBase64 = photoBase64;
+        FormUserPhoto.checkPhotoInBase64(photoInBase64);
+        this.photoInBase64 = photoInBase64;
         Validator.checkPassword(password);
         this.password = password;
     }
