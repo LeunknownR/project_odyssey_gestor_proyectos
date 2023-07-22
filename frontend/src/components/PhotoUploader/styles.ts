@@ -48,8 +48,10 @@ export const UploadBtn = styled(CustomButton)`
         font-size: 32px;
     }
     @media (max-width: ${MOBILE_WIDTH}px) {
+        font-size: 15px;
+        gap: 6px;
         .iconify {
-            font-size: 24px;
+            font-size: 22px;
         }
     }
 `;
