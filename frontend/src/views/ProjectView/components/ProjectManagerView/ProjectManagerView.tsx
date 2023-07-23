@@ -18,10 +18,10 @@ import EmptyProjects from "./components/EmptyProjects/EmptyProjects";
 import { DBRoles } from "src/config/roles";
 import { MenuOption } from "src/views/components/MenuOptions/types";
 import useUserRole from "src/storage/hooks/useUserRole";
-import { CardVariant } from "src/components/NotificationCard/types";
 import { requestDeleteProject } from "src/services/projects/relatedToProjects";
 import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
 import NewProjectModal from "./components/NewProjectModal/NewProjectModal";
+import { DELETE_PROJECT_APPEARANCE } from "./utils/constants";
 
 const ProjectManagerView = () => {
     const [currentProject, setCurrentProject] = useState<Project | null>(null);
@@ -56,11 +56,14 @@ const ProjectManagerView = () => {
         removeGeneralAdminMenuButtons();
     };
     const addGeneralAdminMenuButtons = (): void => {
-        mainMenuButtonHandler.addButton({
-            id: "ADD_PROJECT",
-            icon: "mdi:layers-plus",
-            onClick: openCreateProjectModal,
-        }, 1);
+        mainMenuButtonHandler.addButton(
+            {
+                id: "ADD_PROJECT",
+                icon: "mdi:layers-plus",
+                onClick: openCreateProjectModal,
+            },
+            1
+        );
     };
     const removeGeneralAdminMenuButtons = (): void => {
         mainMenuButtonHandler.removeButton("ADD_PROJECT");
@@ -114,7 +117,7 @@ const ProjectManagerView = () => {
         preloader.hide();
         if (message !== "SUCCESS") return;
         fillProjects();
-        notificationCard.changeVariant(CardVariant.DeleteProject);
+        notificationCard.changeAppearance(DELETE_PROJECT_APPEARANCE);
         notificationCard.show();
     };
     return (
@@ -168,7 +171,7 @@ const ProjectManagerView = () => {
                     />
                     <NotificationCard
                         handler={notificationCard}
-                        variant={notificationCard.cardVariant}
+                        appearanceProps={notificationCard.cardAppearanceProps}
                     />
                 </>
             )}

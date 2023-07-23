@@ -7,4 +7,5 @@ export const Container = styled.div`
 `;
 export const List = styled(FlexFlow.withComponent("ul"))`
     width: 100%;
+    padding-right: 10px;
 `;

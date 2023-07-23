@@ -1,59 +1,90 @@
-import CustomButton from "src/components/CustomButton/CustomButton";
+/* eslint-disable no-constant-condition */
+import { useState } from "react";
 import {
+    BackBtn,
     CloseFormBtn,
     Container,
+    ContentWrapper,
     DataForm,
-    FormButton,
-    FormSectionTitle,
-    FormTextField,
-    PersonalDataForm,
-    UserDataForm,
+    DeleteCollaboratorBtn,
+    MobileHeader,
+    PhotoUploaderWrapper,
 } from "./styles";
-import { TEXT_FIELD_PROPS } from "./utils/constants";
-import { FlexFlow } from "src/components/styles";
 import PhotoUploader from "src/components/PhotoUploader";
+import useMainContext from "src/utils/contexts/main-context/useMainContext";
+import PersonalDataForm from "./components/PersonalDataForm";
+import UserDataForm from "./components/UserDataForm";
+import ActionButtons from "./components/ActionButtons";
+import { CollaboratorFormProps } from "./types";
+import DeleteCollaboratorModal from "./components/DeleteCollaboratorModal";
+import useModal from "src/components/Modal/utils/hooks/useModal";
 
-const CollaboratorForm = () => {
+const CollaboratorForm = ({ currentCollaborator }: CollaboratorFormProps) => {
+    const [tabIdx, setTabIdx] = useState(0);
+    const { isMobile } = useMainContext();
+    const deleteCollaboratorModal = useModal();
+    const moveTab = (idx: number) => setTabIdx(idx);
+    const tabs = [<PersonalDataForm key={0} />, <UserDataForm key={1} />];
+    const changePhoto = (file: string) => {
+        // form.change("collaboratorPhotoB64", file);
+        // form.change("collaboratorChangePhoto", true);
+    };
+    const changeErrorPhoto = (error: string | null) => {
+        // errors.change("collaboratorPhoto", error);
+    };
+    const deletePhoto = () => {
+        // if (!form.value.collaboratorPhotoUrl && !form.value.collaboratorPhotoB64) return;
+        // form.change("collaboratorPhotoUrl", null);
+        // form.change("collaboratorPhotoB64", null);
+        // form.change("collaboratorChangePhoto", true);
+    };
     return (
         <>
-            <CloseFormBtn
-                onClick={() => console.log("gnomo")}
+        {isMobile ? (
+            <MobileHeader align="center" gap="8px">
+                <BackBtn
+                    onClick={() => console.log("back")}
+                    icon="ion:chevron-back"
+                />
+                <h2>{currentCollaborator ? "ACTUALIZAR COLABORADOR" : "CREAR COLABORADOR"}</h2>
+            </MobileHeader>
+        ) : (
+            <>
+            {currentCollaborator && <CloseFormBtn
                 icon="material-symbols:close"
-            />
-            <Container justify="center" align="center" gap="80px">
-                <PhotoUploader name="Ralf" surname="Carrasco" urlPhoto={null} />
-                <DataForm direction="column" gap="40px">
-                    <PersonalDataForm direction="column" gap="18px">
-                        <FormSectionTitle>Datos personales</FormSectionTitle>
-                        <FormTextField
-                            {...TEXT_FIELD_PROPS.COLLABORATOR_NAME}
+                onClick={() => console.log("gnomo")}/>}
+            </>
+        )}
+        <Container
+            direction="column"
+            justify="center"
+            align="center"
+            gap="40px"
+        >
+            <DeleteCollaboratorBtn icon="material-symbols:delete" onClick={() => console.log("borrar")} /> 
+            <ContentWrapper gap="80px">
+                {tabIdx !== 1 && (
+                    <PhotoUploaderWrapper>
+                        <PhotoUploader
+                            name="Ralf"
+                            surname="Carrasco"
+                            data={{
+                                b64: "",
+                                url: ""
+                            }}
+                            changePhoto={changePhoto}
+                            changeError={changeErrorPhoto}
+                            deletePhoto={deletePhoto}
                         />
-                        <FormTextField
-                            {...TEXT_FIELD_PROPS.COLLABORATOR_SURNAME}
-                        />
-                        <FormTextField
-                            {...TEXT_FIELD_PROPS.COLLABORATOR_EMAIL}
-                        />
-                    </PersonalDataForm>
-                    <UserDataForm direction="column" gap="20px">
-                        <FormSectionTitle>Datos del usuario</FormSectionTitle>
-                        <FlexFlow gap="18px">
-                            <FormTextField
-                                {...TEXT_FIELD_PROPS.COLLABORATOR_USER}
-                            />
-                            <FormTextField
-                                {...TEXT_FIELD_PROPS.COLLABORATOR_PASSWORD}
-                            />
-                        </FlexFlow>
-                    </UserDataForm>
-                    <FormButton
-                        onClick={() => console.log("GNOMO")}
-                        content="Crear"
-                        variant="main"
-                        alignSelf="flex-end"
-                    />
+                    </PhotoUploaderWrapper>
+                )}
+                <DataForm direction="column" gap="30px">
+                    {isMobile ? tabs[tabIdx] || tabs[0] : tabs}
                 </DataForm>
-            </Container>
+            </ContentWrapper>
+            <ActionButtons tabIdx={tabIdx} moveTab={moveTab} />
+        </Container>
+        <DeleteCollaboratorModal modalProps={deleteCollaboratorModal}/>
         </>
     );
 };

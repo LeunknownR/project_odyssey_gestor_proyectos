@@ -25,9 +25,9 @@ import TaskBoardContext from "./utils/contexts/TaskBoardContext";
 import { TaskToBeChangedState } from "./utils/contexts/types";
 import NotificationCard from "src/components/NotificationCard/NotificationCard";
 import useNotificationCard from "src/components/NotificationCard/utils/hooks/useNotificationCard";
-import { CardVariant } from "src/components/NotificationCard/types";
 import WSServicePaths from "src/services/websockets/services";
 import { PanelTabProps } from "../../types";
+import { DELETE_TASK_APPEARANCE } from "./utils/constants";
 //#endregion
 
 const TaskBoardView = ({ 
@@ -126,7 +126,7 @@ const TaskBoardView = ({
         modalDeleteTask.open(false);
         setCurrentProjectTask(null);
         socketIo.emit(WSProjectTaskServiceEvents.Collaborator.DeleteTask, taskIdToBeDeleted);
-        notificationCard.changeVariant(CardVariant.DeleteTask);
+        notificationCard.changeAppearance(DELETE_TASK_APPEARANCE);
         notificationCard.show();
     }
     const fillCurrentTaskToBeChangedState = (value: TaskToBeChangedState | null): void => {
@@ -155,7 +155,7 @@ const TaskBoardView = ({
                 <DeleteTaskModal
                     modalProps={modalDeleteTask}
                     deleteTask={deleteTask}/>
-                <NotificationCard handler={notificationCard} variant={notificationCard.cardVariant}/>
+                <NotificationCard handler={notificationCard} appearanceProps={notificationCard.cardAppearanceProps}/>
             </TaskBoardContext.Provider>
         ) : null}
         </>

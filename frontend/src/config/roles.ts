@@ -21,6 +21,5 @@ export const MODULE_VIEWS_BY_USER_ROLE: ModuleViewByUserRole = {
     [DBRoles.Collaborator]: [
         ViewModule.Projects,
         ViewModule.Chat,
-        ViewModule.Settings
     ]
 };

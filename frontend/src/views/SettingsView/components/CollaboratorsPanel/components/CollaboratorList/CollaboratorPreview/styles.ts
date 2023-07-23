@@ -1,5 +1,6 @@
 import { FlexFlow } from "src/components/styles";
 import { MOBILE_WIDTH } from "src/config/constants";
+import UserImage from "src/views/components/UserImage/UserImage";
 import styled from "styled-components";
 
 export const Container = styled(FlexFlow.withComponent("li"))`
@@ -11,6 +12,12 @@ export const Container = styled(FlexFlow.withComponent("li"))`
     &.active, :hover {
         background-color: var(--white-1-12);
     }
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        gap: 16px;
+    }
+`;
+export const CollaboratorImage = styled(UserImage)`
+  
 `;
 export const CollaboratorName = styled.h5`
     color: var(--white-1);
@@ -20,8 +27,8 @@ export const CollaboratorName = styled.h5`
     text-overflow: ellipsis;
     max-width: 300px;
     @media (max-width: ${MOBILE_WIDTH}px) {
-        font-size: 14px;
-        max-width: 175px;
+        font-size: 16px;
+        max-width: 225px;
     }
 `;
 export const Date = styled.span`
@@ -43,7 +50,7 @@ export const Email = styled.p`
     width: 300px;
     white-space: nowrap;
     @media (max-width: ${MOBILE_WIDTH}px) {
-        font-size: 12px;
-        width: 230px;
+        font-size: 13px;
+        width: 225px;
     }
 `;
