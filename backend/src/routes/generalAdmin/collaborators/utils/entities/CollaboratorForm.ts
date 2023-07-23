@@ -37,11 +37,11 @@ export class CollaboratorCreationForm extends CollaboratorForm {
     constructor(body: any) {
         super(body);
         const {
-            photoBase64, 
+            photoInBase64, 
             password
         } = body;
-        FormUserPhoto.checkPhotoInBase64(photoBase64);
-        this.photoInBase64 = photoBase64;
+        FormUserPhoto.checkPhotoInBase64(photoInBase64);
+        this.photoInBase64 = photoInBase64;
         Validator.checkPassword(password);
         this.password = password;
     }
@@ -65,19 +65,5 @@ export class CollaboratorUpdatingForm extends CollaboratorForm {
     }
     get id(): number {
         return this._id.value;
-    }
-}
-export class CollaboratorDeletedForm {
-    //#region Attributes
-    private _collaboratorId: PositiveNumberNonZero;
-    //#endregion
-    constructor(params: any) {
-        const {
-            collaboratorId
-        } = params;
-        this._collaboratorId = new PositiveNumberNonZero(collaboratorId);
-    }
-    get collaboratorId(): number {
-        return this._collaboratorId.value;
     }
 }
