@@ -929,7 +929,7 @@ BEGIN
             urt.user_name AS "responsible_name",
             urt.user_surname AS "responsible_surname",
             urt.url_photo AS "responsible_url_photo",
-            urt.active AS "responsible_active ",
+            urt.active AS "responsible_active",
             t.id_task_priority,
             t.deadline AS "task_deadline",
             st.id_subtask,
@@ -2015,4 +2015,4 @@ DELIMITER ;
 CALL test_send_message_to_project_chat(1, 1, '2023-06-28 19:38:40','Chicos avancen sus partes crj');
 CALL test_send_message_to_project_chat(2, 1, '2023-06-28 20:01:40','va va 1');
 CALL test_send_message_to_project_chat(3, 1, '2023-06-28 20:02:50','va va 2');
-CALL test_send_message_to_project_chat(7, 3, '2023-06-28 23:12:10','mesaje para el proyecto 3');
+CALL test_send_message_to_project_chat(7, 3, '2023-06-28 23:12:10','mensaje para el proyecto 3');
