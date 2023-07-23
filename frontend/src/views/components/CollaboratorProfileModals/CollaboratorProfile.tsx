@@ -10,9 +10,9 @@ const CollaboratorProfileModals = ({
     profileConfigModal,
 }: CollaboratorProfileModalsProps) => {
     const profileConfigurationModal = useModal();
-    const ConfirmationChangePassModal = useModal(true);
-    const SuccessfulPassChangeModal = useModal(true);
-    const NoChangePassModal = useModal(true);
+    const ConfirmationChangePassModal = useModal();
+    const SuccessfulPassChangeModal = useModal();
+    const NoChangePassModal = useModal();
     const openChangePasswordModal = (): void => {
         profileConfigurationModal.open(true);
         profileConfigModal.open(false);

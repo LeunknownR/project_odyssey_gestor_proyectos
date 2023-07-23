@@ -21,7 +21,7 @@ import useUserRole from "src/storage/hooks/useUserRole";
 import { requestDeleteProject } from "src/services/projects/relatedToProjects";
 import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
 import NewProjectModal from "./components/NewProjectModal/NewProjectModal";
-import { NOTIFICATION_CARD_APPEARANCE_PROPS } from "./utils/constants";
+import { DELETE_PROJECT_APPEARANCE } from "./utils/constants";
 
 const ProjectManagerView = () => {
     const [currentProject, setCurrentProject] = useState<Project | null>(null);
@@ -117,9 +117,7 @@ const ProjectManagerView = () => {
         preloader.hide();
         if (message !== "SUCCESS") return;
         fillProjects();
-        notificationCard.changeAppearance(
-            NOTIFICATION_CARD_APPEARANCE_PROPS.DeleteProject
-        );
+        notificationCard.changeAppearance(DELETE_PROJECT_APPEARANCE);
         notificationCard.show();
     };
     return (

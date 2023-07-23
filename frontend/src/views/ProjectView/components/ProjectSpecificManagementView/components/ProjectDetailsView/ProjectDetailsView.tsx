@@ -18,8 +18,8 @@ import { ProjectCollaborator } from "src/entities/collaborator/entities";
 import { DBProjectRoles } from "src/config/roles";
 import { getUserId } from "src/storage/user.local";
 import { FlexFlow } from "src/components/styles";
-import { AppearanceProps } from "src/components/NotificationCard/types";
 import { ProjectSubmoduleViewProps } from "src/config/types";
+import { DELETE_MEMBER_APPEARANCE } from "./utils/constants";
 
 const ProjectDetailsView = ({ projectId }: ProjectSubmoduleViewProps) => {
     const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(null);
@@ -55,7 +55,7 @@ const ProjectDetailsView = ({ projectId }: ProjectSubmoduleViewProps) => {
         preloader.hide();
         if (message !== "SUCCESS") return;
         await fillProjectDetails();
-        notificationCard.changeAppearance(AppearanceProps.DeleteMember);
+        notificationCard.changeAppearance(DELETE_MEMBER_APPEARANCE);
         notificationCard.show();
     };
     const openAddMemberModal = (): void => {

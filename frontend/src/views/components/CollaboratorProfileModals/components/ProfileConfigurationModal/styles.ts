@@ -40,7 +40,7 @@ export const UserData = styled(FlexFlow)`
         gap: 10px;
     }
 `;
-export const NamesContent = styled(FlexFlow)`
+export const NamesWrapper = styled(FlexFlow)`
     gap: 20px;
     @media (max-width: ${MOBILE_WIDTH}px) {
         flex-direction: column;

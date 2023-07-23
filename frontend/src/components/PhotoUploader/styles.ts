@@ -13,7 +13,7 @@ export const DeleteImageBtn = styled(CustomButton)`
     padding: 0;
     color: var(--red-2);
     position: absolute;
-    right: 0;
+    right: 15px;
     .iconify {
         border-radius: 50%;
         padding: 5px;
@@ -21,9 +21,10 @@ export const DeleteImageBtn = styled(CustomButton)`
         background-color: var(--darkblue-3);
     }
     @media (max-width: ${MOBILE_WIDTH}px) {
-        right: 8px;
+        right: -1px;
         .iconify {
-            font-size: 30px;
+            background-color: var(--darkblue-4);
+            font-size: 29px;
         }
     }
 `;

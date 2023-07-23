@@ -4,7 +4,7 @@ import { ModalHeaderProps } from "./types";
 const ModalHeader = ({ modalProps }: ModalHeaderProps) => {
     return (
         <Modalheader justify="space-between">
-            <TitleModal>Configuración de perfil</TitleModal>
+            <TitleModal>Cambiar contraseña</TitleModal>
             <CloseBtn
                 icon="material-symbols:close"
                 onClick={() => modalProps.open(false)}

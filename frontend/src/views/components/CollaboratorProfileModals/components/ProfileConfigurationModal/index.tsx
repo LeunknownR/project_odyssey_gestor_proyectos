@@ -1,5 +1,5 @@
+import {useState, useEffect} from "react";
 import { ProfileConfigurationModalProps } from "./types";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import PhotoUploader from "src/components/PhotoUploader";
 import { FAKE_DATA } from "../../mock";
 import {
@@ -7,11 +7,12 @@ import {
     UserContainer,
     UserDataContainer,
     ChangePasswordButton,
-    NamesContent,
+    NamesWrapper,
 } from "./styles";
-import { FlexFlow } from "src/components/styles";
 import DataLabel from "./components/DataLabel";
 import ModalHeader from "./components/ModalHeader";
+import { SessionUser, User } from "src/entities/user/types";
+import { currentUserLocalStorage } from "src/storage/user.local";
 
 const MODAL_STYLES = {
     padding: "20px 30px",
@@ -21,22 +22,47 @@ const ProfileConfigurationModal = ({
     modalProps,
     openChangePasswordModal,
 }: ProfileConfigurationModalProps) => {
+    const [currentCollaborator, setCurrentCollaborator] = useState<User | null>(null);
+    useEffect(() => {
+        const currentUser: SessionUser = currentUserLocalStorage.get();
+        setCurrentCollaborator(currentUser)
+    }, []);
+    const changePhoto = (file: string) => {
+        // form.change("collaboratorPhotoB64", file);
+        // form.change("collaboratorChangePhoto", true);
+    };
+    const changeErrorPhoto = (error: string | null) => {
+        // errors.change("collaboratorPhoto", error);
+    };
+    const deletePhoto = () => {
+        // if (!form.value.collaboratorPhotoUrl && !form.value.collaboratorPhotoB64) return;
+        // form.change("collaboratorPhotoUrl", null);
+        // form.change("collaboratorPhotoB64", null);
+        // form.change("collaboratorChangePhoto", true);
+    };
+    if (!currentCollaborator) return null;
     return (
         <CustomModal {...modalProps} sizeProps={MODAL_STYLES}>
-            <ModalHeader modalProps={modalProps}/>
+            <ModalHeader modalProps={modalProps} />
             <UserContainer justify="center" gap="70px">
                 <PhotoUploader
-                    name={FAKE_DATA.name}
-                    surname={FAKE_DATA.surname}
-                    urlPhoto={FAKE_DATA.urlPhoto}
+                    name={currentCollaborator.name}
+                    surname={currentCollaborator.surname}
+                    data={{
+                        b64: "",
+                        url: currentCollaborator.urlPhoto,
+                    }}
+                    changePhoto={changePhoto}
+                    changeError={changeErrorPhoto}
+                    deletePhoto={deletePhoto}
                 />
                 <UserDataContainer direction="column">
-                    <NamesContent>
-                        <DataLabel label="Nombres" data={FAKE_DATA.name}/>
-                        <DataLabel label="Apellidos" data={FAKE_DATA.surname} />
-                    </NamesContent>
-                    <DataLabel label="Usuario" data={FAKE_DATA.username} />
-                    <DataLabel label="Correo" data={FAKE_DATA.email} />
+                    <NamesWrapper>
+                        <DataLabel label="Nombres" data={currentCollaborator.name} />
+                        <DataLabel label="Apellidos" data={currentCollaborator.surname} />
+                    </NamesWrapper>
+                    <DataLabel label="Usuario" data={currentCollaborator.username} />
+                    <DataLabel label="Correo" data={currentCollaborator.email} />
                     <ChangePasswordButton
                         onClick={openChangePasswordModal}
                         content="Cambiar contraseña"

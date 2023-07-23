@@ -5,10 +5,12 @@ import { ConfigButton, Container, LogoutButton } from "./styles";
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
 import useUserRole from "src/storage/hooks/useUserRole";
 import { DBRoles } from "src/config/roles";
+import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
 
 const Footer = () => {
     const navigate = useNavigate();
     const { isMobile } = useMainContext();
+    const { openProfileConfigModal } = useMasterRouterContext();
     const userRole = useUserRole();
     const logout = (): void => {
         clearStorage();
@@ -26,7 +28,7 @@ const Footer = () => {
             navigate(AbsolutePaths.CollaboratorManagement)
             return;
         }
-        console.log("hola")
+        openProfileConfigModal();
     }
     return (
         <Container>

@@ -13,6 +13,9 @@ export const CustomModal = styled(Modal)`
         background-color: var(--darkblue-3);
         padding: 40px 70px;
         flex-direction: column;
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            padding: 35px 25px;
+        }
     }
 `;
 export const SubtitleTextModal = styled.h3`
@@ -20,8 +23,11 @@ export const SubtitleTextModal = styled.h3`
     font-size: 18px;
     font-weight: 700;
 `;
-export const ActualPassWrapper = styled(FlexFlow)`
+export const ActualPasswordWrapper = styled(FlexFlow)`
     gap: 25px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        flex-direction: column;
+    }
 `;
 export const PasswordTextField = styled(CustomTextField)`
     gap: 15px;
@@ -36,10 +42,19 @@ export const PasswordTextField = styled(CustomTextField)`
     }
 `;
 export const NewPasswordWrapper = styled(FlexFlow)`
-    padding-top: 15px;
     gap: 30px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        flex-direction: column;
+        gap: 22px;
+        > :last-child {
+            order: -1;
+        }
+    }
 `;
 export const UpdateButton = styled(CustomButton)`
     font-size: 20px;
     padding: 10px 30px;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        margin-top: 20px;
+    }
 `;

@@ -4,7 +4,7 @@ import { Container } from "./styles";
 const NotificationInfo = () => {
     return (
         <Container>
-            <Icon icon="ic:baseline-info" />
+            <span><Icon icon="ic:baseline-info" /></span>
             <p>
                 Para cambiar tu contraseña es necesario que ingreses tu actual
                 credencial primero.
