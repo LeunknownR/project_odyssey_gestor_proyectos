@@ -31,4 +31,13 @@ export abstract class HandlerFiles {
     static destroyImage = async (path: string): Promise<void> => {
         await fs.unlink(HandlerFiles.getPhysicImageUrlFromImagePath(PhysicalDirectoryImages.DynamicImages, path));
     }
+    static async imageExists(urlPhotoDestroy: string): Promise<boolean> {
+        const imagePath = HandlerFiles.getPhysicImageUrlFromImagePath(PhysicalDirectoryImages.DynamicImages, urlPhotoDestroy);
+        try {
+            const stats = await fs.stat(imagePath);
+            return stats.isFile();  // Verifica si la ruta es un archivo
+        } catch {
+            return false; // Si hay un error, asume que el archivo no existe
+        }
+    }
 };
