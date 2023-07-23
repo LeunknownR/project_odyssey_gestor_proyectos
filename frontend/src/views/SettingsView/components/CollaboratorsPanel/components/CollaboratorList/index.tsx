@@ -15,7 +15,7 @@ const CollaboratorList = ({ collaboratorList }: CollaboratorListProps) => {
                             urlPhoto={urlPhoto}
                             email={email}
                             active={false}
-                            onClick={() => console.log("hola")}
+                            onClick={() => ("hola")}
                         />
                     )
                 )}
