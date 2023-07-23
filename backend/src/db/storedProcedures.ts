@@ -44,7 +44,7 @@ export enum StoredProcedures {
     SearchCollaborator = "CALL sp_search_collaborator_by_collaborator_name(?);",
     GetCollaboratorList = "CALL sp_get_collaborator_list(?, ?, @collaborators_count); SELECT @collaborators_count as 'collaborators_count';",
     CreateCollaborator = "CALL sp_create_collaborator(?, ?, ?, ?, ?, ?);",
-    UpdateCollaborator = "CALL sp_update_collaborator(?, ?, ?, ?, ?, ?, ?, ?, @url_photo_to_destroy); SELECT @url_photo_to_destroy AS 'url_photo_to_destroy';",
+    UpdateCollaborator = "CALL sp_update_collaborator_by_id(?, ?, ?, ?, ?, ?, ?, ?, @url_photo_to_destroy); SELECT @url_photo_to_destroy AS 'url_photo_to_destroy';",
     DeleteCollaborator = "CALL sp_delete_collaborator_by_id(?);",
     UpdateCollaboratorPhoto = "CALL sp_update_collaborator_photo(?, ?, @url_photo_to_destroy); SELECT @url_photo_to_destroy AS 'url_photo_to_destroy';",
     ChangeCollaboratorPassword = "CALL sp_update_collaborator_password(?, ?);"
