@@ -65,11 +65,20 @@ export default abstract class CollaboratorModel {
             ]);
         return record;
     }
-    static async updateCollaboratorPhoto(collaboratorId: number, urlPhoto: string | null): Promise<any> {
-        const [[record]] = await DBConnection.query(
+    static async updateCollaboratorPhoto(
+        collaboratorId: number, 
+        urlPhoto: string | null
+    ): Promise<QueryResultWithOutParams> {
+        const result: any[][] = await DBConnection.query(
             StoredProcedures.UpdateCollaboratorPhoto,
             [collaboratorId, urlPhoto]);
-        return record;
+        const
+            resultset1: any[] = result[0],
+            resultset2: any[] = result[2];
+        return {
+            resultset: resultset1,
+            outParams: resultset2[0]
+        };
     }
     static async deleteCollaborator(collaboratorId: number): Promise<QueryResultWithOutParams> {
         const result: any[][] = await DBConnection.query(

@@ -1936,7 +1936,7 @@ DELIMITER ;
 
 -- SP para actualizar la foto de un colaborador
 DELIMITER //
-CREATE PROCEDURE `sp_update_photo_collaborator`(
+CREATE PROCEDURE `sp_update_collaborator_photo`(
     IN p_id_collaborator INT,
     IN p_url_photo VARCHAR(100),
     OUT url_photo_to_destroy VARCHAR(100)
