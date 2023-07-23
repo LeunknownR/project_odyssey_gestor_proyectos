@@ -1906,7 +1906,7 @@ BEGIN
     ELSE
         -- Actualizando la password
         UPDATE user
-        SET userpass = p_new_userpass
+        SET userpassword = p_new_userpass
         WHERE id_user = p_id_collaborator;
 
         -- Mostrando el mensaje de exito
@@ -1925,12 +1925,12 @@ BEGIN
     -- Desactivando al colaborador
     UPDATE user
     SET active = 0
-    WHERE id_user = id_collaborator;
+    WHERE id_user = p_id_collaborator;
 
     -- Extrayendo la url_photo para su eliminación
     SELECT url_photo INTO url_photo_to_destroy
     FROM user
-    WHERE id_user = id_collaborator;
+    WHERE id_user = p_id_collaborator;
 END //
 DELIMITER ;
 
