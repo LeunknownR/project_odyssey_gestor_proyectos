@@ -3,15 +3,14 @@ import fs from "fs/promises";
 import { PhysicalDirectoryImages } from "./enums";
 
 export abstract class HandlerFiles {
-    private static getImagePath = (imageName: string): string => {
-        return `/images/${imageName}`;
-    }
     private static createUploadsDirectory = async (): Promise<void> => {
-        await fs.mkdir("/public");
-        await fs.mkdir("/public/uploads");
+        try {
+            await fs.mkdir(`${process.cwd()}/public`);
+            await fs.mkdir(`${process.cwd()}/public/uploads`);
+        }
+        catch (err) {}
     }
-    private static getPhysicImageUrlFromImagePath = (directory: PhysicalDirectoryImages, imagePath: string): string => {
-        const fileName = imagePath.split("/images/")[1];
+    private static getPhysicImageUrlFromImagePath = (directory: PhysicalDirectoryImages, fileName: string): string => {
         return `${process.cwd()}/public/${directory}/${fileName}`;
     }
     static getPhysicImageUrl = (directory: PhysicalDirectoryImages, imageName: string): string => {
@@ -27,7 +26,7 @@ export abstract class HandlerFiles {
         // Almacenando imagen
         await fs.writeFile(HandlerFiles.getPhysicImageUrl(PhysicalDirectoryImages.DynamicImages, imageName), buffer);
         // Recuperando url pública de la imagen
-        return HandlerFiles.getImagePath(imageName);
+        return imageName;
     }
     static destroyImage = async (path: string): Promise<void> => {
         await fs.unlink(HandlerFiles.getPhysicImageUrlFromImagePath(PhysicalDirectoryImages.DynamicImages, path));
