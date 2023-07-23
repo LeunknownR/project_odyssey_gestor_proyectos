@@ -8,7 +8,8 @@ export enum ApiPathEndpointsGeneral {
     StaticImages = "/static-images/:imageName"
 }
 export enum ApiPathEndpointsAuthentication {
-    Login = "/login"
+    Login = "/login",
+    CheckCredentials = "/check-credentials"
 }
 export enum ApiPathEndpointsGeneralAdmin {
     // Proyectos

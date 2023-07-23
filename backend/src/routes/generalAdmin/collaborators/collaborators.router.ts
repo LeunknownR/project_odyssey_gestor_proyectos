@@ -11,7 +11,7 @@ import SearchedCollaboratorPayload from "./utils/entities/SearchedCollaboratorPa
 import BasicCollaboratorUser from "../../../entities/collaborator/BasicCollaboratorUser";
 import { parseToCollaboratorName } from "../projects/parsers";
 import { PaginableList } from "../../../utils/types";
-import { CollaboratorCreationForm, CollaboratorDeletedForm, CollaboratorUpdatingForm } from "./utils/entities/CollaboratorForm";
+import { CollaboratorCreationForm, CollaboratorUpdatingForm } from "./utils/entities/CollaboratorForm";
 import { PositiveNumberNonZero } from "../../../utils/entities/PositiveNumberNonZero";
 
 const router = Router();

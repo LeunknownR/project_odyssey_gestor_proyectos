@@ -2,7 +2,7 @@ import DBConnection from "../../db";
 import { StoredProcedures } from "../../db/storedProcedures";
 import ChangeCollaboratorPasswordPayload from "../../routes/collaborator/profile/utils/entities/ChangeCollaboratorPasswordPayload";
 import UpdateCollaboratorPhotoPayload from "../../routes/collaborator/profile/utils/entities/UpdateCollaboratorPhotoPayload";
-import { CollaboratorCreationForm, CollaboratorDeletedForm, CollaboratorUpdatingForm } from "../../routes/generalAdmin/collaborators/utils/entities/CollaboratorForm";
+import { CollaboratorCreationForm, CollaboratorUpdatingForm } from "../../routes/generalAdmin/collaborators/utils/entities/CollaboratorForm";
 import { QueryResultWithOutParams } from "../types";
 
 export default abstract class CollaboratorModel {
@@ -65,19 +65,34 @@ export default abstract class CollaboratorModel {
             ]);
         return record;
     }
-    static async updateCollaboratorPhoto(collaboratorId: number, urlPhoto: string | null): Promise<any> {
-        const [[record]] = await DBConnection.query(
+    static async updateCollaboratorPhoto(
+        collaboratorId: number, 
+        urlPhoto: string | null
+    ): Promise<QueryResultWithOutParams> {
+        const result: any[][] = await DBConnection.query(
             StoredProcedures.UpdateCollaboratorPhoto,
             [collaboratorId, urlPhoto]);
-        return record;
+        const
+            resultset1: any[] = result[0],
+            resultset2: any[] = result[2];
+        return {
+            resultset: resultset1,
+            outParams: resultset2[0]
+        };
     }
-    static async deleteCollaborator(collaboratorId: number): Promise<any> {
-        const [[record]] = await DBConnection.query(
+    static async deleteCollaborator(collaboratorId: number): Promise<QueryResultWithOutParams> {
+        const result: any[][] = await DBConnection.query(
             StoredProcedures.DeleteCollaborator,
             [
                 collaboratorId
             ]);
-        return record;
+        const
+            resultset1: any[] = result[0],
+            resultset2: any[] = result[2];
+        return {
+            resultset: resultset1,
+            outParams: resultset2[0]
+        };
     }
     static async changeCollaboratorPassword(
         collaboratorId: number, newPasswordEncrypted: string
