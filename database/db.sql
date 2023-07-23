@@ -929,7 +929,7 @@ BEGIN
             urt.user_name AS "responsible_name",
             urt.user_surname AS "responsible_surname",
             urt.url_photo AS "responsible_url_photo",
-            urt.active AS "responsible_active ",
+            urt.active AS "responsible_active",
             t.id_task_priority,
             t.deadline AS "task_deadline",
             st.id_subtask,
@@ -1786,6 +1786,14 @@ BEGIN
                 p_userpass,
                 "CLB"
             );
+            -- Seteando el id_collaborator
+            SET @id_collaborator = LAST_INSERT_ID();
+            -- Insertando el nuevo collaborator
+            INSERT INTO collaborator (
+                id_collaborator
+            ) VALUES (
+                @id_collaborator
+            );
             -- Mostrando el mensaje de exito
             SELECT 'SUCCESS' AS 'message';
         END IF;
@@ -1944,33 +1952,6 @@ BEGIN
         -- Mostrando el mensaje GENERAL_ADMIN_CONFLICT
         SELECT 'GENERAL_ADMIN_CONFLICT' AS 'message';
         -- Validación para ver si el username existe
-    ELSEIF EXISTS(
-        SELECT username 
-        FROM user
-        WHERE username = p_username 
-        AND username NOT IN (
-            SELECT username 
-            FROM user 
-            WHERE id_user = p_id_collaborator 
-            AND active = 1
-        ) AND active = 1
-    ) THEN
-        -- Mostrando el mensaje USERNAME_ALREADY_EXISTS
-        SELECT 'USERNAME_ALREADY_EXISTS' AS 'message';
-        -- Validación para ver si el emial existe
-    ELSEIF EXISTS(
-        SELECT email 
-        FROM user
-        WHERE email = p_email 
-        AND email NOT IN (
-            SELECT email 
-            FROM user 
-            WHERE id_user = p_id_collaborator
-            AND active = 1
-        ) AND active = 1
-    ) THEN
-        -- Mostrando el mensaje EMAIL_ALREADY_EXISTS
-        SELECT 'EMAIL_ALREADY_EXISTS' AS 'message';
     ELSE
         SELECT url_photo INTO url_photo_to_destroy
         FROM user
