@@ -72,14 +72,17 @@ export default abstract class CollaboratorController {
         return resultset[0]["message"];
     }
     static async updateCollaboratorPhoto(payload: UpdateCollaboratorPhotoPayload): Promise<string | null> {
-        const { photoInBase64 } = payload;
+        const { collaboratorId, photoInBase64 } = payload;
         // Creando foto nueva si es que existe base64
         const urlPhoto: string | null =
             photoInBase64
                 ? await HandlerFiles.createImage(photoInBase64)
                 : null;
-        const record: any = await CollaboratorModel.updateCollaboratorPhoto(payload.collaboratorId, urlPhoto);
-        const urlPhotoToDestroy: string | null = record["url_photo_to_destroy"];
+        const { resultset, outParams } = await CollaboratorModel.updateCollaboratorPhoto(collaboratorId, urlPhoto);
+        const message: string = resultset[0]["message"]; 
+        if (message !== ResponseMessages.Success)
+            throw new Error(message);
+        const urlPhotoToDestroy: string | null = outParams["url_photo_to_destroy"];
         // Eliminando foto antigua si es que previamente tenía una
         if (urlPhotoToDestroy)
             await HandlerFiles.destroyImage(urlPhotoToDestroy);

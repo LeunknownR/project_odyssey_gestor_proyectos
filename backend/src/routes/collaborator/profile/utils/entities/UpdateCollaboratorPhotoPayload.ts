@@ -9,7 +9,7 @@ export default class UpdateCollaboratorPhotoPayload {
         photoInBase64
     }: any) {
         this._collaboratorId = new PositiveNumberNonZero(collaboratorId);
-        if (!checkLength(photoInBase64, 1))
+        if (photoInBase64 !== null && !checkLength(photoInBase64, 1))
             throw new Error("Invalid photo in base 64");
         this.photoInBase64 = photoInBase64;
     }

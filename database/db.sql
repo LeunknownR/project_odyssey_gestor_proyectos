@@ -1936,7 +1936,7 @@ DELIMITER ;
 
 -- SP para actualizar la foto de un colaborador
 DELIMITER //
-CREATE PROCEDURE `sp_update_photo_collaborator`(
+CREATE PROCEDURE `sp_update_collaborator_photo`(
     IN p_id_collaborator INT,
     IN p_url_photo VARCHAR(100),
     OUT url_photo_to_destroy VARCHAR(100)
@@ -1996,4 +1996,4 @@ DELIMITER ;
 CALL test_send_message_to_project_chat(1, 1, '2023-06-28 19:38:40','Chicos avancen sus partes crj');
 CALL test_send_message_to_project_chat(2, 1, '2023-06-28 20:01:40','va va 1');
 CALL test_send_message_to_project_chat(3, 1, '2023-06-28 20:02:50','va va 2');
-CALL test_send_message_to_project_chat(7, 3, '2023-06-28 23:12:10','mesaje para el proyecto 3');
+CALL test_send_message_to_project_chat(7, 3, '2023-06-28 23:12:10','mensaje para el proyecto 3');
