@@ -8,12 +8,12 @@ import {
 } from "./styles";
 import { NotificationCardProps } from "./types";
 import {useEffect, useState} from "react";
-import {DELTA_SECONDS, VARIANT } from "./utils/constants";
+import {DELTA_SECONDS } from "./utils/constants";
 import { FlexFlow } from "../styles";
 
 const NotificationCard = ({
     handler: { timeoutToClose, visible, hide },
-    variant,
+    appearanceProps,
 }: NotificationCardProps) => {
     const [timeLeft, setTimeLeft] = useState<number>(timeoutToClose);
     const [progress, setProgress] = useState(0);
@@ -54,22 +54,23 @@ const NotificationCard = ({
         visible && classList.push("visible");
         return classList.join(" ");
     };
+    //#endregion
     return (
         //GNOMO CAMBIAR NOMBRE DE VARIANT
         <Container
             className={getClassName()}
-            color={VARIANT[variant].color}
+            color={appearanceProps.color}
             progress={progress}>
             <CloseIconContainer onClick={() => hide()}>
                 <Icon icon="mdi:close" />
             </CloseIconContainer>
             <FlexFlow align="center" gap="10px">
-                <IconContainer color={VARIANT[variant].color} >
+                <IconContainer color={appearanceProps.color} >
                     <Icon icon="material-symbols:check-circle-outline" />
                 </IconContainer>
-                <TitleModal color={VARIANT[variant].color}>{VARIANT[variant].title}</TitleModal>
+                <TitleModal color={appearanceProps.color}>{appearanceProps.title}</TitleModal>
             </FlexFlow>
-            <TextModal>{VARIANT[variant].subtitle}</TextModal>
+            <TextModal>{appearanceProps.subtitle}</TextModal>
         </Container>
     );
 };

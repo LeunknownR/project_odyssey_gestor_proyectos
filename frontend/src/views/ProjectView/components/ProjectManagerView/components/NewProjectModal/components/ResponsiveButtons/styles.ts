@@ -1,9 +1,6 @@
 import CustomButton from "src/components/CustomButton/CustomButton";
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
-    display: flex;
-`;
 export const ResponsiveButton = styled(CustomButton)`
     padding: 10px 15px;
     background-color: var(--darkblue-2);

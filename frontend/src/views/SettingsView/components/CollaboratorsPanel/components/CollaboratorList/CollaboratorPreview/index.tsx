@@ -18,7 +18,7 @@ const CollaboratorPreview = ({
             onClick={onClick}
             className={active ? "active" : ""}
         >
-            <UserImage name={name} surname={surname} urlPhoto={urlPhoto} />
+            <UserImage name={name} surname={surname} urlPhoto={urlPhoto} className="medium" />
             <FlexFlow direction="column" gap="4px" width="100%">
                 <CollaboratorName title={`${name} ${surname}`}>
                     {name} {surname}

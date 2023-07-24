@@ -11,11 +11,17 @@ import MainMenu from "src/views/components/MainMenu/MainMenu";
 import useMainMenuButtons from "src/views/components/MainMenu/utils/hooks/useMainMenuButtons";
 import useChatService from "./utils/hooks/useChatService";
 import MasterRouterContext from "./utils/context/MasterRouterContext";
+import CollaboratorProfileModals from "src/views/components/CollaboratorProfileModals/CollaboratorProfile";
+import useModal from "src/components/Modal/utils/hooks/useModal";
+import useUserRole from "src/storage/hooks/useUserRole";
 
 const MasterRouter = () => {
     const navigate = useNavigate();
     const mainMenuButtonHandler = useMainMenuButtons();
     const [routes, setRoutes] = useState<ReactElement[] | null>(null);
+    const profileConfigModal = useModal();
+    const userRole = useUserRole();
+    const isCollaborator: boolean = userRole === DBRoles.Collaborator;
     useEffect(() => {
         const currentUser = currentUserLocalStorage.get();
         if (!currentUser) {
@@ -52,7 +58,7 @@ const MasterRouter = () => {
         mainMenuButtonHandler.addButton({
             id: "COLLABORATOR_PROFILE",
             icon: "uiw:setting",
-            onClick: () => console.log("")
+            onClick: () => profileConfigModal.open(true),
         }, 2);
     };
     const toLogin = (): void => {
@@ -82,7 +88,8 @@ const MasterRouter = () => {
             {routesLoaded && 
             <MasterRouterContext.Provider value={{
                 chatServiceHandler,
-                mainMenuButtonHandler
+                mainMenuButtonHandler,
+                openProfileConfigModal: () => profileConfigModal.open(true)
             }}>
                 <Header />
                 <MainMenu/>
@@ -96,6 +103,7 @@ const MasterRouter = () => {
                             replace/>} />}
                     </Routes>
                 </Content>
+                {isCollaborator && <CollaboratorProfileModals profileConfigModal={profileConfigModal}/>}
             </MasterRouterContext.Provider>}
         </Main>
     );

@@ -11,7 +11,8 @@ const INIT_MASTER_ROUTER_CONTEXT: MasterRouterContextType = {
         buttons: [],
         addButton: () => {},
         changeClassNameButton: () => {}
-    }
+    },
+    openProfileConfigModal: () => {},
 };
 const MasterRouterContext = createContext(INIT_MASTER_ROUTER_CONTEXT);
 
