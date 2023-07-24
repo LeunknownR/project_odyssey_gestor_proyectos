@@ -1931,6 +1931,11 @@ BEGIN
     UPDATE user
     SET active = 0, url_photo = NULL
     WHERE id_user = p_id_collaborator;
+
+    -- Borrando foto
+    UPDATE user
+    SET url_photo = NULL
+    WHERE id_user = p_id_collaborator;
 END //
 DELIMITER ;
 
