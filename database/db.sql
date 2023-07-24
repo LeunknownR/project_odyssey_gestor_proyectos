@@ -1922,14 +1922,14 @@ CREATE PROCEDURE `sp_delete_collaborator_by_id`(
     OUT url_photo_to_destroy VARCHAR(100)
 )
 BEGIN
-    -- Desactivando al colaborador
-    UPDATE user
-    SET active = 0
-    WHERE id_user = p_id_collaborator;
-
     -- Extrayendo la url_photo para su eliminación
     SELECT url_photo INTO url_photo_to_destroy
     FROM user
+    WHERE id_user = p_id_collaborator;
+
+    -- Desactivando al colaborador
+    UPDATE user
+    SET active = 0, url_photo = NULL
     WHERE id_user = p_id_collaborator;
 END //
 DELIMITER ;
