@@ -14,7 +14,7 @@ import { Check, Container, LockedIcon } from "./styles";
 //#region Utils
 import { TASK_PRIORITY } from "../utils/constants";
 import { dayMonthFormat, isDateBeforeToday } from "src/utils/dates";
-import { ProjectTaskState } from "src/entities/projectTasks/entities";
+import { ProjectTaskState } from "src/entities/projectTask/entities";
 import useTaskBoardContext from "../../../../../../../utils/contexts/useTaskBoardContext";
 import WSProjectTaskServiceEvents from "src/services/websockets/services/projectTasks/events";
 import { WSProjectTaskWithNewState } from "src/services/websockets/services/projectTasks/utils/entities";

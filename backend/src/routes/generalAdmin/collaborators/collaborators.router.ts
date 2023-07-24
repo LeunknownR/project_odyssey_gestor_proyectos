@@ -67,7 +67,7 @@ router.put(
 router.delete(
     ApiPathEndpointsGeneralAdmin.DeleteCollaborator,
     withErrorHandler(async (req, res) => {
-        const deleteCollaboratorById: PositiveNumberNonZero = new PositiveNumberNonZero(req.params)
+        const deleteCollaboratorById: PositiveNumberNonZero = new PositiveNumberNonZero(req.params.collaboratorId)
         const message: string = await CollaboratorController.deleteCollaborator(deleteCollaboratorById.value);
         GenerateResponseBody.sendResponse(res, {
             code: getResponseCodeIfMessageExists(message, ResponseCodes.BadRequest),

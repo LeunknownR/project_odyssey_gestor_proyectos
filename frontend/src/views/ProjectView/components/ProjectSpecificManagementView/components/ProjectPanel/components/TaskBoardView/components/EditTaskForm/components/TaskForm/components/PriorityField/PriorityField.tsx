@@ -11,7 +11,7 @@ import {
     PrioritySelector
 } from "./styles";
 import { requestGetTaskPriority } from "src/services/projectTasks/aboutProjectTasks";
-import { ProjectTaskPriority } from "src/entities/projectTasks/entities";
+import { ProjectTaskPriority } from "src/entities/projectTask/entities";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
 import { TASK_PRIORITY } from "../../../../../StateTaskList/components/TaskList/components/TaskCard/utils/constants";

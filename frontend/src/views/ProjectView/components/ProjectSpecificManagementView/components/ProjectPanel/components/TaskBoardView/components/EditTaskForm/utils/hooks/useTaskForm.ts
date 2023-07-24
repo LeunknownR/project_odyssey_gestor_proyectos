@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { INITIAL_FORM } from "../constants";
 import { ProjectTaskForm } from "../../types";
-import { ProjectTask } from "src/entities/projectTasks/entities";
+import { ProjectTask } from "src/entities/projectTask/entities";
 import { TaskFormHook } from "./types";
 
 const useTaskForm = (

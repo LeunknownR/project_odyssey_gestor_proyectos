@@ -1,4 +1,4 @@
-import { ProjectTaskCollaboratorUser } from "src/entities/projectTasks/entities";
+import { ProjectTaskCollaboratorUser } from "src/entities/projectTask/entities";
 
 export type CommentListProps = {
     comments: CommentTypes[];

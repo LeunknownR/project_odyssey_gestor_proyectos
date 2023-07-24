@@ -4,7 +4,7 @@ import { CollaboratorUser } from "src/entities/collaborator/entities";
 import { APIHandler } from "src/config/api";
 import { ApiPathEndpoints } from "../apiPathEndpoints";
 import { getEndpointWithPathVariables } from "../utils/helpers";
-import { ProjectTaskPriority } from "src/entities/projectTasks/entities";
+import { ProjectTaskPriority } from "src/entities/projectTask/entities";
 
 export const requestGetTeamMembers: APIRequestFunction<
     CollaboratorUser[],

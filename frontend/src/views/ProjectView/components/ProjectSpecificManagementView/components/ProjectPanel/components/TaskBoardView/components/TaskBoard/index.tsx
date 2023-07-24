@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { TaskBoardProps } from "./types";
 import StateTaskList from "../StateTaskList";
-import { ProjectTaskState } from "src/entities/projectTasks/entities";
+import { ProjectTaskState } from "src/entities/projectTask/entities";
 import { StateTaskListData } from "../StateTaskList/types";
 import { Container, ScreenList } from "./styles";
 import ChangeStateSectionButtons from "./components";

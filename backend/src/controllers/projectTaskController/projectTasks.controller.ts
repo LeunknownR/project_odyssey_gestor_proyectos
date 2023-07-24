@@ -1,7 +1,6 @@
 import BasicCollaboratorUser from "../../entities/collaborator/BasicCollaboratorUser";
+import ProjectTaskBoard from "../../entities/projectTask/ProjectTaskBoard";
 import { ProjectTaskPriority } from "../../entities/projectTask/ProjectTaskPriority";
-import { ProjectTaskBoard } from "../../entities/projectTask/entities";
-import { projectTaskBoardMapper } from "../../entities/projectTask/mappers";
 import ProjectTasksModel from "../../models/projectTasksModel/projectTasks.model";
 import { SearchCollaboratorRequestBody } from "../../routes/collaborator/types";
 import { ResponseMessages } from "../../utils/response/enums";
@@ -33,7 +32,7 @@ export default abstract class ProjectTaskController {
     }
     static async getTaskBoardByProjectId(projectTaskForm: WSProjectTaskForm): Promise<ProjectTaskBoard> {
         const resultset: any[] = await ProjectTasksModel.getTaskBoardByProjectId(projectTaskForm);
-        return projectTaskBoardMapper(resultset);
+        return new ProjectTaskBoard(resultset);
     }
     static async createTask(newTaskForm: WSNewProjectTaskForm): Promise<void> {
         const record: any = await ProjectTasksModel.createTask(newTaskForm);

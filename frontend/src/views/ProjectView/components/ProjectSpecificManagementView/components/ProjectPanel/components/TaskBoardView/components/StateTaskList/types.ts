@@ -1,7 +1,7 @@
 import {
     ProjectTask, 
     ProjectTaskState 
-} from "src/entities/projectTasks/entities";
+} from "src/entities/projectTask/entities";
 
 export type StateTaskListData = {
     stateName: string;
