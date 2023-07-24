@@ -1,3 +1,4 @@
+import { Console } from "console";
 import BasicCollaboratorUser from "../../entities/collaborator/BasicCollaboratorUser";
 import { User } from "../../entities/user/User";
 import CollaboratorModel from "../../models/collaboratorModel/collaborator.model";
@@ -10,6 +11,7 @@ import { HandlerFiles } from "../../utils/files";
 import { ResponseMessages } from "../../utils/response/enums";
 import { PaginableList } from "../../utils/types";
 import { COLLABORATOR_RECORDS_BY_PAGE } from "./utils/constants";
+import { PhysicalDirectoryImages } from "../../utils/enums";
 
 export default abstract class CollaboratorController {
     static async searchCollaborator(username: string): Promise<BasicCollaboratorUser[]> {
@@ -51,7 +53,7 @@ export default abstract class CollaboratorController {
                 ? await HandlerFiles.createImage(photo.base64)
                 : null;
         // Encriptando contraseña si se envió una
-        const encryptedPassword: string | null = password 
+        const encryptedPassword: string | null = password
             ? await Encrypter.encryptPassword(password)
             : null;
         const { resultset, outParams } = await CollaboratorModel.updateCollaborator(
@@ -65,11 +67,12 @@ export default abstract class CollaboratorController {
     }
     static async deleteCollaborator(collaboratorId: number): Promise<string> {
         const { resultset, outParams } = await CollaboratorModel.deleteCollaborator(collaboratorId);
+        const affectedRows: number = resultset["affectedRows"];
         const urlPhotoToDestroy: string | null = outParams["url_photo_to_destroy"];
         // Eliminando foto si se tenia previamente
-        if (urlPhotoToDestroy)
-            await HandlerFiles.destroyImage(urlPhotoToDestroy);
-        return resultset[0]["message"];
+        if (await HandlerFiles.imageExists(urlPhotoToDestroy))
+            HandlerFiles.destroyImage(urlPhotoToDestroy)
+        return affectedRows > 0 ? ResponseMessages.Success : ResponseMessages.FatalError;
     }
     static async updateCollaboratorPhoto(payload: UpdateCollaboratorPhotoPayload): Promise<string | null> {
         const { collaboratorId, photoInBase64 } = payload;
@@ -79,7 +82,7 @@ export default abstract class CollaboratorController {
                 ? await HandlerFiles.createImage(photoInBase64)
                 : null;
         const { resultset, outParams } = await CollaboratorModel.updateCollaboratorPhoto(collaboratorId, urlPhoto);
-        const message: string = resultset[0]["message"]; 
+        const message: string = resultset[0]["message"];
         if (message !== ResponseMessages.Success)
             throw new Error(message);
         const urlPhotoToDestroy: string | null = outParams["url_photo_to_destroy"];

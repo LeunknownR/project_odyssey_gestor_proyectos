@@ -22,7 +22,7 @@ export enum ApiPathEndpointsGeneralAdmin {
     SearchCollaborator = "/collaborators/search/:collaboratorName",
     CreateCollaborator = "/collaborators/create",
     UpdateCollaborator = "/collaborators/update",
-    DeleteCollaborator = "/collaborators/delete"
+    DeleteCollaborator = "/collaborators/delete/:collaboratorId"
 }
 export enum ApiPathEndpointsCollaborator {
     // Proyectos
