@@ -87,8 +87,8 @@ export default abstract class CollaboratorModel {
                 collaboratorId
             ]);
         const
-            resultset1: any[] = result[0],
-            resultset2: any[] = result[2];
+            resultset1: any = result[0],
+            resultset2: any[] = result[1];
         return {
             resultset: resultset1,
             outParams: resultset2[0]
@@ -102,6 +102,6 @@ export default abstract class CollaboratorModel {
             [
                 collaboratorId, newPasswordEncrypted
             ]);
-        return information.affectedRows;
+        return information[1].affectedRows;
     }
 }
