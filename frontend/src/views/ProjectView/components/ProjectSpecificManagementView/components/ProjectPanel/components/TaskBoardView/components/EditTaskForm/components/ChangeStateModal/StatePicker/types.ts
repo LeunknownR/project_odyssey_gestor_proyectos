@@ -1,4 +1,4 @@
-import { ProjectTaskState } from "src/entities/projectTasks/entities";
+import { ProjectTaskState } from "src/entities/projectTask/entities";
 import { StateListDataProps } from "../types";
 
 export type StatePickerProps = {

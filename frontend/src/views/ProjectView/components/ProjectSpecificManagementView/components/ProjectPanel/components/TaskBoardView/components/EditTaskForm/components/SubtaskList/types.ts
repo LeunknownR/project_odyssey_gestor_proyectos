@@ -1,4 +1,4 @@
-import { ProjectTask } from "src/entities/projectTasks/entities";
+import { ProjectTask } from "src/entities/projectTask/entities";
 
 export type SubtaskListProps = {
     currentProjectTask: ProjectTask;

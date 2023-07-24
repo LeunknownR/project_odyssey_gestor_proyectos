@@ -1,4 +1,4 @@
-import { ProjectTaskState } from "src/entities/projectTasks/entities";
+import { ProjectTaskState } from "src/entities/projectTask/entities";
 import { WSUserData } from "src/services/websockets/types";
 
 export type WSUserDataProjectTaskService = WSUserData & {

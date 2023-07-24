@@ -5,8 +5,8 @@ import { WSProjectTaskWithNewState, WSNewProjectTask, WSProjectTaskComment, WSPr
 import { parseToWSProjectTaskWithNewState, parseToWSTaskIdToBeDeleted, parseToWSNewProjectTask, parseToWSProjectTaskComment, parseToWSProjectTaskMainInformation, parseToWSNewProjectSubtask, parseToWSProjectSubtaskToBeUpdated, parseToWSProjectSubtaskToBeSwitchedCheckStatus, parseToWSSubtaskIdToBeDeleted } from "../utils/parsers";
 import ProjectTaskController from "../../../../controllers/projectTaskController/projectTasks.controller";
 import { WSProjectTaskServiceRoomHandler, getUserDataProjectTaskServiceBySocket } from "../utils/helpers";
-import { ProjectTaskBoard } from "../../../../entities/projectTask/entities";
 import WSProjectTaskServiceEvents from "../events";
+import ProjectTaskBoard from "../../../../entities/projectTask/ProjectTaskBoard";
 
 export default class WSProjectTaskServiceCollaboratorEventHandler extends WSServiceEventHandler<WSProjectTaskServiceEvents.Collaborator> {
     //#region Attributes

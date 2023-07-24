@@ -4,7 +4,7 @@ import TaskCard from "./components/TaskCard/TaskCard";
 import { Container, Content } from "./styles";
 import { TaskListProps } from "./types";
 import AddTaskButton from "./components/AddTaskButton/AddTaskButton";
-import { ProjectTaskState } from "src/entities/projectTasks/entities";
+import { ProjectTaskState } from "src/entities/projectTask/entities";
 import useTaskBoardContext from "../../../../utils/contexts/useTaskBoardContext";
 import { TaskToBeChangedState } from "../../../../utils/contexts/types";
 import { WSProjectTaskWithNewState } from "src/services/websockets/services/projectTasks/utils/entities";

@@ -1,4 +1,4 @@
-import { ProjectTask, ProjectTaskState } from "src/entities/projectTasks/entities";
+import { ProjectTask, ProjectTaskState } from "src/entities/projectTask/entities";
 import { DraggingTaskCardHook } from "./utils/hooks/types";
 import { MutableRefObject } from "react";
 

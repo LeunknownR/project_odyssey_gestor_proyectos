@@ -1,4 +1,4 @@
-import { ProjectTask, ProjectTaskState } from "src/entities/projectTasks/entities";
+import { ProjectTask, ProjectTaskState } from "src/entities/projectTask/entities";
 
 export type TaskListProps = {
     taskList: ProjectTask[];

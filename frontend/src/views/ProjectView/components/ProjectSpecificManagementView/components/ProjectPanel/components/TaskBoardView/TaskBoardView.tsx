@@ -12,12 +12,12 @@ import {
     ProjectTask,
     ProjectTaskBoard,
     ProjectTaskState,
-} from "src/entities/projectTasks/entities";
+} from "src/entities/projectTask/entities";
 //#endregion
 //#region Utils
 import useWebsocket from "src/utils/hooks/useWebsocket";
 import WSProjectTaskServiceEvents from "src/services/websockets/services/projectTasks/events";
-import { projectTaskBoardStateByTaskState } from "src/entities/projectTasks/mappers";
+import { projectTaskBoardStateByTaskState } from "src/entities/projectTask/mappers";
 import useModal from "src/components/Modal/utils/hooks/useModal";
 import { DBProjectRoles } from "src/config/roles";
 import { getUserId } from "src/storage/user.local";
@@ -54,8 +54,9 @@ const TaskBoardView = ({
         });
         socketIoValue.on(
             WSProjectTaskServiceEvents.Server.DispatchTaskBoard,
-            (projectTaskBoard: ProjectTaskBoard) => {
-                setProjectTaskBoard(projectTaskBoard);
+            (newProjectTaskBoard: ProjectTaskBoard) => {
+                console.log(newProjectTaskBoard);
+                setProjectTaskBoard(newProjectTaskBoard);
             }
         );
     }, []);

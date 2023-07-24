@@ -11,6 +11,9 @@ export type ProjectSubtask = {
     name: string;
     checked: boolean;
 };
+export type ProjectTaskResponsible = ProjectTaskCollaboratorUser & {
+    active: boolean;
+};
 export type ProjectCommentTask = {
     id: number;
     content: string;
@@ -21,7 +24,7 @@ export type ProjectTask = {
     id: number;
     name: string;
     description: string;
-    responsible: ProjectTaskCollaboratorUser | null;
+    responsible: ProjectTaskResponsible | null;
     priorityId: number | null;
     deadline: number;
     subtasks: ProjectSubtask[];

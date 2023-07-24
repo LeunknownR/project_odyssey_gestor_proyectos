@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ProjectTaskState } from "src/entities/projectTasks/entities";
+import { ProjectTaskState } from "src/entities/projectTask/entities";
 import StatePicker from "./StatePicker/StatePicker";
 import { CloseButton, ProjectName, StateLabel, StateList, StyledModal } from "./styles";
 import { ChangeStateModalProps, StateListDataProps } from "./types";

@@ -1,5 +1,5 @@
 import { ModalProps } from "src/components/Modal/types";
-import { ProjectTaskState } from "src/entities/projectTasks/entities";
+import { ProjectTaskState } from "src/entities/projectTask/entities";
 
 export type ChangeStateModalProps = {
     modalProps: ModalProps;
