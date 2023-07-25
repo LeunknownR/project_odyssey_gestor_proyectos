@@ -1,3 +1,5 @@
+import { CollaboratorForm } from "../types";
+
 export const TEXT_FIELD_PROPS = {
     COLLABORATOR_NAME: {
         label: "Nombres",
@@ -32,4 +34,16 @@ export const TEXT_FIELD_PROPS = {
         type: "password",
     },
 };
-export const INITIAL_FORM = {};
+
+export const INITIAL_COLLABORATOR_FORM: CollaboratorForm = {
+    id: 0,
+    customerName: "",
+    customerSurname: "",
+    customerEmail: "",
+    customerUsername: "",
+    customerPassword: "",
+    customerPhotoUrl: null,
+    customerPhotoB64: null,
+    customerChangePhoto: false,
+    toChangeCustomerPassword: true,
+};

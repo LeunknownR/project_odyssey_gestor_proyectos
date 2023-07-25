@@ -4,5 +4,5 @@ export type CollaboratorPreviewProps = {
     urlPhoto: string | null;
     email: string;
     onClick: () => void;
-    active: boolean;
+    selected: boolean;
 };

@@ -4,15 +4,16 @@ import PanelHeader from "./components/PanelHeader";
 import { Container } from "./styles";
 import { CollaboratorsPanelProps } from "./types";
 
-const CollaboratorsPanel = ({ collaborators, paginator, doTriggerFillingRequest }: CollaboratorsPanelProps) => {
+const CollaboratorsPanel = ({ paginator, doTriggerFillingRequest }: CollaboratorsPanelProps) => {
     const movePage = (page: number) => {
         paginator.movePage(page);
         doTriggerFillingRequest();
     };
+    
     return (
         <Container direction="column" gap="30px">
             <PanelHeader />
-            <CollaboratorList collaboratorList={collaborators} />
+            <CollaboratorList />
             <Paginator
                 data={paginator.data}
                 color="var(--white-1)"

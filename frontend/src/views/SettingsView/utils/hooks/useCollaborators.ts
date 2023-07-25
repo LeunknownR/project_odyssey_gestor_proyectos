@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { PreloaderHook } from "src/components/Preloader/types";
-import { CollaboratorFilters } from "../types";
+import { CollaboratorFilters } from "../../types";
 import { PaginatorHookType } from "src/components/Paginator/utils/types";
 import { CollaboratorsHook } from "./types";
 import { User } from "src/entities/user/types";
@@ -27,13 +27,13 @@ const useCollaborators = (
         });
         preloader.hide();
         if (data === null) return;
-        const { collaboratorList, collaboratorsCount } = data;
+        const { list, count } = data;
         paginator.setQuantityPages(
-            Math.ceil(collaboratorsCount / RECORDS_BY_PAGE),
-            collaboratorsCount
+            Math.ceil(count / RECORDS_BY_PAGE),
+            count
         );
-        if (collaboratorsCount <= RECORDS_BY_PAGE) paginator.movePage(1);
-        setCollaborators(collaboratorList);
+        if (count <= RECORDS_BY_PAGE) paginator.movePage(1);
+        setCollaborators(list);
     };
     const doFill = () => {
         setTriggerRequest(true);

@@ -33,6 +33,5 @@ export const requestCheckCredentials: APIRequestFunction<
         ApiPathEndpoints.CheckCredentials,
         body
     );
-    console.log(data);
     return data;
 };

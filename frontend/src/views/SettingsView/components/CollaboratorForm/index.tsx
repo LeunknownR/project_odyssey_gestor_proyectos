@@ -18,10 +18,12 @@ import ActionButtons from "./components/ActionButtons";
 import { CollaboratorFormProps } from "./types";
 import DeleteCollaboratorModal from "./components/DeleteCollaboratorModal";
 import useModal from "src/components/Modal/utils/hooks/useModal";
+import useSettingsViewContext from "../../utils/context/useSettingsViewContext";
 
-const CollaboratorForm = ({ currentCollaborator }: CollaboratorFormProps) => {
+const CollaboratorForm = ({ hideForm }: CollaboratorFormProps) => {
     const [tabIdx, setTabIdx] = useState(0);
     const { isMobile } = useMainContext();
+    const { currentCollaborator } = useSettingsViewContext();
     const deleteCollaboratorModal = useModal();
     const moveTab = (idx: number) => setTabIdx(idx);
     const tabs = [<PersonalDataForm key={0} />, <UserDataForm key={1} />];
@@ -50,9 +52,9 @@ const CollaboratorForm = ({ currentCollaborator }: CollaboratorFormProps) => {
             </MobileHeader>
         ) : (
             <>
-            {currentCollaborator && <CloseFormBtn
+            {!currentCollaborator && <CloseFormBtn
                 icon="material-symbols:close"
-                onClick={() => console.log("gnomo")}/>}
+                onClick={hideForm}/>}
             </>
         )}
         <Container
@@ -61,7 +63,10 @@ const CollaboratorForm = ({ currentCollaborator }: CollaboratorFormProps) => {
             align="center"
             gap="40px"
         >
-            <DeleteCollaboratorBtn icon="material-symbols:delete" onClick={() => console.log("borrar")} /> 
+            {currentCollaborator && 
+                <DeleteCollaboratorBtn 
+                    icon="material-symbols:delete" 
+                    onClick={() => console.log("borrar")} /> }
             <ContentWrapper gap="80px">
                 {tabIdx !== 1 && (
                     <PhotoUploaderWrapper>

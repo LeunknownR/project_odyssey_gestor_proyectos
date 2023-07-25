@@ -5,8 +5,8 @@ export type GetCollaboratorsRequestBody = {
     page: number;
 };
 export type GetCollaboratorsResponseRequest = {
-    collaboratorList: User[];
-    collaboratorsCount: number;
+    list: User[];
+    count: number;
 };
 export type CheckCredentialsRequestBody = {
     username: string;

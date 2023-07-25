@@ -3,9 +3,11 @@ import useMainContext from "src/utils/contexts/main-context/useMainContext";
 import { BackButton, Container, FormButton, NextButton } from "./styles";
 import { FlexFlow } from "src/components/styles";
 import { ActionButtonsProps } from "./types";
+import useSettingsViewContext from "src/views/SettingsView/utils/context/useSettingsViewContext";
 
 const ActionButtons = ({ tabIdx, moveTab }: ActionButtonsProps) => {
     const { isMobile } = useMainContext();
+    const { currentCollaborator } = useSettingsViewContext();
     return (
         <Container width="100%">
             {isMobile && (
@@ -24,7 +26,7 @@ const ActionButtons = ({ tabIdx, moveTab }: ActionButtonsProps) => {
             )}
             <FormButton
                 onClick={() => console.log("GNOMO")}
-                content={true ? "Actualizar" : "Crear"}
+                content={currentCollaborator ? "Actualizar" : "Crear"}
                 variant="main"
             />
         </Container>
