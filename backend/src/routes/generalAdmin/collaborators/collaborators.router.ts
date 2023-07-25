@@ -28,7 +28,7 @@ router.get(
         });
     })
 );
-router.get(
+router.post(
     ApiPathEndpointsGeneralAdmin.GetCollaborators,
     withErrorHandler(async (req, res) => {
         const searchedCollaboratorPayload: SearchedCollaboratorPayload = new SearchedCollaboratorPayload(req.body);
