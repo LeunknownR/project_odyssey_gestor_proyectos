@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
     ChangePasswordModalProps,
     FirstPartModalProps,
+    PasswordFieldDisableProps,
     PasswordFieldProps,
     SecondPartModalProps,
 } from "./types";
@@ -30,7 +31,11 @@ const INIT_PASSWORD_FIELD = {
     newPassword: "",
     confirmPassword: "",
 };
-
+const INIT_PASSWORD_FIELD_DISABLE = {
+    actualPassword: false,
+    newPassword: true,
+    confirmPassword: true,
+};
 const ChangePasswordModal = ({
     modalProps,
     currentCollaborator,
@@ -38,21 +43,35 @@ const ChangePasswordModal = ({
     const [tabIdx, setTabIdx] = useState(0);
     const [passwordField, setPasswordField] =
         useState<PasswordFieldProps>(INIT_PASSWORD_FIELD);
+    const [passwordFieldDisable, setPasswordFieldDisable] =
+        useState<PasswordFieldDisableProps>(INIT_PASSWORD_FIELD_DISABLE);
     const { isMobile } = useMainContext();
     const moveTab = (idx: number) => setTabIdx(idx);
     const verifyPassword = async () => {
         if (!currentCollaborator) return;
-        await requestCheckCredentials({
+        const { message } = await requestCheckCredentials({
             username: currentCollaborator.username,
             password: passwordField.actualPassword,
         });
+        if (message !== "SUCCESS") return;
+        changeDisableInput("actualPassword", true);
+        changeDisableInput("newPassword", false);
         moveTab(1);
     };
-    const handlePasswords = ({ target: { name, value } }: TextInputTarget): void => {
+    const handlePasswords = ({
+        target: { name, value },
+    }: TextInputTarget): void => {
         setPasswordField({
             ...passwordField,
             [name]: value,
         });
+    };
+    const changeDisableInput = (field: string, value: any): void => {
+        setPasswordFieldDisable(prev => ({
+            ...prev,
+            [field]: typeof value === "function" ? value(prev[field]) : value,
+        }));
+        // setErrors({ ...INITIAL_ERRORS });
     };
     const tabs = [
         <FirstPartModal
@@ -60,12 +79,16 @@ const ChangePasswordModal = ({
             verifyPassword={verifyPassword}
             actualPassword={passwordField.actualPassword}
             handlePasswords={handlePasswords}
+            passwordFieldDisable={passwordFieldDisable}
+            changeDisableInput={changeDisableInput}
         />,
         <SecondPartModal
             key={1}
             confirmPassword={passwordField.confirmPassword}
             newPassword={passwordField.newPassword}
             handlePasswords={handlePasswords}
+            passwordFieldDisable={passwordFieldDisable}
+            changeDisableInput={changeDisableInput}
         />,
     ];
     return (
@@ -81,24 +104,26 @@ export default ChangePasswordModal;
 const FirstPartModal = ({
     verifyPassword,
     actualPassword,
-    handlePasswords
+    handlePasswords,
+    passwordFieldDisable,
+    changeDisableInput,
 }: FirstPartModalProps) => {
     return (
         <>
-        <NotificationInfo />
-        <ActualPasswordWrapper>
-            <PasswordTextField
-                {...TEXT_FIELD_PROPS.ACTUAL_PASS}
-                value={actualPassword}
-                onChange={handlePasswords}
-                disabled={true}
-            />
-            <CustomButton
-                {...BUTTON_PROPS.VERIFY_PASS}
-                onClick={verifyPassword}
-                disabled={!actualPassword}
-            />
-        </ActualPasswordWrapper>
+            <NotificationInfo />
+            <ActualPasswordWrapper>
+                <PasswordTextField
+                    {...TEXT_FIELD_PROPS.ACTUAL_PASS}
+                    value={actualPassword}
+                    onChange={handlePasswords}
+                    disabled={passwordFieldDisable.actualPassword}
+                />
+                <CustomButton
+                    {...BUTTON_PROPS.VERIFY_PASS}
+                    onClick={verifyPassword}
+                    disabled={!actualPassword}
+                />
+            </ActualPasswordWrapper>
         </>
     );
 };
@@ -106,28 +131,32 @@ const FirstPartModal = ({
 const SecondPartModal = ({
     newPassword,
     confirmPassword,
-    handlePasswords
+    handlePasswords,
+    passwordFieldDisable,
+    changeDisableInput,
 }: SecondPartModalProps) => {
     return (
         <>
-        <NewPasswordWrapper>
+            <NewPasswordWrapper>
+                <PasswordTextField
+                    {...TEXT_FIELD_PROPS.NEW_PASS}
+                    value={newPassword}
+                    onChange={handlePasswords}
+                    disabled={passwordFieldDisable.newPassword}
+                />
+                <ContentRequirements />
+            </NewPasswordWrapper>
             <PasswordTextField
-                {...TEXT_FIELD_PROPS.NEW_PASS}
-                value={newPassword}
+                {...TEXT_FIELD_PROPS.CONFIRM_PASS}
+                value={confirmPassword}
                 onChange={handlePasswords}
+                disabled={!newPassword}
             />
-            <ContentRequirements />
-        </NewPasswordWrapper>
-        <PasswordTextField
-            {...TEXT_FIELD_PROPS.CONFIRM_PASS}
-            value={confirmPassword}
-            onChange={handlePasswords}
-        />
-        <UpdateButton
-            {...BUTTON_PROPS.UPDATE_PASS}
-            onClick={() => console.log("dx")}
-            disabled={confirmPassword !== newPassword}
-        />
+            <UpdateButton
+                {...BUTTON_PROPS.UPDATE_PASS}
+                onClick={() => console.log("dx")}
+                disabled={confirmPassword !== newPassword}
+            />
         </>
     );
 };
