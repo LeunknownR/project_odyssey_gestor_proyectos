@@ -42,6 +42,7 @@ export const PasswordTextField = styled(CustomTextField)`
     }
 `;
 export const NewPasswordWrapper = styled(FlexFlow)`
+    padding-top: 10px;
     gap: 30px;
     @media (max-width: ${MOBILE_WIDTH}px) {
         flex-direction: column;

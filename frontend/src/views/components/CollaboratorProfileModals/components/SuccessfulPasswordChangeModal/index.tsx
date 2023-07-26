@@ -1,8 +1,9 @@
 import { SuccessfulPasswordChangeModalProps } from "./types";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import { ContentImage, CustomModal, SuccessfulChangeButton, TextModal } from "./styles";
-import NoContent from "src/views/components/NoContent/NoContent";
 import successful from "src/images/successful.png";
+import { clearStorage } from "src/storage";
+import { useNavigate } from "react-router-dom";
+import { AbsolutePaths } from "src/config/absolutePaths";
 
 const MODAL_STYLES = {
     padding: "20px 30px",
@@ -11,6 +12,11 @@ const MODAL_STYLES = {
 const SuccessfulPasswordChangeModal = ({
     modalProps,
 }: SuccessfulPasswordChangeModalProps) => {
+    const navigate = useNavigate();
+    const logout = (): void => {
+        clearStorage();
+        navigate(AbsolutePaths.Login);
+    }
     return (
         <CustomModal {...modalProps} sizeProps={MODAL_STYLES}>
             <ContentImage src={successful} />
@@ -19,7 +25,7 @@ const SuccessfulPasswordChangeModal = ({
                 tiene que volver a iniciar sesión
             </TextModal>
             <SuccessfulChangeButton
-                onClick={() => modalProps.open(false)}
+                onClick={logout}
                 content="Cerrar"
             />
         </CustomModal>

@@ -9,7 +9,7 @@ const testModalStyles = {
     maxWidth: "630px",
 };
 
-const NoChangePasswordModal = ({
+const ConfirmCloseModal = ({
     modalProps,
 }: NoChangePasswordModalProps) => {
     return (
@@ -28,4 +28,4 @@ const NoChangePasswordModal = ({
     );
 };
 
-export default NoChangePasswordModal;
+export default ConfirmCloseModal;
