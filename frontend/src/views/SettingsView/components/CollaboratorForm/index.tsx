@@ -19,7 +19,6 @@ import useModal from "src/components/Modal/utils/hooks/useModal";
 import useSettingsViewContext from "../../utils/context/useSettingsViewContext";
 import useCollaboratorForm from "./utils/hooks/useCollaboratorForm";
 import { requestDeleteCollaborator } from "src/services/collaboratorConfig/aboutCollaboratorConfig";
-import { sleep } from "src/services/utils/helpers";
 
 const CollaboratorForm = () => {
     const [tabIdx, setTabIdx] = useState(0);
