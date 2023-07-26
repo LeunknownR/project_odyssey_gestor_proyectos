@@ -8,6 +8,7 @@ import {
     GetCollaboratorsResponseRequest,
     UpdateCollaboratorBody,
 } from "./types";
+import { getEndpointWithPathVariables } from "../utils/helpers";
 
 export const requestGetCollaborators: APIRequestFunction<
     GetCollaboratorsResponseRequest,
@@ -39,6 +40,17 @@ export const requestUpdateCollaborator: APIRequestFunction<
         ApiPathEndpoints.UpdateCollaborator,
         collaborator
     );
+    return data;
+};
+export const requestDeleteCollaborator: APIRequestFunction<
+    null,
+    number
+> = async (collaboratorId: number) => {
+    const path: string = getEndpointWithPathVariables(
+        ApiPathEndpoints.DeleteCollaborator,
+        [collaboratorId]
+    );
+    const data: ResponseBody = await APIHandler.api.delete(path);
     return data;
 };
 export const requestCheckCredentials: APIRequestFunction<
