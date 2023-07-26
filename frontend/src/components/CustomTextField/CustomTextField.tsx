@@ -18,7 +18,6 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 //#region Types
 import { CustomTextFieldProps } from "./types";
 //#endregion
-// import { RESTRICTIONS } from "./utils/restrictions";
 
 const CustomTextField = forwardRef<HTMLInputElement, CustomTextFieldProps>(({
     className,
@@ -39,6 +38,7 @@ const CustomTextField = forwardRef<HTMLInputElement, CustomTextFieldProps>(({
         size && classList.push(size);
         variant && classList.push(variant);
         disabled && classList.push("disabled");
+        error && classList.push("error");
         type === "password" && classList.push("password");
         return classList.join(" ");
     };
