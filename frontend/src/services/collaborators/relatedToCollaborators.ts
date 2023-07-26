@@ -14,32 +14,31 @@ export const requestSearchCollaboratorForGeneralAdmin: APIRequestFunction<
         ApiPathEndpoints.SearchCollaborator,
         [collaboratorName]
     );
-    const res: ResponseBody<CollaboratorUser[]> =
-        await APIHandler.api.get(path);
+    const res: ResponseBody<CollaboratorUser[]> = await APIHandler.api.get(
+        path
+    );
     return res;
 };
 export const requestSearchCollaboratorToBeMemberForCollaborator: APIRequestFunction<
     CollaboratorUser[],
     SearchCollaboratorRequestBody
-> = async ({
-    collaboratorName,
-    projectId
-}: SearchCollaboratorRequestBody) => {
+> = async ({ collaboratorName, projectId }: SearchCollaboratorRequestBody) => {
     const path: string = getEndpointWithPathVariables(
         ApiPathEndpoints.SearchCollaboratorMember,
         [projectId, collaboratorName]
     );
-    const res: ResponseBody<CollaboratorUser[]> =
-        await APIHandler.api.get(path);
+    const res: ResponseBody<CollaboratorUser[]> = await APIHandler.api.get(
+        path
+    );
     return res;
 };
 export const requestAddMemberToProject: APIRequestFunction<
-null,
-AddProjectMembersRequestBody
+    null,
+    AddProjectMembersRequestBody
 > = async (addProjectMembersRequestBody: AddProjectMembersRequestBody) => {
     const res: ResponseBody = await APIHandler.api.patch(
         ApiPathEndpoints.AddProjectMembers,
         addProjectMembersRequestBody
     );
     return res;
-}
+};

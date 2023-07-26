@@ -18,3 +18,16 @@ export type ProjectCollaborator = UserBase & {
     projectTeamMemberId: number;
     projectRole: ProjectRole;
 };
+export type CollaboratorForm = {
+    id: number;
+    name: string;
+    surname: string;
+    photo: CollaboratorFormPhoto;
+    username: string;
+    password: string;
+}
+type CollaboratorFormPhoto = {
+    url: string | null;
+    b64: string | null;
+    changePhoto: boolean;
+}

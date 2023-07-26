@@ -11,8 +11,6 @@ import {
 } from "./styles";
 import DataLabel from "./components/DataLabel";
 import ModalHeader from "./components/ModalHeader";
-import { SessionUser, User } from "src/entities/user/types";
-import { currentUserLocalStorage } from "src/storage/user.local";
 
 const MODAL_STYLES = {
     padding: "20px 30px",
@@ -21,12 +19,8 @@ const MODAL_STYLES = {
 const ProfileConfigurationModal = ({
     modalProps,
     openChangePasswordModal,
+    currentCollaborator
 }: ProfileConfigurationModalProps) => {
-    const [currentCollaborator, setCurrentCollaborator] = useState<User | null>(null);
-    useEffect(() => {
-        const currentUser: SessionUser = currentUserLocalStorage.get();
-        setCurrentCollaborator(currentUser)
-    }, []);
     const changePhoto = (file: string) => {
         // form.change("collaboratorPhotoB64", file);
         // form.change("collaboratorChangePhoto", true);
