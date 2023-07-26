@@ -91,6 +91,7 @@ const FirstPartModal = ({
                 {...TEXT_FIELD_PROPS.ACTUAL_PASS}
                 value={actualPassword}
                 onChange={handlePasswords}
+                disabled={true}
             />
             <CustomButton
                 {...BUTTON_PROPS.VERIFY_PASS}
