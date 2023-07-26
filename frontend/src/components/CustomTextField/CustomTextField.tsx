@@ -25,7 +25,7 @@ const CustomTextField = forwardRef<HTMLInputElement, CustomTextFieldProps>(({
     placeholder,
     name, label,
     type, variant,
-    size, width, maxWidth,
+    size, width, maxWidth, minWidth,
     maxLength, disabled,
     value, error = null,
     onFocus, onBlur,
@@ -54,7 +54,7 @@ const CustomTextField = forwardRef<HTMLInputElement, CustomTextFieldProps>(({
         return type === "password" && Boolean(value) && !disabled;
     };
     return (
-        <Container width={width} maxWidth={maxWidth} className={className}>
+        <Container width={width} maxWidth={maxWidth} minWidth={minWidth} className={className}>
             {label && <LabelContent className={getClassName()}>{label}</LabelContent>}
             <Content className={getClassName()}>
                 <TextField

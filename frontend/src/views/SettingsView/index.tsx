@@ -1,5 +1,4 @@
-/* eslint-disable no-constant-condition */
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 //#region Styles
 import { CollaboratorFormWrapper, Container } from "./styles";
 //#endregion
@@ -13,6 +12,7 @@ import usePaginator from "src/components/Paginator/utils/hooks/usePaginator";
 import useCollaboratorFilters from "./utils/hooks/useCollaboratorFilters";
 import useCollaborators from "./utils/hooks/useCollaborators";
 import SettingsViewContext from "./utils/context/SettingsViewContext";
+import Preloader from "src/components/Preloader/Preloader";
 //#endregion
 
 const SettingsView = () => {
@@ -25,9 +25,6 @@ const SettingsView = () => {
     const paginator = usePaginator();
     const filters = useCollaboratorFilters();
     const collaborators = useCollaborators(preloader, filters.value, paginator);
-    useEffect(() => {
-        console.log(currentCollaborator)
-    }, [currentCollaborator]);
     useEffect(() => {
         if (!currentCollaborator) return;
         // Actualizando formulario luego de una actualización de colaborador
@@ -46,11 +43,13 @@ const SettingsView = () => {
     return (
         <Container>
             <SettingsViewContext.Provider value={{
+                preloader,
                 currentCollaborator,
                 setCurrentCollaborator,
                 collaboratorsHandler: collaborators,
                 searchCollaboratorHandler: filters,
-                showForm
+                showForm,
+                hideForm,
             }}>
                 <CollaboratorsPanel
                     paginator={paginator}
@@ -60,14 +59,13 @@ const SettingsView = () => {
                     className={isMobileCollaboratorOpen ? "open" : ""}
                 >
                     {formIsVisible ? (
-                        <CollaboratorForm
-                            hideForm={hideForm}
-                        />
+                        <CollaboratorForm />
                     ) : (
                         <UnselectedCollaborator />
                     )}
                 </CollaboratorFormWrapper>
             </SettingsViewContext.Provider>
+            <Preloader {...preloader.value} />
         </Container>
     );
 };
