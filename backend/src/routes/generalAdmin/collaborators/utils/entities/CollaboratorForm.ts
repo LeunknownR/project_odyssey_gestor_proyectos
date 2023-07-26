@@ -3,6 +3,7 @@ import { REG_EXP_EMAIL, REG_EXP_USERNAME } from "../../../../../utils/regex";
 import { checkLength } from "../../../../../utils/strings";
 import FormUserPhoto from "../../../../utils/FormUserPhoto";
 import Validator from "../../../../utils/Validator";
+import { PASSWORD_MAX_LENGTH } from "../../../../utils/constants";
 
 abstract class CollaboratorForm {
     //#region Attributes
@@ -42,7 +43,7 @@ export class CollaboratorCreationForm extends CollaboratorForm {
         } = body;
         FormUserPhoto.checkPhotoInBase64(photoInBase64);
         this.photoInBase64 = photoInBase64;
-        Validator.checkPassword(password);
+        Validator.checkPasswordOnlyLength(password);
         this.password = password;
     }
 }
@@ -60,7 +61,7 @@ export class CollaboratorUpdatingForm extends CollaboratorForm {
         this._id = new PositiveNumberNonZero(id);
         this.photo = new FormUserPhoto(photo);
         if (password !== null)
-            Validator.checkPassword(password);
+            Validator.checkPasswordOnlyLength(password);
         this.password = password;
     }
     get id(): number {
