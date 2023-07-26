@@ -9,14 +9,14 @@ const CollaboratorPreview = ({
     urlPhoto,
     email,
     onClick,
-    active,
+    selected,
 }: CollaboratorPreviewProps) => {
     return (
         <Container
             align="center"
             gap="12px"
             onClick={onClick}
-            className={active ? "active" : ""}
+            className={selected ? "selected" : ""}
         >
             <UserImage name={name} surname={surname} urlPhoto={urlPhoto} className="medium" />
             <FlexFlow direction="column" gap="4px" width="100%">

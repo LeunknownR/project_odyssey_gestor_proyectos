@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { ChangePasswordModalProps, FirstPartModalProps } from "./types";
+import {
+    ChangePasswordModalProps,
+    FirstPartModalProps,
+    PasswordFieldProps,
+    SecondPartModalProps,
+} from "./types";
 import {
     CustomModal,
     NewPasswordWrapper,
@@ -13,21 +18,55 @@ import NotificationInfo from "./components/NotificationInfo";
 import ContentRequirements from "./components/ContentRequirements";
 import ModalHeader from "./components/ModalHeader";
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
+import { requestCheckCredentials } from "src/services/collaboratorConfig/aboutCollaboratorConfig";
+import { TextInputTarget } from "src/components/CustomTextField/types";
 
 const MODAL_STYLES = {
     padding: "20px 30px",
 };
 
-const ChangePasswordModal = ({ modalProps }: ChangePasswordModalProps) => {
+const INIT_PASSWORD_FIELD = {
+    actualPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+};
+
+const ChangePasswordModal = ({
+    modalProps,
+    currentCollaborator,
+}: ChangePasswordModalProps) => {
     const [tabIdx, setTabIdx] = useState(0);
+    const [passwordField, setPasswordField] =
+        useState<PasswordFieldProps>(INIT_PASSWORD_FIELD);
     const { isMobile } = useMainContext();
     const moveTab = (idx: number) => setTabIdx(idx);
-    const verifyPassword = () => {
+    const verifyPassword = async () => {
+        if (!currentCollaborator) return;
+        await requestCheckCredentials({
+            username: currentCollaborator.username,
+            password: passwordField.actualPassword,
+        });
         moveTab(1);
     };
+    const handlePasswords = ({ target: { name, value } }: TextInputTarget): void => {
+        setPasswordField({
+            ...passwordField,
+            [name]: value,
+        });
+    };
     const tabs = [
-        <FirstPartModal verifyPassword={verifyPassword} />,
-        <SecondPartModal />,
+        <FirstPartModal
+            key={0}
+            verifyPassword={verifyPassword}
+            actualPassword={passwordField.actualPassword}
+            handlePasswords={handlePasswords}
+        />,
+        <SecondPartModal
+            key={1}
+            confirmPassword={passwordField.confirmPassword}
+            newPassword={passwordField.newPassword}
+            handlePasswords={handlePasswords}
+        />,
     ];
     return (
         <CustomModal {...modalProps} sizeProps={MODAL_STYLES}>
@@ -39,32 +78,54 @@ const ChangePasswordModal = ({ modalProps }: ChangePasswordModalProps) => {
 
 export default ChangePasswordModal;
 
-const FirstPartModal = ({verifyPassword}: FirstPartModalProps) => {
+const FirstPartModal = ({
+    verifyPassword,
+    actualPassword,
+    handlePasswords
+}: FirstPartModalProps) => {
     return (
         <>
         <NotificationInfo />
         <ActualPasswordWrapper>
-            <PasswordTextField {...TEXT_FIELD_PROPS.ACTUAL_PASS} />
+            <PasswordTextField
+                {...TEXT_FIELD_PROPS.ACTUAL_PASS}
+                value={actualPassword}
+                onChange={handlePasswords}
+            />
             <CustomButton
                 {...BUTTON_PROPS.VERIFY_PASS}
                 onClick={verifyPassword}
+                disabled={!actualPassword}
             />
         </ActualPasswordWrapper>
         </>
     );
 };
 
-const SecondPartModal = () => {
+const SecondPartModal = ({
+    newPassword,
+    confirmPassword,
+    handlePasswords
+}: SecondPartModalProps) => {
     return (
         <>
         <NewPasswordWrapper>
-            <PasswordTextField {...TEXT_FIELD_PROPS.NEW_PASS} />
+            <PasswordTextField
+                {...TEXT_FIELD_PROPS.NEW_PASS}
+                value={newPassword}
+                onChange={handlePasswords}
+            />
             <ContentRequirements />
         </NewPasswordWrapper>
-        <PasswordTextField {...TEXT_FIELD_PROPS.CONFIRM_PASS} />
+        <PasswordTextField
+            {...TEXT_FIELD_PROPS.CONFIRM_PASS}
+            value={confirmPassword}
+            onChange={handlePasswords}
+        />
         <UpdateButton
             {...BUTTON_PROPS.UPDATE_PASS}
             onClick={() => console.log("dx")}
+            disabled={confirmPassword !== newPassword}
         />
         </>
     );
