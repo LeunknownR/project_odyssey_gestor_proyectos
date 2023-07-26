@@ -27,7 +27,7 @@ export type UpdateCollaboratorBody = {
     email: string;
     photo: UpdateCollaboratorPhoto;
     username: string;
-    password?: string;
+    password?: string | null;
 };
 type UpdateCollaboratorPhoto = {
     base64: string | null;

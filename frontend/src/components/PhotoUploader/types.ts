@@ -7,6 +7,7 @@ export type PhotoUploaderProps = {
     surname: string;
     data: DataPhoto,
     changePhoto: (file: string) => void;
+    error: string | null;
     changeError: (error: string | null) => void;
     deletePhoto: () => void;
 }

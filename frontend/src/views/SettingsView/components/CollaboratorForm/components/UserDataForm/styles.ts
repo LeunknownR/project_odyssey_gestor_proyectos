@@ -7,5 +7,12 @@ export const TextFieldsWrapper = styled(FlexFlow)`
     max-width: 416px;
     @media (max-width: ${MOBILE_WIDTH}px) {
         flex-direction: column;
+        width: 100%;
+    }
+`;
+export const PasswordWrapper = styled(FlexFlow)`
+    & .custom-checkbox {
+        align-self: flex-end;
+        translate: 30px;
     }
 `;

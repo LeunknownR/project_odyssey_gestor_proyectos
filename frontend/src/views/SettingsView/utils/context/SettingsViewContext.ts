@@ -1,6 +1,7 @@
 import { createContext } from "react";
 import { SettingsViewContextType } from "./types";
 import { INITIAL_COLLABORATOR_FILTERS } from "../constants";
+import { DEFAULT_NOTIFICATION_CARD } from "src/components/NotificationCard/utils/constants";
 
 const INIT_SETTINGS_VIEW_CONTEXT: SettingsViewContextType = {
     preloader: {
@@ -13,6 +14,14 @@ const INIT_SETTINGS_VIEW_CONTEXT: SettingsViewContextType = {
     },
     currentCollaborator: null,
     setCurrentCollaborator: () => {},
+    notificationCard: {
+        visible: false,
+        timeoutToClose: 0,
+        hide: () => {},
+        show: () => {},
+        cardAppearanceProps: DEFAULT_NOTIFICATION_CARD,
+        changeAppearance: () => {},
+    },
     collaboratorsHandler: {
         value: [],
         fill: async () => {},

@@ -13,16 +13,22 @@ import useCollaboratorFilters from "./utils/hooks/useCollaboratorFilters";
 import useCollaborators from "./utils/hooks/useCollaborators";
 import SettingsViewContext from "./utils/context/SettingsViewContext";
 import Preloader from "src/components/Preloader/Preloader";
+import NotificationCard from "src/components/NotificationCard/NotificationCard";
+import useNotificationCard from "src/components/NotificationCard/utils/hooks/useNotificationCard";
 //#endregion
 
 const SettingsView = () => {
     //#region States
-    const [isMobileCollaboratorOpen, setMobileIsCollaboratorOpen] = useState(true);
-    const [currentCollaborator, setCurrentCollaborator] = useState<User | null>(null);
+    const [isMobileCollaboratorOpen, setMobileIsCollaboratorOpen] =
+        useState(true);
+    const [currentCollaborator, setCurrentCollaborator] = useState<User | null>(
+        null
+    );
     const [formIsVisible, setFormIsVisible] = useState<boolean>(false);
     //#endregion
     const preloader = usePreloader();
     const paginator = usePaginator();
+    const notificationCard = useNotificationCard();
     const filters = useCollaboratorFilters();
     const collaborators = useCollaborators(preloader, filters.value, paginator);
     useEffect(() => {
@@ -42,15 +48,18 @@ const SettingsView = () => {
     };
     return (
         <Container>
-            <SettingsViewContext.Provider value={{
-                preloader,
-                currentCollaborator,
-                setCurrentCollaborator,
-                collaboratorsHandler: collaborators,
-                searchCollaboratorHandler: filters,
-                showForm,
-                hideForm,
-            }}>
+            <SettingsViewContext.Provider
+                value={{
+                    preloader,
+                    currentCollaborator,
+                    setCurrentCollaborator,
+                    collaboratorsHandler: collaborators,
+                    searchCollaboratorHandler: filters,
+                    notificationCard,
+                    showForm,
+                    hideForm,
+                }}
+            >
                 <CollaboratorsPanel
                     paginator={paginator}
                     doTriggerFillingRequest={collaborators.doFill}
@@ -65,6 +74,10 @@ const SettingsView = () => {
                     )}
                 </CollaboratorFormWrapper>
             </SettingsViewContext.Provider>
+            <NotificationCard
+                handler={notificationCard}
+                appearanceProps={notificationCard.cardAppearanceProps}
+            />
             <Preloader {...preloader.value} />
         </Container>
     );
