@@ -39,6 +39,7 @@ const CustomTextField = forwardRef<HTMLInputElement, CustomTextFieldProps>(({
         size && classList.push(size);
         variant && classList.push(variant);
         disabled && classList.push("disabled");
+        error && classList.push("error");
         type === "password" && classList.push("password");
         return classList.join(" ");
     };
