@@ -148,6 +148,9 @@ export const Content = styled.div`
         border: 1px solid var(--white-1-50);
         color: var(--white-1);
     }
+    &.disabled {
+        border: 1px solid var(--red-3);
+    }
     /* &.disabled {
         border-color: var(--light-3);
         background-color: var(--light-1);
