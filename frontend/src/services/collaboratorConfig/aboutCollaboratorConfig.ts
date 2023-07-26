@@ -2,6 +2,7 @@ import { APIRequestFunction, ResponseBody } from "../types";
 import { APIHandler } from "src/config/api";
 import { ApiPathEndpoints } from "../apiPathEndpoints";
 import {
+    ChangePasswordRequestBody,
     CheckCredentialsRequestBody,
     CreateCollaboratorBody,
     GetCollaboratorsRequestBody,
@@ -63,6 +64,20 @@ export const requestCheckCredentials: APIRequestFunction<
     };
     const data: ResponseBody<null> = await APIHandler.api.post(
         ApiPathEndpoints.CheckCredentials,
+        body
+    );
+    return data;
+};
+export const requestChangePassword: APIRequestFunction<
+    null,
+    ChangePasswordRequestBody
+> = async ({ collaboratorId, newPassword }: ChangePasswordRequestBody) => {
+    const body: ChangePasswordRequestBody = {
+        collaboratorId,
+        newPassword,
+    };
+    const data: ResponseBody<null> = await APIHandler.api.patch(
+        ApiPathEndpoints.ChangePassword,
         body
     );
     return data;

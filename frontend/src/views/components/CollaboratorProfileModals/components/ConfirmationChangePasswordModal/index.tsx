@@ -11,6 +11,7 @@ const testModalStyles = {
 
 const ConfirmationChangePasswordModal = ({
     modalProps,
+    changePassword
 }: ConfirmationChangePasswordModalProps) => {
     return (
         <CustomModal {...modalProps} sizeProps={testModalStyles}>
@@ -23,7 +24,7 @@ const ConfirmationChangePasswordModal = ({
             <FlexFlow justifySelf="flex-start">
                 <TextModal>¿Estás seguro de esta contraseña?</TextModal>
             </FlexFlow>
-            <Footer modal={modalProps} />
+            <Footer modal={modalProps} changePassword={changePassword} />
         </CustomModal>
     );
 };

@@ -9,32 +9,34 @@ import { DBProjectRoles } from "src/config/roles";
 
 const TaskCard = (props: TaskCardProps) => {
     const containerRef = useRef<HTMLLIElement | null>(null);
-    const { 
-        projectRoleId
-    } = useTaskBoardContext();
+    const { projectRoleId } = useTaskBoardContext();
     const [canEditing, setCanEditing] = useState<boolean>(false);
     const draggingTaskCard = useDraggingTaskCard(
-        containerRef, 
-        props, 
+        containerRef,
+        props,
         canEditing
     );
     useEffect(() => {
-        setCanEditing(projectRoleId === DBProjectRoles.ProjectLeader || props.task.responsible?.id === getUserId());
+        setCanEditing(
+            (projectRoleId === DBProjectRoles.ProjectLeader ||
+            props.task.responsible?.id === getUserId() ) &&
+            props.task.responsible?.active === true
+        );
     }, []);
     return (
         <>
-        {draggingTaskCard.data && (
-            <Shadow
-                height={draggingTaskCard.data.height}
-                className={draggingTaskCard.data ? "dragging" : ""}
+            {draggingTaskCard.data && (
+                <Shadow
+                    height={draggingTaskCard.data.height}
+                    className={draggingTaskCard.data ? "dragging" : ""}
+                />
+            )}
+            <TaskCardContent
+                containerRef={containerRef}
+                draggingTaskCard={draggingTaskCard}
+                canEditing={canEditing}
+                {...props}
             />
-        )}
-        <TaskCardContent
-            containerRef={containerRef}
-            draggingTaskCard={draggingTaskCard}
-            canEditing={canEditing}
-            {...props}
-        />
         </>
     );
 };

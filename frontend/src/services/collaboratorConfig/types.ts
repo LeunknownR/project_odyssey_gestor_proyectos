@@ -33,3 +33,7 @@ type UpdateCollaboratorPhoto = {
     base64: string | null;
     changePhoto: boolean;
 };
+export type ChangePasswordRequestBody = {
+    collaboratorId: number;
+    newPassword: string;
+}

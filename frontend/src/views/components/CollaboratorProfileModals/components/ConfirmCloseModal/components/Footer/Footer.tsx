@@ -11,7 +11,7 @@ const Footer = ({
                 variant="red-modal-2"
                 onClick={() => modal.open(false)}/>
             <CustomConfirmRedModalButton
-                content="Eliminar" 
+                content="Salir" 
                 variant="red-modal"
                 onClick={() => console.log("dx")}/>
         </Container>

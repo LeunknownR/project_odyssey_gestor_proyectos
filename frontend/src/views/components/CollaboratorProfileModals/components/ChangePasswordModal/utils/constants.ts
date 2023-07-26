@@ -38,3 +38,19 @@ export const BUTTON_PROPS = {
         variant: "main",
     },
 };
+export const INIT_PASSWORD_FIELD = {
+    actualPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+};
+export const INIT_PASSWORD_FIELD_DISABLE = {
+    actualPassword: false,
+    newPassword: true,
+    confirmPassword: true,
+};
+export const INIT_PASSWORD_FIELD_ERRORS = {
+    actualPassword: null,
+    newPassword: null,
+    confirmPassword: null,
+};
+export const INVALID_PASSWORD = "Contraseña inválida";

@@ -2,7 +2,8 @@ import { Container, CustomCancelRedModalButton, CustomConfirmRedModalButton } fr
 import { FooterProps } from "./types";
 
 const Footer = ({ 
-    modal
+    modal,
+    changePassword
 }: FooterProps) => {
     return (
         <Container>
@@ -11,9 +12,9 @@ const Footer = ({
                 variant="red-modal-2"
                 onClick={() => modal.open(false)}/>
             <CustomConfirmRedModalButton
-                content="Eliminar" 
+                content="Confirmar" 
                 variant="red-modal"
-                onClick={() => console.log("dx")}/>
+                onClick={changePassword}/>
         </Container>
     );
 };

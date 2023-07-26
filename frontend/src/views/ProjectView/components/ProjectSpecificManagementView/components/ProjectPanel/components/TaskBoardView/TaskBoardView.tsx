@@ -55,7 +55,6 @@ const TaskBoardView = ({
         socketIoValue.on(
             WSProjectTaskServiceEvents.Server.DispatchTaskBoard,
             (newProjectTaskBoard: ProjectTaskBoard) => {
-                console.log(newProjectTaskBoard);
                 setProjectTaskBoard(newProjectTaskBoard);
             }
         );
@@ -139,7 +138,7 @@ const TaskBoardView = ({
         {projectTaskBoard ? (
             <TaskBoardContext.Provider value={{ 
                 socketIo: socketHandler.socketIo, 
-                projectId, isEditTaskFormOpen, projectRoleId,
+                projectId, isEditTaskFormOpen, projectRoleId, 
                 modifyMenuRef: editTaskFormRef, preloader, canEditTask,
                 currentProjectTask, fillCurrentProjectTask, hideEditTaskForm,
                 currentProjectTaskState,
