@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
-import { CollaboratorForm, CollaboratorFormErrors, FormCollaboratorHandler } from "../../types";
+import {
+    CollaboratorForm,
+    CollaboratorFormErrors,
+    FormCollaboratorHandler,
+} from "../../types";
 import { INITIAL_COLLABORATOR_FORM, INITIAL_ERRORS } from "../constants";
 import { User } from "src/entities/user/types";
-import { CreateCollaboratorBody, UpdateCollaboratorBody } from "src/services/collaboratorConfig/types";
+import {
+    CreateCollaboratorBody,
+    UpdateCollaboratorBody,
+} from "src/services/collaboratorConfig/types";
 import { FORM_VALIDATIONS } from "src/views/SettingsView/utils/constants";
 
 const useCollaboratorForm = (
@@ -18,7 +25,7 @@ const useCollaboratorForm = (
         initForm();
     }, [currentCollaborator]);
     const initForm = () => {
-        // setErrors({ ...INITIAL_ERRORS });
+        setErrors({ ...INITIAL_ERRORS });
         if (!currentCollaborator) {
             setForm({ ...INITIAL_COLLABORATOR_FORM });
             return;
@@ -30,7 +37,8 @@ const useCollaboratorForm = (
             collaboratorSurname: currentCollaborator.surname,
             collaboratorEmail: currentCollaborator.email,
             collaboratorUsername: currentCollaborator.username,
-            collaboratorPassword: INITIAL_COLLABORATOR_FORM.collaboratorPassword,
+            collaboratorPassword:
+                INITIAL_COLLABORATOR_FORM.collaboratorPassword,
             toChangeCollaboratorPassword: false,
             collaboratorUrlPhoto: currentCollaborator.urlPhoto,
             collaboratorPhotoB64:
@@ -49,11 +57,11 @@ const useCollaboratorForm = (
             toChangeCollaboratorPassword: changePassword,
         } = form;
         return Boolean(
-            collaboratorName &&
-                collaboratorSurname &&
-                collaboratorEmail &&
-                collaboratorUsername &&
-                (!changePassword || collaboratorPassword)
+            collaboratorName.trim() &&
+            collaboratorSurname.trim() &&
+            collaboratorEmail.trim() &&
+            collaboratorUsername.trim() &&
+            (!changePassword || collaboratorPassword.trim())
         );
     };
     const formHaveChanges = (): boolean => {
@@ -63,6 +71,7 @@ const useCollaboratorForm = (
             collaboratorSurname,
             collaboratorEmail,
             collaboratorUsername,
+            collaboratorChangePhoto,
             toChangeCollaboratorPassword,
         } = form;
         return (
@@ -70,15 +79,19 @@ const useCollaboratorForm = (
             collaboratorSurname !== currentCollaborator.surname ||
             collaboratorEmail !== currentCollaborator.email ||
             collaboratorUsername !== currentCollaborator.username ||
+            collaboratorChangePhoto ||
             toChangeCollaboratorPassword
         );
     };
-    const changeField = (field: string, value: any) => {
+    const changeField = (field: string, value: any): void => {
         setForm(prev => ({
             ...prev,
             [field]: typeof value === "function" ? value(prev[field]) : value,
         }));
-        // setErrors({ ...INITIAL_ERRORS });
+        setErrors({ ...INITIAL_ERRORS });
+    };
+    const getB64Value = (b64: string): string => {
+        return b64.split(",")[1];
     };
     const getCollaboratorFromFormToCreate = (): CreateCollaboratorBody => {
         const {
@@ -94,12 +107,13 @@ const useCollaboratorForm = (
             surname: collaboratorSurname,
             email: collaboratorEmail,
             username: collaboratorUsername,
-            photoInBase64: collaboratorPhotoB64,
+            photoInBase64: collaboratorPhotoB64
+                ? getB64Value(collaboratorPhotoB64)
+                : null,
             password: collaboratorPassword,
         };
         return collaborator;
     };
-    //validar que exista id al actualizar
     const getCollaboratorFromFormToUpdate = (): UpdateCollaboratorBody => {
         const {
             id,
@@ -110,6 +124,7 @@ const useCollaboratorForm = (
             collaboratorPhotoB64,
             collaboratorChangePhoto,
             collaboratorPassword,
+            toChangeCollaboratorPassword
         } = form;
         const collaborator: UpdateCollaboratorBody = {
             name: collaboratorName,
@@ -117,12 +132,16 @@ const useCollaboratorForm = (
             email: collaboratorEmail,
             username: collaboratorUsername,
             photo: {
-                base64: collaboratorPhotoB64,
+                base64: collaboratorPhotoB64
+                    ? getB64Value(collaboratorPhotoB64)
+                    : null,
                 changePhoto: collaboratorChangePhoto,
             },
-            password: collaboratorPassword,
         };
         if (id) collaborator.id = id;
+        toChangeCollaboratorPassword 
+            ? collaborator.password = collaboratorPassword
+            : collaborator.password = null;
         return collaborator;
     };
     const changeErrorField = (field: string, value: string | null) => {
@@ -138,18 +157,18 @@ const useCollaboratorForm = (
         return true;
     };
     const validateForm = () => {
-        setErrors(INITIAL_ERRORS);
+        setErrors({ ...INITIAL_ERRORS });
         const {
-            collaboratorDni,
-            collaboratorPhone,
+            collaboratorEmail,
             collaboratorUsername,
             collaboratorPassword,
             toChangeCollaboratorPassword,
         } = form;
         let existErrors = false;
-        if (fillError("collaboratorDni", collaboratorDni)) existErrors = true;
-        if (fillError("collaboratorPhone", collaboratorPhone)) existErrors = true;
-        if (fillError("collaboratorUsername", collaboratorUsername)) existErrors = true;
+        if (fillError("collaboratorEmail", collaboratorEmail))
+            existErrors = true;
+        if (fillError("collaboratorUsername", collaboratorUsername))
+            existErrors = true;
         if (
             toChangeCollaboratorPassword &&
             fillError("collaboratorPassword", collaboratorPassword)
@@ -168,7 +187,7 @@ const useCollaboratorForm = (
         errors: {
             value: errors,
             change: changeErrorField,
-        }
+        },
     };
 };
 

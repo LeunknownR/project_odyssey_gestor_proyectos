@@ -54,7 +54,7 @@ const CustomTextField = forwardRef<HTMLInputElement, CustomTextFieldProps>(({
         return type === "password" && Boolean(value) && !disabled;
     };
     return (
-        <Container width={width} maxWidth={maxWidth} minWidth={minWidth} className={className}>
+        <Container width={width} maxWidth={maxWidth} minWidth={minWidth} className={getClassName()}>
             {label && <LabelContent className={getClassName()}>{label}</LabelContent>}
             <Content className={getClassName()}>
                 <TextField
@@ -82,8 +82,8 @@ const CustomTextField = forwardRef<HTMLInputElement, CustomTextFieldProps>(({
                         <Icon icon="simple-line-icons:magnifier" />
                     </LensContainer>
                 )}
+                <ErrorMessage text={error} />
             </Content>
-            <ErrorMessage text={error} />
         </Container>
     );
 });

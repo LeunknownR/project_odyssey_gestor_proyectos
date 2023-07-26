@@ -2,7 +2,8 @@ import { Container, CustomCancelRedModalButton, CustomConfirmRedModalButton } fr
 import { FooterProps } from "./types";
 
 const Footer = ({ 
-    modal
+    modal,
+    deleteCollaborator
 }: FooterProps) => {
     return (
         <Container>
@@ -13,7 +14,7 @@ const Footer = ({
             <CustomConfirmRedModalButton
                 content="Eliminar" 
                 variant="red-modal"
-                onClick={() => console.log("dx")}/>
+                onClick={deleteCollaborator}/>
         </Container>
     );
 };

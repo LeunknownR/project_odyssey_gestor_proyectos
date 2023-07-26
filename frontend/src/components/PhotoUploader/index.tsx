@@ -8,12 +8,14 @@ import {
 import { PhotoUploaderProps } from "./types";
 import { fileToBase64 } from "src/utils/fileToBase64";
 import { ACCEPTED_FORMATS, MAX_BYTES_SIZE, MAX_MB_SIZE } from "./utils/constants";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 const PhotoUploader = ({
     name,
     surname,
     data: { b64, url },
     changePhoto,
+    error,
     changeError,
     deletePhoto,
 }: PhotoUploaderProps) => {
@@ -43,7 +45,7 @@ const PhotoUploader = ({
             return;
         }
         if (file.size > MAX_BYTES_SIZE) {
-            changeError(`La imagen debe pesar máximo ${MAX_MB_SIZE}mb.`);
+            changeError(`Máximo ${MAX_MB_SIZE}MB.`);
             return;
         }
         const fileB64 = await fileToBase64(file);
@@ -64,7 +66,8 @@ const PhotoUploader = ({
             <CollaboratorImage
                 name={name}
                 surname={surname}
-                urlPhoto={b64 || url}
+                urlPhoto={url}
+                b64={b64}
             />
             <input
                 ref={$input}
@@ -78,6 +81,7 @@ const PhotoUploader = ({
                 icon="material-symbols:add-a-photo"
                 content={hasImage ? "Actualizar foto" : "Subir foto"}
             />
+            <ErrorMessage text={error} />
         </Container>
     );
 };

@@ -27,8 +27,6 @@ export const TEXT_FIELD_PROPS = {
         placeholder: "ralfc",
         name: "collaboratorUsername",
         variant: "primary",
-        width: "40%",
-        maxWidth: "unset",
         maxLength: 24,
     },
     COLLABORATOR_PASSWORD: {
@@ -37,9 +35,11 @@ export const TEXT_FIELD_PROPS = {
         variant: "primary",
         maxLength: 24,
         type: "password",
-        width: "60%",
-        maxWidth: "unset",
     },
+    COLLABORATOR_CHANGE_PASSWORD: {
+        label: "Cambiar contraseña",
+        name: "toChangeCollaboratorPassword"
+    }
 };
 
 export const INITIAL_COLLABORATOR_FORM: CollaboratorForm = {
@@ -60,4 +60,10 @@ export const INITIAL_ERRORS = {
     collaboratorEmail: null,
     collaboratorUsername: null,
     collaboratorPassword: null,
+    collaboratorPhoto: null,
+}
+export const DELETE_COLLABORATOR_APPEARANCE = {
+    title: "COLABORADOR ELIMINADO",
+    subtitle: "El colaborador ha sido eliminado correctamente",
+    color: "var(--red-3)",
 }

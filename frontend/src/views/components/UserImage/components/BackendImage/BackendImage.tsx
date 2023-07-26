@@ -1,12 +1,14 @@
 import { getUrlImage } from "src/config/helpers";
 import { BackendImageProps } from "../../types";
-import { Image } from "./styles";
+import { Image } from "../../styles";
 
-const BackendImage = ({ 
-    className, onClick,
-    path, isDynamic = true
+const BackendImage = ({
+    className,
+    onClick,
+    path,
+    isDynamic = true,
 }: BackendImageProps) => {
-    const directory = isDynamic ? "images" : "static-images"
+    const directory = isDynamic ? "images" : "static-images";
     return (
         <Image
             className={className}

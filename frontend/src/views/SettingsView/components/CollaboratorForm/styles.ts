@@ -5,7 +5,7 @@ import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 export const MobileHeader = styled(FlexFlow.withComponent("header"))`
-    padding: 20px 20px 0 14px;
+padding: 20px 12px 0 8px;
     h2 {
         color: var(--cream-1);
         font-size: 21px;
@@ -53,6 +53,7 @@ export const CloseFormBtn = styled(CustomButton)`
     font-size: 39px;
     right: 5%;
     top: 5%;
+    z-index: 1;
     .iconify {
         display: flex;
         border-radius: 50%;
@@ -64,13 +65,16 @@ export const CloseFormBtn = styled(CustomButton)`
     }
 `;
 export const Container = styled(FlexFlow)`
-    height: calc(100vh - var(--main-header-height));
+    max-height: calc(100vh - var(--main-header-height));
     border-top: 2px solid var(--darkblue-4);
     padding: 50px;
+    padding-top: 155px;
+    position: relative;
     @media (max-width: ${MOBILE_WIDTH}px) {
+        position: unset;
         border-top: unset;
         flex-direction: column;
-        padding: 60px 35px;
+        padding: 50px 35px;
         gap: 40px;
         justify-content: space-between;
     }
@@ -90,7 +94,9 @@ export const PhotoUploaderWrapper = styled(FlexFlow)`
     }
 `;
 export const DataForm = styled(FlexFlow.withComponent("form"))`
+    min-width: 401px;
     @media (max-width: ${MOBILE_WIDTH}px) {
+        min-width: unset;
         width: 100%;
     }
 `;

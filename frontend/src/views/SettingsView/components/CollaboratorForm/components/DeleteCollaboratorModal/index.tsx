@@ -12,6 +12,7 @@ const testModalStyles = {
 
 const DeleteCollaboratorModal = ({
     modalProps,
+    deleteCollaborator
 }: DeleteCollaboratorModalProps) => {
     return (
         <Modal {...modalProps} sizeProps={testModalStyles}>
@@ -25,7 +26,7 @@ const DeleteCollaboratorModal = ({
                 Esta acción es permanente, y eliminará todo lo relacionado con
                 el colaborador
             </TextModal>
-            <Footer modal={modalProps}/>
+            <Footer modal={modalProps} deleteCollaborator={deleteCollaborator}/>
         </Modal>
     );
 };

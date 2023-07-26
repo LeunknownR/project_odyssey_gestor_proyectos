@@ -5,8 +5,16 @@ export const INITIAL_COLLABORATOR_FILTERS: CollaboratorFilters = {
     searchedCollaborator: "",
 };
 export const FORM_VALIDATIONS: any = {
+    collaboratorEmail: {
+        regex: /^[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*@[A-Za-z0-9_]+\.[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*$/,
+        text: "Ingresa un email válido",
+    },
+    collaboratorUsername: {
+        regex: /^[^\s]{3,24}$/,
+        text: "Mínimo 3 caracteres",
+    },
     collaboratorPassword: {
-        regex: /^(?=.*[a-zñáéíóú])(?=.*[A-ZÑÁÉÍÓÚ])(?=.*\\d).+$/,
+        regex: /^[^\s]{8,24}$/,
         text: "Mínimo 8 caracteres",
     },
 };

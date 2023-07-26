@@ -29,6 +29,7 @@ export type CollaboratorFormErrors = {
     collaboratorEmail: string | null;
     collaboratorUsername: string | null;
     collaboratorPassword: string | null;
+    collaboratorPhoto: string | null;
 }
 type ErrorsHandler = {
     value: CollaboratorFormErrors;
