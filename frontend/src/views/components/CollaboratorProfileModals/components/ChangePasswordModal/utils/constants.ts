@@ -1,7 +1,7 @@
 export const TEXT_FIELD_PROPS = {
     ACTUAL_PASS: {
         label: "Contraseña actual",
-        name: "password",
+        name: "actualPassword",
         variant: "primary",
         maxLength: 24,
         type: "password",
@@ -9,7 +9,7 @@ export const TEXT_FIELD_PROPS = {
     },
     NEW_PASS: {
         label: "Nueva contraseña",
-        name: "password",
+        name: "newPassword",
         variant: "primary",
         maxLength: 24,
         type: "password",
@@ -17,7 +17,7 @@ export const TEXT_FIELD_PROPS = {
     },
     CONFIRM_PASS: {
         label: "Confirmar contraseña",
-        name: "password",
+        name: "confirmPassword",
         variant: "primary",
         maxLength: 24,
         type: "password",

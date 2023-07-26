@@ -1,24 +1,31 @@
+import useSettingsViewContext from "src/views/SettingsView/utils/context/useSettingsViewContext";
 import CollaboratorPreview from "./CollaboratorPreview";
 import { Container, List } from "./styles";
-import { CollaboratorListProps } from "./types";
 
-const CollaboratorList = ({ collaboratorList }: CollaboratorListProps) => {
+const CollaboratorList = () => {
+    const {
+        collaboratorsHandler,
+        currentCollaborator,
+        setCurrentCollaborator,
+        showForm
+    } = useSettingsViewContext();
     return (
         <Container>
             <List direction="column" gap="6px" className="custom-scrollbar">
-                {collaboratorList.map(
-                    ({ id, name, surname, email, urlPhoto }) => (
-                        <CollaboratorPreview
-                            key={id}
-                            name={name}
-                            surname={surname}
-                            urlPhoto={urlPhoto}
-                            email={email}
-                            active={false}
-                            onClick={() => ("hola")}
-                        />
-                    )
-                )}
+                {collaboratorsHandler.value.map(collaborator => (
+                    <CollaboratorPreview
+                        key={collaborator.id}
+                        name={collaborator.name}
+                        surname={collaborator.surname}
+                        urlPhoto={collaborator.urlPhoto}
+                        email={collaborator.email}
+                        selected={collaborator.id === currentCollaborator?.id}
+                        onClick={() => {
+                            setCurrentCollaborator(collaborator);
+                            showForm();
+                        }}
+                    />
+                ))}
             </List>
         </Container>
     );

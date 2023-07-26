@@ -11,6 +11,7 @@ export type CustomTextFieldProps = {
     size?: string;
     width?: string;
     maxWidth?: string;
+    minWidth?: string;
     disabled?: boolean;
     value?: string;
     error?: string | null;

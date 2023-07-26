@@ -23,6 +23,11 @@ export const Container = styled.div<ContainerProps>`
     &.secondary-search {
         gap: 7px;
     }
+    &.disabled {
+        > * {
+            opacity: 0.3;
+        }
+    }
     @media (max-width: 600px) {
         max-width: unset;
         width: 100%;
