@@ -26,7 +26,7 @@ export abstract class HandlerFiles {
         // Almacenando imagen
         await fs.writeFile(HandlerFiles.getPhysicImageUrl(PhysicalDirectoryImages.DynamicImages, imageName), buffer);
         // Recuperando url pública de la imagen
-        return imageName;
+        return `/${imageName}`;
     }
     static destroyImage = async (path: string): Promise<void> => {
         await fs.unlink(HandlerFiles.getPhysicImageUrlFromImagePath(PhysicalDirectoryImages.DynamicImages, path));
