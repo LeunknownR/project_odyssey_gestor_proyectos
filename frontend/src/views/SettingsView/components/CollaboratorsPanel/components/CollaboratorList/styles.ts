@@ -4,6 +4,8 @@ import styled from "styled-components";
 export const Container = styled.div`
     display: flex;
     overflow: hidden;
+    justify-content: center;
+    height: 100%;
 `;
 export const List = styled(FlexFlow.withComponent("ul"))`
     width: 100%;
