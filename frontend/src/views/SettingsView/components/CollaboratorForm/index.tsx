@@ -18,11 +18,18 @@ import DeleteCollaboratorModal from "./components/DeleteCollaboratorModal";
 import useModal from "src/components/Modal/utils/hooks/useModal";
 import useSettingsViewContext from "../../utils/context/useSettingsViewContext";
 import useCollaboratorForm from "./utils/hooks/useCollaboratorForm";
+import { requestDeleteCollaborator } from "src/services/collaboratorConfig/aboutCollaboratorConfig";
 
 const CollaboratorForm = () => {
     const [tabIdx, setTabIdx] = useState(0);
     const { isMobile } = useMainContext();
-    const { currentCollaborator, hideForm } = useSettingsViewContext();
+    const {
+        currentCollaborator,
+        hideForm,
+        preloader,
+        collaboratorsHandler,
+        setCurrentCollaborator,
+    } = useSettingsViewContext();
     const deleteCollaboratorModal = useModal();
     const form = useCollaboratorForm(currentCollaborator);
     const moveTab = (idx: number) => setTabIdx(idx);
@@ -38,10 +45,24 @@ const CollaboratorForm = () => {
         form.errors.change("collaboratorPhoto", error);
     };
     const deletePhoto = () => {
-        if (!form.value.collaboratorPhotoUrl && !form.value.collaboratorPhotoB64) return;
+        if (
+            !form.value.collaboratorPhotoUrl &&
+            !form.value.collaboratorPhotoB64
+        )
+            return;
         form.change("collaboratorPhotoUrl", null);
         form.change("collaboratorPhotoB64", null);
         form.change("collaboratorChangePhoto", true);
+    };
+    const deleteCollaborator = async () => {
+        if (!currentCollaborator) return;
+        preloader.show("Eliminando colaborador...");
+        const success = await requestDeleteCollaborator(currentCollaborator.id);
+        preloader.hide();
+        if (!success) return;
+        collaboratorsHandler.fill();
+        hideForm();
+        setCurrentCollaborator(null);
     };
     return (
         <>
@@ -76,7 +97,7 @@ const CollaboratorForm = () => {
                 {currentCollaborator && (
                     <DeleteCollaboratorBtn
                         icon="material-symbols:delete"
-                        onClick={() => console.log("borrar")}
+                        onClick={deleteCollaborator}
                     />
                 )}
                 <ContentWrapper gap="80px">
@@ -84,7 +105,9 @@ const CollaboratorForm = () => {
                         <PhotoUploaderWrapper>
                             <PhotoUploader
                                 name={form.value.collaboratorName || "Ralf"}
-                                surname={form.value.collaboratorSurname || "Carrasco"}
+                                surname={
+                                    form.value.collaboratorSurname || "Carrasco"
+                                }
                                 data={{
                                     b64: form.value.collaboratorPhotoB64,
                                     url: form.value.collaboratorUrlPhoto,

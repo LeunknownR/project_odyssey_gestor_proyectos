@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { CollaboratorForm, CollaboratorFormErrors, FormCollaboratorHandler } from "../../types";
-// import { FORM_VALIDATIONS, INITIAL_ERRORS, INITIAL_FORM } from "../constants";
 import { INITIAL_COLLABORATOR_FORM, INITIAL_ERRORS } from "../constants";
 import { User } from "src/entities/user/types";
 import { CreateCollaboratorBody, UpdateCollaboratorBody } from "src/services/collaboratorConfig/types";
