@@ -11,6 +11,7 @@ import {
     UpdateCollaboratorBody,
 } from "src/services/collaboratorConfig/types";
 import { FORM_VALIDATIONS } from "src/views/SettingsView/utils/constants";
+import { getB64Value } from "src/utils/fileToBase64";
 
 const useCollaboratorForm = (
     currentCollaborator: User | null
@@ -89,9 +90,6 @@ const useCollaboratorForm = (
             [field]: typeof value === "function" ? value(prev[field]) : value,
         }));
         setErrors({ ...INITIAL_ERRORS });
-    };
-    const getB64Value = (b64: string): string => {
-        return b64.split(",")[1];
     };
     const getCollaboratorFromFormToCreate = (): CreateCollaboratorBody => {
         const {

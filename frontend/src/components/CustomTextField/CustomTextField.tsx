@@ -43,7 +43,7 @@ const CustomTextField = forwardRef<HTMLInputElement, CustomTextFieldProps>(({
         return classList.join(" ");
     };
     const getType = () => {
-        if ((disabled && type === "password") || isPasswordRevealed)
+        if (isPasswordRevealed)
             return "text";
         return type ? type : "text";
     };

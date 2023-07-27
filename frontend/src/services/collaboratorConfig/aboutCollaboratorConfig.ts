@@ -8,6 +8,7 @@ import {
     GetCollaboratorsRequestBody,
     GetCollaboratorsResponseRequest,
     UpdateCollaboratorBody,
+    UpdatePasswordRequestBody,
 } from "./types";
 import { getEndpointWithPathVariables } from "../utils/helpers";
 
@@ -64,6 +65,20 @@ export const requestCheckCredentials: APIRequestFunction<
     };
     const data: ResponseBody<null> = await APIHandler.api.post(
         ApiPathEndpoints.CheckCredentials,
+        body
+    );
+    return data;
+};
+export const requestUpdatePhoto: APIRequestFunction<
+    null,
+    UpdatePasswordRequestBody
+> = async ({ collaboratorId, photoInBase64 }: UpdatePasswordRequestBody) => {
+    const body: UpdatePasswordRequestBody = {
+        collaboratorId,
+        photoInBase64,
+    };
+    const data: ResponseBody<null> = await APIHandler.api.patch(
+        ApiPathEndpoints.UpdatePhoto,
         body
     );
     return data;

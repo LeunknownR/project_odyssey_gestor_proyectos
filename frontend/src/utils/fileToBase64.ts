@@ -12,3 +12,7 @@ export const fileToBase64 = (file: Blob): Promise<string> => {
         };
     });
 };
+
+export const getB64Value = (b64: string): string => {
+    return b64.split(",")[1];
+};
