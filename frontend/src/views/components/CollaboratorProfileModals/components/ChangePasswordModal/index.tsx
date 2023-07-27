@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
     ChangePasswordModalProps,
     FirstPartModalProps,
@@ -42,8 +42,7 @@ const MODAL_STYLES = {
 };
 
 const ChangePasswordModal = ({
-    modalProps,
-    currentCollaborator,
+    modalProps, currentCollaborator
 }: ChangePasswordModalProps) => {
     //#region States
     const [tabIdx, setTabIdx] = useState(0);

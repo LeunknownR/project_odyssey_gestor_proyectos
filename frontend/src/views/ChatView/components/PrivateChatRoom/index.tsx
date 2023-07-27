@@ -14,9 +14,15 @@ import { PrivateChatRoomProps } from "./types";
 const PrivateChatRoom = ({
     isOnlineCollaboratorChat
 }: PrivateChatRoomProps) => {
-    const { currentPrivateChatHandler, privateChatMessagesHandler } = useChatViewContext();
+    const { 
+        currentPrivateChatHandler, 
+        privateChatMessagesHandler 
+    } = useChatViewContext();
     const { value: currentChat } = currentPrivateChatHandler;
-    const { formattedMessages, clearMessages } = privateChatMessagesHandler;
+    const { 
+        formattedMessages, 
+        clearMessages 
+    } = privateChatMessagesHandler;
     const { socketIoChatService } = useMasterRouterContext().chatServiceHandler;
     useEffect(() => {
         return () => {

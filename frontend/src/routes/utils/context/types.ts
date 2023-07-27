@@ -1,7 +1,8 @@
 import { MainMenuButtonHandler } from "src/views/components/MainMenu/utils/hooks/types";
-import { ChatServiceHandler } from "../hooks/types";
+import { ChatServiceHandler, CurrentUserHandler } from "../hooks/types";
 
-export type MasterRouterContextType = {
+export type MasterRouterContextFormat = {
+    currentUserHandler: CurrentUserHandler;
     chatServiceHandler: ChatServiceHandler;
     mainMenuButtonHandler: MainMenuButtonHandler;
     openProfileConfigModal: () => void;

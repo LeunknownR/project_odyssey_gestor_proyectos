@@ -1,5 +1,5 @@
 import { ProjectState } from "src/entities/project/enums";
-import { ProjectTask } from "src/entities/projectTasks/entities";
+import { ProjectTask } from "src/entities/projectTask/entities";
 
 export type StatusSectionProps = {
     sectionName: string;

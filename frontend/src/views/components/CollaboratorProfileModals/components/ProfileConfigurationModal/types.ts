@@ -5,4 +5,5 @@ export type ProfileConfigurationModalProps = {
     modalProps: ModalProps;
     openChangePasswordModal: () => void;
     currentCollaborator: User | null;
+    fillCurrentCollaboratorUrlPhoto: (newUrlPhoto: string | null) => void;
 };

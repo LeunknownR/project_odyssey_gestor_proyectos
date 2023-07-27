@@ -6,8 +6,11 @@ import useMainContext from "src/utils/contexts/main-context/useMainContext";
 import useUserRole from "src/storage/hooks/useUserRole";
 import { DBRoles } from "src/config/roles";
 import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
+import { FooterProps } from "./types";
 
-const Footer = () => {
+const Footer = ({
+    closeOptions
+}: FooterProps) => {
     const navigate = useNavigate();
     const { isMobile } = useMainContext();
     const { openProfileConfigModal } = useMasterRouterContext();
@@ -28,6 +31,7 @@ const Footer = () => {
             navigate(AbsolutePaths.CollaboratorManagement)
             return;
         }
+        closeOptions();
         openProfileConfigModal();
     }
     return (

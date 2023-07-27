@@ -1,6 +1,6 @@
-// import { CheckExpirationTimeTokenHook } from "src/utils/hooks/types";
+import { PreloaderHook } from "src/components/Preloader/types";
 
 export type InitMainContext = {
     isMobile: boolean;
-    // checkExpirationTimeToken: CheckExpirationTimeTokenHook;
+    preloader: PreloaderHook;
 };

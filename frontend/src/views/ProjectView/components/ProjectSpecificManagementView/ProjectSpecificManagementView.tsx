@@ -53,7 +53,6 @@ const ProjectSpecificManagementView = () => {
                 />}
             </Routes>
         </Container>
-        {/* <SidebarMenu /> */}
         <Preloader {...preloader.value} />
         </>
     );

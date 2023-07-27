@@ -5,14 +5,14 @@ import { ChangeSearchChatPayload, SearchChatPayloadHook } from "../types";
 import { PrivateChatPreview, ProjectChatPreview } from "src/entities/chat/entities";
 import WSChatTab from "src/services/websockets/services/chats/utils/enums";
 import WSChatServiceEvents from "src/services/websockets/services/chats/events";
-import { PreloaderHook } from "src/components/Preloader/types";
 import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
+import useMainContext from "src/utils/contexts/main-context/useMainContext";
 
 const useSearchChatPayload = (
-    preloader: PreloaderHook,
     currentPrivateChat: PrivateChatPreview | null,
     currentProjectChat: ProjectChatPreview | null
 ): SearchChatPayloadHook => {
+    const { preloader } = useMainContext();
     const { socketIoChatService } = useMasterRouterContext().chatServiceHandler;
     //#region States
     const [searchChatPayload, setSearchChatPayload] = useState<SearchChatPayload>({ 

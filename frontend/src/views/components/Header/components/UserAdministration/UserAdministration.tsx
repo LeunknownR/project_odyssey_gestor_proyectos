@@ -1,33 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import UserImage from "../../../UserImage/UserImage";
 import UserOptions from "./components/UserOptions/UserOptions";
 import { Container } from "./styles";
-import { currentUserLocalStorage } from "src/storage/user.local";
-import { SessionUser } from "src/entities/user/types";
 import { UserAdministrationProps } from "./types";
+import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
 
 const UserAdministration = ({
     isInSidebar = false,
 }: UserAdministrationProps) => {
-    const [areOptionsOpen, setAreOptionsOpen] = useState(false);
-    const [currentUser, setCurrentUser] = useState<SessionUser | null>(null);
-    useEffect(() => {
-        const currentUser = currentUserLocalStorage.get();
-        setCurrentUser(currentUser);
-    }, []);
-    const toggleOptions = (e: React.MouseEvent<HTMLElement>) => {
+    const { currentUser } = useMasterRouterContext().currentUserHandler;
+    const [areUserOptionsOpen, setUserOptionsOpen] = useState(false);
+    const toggleUserOptionsOpen = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
-        setAreOptionsOpen(prev => !prev);
+        setUserOptionsOpen(prev => !prev);
     };
     return (
         <Container
             tabIndex={0}
-            onBlur={() => setAreOptionsOpen(false)}
-            onFocus={() => setAreOptionsOpen(true)}
+            onBlur={() => setUserOptionsOpen(false)}
+            onFocus={() => setUserOptionsOpen(true)}
             className={isInSidebar ? "in-sidebar" : ""}>
             {currentUser && (
                 <UserImage
-                    onClick={toggleOptions}
+                    onClick={toggleUserOptionsOpen}
                     name={currentUser.name}
                     surname={currentUser.surname}
                     urlPhoto={currentUser.urlPhoto}
@@ -35,7 +30,8 @@ const UserAdministration = ({
                 />
             )}
             <UserOptions
-                isOpen={areOptionsOpen}
+                areOpen={areUserOptionsOpen}
+                closeOptions={() => setUserOptionsOpen(false)}
                 currentUser={currentUser}
             />
         </Container>

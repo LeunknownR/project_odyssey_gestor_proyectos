@@ -8,23 +8,23 @@ import MasterRouter from "./routes/MasterRouter";
 import MainContext from "./utils/contexts/main-context/MainContext";
 import useDeviceSize from "./utils/hooks/useDeviceSize";
 import LoginView from "./views/LoginView/LoginView";
+import usePreloader from "./components/Preloader/utils/hooks/usePreloader";
+import Preloader from "./components/Preloader/Preloader";
 
 function App() {
     const modalUnexpectedError: ModalProps = useModal();
     const { isMobile } = useDeviceSize();
-    // const checkExpirationTimeToken = useCheckExpirationTimeToken();
+    const preloader = usePreloader();
     useEffect(() => {
         initAxiosInterceptors(handlerErrorWithModals);
-        //initofflinehandler();
-        //checkexpirationtime();
-        //hace reload cuando se cierre el modal
     }, []);
-    function handlerErrorWithModals(code: number) {
+    function handlerErrorWithModals(code: number): void {
         if (code === ResponseCodes.InternalServerError)
             modalUnexpectedError.open(true);
     }
     return (
-        <MainContext.Provider value={{ isMobile }}>
+        <>
+        <MainContext.Provider value={{ preloader, isMobile }}>
             <BrowserRouter>
                 <Routes>
                     <Route path="login" element={<LoginView />} />
@@ -32,6 +32,8 @@ function App() {
                 </Routes>
             </BrowserRouter>
         </MainContext.Provider>
+        <Preloader {...preloader.value}/>
+        </>
     );
 }
 

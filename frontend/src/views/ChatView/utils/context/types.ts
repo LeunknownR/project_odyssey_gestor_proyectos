@@ -1,4 +1,3 @@
-import { PreloaderHook } from "src/components/Preloader/types";
 import { 
     CurrentPrivateChatHandler, 
     CurrentProjectChatHandler, 
@@ -7,8 +6,7 @@ import {
     SearchChatPayloadHook 
 } from "../types";
 
-export type ChatViewContextType = {
-    preloader: PreloaderHook;
+export type ChatViewContextFormat = {
     searchChatPayloadHandler: SearchChatPayloadHook;
     currentPrivateChatHandler: CurrentPrivateChatHandler;
     currentProjectChatHandler: CurrentProjectChatHandler;
