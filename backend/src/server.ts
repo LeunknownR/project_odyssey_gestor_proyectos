@@ -1,15 +1,16 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import endpointRouter from "./routes/index";
+import initEndpoints from "./routes/index";
 import files from "./routes/files";
 import { Application } from "express";
 import http from "http";
 import { Server as WebSocketServer } from "socket.io";
 import DBConnection from "./db";
-import IOServiceHandler from "./websockets";
+import WSServiceHandler from "./websockets";
 import { initAppConfig } from "./config";
 import deployFrontend from "./frontend";
+import ExternalWSServiceHandler from "./websockets/utils/ExternalWSServiceHandler";
 
 async function initServer() { 
     // Inicializando variables de entorno
@@ -36,13 +37,15 @@ async function initServer() {
     app.use(cors());
     // Desplegando frontend
     deployFrontend(app);
-    // Configurando endpoints
+    // Configurando rutas de exposición de media
     app.use("/", files);
-    app.use("/api", endpointRouter);
     // Inicializando servicios websockets
-    const ioServiceHandler: IOServiceHandler = new IOServiceHandler(io);
-    ioServiceHandler.config();
-    ioServiceHandler.init();
+    const wsServiceHandler: WSServiceHandler = new WSServiceHandler(io);
+    wsServiceHandler.config();
+    wsServiceHandler.init();
+    const externalWsServiceHandler: ExternalWSServiceHandler = new ExternalWSServiceHandler(wsServiceHandler);
+    // Configurando endpoints
+    app.use("/api", initEndpoints(externalWsServiceHandler));
     // Inicializar el server
     const PORT: number = app.get("port");
     server.listen(PORT, () => {

@@ -707,6 +707,22 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Sp para obtener todos los ids de proyectos de un colaborador
+DELIMITER //
+CREATE PROCEDURE `sp_get_project_ids_by_collaborator_id`(
+    IN p_id_collaborator INT
+)
+BEGIN
+    SELECT 
+        p.id_project,
+        p.project_name
+    FROM project p
+    INNER JOIN project_team_member ptm ON p.id_project = ptm.id_project
+    INNER JOIN user u ON ptm.id_collaborator = u.id_user
+    WHERE ptm.id_collaborator = p_id_collaborator;
+END //
+DELIMITER ;
+
 -- SP para actualizar la fecha de finalización por parte del leader
 DELIMITER //
 CREATE PROCEDURE `sp_update_end_date_leader`(
@@ -1350,7 +1366,7 @@ BEGIN
             pvcm.id_collaborator_sender = clb.id_collaborator AND
             pvcm.id_collaborator_receiver = p_id_collaborator
         )
-    WHERE u.id_user != p_id_collaborator
+    WHERE u.id_user != p_id_collaborator AND u.active = 1
         AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @searched_collaborator_name
         AND (
                 pvcm.id_private_chat_message IS NULL

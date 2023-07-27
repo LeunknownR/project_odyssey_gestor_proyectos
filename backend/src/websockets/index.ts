@@ -2,9 +2,9 @@ import { Server } from "socket.io";
 import WSProjectTaskService from "./services/projectTasks";
 import WSChatService from "./services/chats";
 
-export default class IOServiceHandler {
-    private projectTaskService: WSProjectTaskService;
-    private chatService: WSChatService;
+export default class WSServiceHandler {
+    readonly projectTaskService: WSProjectTaskService;
+    readonly chatService: WSChatService;
     constructor(io: Server) {
         this.projectTaskService = new WSProjectTaskService(io);
         this.chatService = new WSChatService(io);

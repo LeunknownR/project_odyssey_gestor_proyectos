@@ -11,6 +11,7 @@ import DeleteTaskModal from "./components/DeleteTaskModal";
 import {
     ProjectTask,
     ProjectTaskBoard,
+    ProjectTaskResponsible,
     ProjectTaskState,
 } from "src/entities/projectTask/entities";
 //#endregion
@@ -66,13 +67,17 @@ const TaskBoardView = ({
         setIsEditTaskFormOpen(false);
     }, [projectTaskBoard]);
     useEffect(() => {
-        setCanEditTask(
-            projectRoleId === DBProjectRoles.ProjectLeader || 
-            currentProjectTask?.responsible?.id === getUserId()
-        );
+        if (!currentProjectTask) return;
+        setCanEditTask(getCanBeEditedTask(currentProjectTask.responsible));
     }, [currentProjectTask]);
     //#endregion
     //#region Functions
+    const getCanBeEditedTask = (responsible: ProjectTaskResponsible | null) => {
+        const isProjectLeader: boolean = projectRoleId === DBProjectRoles.ProjectLeader;
+        if (isProjectLeader) 
+            return !responsible || responsible.active;
+        return responsible !== null && responsible.id === getUserId();
+    }
     const getCurrentProjectTaskWhenBoardChange = (): ProjectTask | null => {
         if (
             !currentProjectTask || 
@@ -139,7 +144,8 @@ const TaskBoardView = ({
             <TaskBoardContext.Provider value={{ 
                 socketIo: socketHandler.socketIo, 
                 projectId, isEditTaskFormOpen, projectRoleId, 
-                modifyMenuRef: editTaskFormRef, preloader, canEditTask,
+                editTaskFormRef, preloader, 
+                canEditTask, getCanBeEditedTask,
                 currentProjectTask, fillCurrentProjectTask, hideEditTaskForm,
                 currentProjectTaskState,
                 taskToBeChangedStateHandler: {

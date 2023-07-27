@@ -10,7 +10,7 @@ export default class ChangeCollaboratorPasswordPayload {
     }: any) {
         this._collaboratorId = new PositiveNumberNonZero(collaboratorId);
         Validator.checkPassword(newPassword);
-        this.newPassword = newPassword;
+        this.newPassword = newPassword.trim();
     }
     get collaboratorId(): number {
         return this._collaboratorId.value;

@@ -19,8 +19,7 @@ const ResponsibleField = ({
     form,
     doUpdateTask
 }: ResponsibleFieldProps) => {
-    const [selectedResponsible, setSelectedResponsible] =
-        useState<ProjectTaskCollaboratorUser | null>(null);
+    const [selectedResponsible, setSelectedResponsible] = useState<ProjectTaskCollaboratorUser | null>(null);
     const { 
         projectId, 
         isEditTaskFormOpen, 
@@ -53,12 +52,11 @@ const ResponsibleField = ({
         );
         doUpdateTask();
     };
-    const customSearchInputHandler =
-        useCustomInputSearch<ProjectTaskCollaboratorUser>({
-            clearOptions: selectTaskResponsibleHandler.clear,
-            fillOptions: selectTaskResponsibleHandler.fill,
-            onChange: changeSelectedResponsible,
-        });
+    const customSearchInputHandler = useCustomInputSearch<ProjectTaskCollaboratorUser>({
+        clearOptions: selectTaskResponsibleHandler.clear,
+        fillOptions: selectTaskResponsibleHandler.fill,
+        onChange: changeSelectedResponsible,
+    });
     const removeSelectedResponsible = (): void => {
         changeSelectedResponsible(null);
         customSearchInputHandler.clear();
@@ -80,7 +78,8 @@ const ResponsibleField = ({
             {selectedResponsible ? (
                 <SelectedResponsible
                     selectedResponsible={selectedResponsible}
-                    eraseSelectedResponsible={removeSelectedResponsible}
+                    removeResponsible={removeSelectedResponsible}
+                    disabled={!canEditTask}
                 />
             ) : (
                 <FlexFlow gap="10px">

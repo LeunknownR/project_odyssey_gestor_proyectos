@@ -12,7 +12,7 @@ import ChatController from "../../../controllers/chatController/chat.controller"
 
 export default class WSChatService extends WSService {
     //#region Attributes
-    private dataHandler: WSChatServiceDataHandler;
+    readonly dataHandler: WSChatServiceDataHandler;
     private collaboratorEventHandler: WSChatServiceCollaboratorEventHandler;
     //#endregion
     constructor(io: Server) {

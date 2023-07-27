@@ -4,25 +4,20 @@ import { TaskCardProps } from "./types";
 import TaskCardContent from "./TaskCardContent";
 import useDraggingTaskCard from "./utils/hooks/useDraggingTaskCard";
 import useTaskBoardContext from "../../../../../../utils/contexts/useTaskBoardContext";
-import { getUserId } from "src/storage/user.local";
-import { DBProjectRoles } from "src/config/roles";
 
 const TaskCard = (props: TaskCardProps) => {
+    const { task } = props;
     const containerRef = useRef<HTMLLIElement | null>(null);
-    const { projectRoleId } = useTaskBoardContext();
-    const [canEditing, setCanEditing] = useState<boolean>(false);
+    const { getCanBeEditedTask } = useTaskBoardContext();
+    const [canEditCurrentTask, setCanEditing] = useState<boolean>(false);
     const draggingTaskCard = useDraggingTaskCard(
         containerRef,
         props,
-        canEditing
+        canEditCurrentTask
     );
     useEffect(() => {
-        setCanEditing(
-            (projectRoleId === DBProjectRoles.ProjectLeader ||
-            props.task.responsible?.id === getUserId() ) &&
-            props.task.responsible?.active === true
-        );
-    }, []);
+        setCanEditing(getCanBeEditedTask(task.responsible));
+    }, [task.responsible]);
     return (
         <>
             {draggingTaskCard.data && (
@@ -34,7 +29,7 @@ const TaskCard = (props: TaskCardProps) => {
             <TaskCardContent
                 containerRef={containerRef}
                 draggingTaskCard={draggingTaskCard}
-                canEditing={canEditing}
+                canEditCurrentTask={canEditCurrentTask}
                 {...props}
             />
         </>
