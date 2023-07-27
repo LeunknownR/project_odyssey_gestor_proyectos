@@ -9,13 +9,16 @@ export default class WSTaskBoardGroup {
         this.taskBoardGroup = new Map<number, ProjectTaskBoard>();
     }
     //#region Methods
-    public setTaskBoardProject(projectId: number, taskBoard: ProjectTaskBoard): void {
+    setTaskBoardProject(projectId: number, taskBoard: ProjectTaskBoard): void {
         this.taskBoardGroup.set(projectId, taskBoard);
     }
-    public getTaskBoardByProject(projectId: number): ProjectTaskBoard {
+    existsTaskBoardProject(projectId: number): boolean {
+        return this.taskBoardGroup.has(projectId);
+    }
+    getTaskBoardByProject(projectId: number): ProjectTaskBoard {
         return this.taskBoardGroup.get(projectId);
     }
-    public removeTaskBoardByProjectId(projectId: number): void {
+    removeTaskBoardByProjectId(projectId: number): void {
         this.taskBoardGroup.delete(projectId);
     }
     //#endregion

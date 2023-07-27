@@ -4,7 +4,8 @@ export enum StoredProcedures {
     GetBasicUserInformation = "CALL sp_get_basic_user_information(?);",
     // Proyectos
     GetProjectListForGeneralAdmin = "CALL sp_get_project_list_for_general_admin(?);",
-    GetProjectListForCollaborator = "CALL sp_get_project_list_for_collaborator(?,?);",
+    GetProjectListForCollaborator = "CALL sp_get_project_list_for_collaborator(?, ?);",
+    GetProjectIdsByCollaborator = "CALL sp_get_project_ids_by_collaborator_id(?);",
     CreateProject = "CALL sp_create_project(?, ?, ?, ?, ?, ?);",
     UpdateProject = "CALL sp_update_project_by_project_id(?, ?, ?, ?, ?, ?);",
     DeleteProject = "CALL sp_delete_project_by_id_project(?, ?);",

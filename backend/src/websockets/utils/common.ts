@@ -22,6 +22,9 @@ export abstract class WSService {
     //#region Métodos
     abstract config(): void;
     abstract init(): void;
+    get server(): IOServerService {
+        return this.io;
+    }
     //#endregion
 };
 export abstract class WSServiceEventHandler<E> {

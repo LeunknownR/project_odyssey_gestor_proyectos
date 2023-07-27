@@ -25,7 +25,7 @@ export default class GetProjectChatMessages {
     //#region Methods
     async getMessages(): Promise<void> {
         const { socket, collaboratorId, projectId, dataHandler } = this;
-        let formattedProjectChatMessages: FormattedProjectChatMessages = this.dataHandler
+        let formattedProjectChatMessages: FormattedProjectChatMessages = dataHandler
             .projectChatMessagesGroup
             .getFormattedProjectChatMessages(projectId);
         // Marcar como visto mensajes
@@ -38,7 +38,7 @@ export default class GetProjectChatMessages {
             // Obtener los mensajes a través de una db query
             formattedProjectChatMessages = await ChatController.getProjectChatMessages(projectId);
             // Guardando nuevo chat messages en memoria
-            this.dataHandler
+            dataHandler
                 .projectChatMessagesGroup
                 .setFormattedProjectChatMessages(projectId, formattedProjectChatMessages);
         }
@@ -47,7 +47,7 @@ export default class GetProjectChatMessages {
             WSChatServiceEvents.Server.DispatchProjectChatMessages,
             formattedProjectChatMessages
         );
-        this.dataHandler
+        dataHandler
             .openProjectChats
             .addCollaboratorToProjectChat(
                 projectId, collaboratorId

@@ -24,8 +24,7 @@ const UserAdministration = ({
             tabIndex={0}
             onBlur={() => setAreOptionsOpen(false)}
             onFocus={() => setAreOptionsOpen(true)}
-            className={isInSidebar ? "in-sidebar" : ""}
-        >
+            className={isInSidebar ? "in-sidebar" : ""}>
             {currentUser && (
                 <UserImage
                     onClick={toggleOptions}

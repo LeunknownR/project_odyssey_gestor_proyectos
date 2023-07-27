@@ -11,7 +11,7 @@ import { TaskCardProps } from "../../types";
 const useDraggingTaskCard = (
     containerRef: RefObject<HTMLLIElement | null | undefined>,
     taskCardProps: TaskCardProps,
-    canEditing: boolean
+    canEditCurrentTask: boolean
 ): DraggingTaskCardHook => {
     const { 
         task, state, 
@@ -76,7 +76,7 @@ const useDraggingTaskCard = (
             e.button !== 0 || 
             !containerRef.current || 
             !hasClicked ||
-            !canEditing
+            !canEditCurrentTask
         ) return;
         const {
             clientWidth, 

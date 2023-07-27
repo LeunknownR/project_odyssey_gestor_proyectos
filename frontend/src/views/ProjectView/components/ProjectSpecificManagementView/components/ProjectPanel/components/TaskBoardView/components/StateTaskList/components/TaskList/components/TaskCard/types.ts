@@ -18,5 +18,5 @@ export type ContainerProps = {
 export type TaskCardContentProps = TaskCardProps & {
     containerRef: MutableRefObject<HTMLLIElement | null>;
     draggingTaskCard: DraggingTaskCardHook;
-    canEditing: boolean;
+    canEditCurrentTask: boolean;
 };

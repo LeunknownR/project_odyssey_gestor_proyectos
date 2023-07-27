@@ -8,13 +8,13 @@ import WSErrorMessages from "../../utils/errorMessages";
 import WSProjectTaskServiceCollaboratorEventHandler from "./eventHandlers/eventHandler.collaborator";
 import WSProjectTaskServiceDataHandler from "./dataHandlers";
 import ProjectTaskController from "../../../controllers/projectTaskController/projectTasks.controller";
-import { WSNext, WSService } from "../../utils/common";
+import { IOServerService, WSNext, WSService } from "../../utils/common";
 import WSProjectTaskServiceEvents from "./events";
 import ProjectTaskBoard from "../../../entities/projectTask/ProjectTaskBoard";
 
 export default class WSProjectTaskService extends WSService {
     //#region Attributes
-    private dataHandler: WSProjectTaskServiceDataHandler;
+    readonly dataHandler: WSProjectTaskServiceDataHandler;
     private collaboratorEventHandler: WSProjectTaskServiceCollaboratorEventHandler;
     //#endregion
     constructor(io: Server) {
