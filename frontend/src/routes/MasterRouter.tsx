@@ -14,13 +14,16 @@ import MasterRouterContext from "./utils/context/MasterRouterContext";
 import CollaboratorProfileModals from "src/views/components/CollaboratorProfileModals/CollaboratorProfile";
 import useModal from "src/components/Modal/utils/hooks/useModal";
 import useUserRole from "src/storage/hooks/useUserRole";
+import useWebsocket from "src/utils/hooks/useWebsocket";
+import WSServicePaths from "src/services/websockets/services";
 
 const MasterRouter = () => {
+    const [routes, setRoutes] = useState<ReactElement[] | null>(null);
+    const userRole = useUserRole();
     const navigate = useNavigate();
     const mainMenuButtonHandler = useMainMenuButtons();
-    const [routes, setRoutes] = useState<ReactElement[] | null>(null);
     const profileConfigModal = useModal();
-    const userRole = useUserRole();
+    const notificationService = useWebsocket(WSServicePaths.Notifications);
     const isCollaborator: boolean = userRole === DBRoles.Collaborator;
     useEffect(() => {
         const currentUser = currentUserLocalStorage.get();
@@ -29,14 +32,18 @@ const MasterRouter = () => {
             return;
         }
         try { 
-            const { role } = currentUser 
-            fillRoutes(role.id); 
-            addMenuButtons(role.id); 
+            init(currentUser.role.id)
         } 
         catch (err) {
             toLogin();
         }
+        return notificationService.disconnect;
     }, []);
+    const init = (roleId: DBRoles) => {
+        fillRoutes(roleId); 
+        addMenuButtons(roleId);
+        notificationService.connect();
+    }
     const addMenuButtons = (role: DBRoles): void => {
         switch (role) {
             case DBRoles.GeneralAdmin:

@@ -3,7 +3,6 @@ import { REG_EXP_EMAIL, REG_EXP_USERNAME } from "../../../../../utils/regex";
 import { checkLength } from "../../../../../utils/strings";
 import FormUserPhoto from "../../../../utils/FormUserPhoto";
 import Validator from "../../../../utils/Validator";
-import { PASSWORD_MAX_LENGTH } from "../../../../utils/constants";
 
 abstract class CollaboratorForm {
     //#region Attributes
@@ -24,10 +23,10 @@ abstract class CollaboratorForm {
             throw new Error("Invalid email");
         if (!checkLength(username, 3, 24) || !REG_EXP_USERNAME.test(username))
             throw new Error("Invalid username");
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.username = username;
+        this.name = name.trim();
+        this.surname = surname.trim();
+        this.email = email.trim();
+        this.username = username.trim();
     }
 }
 export class CollaboratorCreationForm extends CollaboratorForm {
@@ -44,7 +43,7 @@ export class CollaboratorCreationForm extends CollaboratorForm {
         FormUserPhoto.checkPhotoInBase64(photoInBase64);
         this.photoInBase64 = photoInBase64;
         Validator.checkPasswordOnlyLength(password);
-        this.password = password;
+        this.password = password.trim();
     }
 }
 export class CollaboratorUpdatingForm extends CollaboratorForm {
@@ -62,7 +61,7 @@ export class CollaboratorUpdatingForm extends CollaboratorForm {
         this.photo = new FormUserPhoto(photo);
         if (password !== null)
             Validator.checkPasswordOnlyLength(password);
-        this.password = password;
+        this.password = password.trim();
     }
     get id(): number {
         return this._id.value;

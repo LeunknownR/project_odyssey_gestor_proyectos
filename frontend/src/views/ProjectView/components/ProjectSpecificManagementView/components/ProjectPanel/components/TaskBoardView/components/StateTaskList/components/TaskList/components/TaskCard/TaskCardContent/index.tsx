@@ -31,14 +31,14 @@ import NoResponsible from "src/images/no-responsible.svg";
 const TaskCardContent = ({
     containerRef, task, state,
     draggingTaskCard, 
-    canEditing
+    canEditCurrentTask
 }: TaskCardContentProps) => {
     const { name, responsible, deadline, priorityId, id } = task;
     const { socketIo, currentProjectTask } = useTaskBoardContext();
     const [className, setClassName] = useState<string>("");
     useEffect(() => {
         setClassName(getClassName());
-    }, [state, id, currentProjectTask, canEditing, draggingTaskCard.data]);
+    }, [state, id, currentProjectTask, canEditCurrentTask, draggingTaskCard.data]);
     useEffect(() => {
         fillLocationCardWhenIsDragging();
     }, [draggingTaskCard.data]);
@@ -53,11 +53,12 @@ const TaskCardContent = ({
         state === ProjectTaskState.Finalized && classList.push("finalized");
         // Verificando si el proyecto actual es el mismo que el de esta tarjeta
         id === currentProjectTask?.id && classList.push("open");
-        !canEditing && classList.push("cannot-editing");
+        !canEditCurrentTask && classList.push("cannot-editing");
         draggingTaskCard.data && classList.push("dragging");
         return classList.join(" ");
     };
     const changeTaskStateToFinalized = (): void => {
+        if (!canEditCurrentTask) return;
         const projectTaskWithNewState: WSProjectTaskWithNewState = {
             taskId: id,
             state: ProjectTaskState.Finalized
@@ -82,7 +83,7 @@ const TaskCardContent = ({
                     </Check>
                     <TaskCardName>{name}</TaskCardName>
                 </FlexFlow>
-                {!canEditing && <LockedIcon><Icon icon="uil:padlock" /></LockedIcon>}
+                {!canEditCurrentTask && <LockedIcon><Icon icon="uil:padlock" /></LockedIcon>}
             </FlexFlow>
             <FlexFlow justify="space-between">
                 <FlexFlow gap="12px" align="center">

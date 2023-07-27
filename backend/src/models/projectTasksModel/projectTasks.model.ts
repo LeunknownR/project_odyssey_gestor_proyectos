@@ -15,13 +15,13 @@ import {
 } from "../../websockets/services/projectTasks/utils/entities";
 
 export default abstract class ProjectTasksModel {
-    public static async getTaskPriorities(): Promise<any[]> {
+    static async getTaskPriorities(): Promise<any[]> {
         const [resultset] = await DBConnection.query(
             StoredProcedures.GetProjectTaskPriorities,
             []);
         return resultset;
     }
-    public static async searchProjectTeamMember({
+    static async searchProjectTeamMember({
         projectId,
         collaboratorName
     }: SearchCollaboratorRequestBody): Promise<any[]> {
@@ -33,7 +33,7 @@ export default abstract class ProjectTasksModel {
             ]);
         return resultset;
     }
-    public static async getTaskBoardByProjectId({
+    static async getTaskBoardByProjectId({
         projectId, collaboratorId
     }: WSProjectTaskForm): Promise<any[]> {
         const [resultset] = await DBConnection.query(
@@ -41,7 +41,7 @@ export default abstract class ProjectTasksModel {
             [projectId, collaboratorId]);
         return resultset;
     }
-    public static async createTask({
+    static async createTask({
         collaboratorId,
         projectId, payload: task
     }: WSNewProjectTaskForm): Promise<any> {
@@ -56,7 +56,7 @@ export default abstract class ProjectTasksModel {
         );
         return record;
     }
-    public static async updateTaskMainInformation({
+    static async updateTaskMainInformation({
         projectId,
         payload: taskMainInformation,
         collaboratorId
@@ -95,7 +95,7 @@ export default abstract class ProjectTasksModel {
         );
         return record;
     }
-    public static async updateSubtask({
+    static async updateSubtask({
         projectId,
         payload: subtask,
         collaboratorId
@@ -172,7 +172,7 @@ export default abstract class ProjectTasksModel {
         );
         return record;
     }
-    public static async commentInTask({
+    static async commentInTask({
         projectId,
         payload: comment,
         collaboratorId

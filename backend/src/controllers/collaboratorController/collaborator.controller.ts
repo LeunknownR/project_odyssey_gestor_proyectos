@@ -11,7 +11,6 @@ import { HandlerFiles } from "../../utils/files";
 import { ResponseMessages } from "../../utils/response/enums";
 import { PaginableList } from "../../utils/types";
 import { COLLABORATOR_RECORDS_BY_PAGE } from "./utils/constants";
-import { PhysicalDirectoryImages } from "../../utils/enums";
 
 export default abstract class CollaboratorController {
     static async searchCollaborator(username: string): Promise<BasicCollaboratorUser[]> {

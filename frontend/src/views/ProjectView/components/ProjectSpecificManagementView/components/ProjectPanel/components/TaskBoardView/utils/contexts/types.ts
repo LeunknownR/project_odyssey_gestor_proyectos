@@ -2,7 +2,7 @@ import { RefObject } from "react";
 import { Socket } from "socket.io-client";
 import { PreloaderHook } from "src/components/Preloader/types";
 import { DBProjectRoles } from "src/config/roles";
-import { ProjectTask, ProjectTaskState } from "src/entities/projectTask/entities";
+import { ProjectTask, ProjectTaskResponsible, ProjectTaskState } from "src/entities/projectTask/entities";
 import { WSProjectTaskWithNewState } from "src/services/websockets/services/projectTasks/utils/entities";
 
 export type TaskToBeChangedState = WSProjectTaskWithNewState;
@@ -19,8 +19,9 @@ export type TaskBoardContextType = {
     fillCurrentProjectTask: (task: ProjectTask, state: ProjectTaskState) => void;
     hideEditTaskForm: () => void;
     currentProjectTaskState: ProjectTaskState | null;
-    modifyMenuRef: RefObject<HTMLElement> | null;
+    editTaskFormRef: RefObject<HTMLElement> | null;
     preloader: PreloaderHook;
     canEditTask: boolean;
+    getCanBeEditedTask: (responsible: ProjectTaskResponsible | null) => boolean;
     taskToBeChangedStateHandler: TaskToBeChangedStateHandler;
 };

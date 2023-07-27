@@ -12,21 +12,21 @@ import ChatController from "../../../controllers/chatController/chat.controller"
 
 export default class WSChatService extends WSService {
     //#region Attributes
-    private dataHandler: WSChatServiceDataHandler;
+    readonly dataHandler: WSChatServiceDataHandler;
     private collaboratorEventHandler: WSChatServiceCollaboratorEventHandler;
     //#endregion
     constructor(io: Server) {
-        super(io.of(WSServicePaths.Chat));
+        super(io.of(WSServicePaths.Chats));
         this.dataHandler = new WSChatServiceDataHandler();
         this.collaboratorEventHandler = new WSChatServiceCollaboratorEventHandler(
-            this.io,
+            this.server,
             this.dataHandler
         );
     }
     //#region Methods
     private notifyOnlineStateCollaborator(isOnline: boolean): void {
         this.dataHandler.connectedCollaborators.forEach(({ id }) => {
-            this.io
+            this.server
                 .to(WSChatServiceRoom.getCollaboratorChatRoom(id))
                 .emit(WSChatServiceEvents.Server.NotifyCollaboratorOnlineState, isOnline);
         });
@@ -91,7 +91,7 @@ export default class WSChatService extends WSService {
     }
     //#region Main
     config(): void {
-        this.io.use((socket, next) => {
+        this.server.use((socket, next) => {
             try {
                 this.connectCollaborator(socket, next);
             }
@@ -101,7 +101,7 @@ export default class WSChatService extends WSService {
         });
     }
     init(): void {
-        this.io.on("connection", socket => {
+        this.server.on("connection", socket => {
             this.collaboratorEventHandler.listen(socket);
             socket.on("disconnect", () => {
                 try {

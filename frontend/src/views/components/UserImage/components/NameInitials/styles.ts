@@ -12,7 +12,7 @@ export const Container = styled.span`
     //GNOMO, ACÁ ESTOS ESTABAN EN 2.45 WADAFA --> Revisar detalles si se decide 2.45
     width: 2em;
     height: 2em;
-    font-size: 24px;
+    font-size: 29px;
     user-select: none;
     &.big {
         font-size: 32px;

@@ -8,10 +8,8 @@ const UserImage = ({
     clickable,
     className,
     onClick,
-    name,
-    surname,
-    urlPhoto,
-    b64,
+    name, surname,
+    urlPhoto, b64
 }: UserImageProps) => {
     const renderImage = (): ReactNode => {
         if (b64)
@@ -25,8 +23,7 @@ const UserImage = ({
     return (
         <Container
             className={clickable ? "clickable" : ""}
-            onMouseDown={onClick}
-        >
+            onMouseDown={onClick}>
             {renderImage()}
         </Container>
     );

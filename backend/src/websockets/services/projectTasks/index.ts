@@ -8,20 +8,20 @@ import WSErrorMessages from "../../utils/errorMessages";
 import WSProjectTaskServiceCollaboratorEventHandler from "./eventHandlers/eventHandler.collaborator";
 import WSProjectTaskServiceDataHandler from "./dataHandlers";
 import ProjectTaskController from "../../../controllers/projectTaskController/projectTasks.controller";
-import { WSNext, WSService } from "../../utils/common";
+import { IOServerService, WSNext, WSService } from "../../utils/common";
 import WSProjectTaskServiceEvents from "./events";
 import ProjectTaskBoard from "../../../entities/projectTask/ProjectTaskBoard";
 
 export default class WSProjectTaskService extends WSService {
     //#region Attributes
-    private dataHandler: WSProjectTaskServiceDataHandler;
+    readonly dataHandler: WSProjectTaskServiceDataHandler;
     private collaboratorEventHandler: WSProjectTaskServiceCollaboratorEventHandler;
     //#endregion
     constructor(io: Server) {
-        super(io.of(WSServicePaths.ProjectTask));
+        super(io.of(WSServicePaths.ProjectTasks));
         this.dataHandler = new WSProjectTaskServiceDataHandler();
         this.collaboratorEventHandler = new WSProjectTaskServiceCollaboratorEventHandler(
-            this.io,
+            this.server,
             this.dataHandler
         );
     }
@@ -98,7 +98,7 @@ export default class WSProjectTaskService extends WSService {
     }
     //#region Main
     config() {
-        this.io.use((socket, next) => {
+        this.server.use((socket, next) => {
             try {
                 this.connectCollaborator(socket, next);
             }
@@ -108,7 +108,7 @@ export default class WSProjectTaskService extends WSService {
         });
     }
     async init() {
-        this.io.on("connection", socket => {
+        this.server.on("connection", socket => {
             this.collaboratorEventHandler.listen(socket);
             socket.on("disconnect", () => {
                 try {

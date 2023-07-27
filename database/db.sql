@@ -707,6 +707,20 @@ BEGIN
 END //
 DELIMITER ;
 
+-- SP para obtener todos los ids de proyectos de un colaborador
+DELIMITER //
+CREATE PROCEDURE `sp_get_project_ids_by_collaborator_id`(
+    IN p_id_collaborator INT
+)
+BEGIN
+    SELECT p.id_project
+    FROM project p
+    INNER JOIN project_team_member ptm ON p.id_project = ptm.id_project
+    INNER JOIN user u ON ptm.id_collaborator = u.id_user
+    WHERE ptm.id_collaborator = p_id_collaborator;
+END //
+DELIMITER ;
+
 -- SP para actualizar la fecha de finalización por parte del leader
 DELIMITER //
 CREATE PROCEDURE `sp_update_end_date_leader`(
@@ -843,7 +857,9 @@ BEGIN
         SET active = 0, id_deleter = p_id_leader
         WHERE id_project_team_member = p_id_project_team_member;
         -- Cuando es exitoso
-        SELECT 'SUCCESS' AS 'message';
+        SELECT 
+            'SUCCESS' AS 'message',
+            @id_project AS 'id_project';
     END IF;
 END //
 DELIMITER ;
@@ -906,7 +922,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- Sp para listar la información de la task_board
+-- SP para listar la información de la task_board
 DELIMITER //
 CREATE PROCEDURE `sp_get_project_task_board`(
     IN p_id_project INT,
@@ -1350,7 +1366,7 @@ BEGIN
             pvcm.id_collaborator_sender = clb.id_collaborator AND
             pvcm.id_collaborator_receiver = p_id_collaborator
         )
-    WHERE u.id_user != p_id_collaborator
+    WHERE u.id_user != p_id_collaborator AND u.active = 1
         AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @searched_collaborator_name
         AND (
                 pvcm.id_private_chat_message IS NULL
@@ -1444,6 +1460,7 @@ BEGIN
     	ON ptmsm.id_project_chat_message = prcm.id_project_chat_message  
         	AND ptmsm.id_project_team_member = ptm.id_project_team_member
     WHERE ptm.id_collaborator = p_id_collaborator 
+        AND ptm.active = 1
         AND UPPER(p.project_name) LIKE @searched_project
         AND (
                 prcm.id_project_chat_message IS NULL OR
@@ -1555,7 +1572,7 @@ BEGIN
         ON prcm.id_project_team_member_sender = ptm_cp.id_project_team_member
     LEFT JOIN project_team_member ptm_prcm
     	ON ptm_prcm.id_project_team_member = prcm.id_project_team_member_sender
-    WHERE p.id_project = p_id_project;
+    WHERE ptm_cp.active = 1 AND p.id_project = p_id_project;
 END //
 DELIMITER ;
 

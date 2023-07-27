@@ -9,12 +9,18 @@ export default class WSProjectTaskBoardConnectedCollaborators {
         this.connectedCollaboratorListInProject = new Map<number, number[]>();
     }
     //#region Methods
-    public getCountConnectedCollaborators(projectId: number): number {
+    getCountConnectedCollaborators(projectId: number): number {
         return this.connectedCollaboratorListInProject
             .get(projectId)
             .length;
     }
-    public addCollaborator({
+    getProjectIdsWhereCollaboratorIs(collaboratorId: number): number[] {
+        const projectIds: number[] = [...this.connectedCollaboratorListInProject]
+            .filter(([_, collaboratorsIds]) => collaboratorsIds.includes(collaboratorId))
+            .map(([projectId]) => projectId);
+        return projectIds;
+    }
+    addCollaborator({
         projectId,
         userId
     }: WSUserDataProjectTaskService): void {
@@ -28,7 +34,7 @@ export default class WSProjectTaskBoardConnectedCollaborators {
             ] : [userId];
         this.connectedCollaboratorListInProject.set(projectId, newCollaboratorListInProject);
     }
-    public removeCollaborator(currentUserData: WSUserDataProjectTaskService): void {
+    removeCollaborator(currentUserData: WSUserDataProjectTaskService): void {
         const { projectId } = currentUserData;
         const { connectedCollaboratorListInProject: collaboratorListInProject } = this;
         const prevUsersInCurrentProject: number[] = collaboratorListInProject.get(projectId);

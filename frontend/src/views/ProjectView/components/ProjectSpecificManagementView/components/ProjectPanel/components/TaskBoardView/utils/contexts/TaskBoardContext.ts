@@ -11,7 +11,7 @@ const INIT_TASK_BOARD_CONTEXT: TaskBoardContextType = {
     fillCurrentProjectTask: () => {},
     hideEditTaskForm: () => {},
     currentProjectTaskState: null,
-    modifyMenuRef: null,
+    editTaskFormRef: null,
     preloader: {
         hide: () => {},
         show: () => {},
@@ -24,7 +24,8 @@ const INIT_TASK_BOARD_CONTEXT: TaskBoardContextType = {
         value: null,
         fill: () => {}
     },
-    canEditTask: false
+    canEditTask: false,
+    getCanBeEditedTask: () => false
 };
 const TaskBoardContext = createContext(INIT_TASK_BOARD_CONTEXT);
 
