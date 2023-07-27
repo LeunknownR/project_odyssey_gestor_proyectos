@@ -9,11 +9,14 @@ export const UserDataSubtitle = styled.label`
         font-size: 12px;
     }
 `;
-export const UserDataModal = styled.span`
+export const UserData = styled.span`
     font-size: 18px;
     color: var(--white-1);
     width: 100%;
-    min-width: 130px;
+    max-width: 245px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
     @media (max-width: ${MOBILE_WIDTH}px) {
         font-size: 13px;
     }

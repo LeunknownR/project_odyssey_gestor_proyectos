@@ -1,16 +1,28 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { IndividualRequirement, RequirementsList } from "./styles";
-import { REQUIREMENTS } from "./utils/constants";
+import { ContentRequirementsProps } from "./types";
 
-const ContentRequirements = () => {
+const ContentRequirements = ({
+    passwordValidations,
+}: ContentRequirementsProps) => {
     return (
         <RequirementsList>
-            {REQUIREMENTS.map(({text}, idx) => (
-                <IndividualRequirement key={idx}>
-                    <Icon icon="emojione-monotone:shield" />
-                    {text}
-                </IndividualRequirement>
-            ))}
+            <IndividualRequirement className={passwordValidations.minLength ? "validated" : ""}>
+                <Icon icon="emojione-monotone:shield" />
+                Mínimo ocho caracteres
+            </IndividualRequirement>
+            <IndividualRequirement className={passwordValidations.containsNumber ? "validated" : ""}>
+                <Icon icon="emojione-monotone:shield" />
+                Al menos un número
+            </IndividualRequirement>
+            <IndividualRequirement className={passwordValidations.containsMinus ? "validated" : ""}>
+                <Icon icon="emojione-monotone:shield" />
+                Al menos una minúscula
+            </IndividualRequirement>
+            <IndividualRequirement className={passwordValidations.containsMayus ? "validated" : ""}>
+                <Icon icon="emojione-monotone:shield" />
+                Al menos una mayúscula
+            </IndividualRequirement>
         </RequirementsList>
     );
 };

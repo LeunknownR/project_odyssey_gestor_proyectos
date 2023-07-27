@@ -5,7 +5,7 @@ import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 
 export const MobileHeader = styled(FlexFlow.withComponent("header"))`
-padding: 20px 12px 0 8px;
+    padding: 20px 12px 0 8px;
     h2 {
         color: var(--cream-1);
         font-size: 21px;
@@ -28,8 +28,8 @@ export const DeleteCollaboratorBtn = styled(CustomButton)`
     background: transparent;
     padding: 0;
     position: absolute;
-    top: 55px;
-    right: 15%;
+    top: 5%;
+    right: 5%;
     z-index: 1;
     .iconify {
         color: var(--red-3);
@@ -70,6 +70,7 @@ export const Container = styled(FlexFlow)`
     padding: 50px;
     padding-top: 155px;
     position: relative;
+    height: 100%;
     @media (max-width: ${MOBILE_WIDTH}px) {
         position: unset;
         border-top: unset;

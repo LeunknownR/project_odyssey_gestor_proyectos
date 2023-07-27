@@ -69,7 +69,7 @@ const CollaboratorForm = () => {
         {isMobile ? (
             <MobileHeader align="center" gap="3px">
                 <BackBtn
-                    onClick={() => console.log("back")}
+                    onClick={hideForm}
                     icon="ion:chevron-back"
                 />
                 <h2>

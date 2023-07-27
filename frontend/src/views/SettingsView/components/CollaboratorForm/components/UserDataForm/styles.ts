@@ -14,5 +14,8 @@ export const PasswordWrapper = styled(FlexFlow)`
     & .custom-checkbox {
         align-self: flex-end;
         translate: 30px;
+        @media (max-width: ${MOBILE_WIDTH}px) {
+            translate: 0;
+        }
     }
 `;

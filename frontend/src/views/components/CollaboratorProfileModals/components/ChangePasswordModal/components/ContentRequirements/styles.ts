@@ -16,4 +16,7 @@ export const IndividualRequirement = styled(FlexFlow.withComponent("li"))`
     .iconify {
         font-size: 15px;
     }
+    &.validated {
+        color: var(--green-1);
+    }
 `;

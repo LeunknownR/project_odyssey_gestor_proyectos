@@ -18,6 +18,7 @@ const FormBody = ({
                 variant="login"
                 value={username}
                 onChange={handleChange}
+                error={error && ""}
             />
             <CustomTextField
                 type="password"
@@ -26,7 +27,8 @@ const FormBody = ({
                 variant="login"
                 value={password}
                 onChange={handleChange}
-            />
+                error={error && ""}
+            /> 
             <ErrorMessage text={error} />
         </Container>
     );
