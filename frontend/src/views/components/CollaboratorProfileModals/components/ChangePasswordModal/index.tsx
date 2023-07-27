@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     ChangePasswordModalProps,
     PasswordFieldDisableProps,
@@ -22,7 +22,6 @@ import useModal from "src/components/Modal/utils/hooks/useModal";
 import ConfirmationChangePasswordModal from "../ConfirmationChangePasswordModal";
 import ConfirmCloseModal from "../ConfirmCloseModal";
 import EndedSessionModal from "../../../EndedSessionModal";
-import { sleep } from "src/services/utils/helpers";
 import FirstPartModal from "./components/FirstPartModal";
 import SecondPartModal from "./components/SecondPartModal";
 import { clearStorage } from "src/storage";
@@ -46,14 +45,17 @@ const ChangePasswordModal = ({
         ...INIT_PASSWORD_FIELD_ERRORS,
     });
     //#endregion
-    // useEffect(() => {
-    //     if (!modalProps.isOpen) noChangePassModal.open(true);
-    // }, [modalProps.isOpen]);
     const { isMobile } = useMainContext();
     //#region Modals
     const confirmationChangePassModal = useModal();
     const confirmCloseModal = useModal();
     const endedSessionModal = useModal();
+    useEffect(() => {
+        if (!modalProps.isOpen) return;
+        setPasswordField(INIT_PASSWORD_FIELD);
+        setPasswordFieldDisable(INIT_PASSWORD_FIELD_DISABLE);
+        setPasswordFieldError(INIT_PASSWORD_FIELD_ERRORS);
+    }, [modalProps.isOpen]);
     //#endregion
     const moveTab = (idx: number) => setTabIdx(idx);
     const verifyPassword = async (): Promise<void> => {
@@ -68,6 +70,7 @@ const ChangePasswordModal = ({
         }
         changeDisableInput("actualPassword", true);
         changeDisableInput("newPassword", false);
+        changeDisableInput("verifyButton", true);
         moveTab(1);
     };
     const changePassword = async (): Promise<void> => {
@@ -76,7 +79,6 @@ const ChangePasswordModal = ({
             collaboratorId: currentCollaborator.id,
             newPassword: passwordField.newPassword,
         });
-        await sleep(200);
         modalProps.open(false);
         confirmationChangePassModal.open(false);
         clearStorage();
@@ -103,13 +105,18 @@ const ChangePasswordModal = ({
             [field]: value,
         }));
     };
+    const openConfirmCloseModal = (): void => confirmCloseModal.open(true);
+    const closeModalAfterVerify = (): void => {
+        modalProps.open(false);
+        confirmCloseModal.open(false);
+    };
     const tabs = [
         <FirstPartModal
             key={0}
             verifyPassword={verifyPassword}
             actualPassword={passwordField.actualPassword}
             handlePasswords={handlePasswords}
-            passwordFieldDisable={passwordFieldDisable.actualPassword}
+            passwordFieldDisable={passwordFieldDisable}
             passwordFieldError={passwordFieldError.actualPassword}
         />,
         <SecondPartModal
@@ -123,19 +130,30 @@ const ChangePasswordModal = ({
     ];
     return (
         <>
-            <CustomModal {...modalProps} sizeProps={MODAL_STYLES}>
-                <ModalHeader modalProps={modalProps} />
-                {isMobile ? tabs[tabIdx] || tabs[0] : tabs}
-            </CustomModal>
-            <ConfirmationChangePasswordModal
-                modalProps={confirmationChangePassModal}
-                changePassword={changePassword}
-            />
-            <ConfirmCloseModal modalProps={confirmCloseModal} />
-            <EndedSessionModal
-                modalProps={endedSessionModal}
-                content="Ha cambiado su contraseña correctamente, tiene que volver a iniciar sesión"
-            />
+        <CustomModal
+            {...modalProps}
+            handleClose={
+                passwordFieldDisable.verifyButton
+                    ? openConfirmCloseModal
+                    : null
+            }
+            sizeProps={MODAL_STYLES}
+        >
+            <ModalHeader modalProps={modalProps} />
+            {isMobile ? tabs[tabIdx] || tabs[0] : tabs}
+        </CustomModal>
+        <ConfirmationChangePasswordModal
+            modalProps={confirmationChangePassModal}
+            changePassword={changePassword}
+        />
+        <ConfirmCloseModal
+            modalProps={confirmCloseModal}
+            closeModalAfterVerify={closeModalAfterVerify}
+        />
+        <EndedSessionModal
+            modalProps={endedSessionModal}
+            content="Ha cambiado su contraseña correctamente, tiene que volver a iniciar sesión"
+        />
         </>
     );
 };

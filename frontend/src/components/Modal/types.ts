@@ -11,5 +11,5 @@ export type ModalProps = {
     isOpen: boolean;
     sizeProps?: SizeModalProps;
     open(value: boolean): void;
-    handleClose?: () => void;
+    handleClose?: (() => void) | null;
 };

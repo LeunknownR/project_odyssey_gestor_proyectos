@@ -11,6 +11,7 @@ const testModalStyles = {
 
 const ConfirmCloseModal = ({
     modalProps,
+    closeModalAfterVerify
 }: NoChangePasswordModalProps) => {
     return (
         <CustomModal {...modalProps} sizeProps={testModalStyles}>
@@ -23,7 +24,7 @@ const ConfirmCloseModal = ({
             <FlexFlow justifySelf="flex-start">
                 <TextModal>Si sales deberás reiniciar el proceso para cambiar tu contraseña.</TextModal>
             </FlexFlow>
-            <Footer modal={modalProps} />
+            <Footer modal={modalProps} closeModalAfterVerify={closeModalAfterVerify} />
         </CustomModal>
     );
 };

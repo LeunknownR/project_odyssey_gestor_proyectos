@@ -20,13 +20,13 @@ const FirstPartModal = ({
                     {...TEXT_FIELD_PROPS.ACTUAL_PASS}
                     value={actualPassword}
                     onChange={handlePasswords}
-                    disabled={passwordFieldDisable}
+                    disabled={passwordFieldDisable.actualPassword}
                     error={passwordFieldError}
                 />
                 <CustomButton
                     {...BUTTON_PROPS.VERIFY_PASS}
                     onClick={verifyPassword}
-                    disabled={!actualPassword}
+                    disabled={!actualPassword || passwordFieldDisable.verifyButton}
                 />
             </ActualPasswordWrapper>
         </>
