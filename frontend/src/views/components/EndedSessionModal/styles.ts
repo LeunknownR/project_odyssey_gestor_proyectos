@@ -17,25 +17,27 @@ export const CustomModal = styled(Modal)`
     }
 `;
 export const ContentImage = styled.img`
-    width: 100px;
+    width: 140px;
 `;
 export const TextModal = styled.p`
     color: var(--white-1);
     text-align: center;
-    font-size: 13px;
-    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    max-width: 300px;
     @media (max-width: ${MOBILE_WIDTH}px) {
         font-size: 11px;
     }
 `;
 export const SuccessfulChangeButton = styled(CustomButton)`
     color: var(--darkblue-3);
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 700;
     text-align: center;
     transition: 0.3s;
     justify-content: normal;
     padding: 10px 40px;
+    border-radius: 5px;
     :hover {
         color: var(--red-4);
         .iconify {

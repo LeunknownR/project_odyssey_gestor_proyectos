@@ -42,6 +42,9 @@ export const UserData = styled(FlexFlow)`
 `;
 export const NamesWrapper = styled(FlexFlow)`
     gap: 20px;
+    span {
+        max-width: 130px;
+    }
     @media (max-width: ${MOBILE_WIDTH}px) {
         flex-direction: column;
         gap: 10px;

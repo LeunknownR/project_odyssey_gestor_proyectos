@@ -6,21 +6,7 @@ export type ChangePasswordModalProps = {
     modalProps: ModalProps;
     currentCollaborator: SessionUser | null;
 };
-export type FirstPartModalProps = {
-    verifyPassword: () => void;
-    actualPassword: string;
-    handlePasswords: ({ target: { name, value } }: TextInputTarget) => void;
-    passwordFieldDisable: boolean;
-    passwordFieldError: string | null;
-};
-export type SecondPartModalProps = {
-    newPassword: string;
-    confirmPassword: string;
-    currentCollaboratorId?: number;
-    handlePasswords: ({ target: { name, value } }: TextInputTarget) => void;
-    passwordFieldDisable: PasswordFieldDisableProps;
-    openConfirmationModal: () => void;
-}
+
 export type PasswordFieldProps = {
     actualPassword: string;
     newPassword: string;
@@ -31,16 +17,4 @@ export type PasswordFieldDisableProps = {
     newPassword: boolean;
     confirmPassword: boolean;
     [key:string]: boolean;
-};
-export type PasswordValidationsTypes = {
-    minLength: boolean;
-    containsNumber: boolean;
-    containsMinus: boolean;
-    containsMayus: boolean;
-};
-export type PasswordConditionsTypes = {
-    minLength: number;
-    containsNumber: RegExp;
-    containsLowercase: RegExp;
-    containsUppercase: RegExp;
 };

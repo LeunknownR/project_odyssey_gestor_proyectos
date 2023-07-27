@@ -1,31 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
     ChangePasswordModalProps,
-    FirstPartModalProps,
-    PasswordConditionsTypes,
     PasswordFieldDisableProps,
     PasswordFieldProps,
-    PasswordValidationsTypes,
-    SecondPartModalProps,
 } from "./types";
+import { CustomModal } from "./styles";
 import {
-    CustomModal,
-    NewPasswordWrapper,
-    ActualPasswordWrapper,
-    PasswordTextField,
-    UpdateButton,
-} from "./styles";
-import CustomButton from "src/components/CustomButton/CustomButton";
-import {
-    BUTTON_PROPS,
     INIT_PASSWORD_FIELD,
     INIT_PASSWORD_FIELD_DISABLE,
     INIT_PASSWORD_FIELD_ERRORS,
     INVALID_PASSWORD,
-    TEXT_FIELD_PROPS,
 } from "./utils/constants";
-import NotificationInfo from "./components/NotificationInfo";
-import ContentRequirements from "./components/ContentRequirements";
 import ModalHeader from "./components/ModalHeader";
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
 import {
@@ -36,15 +21,19 @@ import { TextInputTarget } from "src/components/CustomTextField/types";
 import useModal from "src/components/Modal/utils/hooks/useModal";
 import ConfirmationChangePasswordModal from "../ConfirmationChangePasswordModal";
 import ConfirmCloseModal from "../ConfirmCloseModal";
-import SuccessfulPasswordChangeModal from "../SuccessfulPasswordChangeModal";
+import EndedSessionModal from "../../../EndedSessionModal";
 import { sleep } from "src/services/utils/helpers";
+import FirstPartModal from "./components/FirstPartModal";
+import SecondPartModal from "./components/SecondPartModal";
+import { clearStorage } from "src/storage";
 
 const MODAL_STYLES = {
     padding: "20px 30px",
 };
 
 const ChangePasswordModal = ({
-    modalProps, currentCollaborator
+    modalProps,
+    currentCollaborator,
 }: ChangePasswordModalProps) => {
     //#region States
     const [tabIdx, setTabIdx] = useState(0);
@@ -64,7 +53,7 @@ const ChangePasswordModal = ({
     //#region Modals
     const confirmationChangePassModal = useModal();
     const confirmCloseModal = useModal();
-    const successfulPassChangeModal = useModal();
+    const endedSessionModal = useModal();
     //#endregion
     const moveTab = (idx: number) => setTabIdx(idx);
     const verifyPassword = async (): Promise<void> => {
@@ -90,7 +79,8 @@ const ChangePasswordModal = ({
         await sleep(200);
         modalProps.open(false);
         confirmationChangePassModal.open(false);
-        successfulPassChangeModal.open(true);
+        clearStorage();
+        endedSessionModal.open(true);
     };
     const handlePasswords = ({
         target: { name, value },
@@ -142,98 +132,12 @@ const ChangePasswordModal = ({
                 changePassword={changePassword}
             />
             <ConfirmCloseModal modalProps={confirmCloseModal} />
-            <SuccessfulPasswordChangeModal
-                modalProps={successfulPassChangeModal}
+            <EndedSessionModal
+                modalProps={endedSessionModal}
+                content="Ha cambiado su contraseña correctamente, tiene que volver a iniciar sesión"
             />
         </>
     );
 };
 
 export default ChangePasswordModal;
-
-const FirstPartModal = ({
-    verifyPassword,
-    actualPassword,
-    handlePasswords,
-    passwordFieldDisable,
-    passwordFieldError,
-}: FirstPartModalProps) => {
-    return (
-        <>
-            <NotificationInfo />
-            <ActualPasswordWrapper>
-                <PasswordTextField
-                    {...TEXT_FIELD_PROPS.ACTUAL_PASS}
-                    value={actualPassword}
-                    onChange={handlePasswords}
-                    disabled={passwordFieldDisable}
-                    error={passwordFieldError}
-                />
-                <CustomButton
-                    {...BUTTON_PROPS.VERIFY_PASS}
-                    onClick={verifyPassword}
-                    disabled={!actualPassword}
-                />
-            </ActualPasswordWrapper>
-        </>
-    );
-};
-
-const INITIAL_PASSWORD_VALIDATIONS = {
-    minLength: false,
-    containsNumber: false,
-    containsMinus: false,
-    containsMayus: false,
-};
-const PASSWORD_CONDITIONS: PasswordConditionsTypes = {
-    minLength: 8,
-    containsNumber: /\d/,
-    containsLowercase: /[a-z]/,
-    containsUppercase: /[A-Z]/,
-};
-const SecondPartModal = ({
-    newPassword,
-    confirmPassword,
-    handlePasswords,
-    passwordFieldDisable,
-    openConfirmationModal,
-}: SecondPartModalProps) => {
-    const [passwordValidations, setPasswordValidations] =
-        useState<PasswordValidationsTypes>({ ...INITIAL_PASSWORD_VALIDATIONS });
-    const enableUpdateButton = (): boolean => {
-        if (!newPassword.trim() || !confirmPassword.trim()) return true;
-        if (newPassword !== confirmPassword) return true;
-        return false;
-    };
-    const validatePassword = ():void => {
-        if(newPassword.length >= PASSWORD_CONDITIONS.minLength)
-            setPasswordValidations(prev => ({...prev, minLength: true}))
-    }    
-    useEffect(() => {
-        validatePassword()
-    }, [newPassword]);
-    return (
-        <>
-            <NewPasswordWrapper>
-                <PasswordTextField
-                    {...TEXT_FIELD_PROPS.NEW_PASS}
-                    value={newPassword}
-                    onChange={handlePasswords}
-                    disabled={passwordFieldDisable.newPassword}
-                />
-                <ContentRequirements passwordValidations={passwordValidations}/>
-            </NewPasswordWrapper>
-            <PasswordTextField
-                {...TEXT_FIELD_PROPS.CONFIRM_PASS}
-                value={confirmPassword}
-                onChange={handlePasswords}
-                disabled={!newPassword}
-            />
-            <UpdateButton
-                {...BUTTON_PROPS.UPDATE_PASS}
-                onClick={openConfirmationModal}
-                disabled={enableUpdateButton()}
-            />
-        </>
-    );
-};
