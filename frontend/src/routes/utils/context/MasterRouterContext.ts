@@ -1,15 +1,20 @@
 import { createContext } from "react";
-import { MasterRouterContextType } from "./types";
+import { MasterRouterContextFormat } from "./types";
 
-const INIT_MASTER_ROUTER_CONTEXT: MasterRouterContextType = {
+const INIT_MASTER_ROUTER_CONTEXT: MasterRouterContextFormat = {
+    currentUserHandler: {
+        currentUser: null,
+        fillCurrentUser: () => {}
+    },
     chatServiceHandler: {
         hasUnreadPrivateChats: false,
         hasUnreadProjectChats: false,
         socketIoChatService: null
     },
     mainMenuButtonHandler: {
-        buttons: [],
-        addButton: () => {},
+        buttons: [], 
+        addButton: () => {}, 
+        removeButton: () => {},
         changeClassNameButton: () => {}
     },
     openProfileConfigModal: () => {},

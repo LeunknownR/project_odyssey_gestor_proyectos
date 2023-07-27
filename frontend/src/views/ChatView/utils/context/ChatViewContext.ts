@@ -1,16 +1,8 @@
 import { createContext } from "react";
-import { ChatViewContextType } from "./types";
+import { ChatViewContextFormat } from "./types";
 import { INIT_SEARCH_CHAT_PAYLOAD } from "../constants";
 
-const INIT_CHAT_VIEW_CONTEXT: ChatViewContextType = {
-    preloader: {
-        hide: () => {},
-        show: () => {},
-        value: {
-            hidden: true,
-            message: ""
-        }
-    },
+const INIT_CHAT_VIEW_CONTEXT: ChatViewContextFormat = {
     searchChatPayloadHandler: {
         change: () => {},
         emit: () => {},

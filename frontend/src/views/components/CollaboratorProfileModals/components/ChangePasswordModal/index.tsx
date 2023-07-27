@@ -44,8 +44,7 @@ const MODAL_STYLES = {
 };
 
 const ChangePasswordModal = ({
-    modalProps,
-    currentCollaborator,
+    modalProps, currentCollaborator
 }: ChangePasswordModalProps) => {
     //#region States
     const [tabIdx, setTabIdx] = useState(0);

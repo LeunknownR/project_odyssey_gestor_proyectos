@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ContainerProps, EmptyProps } from './types';
+import { EmptyProps } from './types';
 import BackendImage from 'src/views/components/UserImage/components/BackendImage/BackendImage';
 
 export const Empty = styled.div<EmptyProps>`

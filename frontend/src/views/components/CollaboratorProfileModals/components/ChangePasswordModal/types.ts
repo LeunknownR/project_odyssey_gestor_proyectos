@@ -1,10 +1,10 @@
 import { TextInputTarget } from "src/components/CustomTextField/types";
 import { ModalProps } from "src/components/Modal/types";
-import { User } from "src/entities/user/types";
+import { SessionUser } from "src/entities/user/types";
 
 export type ChangePasswordModalProps = {
     modalProps: ModalProps;
-    currentCollaborator: User | null;
+    currentCollaborator: SessionUser | null;
 };
 export type FirstPartModalProps = {
     verifyPassword: () => void;

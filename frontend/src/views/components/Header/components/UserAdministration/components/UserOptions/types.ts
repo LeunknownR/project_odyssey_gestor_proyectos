@@ -1,6 +1,7 @@
 import { SessionUser } from "src/entities/user/types";
 
 export type UserOptionsProps = {
-    isOpen: boolean;
+    areOpen: boolean;
+    closeOptions: () => void;
     currentUser: SessionUser | null;
 }

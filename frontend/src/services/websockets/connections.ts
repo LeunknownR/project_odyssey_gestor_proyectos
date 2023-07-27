@@ -8,7 +8,7 @@ export const wsProjectTasksServiceDataConnection: WSServiceDataConnection<number
     })
 };
 export const wsChatServiceDataConnection: WSServiceDataConnection<number> = {
-    servicePath: WSServicePaths.Chat,
+    servicePath: WSServicePaths.Chats,
     getHeaders: userId => ({
         "user-id": String(userId),
     }),
