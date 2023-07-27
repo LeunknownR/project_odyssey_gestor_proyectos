@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     ChangePasswordModalProps,
     FirstPartModalProps,
+    PasswordConditionsTypes,
     PasswordFieldDisableProps,
     PasswordFieldProps,
+    PasswordValidationsTypes,
     SecondPartModalProps,
 } from "./types";
 import {
@@ -132,18 +134,18 @@ const ChangePasswordModal = ({
     ];
     return (
         <>
-        <CustomModal {...modalProps} sizeProps={MODAL_STYLES}>
-            <ModalHeader modalProps={modalProps} />
-            {isMobile ? tabs[tabIdx] || tabs[0] : tabs}
-        </CustomModal>
-        <ConfirmationChangePasswordModal
-            modalProps={confirmationChangePassModal}
-            changePassword={changePassword}
-        />
-        <ConfirmCloseModal modalProps={confirmCloseModal} />
-        <SuccessfulPasswordChangeModal
-            modalProps={successfulPassChangeModal}
-        />
+            <CustomModal {...modalProps} sizeProps={MODAL_STYLES}>
+                <ModalHeader modalProps={modalProps} />
+                {isMobile ? tabs[tabIdx] || tabs[0] : tabs}
+            </CustomModal>
+            <ConfirmationChangePasswordModal
+                modalProps={confirmationChangePassModal}
+                changePassword={changePassword}
+            />
+            <ConfirmCloseModal modalProps={confirmCloseModal} />
+            <SuccessfulPasswordChangeModal
+                modalProps={successfulPassChangeModal}
+            />
         </>
     );
 };
@@ -159,25 +161,37 @@ const FirstPartModal = ({
 }: FirstPartModalProps) => {
     return (
         <>
-        <NotificationInfo />
-        <ActualPasswordWrapper>
-            <PasswordTextField
-                {...TEXT_FIELD_PROPS.ACTUAL_PASS}
-                value={actualPassword}
-                onChange={handlePasswords}
-                disabled={passwordFieldDisable}
-                error={passwordFieldError}
-            />
-            <CustomButton
-                {...BUTTON_PROPS.VERIFY_PASS}
-                onClick={verifyPassword}
-                disabled={!actualPassword}
-            />
-        </ActualPasswordWrapper>
+            <NotificationInfo />
+            <ActualPasswordWrapper>
+                <PasswordTextField
+                    {...TEXT_FIELD_PROPS.ACTUAL_PASS}
+                    value={actualPassword}
+                    onChange={handlePasswords}
+                    disabled={passwordFieldDisable}
+                    error={passwordFieldError}
+                />
+                <CustomButton
+                    {...BUTTON_PROPS.VERIFY_PASS}
+                    onClick={verifyPassword}
+                    disabled={!actualPassword}
+                />
+            </ActualPasswordWrapper>
         </>
     );
 };
 
+const INITIAL_PASSWORD_VALIDATIONS = {
+    minLength: false,
+    containsNumber: false,
+    containsMinus: false,
+    containsMayus: false,
+};
+const PASSWORD_CONDITIONS: PasswordConditionsTypes = {
+    minLength: 8,
+    containsNumber: /\d/,
+    containsLowercase: /[a-z]/,
+    containsUppercase: /[A-Z]/,
+};
 const SecondPartModal = ({
     newPassword,
     confirmPassword,
@@ -185,33 +199,42 @@ const SecondPartModal = ({
     passwordFieldDisable,
     openConfirmationModal,
 }: SecondPartModalProps) => {
+    const [passwordValidations, setPasswordValidations] =
+        useState<PasswordValidationsTypes>({ ...INITIAL_PASSWORD_VALIDATIONS });
     const enableUpdateButton = (): boolean => {
         if (!newPassword.trim() || !confirmPassword.trim()) return true;
         if (newPassword !== confirmPassword) return true;
         return false;
     };
+    const validatePassword = ():void => {
+        if(newPassword.length >= PASSWORD_CONDITIONS.minLength)
+            setPasswordValidations(prev => ({...prev, minLength: true}))
+    }    
+    useEffect(() => {
+        validatePassword()
+    }, [newPassword]);
     return (
         <>
-        <NewPasswordWrapper>
+            <NewPasswordWrapper>
+                <PasswordTextField
+                    {...TEXT_FIELD_PROPS.NEW_PASS}
+                    value={newPassword}
+                    onChange={handlePasswords}
+                    disabled={passwordFieldDisable.newPassword}
+                />
+                <ContentRequirements passwordValidations={passwordValidations}/>
+            </NewPasswordWrapper>
             <PasswordTextField
-                {...TEXT_FIELD_PROPS.NEW_PASS}
-                value={newPassword}
+                {...TEXT_FIELD_PROPS.CONFIRM_PASS}
+                value={confirmPassword}
                 onChange={handlePasswords}
-                disabled={passwordFieldDisable.newPassword}
+                disabled={!newPassword}
             />
-            <ContentRequirements />
-        </NewPasswordWrapper>
-        <PasswordTextField
-            {...TEXT_FIELD_PROPS.CONFIRM_PASS}
-            value={confirmPassword}
-            onChange={handlePasswords}
-            disabled={!newPassword}
-        />
-        <UpdateButton
-            {...BUTTON_PROPS.UPDATE_PASS}
-            onClick={openConfirmationModal}
-            disabled={enableUpdateButton()}
-        />
+            <UpdateButton
+                {...BUTTON_PROPS.UPDATE_PASS}
+                onClick={openConfirmationModal}
+                disabled={enableUpdateButton()}
+            />
         </>
     );
 };

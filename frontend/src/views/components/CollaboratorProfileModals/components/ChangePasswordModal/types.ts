@@ -32,3 +32,15 @@ export type PasswordFieldDisableProps = {
     confirmPassword: boolean;
     [key:string]: boolean;
 };
+export type PasswordValidationsTypes = {
+    minLength: boolean;
+    containsNumber: boolean;
+    containsMinus: boolean;
+    containsMayus: boolean;
+};
+export type PasswordConditionsTypes = {
+    minLength: number;
+    containsNumber: RegExp;
+    containsLowercase: RegExp;
+    containsUppercase: RegExp;
+};

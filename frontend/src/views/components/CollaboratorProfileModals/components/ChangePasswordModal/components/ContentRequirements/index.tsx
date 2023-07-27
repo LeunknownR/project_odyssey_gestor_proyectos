@@ -1,12 +1,15 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { IndividualRequirement, RequirementsList } from "./styles";
 import { REQUIREMENTS } from "./utils/constants";
+import { ContentRequirementsProps } from "./types";
 
-const ContentRequirements = () => {
+const ContentRequirements = ({
+    passwordValidations,
+}: ContentRequirementsProps) => {
     return (
         <RequirementsList>
-            {REQUIREMENTS.map(({text}, idx) => (
-                <IndividualRequirement key={idx}>
+            {REQUIREMENTS.map(({ text, name }, idx) => (
+                <IndividualRequirement key={idx} className={passwordValidations[name] ? "validated" : ""}>
                     <Icon icon="emojione-monotone:shield" />
                     {text}
                 </IndividualRequirement>
