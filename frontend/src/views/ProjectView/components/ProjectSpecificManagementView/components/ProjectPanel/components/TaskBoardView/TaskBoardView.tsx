@@ -40,7 +40,7 @@ const TaskBoardView = ({
     const notificationCard = useNotificationCard();
     //#endregion
     //#region States
-    const socketHandler = useWebsocket(WSServicePaths.ProjectTask);
+    const socketHandler = useWebsocket(WSServicePaths.ProjectTasks);
     const [projectTaskBoard, setProjectTaskBoard] = useState<ProjectTaskBoard | null>(null);
     const [currentProjectTask, setCurrentProjectTask] = useState<ProjectTask | null>(null);
     const [currentProjectTaskState, setCurrentProjectTaskState] = useState<ProjectTaskState | null>(null);

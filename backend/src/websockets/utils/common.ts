@@ -14,17 +14,14 @@ export type WSEvent<E> = {
 export type WSNext = (err?: ExtendedError) => void;
 export abstract class WSService {
     //#region Attributes
-    protected io: IOServerService;
+    readonly server: IOServerService;
     //#endregion
     constructor(io: IOServerService) {
-        this.io = io;
+        this.server = io;
     }
     //#region Métodos
     abstract config(): void;
     abstract init(): void;
-    get server(): IOServerService {
-        return this.io;
-    }
     //#endregion
 };
 export abstract class WSServiceEventHandler<E> {

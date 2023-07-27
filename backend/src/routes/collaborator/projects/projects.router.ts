@@ -82,12 +82,13 @@ export default function initCollaboratorProjectEndpoints(externalWsServiceHandle
         ApiPathEndpointsCollaborator.DeleteProjectMember,
         withErrorHandler(async (req, res) => {
             const deleteProjectMemberRequestBody: DeleteProjectMemberRequestBody = parseToDeleteProjectMemberRequestBody(req.params);
-            const message: string = await ProjectController.deleteProjectMember(deleteProjectMemberRequestBody);
+            const [message, projectId] = await ProjectController.deleteProjectMember(deleteProjectMemberRequestBody);
             GenerateResponseBody.sendResponse(res, {
                 code: getResponseCodeIfMessageExists(message),
                 message,
                 data: null
             });
+            externalWsServiceHandler.updateProjectChatByProjectId(projectId);
         })
     );
     router.get(

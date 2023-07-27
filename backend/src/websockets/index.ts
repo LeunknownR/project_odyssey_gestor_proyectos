@@ -1,20 +1,26 @@
 import { Server } from "socket.io";
 import WSProjectTaskService from "./services/projectTasks";
 import WSChatService from "./services/chats";
+import WSServicePaths from "./utils/services";
+import WSNotificationService from "./services/notifications";
 
 export default class WSServiceHandler {
     readonly projectTaskService: WSProjectTaskService;
     readonly chatService: WSChatService;
+    readonly notificationService: WSNotificationService;
     constructor(io: Server) {
         this.projectTaskService = new WSProjectTaskService(io);
         this.chatService = new WSChatService(io);
+        this.notificationService = new WSNotificationService(io);
     }
-    public config() {
+    config() {
         this.projectTaskService.config();
         this.chatService.config();
+        this.notificationService.config();
     }
-    public init() {
+    init() {
         this.projectTaskService.init();
         this.chatService.init();
+        this.notificationService.config();
     }
 }

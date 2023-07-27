@@ -18,10 +18,10 @@ export default class WSProjectTaskService extends WSService {
     private collaboratorEventHandler: WSProjectTaskServiceCollaboratorEventHandler;
     //#endregion
     constructor(io: Server) {
-        super(io.of(WSServicePaths.ProjectTask));
+        super(io.of(WSServicePaths.ProjectTasks));
         this.dataHandler = new WSProjectTaskServiceDataHandler();
         this.collaboratorEventHandler = new WSProjectTaskServiceCollaboratorEventHandler(
-            this.io,
+            this.server,
             this.dataHandler
         );
     }
@@ -98,7 +98,7 @@ export default class WSProjectTaskService extends WSService {
     }
     //#region Main
     config() {
-        this.io.use((socket, next) => {
+        this.server.use((socket, next) => {
             try {
                 this.connectCollaborator(socket, next);
             }
@@ -108,7 +108,7 @@ export default class WSProjectTaskService extends WSService {
         });
     }
     async init() {
-        this.io.on("connection", socket => {
+        this.server.on("connection", socket => {
             this.collaboratorEventHandler.listen(socket);
             socket.on("disconnect", () => {
                 try {
