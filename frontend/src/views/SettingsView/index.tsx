@@ -6,16 +6,21 @@ import { CollaboratorFormWrapper, Container } from "./styles";
 import CollaboratorForm from "./components/CollaboratorForm";
 import CollaboratorsPanel from "./components/CollaboratorsPanel";
 import UnselectedCollaborator from "./components/UnselectedCollaborator";
-import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
+import Preloader from "src/components/Preloader/Preloader";
+import NotificationCard from "src/components/NotificationCard/NotificationCard";
+//#endregion
+//#region Types
 import { User } from "src/entities/user/types";
+//#endregion
+//#region Utils
+import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
 import usePaginator from "src/components/Paginator/utils/hooks/usePaginator";
 import useCollaboratorFilters from "./utils/hooks/useCollaboratorFilters";
 import useCollaborators from "./utils/hooks/useCollaborators";
 import SettingsViewContext from "./utils/context/SettingsViewContext";
-import Preloader from "src/components/Preloader/Preloader";
-import NotificationCard from "src/components/NotificationCard/NotificationCard";
 import useNotificationCard from "src/components/NotificationCard/utils/hooks/useNotificationCard";
 //#endregion
+
 
 const SettingsView = () => {
     //#region States
@@ -31,6 +36,9 @@ const SettingsView = () => {
     const notificationCard = useNotificationCard();
     const filters = useCollaboratorFilters();
     const collaborators = useCollaborators(preloader, filters.value, paginator);
+    useEffect(() => {
+        setMobileIsCollaboratorOpen(formIsVisible);
+    }, [formIsVisible]);
     useEffect(() => {
         if (!currentCollaborator) return;
         // Actualizando formulario luego de una actualización de colaborador

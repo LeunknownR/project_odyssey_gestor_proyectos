@@ -6,7 +6,6 @@ import {
     TextModal,
 } from "./styles";
 import successful from "src/images/successful.png";
-import { clearStorage } from "src/storage";
 import { useNavigate } from "react-router-dom";
 import { AbsolutePaths } from "src/config/absolutePaths";
 

@@ -70,6 +70,7 @@ export const Container = styled(FlexFlow)`
     padding: 50px;
     padding-top: 155px;
     position: relative;
+    height: 100%;
     @media (max-width: ${MOBILE_WIDTH}px) {
         position: unset;
         border-top: unset;
