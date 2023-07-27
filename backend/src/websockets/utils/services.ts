@@ -1,6 +1,7 @@
 enum WSServicePaths {
-    ProjectTask = "/project-tasks",
-    Chat = "/chats"
+    Notifications = "/notifications",
+    ProjectTasks = "/project-tasks",
+    Chats = "/chats"
 }
 
 export default WSServicePaths;

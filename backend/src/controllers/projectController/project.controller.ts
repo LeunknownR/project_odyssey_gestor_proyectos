@@ -81,12 +81,18 @@ export default abstract class ProjectController {
         const message: string = record["message"];
         return message || ResponseMessages.FatalError;
     }
-    static async deleteProjectMember(deleteProjectRequestBody: DeleteProjectMemberRequestBody): Promise<string> {
+    static async deleteProjectMember(
+        deleteProjectRequestBody: DeleteProjectMemberRequestBody
+    ): Promise<[string, number]> {
         const record: any = await ProjectModel.deleteProjectMember(deleteProjectRequestBody);
-        if (!record)
+        const projectId: number | undefined = record["id_project"];
+        if (!projectId)
             throw new Error("It couldn't be deleted project member");
         const message: string = record["message"];
-        return message || ResponseMessages.FatalError;
+        return [
+            message || ResponseMessages.FatalError,
+            projectId            
+        ];
     }
     static async getProjectPanelDetail(getProjectPanelDetailRequestBody: GetProjectPanelDetailRequestBody): Promise<ProjectPanelDetails> {
         const resultset: any = await ProjectModel.getProjectPanelDetail(getProjectPanelDetailRequestBody);
