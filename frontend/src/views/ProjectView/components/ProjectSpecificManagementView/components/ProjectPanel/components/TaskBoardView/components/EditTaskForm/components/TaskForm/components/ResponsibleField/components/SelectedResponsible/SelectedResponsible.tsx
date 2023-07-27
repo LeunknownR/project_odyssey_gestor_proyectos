@@ -4,7 +4,6 @@ import { Container } from "./styles";
 import { FlexFlow } from "src/components/styles";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { DeleteSelectedDataField } from "../../../../styles";
-import useTaskBoardContext from "../../../../../../../../utils/contexts/useTaskBoardContext";
 
 const SelectedResponsible = ({
     selectedResponsible,

@@ -1,7 +1,6 @@
 import CustomButton from "src/components/CustomButton/CustomButton";
 import Modal from "src/components/Modal/Modal";
 import { Content } from "src/components/Modal/styles";
-import { FlexFlow } from "src/components/styles";
 import { MOBILE_WIDTH } from "src/config/constants";
 import styled from "styled-components";
 

@@ -13,6 +13,7 @@ import ProjectPreviewChatList from "./components/ProjectPreviewChatList";
 import useChatViewContext from "../../utils/context/useChatViewContext";
 import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
 import InputFinder from "src/components/InputFinder";
+import useMainContext from "src/utils/contexts/main-context/useMainContext";
 
 const ChatPanel = ({ onNotifyCollaboratorConnectionState }: ChatPanelProps) => {
     //#region States
@@ -22,8 +23,8 @@ const ChatPanel = ({ onNotifyCollaboratorConnectionState }: ChatPanelProps) => {
     //#endregion
     //#region Hooks
     const { socketIoChatService } = useMasterRouterContext().chatServiceHandler;
+    const { preloader } = useMainContext();
     const {
-        preloader,
         searchChatPayloadHandler,
         currentPrivateChatHandler,
         currentProjectChatHandler,

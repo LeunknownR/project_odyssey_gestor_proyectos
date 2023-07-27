@@ -5,8 +5,6 @@ import UnselectedChat from "./components/ChatRoom/components/UnselectedChat/Unse
 import ChatViewContext from "./utils/context/ChatViewContext";
 import PrivateChatRoom from "./components/PrivateChatRoom";
 import ProjectChatRoom from "./components/ProjectChatRoom";
-import Preloader from "src/components/Preloader/Preloader";
-import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
 import useSearchChatPayload from "./utils/hooks/useSearchChatPayload";
 import useProjectChatMessages from "./utils/hooks/useProjectChatMessages";
 import usePrivateChatMessages from "./utils/hooks/usePrivateChatMessages";
@@ -16,7 +14,6 @@ import useMasterRouterContext from "src/routes/utils/context/useMasterRouterCont
 import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 
 const View = () => {
-    const preloader = usePreloader();
     //#region States
     const [isMobileChatOpen, setMobileIsChatOpen] = useState(false);
     const [isOnlineCollaboratorChat, setIsOnlineCollaboratorChat] = useState(false);
@@ -25,15 +22,14 @@ const View = () => {
     const currentProjectChatHandler = useCurrentProjectChat();
     const { chatServiceHandler } = useMasterRouterContext();
     const searchChatPayloadHandler = useSearchChatPayload(
-        preloader, 
         currentPrivateChatHandler.value,
         currentProjectChatHandler.value
     );
     const privateChatMessagesHandler = usePrivateChatMessages(
-        preloader, searchChatPayloadHandler
+        searchChatPayloadHandler
     );
     const projectChatMessagesHandler = useProjectChatMessages(
-        preloader, searchChatPayloadHandler
+        searchChatPayloadHandler
     );
     useEffect(() => {
         setMobileIsChatOpen(Boolean(currentPrivateChatHandler.value || currentProjectChatHandler.value))
@@ -54,11 +50,10 @@ const View = () => {
     };
     //#endregion
     return (
-        <>
         <Container>
             <ChatViewContext.Provider
                 value={{
-                    preloader, searchChatPayloadHandler,
+                    searchChatPayloadHandler,
                     currentPrivateChatHandler,
                     currentProjectChatHandler,
                     projectChatMessagesHandler,
@@ -71,8 +66,6 @@ const View = () => {
                 </ChatRoomWrapper>
             </ChatViewContext.Provider>
         </Container>
-        <Preloader {...preloader.value}/>
-        </>
     );
 }
 const ChatView = () => {

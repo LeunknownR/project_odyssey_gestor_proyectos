@@ -4,10 +4,14 @@ import { InitMainContext } from "./types";
 
 const initMainContext: InitMainContext = {
     isMobile: false,
-    // checkExpirationTimeToken: {
-    //     init: () => undefined,
-    //     clear: () => {}
-    // }
+    preloader: {
+        hide: () => {},
+        show: () => {},
+        value: {
+            hidden: true,
+            message: ""
+        }
+    }
 };
 const MainContext = createContext(initMainContext);
 

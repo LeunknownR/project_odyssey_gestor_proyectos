@@ -12,48 +12,52 @@ import DataLabel from "./components/DataLabel";
 import ModalHeader from "./components/ModalHeader";
 import { requestUpdatePhoto } from "src/services/collaboratorConfig/aboutCollaboratorConfig";
 import { getB64Value } from "src/utils/fileToBase64";
+import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
+import { currentUserLocalStorage } from "src/storage/user.local";
+import useMainContext from "src/utils/contexts/main-context/useMainContext";
+import { SessionUser } from "src/entities/user/types";
 
 const MODAL_STYLES = {
     padding: "20px 30px",
 };
-type test = {
-    b64: string | null;
-};
-const INIT = {
-    b64: null,
-};
 const ProfileConfigurationModal = ({
-    modalProps,
-    openChangePasswordModal,
-    currentCollaborator,
+    modalProps, openChangePasswordModal,
+    currentCollaborator, fillCurrentCollaboratorUrlPhoto
 }: ProfileConfigurationModalProps) => {
-    const [collaboratorPhoto, setCollaboratorPhoto] = useState<test>({
-        ...INIT,
-    });
+    const { preloader } = useMainContext();
+    const { fillCurrentUser } = useMasterRouterContext().currentUserHandler;
     const [photoError, setPhotoError] = useState<string | null>(null);
-    const changePhoto = (file: string) => {
-        setCollaboratorPhoto(prev => ({
-            ...prev,
-            b64: file,
-        }));
+    const changePhoto = (file: string): void => {
         updatePhoto(getB64Value(file));
     };
-    const changeErrorPhoto = (error: string | null) => {
+    const changeErrorPhoto = (error: string | null): void => {
         setPhotoError(error);
     };
-    const deletePhoto = () => {
-        setCollaboratorPhoto(prev => ({ ...prev, b64: null }));
+    const deletePhoto = (): void => {
         updatePhoto(null);
     };
-    const updatePhoto = async (photoInBase64: string | null) => {
+    const updatePhotoInCurrentUser = (urlPhoto: string | null): void => {
+        const newCurrentUser: SessionUser = {
+            ...currentUserLocalStorage.get(),
+            urlPhoto
+        };
+        fillCurrentUser(newCurrentUser);
+        currentUserLocalStorage.set(newCurrentUser);
+    }
+    const updatePhoto = async (photoInB64: string | null): Promise<void> => {
         if (!currentCollaborator) return;
-        const { data } = await requestUpdatePhoto({
+        preloader.show(
+            photoInB64 
+            ? "Actualizando foto..."
+            : "Eliminando foto..."
+        )
+        const { data: urlPhoto } = await requestUpdatePhoto({
             collaboratorId: currentCollaborator?.id,
-            photoInBase64,
+            photoInBase64: photoInB64,
         });
-        setCollaboratorPhoto(prev => ({...prev}));
-        currentCollaborator.urlPhoto = data;
-        localStorage.setItem("currentUser", JSON.stringify(currentCollaborator))
+        preloader.hide();
+        fillCurrentCollaboratorUrlPhoto(urlPhoto);
+        updatePhotoInCurrentUser(urlPhoto);
     };
     if (!currentCollaborator) return null;
     return (
@@ -64,8 +68,8 @@ const ProfileConfigurationModal = ({
                     name={currentCollaborator.name}
                     surname={currentCollaborator.surname}
                     data={{
-                        b64: collaboratorPhoto.b64,
-                        url: currentCollaborator.urlPhoto,
+                        b64: null,
+                        url: currentCollaborator.urlPhoto
                     }}
                     changePhoto={changePhoto}
                     changeError={changeErrorPhoto}

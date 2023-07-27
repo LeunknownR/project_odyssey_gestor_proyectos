@@ -2,13 +2,13 @@ import { useState } from "react";
 import { FormattedPrivateChatMessages } from "src/entities/chat/entities";
 import WSChatServiceEvents from "src/services/websockets/services/chats/events";
 import { PrivateChatMessagesHook, SearchChatPayloadHook } from "../types";
-import { PreloaderHook } from "src/components/Preloader/types";
 import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
+import useMainContext from "src/utils/contexts/main-context/useMainContext";
 
 const usePrivateChatMessages = (
-    preloader: PreloaderHook,
     searchChatPayloadHandler: SearchChatPayloadHook
 ): PrivateChatMessagesHook => {
+    const { preloader } = useMainContext();
     const { socketIoChatService } = useMasterRouterContext().chatServiceHandler;
     const [formattedMessages, setFormattedMessages] = useState<FormattedPrivateChatMessages | null>(null);
     const onDispatchMessages = (): void => {

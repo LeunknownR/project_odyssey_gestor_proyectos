@@ -9,11 +9,15 @@ import { UserOptionsProps } from "./types";
 import RolInfo from "./components/RolInfo/RolInfo";
 import { FlexFlow } from "src/components/styles";
 
-const UserOptions = ({ isOpen, currentUser }: UserOptionsProps) => {
+const UserOptions = ({ 
+    currentUser,
+    areOpen, 
+    closeOptions
+}: UserOptionsProps) => {
     if (!currentUser) return null;
     const { name, surname, role, urlPhoto } = currentUser;
     return (
-        <Container className={isOpen ? "open" : ""}>
+        <Container className={areOpen ? "open" : ""}>
             <FlexFlow direction="column" gap="8px">
                 <UserInfo align="center" gap="12px">
                     <UserImage 
@@ -24,7 +28,7 @@ const UserOptions = ({ isOpen, currentUser }: UserOptionsProps) => {
                 </UserInfo>
                 <RolInfo role={role}/>
             </FlexFlow>
-            <Footer />
+            <Footer closeOptions={closeOptions}/>
         </Container>
     );
 };

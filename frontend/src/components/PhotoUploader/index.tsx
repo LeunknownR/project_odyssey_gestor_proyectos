@@ -59,7 +59,8 @@ const PhotoUploader = ({
     const hasImage = url || b64;
     return (
         <Container direction="column" align="center" gap="19px">
-            {hasImage && <DeleteImageBtn
+            {hasImage && 
+            <DeleteImageBtn
                 onClick={doDeletePhoto}
                 icon="material-symbols:delete"
             />}

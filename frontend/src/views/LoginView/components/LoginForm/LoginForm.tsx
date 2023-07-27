@@ -4,11 +4,10 @@ import FormHeader from "./components/FormHeader/FormHeader";
 import { Container } from "./styles";
 import CustomButton from "src/components/CustomButton/CustomButton";
 import useLoginForm from "./utils/hooks/useLoginForm";
-import usePreloader from "src/components/Preloader/utils/hooks/usePreloader";
-import Preloader from "src/components/Preloader/Preloader";
+import useMainContext from "src/utils/contexts/main-context/useMainContext";
 
 const LoginForm = () => {
-    const preloader = usePreloader();
+    const { preloader } = useMainContext();
     const [btnDisabled, setBtnDisabled] = useState(true);
     const { 
         form, error, 
@@ -20,7 +19,6 @@ const LoginForm = () => {
     }, [form.value]);
     const { username, password } = form.value;
     return (
-        <>
         <Container>
             <FormHeader />
             <FormBody
@@ -38,8 +36,6 @@ const LoginForm = () => {
                 disabled={btnDisabled}
             />
         </Container>
-        <Preloader {...preloader.value}/>
-        </>
     );
 };
 
