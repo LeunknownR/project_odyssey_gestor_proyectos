@@ -56,4 +56,7 @@ export const INIT_PASSWORD_FIELD_ERRORS = {
     newPassword: null,
     confirmPassword: null,
 };
-export const INVALID_PASSWORD = "Contraseña inválida";
+export const ERROR_TEXTS_AFTER_REQUEST = {
+    INVALID_PASSWORD: "Contraseña inválida",
+    PASSWORD_NOT_MATCHED: "La contraseña no coincide"
+}

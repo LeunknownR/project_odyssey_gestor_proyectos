@@ -14,6 +14,7 @@ const SecondPartModal = ({
     confirmPassword,
     handlePasswords,
     passwordFieldDisable,
+    passwordFieldError,
     openConfirmationModal,
 }: SecondPartModalProps) => {
     const [passwordValidations, setPasswordValidations] =
@@ -24,7 +25,7 @@ const SecondPartModal = ({
     const enableUpdateButton = (): boolean => {
         if (!newPassword.trim() || !confirmPassword.trim()) return true;
         if (Object.values(passwordValidations).includes(false)) return true;
-        if (newPassword !== confirmPassword) return true;
+        // if (newPassword !== confirmPassword) return true;
         return false;
     };
     const validatePassword = (): void => {
@@ -40,28 +41,29 @@ const SecondPartModal = ({
     };
     return (
         <>
-            <NewPasswordWrapper>
-                <PasswordTextField
-                    {...TEXT_FIELD_PROPS.NEW_PASS}
-                    value={newPassword}
-                    onChange={handlePasswords}
-                    disabled={passwordFieldDisable.newPassword}
-                />
-                <ContentRequirements
-                    passwordValidations={passwordValidations}
-                />
-            </NewPasswordWrapper>
+        <NewPasswordWrapper>
             <PasswordTextField
-                {...TEXT_FIELD_PROPS.CONFIRM_PASS}
-                value={confirmPassword}
+                {...TEXT_FIELD_PROPS.NEW_PASS}
+                value={newPassword}
                 onChange={handlePasswords}
-                disabled={!newPassword}
+                disabled={passwordFieldDisable.newPassword}
             />
-            <UpdateButton
-                {...BUTTON_PROPS.UPDATE_PASS}
-                onClick={openConfirmationModal}
-                disabled={enableUpdateButton()}
+            <ContentRequirements
+                passwordValidations={passwordValidations}
             />
+        </NewPasswordWrapper>
+        <PasswordTextField
+            {...TEXT_FIELD_PROPS.CONFIRM_PASS}
+            value={confirmPassword}
+            onChange={handlePasswords}
+            disabled={!newPassword}
+            error={passwordFieldError}
+        />
+        <UpdateButton
+            {...BUTTON_PROPS.UPDATE_PASS}
+            onClick={openConfirmationModal}
+            disabled={enableUpdateButton()}
+        />
         </>
     );
 };
