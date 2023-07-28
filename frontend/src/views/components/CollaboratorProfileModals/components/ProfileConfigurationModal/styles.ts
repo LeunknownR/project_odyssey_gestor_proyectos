@@ -24,7 +24,7 @@ export const CustomModal = styled(Modal)`
 `;
 export const UserContainer = styled(FlexFlow)`
     @media (max-width: ${MOBILE_WIDTH}px) {
-        gap: 35px;
+        gap: 32px;
     }
 `;
 export const UserDataContainer = styled(FlexFlow)`

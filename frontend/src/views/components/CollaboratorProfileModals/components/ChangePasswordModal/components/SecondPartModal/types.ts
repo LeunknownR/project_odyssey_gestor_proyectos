@@ -7,6 +7,7 @@ export type SecondPartModalProps = {
     currentCollaboratorId?: number;
     handlePasswords: ({ target: { name, value } }: TextInputTarget) => void;
     passwordFieldDisable: PasswordFieldDisableProps;
+    passwordFieldError: string | null;
     openConfirmationModal: () => void;
 }
 export type PasswordValidationsTypes = {

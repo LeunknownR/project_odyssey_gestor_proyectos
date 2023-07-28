@@ -6,10 +6,10 @@ import {
 } from "./types";
 import { CustomModal } from "./styles";
 import {
+    ERROR_TEXTS_AFTER_REQUEST,
     INIT_PASSWORD_FIELD,
     INIT_PASSWORD_FIELD_DISABLE,
     INIT_PASSWORD_FIELD_ERRORS,
-    INVALID_PASSWORD,
 } from "./utils/constants";
 import ModalHeader from "./components/ModalHeader";
 import useMainContext from "src/utils/contexts/main-context/useMainContext";
@@ -19,8 +19,8 @@ import {
 } from "src/services/collaboratorConfig/aboutCollaboratorConfig";
 import { TextInputTarget } from "src/components/CustomTextField/types";
 import useModal from "src/components/Modal/utils/hooks/useModal";
-import ConfirmationChangePasswordModal from "../ConfirmationChangePasswordModal";
-import ConfirmCloseModal from "../ConfirmCloseModal";
+import ConfirmChangePasswordModal from "../ConfirmationChangePasswordModal";
+import ConfirmClosureModal from "../ConfirmClosureModal";
 import EndedSessionModal from "../../../EndedSessionModal";
 import FirstPartModal from "./components/FirstPartModal";
 import SecondPartModal from "./components/SecondPartModal";
@@ -47,8 +47,8 @@ const ChangePasswordModal = ({
     //#endregion
     const { isMobile } = useMainContext();
     //#region Modals
-    const confirmationChangePassModal = useModal();
-    const confirmCloseModal = useModal();
+    const confirmChangePassModal = useModal();
+    const confirmClosureModal = useModal();
     const endedSessionModal = useModal();
     useEffect(() => {
         if (!modalProps.isOpen) return;
@@ -58,32 +58,6 @@ const ChangePasswordModal = ({
     }, [modalProps.isOpen]);
     //#endregion
     const moveTab = (idx: number) => setTabIdx(idx);
-    const verifyPassword = async (): Promise<void> => {
-        if (!currentCollaborator) return;
-        const { message } = await requestCheckCredentials({
-            username: currentCollaborator.username,
-            password: passwordField.actualPassword,
-        });
-        if (message !== "SUCCESS") {
-            changeErrorField("actualPassword", INVALID_PASSWORD);
-            return;
-        }
-        changeDisableInput("actualPassword", true);
-        changeDisableInput("newPassword", false);
-        changeDisableInput("verifyButton", true);
-        moveTab(1);
-    };
-    const changePassword = async (): Promise<void> => {
-        if (!currentCollaborator) return;
-        await requestChangePassword({
-            collaboratorId: currentCollaborator.id,
-            newPassword: passwordField.newPassword,
-        });
-        modalProps.open(false);
-        confirmationChangePassModal.open(false);
-        clearStorage();
-        endedSessionModal.open(true);
-    };
     const handlePasswords = ({
         target: { name, value },
     }: TextInputTarget): void => {
@@ -105,10 +79,44 @@ const ChangePasswordModal = ({
             [field]: value,
         }));
     };
-    const openConfirmCloseModal = (): void => confirmCloseModal.open(true);
+    const verifyPassword = async (): Promise<void> => {
+        if (!currentCollaborator) return;
+        const { message } = await requestCheckCredentials({
+            username: currentCollaborator.username,
+            password: passwordField.actualPassword,
+        });
+        if (message !== "SUCCESS") {
+            changeErrorField("actualPassword", ERROR_TEXTS_AFTER_REQUEST.INVALID_PASSWORD);
+            return;
+        }
+        changeDisableInput("actualPassword", true);
+        changeDisableInput("newPassword", false);
+        changeDisableInput("verifyButton", true);
+        moveTab(1);
+    };
+    const changePassword = async (): Promise<void> => {
+        if (!currentCollaborator) return;
+        await requestChangePassword({
+            collaboratorId: currentCollaborator.id,
+            newPassword: passwordField.newPassword,
+        });
+        modalProps.open(false);
+        confirmChangePassModal.open(false);
+        clearStorage();
+        endedSessionModal.open(true);
+    };
+    const openConfirmChangePasswordModal = (): void => {
+        const {newPassword, confirmPassword} = passwordField;
+        if (newPassword !== confirmPassword) {
+            changeErrorField("confirmPassword", ERROR_TEXTS_AFTER_REQUEST.PASSWORD_NOT_MATCHED);
+            return;
+        }
+        confirmChangePassModal.open(true)
+    }
+    const openConfirmClosureModal = (): void => confirmClosureModal.open(true);
     const closeModalAfterVerify = (): void => {
         modalProps.open(false);
-        confirmCloseModal.open(false);
+        confirmClosureModal.open(false);
     };
     const tabs = [
         <FirstPartModal
@@ -125,7 +133,8 @@ const ChangePasswordModal = ({
             newPassword={passwordField.newPassword}
             handlePasswords={handlePasswords}
             passwordFieldDisable={passwordFieldDisable}
-            openConfirmationModal={() => confirmationChangePassModal.open(true)}
+            passwordFieldError={passwordFieldError.confirmPassword}
+            openConfirmationModal={openConfirmChangePasswordModal}
         />,
     ];
     return (
@@ -134,19 +143,19 @@ const ChangePasswordModal = ({
             {...modalProps}
             handleClose={
                 passwordFieldDisable.verifyButton
-                    ? openConfirmCloseModal
+                    ? openConfirmClosureModal
                     : null
             }
             sizeProps={MODAL_STYLES}>
             <ModalHeader modalProps={modalProps} />
             {isMobile ? tabs[tabIdx] || tabs[0] : tabs}
         </CustomModal>
-        <ConfirmationChangePasswordModal
-            modalProps={confirmationChangePassModal}
+        <ConfirmChangePasswordModal
+            modalProps={confirmChangePassModal}
             changePassword={changePassword}
         />
-        <ConfirmCloseModal
-            modalProps={confirmCloseModal}
+        <ConfirmClosureModal
+            modalProps={confirmClosureModal}
             closeModalAfterVerify={closeModalAfterVerify}
         />
         <EndedSessionModal

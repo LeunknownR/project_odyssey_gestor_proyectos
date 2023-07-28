@@ -9,7 +9,7 @@ const testModalStyles = {
     maxWidth: "630px",
 };
 
-const ConfirmationChangePasswordModal = ({
+const ConfirmChangePasswordModal = ({
     modalProps,
     changePassword
 }: ConfirmationChangePasswordModalProps) => {
@@ -29,4 +29,4 @@ const ConfirmationChangePasswordModal = ({
     );
 };
 
-export default ConfirmationChangePasswordModal;
+export default ConfirmChangePasswordModal;
