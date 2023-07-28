@@ -4,13 +4,20 @@ import styled from "styled-components";
 export const Container = styled.li`
     display: flex;
     align-items: center;
-    gap: 14px;
-    min-width: 300px;
+    gap: 15px;
+    width: 100%;
+    @media (max-width: ${MOBILE_WIDTH}px) {
+        width: 100%;
+        padding-right: 10px;
+    }
 `;
 export const Name = styled.h3`
     color: var(--white-1);
     font-size: 15px;
-    min-width: 240px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
 `;
 export const Email = styled.h5`
     color: var(--white-1);
@@ -34,7 +41,6 @@ export const Role = styled.div`
 `;
 export const IconContainer = styled.span`
     display: flex;
-    translate: -30px;
     transition: 0.25s;
     border-radius: 50%;
     cursor: pointer;
