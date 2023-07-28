@@ -2,6 +2,7 @@ import CustomTextField from "src/components/CustomTextField/CustomTextField";
 import { FormBodyProps } from "./types";
 import ErrorMessage from "src/components/ErrorMessage/ErrorMessage";
 import { Container } from "./styles";
+import { ERROR_MESSAGES } from "../../utils/constants";
 
 const FormBody = ({
     username,
@@ -18,7 +19,7 @@ const FormBody = ({
                 variant="login"
                 value={username}
                 onChange={handleChange}
-                error={error && ""}
+                error={error === ERROR_MESSAGES.INVALID_USER ? "" : null}
             />
             <CustomTextField
                 type="password"
@@ -27,8 +28,8 @@ const FormBody = ({
                 variant="login"
                 value={password}
                 onChange={handleChange}
-                error={error && ""}
-            /> 
+                error={error === ERROR_MESSAGES.INVALID_PASSWORD ? "" : null}
+            />
             <ErrorMessage text={error} />
         </Container>
     );
