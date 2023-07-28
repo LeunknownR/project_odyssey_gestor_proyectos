@@ -9,7 +9,7 @@ const testModalStyles = {
     maxWidth: "630px",
 };
 
-const ConfirmCloseModal = ({
+const ConfirmClosureModal = ({
     modalProps,
     closeModalAfterVerify
 }: NoChangePasswordModalProps) => {
@@ -29,4 +29,4 @@ const ConfirmCloseModal = ({
     );
 };
 
-export default ConfirmCloseModal;
+export default ConfirmClosureModal;
