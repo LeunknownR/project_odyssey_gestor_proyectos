@@ -20,12 +20,18 @@ const ProjectTeamMember = ({
                 surname={surname}
                 urlPhoto={urlPhoto}
             />
-            <FlexFlow direction="column" gap="5px">
+            <FlexFlow 
+                direction="column" 
+                gap="5px"
+                width="100%">
                 <Name>
                     {name} {surname}
                 </Name>
                 <Email>{email}</Email>
-                <FlexFlow align="center" justify="space-between">
+                <FlexFlow 
+                    align="center" 
+                    justify="space-between"
+                    width="100%">
                     <Role className={PROJECT_ROLE[projectRole.id].className}>
                         {PROJECT_ROLE[projectRole.id].name}
                     </Role>
