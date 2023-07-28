@@ -1,4 +1,3 @@
-import { TextInputTarget } from "src/components/CustomTextField/types";
 import { ModalProps } from "src/components/Modal/types";
 import { SessionUser } from "src/entities/user/types";
 
@@ -16,5 +15,6 @@ export type PasswordFieldDisableProps = {
     actualPassword: boolean;
     newPassword: boolean;
     confirmPassword: boolean;
+    verifyButton: boolean;
     [key:string]: boolean;
 };

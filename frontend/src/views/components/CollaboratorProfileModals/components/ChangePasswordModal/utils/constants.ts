@@ -1,3 +1,5 @@
+import { PasswordFieldDisableProps, PasswordFieldProps } from "../types";
+
 export const TEXT_FIELD_PROPS = {
     ACTUAL_PASS: {
         label: "Contraseña actual",
@@ -38,15 +40,16 @@ export const BUTTON_PROPS = {
         variant: "main",
     },
 };
-export const INIT_PASSWORD_FIELD = {
+export const INIT_PASSWORD_FIELD: PasswordFieldProps = {
     actualPassword: "",
     newPassword: "",
     confirmPassword: "",
 };
-export const INIT_PASSWORD_FIELD_DISABLE = {
+export const INIT_PASSWORD_FIELD_DISABLE: PasswordFieldDisableProps = {
     actualPassword: false,
     newPassword: true,
     confirmPassword: true,
+    verifyButton: false,
 };
 export const INIT_PASSWORD_FIELD_ERRORS = {
     actualPassword: null,
