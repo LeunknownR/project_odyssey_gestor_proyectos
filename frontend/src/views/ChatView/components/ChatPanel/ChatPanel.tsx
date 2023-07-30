@@ -115,12 +115,14 @@ const ChatPanel = ({ onNotifyCollaboratorConnectionState }: ChatPanelProps) => {
             <PrivatePreviewChatList
                 chatPreviewList={privateChatPreviewList}
                 getChatMessages={getPrivateChatMessages}
+                searchedChat={searchedChat}
             />
         ),
         [WSChatTab.Project]: (
             <ProjectPreviewChatList
                 chatPreviewList={projectChatPreviewList}
                 getChatMessages={getProjectChatMessages}
+                searchedChat={searchedChat}
             />
         ),
     };

@@ -61,7 +61,7 @@ export class CollaboratorUpdatingForm extends CollaboratorForm {
         this.photo = new FormUserPhoto(photo);
         if (password !== null)
             Validator.checkPasswordOnlyLength(password);
-        this.password = password.trim();
+        this.password = password;
     }
     get id(): number {
         return this._id.value;

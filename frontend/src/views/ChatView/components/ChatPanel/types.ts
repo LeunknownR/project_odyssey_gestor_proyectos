@@ -9,6 +9,7 @@ export type SearchChatPayload = {
 export type PreviewChatListProps<T> = {
     chatPreviewList: T[];
     getChatMessages: (previewChat: T) => void;
+    searchedChat: string;
 };
 export type ChatPanelProps = {
     onNotifyCollaboratorConnectionState: () => void;
