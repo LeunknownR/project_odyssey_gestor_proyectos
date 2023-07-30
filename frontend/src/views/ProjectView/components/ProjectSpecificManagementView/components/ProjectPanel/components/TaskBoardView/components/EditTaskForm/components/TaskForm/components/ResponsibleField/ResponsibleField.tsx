@@ -14,22 +14,25 @@ import { currentUserLocalStorage } from "src/storage/user.local";
 import { SessionUser } from "src/entities/user/types";
 import { FlexFlow } from "src/components/styles";
 import { requestGetTeamMembers } from "src/services/projectTasks/aboutProjectTasks";
+import { DBProjectRoles } from "src/config/roles";
 
 const ResponsibleField = ({
-    form,
-    doUpdateTask
+    form, doUpdateTask
 }: ResponsibleFieldProps) => {
-    const [selectedResponsible, setSelectedResponsible] = useState<ProjectTaskCollaboratorUser | null>(null);
     const { 
         projectId, 
         isEditTaskFormOpen, 
         preloader, 
         canEditTask,
-        currentProjectTask 
+        currentProjectTask,
+        projectRoleId
     } = useTaskBoardContext();
     const currentResponsible: ProjectTaskCollaboratorUser | null = currentProjectTask?.responsible || null;
+    const [selectedResponsible, setSelectedResponsible] = useState<ProjectTaskCollaboratorUser | null>(null);
+    const [canChangeResponsible, setCanChangeResponsible] = useState<boolean>(false);
     useEffect(() => {
         setSelectedResponsible(isEditTaskFormOpen ? currentResponsible : null);
+        setCanChangeResponsible(projectRoleId === DBProjectRoles.ProjectLeader);
     }, [isEditTaskFormOpen, currentResponsible]);
     const selectTaskResponsibleHandler = useSearchCollaborator({
         requestSearchCollaborators: async (collaboratorName: string) => {
@@ -79,7 +82,7 @@ const ResponsibleField = ({
                 <SelectedResponsible
                     selectedResponsible={selectedResponsible}
                     removeResponsible={removeSelectedResponsible}
-                    disabled={!canEditTask}
+                    disabled={!canEditTask || !canChangeResponsible}
                 />
             ) : (
                 <FlexFlow gap="10px">

@@ -146,8 +146,7 @@ const ChangePasswordModal = ({
                     ? openConfirmClosureModal
                     : null
             }
-            sizeProps={MODAL_STYLES}
-        >
+            sizeProps={MODAL_STYLES}>
             <ModalHeader modalProps={modalProps} />
             {isMobile ? tabs[tabIdx] || tabs[0] : tabs}
         </CustomModal>
