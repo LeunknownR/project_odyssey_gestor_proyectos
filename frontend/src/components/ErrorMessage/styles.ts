@@ -5,7 +5,7 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     position: absolute;
-    bottom: -22px;
+    top: 103%;
 `;
 export const IconContainer = styled.span`
     display: flex;
