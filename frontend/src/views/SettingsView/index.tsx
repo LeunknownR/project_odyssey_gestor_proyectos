@@ -34,7 +34,7 @@ const SettingsView = () => {
     const preloader = usePreloader();
     const paginator = usePaginator();
     const notificationCard = useNotificationCard();
-    const filters = useCollaboratorFilters();
+    const filters = useCollaboratorFilters(paginator.clear);
     const collaborators = useCollaborators(preloader, filters.value, paginator);
     useEffect(() => {
         setMobileIsCollaboratorOpen(formIsVisible);

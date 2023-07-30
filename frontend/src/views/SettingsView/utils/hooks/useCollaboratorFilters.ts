@@ -3,7 +3,9 @@ import { CollaboratorFiltersHook } from "./types";
 import { CollaboratorFilters } from "../../types";
 import { INITIAL_COLLABORATOR_FILTERS } from "../constants";
 
-const useCollaboratorFilters = (): CollaboratorFiltersHook => {
+const useCollaboratorFilters = (
+    clearPaginator: () => void
+): CollaboratorFiltersHook => {
     const [filters, setFilters] = useState<CollaboratorFilters>({
         ...INITIAL_COLLABORATOR_FILTERS,
     });
@@ -12,6 +14,7 @@ const useCollaboratorFilters = (): CollaboratorFiltersHook => {
             ...prev,
             [filter]: value,
         }));
+        clearPaginator();
     };
     return {
         value: filters,

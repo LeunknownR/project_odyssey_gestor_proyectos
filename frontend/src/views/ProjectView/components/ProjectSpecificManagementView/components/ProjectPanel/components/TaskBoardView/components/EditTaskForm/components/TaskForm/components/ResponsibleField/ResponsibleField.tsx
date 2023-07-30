@@ -83,26 +83,26 @@ const ResponsibleField = ({
                 />
             ) : (
                 <FlexFlow gap="10px">
-                <CustomInputSearch
-                    {...TASK_FIELD_PROPS.TASK_RESPONSIBLE}
-                    variant="primary-search"
-                    handler={customSearchInputHandler}
-                    clearOptions={selectTaskResponsibleHandler.clear}
-                    fillOptions={selectTaskResponsibleHandler.fill}
-                    options={selectTaskResponsibleHandler.collaboratorUserList}
-                    disabled={!canEditTask}
-                    getSearchedItemToShow={options => ({
-                        value: options.id,
-                        content: (
-                            <CustomInputSearchUserOption {...options} />
-                        ),
-                    })}
-                />
-                {canEditTask && 
-                    <SelfAssignmentButton
-                        content="Asígnamela"
-                        onClick={autoAssignmentResponsible}
-                    />}
+                    <CustomInputSearch
+                        {...TASK_FIELD_PROPS.TASK_RESPONSIBLE}
+                        variant="primary-search"
+                        handler={customSearchInputHandler}
+                        clearOptions={selectTaskResponsibleHandler.clear}
+                        fillOptions={selectTaskResponsibleHandler.fill}
+                        options={selectTaskResponsibleHandler.collaboratorUserList}
+                        disabled={!canEditTask}
+                        getSearchedItemToShow={options => ({
+                            value: options.id,
+                            content: (
+                                <CustomInputSearchUserOption {...options} />
+                            ),
+                        })}
+                    />
+                    {canEditTask && 
+                        <SelfAssignmentButton
+                            content="Asígnamela"
+                            onClick={autoAssignmentResponsible}
+                        />}
                 </FlexFlow>
             )}
         </Container>
