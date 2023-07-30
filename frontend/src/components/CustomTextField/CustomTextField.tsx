@@ -82,8 +82,8 @@ const CustomTextField = forwardRef<HTMLInputElement, CustomTextFieldProps>(({
                         <Icon icon="simple-line-icons:magnifier" />
                     </LensContainer>
                 )}
-                <ErrorMessage text={error} />
             </Content>
+            <ErrorMessage text={error} />
         </Container>
     );
 });
