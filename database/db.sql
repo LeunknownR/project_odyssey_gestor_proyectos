@@ -766,15 +766,9 @@ BEGIN
         u.user_surname AS "surname",
         u.url_photo AS "url_photo",
         u.email
-    FROM project p
-    INNER JOIN project_team_member ptm ON p.id_project = ptm.id_project
-    INNER JOIN user u ON ptm.id_collaborator = u.id_user
-    WHERE p.active = 1
-    AND p.id_project != p_id_project
-    AND u.id_user NOT IN (
-        SELECT id
-        FROM temporary_table_user_ids
-    )
+    FROM user u
+    WHERE u.active = 1 AND u.id_role = "CLB"
+    AND u.id_user NOT IN (2, 3, 5, 20)
     AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @search_collaborator_name
     ORDER BY u.user_name ASC, u.user_surname ASC;
 
