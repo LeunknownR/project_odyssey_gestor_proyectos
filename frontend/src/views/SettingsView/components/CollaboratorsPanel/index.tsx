@@ -9,7 +9,6 @@ const CollaboratorsPanel = ({ paginator, doTriggerFillingRequest }: Collaborator
         paginator.movePage(page);
         doTriggerFillingRequest();
     };
-    
     return (
         <Container direction="column" gap="30px">
             <PanelHeader />

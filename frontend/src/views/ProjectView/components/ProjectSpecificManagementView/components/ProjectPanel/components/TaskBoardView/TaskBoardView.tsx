@@ -72,7 +72,7 @@ const TaskBoardView = ({
     }, [currentProjectTask]);
     //#endregion
     //#region Functions
-    const getCanBeEditedTask = (responsible: ProjectTaskResponsible | null) => {
+    const getCanBeEditedTask = (responsible: ProjectTaskResponsible | null): boolean => {
         const isProjectLeader: boolean = projectRoleId === DBProjectRoles.ProjectLeader;
         if (isProjectLeader) 
             return !responsible || responsible.active;
