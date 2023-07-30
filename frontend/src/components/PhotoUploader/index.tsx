@@ -1,10 +1,12 @@
 import { useRef, useEffect } from "react";
+//#region Styles
 import {
     CollaboratorImage,
     Container,
     DeleteImageBtn,
     UploadBtn,
 } from "./styles";
+//#endregion
 import { PhotoUploaderProps } from "./types";
 import { fileToBase64 } from "src/utils/fileToBase64";
 import { ACCEPTED_FORMATS, MAX_BYTES_SIZE, MAX_MB_SIZE } from "./utils/constants";

@@ -9,11 +9,11 @@ import useChatViewContext from "../../../../utils/context/useChatViewContext";
 import NoChats from "../NoChats";
 
 const PrivatePreviewChatList = ({
-    chatPreviewList, getChatMessages
+    chatPreviewList,
+    getChatMessages,
+    searchedChat,
 }: PrivatePreviewChatListProps) => {
-    const {
-        currentPrivateChatHandler
-    } = useChatViewContext();
+    const { currentPrivateChatHandler } = useChatViewContext();
     const getFormattedMessage = (
         lastMessage: LastMessage | null
     ): string | null => {
@@ -28,31 +28,58 @@ const PrivatePreviewChatList = ({
     };
     return (
         <>
-        {chatPreviewList.length > 0 ?
-        <PreviewChatList<PrivateChatPreview>
-            previewChatList={chatPreviewList}
-            renderItem={privateChatPreview => {
-                const { collaborator, lastMessage } = privateChatPreview;
-                return (
-                    <ChatPreview
-                        key={collaborator.id}
-                        portrait={
-                            <ImageWrapper
-                                className={isUnreadChat(lastMessage) ? "has-unread-chat" : ""}>
-                                <UserImage
-                                    className="medium"
-                                    name={collaborator.name}
-                                    surname={collaborator.surname}
-                                    urlPhoto={collaborator.urlPhoto}/>
-                            </ImageWrapper>}
-                        title={`${collaborator.name} ${collaborator.surname}`}
-                        datetime={lastMessage?.datetime || null}
-                        message={getFormattedMessage(lastMessage)}
-                        onClick={() => getChatMessages(privateChatPreview)}
-                        active={collaborator.id === currentPrivateChatHandler.value?.collaborator.id}/>
-                );
-            }}
-        /> : <NoChats />}
+            {chatPreviewList.length > 0 ? (
+                <PreviewChatList<PrivateChatPreview>
+                    previewChatList={chatPreviewList}
+                    renderItem={privateChatPreview => {
+                        const { collaborator, lastMessage } =
+                            privateChatPreview;
+                        return (
+                            <ChatPreview
+                                key={collaborator.id}
+                                portrait={
+                                    <ImageWrapper
+                                        className={
+                                            isUnreadChat(lastMessage)
+                                                ? "has-unread-chat"
+                                                : ""
+                                        }
+                                    >
+                                        <UserImage
+                                            className="medium"
+                                            name={collaborator.name}
+                                            surname={collaborator.surname}
+                                            urlPhoto={collaborator.urlPhoto}
+                                        />
+                                    </ImageWrapper>
+                                }
+                                title={`${collaborator.name} ${collaborator.surname}`}
+                                datetime={lastMessage?.datetime || null}
+                                message={getFormattedMessage(lastMessage)}
+                                onClick={() =>
+                                    getChatMessages(privateChatPreview)
+                                }
+                                active={
+                                    collaborator.id ===
+                                    currentPrivateChatHandler.value
+                                        ?.collaborator.id
+                                }
+                            />
+                        );
+                    }}
+                />
+            ) : (
+                <NoChats
+                    title={
+                        searchedChat ? "No se encontraron chats" : "Sin chats"
+                    }
+                    subtitle={
+                        searchedChat
+                            ? "Lo sentimos, no hay chats privados disponibles para esa búsqueda"
+                            : "Actualmente no tienes conversaciones privadas"
+                    }
+                />
+            )}
         </>
     );
 };
