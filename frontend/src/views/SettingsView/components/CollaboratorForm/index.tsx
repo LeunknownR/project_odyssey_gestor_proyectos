@@ -66,7 +66,7 @@ const CollaboratorForm = () => {
     ];
     return (
         <>
-        {isMobile ? (
+        {isMobile && 
             <MobileHeader align="center" gap="3px">
                 <BackBtn
                     onClick={hideForm}
@@ -78,16 +78,7 @@ const CollaboratorForm = () => {
                         : "CREAR COLABORADOR"}
                 </h2>
             </MobileHeader>
-        ) : (
-            <>
-                {!currentCollaborator && (
-                    <CloseFormBtn
-                        icon="material-symbols:close"
-                        onClick={hideForm}
-                    />
-                )}
-            </>
-        )}
+        }
         <Container
             className="custom-scrollbar"
             direction="column"
@@ -95,11 +86,19 @@ const CollaboratorForm = () => {
             align="center"
             gap="30px"
         >
-            {currentCollaborator && (
+            {currentCollaborator ? (
                 <DeleteCollaboratorBtn
                     icon="material-symbols:delete"
                     onClick={() => deleteCollaboratorModal.open(true)}
                 />
+            ) : (
+                <>
+                {!isMobile && 
+                    <CloseFormBtn
+                        icon="material-symbols:close"
+                        onClick={hideForm}
+                />}
+                </>
             )}
             <ContentWrapper gap="80px">
                 {tabIdx !== 1 && (
