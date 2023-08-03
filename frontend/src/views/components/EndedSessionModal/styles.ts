@@ -26,7 +26,7 @@ export const TextModal = styled.p`
     line-height: 20px;
     max-width: 300px;
     @media (max-width: ${MOBILE_WIDTH}px) {
-        font-size: 11px;
+        font-size: 13px;
     }
 `;
 export const SuccessfulChangeButton = styled(CustomButton)`

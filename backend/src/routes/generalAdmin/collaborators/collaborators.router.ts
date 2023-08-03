@@ -79,6 +79,7 @@ export default function initGeneralAdminCollaboratorEndpoints(externalWsServiceH
                 message
             });
             externalWsServiceHandler.updateProjectTaskWhereIsCollaborator(deleteCollaboratorById.value);
+            externalWsServiceHandler.closeCollaboratorSessions(deleteCollaboratorById.value);
         })
     );
     return router;

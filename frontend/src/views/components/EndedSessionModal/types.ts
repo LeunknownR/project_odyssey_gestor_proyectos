@@ -1,6 +1,6 @@
 import { ModalProps } from "src/components/Modal/types";
 
-export type SuccessfulPasswordChangeModalProps = {
-    modalProps: ModalProps;
+export type EndedSessionModalProps = {
+    modal: ModalProps;
     content: string;
 };

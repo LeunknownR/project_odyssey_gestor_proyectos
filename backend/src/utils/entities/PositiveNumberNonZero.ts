@@ -7,6 +7,6 @@ export class PositiveNumberNonZero {
     constructor(value: unknown) {
         if (!isPositiveNumberNonZero(value))
             throw new Error("Invalid positive number non zero");
-        this.value = value as number;
+        this.value = Number(value);
     }
 }

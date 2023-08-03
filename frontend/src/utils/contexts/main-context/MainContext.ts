@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext } from "react";
-import { InitMainContext } from "./types";
+import { MainContextFormat } from "./types";
 
-const initMainContext: InitMainContext = {
+const initMainContext: MainContextFormat = {
     isMobile: false,
     preloader: {
         hide: () => {},

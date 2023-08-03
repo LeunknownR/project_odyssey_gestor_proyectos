@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { initAxiosInterceptors } from "./interceptors/axios.interceptors";
 import useModal from "./components/Modal/utils/hooks/useModal";
-import { ModalProps } from "./components/Modal/types";
 import { ResponseCodes } from "./services/utils/enums";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MasterRouter from "./routes/MasterRouter";
@@ -12,9 +11,9 @@ import usePreloader from "./components/Preloader/utils/hooks/usePreloader";
 import Preloader from "./components/Preloader/Preloader";
 
 function App() {
-    const modalUnexpectedError: ModalProps = useModal();
-    const { isMobile } = useDeviceSize();
     const preloader = usePreloader();
+    const modalUnexpectedError = useModal();
+    const { isMobile } = useDeviceSize();
     useEffect(() => {
         initAxiosInterceptors(handlerErrorWithModals);
     }, []);
@@ -24,7 +23,9 @@ function App() {
     }
     return (
         <>
-        <MainContext.Provider value={{ preloader, isMobile }}>
+        <MainContext.Provider value={{ 
+            preloader, isMobile
+        }}>
             <BrowserRouter>
                 <Routes>
                     <Route path="login" element={<LoginView />} />

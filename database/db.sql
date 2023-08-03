@@ -737,7 +737,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- SP para ...
+-- SP para buscar colaboradores para ser miembros de un proyecto
 DELIMITER //
 CREATE PROCEDURE `sp_search_collaborator_member`(
     IN p_id_project INT,
@@ -768,7 +768,7 @@ BEGIN
         u.email
     FROM user u
     WHERE u.active = 1 AND u.id_role = "CLB"
-    AND u.id_user NOT IN (2, 3, 5, 20)
+    AND u.id_user NOT IN (SELECT id FROM temporary_table_user_ids)
     AND UPPER(CONCAT(u.user_name, ' ', u.user_surname)) LIKE @search_collaborator_name
     ORDER BY u.user_name ASC, u.user_surname ASC;
 

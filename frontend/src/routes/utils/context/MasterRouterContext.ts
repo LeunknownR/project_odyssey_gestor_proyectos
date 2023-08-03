@@ -18,6 +18,7 @@ const INIT_MASTER_ROUTER_CONTEXT: MasterRouterContextFormat = {
         changeClassNameButton: () => {}
     },
     openProfileConfigModal: () => {},
+    openEndedSessionModal: () => {}
 };
 const MasterRouterContext = createContext(INIT_MASTER_ROUTER_CONTEXT);
 
