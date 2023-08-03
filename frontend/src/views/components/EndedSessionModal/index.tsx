@@ -1,4 +1,4 @@
-import { SuccessfulPasswordChangeModalProps } from "./types";
+import { EndedSessionModalProps } from "./types";
 import {
     ContentImage,
     CustomModal,
@@ -8,21 +8,23 @@ import {
 import successful from "src/images/successful.png";
 import { useNavigate } from "react-router-dom";
 import { AbsolutePaths } from "src/config/absolutePaths";
+import { sleep } from "src/services/utils/helpers";
 
 const MODAL_STYLES = {
     padding: "20px 30px",
 };
 
 const EndedSessionModal = ({
-    modalProps,
-    content
-}: SuccessfulPasswordChangeModalProps) => {
+    modal, content
+}: EndedSessionModalProps) => {
     const navigate = useNavigate();
-    const logout = () => {
-        navigate(AbsolutePaths.Login)
+    const logout = async () => {
+        modal.open(false);
+        await sleep(300);
+        navigate(AbsolutePaths.Login);
     }
     return (
-        <CustomModal {...modalProps} handleClose={logout} sizeProps={MODAL_STYLES}>
+        <CustomModal {...modal} handleClose={logout} sizeProps={MODAL_STYLES}>
             <ContentImage src={successful} />
             <TextModal>
                 {content}

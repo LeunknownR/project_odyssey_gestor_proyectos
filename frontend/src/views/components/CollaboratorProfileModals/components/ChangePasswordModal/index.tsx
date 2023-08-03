@@ -21,10 +21,10 @@ import { TextInputTarget } from "src/components/CustomTextField/types";
 import useModal from "src/components/Modal/utils/hooks/useModal";
 import ConfirmChangePasswordModal from "../ConfirmationChangePasswordModal";
 import ConfirmClosureModal from "../ConfirmClosureModal";
-import EndedSessionModal from "../../../EndedSessionModal";
 import FirstPartModal from "./components/FirstPartModal";
 import SecondPartModal from "./components/SecondPartModal";
 import { clearStorage } from "src/storage";
+import useMasterRouterContext from "src/routes/utils/context/useMasterRouterContext";
 
 const MODAL_STYLES = {
     padding: "20px 30px",
@@ -34,22 +34,21 @@ const ChangePasswordModal = ({
     modalProps,
     currentCollaborator,
 }: ChangePasswordModalProps) => {
+    const { isMobile } = useMainContext();
+    const { openEndedSessionModal } = useMasterRouterContext();
     //#region States
     const [tabIdx, setTabIdx] = useState(0);
     const [passwordField, setPasswordField] = useState<PasswordFieldProps>({
         ...INIT_PASSWORD_FIELD,
     });
-    const [passwordFieldDisable, setPasswordFieldDisable] =
-        useState<PasswordFieldDisableProps>({ ...INIT_PASSWORD_FIELD_DISABLE });
+    const [passwordFieldDisable, setPasswordFieldDisable] = useState<PasswordFieldDisableProps>({ ...INIT_PASSWORD_FIELD_DISABLE });
     const [passwordFieldError, setPasswordFieldError] = useState({
         ...INIT_PASSWORD_FIELD_ERRORS,
     });
     //#endregion
-    const { isMobile } = useMainContext();
     //#region Modals
     const confirmChangePassModal = useModal();
     const confirmClosureModal = useModal();
-    const endedSessionModal = useModal();
     useEffect(() => {
         if (!modalProps.isOpen) return;
         setPasswordField(INIT_PASSWORD_FIELD);
@@ -103,7 +102,7 @@ const ChangePasswordModal = ({
         modalProps.open(false);
         confirmChangePassModal.open(false);
         clearStorage();
-        endedSessionModal.open(true);
+        openEndedSessionModal("Ha cambiado su contraseña correctamente, tiene que volver a iniciar sesión");
     };
     const openConfirmChangePasswordModal = (): void => {
         const {newPassword, confirmPassword} = passwordField;
@@ -157,10 +156,6 @@ const ChangePasswordModal = ({
         <ConfirmClosureModal
             modalProps={confirmClosureModal}
             closeModalAfterVerify={closeModalAfterVerify}
-        />
-        <EndedSessionModal
-            modalProps={endedSessionModal}
-            content="Ha cambiado su contraseña correctamente, tiene que volver a iniciar sesión"
         />
         </>
     );

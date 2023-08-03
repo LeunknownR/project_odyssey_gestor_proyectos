@@ -6,4 +6,5 @@ export type MasterRouterContextFormat = {
     chatServiceHandler: ChatServiceHandler;
     mainMenuButtonHandler: MainMenuButtonHandler;
     openProfileConfigModal: () => void;
+    openEndedSessionModal: (content: string) => void;
 };

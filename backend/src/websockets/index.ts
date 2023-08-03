@@ -1,7 +1,6 @@
 import { Server } from "socket.io";
 import WSProjectTaskService from "./services/projectTasks";
 import WSChatService from "./services/chats";
-import WSServicePaths from "./utils/services";
 import WSNotificationService from "./services/notifications";
 
 export default class WSServiceHandler {
@@ -21,6 +20,6 @@ export default class WSServiceHandler {
     init() {
         this.projectTaskService.init();
         this.chatService.init();
-        this.notificationService.config();
+        this.notificationService.init();
     }
 }

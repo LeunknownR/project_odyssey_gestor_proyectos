@@ -12,16 +12,20 @@ import useUserRole from "src/storage/hooks/useUserRole";
 import useInitMainMenuButtons from "./utils/hooks/useInitMainMenuButtons";
 import useInitMasterRouter from "./utils/hooks/useInitMasterRouter";
 import useModal from "src/components/Modal/utils/hooks/useModal";
+import EndedSessionModal from "src/views/components/EndedSessionModal";
+import useEndedSessionModal from "src/views/components/EndedSessionModal/utils/hooks/useEndedSessionModal";
 
 const MasterRouter = () => {
     const [routes, setRoutes] = useState<ReactElement[] | null>(null);
     const userRole = useUserRole();
     const isCollaborator: boolean = userRole === DBRoles.Collaborator;
     const profileConfigModal = useModal();
+    const endedSessionModalHandler = useEndedSessionModal();
     const initMainMenuButtonHandler = useInitMainMenuButtons(profileConfigModal);
     const { currentUserHandler, chatServiceHandler } = useInitMasterRouter(
         initMainMenuButtonHandler, 
-        fillRoutes
+        fillRoutes,
+        endedSessionModalHandler.open
     );
     function fillRoutes(roleId: DBRoles): void {
         setRoutes(
@@ -46,7 +50,8 @@ const MasterRouter = () => {
             <MasterRouterContext.Provider value={{
                 currentUserHandler, chatServiceHandler,
                 mainMenuButtonHandler: initMainMenuButtonHandler.menuButtonsHandler,
-                openProfileConfigModal: () => profileConfigModal.open(true)
+                openProfileConfigModal: () => profileConfigModal.open(true),
+                openEndedSessionModal: endedSessionModalHandler.open
             }}>
                 <Header />
                 <MainMenu/>
@@ -63,6 +68,7 @@ const MasterRouter = () => {
                 {isCollaborator && 
                 <CollaboratorProfileModals profileConfigModal={profileConfigModal}/>}
             </MasterRouterContext.Provider>}
+            <EndedSessionModal {...endedSessionModalHandler.value}/>
         </Main>
     );
 };

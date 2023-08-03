@@ -1,6 +1,6 @@
 import { PreloaderHook } from "src/components/Preloader/types";
 
-export type InitMainContext = {
+export type MainContextFormat = {
     isMobile: boolean;
     preloader: PreloaderHook;
 };

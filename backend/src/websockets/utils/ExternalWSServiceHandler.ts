@@ -3,10 +3,9 @@ import ChatController from "../../controllers/chatController/chat.controller";
 import ProjectController from "../../controllers/projectController/project.controller";
 import ProjectTaskController from "../../controllers/projectTaskController/projectTasks.controller";
 import ProjectTaskBoard from "../../entities/projectTask/ProjectTaskBoard";
-import WSChatService from "../services/chats";
 import WSChatServiceEvents from "../services/chats/events";
 import { WSChatServiceRoom } from "../services/chats/utils/helpers";
-import WSProjectTaskService from "../services/projectTasks";
+import WSNotificationServiceEvents from "../services/notifications/events";
 import WSProjectTaskServiceEvents from "../services/projectTasks/events";
 import { WSProjectTaskServiceRoomHandler } from "../services/projectTasks/utils/helpers";
 
@@ -18,6 +17,14 @@ export default class ExternalWSServiceHandler {
         this.serviceHandler = serviceHandler;
     }
     //#region Methods
+    closeCollaboratorSessions(collaboratorId: number): void {
+        const { server, dataHandler } = this.serviceHandler.notificationService;
+        const collaboratorSocketIdList: string[] = dataHandler.connectedCollaborators.getSocketIdListByUserId(collaboratorId);
+        collaboratorSocketIdList.forEach(socketId => {
+            server.sockets.get(socketId)
+                .emit(WSNotificationServiceEvents.Server.CloseCollaboratorSession, null);    
+        });
+    }
     async updateProjectTaskWhereIsCollaborator(collaboratorId: number): Promise<void> {
         const { server, dataHandler } = this.serviceHandler.projectTaskService;
         const projectIds: number[] = await ProjectController.getProjectIdsByCollaborator(collaboratorId);
