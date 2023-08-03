@@ -28,7 +28,7 @@ const FormBody = ({
                 variant="login"
                 value={password}
                 onChange={handleChange}
-                error={error === ERROR_MESSAGES.INVALID_PASSWORD ? "" : null}
+                error={error && ""}
             />
             <ErrorMessage text={error} />
         </Container>
