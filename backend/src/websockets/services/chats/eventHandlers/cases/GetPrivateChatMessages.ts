@@ -8,7 +8,6 @@ import WSChatServiceDataHandler from "../../dataHandlers";
 import WSChatServiceEvents from "../../events";
 import { WSPrivateChatMessagesGroup } from "../../dataHandlers/handlers/privateChatMessagesGroup";
 import { FormattedPrivateChatMessages } from "../../../../../entities/chats/entities";
-import { WSChatServiceRoom } from "../../utils/helpers";
 import { IOServerService } from "../../../../utils/common";
 
 export default class GetPrivateChatMessages {

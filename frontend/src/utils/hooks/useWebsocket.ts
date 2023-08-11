@@ -20,7 +20,7 @@ function useWebsocket(
             extraHeaders: {
                 authorization: `Bearer ${tokenLocalStorage.get()}`,
                 "x-user-id": String(currentUser?.id),
-                ...headers,
+                ...headers
             },
             forceNew: true,
             closeOnBeforeunload: false

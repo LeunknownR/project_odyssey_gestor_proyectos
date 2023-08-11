@@ -8,14 +8,14 @@ export default abstract class Encrypter {
             // Generamos una sal aleatoria
             const salt: string = await bcrypt.genSalt(12);
             // Usamos la sal para encriptar la contraseña
-            const hash = await bcrypt.hash(password, salt);
+            const hash: string = await bcrypt.hash(password, salt);
             return hash;
         }
         catch (err) {
             throw new Error("Encryption error");
         }
     }
-    static checkPassword = (plain: string, hashed: string): Promise<boolean>  => {
+    static checkPassword = (plain: string, hashed: string): Promise<boolean> => {
         return bcrypt.compare(plain, hashed);
     }
 }
